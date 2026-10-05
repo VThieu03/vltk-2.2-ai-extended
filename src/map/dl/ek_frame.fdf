@@ -1,0 +1,702 @@
+Frame "SIMPLEFRAME" "TextUnitLevel" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelNS" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueNS" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        //FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelXX" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueXX" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.010,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelXX2" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueXX2" {
+        Anchor LEFT, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.010,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelXX3" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueXX3" {
+        Anchor RIGHT, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.010,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelXXZ" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueXXZ" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.011,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelXXX" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueXXX" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.020,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevelYY" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueYY" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        //FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.015,
+    }
+}
+
+
+Frame "SIMPLEFRAME" "TextUnitLevel0" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue0" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.011,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel2" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue2" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.002 -0.002,
+	    Font "InfoPanelTextFont", 0.020,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel3" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue3" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel4" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue4" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel5" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue5" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel6" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue6" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel6XL" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue6XL" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        //FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.014,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevelX6XL" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueX6XL" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        //FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.020,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel6XL2" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue6XL2" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel6XS" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue6XS" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        //FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.010,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel7" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue7" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel8" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue8" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel9" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue9" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel10" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue10" {
+        //Anchor LEFT, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel11" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue11" {
+       // Anchor LEFT, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel12" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue12" {
+       // Anchor LEFT, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel13" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue13" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevelX13" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValueX13" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.008,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel14" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue14" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel15" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue15" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.012,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitLevel15LEFT" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue15LEFT" {
+        Anchor RIGHT, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.9,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.010,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitLevel16" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitLevelValue16" {
+        Anchor CENTER, 0, 0,
+		//FontColor 0.99 0.827 0.0705 1.0,
+	    FontShadowColor 0.0 0.0 0.0 0.09,
+        FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+Frame "SIMPLEFRAME" "TextUnitHP" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitHPValue" {
+        Anchor CENTER, 0, 0,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextUnitMP" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextUnitMPValue" {
+        Anchor CENTER, 0, 0,
+	    Font "InfoPanelTextFont", 0.009,
+    }
+}
+
+Texture "MySimpleButtonButtonHighlight" {
+    File "UI\Widgets\Console\Human\CommandButton\human-activebutton.blp",
+    AlphaMode "ADD",
+}
+
+Frame "SIMPLEBUTTON" "MySimpleButtonGlowing" {
+    Width 0.035,
+    Height 0.035,
+    UseHighlight "MySimpleButtonButtonHighlight",
+    Texture "MySimpleButtonTexture" {
+    }
+}
+
+Frame "SIMPLEBUTTON" "MySimpleButton" {
+    Width 0.039,
+    Height 0.039,
+    Texture "MySimpleButtonTexture" {
+    }
+}
+
+Frame "SIMPLEFRAME" "TestString" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TestStringValue" {
+        Anchor CENTER, 0, 0,
+	    Font "InfoPanelTextFont",0.01,
+    }
+}
+
+Frame "SIMPLEFRAME" "TestString2" {
+    Width 0.0001,
+    Height 0.0001,
+    String "TestString2Value" {
+        Anchor TOPLEFT, 0, 0,
+	    Font "fonts\dfst-m3u.ttf",0.01,
+    }
+}
+
+Frame "TEXT" "TestText" {
+    FrameFont "fonts\dfst-m3u.ttf", 0.01, "",
+}
+
+
+Frame "SIMPLEFRAME" "TestStringEx" {
+    DecorateFileNames,
+    String "TestStringValue" {
+        //FontJustificationH JUSTIFYLEFT,
+        //FontJustificationV JUSTIFYTOP,
+        //FontColor 0.99 0.827 0.0705 1.0,
+	    //FontShadowColor 0.0 0.0 0.0 0.9,
+        //FontShadowOffset 0.001 -0.001,
+	    Font "InfoPanelTextFont",0.01,
+        //Width 0.15,
+        //Height 0.15,
+    }
+}
+
+Frame "SIMPLEFRAME" "TestTexture"{
+    Width 0.04,
+    Height 0.04,
+    Texture "TestTextureValue" {
+    }
+}
+Frame "SIMPLEFRAME" "TestTexture2"{
+    Width 0.04,
+    Height 0.04,
+    Texture "TestTextureValue2" {
+    }
+}
+
+
+Frame "SIMPLEFRAME" "TestTextureAlphaAdd"{
+    Width 0.06,
+    Height 0.06,
+    Texture "TestTextureValue" {
+        AlphaMode "ADD",
+        File "UI\Console\Human\HumanUITile01",
+    }
+}
+
+Frame "SIMPLEFRAME" "TestTextureAlphaBlend"{
+    Width 0.06,
+    Height 0.06,
+    Texture "TestTextureValue" {
+        AlphaMode "BLEND",
+        File "UI\Console\Human\HumanUITile01",
+    }
+}
+
+
+Frame "SIMPLEFRAME" "TestTextureAlphaAlphaKey"{
+    Width 0.06,
+    Height 0.06,
+    Texture "TestTextureValue" {
+        AlphaMode "ALPHAKEY",
+        File "UI\Console\Human\HumanUITile01",
+    }
+}
+
+Frame "SIMPLEFRAME" "TestTextureAlphaDisable"{
+    Width 0.06,
+    Height 0.06,
+    Texture "TestTextureValue" {
+        AlphaMode "DISABLE",
+        File "UI\Console\Human\HumanUITile01",
+    }
+}
+
+
+Frame "SIMPLEFRAME" "TestTextureAlphaMod"{
+    Width 0.06,
+    Height 0.06,
+    Texture "TestTextureValue" {
+        AlphaMode "MOD",
+        File "UI\Console\Human\HumanUITile01",
+    }
+}
+
+Frame "SIMPLEFRAME" "TestTextureLayer" {
+    Width 0.1,
+    Height 0.1,
+    //UseActiveContext,
+    Layer "ARTWORK" {
+        Texture {
+            Width 0.05,
+            Height 0.05,
+            Anchor BOTTOMLEFT, 0, 0,
+            File "ReplaceableTextures\CommandButtons\BTNHeroMountainKing",
+        }
+        Texture {
+            Width 0.05,
+            Height 0.05,
+            Anchor BOTTOMRIGHT, 0, 0,
+            File "ReplaceableTextures\CommandButtons\BTNHeroBloodElfPrince",
+        }
+        Texture {
+            Width 0.05,
+            Height 0.05,
+            Anchor TOPRIGHT, 0, 0,
+            File "ReplaceableTextures\CommandButtons\BTNArthas",
+        }
+        Texture {
+            File "ReplaceableTextures\CommandButtons\BTNHeroArchMage",
+            Width 0.05,
+            Height 0.05,
+            Anchor TOPLEFT, 0, 0, 
+        }
+    }    
+    
+    Layer "BACKGROUND" {
+        Texture {
+            Width 0.2,
+            Height 0.2,
+            Anchor CENTER, 0, 0,
+            File "ReplaceableTextures\CommandButtons\BTNHeroPaladin",
+        } 
+    }
+    Frame "SIMPLEFRAME" "TestTextureLayerChild" {
+        SetAllPoints,
+        UseHighlight "MySimpleButtonButtonHighlight",
+        Layer "BACKGROUND" {
+            Texture {
+                Width 0.04,
+                Height 0.03,
+                Anchor CENTER, 0, 0,
+                File "ReplaceableTextures\CommandButtons\BTNHeroDeathKnight",
+            } 
+        }
+    }
+}
+
+Frame "SIMPLESTATUSBAR" "TestBar" {
+
+    
+}
+
+String "MyBarTextTemplate" { 
+	//FontColor 0.99 0.427 0.0705 1.0, //Red Green Blue Alpha 0.0 to 1.0
+	FontColor 1.0 1.0 1.0 1.0,
+	FontShadowColor 0.0 0.0 0.0 0.9,
+	FontShadowOffset 0.001 -0.001,
+	Font "MasterFont", 0.01, //MasterFont is only valid with "DecorateFileNames,"
+}
+Frame "SIMPLESTATUSBAR" "MyBarEx" {
+	Width 0.07, //Default Width
+	Height 0.012, //Default Height
+	BarTexture "Replaceabletextures\Teamcolor\Teamcolor00.blp", //Default BarTexture
+	Layer "BACKGROUND" { //A simpleFrames thing, where this is placed layer wise
+		Texture "MyBarExBackground"{ //the BACKGROUND Texture named "MyBarExBackground" its also a frame and a child
+			File "Replaceabletextures\Teamcolor\Teamcolor27.blp", //Default Texture for "MyBarExBackground"
+		}
+	}
+	Frame "SIMPLEFRAME" "MyBarExFrame" { //Child of "MyBarEx"
+		DecorateFileNames, //Lookup FileNames in a StringList
+		SetAllPoints, //copy "MyBarEx"
+		Layer "ARTWORK" {
+			Texture "MyBarExBorder" {
+				File "SimpleXpBarBorder", //Default Texture for "MyBarExBorder"
+			}
+			String "MyBarExText" INHERITS "MyBarTextTemplate" {
+				Text "MyBarEx", //Default Text for "MyBarExText" which takes over Data from "MyBarTextTemplate"
+			}
+		}
+	}
+}
+
+Frame "SIMPLESTATUSBAR" "MyBar" {
+	Width 0.07,
+	Height 0.012,
+	BarTexture "Replaceabletextures\Teamcolor\Teamcolor00.blp",
+	Layer "BACKGROUND" {
+		Texture "MyBarBackground" {
+			File "Replaceabletextures\Teamcolor\Teamcolor27.blp",
+		}
+	}
+	Frame "SIMPLEFRAME" "MyBarFrame" {
+		SetAllPoints,
+		DecorateFileNames,
+		Layer "ARTWORK" {
+			String "MyBarText" INHERITS "MyBarTextTemplate" {
+				Text "MyBar",
+			}
+		}
+	}
+}
+Frame "SIMPLESTATUSBAR" "MySimpleBar" {
+	Width 0.07,
+	Height 0.012,
+}
+
+// -- LOCAL TEMPLATES -------------------------------------------------------
+Frame "BACKDROP" "BoxedTextBackgroundTemplate" {
+		DecorateFileNames, //Look-Up Names in some String table (for example gameinterface)
+        BackdropTileBackground, //Tile mode enabled
+		BackdropBackground  "ToolTipBackground", //BackgroundFile
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize  0.008, //higher numbers make the corners bigger.
+        BackdropBackgroundInsets 0.0022 0.0022 0.0022 0.0022, //makes the background smaller, from the outside.
+        BackdropEdgeFile  "ToolTipBorder", //the border File
+        BackdropBlendAll,
+}
+// -- Frames -------------------------------------------------------
+Frame "BACKDROP" "BoxedText" INHERITS "BoxedTextBackgroundTemplate" {
+	UseActiveContext,
+	
+	Frame "TEXT" "BoxedTextTitle" {
+		UseActiveContext,
+		DecorateFileNames,
+		SetPoint TOPLEFT, "BoxedText", TOPLEFT, 0.005, -0.005, //Positionate "BoxedTextSimpleTitle"'s TOPLEFT to "BoxedText"'s TOPLEFT with an offset
+		SetPoint TOPRIGHT, "BoxedText", TOPRIGHT, -0.005, -0.005,
+		FontFlags "FIXEDSIZE",
+		FrameFont "MasterFont", 0.013, "",
+		FontColor 1.0 1.0 1.0 1.0, //Red Green Blue Alpha 0.0 to 1.0
+		FontShadowColor 0.0 0.0 0.0 0.9,
+		FontShadowOffset 0.001 -0.001,
+	}
+	
+	Frame "TEXT" "BoxedTextValue" {
+		UseActiveContext,
+		DecorateFileNames,
+		SetPoint TOPLEFT, "BoxedText", TOPLEFT, 0.005, -0.02,
+		SetPoint BOTTOMRIGHT,  "BoxedText", BOTTOMRIGHT, -0.005, 0.005,
+		FontFlags "FIXEDSIZE",
+		FrameFont "MasterFont", 0.011, "",
+		FontColor 1.0 1.0 1.0 1.0,
+		FontShadowColor 0.0 0.0 0.0 0.9,
+		FontShadowOffset 0.001 -0.001,
+	}
+	
+	
+	
+}
+Frame "BACKDROP" "BoxedTextVH" INHERITS "BoxedTextBackgroundTemplate" {
+	UseActiveContext,
+	
+	Frame "TEXT" "BoxedTextTitleVH" {
+		UseActiveContext,
+		DecorateFileNames,
+		SetPoint TOPLEFT, "BoxedText", TOPLEFT, 0.005, -0.005, //Positionate "BoxedTextSimpleTitle"'s TOPLEFT to "BoxedText"'s TOPLEFT with an offset
+		SetPoint TOPRIGHT, "BoxedText", TOPRIGHT, -0.005, -0.005,
+		FontFlags "FIXEDSIZE",
+		FrameFont "MasterFont", 0.014, "",
+		FontColor 1.0 1.0 1.0 1.0, //Red Green Blue Alpha 0.0 to 1.0
+		FontShadowColor 0.0 0.0 0.0 0.9,
+		FontShadowOffset 0.001 -0.001,
+	}
+	
+	Frame "TEXT" "BoxedTextValueVH" {
+		UseActiveContext,
+		DecorateFileNames,
+		SetPoint TOPLEFT, "BoxedText", TOPLEFT, 0.005, -0.02,
+		SetPoint BOTTOMRIGHT,  "BoxedText", BOTTOMRIGHT, -0.005, 0.005,
+		FontFlags "FIXEDSIZE",
+		FrameFont "MasterFont", 0.012, "",
+		FontColor 1.0 1.0 1.0 1.0,
+		FontShadowColor 0.0 0.0 0.0 0.9,
+		FontShadowOffset 0.001 -0.001,
+	}
+	
+	
+	
+}
+
+
+

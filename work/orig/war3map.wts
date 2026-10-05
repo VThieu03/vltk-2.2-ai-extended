@@ -1,0 +1,117 @@
+﻿STRING 1
+{
+|CFF00FF00Vo Lam Truyen Ky v2.1 AI
+}
+STRING 2
+{
+5v5
+}
+STRING 3
+{
+|c00ffcc00Testers:|r -[kyo]-, KendoSai, lucifekit, killings, tengichaduoc, SD.Handsome, AmDuongNhatDoc, samake, dannyminhduc, khong2, longkekeke12|n|c00ffcc00Email:|r vnakira@yahoo.com
+}
+STRING 4
+{
+vnakira - Garena.vn
+}
+STRING 4514
+{
+|c00ffcc00Dïng thñ khè ®Ó chÕ t¹o ®å. Mçi mãn cÇn 3 nguyªn liÖu|r:
+|c0000ff00Tiªu §ao KiÕm/M©u/§ao|r: ¤ Long B¶o Th¹ch + BÝ Phæ + Hång Anh B¶o Th¹ch
+|c0000ff00Kim Xµ KiÕm/M©u/§ao|r: Lôc B¶o Th¹ch + BÝ Phæ + Hång Anh B¶o Th¹ch
+|c0000ff00XÝch Long KiÕm/M©u/§ao|r: Lam B¶o Th¹ch + BÝ Phæ + Hång Anh B¶o Th¹ch
+|c0000ff00Hoµng Long Kim Gi¸p|r: BÝ Phæ + Long Nguyªn + B¹ch B¶o Th¹ch
+|c0000ff00Hoµng Hæ Y|r: BÝ Phæ + Cæ NguyÖt B¶o Th¹ch + B¹ch B¶o Th¹ch
+|c0000ff00¢m D­¬ng V« Cùc §ao|r: BÝ Phæ + Cæ NguyÖt B¶o Th¹ch + Thiªn Niªn Cæ VËt
+|c0000ff00An Lang Kh«i|r: BÝ Phæ + Ngäc Lôc B¶o + Kim C­¬ng
+|c0000ff00T©y Thi CÈm Sam|r: BÝ Phæ + Sa Nhung + N÷ Oa Tinh Th¹ch
+|c0000ff00Du Long Ngäc Béi|r: BÝ Phæ + Hång Anh B¶o Th¹ch + Sa Nhung
+|c0000ff00Khai D­¬ng M·o|r: BÝ Phæ + Ngäc Lôc B¶o + Sa Nhung
+|c0000ff00ThÇn S¸ch Kim Gi¸p|r: BÝ Phæ + N÷ Oa Tinh Th¹ch + Bå §Ò Méc
+|c0000ff00T©y V­¬ng N÷ Gi¸p|r: BÝ Phæ + N÷ Oa Tinh Th¹ch + Cæ NguyÖt B¶o Th¹ch
+|c0000ff00Ph¸ch Phong|r: BÝ Phæ + Thiªn Niªn Cæ VËt + ¤ Long B¶o Th¹ch
+}
+STRING 4518
+{
+Map author: |c00ff0000Rex|r
+Email: |c00ffff00vnakira@yahoo.com|r
+
+|c0000ff00Special thanks to:|r
+
+|c00ffcc00Vexorian: |rfor Jass New Gen pack and Caster System.
+|c00ffcc00Rising_Dusk:|r for the knockback system.
+|c00ffcc00Nanuto_Husk: |rfor tooltip creator.
+|c00ffcc00Cohadar: |rfor the Texttag and BorderSafety system.
+|c00ffcc00Pyrogasm:|r for his tutorial about unit/item pool.
+|c00ffcc00Moyack:|r for his tutorial about struct and timer.
+|c00ffcc00Tom_Kazansky:|r for some useful tips.
+|c00ffcc00Daelin, WILLTHEALMIGHTY, marcus158, RAODAOZAO: |rfor special effects.
+}
+STRING 4571
+{
+Quân Chiên
+}
+STRING 5257
+{
+Tong
+}
+STRING 5258
+{
+Kim
+}
+STRING 5262
+{
+3!
+}
+STRING 5263
+{
+2!
+}
+STRING 5264
+{
+1!
+}
+STRING 5265
+{
+Go!
+}
+STRING 5266
+{
+|c000080ffQuà|r: môi em nhân 2 Kim Nguyên Bao !|
+}
+STRING 7211
+{
+|c0000ff00SINGLE PLAYER|r
+|c00ffcc00-rex|r: ®¹t cÊp ®é tèi ®a (40)
+|c00ffcc00-reveal|r: më mµn che b¶n ®å
+|c00ffcc00-gold x|r: nhËn ®­îc x ng©n l­îng
+|c00ffcc00-ESC|r: ®Çy sinh lùc, néi lùc
+|c0000ff00GENERAL MODES|r
+|c00ff0000ChØ dµnh cho player 1|r
+|c00ffcc00-cc|r: ®Çy sinh lùc, néi lùc khi lªn cÊp
+|c00ffcc00-dm|r: mçi cÊp nhËn ®­îc 2 KNB
+|c00ffcc00-mo|r: t¾t nh¹c nÒn khi ch¬i
+|c00ffcc00-rev|r: më mµn che b¶n ®å
+|c00ffcc00-rain|r: chÕ ®é thêi tiÕt m­a
+|c00ffcc00-snow|r: chÕ ®é thêi tiÕt tuyÕt
+|c00ffcc00-moonlight|r: chÕ ®é thêi tiÕt ¸nh s¸ng mÆt tr¨ng
+|c00ffcc00-fog|r: chÕ ®é thêi tiÕt s­¬ng mï
+|c00ff0000Dµnh cho tÊt c¶ mäi ng­êi|r
+|c00ffcc00-ms|r: xem tèc ch¹y nh©n vËt
+|c00ffcc00-min|r: tÇm nh×n camera cùc tiÓu
+|c00ffcc00-med|r: tÇm nh×n camera møc võa
+|c00ffcc00-max|r: tÇm nh×n camera cùc ®¹i
+|c00ffcc00-res|r: c©n b»ng l¹i camera
+}
+STRING 7226
+{
+Observer
+}
+STRING 7227
+{
+Trung Lâp
+}
+STRING 7325
+{
+Bot
+}
