@@ -265,22 +265,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q/W là quét nón, E là nổ quanh thân 3 hit, Đại Thừa Như Lai Chú là nổ quanh thân 6 hit (KVCT: kéo + định thân tại điểm, không sát thương), Hàng Long Bất Vũ là buff sát thương 300 giây (KVCT: 20 giây gần như bất tử); thiếu 3 chiêu dùng chung.
 
-### Thiên Vương Thương (TVT)
+### Thiên Vương Thương (TVT) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Hồi Phong Lạc Nhạn | Q | đánh mục tiêu | OVR Đặc thù | thọ thương 30% | Đạt chuẩn |
-| Thiên Vương Thương Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Đoạn Hồn Thích | R | xung kích | OVR Đặc thù | - | Đạt chuẩn |
-| Kinh Lôi Phá Thiên | - | bị động (cộng chỉ số) | OVR Đặc thù | miễn nhiễm sát thương, phát động khi máu dưới 40% | Đạt chuẩn |
-| Thiên Vương Chiến Ý | D | buff phe ta | OVR Đặc thù | - | Đạt chuẩn |
-| Thiên Canh Chiến Khí | - | bị động (cộng chỉ số) | OVR Đặc thù | hồi máu | Đạt chuẩn |
-| Truy Tinh Trục Nguyệt | W | quét phía trước | OVR Đặc thù | thọ thương 35%, 3 đòn | Đạt chuẩn |
-| Bôn Lôi Toàn Long Thương | F | nổ quanh thân | OVR Đặc thù | thọ thương 100%, miễn nhiễm sát thương, 7 đòn | Đạt chuẩn |
-| Liên Hoàn Đoạt Mệnh Thương | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Hoành Hành Vô Kỵ | T | miễn khống chế | OVR Đặc thù | đẩy lùi, kéo đối thủ | Đạt chuẩn |
-| Bá Vương Trạm Kim | E | quét phía trước | Khuôn chuẩn | thọ thương 40%, 4 đòn | Đạt chuẩn |
-| Huyết Chiến Bát Phương | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TVT"`; Q/W/E: `Jow`, `Jsu`, `JaG`/`e69`; chiêu bấm: `Jag`/`JaA`, `egC`/`egx`; Đoạn Hồn Thích, Kinh Lôi Phá Thiên, Thiên Vương Chiến Ý, Thiên Canh Chiến Khí, Thiên Mã Hành Không: xem Thiên Vương Đao), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (trước 12; thêm **Thiên Mã Hành Không**).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Hồi Phong Lạc Nhạn | Q (autocast) | Đánh lan 100 tại chỗ mục tiêu, tối đa 7; 30% thọ thương 1 giây | Đánh lan 100 tại mục tiêu, tối đa 7; thọ thương 30% 1 giây | Giống |
+| Thiên Vương Thương Pháp | - | Bị động: chính xác, vật công %, chí mạng; tốc đánh tối đa ngay từ đầu | Bị động: sát thương % + chí mạng | Gần giống |
+| Đoạn Hồn Thích | R | Như Thiên Vương Đao | Như Thiên Vương Đao | Giống |
+| Kinh Lôi Phá Thiên | - | Như Thiên Vương Đao | Như Thiên Vương Đao | Gần giống |
+| Thiên Vương Chiến Ý | D | Như Thiên Vương Đao | Như Thiên Vương Đao | Gần giống |
+| Thiên Canh Chiến Khí | - | Như Thiên Vương Đao | Như Thiên Vương Đao | Gần giống |
+| Truy Tinh Trục Nguyệt | W (autocast) | 3 nhát thương cách 1/6 giây, đánh lan 120 tại chỗ mục tiêu, tối đa 7; 35% thọ thương 1 giây | 3 nhát cách 0,17 giây, đánh lan 120, tối đa 7; thọ thương 35% 1 giây | Giống |
+| Bôn Lôi Toàn Long Thương | F | 7 lần lướt cách 0,3125 giây tới kẻ địch chưa trúng trong 1000, 100% thọ thương 2 giây; miễn sát thương + miễn trạng thái khi thi triển; hồi 15 giây | Liên kích 7 lần lướt tới kẻ địch chưa trúng trong 1000 (bán kính đánh 350), thọ thương 100% 2 giây; miễn sát thương + khống chế khi lướt | Giống |
+| Liên Hoàn Đoạt Mệnh Thương | - | Mỗi lần đánh trúng +1 tầng (phát huy lực tấn công +3%), 8 giây, tối đa (bậc + 5) tầng | Mỗi đòn đánh +1 tầng (sát thương +4%, chí mạng +2%), 6 giây, tối đa 5 tầng | Gần giống (số tầng tối đa cố định 5) |
+| Hoành Hành Vô Kỵ | T | (8 + bậc) giây hóa giải + miễn thọ thương / định thân / chậm / choáng / đẩy / kéo; hồi 40 giây | (8 + bậc) giây miễn khống chế; hồi 40 giây | Giống |
+| Bá Vương Trạm Kim | E (autocast) | 4 nhát cách 0,125 giây, đánh lan 270, tối đa 7; 40% thọ thương 1 giây | 4 nhát cách 0,13 giây, đánh lan 270 tại mục tiêu, tối đa 7; thọ thương 40% 1 giây | Giống |
+| Huyết Chiến Bát Phương | - | Sinh lực tối đa; E 75% phóng thêm một mũi thương bay 900 (rộng 150, tối đa 7) | Bị động: sinh lực; E 30% thêm 25% sát thương | Khác một phần (không có mũi thương bay) |
+| Thiên Mã Hành Không | - | Như Thiên Vương Đao | Như Thiên Vương Đao | Gần giống |
+
+Trước khi sửa: Q là quét nón 2 hit, Truy Tinh Trục Nguyệt (W) bị gán nhầm là chiêu lướt, Hoành Hành Vô Kỵ 15 giây cố định; thiếu Thiên Mã Hành Không.
 
 ### Ngũ Độc Chưởng (NDC)
 

@@ -76,13 +76,27 @@ OVR = {
     "A03E": {"kind": 0, "stats": [7], "link": 2, "xw": 2, "xc": 50},
     "A0WA": {"kind": 0, "stats": [3]},                       # Thien Ma Hanh Khong (slot 14): chi mang
 
-    # Thien Vuong Thuong / Chuy (TVT, TVC)
-    "A021": {"kind": 11},                                    # Bon Loi Toan Long Thuong
-    "A020": {"kind": 3},                                     # Doat Hon Thich (dash)
-    "A01O": {"kind": 2, "hits": 2},                          # Pha Thien Tram (cone 2 hits)
+    # Thien Vuong Thuong (TVT): read from KVCT's code; A01M A01R A01W A01Z A0WA as in TVD
+    # Q Jow: splash 100 where the target stood, at most 7, 30% tho thuong 1 s
+    "A01O": {"kind": 16, "rad": 100, "max": 7, "st": 1, "ch": 30, "sd": 1},
+    "A01K": {"kind": 0, "stats": [5, 3]},                    # Thien Vuong Thuong Phap: chinh xac, vat cong %, chi mang
+    # W Jsu: 3 thrusts 1/6 s apart, splash 120 where the target stood, at most 7, 35% tho thuong 1 s
+    "A020": {"kind": 16, "hits": 3, "gap": .17, "rad": 120, "max": 7, "st": 1, "ch": 35, "sd": 1},
+    # F Jag / JaA: 7 dashes 0.3125 s apart to enemies within 1000 not hit yet, 100% tho thuong 2 s; immune to
+    # damage and control meanwhile
+    "A021": {"kind": 11, "st": 1, "ch": 100, "sd": 2},
+    # Lien Hoan Doat Menh: every hit +1 tang (phat huy luc tan cong +3%), 8 s, at most rank + 5
+    "A022": {"kind": 0, "stats": [], "fx": 8192},
+    # T egC / egx: (8 + rank) s immune to tho thuong / dinh than / cham / choang / day lui / keo; cooldown 40
+    "A026": {"kind": 8, "dur": 8, "durr": 1},
+    # E JaG: 4 thrusts 0.125 s apart, splash 270, at most 7, 40% tho thuong 1 s
+    "A01N": {"kind": 16, "hits": 4, "gap": .13, "rad": 270, "max": 7, "st": 1, "ch": 40, "sd": 1},
+    # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
+    "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
+
+    # Thien Vuong Chuy (TVC)
     "A01S": {"kind": 1, "hits": 3},                          # Hao Hung Tram (strike 3 hits)
     "A02I": {"kind": 4, "hits": 4},                          # Huy Thien Diet Dia (nova 4 hits)
-    "A026": {"kind": 8, "dur": 15},                          # Hoanh Hanh Vo Ky (immune 15s)
     "A02K": {"kind": 7, "dur": 30, "stats": [(11, 25, 3)]},  # Kim Chung Trao (party def buff)
     "A02P": {"kind": 3, "hits": 4},                          # Tram Long Quyet (dash slam 4 hits)
     "A02O": {"kind": 1, "hits": 3},                          # Thua Long Quyet (triple strike)
