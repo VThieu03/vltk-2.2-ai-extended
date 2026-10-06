@@ -94,6 +94,26 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Hoa Son Khi (HSQ): read from KVCT's code
+    # Q JEM: 2 blows 0.2 s apart where the target stood, radius 150, at most 7, 30% choang 1 s
+    "A0KJ": {"kind": 16, "hits": 2, "gap": .2, "rad": 150, "max": 7, "st": 3, "ch": 30, "sd": 1},
+    "A0KM": {"kind": 0, "stats": [5, 3, 4]},                 # Hoa Son Khi Cong: loi cong %, chi mang, toc danh
+    "A0KZ": {"kind": 0, "stats": [13, 14]},                  # Long Nhieu Than: toc chay, khang cham, khang bang
+    # R elj: 5 s: damage taken (35 + 5/rank)% less, statuses resisted; at the end 100% choang 3 s within 500 (not done)
+    "A0L0": {"kind": 8, "dur": 5, "stats": [(6, 35, 5)]},
+    "A0L1": {"kind": 0, "stats": [5, 14]},                   # Hai Nap Bach Xuyen: loi cong %, khang trang thai (full mana)
+    "A0KN": {"kind": 0, "stats": [5, 14]},                   # Khi Chan Son Ha: phat huy luc tan cong, ti le choang, khang cham
+    # W e1L: 0.64 s after, radius 300, at most 7, 35% choang 1 s; then Ma Van Khi Cong: 3 more blows every 0.5 s
+    # (no choang)
+    "A0KK": {"kind": 16, "hits": 4, "gap": .5, "rad": 300, "max": 7, "st": 3, "ch": 35, "sd": 1, "st2": 3, "ch2": 0, "sd2": 1},
+    "A0L4": {"kind": 0, "stats": [5]},                       # Khi Quan Truong Hong: more skill damage with more mana
+    # D JfU: 20 s: loi cong +(0.8 + 0.2/rank) (a burst of mana here), mana back every second, immune to 4 statuses
+    "A0L3": {"kind": 8, "dur": 20, "stats": [(5, 50, 10)], "fx": 4096},
+    "A0L2": {"kind": 0, "stats": [6]},                       # Huyen Nhan Yen Van: giam sat thuong (full mana)
+    # E eZN: radius 240 at the target, at most 7, 40% choang 1 s; every enemy then takes 3 single hits 0.2 s apart
+    "A0KL": {"kind": 16, "hits": 4, "gap": .2, "rad": 240, "max": 7, "st": 3, "ch": 40, "sd": 1},
+    "A0KX": {"kind": 0, "stats": [14]},                      # Than Quang Toan Nhieu: khang thoi gian trang thai (E: Long Huyen Kiem Khi not done)
+    "A0XP": {"kind": 0, "stats": [5], "fx": 4096},           # Tu Khi Dong Lai: loi cong %, mana back (after R: not done)
     # Co Mo Kiem (CMK): read from KVCT's code
     # Q JhM: a sword qi flies 832 (width 100) through everyone and comes back (2 passes, ~0.8 s apart), 30% choang 1 s
     "A0ML": {"kind": 5, "hits": 2, "gap": .81, "rad": 832, "st": 3, "ch": 30, "sd": 1},
@@ -729,11 +749,9 @@ OVR = {
     # Co Mo (CMC, CMK)
 
     # Hoa Son (HSQ, HSK)
-    "A0L3": {"kind": 6, "dur": 20, "stats": [(5, 25, 2)]},   # Tu Ha Chan Khi
     "A0LO": {"kind": 4, "hits": 10},                         # Thien Than Dao Huyen
     "A0LP": {"kind": 6, "dur": 20, "stats": [(4, 25, 2)]},   # Kim Nhan Hoanh Khong
     "A0L7": {"kind": 2, "hits": 3},                          # Thuong Tung Nghenh Khach
-    "A0L0": {"kind": 9, "dur": 20},                          # Chan Khi Ho The (qi shield 20s)
     "A0LK": {"kind": 6, "dur": 20, "stats": [(5, 35, 3)]},   # Doat Menh Lien Hoan Tam Tien Kiem (dmg buff)
 
     # Tieu Dao (TDC, TDK)

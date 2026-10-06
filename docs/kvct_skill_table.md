@@ -510,18 +510,18 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thanh Vân Tống Sảng | X364 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
+| 1 | Thanh Vân Tống Sảng | X364 | Q | đánh lan tại mục tiêu, **autocast** | 2 | 1 |
 | 2 | Hoa Sơn Khí Công | X365 | - | bị động | 1 | 6 |
 | 3 | Long Nhiễu Thân | X366 | - | bị động | 1 | 15 |
-| 4 | Chân Khí Hộ Thể | X367 | R | hộ thuẫn | 1 | 25 |
+| 4 | Chân Khí Hộ Thể | X367 | R | miễn khống | 1 | 25 |
 | 5 | Hải Nạp Bách Xuyên | X368 | - | bị động | 1 | 38 |
 | 6 | Khí Chấn Sơn Hà | X369 | - | bị động | 1 | 52 |
-| 7 | Ma Vân Kiếm Khí | X370 | W | nổ quanh thân, **autocast** | 3 | 68 |
+| 7 | Ma Vân Kiếm Khí | X370 | W | đánh lan tại mục tiêu, **autocast** | 4 | 68 |
 | 8 | Khí Quán Trường Hồng | X371 | - | bị động | 1 | 85 |
-| 9 | Tử Hà Chân Khí | X372 | D | buff bản thân | 1 | 105 |
+| 9 | Tử Hà Chân Khí | X372 | D | miễn khống | 1 | 105 |
 | 10 | Huyền Nhãn Yên Vân | X373 | - | bị động | 1 | 125 |
-| 11 | Phách Thạch Phá Ngọc | X374 | E | phóng / đạn bay, **autocast** | 3 | 145 |
-| 12 | Thần Quang Toàn Nhiễu | X375 | - | bị động | 6 | 165 |
+| 11 | Phách Thạch Phá Ngọc | X374 | E | đánh lan tại mục tiêu, **autocast** | 4 | 145 |
+| 12 | Thần Quang Toàn Nhiễu | X375 | - | bị động | 1 | 165 |
 | 13 | Tử Khí Đông Lai | X376 | - | bị động | 1 | 185 |
 
 ## Hoa Sơn Kiếm (HSK, H028)
