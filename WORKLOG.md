@@ -31,7 +31,12 @@
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
 
 > *Cập nhật ngày 06/10/2026:*
-- Không có công việc nào đang dang dở.
+- [ ] **Yêu cầu User:** *"đã làm phần skill giống với KVCT nhất chưa, tại có nhiều skill do bạn tự bịa ra đúng không"*
+  - Việc: đối chiếu từng phái (theo thứ tự `CLASS` trong `tools/kskill_data.py`, bắt đầu NDD/E000) với code gốc KVCT (`D:\kvct-dev`: cast handler trong script, số liệu SLK), sửa/thêm OVR trong `tools/kskill.py`, chỉ mở rộng `tools/kskill.j` khi bắt buộc. Q/W/E giữ autocast; không đưa lại độ luyện / dummy summon.
+  - Sau mỗi phái: chạy `scratchpad/run_pipeline.py` (pjass pass), viết lại mục phái đó trong `docs/kvct_audit.md` (Giống / Gần giống / Khác + lý do), commit `tools/`, `docs/`, `WORKLOG.md`, push nhánh `claude/review-refactor-3tabff`.
+  - Phát hiện chung: (1) `kskill.py` chỉ dùng `kind`/`dur`/`stats` của OVR, các khóa `hits`/`status`/`sdur`/`fx` bị bỏ qua; (2) Q/W/E autocast chỉ ra 1 đợt; (3) danh sách chiêu mỗi phái lấy theo tiền tố tên, KVCT thật có bảng riêng từng phái (có chiêu dùng chung + ô 14); (4) "thọ thương" của KVCT là câm lặng (Silence), map làm thành chảy máu.
+  - Sửa engine (cộng thêm, `tools/kskill.j`): `zzKS_Run` (mọi đợt, cả khi autocast), trạng thái theo đợt + thời gian 1/10 giây, thọ thương = khóa chiêu KVCT của tướng, bán kính / tối đa mục tiêu / giãn cách theo từng chiêu, bị động gắn vào Q/W/E (`zzKS_pfx`, `zzKS_steal`), nổ 3 tầng (fx 16384), kiểu 13 trận tại điểm, 14 bật/tắt (AI không tự tắt: `gameplay_07_ai.j` kind 4), 15 bùa chú tại điểm. Phái trong `KV_ORDER` (`kskill_data.py`) dùng bảng chiêu của KVCT và OVR đầy đủ.
+  - Tiến độ: [x] NDD (E000).
 
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
 

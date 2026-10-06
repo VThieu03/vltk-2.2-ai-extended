@@ -110,6 +110,9 @@ real array zzKS_lowCd
 integer array zzKS_refl
 integer array zzKS_stack
 real array zzKS_stackEnd
+integer zzKS_wave=1
+integer array zzKS_pfx
+integer array zzKS_steal
 framehandle array zzUI_hp
 framehandle array zzUI_mp
 integer zzUI_lastHp=0

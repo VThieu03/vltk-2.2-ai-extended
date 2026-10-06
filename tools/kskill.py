@@ -5,7 +5,7 @@
 import os, re, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata, vfx
-from kskill_data import CLASS, HERO, KV_STRINGS, load
+from kskill_data import CLASS, HERO, KV_STRINGS, KV_ORDER, load
 KV_STRINGS_DIR = KV_STRINGS
 from icons import blp1_palette
 from gameplay_items import plain
@@ -127,19 +127,42 @@ OVR = {
     "A0J0": {"kind": 6, "dur": 300, "stats": [(5, 25, 2)]},   # Tu Nguyen Thuat
     "A0J1": {"kind": 3},                                     # Nhat Khi Tam Thanh
 
-    # Ngu Doc (NDD, NDC)
-    "A075": {"kind": 5, "hits": 1},                          # Huyet Dao Doc Sat
-    "A077": {"kind": 6, "dur": 15},                          # Vo Hinh Co
-    "A07A": {"kind": 5, "hits": 2},                          # Bach Doc Xuyen Tam
-    "A07F": {"kind": 2, "hits": 2},                          # Huyen Am Tram
-    "A07G": {"kind": 4, "hits": 3},                          # Chu Cap Thanh Minh
-    "A07N": {"kind": 5, "hits": 2},                          # U Hon Phe Anh
+    # Ngu Doc Dao (NDD): read from KVCT's code (readable.j), see docs\kvct_audit.md
+    # Q: JoX - missile 500 (width 120), at most 7 enemies, 30% dinh than 1 s, doc sat 3 s
+    "A075": {"kind": 5, "hits": 1, "rad": 500, "max": 7, "st": 2, "ch": 30, "sd": 1, "fx": 8},
+    "A076": {"kind": 0, "stats": [(3, 0, 0), (4, 0, 0)]},  # Ngu Doc Dao Phap: chinh xac, doc cong, chi mang, toc danh
+    # F: J9u - toggle; every 1 s costs 12 x rank mana, poison to at most 7 enemies within 700
+    "A077": {"kind": 14, "rad": 700, "max": 7, "mana": 12},
+    # R: eLM - one slow missile on an arc (460), at most 10 enemies, 25% dinh than 1 s, doc sat 5 s
+    "A07A": {"kind": 5, "hits": 1, "rad": 460, "max": 10, "st": 2, "ch": 25, "sd": 1, "fx": 8},
+    # Van Co Thuc Tam: KVCT J9e - every Q W E hit lowers the enemy's resistances for 30 s
+    "A07B": {"kind": 0, "stats": [], "link": 3, "lfx": 512},
+    "A07E": {"kind": 0, "stats": [(5, 0, 0)]},              # Ngu Doc Ky Kinh: phat huy luc tan cong
+    # W: JoR / Joy - 2 waves 0.32 s apart along a line of 800, at most 7 each; wave 1 30% tho thuong 1 s and
+    # doc sat 3 s, wave 2 35% dinh than 1 s
+    "A07F": {"kind": 5, "hits": 2, "gap": .32, "rad": 800, "max": 7, "st": 1, "ch": 30, "sd": 1,
+             "st2": 2, "ch2": 35, "sd2": 1, "fx": 8},
+    # D: elS / elq - a field at the point (<= 640), 5 pulses every 2 s, radius 350, at most 7: pull 100 to the
+    # middle, 80% choang / te liet / hon loan 2 s, doc sat 3 s; cooldown 20
+    "A07G": {"kind": 13, "hits": 5, "gap": 2, "rad": 350, "max": 7, "st": 3, "ch": 80, "sd": 2, "fx": 2 | 8},
+    # Hoa Huyet Tiet Mach: Q and the first wave of W E turn 1% x rank of their damage into life
+    "A07H": {"kind": 0, "stats": [], "link": 3, "steal": 1},
+    "A07I": {"kind": 0, "stats": [(7, 0, 0), (6, 0, 0)]},  # Huyet Dinh Cong: sinh luc toi da, giam sat thuong nhan
+    # E: Jsq / Jsg - 2 waves 0.25 s apart, 900, at most 7 each; wave 1 30% tho thuong 1 s and doc sat 3 s,
+    # wave 2 40% dinh than 1 s
+    "A07N": {"kind": 5, "hits": 2, "gap": .25, "rad": 900, "max": 7, "st": 1, "ch": 30, "sd": 1,
+             "st2": 2, "ch2": 40, "sd2": 1, "fx": 8},
+    # Thien Thu Van Doc: chi mang; every E hit adds 1 tang That Tam Co to the enemy, 3 tang burst
+    "A07O": {"kind": 0, "stats": [(3, 0, 0)], "link": 2, "lfx": 16384},
+    # T (NDD slot 14, NDC14): Jst - curse at the point, radius 200, at most 7: khang doc down, poison longer, 15 s
+    "A0WM": {"kind": 15, "rad": 200, "max": 7, "fx": 512, "dur": 15},
+
+    # Ngu Doc Chuong (NDC)
     "A06J": {"kind": 2, "hits": 2},                          # Doc Sa Chuong
     "A06S": {"kind": 4, "hits": 3},                          # Am Phong Thuc Cot
     "A06T": {"kind": 5, "hits": 2},                          # Doan Can Hu Cot
     "A06U": {"kind": 4, "hits": 5},                          # Huyet Co Doc Sat
     "A06L": {"kind": 1, "hits": 4, "status": 1, "sdur": 4},  # Thien Canh Dia Sat (bleed 4 hits)
-    "A0WM": {"kind": 4, "hits": 3, "status": 1, "sdur": 5},  # U Minh Kho Lau (skull nova poison)
 
     # Duong Mon (DMPT, DMTT, DMPD)
     "A0XZ": {"kind": 5, "hits": 3},                          # Tan Hoa Tieu
@@ -259,7 +282,9 @@ OVR = {
     "A0BX": {"kind": 6, "dur": 20, "stats": [(6, 20, 2), (5, 25, 2)]}, # Bang Tam Ngoc Lang (reflect / resist)
 }
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
-        6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0)}
+        6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0),
+        13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2)}
+ATTACK = (1, 2, 3, 4, 5, 13)
 # stat words of a passive / buff -> stat of zzVL_af (kskill.j zzKS_per)
 STAT = [("sinh lực tối đa", 7), ("chí mạng", 3), ("tốc độ tấn công", 4), ("tốc đánh", 4), ("vật công", 5),
         ("phát huy lực tấn công", 5), ("công kích", 5), ("sát thương", 5), ("phòng thủ", 11), ("kháng", 6),
@@ -323,7 +348,7 @@ def fill(raw, L, kind, st, hits, proc, chance=30):
                 return str(chance)
             if kind == 9 and ("ho thuan" in low or "la chan" in low):
                 return str(20 + 5 * L)
-            if kind in (1, 2, 3, 4, 5):
+            if kind in ATTACK:
                 if "phat huy" in low or "ngoai" in low:
                     return str(pct)
                 if "cong" in low:
@@ -385,16 +410,21 @@ def main():
             sid = "X%03d" % n if n < 1000 else "Y%03d" % (n - 1000)
             n += 1
             o_ = OVR.get(s["kv"], {})
+            full = cl in KV_ORDER                       # checked against KVCT's code: OVR has every number
+            if full:
+                assert s["kv"] in OVR, "%s %s: no OVR entry" % (cl, s["kv"])
+                s = dict(s, hits=o_.get("hits", 1), status=o_.get("st", 0), chance=o_.get("ch", 0),
+                         sdur=o_.get("sd", 0), fx=o_.get("fx", 0), dur=o_.get("dur", 0))
             kind, key = o_.get("kind", s["kind"]), s["key"]
             if "dur" in o_:
                 s["dur"] = o_["dur"]
-            proc = kind in (1, 2, 3, 4, 5) and (key not in SLOT or key in used)
-            if kind in (6, 7, 8, 9) and (key not in SLOT or key in used):
+            proc = kind in ATTACK and (key not in SLOT or key in used)
+            if kind in (6, 7, 8, 9, 14, 15) and (key not in SLOT or key in used):
                 kind = 0                                        # keyless buff: a passive
             used.add(key)
             st = stats_of(s["tip"])
             if "stats" in o_:
-                st = [x[0] for x in o_["stats"]]
+                st = [x[0] for x in o_["stats"]] or [0]
             # effect: a KVCT model named like the skill, else one of its class, else a generic one
             want = key_of(s["name"])
             own = [x for x in names if os.path.basename(x).upper().startswith(cl + "_")]
@@ -450,7 +480,7 @@ def main():
                     tt, rng, cd, _ = KIND[kind]
                     kcd, krng = slk.get(s["kv"], (None, None))
                     cd = kcd if kcd is not None else (s["cd"] or cd)          # KVCT's cooldown
-                    rng = krng if (krng and kind in (1, 2, 5)) else rng
+                    rng = krng if (krng and kind in (1, 2, 5, 13, 15)) else rng
                     mods += [m(b"acdn", 2, float(cd), L), m(b"amcs", 0, 0, L), m(b"aran", 2, rng or 100., L),
                              m(b"Ncl1", 2, 0., L, 1), m(b"Ncl2", 0, tt, L, 2), m(b"Ncl3", 0, 1, L, 3),
                              m(b"Ncl4", 2, 0., L, 4), m(b"Ncl5", 0, 0, L, 5), m(b"Ncl6", 3, ORDER[key], L, 6),
@@ -478,7 +508,7 @@ def main():
                      "call SaveInteger(zzVL_ht,'%s',241,%d)" % (sid, max(1, s["hits"])),
                      "call SaveInteger(zzVL_ht,'%s',242,%d)" % (sid, s["status"]),
                      "call SaveInteger(zzVL_ht,'%s',243,%d)" % (sid, s["chance"]),
-                     "call SaveInteger(zzVL_ht,'%s',244,%d)" % (sid, max(1, s["sdur"])),
+                     "call SaveInteger(zzVL_ht,'%s',244,%d)" % (sid, max(1, round(s["sdur"] * 10))),
                      "call SaveInteger(zzVL_ht,'%s',246,%d)" % (sid, s["dur"]),
                      "call SaveInteger(zzVL_ht,'%s',247,%d)" % (sid, st[0]),
                      "call SaveInteger(zzVL_ht,'%s',248,%d)" % (sid, st[1] if len(st) > 1 else 0),
@@ -488,6 +518,13 @@ def main():
                      'call SaveStr(zzVL_ht,\'%s\',250,"war3mapImported%s%s")' % (sid, "\\\\", model)]
             if proc:
                 rows.append("call SaveInteger(zzVL_ht,'%s',240,%d)" % (sid, kind))
+            if full:                                                 # kskill.j keys of the KVCT numbers
+                ex = {234: o_.get("st2", 0), 235: o_.get("ch2", 0), 236: round(o_.get("sd2", 0) * 10),
+                      257: o_.get("rad", 0), 258: round(o_.get("gap", 0) * 100), 259: o_.get("max", 0),
+                      245: o_.get("lfx", 0), 231: o_.get("steal", 0), 232: o_.get("mana", 0)}
+                if "link" in o_:
+                    ex[239] = o_["link"]
+                rows += ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, k_, v_) for k_, v_ in ex.items() if v_ or k_ == 239]
             if not passive:                                          # AI / auto-cast table (gameplay.j zzVL_TryCast)
                 o_, k_ = (auto[1], 1) if auto else (ORDER[key], KIND[kind][3])
                 rows += ["call SaveInteger(zzVL_ht,'%s',2,OrderId(\"%s\"))" % (sid, o_),

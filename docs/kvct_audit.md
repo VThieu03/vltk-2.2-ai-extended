@@ -17,22 +17,32 @@
 
 ## 3. CHI TIẾT ĐỐI SOÁT 33 MÔN PHÁI
 
-### Ngũ Độc Đao (NDD)
+> Đang đối chiếu lại từng phái với code gốc KVCT (thứ tự theo `CLASS` trong `tools/kskill_data.py`). Phái có ghi "đã đối chiếu code KVCT" là đã kiểm tra từng chiêu; các phái còn lại vẫn là bảng tự sinh cũ (đoán theo mô tả, cột "Ghi chú" chưa đáng tin).
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Huyết Đao Độc Sát | Q | đạn bay xuyên | OVR Đặc thù | định thân 30%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Ngũ Độc Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Vô Hình Cổ | F | buff bản thân | OVR Đặc thù | độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Bách Độc Xuyên Tâm | R | đánh mục tiêu | OVR Đặc thù | định thân 25%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Vạn Cổ Thực Tâm | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Ngũ Độc Kỳ Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Huyền Âm Trảm | W | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Chu Cáp Thanh Minh | D | nổ quanh thân | OVR Đặc thù | choáng 25%, kéo đối thủ, độc / bỏng mỗi giây | Đạt chuẩn |
-| Hóa Huyết Tiệt Mạch | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu, độc / bỏng mỗi giây | Đạt chuẩn |
-| Huyết Đỉnh Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| U Hồn Phệ Ảnh | E | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thiên Thù Vạn Độc | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
+### Ngũ Độc Đao (NDD) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `D:\kvct-dev\work\readable.j` (bảng kỹ năng của phái: `set Kuz[oY]="NDD"` + `SaveInteger(o8,eRS(oY,Ff),slot,...)`; hàm đánh Q/W/E: `JoX`, `JoR`/`Joy`, `Jsq`/`Jsg`; chiêu bấm: `J9u`, `eLM`, `elS`/`elq`, `Jst`), số liệu `AbilityData.slk`.
+Bảng kỹ năng lấy từ bảng của KVCT: 13 chiêu, thêm **U Minh Khô Lâu (T, ô 14)** mà trước đây phái này thiếu.
+
+Khác biệt chung (mọi chiêu): sát thương tính theo công thức của map (`zzKS_Hit`: công + chỉ số chính, tăng theo bậc chiêu), không dùng công thức vật công % + độc công + phát huy % của KVCT; bậc chiêu mở theo cấp tướng (bỏ độ luyện). "Độc sát N lần" của KVCT là độc mỗi giây trong N giây; ở map là độc 5 nhịp (`zzKS_Fx` bit 8), mỗi mục tiêu tối đa 1 lần / 5 giây.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Huyết Đao Độc Sát | Q (autocast) | Đánh thường trúng → 1 đạn bay thẳng 500, rộng 120, tối đa 7 mục tiêu; 30% định thân 1 giây; độc 3 giây | Đạn bay xuyên 500, tối đa 7; định thân 30% 1 giây; độc | Gần giống (độc 5 nhịp thay vì 3) |
+| Ngũ Độc Đao Pháp | - | Bị động: chính xác, độc công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh (theo thang của map) | Gần giống (không có chính xác / độc công riêng) |
+| Vô Hình Cổ | F | Bật / tắt: mỗi giây tốn 12 × bậc nội lực, gây độc lên tối đa 7 kẻ địch trong 700; hết nội lực thì tắt | Bật / tắt (kiểu mới 14): mỗi giây tốn 12 × bậc nội lực, đánh tối đa 7 kẻ địch trong 700; hết nội lực tự tắt; AI không tự tắt | Giống (sát thương mỗi giây = 35% công của map) |
+| Bách Độc Xuyên Tâm | R | 1 tia độc bay chậm theo đường cong (~460), tối đa 10 mục tiêu; 25% định thân 1 giây; độc 5 giây; hồi 2 giây | Đạn bay thẳng 460, tối đa 10; định thân 25% 1 giây; độc; hồi 2 giây | Gần giống (bay thẳng, không cong) |
+| Vạn Cổ Thực Tâm | - | Q/W/E trúng địch → giảm tất cả kháng (80 + 20/bậc) trong 30 giây | Q/W/E trúng địch → địch nhận thêm 15% sát thương trong 4 giây | Gần giống (map không có kháng riêng từng hệ cho chiêu; thời gian ngắn hơn) |
+| Ngũ Độc Kỳ Kinh | - | Bị động: phát huy lực tấn công cơ bản / kỹ năng, tỉ lệ định thân, kháng choáng, độc sát | Bị động: sát thương % | Gần giống (chỉ có phần sát thương) |
+| Huyền Âm Trảm | W (autocast) | 2 đợt cách 0,32 giây trên đường thẳng 800, mỗi đợt tối đa 7; đợt 1: 30% thọ thương 1 giây + độc 3 giây; đợt 2: 35% định thân 1 giây | 2 đợt cách 0,32 giây, đạn bay 800, tối đa 7; đợt 1 thọ thương 30% 1 giây + độc; đợt 2 định thân 35% 1 giây | Giống |
+| Chu Cáp Thanh Minh | D | Trận tại điểm chọn (≤ 640), 5 nhịp mỗi 2 giây (10 giây), bán kính 350, tối đa 7: kéo 100 về tâm, 80% ngẫu nhiên choáng / tê liệt / hỗn loạn 2 giây, độc 3 giây; hồi 20 giây | Trận tại điểm (kiểu mới 13): 5 nhịp mỗi 2 giây, bán kính 350, tối đa 7, kéo 100 về tâm, choáng 80% 2 giây, độc; hồi 20 giây | Gần giống (tê liệt / hỗn loạn đều làm thành choáng) |
+| Hóa Huyết Tiệt Mạch | - | Q và đợt đầu của W/E hút 1% × bậc sát thương thành sinh lực | Như KVCT (gắn vào Q/W/E) | Giống |
+| Huyết Đỉnh Công | - | Bị động: sinh lực tối đa %, giảm sát thương nhận; khi bị đánh mà sinh lực < 95%: tăng công, miễn chậm / choáng 10 giây, hồi 25 giây | Bị động: sinh lực tối đa + giảm sát thương nhận | Khác một phần (chưa làm phần tự phát khi bị đánh) |
+| U Hồn Phệ Ảnh | E (autocast) | 2 đợt cách 0,25 giây, đạn bay 900 (tới mục tiêu thì lượn rồi quay lại), tối đa 7; đợt 1: 30% thọ thương 1 giây + độc 3 giây; đợt 2: 40% định thân 1 giây | 2 đợt cách 0,25 giây, đạn bay thẳng 900, tối đa 7; đợt 1 thọ thương 30% + độc; đợt 2 định thân 40% | Gần giống (đạn không lượn / quay lại) |
+| Thiên Thù Vạn Độc | - | Chí mạng; mỗi lần E trúng: +1 tầng Thất Tâm Cổ lên địch, đủ 3 tầng thì nổ sát thương | Chí mạng; E trúng cùng 1 địch 3 lần thì nổ thêm 1 lần sát thương | Giống (sát thương nổ = sát thương đòn E) |
+| U Minh Khô Lâu | T | Bùa chú tại điểm, bán kính 200, tối đa 7: giảm kháng độc (19 + 1%/bậc), độc kéo dài thêm (28 + 2%/bậc), 15 giây; hồi 45 giây | Bùa chú tại điểm (kiểu mới 15), bán kính 200, tối đa 7: địch nhận thêm 15% sát thương trong 15 giây; hồi 45 giây | Gần giống (map không có kháng độc riêng) |
+
+Trước khi sửa: Chu Cáp Thanh Minh là nổ quanh thân (KVCT là trận tại điểm), Vô Hình Cổ là buff 15 giây (KVCT bật / tắt), Huyền Âm Trảm là quét nón; số hit / trạng thái trong bảng OVR không được dùng (lỗi `kskill.py`); Q/W/E tự động chỉ ra 1 đợt; ba bị động Vạn Cổ Thực Tâm / Hóa Huyết Tiệt Mạch / Thiên Thù Vạn Độc không tác động lên Q/W/E như KVCT; thiếu U Minh Khô Lâu.
 
 ### Thiên Vương Đao (TVD)
 
