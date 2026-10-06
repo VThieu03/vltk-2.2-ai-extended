@@ -150,17 +150,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Cuồng Lôi Chấn Địa | X104 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
+| 1 | Cuồng Lôi Chấn Địa | X104 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Côn Lôn Kiếm Pháp | X105 | - | bị động | 1 | 6 |
 | 3 | Thanh Phong Phù | X106 | F | buff phe ta | 1 | 15 |
-| 4 | Thiên Tế Tấn Lôi | X107 | W | nổ quanh thân, **autocast** | 8 | 25 |
+| 4 | Thiên Tế Tấn Lôi | X107 | W | đánh lan tại mục tiêu, **autocast** | 8 | 25 |
 | 5 | Đạo Cốt Tiên Phong | X108 | T | buff phe ta | 1 | 38 |
 | 6 | Ngũ Lôi Chánh Pháp | X109 | - | bị động | 1 | 52 |
-| 7 | Lôi Động Cửu Thiên | X110 | E | nổ quanh thân, **autocast** | 9 | 68 |
-| 8 | Lôi Đình Quyết | X111 | - | tự phát khi đánh (nổ quanh thân) | 1 | 85 |
+| 7 | Lôi Động Cửu Thiên | X110 | E | kiếm khí vào địch ngẫu nhiên, **autocast** | 9 | 68 |
+| 8 | Lôi Đình Quyết | X111 | - | bị động | 1 | 85 |
 | 9 | Huyền Thiên Vô Cực | X112 | - | bị động | 1 | 105 |
 | 10 | Ngự Phong Thuật | X113 | D | phóng / đạn bay | 1 | 125 |
-| 11 | Thiên Lôi Chấn Nhạc | X114 | R | nổ quanh thân | 9 | 145 |
+| 11 | Thiên Lôi Chấn Nhạc | X114 | R | trận tại điểm (nhiều nhịp) | 9 | 145 |
 | 12 | Hỗn Nguyên Càn Khôn | X115 | - | bị động | 1 | 165 |
 | 13 | Hóa Tủy Vô Ý | X116 | - | bị động | 1 | 185 |
 

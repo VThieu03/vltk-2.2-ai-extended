@@ -217,23 +217,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q là quét nón 3 hit, W là đánh 1 mục tiêu 4 hit, Thời Thừa Lục Long là nổ quanh thân 6 hit (KVCT là buff), Triệt Y Thập Bát Điệt cộng vật công cố định.
 
-### Côn Lôn Kiếm (CLK)
+### Côn Lôn Kiếm (CLK) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Cuồng Lôi Chấn Địa | Q | đánh mục tiêu | OVR Đặc thù | choáng 30% | Đạt chuẩn |
-| Côn Lôn Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thanh Phong Phù | F | buff phe ta | OVR Đặc thù | làm chậm 35% | Đạt chuẩn |
-| Thiên Tế Tấn Lôi | W | đánh mục tiêu | OVR Đặc thù | choáng 35%, 8 đòn | Đạt chuẩn |
-| Đạo Cốt Tiên Phong | T | buff phe ta | OVR Đặc thù | - | Đạt chuẩn |
-| Ngũ Lôi Chánh Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Lôi Động Cửu Thiên | E | đánh mục tiêu | OVR Đặc thù | choáng 80%, 9 đòn | Đạt chuẩn |
-| Lôi Đình Quyết | - | nổ quanh thân | Khuôn chuẩn | - | Đạt chuẩn |
-| Huyền Thiên Vô Cực | - | bị động (cộng chỉ số) | Khuôn chuẩn | phản đòn, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Ngự Phong Thuật | D | đánh mục tiêu | OVR Đặc thù | choáng 90%, giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Thiên Lôi Chấn Nhạc | R | đánh mục tiêu | OVR Đặc thù | choáng 40%, 9 đòn | Đạt chuẩn |
-| Hỗn Nguyên Càn Khôn | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hóa Tủy Vô Ý | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="CLK"`; Q: `e_E`/`eli`; chiêu bấm: `JKJ`/`JK9`, `etR`/`etW`, `JEU`/`JEl`, `eBe`/`eBK`, `ebR`/`ebW`, `J0n`/`J0u`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Lưu ý: trong KVCT chỉ Q của Côn Lôn Kiếm là đánh kèm đòn đánh; **W (Thiên Tế Tấn Lôi, hồi 2,5 giây) và E (Lôi Động Cửu Thiên, hồi 9 giây) là chiêu bấm**. Map giữ Q/W/E đều tự động (theo yêu cầu), dùng đúng thời gian hồi chiêu của KVCT. Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Cuồng Lôi Chấn Địa | Q (autocast) | Sét đánh tại mục tiêu, bán kính 120, tối đa 3; 30% choáng 1 giây | Đánh lan 120 tại mục tiêu, tối đa 3; choáng 30% 1 giây | Giống |
+| Côn Lôn Kiếm Pháp | - | Bị động: lôi công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Thanh Phong Phù | F | Tướng phe ta trong 1000 (đồng đội 60%) 300 giây: tốc chạy +(5 + bậc), kháng thời gian chậm +(18 + 2 × bậc)% | Buff phe ta 300 giây: tốc chạy +(5 + bậc), kháng thời gian trạng thái +(18 + 2 × bậc)% | Giống |
+| Thiên Tế Tấn Lôi | W (autocast) | Chiêu bấm (hồi 2,5 giây): trận sét tại điểm, 8 tia, bán kính 420, tối đa 7; 35% choáng 1 giây | Tự động khi đánh (hồi 2,5 giây): 8 tia cách 0,2 giây tại mục tiêu, 420, tối đa 7; choáng 35% 1 giây | Gần giống (tự động thay vì bấm) |
+| Đạo Cốt Tiên Phong | T | Phe ta trong 1000 (đồng đội 60%) 300 giây: kháng vật / băng / hỏa / lôi +(45 + 15 × bậc), sát thương ngũ hành nhận −(10 + 2 × bậc)% | Buff phe ta 300 giây: giảm (10 + 2 × bậc)% sát thương nhận | Giống (map không có kháng từng hệ cho chiêu) |
+| Ngũ Lôi Chánh Pháp | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương % | Gần giống |
+| Lôi Động Cửu Thiên | E (autocast) | Chiêu bấm (hồi 9 giây): 9 tia sét lớn cách 0,3 giây vào kẻ địch ngẫu nhiên trong 1000; 80% choáng 1 giây | Tự động khi đánh (hồi 9 giây): 9 nhịp cách 0,3 giây, mỗi nhịp đánh 1 kẻ địch ngẫu nhiên trong 1000; choáng 80% 1 giây | Gần giống (tự động thay vì bấm) |
+| Lôi Đình Quyết | - | Vòng sáng: kẻ địch xung quanh nhận thêm (14 + 2 × bậc)% sát thương từ chiêu Côn Lôn, tốc chạy −15% | Bị động: sát thương % | Gần giống (không làm chậm) |
+| Huyền Thiên Vô Cực | - | Hóa giải % sát thương nhận, kháng phản đòn; bị đánh +1 tầng chí mạng (tối đa 5) | Bị động: giảm sát thương nhận + chí mạng | Gần giống (không cộng tầng) |
+| Ngự Phong Thuật | D | Lốc xoáy bay thẳng 960 (rộng 220), không sát thương: 90% choáng 3 giây, giảm kháng lôi / kháng chí mạng 8 giây; hồi 20 giây | Đạn bay 960 không sát thương: choáng 90% 3 giây + nhận thêm 15% sát thương 8 giây | Gần giống |
+| Thiên Lôi Chấn Nhạc | R | Bão sét tại điểm, 9 nhịp cách 0,12 giây, bán kính 400, tối đa 10; 40% choáng 1 giây; Hỗn Nguyên Càn Khôn: 20% Bạo Lôi tăng sát thương | Trận tại điểm 9 nhịp cách 0,12 giây, 400, tối đa 10; choáng 40% 1 giây; 30% thêm 25% sát thương | Giống |
+| Hỗn Nguyên Càn Khôn | - | Bị động: lôi công, chí mạng, sát thương chí mạng; Bạo Lôi cho R | Bị động: chí mạng (Bạo Lôi gắn sẵn vào R) | Gần giống |
+| Hóa Tủy Vô Ý | - | Sát thương lên hệ Thủy; giảm hồi chiêu E và R; tăng tấn công khi chí mạng | Bị động: chí mạng | Khác một phần (chưa giảm hồi chiêu) |
+
+Trước khi sửa: Q là đánh mục tiêu 2 hit, W / E / R đều là nổ quanh thân (KVCT: sét tại điểm / vào địch ngẫu nhiên / bão tại điểm); Ngự Phong Thuật là đạn bay 3 hit làm chậm; Thanh Phong Phù / Đạo Cốt Tiên Phong kéo dài 25–30 giây (KVCT 300 giây).
 
 ### Thiếu Lâm Đao (TLD)
 

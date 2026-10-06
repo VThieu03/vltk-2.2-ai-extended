@@ -49,7 +49,7 @@ def main():
                 label = "tự phát khi đánh (%s)" % KIND.get(kind, kind)
             else:
                 label = KIND.get(kind, str(kind))
-            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16):
+            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16, 17):
                 label += ", **autocast**"
             out.append("| %d | %s | %s | %s | %s | %s | %s |" % (i + 1, name, sid, key or "-", label,
                                                              ints.get((sid, 241), "1"), ints.get((hero, 230 + i), "?")))

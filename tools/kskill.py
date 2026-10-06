@@ -214,14 +214,32 @@ OVR = {
     "A0JS": {"kind": 12},                                    # Van Kiem Quy Tong
     "A0JA": {"kind": 1, "hits": 3},                          # Thien Dia Vo Cuc (triple strike)
 
-    # Con Lon (CLK, CLD)
-    "A0HV": {"kind": 1, "hits": 2},                          # Cuong Loi Chan Dia
-    "A0I9": {"kind": 4, "hits": 6},                          # Thien Te Tan Loi
-    "A0IA": {"kind": 4, "hits": 8},                          # Loi Dong Cuu Thien
-    "A0IB": {"kind": 4, "hits": 9},                          # Thien Loi Chan Nhac
-    "A0ID": {"kind": 7, "dur": 25, "stats": [(13, 50, 5)]},  # Thanh Phong Phu (party movespeed)
-    "A0IE": {"kind": 7, "dur": 30, "stats": [(6, 20, 2)]},   # Dao Cot Tien Phong (party resist)
-    "A0IC": {"kind": 5, "hits": 3, "status": 4, "sdur": 3},  # Ngu Phong Thuat (cyclone 3 hits slow)
+    # Con Lon Kiem (CLK): read from KVCT's code; A0ID is shared with CLD
+    # Q e_E / eli: lightning on the target, radius 120, at most 3, 30% choang 1 s
+    "A0HV": {"kind": 16, "rad": 120, "max": 3, "st": 3, "ch": 30, "sd": 1},
+    "A0HX": {"kind": 0, "stats": [3, 4]},                    # Con Lon Kiem Phap: loi cong, chi mang, toc danh
+    # F JEU / JEl: heroes of the side within 1000 (allies 60%) 300 s: toc chay +(5 + rank), khang thoi gian cham
+    # +(18 + 2 x rank)%
+    "A0ID": {"kind": 7, "dur": 300, "stats": [(13, 5, 1), (14, 18, 2)]},
+    # W JKJ / JK9: 8 bolts (16 ticks of 0.1 s) at the point, radius 420, at most 7, 35% choang 1 s; KVCT: cast, cd 2.5
+    "A0I9": {"kind": 16, "hits": 8, "gap": .2, "rad": 420, "max": 7, "st": 3, "ch": 35, "sd": 1},
+    # T eBe / eBK: side within 1000 (allies 60%) 300 s: khang +(45 + 15 x rank), sat thuong ngu hanh nhan -(10 + 2 x rank)%
+    "A0IE": {"kind": 7, "dur": 300, "stats": [(6, 10, 2)]},
+    "A0HY": {"kind": 0, "stats": [5]},                       # Ngu Loi Chanh Phap: phat huy luc tan cong
+    # E etR / etW: 9 great bolts 0.3 s apart on random enemies within 1000, 80% choang 1 s; KVCT: cast, cd 9
+    "A0IA": {"kind": 17, "hits": 9, "gap": .3, "rad": 1000, "max": 1, "st": 3, "ch": 80, "sd": 1},
+    # Loi Dinh Quyet (aura): enemies around take (14 + 2 x rank)% more from Con Lon skills, toc chay -15%
+    "A0IG": {"kind": 0, "stats": [5]},
+    "A0IH": {"kind": 0, "stats": [6, 3]},                    # Huyen Thien Vo Cuc: hoa giai sat thuong, chi mang khi bi danh
+    # D ebR / ebW: a cyclone flies 960 (width 220), no damage: 90% choang 3 s, then khang loi / khang chi mang down 8 s
+    "A0IC": {"kind": 5, "nodmg": 1, "rad": 960, "st": 3, "ch": 90, "sd": 3, "fx": 512, "dur": 8},
+    # R J0n / J0u: thunderstorm at the point, 9 strikes 0.12 s apart, radius 400, at most 10, 40% choang 1 s;
+    # Hon Nguyen Can Khon: 20% Bao Loi, more damage
+    "A0IB": {"kind": 13, "hits": 9, "gap": .12, "rad": 400, "max": 10, "st": 3, "ch": 40, "sd": 1, "fx": 65536},
+    "A0IF": {"kind": 0, "stats": [3]},                       # Hon Nguyen Can Khon: loi cong, chi mang, sat thuong chi mang
+    "A0XJ": {"kind": 0, "stats": [3]},                       # Hoa Tuy Vo Y: giam gian cach E / R (not done), chi mang
+
+    # Con Lon Dao (CLD)
     "A0IK": {"kind": 2, "hits": 2},                          # Cuong Phong Sau Dien
     "A0IL": {"kind": 2, "hits": 2},                          # Ngao Tuyet Tieu Phong
     "A0IM": {"kind": 4, "hits": 3},                          # Cuu Thien Canh Phong
@@ -598,7 +616,7 @@ def main():
                     os.makedirs(os.path.dirname(dis), exist_ok=True)
                     open(dis, "wb").write(blp1_palette(g, 64))
             first = s["tip"].split("\n")[0].strip()
-            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16) and not passive_of(kind, proc) else None
+            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16, 17) and not passive_of(kind, proc) else None
             mods = [m(b"anam", 3, s["name"]), m(b"aart", 3, icon), m(b"alev", 0, 10), m(b"aher", 0, 0)]
             mods.append(m(b"aani", 3, s["anim"]))
             mods += [m(b"auar", 3, icon), m(b"arar", 3, icon)]       # turn-off / research art: the same icon
