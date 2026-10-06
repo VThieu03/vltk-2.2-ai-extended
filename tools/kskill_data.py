@@ -100,6 +100,9 @@ def numbers(tip):
             "dur": int(dur.group(1)) if dur else 0, "status": st, "chance": chance, "sdur": sdur}
 
 
+# Q W E keys of a class that are skills to press (not autocast): Con Lon Kiem Q autocasts on attacks, W E are cast by hand;
+# Thien Nhan Dao / Kich W is cast by hand (user's request, 06/10/2026)
+MANUAL_QWE = {"CLK": ("W", "E"), "TND": ("W",), "TNK": ("W",)}
 KV_SCRIPT = r"D:\kvct-dev\work\readable.j"
 # classes checked against KVCT's code (kskill.py OVR is complete for them): their skill list is KVCT's own class
 # table (slots 1..14, shared skills included), not the skills named after the class

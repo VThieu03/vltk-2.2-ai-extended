@@ -60,6 +60,9 @@
 - [ ] **Yêu cầu User (06/10/2026, giữa đợt 2):** *"dùng skill được rồi nhưng ra skill nhìn hoạt ảnh không giống, đôi lúc bị lỗi, không mượt, và game trở nên giật lag hơn, tìm cách để game bớt lag hơn"* (dùng Opus cho phần phức tạp).
   - Việc: phân tích nguyên nhân lag của engine KVCT (`tools/kskill.j`: timer 1/32 s của đạn, quét nhóm mỗi tick, hiệu ứng mỗi lần trúng, số đợt/hit), đề xuất + áp dụng giảm tải (giữ hành vi), ghi kết quả vào mục này. Làm xen kẽ với đối chiếu phái (đợt 2).
 
+- [x] **Yêu cầu User (06/10/2026):** *"riêng phái côn lôn kiếm skill q auto cast tay với đánh thường, w e phải cast tay; phái thiên nhẫn w cast tay"* (ghi đè quy tắc "Q/W/E autocast" cho các phái này).
+  - Làm: `MANUAL_QWE` trong `tools/kskill_data.py` (CLK: W, E; TND và TNK: W), `kskill.py` không gán autocast cho các phím đó (thành chiêu bấm), `kskill_list.py` và `docs/kvct_audit.md` cập nhật. Hiểu "thiên nhẫn" = cả Thiên Nhẫn Đao (TND) lẫn Thiên Nhẫn Kích (TNK). pjass ok 32872 dòng.
+
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
 
 - [x] **Yêu cầu User:** *"chỉnh sửa lại hệ thống skill KVCT qua map của tôi, bóc tách rõ ràng từng kỹ năng của từng phái, chuyển qua rồi làm skill Q W E là skill autocast mỗi khi nhấp chuột phải vào"*

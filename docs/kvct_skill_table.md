@@ -1,6 +1,6 @@
 # Kỹ năng KVCT theo từng phái (tự sinh bởi `tools/kskill_list.py`)
 
-Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tượng để bật / tắt, bật thì đòn đánh thường tự tung chiêu. Phím khác (R D F T) bấm để tung; bị động tự có hiệu lực.
+Q W E của các phái là **autocast**: nhấp chuột phải vào biểu tượng để bật / tắt, bật thì đòn đánh thường tự tung chiêu. Ngoại lệ (cast tay): Côn Lôn Kiếm W E; Thiên Nhẫn Đao và Thiên Nhẫn Kích W. Phím khác (R D F T) bấm để tung; bị động tự có hiệu lực.
 
 ## Ngũ Độc Đao (NDD, E000)
 
@@ -120,7 +120,7 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 4 | Thôi Sơn Điền Hải | X081 | R | trận tại điểm (nhiều nhịp) | 18 | 25 |
 | 5 | Nhiếp Hồn Loạn Tâm | X082 | F | bùa chú tại điểm | 1 | 38 |
 | 6 | Xí Không Ma Diệm | X083 | - | bị động | 1 | 52 |
-| 7 | Thiên Ngoại Lưu Tinh | X084 | W | trận tại điểm (nhiều nhịp), **autocast** | 3 | 68 |
+| 7 | Thiên Ngoại Lưu Tinh | X084 | W | trận tại điểm (nhiều nhịp) | 3 | 68 |
 | 8 | Thúc Phọc Chú | X085 | - | bị động | 1 | 85 |
 | 9 | Nghịch Chuyển Tâm Kinh | X086 | - | bị động | 1 | 105 |
 | 10 | Ma Đao Thôn Thần | X087 | T | bật / tắt tự phóng | 1 | 125 |
@@ -153,10 +153,10 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 1 | Cuồng Lôi Chấn Địa | X104 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Côn Lôn Kiếm Pháp | X105 | - | bị động | 1 | 6 |
 | 3 | Thanh Phong Phù | X106 | F | buff phe ta | 1 | 15 |
-| 4 | Thiên Tế Tấn Lôi | X107 | W | đánh lan tại mục tiêu, **autocast** | 8 | 25 |
+| 4 | Thiên Tế Tấn Lôi | X107 | W | đánh lan tại mục tiêu | 8 | 25 |
 | 5 | Đạo Cốt Tiên Phong | X108 | T | buff phe ta | 1 | 38 |
 | 6 | Ngũ Lôi Chánh Pháp | X109 | - | bị động | 1 | 52 |
-| 7 | Lôi Động Cửu Thiên | X110 | E | kiếm khí vào địch ngẫu nhiên, **autocast** | 9 | 68 |
+| 7 | Lôi Động Cửu Thiên | X110 | E | kiếm khí vào địch ngẫu nhiên | 9 | 68 |
 | 8 | Lôi Đình Quyết | X111 | - | bị động | 1 | 85 |
 | 9 | Huyền Thiên Vô Cực | X112 | - | bị động | 1 | 105 |
 | 10 | Ngự Phong Thuật | X113 | D | phóng / đạn bay | 1 | 125 |
@@ -264,7 +264,7 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 4 | Ma Âm Phệ Phách | X185 | D | nổ quanh thân | 1 | 25 |
 | 5 | Bi Tô Thanh Phong | X186 | - | bị động | 1 | 38 |
 | 6 | Thiên Ma Giải Thể | X187 | - | bị động | 1 | 52 |
-| 7 | Vân Long Kích | X188 | W | phóng / đạn bay, **autocast** | 1 | 68 |
+| 7 | Vân Long Kích | X188 | W | phóng / đạn bay | 1 | 68 |
 | 8 | Phi Hồng Vô Tích | X189 | F | lướt | 1 | 85 |
 | 9 | Cửu Khúc Hợp Thương | X190 | - | bị động | 1 | 105 |
 | 10 | Vân Long Tam Hiện | X191 | - | bị động | 1 | 125 |

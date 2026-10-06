@@ -4,7 +4,7 @@
 import os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
-from kskill_data import CLASS, HERO
+from kskill_data import CLASS, HERO, MANUAL_QWE
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 TABLE = os.path.join(ROOT, "build", "kskill_table.j")
@@ -33,8 +33,9 @@ def main():
         key = f.get(b"ahky", b"").rstrip(b"\0").decode("utf-8", "replace")
         ab[sid] = (name, key)
     out = ["# Kỹ năng KVCT theo từng phái (tự sinh bởi `tools/kskill_list.py`)", "",
-           "Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tượng để bật / tắt, "
-           "bật thì đòn đánh thường tự tung chiêu. Phím khác (R D F T) bấm để tung; bị động tự có hiệu lực.", ""]
+           "Q W E của các phái là **autocast**: nhấp chuột phải vào biểu tượng để bật / tắt, "
+           "bật thì đòn đánh thường tự tung chiêu. Ngoại lệ (cast tay): Côn Lôn Kiếm W E; Thiên Nhẫn Đao và Thiên Nhẫn Kích W. "
+           "Phím khác (R D F T) bấm để tung; bị động tự có hiệu lực.", ""]
     total = 0
     for hero, cl in CLASS.items():
         out += ["## %s (%s, %s)" % (HERO[hero][1], cl, hero), "",
@@ -49,7 +50,7 @@ def main():
                 label = "tự phát khi đánh (%s)" % KIND.get(kind, kind)
             else:
                 label = KIND.get(kind, str(kind))
-            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16, 17):
+            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16, 17) and key not in MANUAL_QWE.get(cl, ()):
                 label += ", **autocast**"
             out.append("| %d | %s | %s | %s | %s | %s | %s |" % (i + 1, name, sid, key or "-", label,
                                                              ints.get((sid, 241), "1"), ints.get((hero, 230 + i), "?")))

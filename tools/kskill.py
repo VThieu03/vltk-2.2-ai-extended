@@ -5,7 +5,7 @@
 import os, re, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata, vfx
-from kskill_data import CLASS, HERO, KV_STRINGS, KV_ORDER, load
+from kskill_data import CLASS, HERO, KV_STRINGS, KV_ORDER, MANUAL_QWE, load
 KV_STRINGS_DIR = KV_STRINGS
 from icons import blp1_palette
 from gameplay_items import plain
@@ -970,7 +970,7 @@ def main():
                     os.makedirs(os.path.dirname(dis), exist_ok=True)
                     open(dis, "wb").write(blp1_palette(g, 64))
             first = s["tip"].split("\n")[0].strip()
-            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16, 17) and not passive_of(kind, proc) else None
+            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16, 17) and not passive_of(kind, proc) and key not in MANUAL_QWE.get(cl, ()) else None
             mods = [m(b"anam", 3, s["name"]), m(b"aart", 3, icon), m(b"alev", 0, 10), m(b"aher", 0, 0)]
             mods.append(m(b"aani", 3, s["anim"]))
             mods += [m(b"auar", 3, icon), m(b"arar", 3, icon)]       # turn-off / research art: the same icon
