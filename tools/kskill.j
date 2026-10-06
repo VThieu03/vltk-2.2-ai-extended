@@ -11,7 +11,8 @@
 // waves on the Q W E and their chance. Kinds 13 ground field, 14 toggle, 15 curse, 16 splash at the target point,
 // 17 random enemies around, 18 field around the hero, 19 stealth (199 its buff tenths), 20 charging toggle
 // (198 / 197 % per charge). 207 / 206 / 205 fan of missiles, 204 low life freeze, 203 / 202 proc immunity and
-// chance per rank, 201 no 2 s stun cap, 200 status tenths per rank.
+// chance per rank, 201 no 2 s stun cap, 200 status tenths per rank, 196 dash range per rank, 195 self buff
+// after the cast, 194 farthest point of a field; fx 65536: 30% +25% damage.
 // Kinds: 1 strike, 2 cone, 3 dash, 4 nova, 5 lance, 6 self buff, 7 party buff, 8 cleanse, 0 passive.
 // Skills open by hero level only (no skill points) and level up with it, rank 10 at level 200.
 function zzKS_Atk takes unit vl_h returns real
@@ -157,6 +158,10 @@ endif
 endif
 if vl_f==0 or GetWidgetLife(vl_u)<.405 then
 return
+endif
+if BlzBitAnd(vl_f,65536)>0 and vl_d>0. and GetRandomInt(1,100)<=30 then
+call zzVL_TpHit(vl_h,vl_u,vl_d*.25)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\Spells\Other\Stampede\StampedeMissileDeath.mdl",vl_u,"chest"))
 endif
 // 3 hits on the same enemy burst it (KVCT Thien Thu Van Doc: 3 tang That Tam Co)
 if BlzBitAnd(vl_f,16384)>0 then
@@ -516,7 +521,10 @@ local integer vl_id=GetHandleId(vl_t)
 local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
 local real vl_r=SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h)))
 call SaveBoolean(zzVL_ht,vl_id,11,LoadInteger(zzVL_ht,vl_ab,240)==18)
-if vl_r>640. then
+if LoadInteger(zzVL_ht,vl_ab,194)>0 and vl_r>LoadInteger(zzVL_ht,vl_ab,194) then
+set vl_x=GetUnitX(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Cos(vl_a)
+set vl_y=GetUnitY(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Sin(vl_a)
+elseif LoadInteger(zzVL_ht,vl_ab,194)==0 and vl_r>640. then
 set vl_x=GetUnitX(vl_h)+640.*Cos(vl_a)
 set vl_y=GetUnitY(vl_h)+640.*Sin(vl_a)
 endif
@@ -891,6 +899,9 @@ endif
 if LoadInteger(zzVL_ht,vl_ab,223)>0 then
 set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,223))
 endif
+if LoadInteger(zzVL_ht,vl_ab,195)>0 then
+call zzKS_Buff(vl_p,vl_ab,1.)
+endif
 if vl_t!=null then
 set vl_x=GetUnitX(vl_t)
 set vl_y=GetUnitY(vl_t)
@@ -900,7 +911,7 @@ set vl_y=GetUnitY(vl_h)+100.*Sin(GetUnitFacing(vl_h)*bj_DEGTORAD)
 endif
 if vl_k==3 then
 set vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
-set vl_r=RMinBJ(zzKS_Rad(vl_ab,700.),SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h))))
+set vl_r=RMinBJ(zzKS_Rad(vl_ab,700.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h))))
 call zzKS_Dash(vl_h,vl_ab,GetUnitX(vl_h)+vl_r*Cos(vl_a),GetUnitY(vl_h)+vl_r*Sin(vl_a),200.,0,false)
 elseif vl_k==11 then
 call zzKS_Chain(vl_h,vl_ab)

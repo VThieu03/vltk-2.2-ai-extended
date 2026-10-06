@@ -119,17 +119,30 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q/W/E là 1 đạn bay xuyên; Ngự Tuyết Ẩn chỉ là buff (không ẩn thân, trạng thái 5 không có tác dụng); Tương Tư là buff sát thương 10 giây; Dạ Lai Tây Phong là nổ 4 lần làm chậm; thiếu Tuyết Ảnh và Hộ Thể Hàn Băng.
 
-### Đường Môn Phi Tiêu (DMPT)
+### Đường Môn Phi Tiêu (DMPT) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Tán Hoa Tiêu | Q | đạn bay xuyên | OVR Đặc thù | định thân 30%, độc / bỏng mỗi giây, 5 đòn | Đạt chuẩn |
-| Đường Môn Ám Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Cửu Cung Phi Tinh | W | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 5 đòn | Đạt chuẩn |
-| Mê Hồn Trận | - | bị động (cộng chỉ số) | OVR Đặc thù | - | Đạt chuẩn |
-| Càn Khôn Nhất Trịch | E | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 5 đòn | Đạt chuẩn |
-| Truy Hồn Đoạt Mệnh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiết Tỏa Hoành Giang | T | đánh mục tiêu | OVR Đặc thù | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="DMPT"`; Q/W/E: `JCf`/`JC3`, `JDP`/`JD7`, `Jai`/`JaQ`; chiêu bấm: `e1U`/`e1O`, `e1T`/`e1z`, `eLG`, `JKg`/`JKA`), `AbilityData.slk`.
+Bảng kỹ năng theo KVCT: 13 chiêu (trước 6; thêm 6 chiêu dùng chung với Đường Môn Tụ Tiễn / Phi Đao: **Mê Ảnh Tung (F), Tôi Độc Thuật, Mãn Thiên Hoa Vũ (R), Tâm Nhãn, Hàm Sa Xạ Ảnh, Ảnh Tung Trận (D)**).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map; phi tiêu KVCT bay đi rồi quay về (mỗi địch trúng 1 lần), ở map chỉ bay đi.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Tán Hoa Tiêu | Q (autocast) | 5 phi tiêu xòe 12°, bay 500 rồi quay về (rộng 110), mỗi tiêu tối đa 4; 30% định thân 1 giây; độc 1 lần | 5 đạn xòe 12°, 500, tối đa 4; định thân 30% 1 giây; độc | Gần giống (không quay về) |
+| Đường Môn Ám Khí | - | Bị động: chính xác, độc công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Mê Ảnh Tung | F | Lướt 300 + 40 × bậc, không sát thương; sau đó Xuất Kỳ Bất Ý 5 giây: phát huy lực tấn công +(12 + 3 × bậc)%; hồi 10 giây | Lướt 300 + 40 × bậc không sát thương; buff 5 giây sát thương +(12 + 3 × bậc)% | Giống |
+| Tôi Độc Thuật | - | Vòng sáng: vật công, độc công %, sát thương chí mạng | Bị động: sát thương % + chí mạng | Gần giống |
+| Mãn Thiên Hoa Vũ | R | Tại điểm chọn (≤ 740) 3 nhịp mỗi 1 giây, bán kính 300, tối đa 7: 50% định thân 1 giây, độc 2 lần; hồi 6 giây | Trận tại điểm (≤ 740) 3 nhịp mỗi 1 giây, 300, tối đa 7; định thân 50% 1 giây; độc | Giống |
+| Tâm Nhãn | - | Bị động: phát huy lực tấn công, tỉ lệ định thân, kháng choáng | Bị động: sát thương % | Gần giống |
+| Cửu Cung Phi Tinh | W (autocast) | 5 kim tiền tiêu (1 thẳng, rồi 2 + 2 lượn cong cách 0,16 giây), bay 800 rồi quay về (rộng 80), tối đa 3; 35% định thân 1 giây; độc | 5 đạn xòe 10° cùng lúc, 800, tối đa 3; định thân 35% 1 giây; độc | Gần giống (không lượn cong / quay về) |
+| Hàm Sa Xạ Ảnh | - | Bị động: tốc đánh, chí mạng, độc sát | Bị động: tốc đánh + chí mạng | Gần giống |
+| Mê Hồn Trận | - | Khi bị đánh: kẻ địch xung quanh −20% tốc đánh, −20% sát thương, giảm kháng chí mạng 6 giây, giãn cách 20 giây | Bị động: giảm sát thương nhận | Khác (chưa làm phần phát động khi bị đánh) |
+| Ảnh Tung Trận | D | Trận 16 giây (bán kính 500): đứng trong trận mỗi 2 giây được (27 + 3 × bậc)% bỏ qua sát thương + miễn khống chế; Mê Ảnh Tung hồi còn 0,2 giây; hồi 60 giây | 16 giây miễn khống chế + giảm (27 + 3 × bậc)% sát thương nhận | Gần giống (không cần đứng trong trận; không giảm hồi Mê Ảnh Tung) |
+| Càn Khôn Nhất Trịch | E (autocast) | 5 phi tiêu (±8°, ±16°), bay 800 (rộng 100), mỗi tiêu tối đa 3; 40% định thân 1 giây; độc | 5 đạn xòe 8°, 800, tối đa 3; định thân 40% 1 giây; độc | Giống |
+| Truy Hồn Đoạt Mệnh | - | Bị động: chí mạng, sát thương chí mạng, né tránh; mỗi phi tiêu của E 30%: sát thương ×(1,18 + 0,03 × bậc) | Bị động: chí mạng; mỗi đạn của E 30%: thêm 25% sát thương | Gần giống (tỉ lệ cố định 25%) |
+| Thiết Tỏa Hoành Giang | T | Kẻ địch trong 650 (tối đa 10): kháng vật công −(20 + bậc)%, tốc chạy / tốc đánh −99% trong 9 giây; không sát thương; hồi 30 giây | Nổ quanh thân 650 không sát thương, tối đa 10: định thân 9 giây + nhận thêm 15% sát thương 9 giây | Gần giống (không giảm tốc đánh) |
+
+Trước khi sửa: thiếu 6 chiêu dùng chung; Q/E là 1 đạn bay, W là nổ quanh thân 9 lần; Mê Hồn Trận (bị động) bị làm thành nổ 3 lần; Thiết Tỏa Hoành Giang là đánh 1 mục tiêu 3 lần.
 
 ### Thiếu Lâm Quyền (TLQ)
 

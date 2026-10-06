@@ -228,23 +228,39 @@ OVR = {
     "A06U": {"kind": 4, "hits": 5},                          # Huyet Co Doc Sat
     "A06L": {"kind": 1, "hits": 4, "status": 1, "sdur": 4},  # Thien Canh Dia Sat (bleed 4 hits)
 
-    # Duong Mon (DMPT, DMTT, DMPD)
-    "A0XZ": {"kind": 5, "hits": 3},                          # Tan Hoa Tieu
-    "A0Y1": {"kind": 4, "hits": 9},                          # Cuu Cung Phi Tinh
-    "A0Y2": {"kind": 4, "hits": 3},                          # Me Hon Tran
-    "A0Y9": {"kind": 5, "hits": 6},                          # Can Khon Nhat Trich
-    "A0YB": {"kind": 1, "hits": 3, "status": 2, "sdur": 3},  # Thiet Toa Hoanh Giang (trap root 3 hits)
+    # Duong Mon Phi Tieu (DMPT): read from KVCT's code; A07T A07W A08J A081 A08L A08P shared with DMTT / DMPD
+    # Q JCf / JC3: 5 darts fanned 12 degrees, 500 out and back (width 110), at most 4 each, 30% dinh than 1 s, doc sat
+    "A0XZ": {"kind": 5, "fan": 5, "spread": 12, "rad": 500, "max": 4, "st": 2, "ch": 30, "sd": 1, "fx": 8},
+    "A0XY": {"kind": 0, "stats": [3, 4]},                    # Duong Mon Am Khi: chinh xac, doc cong, chi mang, toc danh
+    # F e1U / e1O: dash 300 + 40 x rank, no damage; then Xuat Ky Bat Y 5 s: phat huy luc tan cong +(12 + 3 x rank)%
+    "A07T": {"kind": 3, "rad": 300, "radr": 40, "nodmg": 1, "selfbuf": 1, "dur": 5, "stats": [(5, 12, 3)]},
+    "A07W": {"kind": 0, "stats": [5, 3]},                    # Toi Doc Thuat: vat cong, doc cong %, sat thuong chi mang
+    # R e1T / e1z: at the point (<= 740) 3 pulses every 1 s, radius 300, at most 7: 50% dinh than 1 s, doc sat 2 s
+    "A08J": {"kind": 13, "hits": 3, "gap": 1, "rad": 300, "far": 740, "max": 7, "st": 2, "ch": 50, "sd": 1, "fx": 8},
+    "A081": {"kind": 0, "stats": [5]},                       # Tam Nhan: phat huy luc tan cong
+    # W JDP / JD7: 5 darts (1, then 2 + 2 curving), 800 out and back (width 80), at most 3, 35% dinh than 1 s, doc sat
+    "A0Y1": {"kind": 5, "fan": 5, "spread": 10, "rad": 800, "max": 3, "st": 2, "ch": 35, "sd": 1, "fx": 8},
+    "A08L": {"kind": 0, "stats": [4, 3]},                    # Ham Sa Xa Anh: toc danh, chi mang, doc sat
+    # Me Hon Tran: when hit, enemies around -20% toc danh / sat thuong 6 s every 20 s (not done: giam sat thuong nhan)
+    "A0Y2": {"kind": 0, "stats": [6]},
+    # D eLG: 16 s formation (radius 500): every 2 s (27 + 3 x rank)% to ignore damage and immune to control
+    "A08P": {"kind": 8, "dur": 16, "stats": [(6, 27, 3)]},
+    # E Jai / JaQ: 5 darts (+-8, +-16 degrees), 800 (width 100), at most 3 each, 40% dinh than 1 s, doc sat
+    "A0Y9": {"kind": 5, "fan": 5, "spread": 8, "rad": 800, "max": 3, "st": 2, "ch": 40, "sd": 1, "fx": 8},
+    # Truy Hon Doat Menh: chi mang; every dart of E 30%: more damage
+    "A0YA": {"kind": 0, "stats": [3], "link": 2, "lfx": 65536},
+    # T JKg / JKA: enemies within 650 (at most 10): khang vat cong -(20 + rank)%, toc chay / toc danh -99% 9 s
+    "A0YB": {"kind": 4, "nodmg": 1, "rad": 650, "max": 10, "st": 2, "ch": 100, "sd": 9, "fx": 512, "dur": 9},
+
+    # Duong Mon (DMTT, DMPD)
     "A07R": {"kind": 4, "hits": 4},                          # Thien La Dia Vong
-    "A07T": {"kind": 3},                                     # Me Anh Tung
     "A082": {"kind": 4, "hits": 8},                          # Bao Vu Le Hoa
     "A083": {"kind": 5, "hits": 4},                          # Xuyen Van Tien
     "A07X": {"kind": 2, "hits": 3, "status": 2, "sdur": 3},  # Doan Can Nhan (fan cone root 3s)
     "A08B": {"kind": 4, "hits": 6},                          # Khong Tuoc Vu
     "A08H": {"kind": 5, "hits": 2},                          # Tieu Ly Phi Dao
-    "A08J": {"kind": 4, "hits": 3},                          # Man Thien Hoa Vu
     "A08K": {"kind": 5, "hits": 3},                          # Nhiep Hon Nguyet Anh
     "A08S": {"kind": 3},                                     # Vo Anh Xuyen
-    "A08P": {"kind": 8, "dur": 15, "stats": [(13, 60, 5)]},  # Anh Tung Tran (immune + speed)
 
     # Thien Nhan (TND, TNK)
     "A0F4": {"kind": 2, "hits": 2},                          # Dan Chi Liet Diem
@@ -593,7 +609,8 @@ def main():
                       209: o_.get("xw", 0), 208: o_.get("xc", 0), 207: o_.get("fan", 0), 206: o_.get("spread", 0),
                       205: o_.get("fangrow", 0), 204: round(o_.get("freeze", 0) * 10), 203: round(o_.get("pimm", 0) * 10),
                       202: o_.get("pchr", 0), 201: 1, 200: round(o_.get("sdr", 0) * 10), 199: round(o_.get("hidebuf", 0) * 10),
-                      198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1]}
+                      198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1], 196: o_.get("radr", 0),
+                      195: o_.get("selfbuf", 0), 194: o_.get("far", 0)}
                 if "pcd" in o_:
                     ex[220] = o_["pcd"]
                 keep = {239: o_["link"]} if "link" in o_ else {}   # written even when 0 (Q slot / no heal)
