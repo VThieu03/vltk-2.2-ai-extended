@@ -12,7 +12,9 @@
 // 17 random enemies around, 18 field around the hero, 19 stealth (199 its buff tenths), 20 charging toggle
 // (198 / 197 % per charge). 207 / 206 / 205 fan of missiles, 204 low life freeze, 203 / 202 proc immunity and
 // chance per rank, 201 no 2 s stun cap, 200 status tenths per rank, 196 dash range per rank, 195 self buff
-// after the cast, 194 farthest point of a field; fx 65536: 30% +25% damage.
+// after the cast, 194 farthest point of a field; fx 65536: 30% +25% damage; fx 131072: 21% -15% life (not heroes);
+// status 5 bong (x1.5 damage taken, key 81 of the unit); 189 low life threshold %, 218 its seconds free of
+// control; kind 21 toggle firing the fan every key 258 / 100 s.
 // Kinds: 1 strike, 2 cone, 3 dash, 4 nova, 5 lance, 6 self buff, 7 party buff, 8 cleanse, 0 passive.
 // Skills open by hero level only (no skill points) and level up with it, rank 10 at level 200.
 function zzKS_Atk takes unit vl_h returns real
@@ -98,6 +100,10 @@ endif
 if vl_st==1 then
 call zzKS_Silence(vl_u,vl_d)
 return
+elseif vl_st==5 then
+call SaveReal(zzVL_ht,GetHandleId(vl_u),81,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),81),TimerGetElapsed(zzVL_clock)+vl_d))
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl",vl_u,"chest"))
+return
 endif
 set vl_tm=CreateTimer()
 call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_u)
@@ -167,6 +173,9 @@ if BlzBitAnd(vl_f,65536)>0 and vl_d>0. and GetRandomInt(1,100)<=30 then
 call zzVL_TpHit(vl_h,vl_u,vl_d*.25)
 call DestroyEffect(AddSpecialEffectTarget("Abilities\Spells\Other\Stampede\StampedeMissileDeath.mdl",vl_u,"chest"))
 endif
+if BlzBitAnd(vl_f,131072)>0 and not IsUnitType(vl_u,UNIT_TYPE_HERO) and GetRandomInt(1,100)<=21 then
+call zzVL_TpHit(vl_h,vl_u,GetWidgetLife(vl_u)*.15)
+endif
 // 3 hits on the same enemy burst it (KVCT Thien Thu Van Doc: 3 tang That Tam Co)
 if BlzBitAnd(vl_f,16384)>0 then
 call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,LoadInteger(zzVL_ht,GetHandleId(vl_u),76)+1)
@@ -181,7 +190,9 @@ call SetUnitPosition(vl_u,GetUnitX(vl_u)+140.*Cos(vl_a),GetUnitY(vl_u)+140.*Sin(
 elseif BlzBitAnd(vl_f,2)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) and IsUnitInRange(vl_u,vl_h,160.)==false then
 call SetUnitPosition(vl_u,GetUnitX(vl_h)+110.*Cos(vl_a),GetUnitY(vl_h)+110.*Sin(vl_a))
 endif
-if BlzBitAnd(vl_f,4)>0 then
+if BlzBitAnd(vl_f,4)>0 and HaveSavedInteger(zzVL_ht,vl_ab,187) then
+call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*LoadInteger(zzVL_ht,vl_ab,187)/100.)
+elseif BlzBitAnd(vl_f,4)>0 then
 call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*.2)
 endif
 if BlzBitAnd(vl_f,8)>0 and TimerGetElapsed(zzVL_clock)>LoadReal(zzVL_ht,GetHandleId(vl_u),75) then
@@ -390,6 +401,12 @@ elseif vl_k==5 then
 call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,GetUnitX(vl_h),GetUnitY(vl_h))
 elseif vl_k==17 then
 call zzKS_Random(vl_h,vl_ab,vl_d)
+elseif vl_k==13 then
+set zzKS_fh=vl_h
+set zzKS_fab=vl_ab
+set zzKS_fx=vl_x
+set zzKS_fy=vl_y
+call ExecuteFunc("zzKS_FieldX")
 elseif vl_k==16 then
 // splash at the target point (KVCT Kinh Loi Tram, Pha Thien Tram: radius 120-130 where the target stood)
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
@@ -446,7 +463,8 @@ call zzKS_Do(vl_h,vl_t,vl_ab,vl_x,vl_y)
 if vl_k>=0 then
 set zzKS_chg[vl_p]=0
 endif
-if vl_n>1 then
+// a field (kind 13) makes its own pulses
+if vl_n>1 and LoadInteger(zzVL_ht,vl_ab,240)!=13 then
 set vl_tm=CreateTimer()
 call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
 call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_t)
@@ -487,7 +505,7 @@ set vl_x=GetUnitX(vl_h)
 set vl_y=GetUnitY(vl_h)
 endif
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
-call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,350.),null)
+call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,350.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),null)
 loop
 set vl_u=FirstOfGroup(vl_g)
 exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
@@ -545,8 +563,32 @@ call TimerStart(vl_t,2.,true,function zzKS_FieldTick)
 endif
 set vl_t=null
 endfunction
+function zzKS_FieldX takes nothing returns nothing
+call zzKS_Field(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
+endfunction
 // KVCT toggle (Vo Hinh Co): on until cast again or out of mana; every second costs key 232 x rank mana and hurts
 // the enemies around (key 257 radius, key 259 at most)
+function zzKS_Auto takes unit vl_h,integer vl_ab returns nothing
+local group vl_g=CreateGroup()
+local unit vl_u
+local unit vl_best=null
+local real vl_r=zzKS_Rad(vl_ab,600.)
+call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) and (vl_best==null or IsUnitInRange(vl_u,vl_h,SquareRoot((GetUnitX(vl_best)-GetUnitX(vl_h))*(GetUnitX(vl_best)-GetUnitX(vl_h))+(GetUnitY(vl_best)-GetUnitY(vl_h))*(GetUnitY(vl_best)-GetUnitY(vl_h))))) then
+set vl_best=vl_u
+endif
+endloop
+call DestroyGroup(vl_g)
+if vl_best!=null then
+call zzKS_Fan(vl_h,vl_ab,Atan2(GetUnitY(vl_best)-GetUnitY(vl_h),GetUnitX(vl_best)-GetUnitX(vl_h))*bj_RADTODEG,zzKS_Hit(vl_h,vl_ab),GetUnitX(vl_best),GetUnitY(vl_best))
+endif
+set vl_g=null
+set vl_best=null
+endfunction
 function zzKS_ToggleTick takes nothing returns nothing
 local timer vl_t=GetExpiredTimer()
 local integer vl_id=GetHandleId(vl_t)
@@ -562,6 +604,16 @@ local real vl_d
 if not vl_end then
 set vl_end=GetWidgetLife(vl_h)<.405 or GetUnitAbilityLevel(vl_h,vl_ab)==0
 set vl_cost=I2R(LoadInteger(zzVL_ht,vl_ab,232)*IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab)))
+endif
+if not vl_end and LoadInteger(zzVL_ht,vl_ab,240)==21 then
+call SaveInteger(zzVL_ht,vl_id,12,LoadInteger(zzVL_ht,vl_id,12)+1)
+if LoadInteger(zzVL_ht,vl_id,12)*100>=LoadInteger(zzVL_ht,vl_ab,258) then
+call SaveInteger(zzVL_ht,vl_id,12,0)
+call zzKS_Auto(vl_h,vl_ab)
+endif
+set vl_t=null
+set vl_h=null
+return
 endif
 if not vl_end and GetUnitState(vl_h,UNIT_STATE_MANA)<vl_cost then
 set vl_end=true
@@ -926,7 +978,7 @@ elseif vl_k==13 then
 call zzKS_Field(vl_h,vl_ab,vl_x,vl_y)
 elseif vl_k==18 then
 call zzKS_Field(vl_h,vl_ab,GetUnitX(vl_h),GetUnitY(vl_h))
-elseif vl_k==14 then
+elseif vl_k==14 or vl_k==21 then
 call zzKS_Toggle(vl_h,vl_ab)
 elseif vl_k==19 then
 // stealth (KVCT Ngu Tuyet An): invisible for key 246 seconds, the next attack ends it with the skill's buff
@@ -1060,6 +1112,12 @@ endloop
 set vl_h=null
 set vl_t=null
 endfunction
+function zzKS_Low takes integer vl_ab returns real
+if LoadInteger(zzVL_ht,vl_ab,189)>0 then
+return LoadInteger(zzVL_ht,vl_ab,189)/100.
+endif
+return .4
+endfunction
 function zzKS_Freeze takes unit vl_h,real vl_r,real vl_d returns nothing
 local group vl_g=CreateGroup()
 local unit vl_u
@@ -1155,12 +1213,12 @@ endif
 if GetUnitAbilityLevel(vl_h,vl_ab)!=vl_w then
 call SetUnitAbilityLevel(vl_h,vl_ab,vl_w)
 endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),1024)>0 and GetWidgetLife(vl_h)>.405 and GetWidgetLife(vl_h)<BlzGetUnitMaxHP(vl_h)*.4 and vl_now>zzKS_lowCd[vl_p] and (not HaveSavedInteger(zzVL_ht,vl_ab,217) or GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,217)) then
+if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),1024)>0 and GetWidgetLife(vl_h)>.405 and GetWidgetLife(vl_h)<BlzGetUnitMaxHP(vl_h)*zzKS_Low(vl_ab) and vl_now>zzKS_lowCd[vl_p] and (not HaveSavedInteger(zzVL_ht,vl_ab,217) or GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,217)) then
 if HaveSavedInteger(zzVL_ht,vl_ab,220) then
 set zzKS_lowCd[vl_p]=vl_now+LoadInteger(zzVL_ht,vl_ab,220)
 set zzKS_dimm[vl_p]=vl_now+LoadInteger(zzVL_ht,vl_ab,221)
 if LoadInteger(zzVL_ht,vl_ab,218)>0 then
-set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+LoadInteger(zzVL_ht,vl_ab,221))
+set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+LoadInteger(zzVL_ht,vl_ab,218))
 endif
 call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*LoadInteger(zzVL_ht,vl_ab,219)/100.)
 else

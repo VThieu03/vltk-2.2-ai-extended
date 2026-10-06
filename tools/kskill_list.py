@@ -14,7 +14,7 @@ KIND = {0: "bị động", 1: "đánh mục tiêu", 2: "quét phía trước", 3
         6: "buff bản thân", 7: "buff phe ta", 8: "miễn khống", 9: "hộ thuẫn", 11: "liên kích", 12: "nổ diện rộng 1000",
         13: "trận tại điểm (nhiều nhịp)", 14: "bật / tắt (tốn nội lực mỗi giây)", 15: "bùa chú tại điểm",
         16: "đánh lan tại mục tiêu", 17: "kiếm khí vào địch ngẫu nhiên", 18: "vùng quanh thân (nhiều nhịp)",
-        19: "ẩn thân", 20: "bật / tắt tích tầng"}
+        19: "ẩn thân", 20: "bật / tắt tích tầng", 21: "bật / tắt tự phóng"}
 
 
 def main():
@@ -49,7 +49,7 @@ def main():
                 label = "tự phát khi đánh (%s)" % KIND.get(kind, kind)
             else:
                 label = KIND.get(kind, str(kind))
-            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 16):
+            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16):
                 label += ", **autocast**"
             out.append("| %d | %s | %s | %s | %s | %s | %s |" % (i + 1, name, sid, key or "-", label,
                                                              ints.get((sid, 241), "1"), ints.get((hero, 230 + i), "?")))

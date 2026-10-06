@@ -122,6 +122,10 @@ real array zzKS_chgNext
 integer array zzKS_hideAb
 real array zzKS_hideEnd
 boolean zzKS_noCap=false
+unit zzKS_fh=null
+integer zzKS_fab=0
+real zzKS_fx=0.
+real zzKS_fy=0.
 framehandle array zzUI_hp
 framehandle array zzUI_mp
 integer zzUI_lastHp=0

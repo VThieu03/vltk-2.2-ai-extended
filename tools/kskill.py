@@ -59,7 +59,7 @@ OVR = {
     "A01M": {"kind": 3, "nodmg": 1, "st": 2, "ch": 30, "chr": 6, "sd": 3, "st2": 1, "ch2": 30, "chr2": 5, "sd2": 2,
              "selfimm": 2},
     # Kinh Loi Pha Thien: sinh luc toi da; at 40% life (45%): immune to damage and control 8 s, every 80 s
-    "A01R": {"kind": 0, "stats": [7], "fx": 1024, "low": (8, 80, 0, 1, 45)},
+    "A01R": {"kind": 0, "stats": [7], "fx": 1024, "low": (8, 80, 0, 8, 45)},
     # D JKl: heroes of the side within 1000 (allies 60%): vat cong +70+30/rank, chi mang, 300 s
     "A01W": {"kind": 7, "dur": 300, "stats": [(12, 70, 30), 3]},
     "A01Z": {"kind": 0, "stats": [5]},                       # Thien Canh Chien Khi: phat huy luc tan cong
@@ -282,14 +282,37 @@ OVR = {
     "A08K": {"kind": 5, "hits": 3},                          # Nhiep Hon Nguyet Anh
     "A08S": {"kind": 3},                                     # Vo Anh Xuyen
 
-    # Thien Nhan (TND, TNK)
-    "A0F4": {"kind": 2, "hits": 2},                          # Dan Chi Liet Diem
-    "A0F5": {"kind": 4, "hits": 4},                          # Thien Ngoai Luu Tinh
-    "A0F6": {"kind": 2, "hits": 2},                          # Tat Hoa Lieu Nguyen
-    "A0FJ": {"kind": 3},                                     # Thoi Son Dien Hai
-    "A0FK": {"kind": 4, "hits": 5},                          # Hoa Lien Phan Hoa
-    "A0FP": {"kind": 5, "hits": 5},                          # Ma Dao Thon Than
-    "A0FL": {"kind": 1, "hits": 2, "status": 4, "sdur": 4},  # Nhiep Hon Loan Tam (curse slow)
+    # Thien Nhan Dao (TND): read from KVCT's code. Status 5 = bong: KVCT's burnt enemy takes x1.5 damage
+    # Q JDX / JD5: a fire spot where the target stood, 3 burns 0.95 s apart, radius 120, at most 7, 30% bong 2 s
+    "A0F4": {"kind": 13, "hits": 3, "gap": .95, "rad": 120, "max": 7, "st": 5, "ch": 30, "sd": 2},
+    "A0F7": {"kind": 0, "stats": [3, 4]},                    # Thien Nhan Dao Phap: hoa cong, chi mang, toc danh
+    # D egJ / eg9: fire ring at the point (<= 740) 8 s, every 2 s radius 270 + 30 x rank (at most 7): pulls the
+    # enemies 100+ away to the middle, 100% bong 3 s, no damage
+    "A0FK": {"kind": 13, "nodmg": 1, "hits": 4, "gap": 2, "rad": 270, "radr": 30, "far": 740, "max": 7,
+             "st": 5, "ch": 100, "sd": 3, "fx": 2},
+    # R Js3 / Js0: fire wall at the point (<= 600), every 0.5 s for 9 s (radius 150 per column), at most 7,
+    # 35% bong 1 s; cooldown 3
+    "A0FJ": {"kind": 13, "hits": 18, "gap": .5, "rad": 250, "far": 600, "max": 7, "st": 5, "ch": 35, "sd": 1},
+    # F eZG / eZm: curse at the point, radius 300 (at most 7): (36 + 4 x rank)% te liet 4 s, toc chay -25% 20 s
+    "A0FL": {"kind": 15, "rad": 300, "max": 7, "st": 3, "ch": 36, "chr": 4, "sd": 4, "st2": 4, "ch2": 100, "sd2": 20},
+    "A0F8": {"kind": 0, "stats": [5]},                       # Xi Khong Ma Diem: phat huy luc tan cong
+    # W J0M / J0X: a fireball falls on the target (radius 220) then the ground burns (240), 3 burns 0.4 s apart,
+    # at most 7, 35% bong 2 s
+    "A0F5": {"kind": 13, "hits": 3, "gap": .4, "rad": 230, "max": 7, "st": 5, "ch": 35, "sd": 2},
+    # Thuc Phoc Chu: khang phan don, hoa cong; hit below 95% life: free of control 10 s, toc chay, every 20 s
+    "A0FM": {"kind": 0, "stats": [5], "fx": 1024, "low": (0, 20, 0, 10, 100), "lowat": 95},
+    # Nghich Chuyen Tam Kinh: W E hits mark the enemy, it takes more damage 10 s
+    "A0FR": {"kind": 0, "stats": [], "link": 3, "lfx": 512},
+    # T e1C / e1o: on / off; every 5 s 5 blades (0, +-22, +-44 degrees) 600 at the enemy in front, 5% life steal
+    "A0FP": {"kind": 21, "gap": 5, "fan": 5, "spread": 22, "rad": 600, "fx": 4, "steal_pct": 5},
+    # E JhU / JhO: flame sword on the target, 2 blows 0.4 s apart radius 250, at most 7, 40% bong 2 s,
+    # then Viem Hoa Phan Thien burns every 1 s for 4 s
+    "A0F6": {"kind": 13, "hits": 2, "gap": .4, "rad": 250, "max": 7, "st": 5, "ch": 40, "sd": 2, "fx": 8 | 2048},
+    "A0FQ": {"kind": 0, "stats": [3], "link": 2, "lfx": 65536},  # Ma Diem That Sat: hoa cong, chi mang; E more damage
+    # Huyen Minh Hap Tinh (slot 14): E 21% takes away a part of a monster's life (not players)
+    "A0X9": {"kind": 0, "stats": [], "link": 2, "lfx": 131072},
+
+    # Thien Nhan Kich (TNK)
     "A0G0": {"kind": 2, "hits": 2},                          # Tan Duong Nhu Huyet
     "A0G1": {"kind": 2, "hits": 3},                          # Van Long Kich
     "A0G2": {"kind": 5, "hits": 3},                          # Giang Hai No Lan
@@ -384,7 +407,7 @@ OVR = {
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
         6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0),
         13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2), 16: (1, 250., 4, 1),
-        17: (0, 0., 30, 0), 18: (0, 0., 60, 0), 19: (0, 0., 32, 0), 20: (0, 0., 5, 4)}
+        17: (0, 0., 30, 0), 18: (0, 0., 60, 0), 19: (0, 0., 32, 0), 20: (0, 0., 5, 4), 21: (0, 0., 5, 4)}
 ATTACK = (1, 2, 3, 4, 5, 13, 16, 17)
 # stat words of a passive / buff -> stat of zzVL_af (kskill.j zzKS_per)
 STAT = [("sinh lực tối đa", 7), ("chí mạng", 3), ("tốc độ tấn công", 4), ("tốc đánh", 4), ("vật công", 5),
@@ -520,7 +543,7 @@ def main():
             if "dur" in o_:
                 s["dur"] = o_["dur"]
             proc = kind in ATTACK and (key not in SLOT or key in used)
-            if kind in (6, 7, 8, 9, 14, 15, 18, 19, 20) and (key not in SLOT or key in used):
+            if kind in (6, 7, 8, 9, 14, 15, 18, 19, 20, 21) and (key not in SLOT or key in used):
                 kind = 0                                        # keyless buff: a passive
             used.add(key)
             st = stats_of(s["tip"])
@@ -558,7 +581,7 @@ def main():
                     os.makedirs(os.path.dirname(dis), exist_ok=True)
                     open(dis, "wb").write(blp1_palette(g, 64))
             first = s["tip"].split("\n")[0].strip()
-            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 16) and not passive_of(kind, proc) else None
+            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16) and not passive_of(kind, proc) else None
             mods = [m(b"anam", 3, s["name"]), m(b"aart", 3, icon), m(b"alev", 0, 10), m(b"aher", 0, 0)]
             mods.append(m(b"aani", 3, s["anim"]))
             mods += [m(b"auar", 3, icon), m(b"arar", 3, icon)]       # turn-off / research art: the same icon
@@ -630,7 +653,9 @@ def main():
                       205: o_.get("fangrow", 0), 204: round(o_.get("freeze", 0) * 10), 203: round(o_.get("pimm", 0) * 10),
                       202: o_.get("pchr", 0), 201: 1, 200: round(o_.get("sdr", 0) * 10), 199: round(o_.get("hidebuf", 0) * 10),
                       198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1], 196: o_.get("radr", 0),
-                      195: o_.get("selfbuf", 0), 194: o_.get("far", 0)}
+                      195: o_.get("selfbuf", 0), 194: o_.get("far", 0), 189: o_.get("lowat", 0)}
+                if "steal_pct" in o_:
+                    ex[187] = o_["steal_pct"]
                 if "pcd" in o_:
                     ex[220] = o_["pcd"]
                 keep = {239: o_["link"]} if "link" in o_ else {}   # written even when 0 (Q slot / no heal)

@@ -114,17 +114,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Đạn Chỉ Liệt Diệm | X078 | Q | quét phía trước, **autocast** | 1 | 1 |
+| 1 | Đạn Chỉ Liệt Diệm | X078 | Q | trận tại điểm (nhiều nhịp), **autocast** | 3 | 1 |
 | 2 | Thiên Nhẫn Đao Pháp | X079 | - | bị động | 1 | 6 |
-| 3 | Hỏa Liên Phần Hoa | X080 | D | nổ quanh thân | 1 | 15 |
-| 4 | Thôi Sơn Điền Hải | X081 | R | lướt | 1 | 25 |
-| 5 | Nhiếp Hồn Loạn Tâm | X082 | F | đánh mục tiêu | 1 | 38 |
+| 3 | Hỏa Liên Phần Hoa | X080 | D | trận tại điểm (nhiều nhịp) | 4 | 15 |
+| 4 | Thôi Sơn Điền Hải | X081 | R | trận tại điểm (nhiều nhịp) | 18 | 25 |
+| 5 | Nhiếp Hồn Loạn Tâm | X082 | F | bùa chú tại điểm | 1 | 38 |
 | 6 | Xí Không Ma Diệm | X083 | - | bị động | 1 | 52 |
-| 7 | Thiên Ngoại Lưu Tinh | X084 | W | nổ quanh thân, **autocast** | 1 | 68 |
+| 7 | Thiên Ngoại Lưu Tinh | X084 | W | trận tại điểm (nhiều nhịp), **autocast** | 3 | 68 |
 | 8 | Thúc Phọc Chú | X085 | - | bị động | 1 | 85 |
 | 9 | Nghịch Chuyển Tâm Kinh | X086 | - | bị động | 1 | 105 |
-| 10 | Ma Đao Thôn Thần | X087 | T | phóng / đạn bay | 5 | 125 |
-| 11 | Tật Hỏa Liêu Nguyên | X088 | E | quét phía trước, **autocast** | 2 | 145 |
+| 10 | Ma Đao Thôn Thần | X087 | T | bật / tắt tự phóng | 1 | 125 |
+| 11 | Tật Hỏa Liêu Nguyên | X088 | E | trận tại điểm (nhiều nhịp), **autocast** | 2 | 145 |
 | 12 | Ma Diệm Thất Sát | X089 | - | bị động | 1 | 165 |
 | 13 | Huyền Minh Hấp Tinh | X090 | - | bị động | 1 | 185 |
 

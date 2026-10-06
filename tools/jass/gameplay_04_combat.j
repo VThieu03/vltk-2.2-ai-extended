@@ -361,6 +361,10 @@ function zzVL_OnDamageBody takes nothing returns nothing
     if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),74) then
         set vl_d=vl_d*1.15
     endif
+    // bong (KVCT effect_bong, kskill.j status 5): 50% more damage
+    if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),81) then
+        set vl_d=vl_d*1.5
+    endif
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and TimerGetElapsed(zzVL_clock)<zzKS_dimm[vl_pt] then
         set vl_d=0.
     endif

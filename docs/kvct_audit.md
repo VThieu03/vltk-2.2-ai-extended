@@ -169,23 +169,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q/W là đánh 1 mục tiêu / quét nón, Sư Tử Hống là nổ 3 lần choáng 2 giây (KVCT: 1 lần, thọ thương + định thân 3 giây), La Hán Kim Thân 15 giây, Thiên Thủ Như Lai Ấn 20 giây; Bồ Đề Tâm Pháp là buff phòng thủ; thiếu 3 chiêu dùng chung.
 
-### Thiên Nhẫn Đao (TND)
+### Thiên Nhẫn Đao (TND) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Đạn Chỉ Liệt Diệm | Q | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Thiên Nhẫn Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hỏa Liên Phần Hoa | D | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thôi Sơn Điền Hải | R | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Nhiếp Hồn Loạn Tâm | F | đánh mục tiêu | OVR Đặc thù | - | Đạt chuẩn |
-| Xí Không Ma Diệm | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thiên Ngoại Lưu Tinh | W | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thúc Phọc Chú | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây, phản đòn | Đạt chuẩn |
-| Nghịch Chuyển Tâm Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ma Đao Thôn Thần | T | đạn bay xuyên | OVR Đặc thù | hút máu, 5 đòn | Đạt chuẩn |
-| Tật Hỏa Liêu Nguyên | E | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, sát thương quanh mỗi giây, 2 đòn | Đạt chuẩn |
-| Ma Diệm Thất Sát | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Huyền Minh Hấp Tinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TND"`; Q/W/E: `JDX`/`JD5`, `J0M`/`J0X`, `JhU`/`JhO`; chiêu bấm: `egJ`/`eg9`, `Js3`/`Js0`, `eZG`/`eZm`, `e1C`/`e1o`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+**Bỏng** trong KVCT (`effect_bong`, buff B008) không phải độc mỗi giây: kẻ địch bị bỏng **nhận thêm 50% sát thương** đòn đánh / chiêu. Map nay làm đúng như vậy (trạng thái 5, `gameplay_04_combat.j`). Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Đạn Chỉ Liệt Diệm | Q (autocast) | Đốm lửa tại chỗ mục tiêu, đốt 3 lần cách 0,95 giây, bán kính 120, tối đa 7; 30% bỏng 2 giây | Trận lửa tại mục tiêu 3 nhịp cách 0,95 giây, 120, tối đa 7; bỏng 30% 2 giây | Giống |
+| Thiên Nhẫn Đao Pháp | - | Bị động: hỏa công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Hỏa Liên Phần Hoa | D | Hỏa trận tại điểm (≤ 740) 8 giây, mỗi 2 giây trong bán kính 270 + 30 × bậc (tối đa 7): hút kẻ địch cách tâm > 100 vào giữa, 100% bỏng 3 giây; không sát thương; hồi 15 giây | Trận tại điểm 4 nhịp × 2 giây, bán kính 270 + 30 × bậc, tối đa 7: kéo 100 về tâm, bỏng 100% 3 giây, không sát thương | Giống |
+| Thôi Sơn Điền Hải | R | Hàng rào lửa (nhiều cột, số cột theo bậc mật tịch) tại điểm (≤ 600), đốt mỗi 0,5 giây trong 9 giây, tối đa 7; 35% bỏng 1 giây; hồi 3 giây | Trận tại điểm (≤ 600) 18 nhịp × 0,5 giây, bán kính 250, tối đa 7; bỏng 35% 1 giây | Gần giống (vùng tròn thay cho hàng rào) |
+| Nhiếp Hồn Loạn Tâm | F | Bùa chú tại điểm, bán kính 300 (tối đa 7): (36 + 4 × bậc)% tê liệt 4 giây, tốc chạy −25% trong 20 giây; hồi 30 giây | Bùa chú tại điểm 300, tối đa 7: choáng (36 + 4 × bậc)% 4 giây + làm chậm 20 giây | Gần giống (tê liệt = choáng; chậm 40% thay vì 25%) |
+| Xí Không Ma Diệm | - | Bị động: phát huy lực tấn công, tỉ lệ bỏng, kháng thọ thương | Bị động: sát thương % | Gần giống |
+| Thiên Ngoại Lưu Tinh | W (autocast) | Cầu lửa rơi xuống mục tiêu (220) rồi mặt đất cháy (240), tối đa 7; 35% bỏng 2 giây | Trận lửa tại mục tiêu 3 nhịp cách 0,4 giây, 230, tối đa 7; bỏng 35% 2 giây | Giống |
+| Thúc Phọc Chú | - | Bị động: kháng phản đòn, hỏa công; sinh lực < 95% khi bị đánh: miễn thọ thương / định thân / choáng + tốc chạy 10 giây, giãn cách 20 giây | Bị động: sát thương %; sinh lực < 95%: 10 giây miễn khống chế, giãn cách 20 giây | Gần giống (không có tốc chạy) |
+| Nghịch Chuyển Tâm Kinh | - | W/E trúng địch: địch nhận thêm sát thương ngũ hành 10 giây | Q/W/E trúng địch: địch nhận thêm 15% sát thương 4 giây | Gần giống |
+| Ma Đao Thôn Thần | T | Bật / tắt; mỗi 5 giây tự phóng 5 ma đao (0, ±22°, ±44°) bay 600 về phía trước; hút 5% sát thương thành sinh lực | Bật / tắt (kiểu mới 21): mỗi 5 giây phóng 5 đạn xòe 22° về kẻ địch gần nhất trong 600; hút 5% | Giống |
+| Tật Hỏa Liêu Nguyên | E (autocast) | Hỏa Diệm Đao tại mục tiêu: 2 đòn cách 0,4 giây bán kính 250, tối đa 7, 40% bỏng 2 giây; sau đó đốt mỗi giây 4 giây | Trận tại mục tiêu 2 nhịp cách 0,4 giây, 250, tối đa 7; bỏng 40% 2 giây; độc / đốt 5 nhịp | Giống |
+| Ma Diệm Thất Sát | - | Bị động: hỏa công, chí mạng; E tăng sát thương (17 + 3 × bậc)% | Bị động: chí mạng; E 30% thêm 25% sát thương | Gần giống |
+| Huyền Minh Hấp Tinh | - | E: 18% phá (2,1 + 0,1 × bậc)% sinh lực hiện tại của thủ lĩnh, 21% phá (13 + bậc)% sinh lực hiện tại quái thường; không tác dụng lên người chơi | E: 21% phá 15% sinh lực hiện tại của mục tiêu không phải tướng | Gần giống (không phân biệt thủ lĩnh) |
+
+Trước khi sửa: Q/W/E là quét nón / nổ quanh thân (KVCT là lửa tại chỗ mục tiêu), "bỏng" là độc mỗi giây; Thôi Sơn Điền Hải là lướt (KVCT là hàng rào lửa); Ma Đao Thôn Thần là 1 lần phóng 5 hit (KVCT là bật / tắt tự phóng); Nhiếp Hồn Loạn Tâm là đánh 1 mục tiêu.
 
 ### Cái Bang Chưởng (CBC)
 
