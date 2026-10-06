@@ -94,6 +94,29 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Cai Bang Bong (CBB): read from KVCT's code; A0E9 is shared with CBC
+    # Q Ja8: a stick bursts at the first enemy: radius 100, no limit, 30% bong 1.5 s and 30% tho thuong 1 s
+    "A0EK": {"kind": 16, "rad": 100, "st": 5, "ch": 30, "sd": 1.5, "st2": 1, "ch2": 30, "sd2": 1},
+    "A0ER": {"kind": 0, "stats": [5, 3, 4]},                 # Cai Bang Bong Phap: chinh xac, hoa cong, chi mang, toc danh
+    "A0ET": {"kind": 0, "stats": [13]},                      # Tieu Dao Cong: ne tranh, khang phan don, toc chay
+    # R J4w: 12 sticks every 30 degrees fly 600 (width 100) through every enemy, 50% bong 3 s and 50% tho thuong 1 s
+    "A0F0": {"kind": 5, "fan": 12, "spread": 30, "rad": 600, "st": 5, "ch": 50, "sd": 3, "st2": 1, "ch2": 50, "sd2": 1},
+    "A0ES": {"kind": 0, "stats": [5, 14]},                   # Bon Luu Dao Hai: phat huy luc tan cong, ti le bong, khang tho thuong
+    # W J0Y: 3 sticks chase the target 1000 (width 100), at most 7 each; the middle one 35% bong 1.5 s, the sides
+    # 35% tho thuong 1 s
+    "A0EL": {"kind": 5, "fan": 3, "spread": 6, "rad": 1000, "max": 7, "st": 5, "ch": 35, "sd": 1.5, "st2": 1, "ch2": 35, "sd2": 1},
+    # Da Cau Bong Phap: vat cong, tho thuong time; Hoai Thuong 35%: damage x (1.12 + 0.08/rank)
+    "A0EU": {"kind": 0, "stats": [5], "link": 3, "lfx": 65536},
+    # D e1i: 300 s: ne tranh noi / ngoai cong +(10 + 2/rank)%; used again it only renews
+    "A0EX": {"kind": 6, "dur": 300, "stats": [(6, 10, 2)]},
+    # Tung Hac Cong: hit at 95% life or less: pushes enemies within 400 back 300, 15 s immune and dodge, every 45 s
+    "A0EV": {"kind": 0, "stats": [6], "fx": 1024, "low": (0, 45, 0, 15, 100), "lowat": 95},
+    # E JaU / Jal: 3 sticks 1/6 s apart chase the target 1200 (width 110), at most 7 each, each target hit twice per
+    # stick; every hit 40% bong 2 s or tho thuong 1 s (one of the two)
+    "A0EM": {"kind": 5, "hits": 3, "gap": .17, "rad": 1200, "max": 7, "st": 5, "ch": 40, "sd": 2, "st2": 1, "ch2": 40, "sd2": 1},
+    "A0EW": {"kind": 0, "stats": [6]},                       # Da Cau Tran Phap: giam sat thuong nhan (the 3 s ground field: not done)
+    "A0X8": {"kind": 0, "stats": [6]},                       # Hon Thien Khi Cong: khang tat ca, bo qua phong thu
+
     # Duong Mon Phi Dao (DMPD): read from KVCT's code; A07S A07T A07W as in DMTT; R A08J D A08P below
     # Q Jsy: a knife flies 900 (width 100) through up to 7 enemies, 30% dinh than 1 s, poison 2 ticks
     "A08H": {"kind": 5, "rad": 900, "max": 7, "st": 2, "ch": 30, "sd": 1, "fx": 8},
@@ -275,11 +298,6 @@ OVR = {
     "A0X5": {"kind": 6, "dur": 20, "stats": [(5, 9, 1), 6]},
 
     # Cai Bang Bong (CBB)
-    "A0EK": {"kind": 5, "hits": 2},                          # Bong Da Ac Cau
-    "A0EL": {"kind": 5, "hits": 3},                          # Thien Ha Vo Cau
-    "A0EM": {"kind": 4, "hits": 6},                          # Bong Quynh Luoc Dia
-    "A0F0": {"kind": 4, "hits": 12},                         # Ac Cau Lan Lo
-    "A0EX": {"kind": 6, "dur": 300, "stats": [(5, 20, 2)]},  # Minh Sat Thu Hao
 
     # Vo Dang Kiem (VDK): read from KVCT's code; A0JO is shared with VDQ
     # Q ei5: 3 hits 0.24 s apart, splash 100 where the target stood, 30% choang 0.5 s
