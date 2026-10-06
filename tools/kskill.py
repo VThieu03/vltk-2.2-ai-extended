@@ -307,12 +307,30 @@ OVR = {
     # T (NDD slot 14, NDC14): Jst - curse at the point, radius 200, at most 7: khang doc down, poison longer, 15 s
     "A0WM": {"kind": 15, "rad": 200, "max": 7, "fx": 512, "dur": 15},
 
-    # Ngu Doc Chuong (NDC)
-    "A06J": {"kind": 2, "hits": 2},                          # Doc Sa Chuong
-    "A06S": {"kind": 4, "hits": 3},                          # Am Phong Thuc Cot
-    "A06T": {"kind": 5, "hits": 2},                          # Doan Can Hu Cot
-    "A06U": {"kind": 4, "hits": 5},                          # Huyet Co Doc Sat
-    "A06L": {"kind": 1, "hits": 4, "status": 1, "sdur": 4},  # Thien Canh Dia Sat (bleed 4 hits)
+    # Ngu Doc Chuong (NDC): read from KVCT's code; A0WM as in NDD
+    # Q JDO / JDl: a poison palm flies at the target (800) and bursts at the first enemy, radius 150, at most 7,
+    # doc sat 4 s
+    "A06J": {"kind": 16, "rad": 150, "max": 7, "fx": 8},
+    "A06K": {"kind": 0, "stats": [3, 4]},                    # Ngu Doc Chuong Phap: doc cong, chi mang, toc danh
+    # R JCn / JCu: curse at the point, radius 180, at most 4: doc sat every 1 s for 6 s
+    "A06L": {"kind": 13, "hits": 6, "gap": 1, "rad": 180, "max": 4},
+    "A06M": {"kind": 0, "stats": [5]},                       # Xuyen Tam Doc Thich: doc sat gay ra +%
+    # Bi Ma Huyet Quang: every hit lowers the enemy's chi mang and khang doc, 30 s
+    "A06N": {"kind": 0, "stats": [], "link": 3, "lfx": 512},
+    "A06R": {"kind": 0, "stats": [5]},                       # Bach Co Doc Kinh: phat huy luc tan cong
+    # W J4W / J4y: at the target 3 pulses 0.5 s apart, radius ~200, at most 7, 35% bat dong 1 s, doc sat 4 s
+    "A06S": {"kind": 13, "hits": 3, "gap": .5, "rad": 200, "max": 7, "st": 2, "ch": 35, "sd": 1, "fx": 8},
+    # D Jo0 / JoE: enemies within 200 of the point (at most 7) poisoned 8 s, more if they move (up to +100%)
+    "A06T": {"kind": 13, "hits": 8, "gap": 1, "rad": 200, "max": 7},
+    # Truy Phong Doc Thich: attacking or casting, chance: free of tho thuong / cham / choang, every 15 s
+    "A06U": {"kind": 0, "stats": [], "proc": 30, "pcd": 15, "pimm": 3},
+    # Luyen Nguc Hu Co: W radius +; every hit lowers khang doc 12 s (stacks)
+    "A06V": {"kind": 0, "stats": [], "link": 3, "lfx": 512},
+    # E JF3 / JFK: at the target 2 blows 0.48 s apart, at most 7, 40% bat dong 1 s, doc sat 4 s
+    "A071": {"kind": 13, "hits": 2, "gap": .48, "rad": 200, "max": 7, "st": 2, "ch": 40, "sd": 1, "fx": 8},
+    # Doan Can Hu Cot: doc sat gay ra +%, E radius +; E 75%: Hac Ho Dao Tam, more poison
+    "A072": {"kind": 0, "stats": [5], "link": 2, "lfx": 65536},
+
 
     # Duong Mon Phi Tieu (DMPT): read from KVCT's code; A07T A07W A08J A081 A08L A08P shared with DMTT / DMPD
     # Q JCf / JC3: 5 darts fanned 12 degrees, 500 out and back (width 110), at most 4 each, 30% dinh than 1 s, doc sat

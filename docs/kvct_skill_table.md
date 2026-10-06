@@ -204,17 +204,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Độc Sa Chưởng | X143 | Q | quét phía trước, **autocast** | 1 | 1 |
+| 1 | Độc Sa Chưởng | X143 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Ngũ Độc Chưởng Pháp | X144 | - | bị động | 1 | 6 |
-| 3 | Thiên Canh Địa Sát | X145 | R | đánh mục tiêu | 1 | 15 |
+| 3 | Thiên Canh Địa Sát | X145 | R | trận tại điểm (nhiều nhịp) | 6 | 15 |
 | 4 | Xuyên Tâm Độc Thích | X146 | - | bị động | 1 | 25 |
 | 5 | Bi Ma Huyết Quang | X147 | - | bị động | 1 | 38 |
 | 6 | Bách Cổ Độc Kinh | X148 | - | bị động | 1 | 52 |
-| 7 | Âm Phong Thực Cốt | X149 | W | nổ quanh thân, **autocast** | 1 | 68 |
-| 8 | Hóa Cốt Miên Chưởng | X150 | D | phóng / đạn bay | 1 | 85 |
-| 9 | Truy Phong Độc Thích | X151 | - | tự phát khi đánh (nổ quanh thân) | 1 | 105 |
+| 7 | Âm Phong Thực Cốt | X149 | W | trận tại điểm (nhiều nhịp), **autocast** | 3 | 68 |
+| 8 | Hóa Cốt Miên Chưởng | X150 | D | trận tại điểm (nhiều nhịp) | 8 | 85 |
+| 9 | Truy Phong Độc Thích | X151 | - | bị động | 1 | 105 |
 | 10 | Luyện Ngục Hủ Cổ | X152 | - | bị động | 1 | 125 |
-| 11 | U Minh Quỷ Trảo | X153 | E | đánh mục tiêu, **autocast** | 2 | 145 |
+| 11 | U Minh Quỷ Trảo | X153 | E | trận tại điểm (nhiều nhịp), **autocast** | 2 | 145 |
 | 12 | Đoạn Cân Hủ Cốt | X154 | - | bị động | 1 | 165 |
 | 13 | U Minh Khô Lâu | X155 | T | bùa chú tại điểm | 1 | 185 |
 

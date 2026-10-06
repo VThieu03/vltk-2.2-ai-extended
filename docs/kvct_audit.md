@@ -289,23 +289,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q là quét nón 2 hit, Truy Tinh Trục Nguyệt (W) bị gán nhầm là chiêu lướt, Hoành Hành Vô Kỵ 15 giây cố định; thiếu Thiên Mã Hành Không.
 
-### Ngũ Độc Chưởng (NDC)
+### Ngũ Độc Chưởng (NDC) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Độc Sa Chưởng | Q | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Ngũ Độc Chưởng Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Canh Địa Sát | R | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Xuyên Tâm Độc Thích | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Bi Ma Huyết Quang | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Bách Cổ Độc Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Âm Phong Thực Cốt | W | đánh mục tiêu | OVR Đặc thù | định thân 35%, độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Hóa Cốt Miên Chưởng | D | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Truy Phong Độc Thích | - | bị động (cộng chỉ số) | OVR Đặc thù | - | Đạt chuẩn |
-| Luyện Ngục Hủ Cổ | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%), cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| U Minh Quỷ Trảo | E | đánh mục tiêu | Khuôn chuẩn | định thân 40%, độc / bỏng mỗi giây, sát thương quanh mỗi giây, 2 đòn | Đạt chuẩn |
-| Đoạn Cân Hủ Cốt | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| U Minh Khô Lâu | T | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="NDC"`; Q/W/E: `JDO`/`JDl`, `J4W`/`J4y`, `JF3`/`JFK`; chiêu bấm: `JCn`/`JCu`, `Jo0`/`JoE`, `Jst` (U Minh Khô Lâu, xem Ngũ Độc Đao)), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Khác biệt chung: sát thương theo công thức của map; độc của KVCT là độc mỗi giây trên từng mục tiêu, ở map các chiêu độc theo thời gian làm thành trận nhiều nhịp (mỗi nhịp gây sát thương cho kẻ địch đang đứng trong vùng).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Độc Sa Chưởng | Q (autocast) | Độc chưởng bay tới mục tiêu (800), nổ ở kẻ địch đầu tiên, bán kính 150, tối đa 7; độc 4 giây | Đánh lan 150 tại mục tiêu, tối đa 7; độc | Gần giống (không có đạn bay) |
+| Ngũ Độc Chưởng Pháp | - | Bị động: độc công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Thiên Canh Địa Sát | R | Bùa chú tại điểm, bán kính 180, tối đa 4: độc mỗi giây trong 6 giây; hồi 10 giây | Trận tại điểm 6 nhịp × 1 giây, 180, tối đa 4 | Gần giống (độc theo vùng, không bám theo mục tiêu) |
+| Xuyên Tâm Độc Thích | - | Bị động: độc sát gây ra +% | Bị động: sát thương % | Gần giống |
+| Bi Ma Huyết Quang | - | Đánh trúng: kẻ địch giảm điểm chí mạng và kháng độc 30 giây | Q/W/E trúng: kẻ địch nhận thêm 15% sát thương 4 giây | Gần giống |
+| Bách Cổ Độc Kinh | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
+| Âm Phong Thực Cốt | W (autocast) | Tại mục tiêu 3 nhịp cách 0,5 giây, tối đa 7; 35% bất động 1 giây; độc 4 giây | Trận tại mục tiêu 3 nhịp cách 0,5 giây, 200, tối đa 7; định thân 35% 1 giây; độc | Giống |
+| Hóa Cốt Miên Chưởng | D | Kẻ địch trong 200 quanh điểm (tối đa 7) trúng độc 8 giây, di chuyển càng nhiều độc càng mạnh (tối đa +100%); hồi 20 giây | Trận tại điểm 8 nhịp × 1 giây, 200, tối đa 7 | Gần giống (không tăng theo di chuyển) |
+| Truy Phong Độc Thích | - | Khi đánh / tung chiêu có tỉ lệ: hóa giải + miễn thọ thương / chậm / choáng, giãn cách 15 giây | Khi đánh 30%: miễn khống chế ~3 giây, giãn cách 15 giây | Gần giống (tỉ lệ ước lượng) |
+| Luyện Ngục Hủ Cổ | - | W rộng hơn; đánh trúng giảm kháng độc 12 giây (cộng dồn) | Q/W/E trúng: nhận thêm 15% sát thương | Gần giống |
+| U Minh Quỷ Trảo | E (autocast) | Tại mục tiêu 2 đòn cách 0,48 giây, tối đa 7; 40% bất động 1 giây; độc 4 giây | Trận tại mục tiêu 2 nhịp cách 0,48 giây, 200, tối đa 7; định thân 40% 1 giây; độc | Giống |
+| Đoạn Cân Hủ Cốt | - | Độc sát +%, E rộng hơn; E 75%: Hắc Hổ Đào Tâm độc thêm 3 giây | Bị động: sát thương %; E 30% thêm 25% sát thương | Gần giống |
+| U Minh Khô Lâu | T | Như Ngũ Độc Đao | Như Ngũ Độc Đao | Gần giống |
+
+Trước khi sửa: Q là quét nón, W là nổ quanh thân, Thiên Canh Địa Sát là đánh 1 mục tiêu 4 hit, Hóa Cốt Miên Chưởng là đạn bay; Truy Phong Độc Thích (bị động) bị làm thành nổ quanh thân 5 hit.
 
 ### Đường Môn Tụ Tiễn (DMTT)
 
