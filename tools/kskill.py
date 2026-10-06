@@ -288,12 +288,25 @@ OVR = {
     "A0IF": {"kind": 0, "stats": [3]},                       # Hon Nguyen Can Khon: loi cong, chi mang, sat thuong chi mang
     "A0XJ": {"kind": 0, "stats": [3]},                       # Hoa Tuy Vo Y: giam gian cach E / R (not done), chi mang
 
-    # Con Lon Dao (CLD)
-    "A0IK": {"kind": 2, "hits": 2},                          # Cuong Phong Sau Dien
-    "A0IL": {"kind": 2, "hits": 2},                          # Ngao Tuyet Tieu Phong
-    "A0IM": {"kind": 4, "hits": 3},                          # Cuu Thien Canh Phong
-    "A0J0": {"kind": 6, "dur": 300, "stats": [(5, 25, 2)]},   # Tu Nguyen Thuat
-    "A0J1": {"kind": 3},                                     # Nhat Khi Tam Thanh
+    # Con Lon Dao (CLD): read from KVCT's code; A0ID as in CLK
+    # Q JDF / JDs: a blade along a line 800 (width 150), at most 7, 30% choang 1 s
+    "A0IK": {"kind": 5, "rad": 800, "max": 7, "st": 3, "ch": 30, "sd": 1},
+    "A0IN": {"kind": 0, "stats": [3, 4]},                    # Con Lon Dao Phap: chinh xac, loi cong, chi mang, toc danh
+    "A0J0": {"kind": 6, "dur": 300, "stats": [7]},           # R Jem: 300 s sinh luc toi da +%
+    "A0J1": {"kind": 6, "dur": 300, "stats": [5]},           # D eZJ: 300 s vat cong ngoai (+20% of the base), chinh xac
+    "A0IO": {"kind": 0, "stats": [5]},                       # Thien Thanh Dia Troc: phat huy luc tan cong
+    # W Jxc / JxF: a blade 800 (width 180), at most 7, 35% choang 1 s, then Tieu Phong Lien Kich 2 more blows
+    "A0IL": {"kind": 5, "hits": 3, "gap": .17, "rad": 800, "max": 7, "st": 3, "ch": 35, "sd": 1},
+    # Hoi Phong Phat Lieu: W / E first hit: a wind field pulls the enemies around (6 x 0.4 s), 50% tho thuong
+    "A0J3": {"kind": 0, "stats": [], "link": 3, "lfx": 65536},
+    # Luong Nghi Chan Khi: hoa giai sat thuong; attacking: 15 s immune to statuses, hoa giai, toc chay +30, every 60 s
+    "A0J5": {"kind": 0, "stats": [6, 13], "proc": 100, "pcd": 60, "dur": 15, "pimm": 14},
+    "A0J7": {"kind": 0, "stats": []},                        # Phan Luong Nghi Dao Phap: on the wind field (not done)
+    # E JDR / JDW: a blade 1000 (width 200), at most 7, 40% choang 1 s, then Vo Tan Cuong Phong 3 more blows
+    "A0IM": {"kind": 5, "hits": 4, "gap": .17, "rad": 1000, "max": 7, "st": 3, "ch": 40, "sd": 1},
+    "A0J2": {"kind": 0, "stats": [4, 14], "link": 2, "lfx": 65536},  # Vo Nhan Vo Nga: toc danh, khang thoi gian choang; E +
+    "A0XK": {"kind": 0, "stats": [5]},                       # Suong Ngao Con Lon: vat cong ngoai
+
 
     # Ngu Doc Dao (NDD): read from KVCT's code (readable.j), see docs\kvct_audit.md
     # Q: JoX - missile 500 (width 120), at most 7 enemies, 30% dinh than 1 s, doc sat 3 s

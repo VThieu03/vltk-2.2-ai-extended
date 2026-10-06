@@ -409,22 +409,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q/E dùng mô tả đoán, Thiên Địa Vô Cực là đánh 1 mục tiêu 3 hit, Vạn Kiếm Quy Tông là 1 lần nổ 1000.
 
-### Côn Lôn Đao (CLD)
+### Côn Lôn Đao (CLD) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Cuồng Phong Sậu Điện | Q | đánh mục tiêu | OVR Đặc thù | choáng 30% | Đạt chuẩn |
-| Côn Lôn Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tụ Nguyên Thuật | R | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Nhất Khí Tam Thanh | D | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Thiên Thanh Địa Trọc | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ngạo Tuyết Tiếu Phong | W | đánh mục tiêu | OVR Đặc thù | 2 đòn | Đạt chuẩn |
-| Hồi Phong Phất Liễu | - | bị động (cộng chỉ số) | Khuôn chuẩn | 4 đòn | Đạt chuẩn |
-| Lưỡng Nghi Chân Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | phản đòn | Đạt chuẩn |
-| Phản Lưỡng Nghi Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Cửu Thiên Canh Phong | E | đánh mục tiêu | OVR Đặc thù | 3 đòn | Đạt chuẩn |
-| Vô Nhân Vô Ngã | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Sương Ngạo Côn Lôn | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="CLD"`; Q/W/E: `JDF`/`JDs`, `Jxc`/`JxF`, `JDR`/`JDW`; chiêu bấm: `Jem`/`JeF`, `eZJ`/`eZf`, `JEU` (Thanh Phong Phù, xem Côn Lôn Kiếm)), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (trước 12; thêm **Thanh Phong Phù (F)** dùng chung với Côn Lôn Kiếm).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Cuồng Phong Sậu Điện | Q (autocast) | Đao khí theo đường thẳng 800 (rộng 150), tối đa 7; 30% choáng 1 giây | Đạn bay 800, tối đa 7; choáng 30% 1 giây | Giống |
+| Côn Lôn Đao Pháp | - | Bị động: chính xác, lôi công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Thanh Phong Phù | F | Như Côn Lôn Kiếm | Như Côn Lôn Kiếm | Giống |
+| Tụ Nguyên Thuật | R | 300 giây: sinh lực tối đa +% | Buff 300 giây: sinh lực | Gần giống |
+| Nhất Khí Tam Thanh | D | 300 giây: vật công ngoại (+20% công cơ bản), chính xác | Buff 300 giây: sát thương % | Gần giống |
+| Thiên Thanh Địa Trọc | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
+| Ngạo Tuyết Tiếu Phong | W (autocast) | Đao khí 800 (rộng 180), tối đa 7, 35% choáng 1 giây; rồi Tiếu Phong Liên Kích thêm 2 đòn cách 1/6 giây | 3 đợt đạn bay 800 cách 0,17 giây, tối đa 7; choáng 35% 1 giây | Gần giống |
+| Hồi Phong Phất Liễu | - | W/E trúng mục tiêu đầu tiên: phong trận 6 nhịp × 0,4 giây hút kẻ địch về tâm, 50% thọ thương; giãn cách 2,4 giây | Q/W/E 30% thêm 25% sát thương | Khác (chưa có phong trận hút) |
+| Lưỡng Nghi Chân Khí | - | Hóa giải % sát thương; khi tấn công: 15 giây miễn trạng thái + hóa giải sát thương + tốc chạy +30, giãn cách 60 giây | Khi đánh: 15 giây miễn khống chế + buff giảm sát thương nhận + tốc chạy, giãn cách 60 giây | Gần giống |
+| Phản Lưỡng Nghi Đao Pháp | - | Phong trận trúng địch: địch −20% sát thương 3 giây, bản thân tăng phát huy 3 giây | Không có hiệu quả | Khác (phụ thuộc phong trận, chưa làm) |
+| Cửu Thiên Canh Phong | E (autocast) | Đao khí 1000 (rộng 200), tối đa 7, 40% choáng 1 giây; rồi Vô Tận Cương Phong thêm 3 đòn | 4 đợt đạn bay 1000 cách 0,17 giây, tối đa 7; choáng 40% 1 giây | Gần giống |
+| Vô Nhân Vô Ngã | - | Bỏ qua né tránh, tốc đánh, kháng thời gian choáng; E tăng tấn công | Bị động: tốc đánh + kháng thời gian trạng thái; E 30% thêm 25% sát thương | Gần giống |
+| Sương Ngạo Côn Lôn | - | Sát thương lên hệ Thủy, vật công ngoại, tấn công khi chí mạng | Bị động: sát thương % | Gần giống |
+
+Trước khi sửa: Q/W là quét nón, E là nổ quanh thân, Nhất Khí Tam Thanh bị làm thành chiêu lướt (KVCT là buff 300 giây); thiếu Thanh Phong Phù.
 
 ### Thiếu Lâm Bổng (TLB)
 
