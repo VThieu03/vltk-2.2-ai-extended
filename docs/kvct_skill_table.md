@@ -240,7 +240,7 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Tứ Tượng Đồng Quy | X169 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
+| 1 | Tứ Tượng Đồng Quy | X169 | Q | đánh lan tại mục tiêu, **autocast** | 2 | 1 |
 | 2 | Nga My Chưởng Pháp | X170 | - | bị động | 1 | 6 |
 | 3 | Phật Tâm Từ Hựu | X171 | - | bị động | 1 | 15 |
 | 4 | Bất Diệt Bất Tuyệt | X172 | - | bị động | 1 | 25 |
@@ -250,7 +250,7 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 8 | Diệp Để Tàng Hoa | X176 | - | bị động | 1 | 85 |
 | 9 | Kim Đỉnh Miên Chưởng | X177 | - | bị động | 1 | 105 |
 | 10 | Vạn Tướng Thần Công | X178 | D | buff bản thân | 1 | 125 |
-| 11 | Nguyệt Hoa Khuynh Tả | X179 | E | nổ quanh thân, **autocast** | 6 | 145 |
+| 11 | Nguyệt Hoa Khuynh Tả | X179 | E | phóng / đạn bay, **autocast** | 6 | 145 |
 | 12 | Vạn Phật Quy Tông | X180 | - | bị động | 1 | 165 |
 | 13 | Kim Đỉnh Phật Quang | X181 | - | bị động | 1 | 185 |
 

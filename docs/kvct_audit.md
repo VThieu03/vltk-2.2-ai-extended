@@ -337,23 +337,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q / W / E đều là nổ quanh thân (KVCT: tại chỗ mục tiêu), Đoạn Cân Nhẫn là quét nón, Xuyên Vân Tiễn là đạn bay xuyên.
 
-### Nga My Chưởng (NMC)
+### Nga My Chưởng (NMC) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Tứ Tượng Đồng Quy | Q | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 2 đòn | Đạt chuẩn |
-| Nga My Chưởng Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Phật Tâm Từ Hựu | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bất Diệt Bất Tuyệt | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi máu, phát động khi máu dưới 40% | Đạt chuẩn |
-| Phật Quang Chiến Khí | R | buff phe ta | OVR Đặc thù | - | Đạt chuẩn |
-| Phật Pháp Vô Biên | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Phong Sương Toái Ảnh | W | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 3 đòn | Đạt chuẩn |
-| Diệp Để Tàng Hoa | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Kim Đỉnh Miên Chưởng | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Vạn Tướng Thần Công | D | buff bản thân | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Nguyệt Hoa Khuynh Tả | E | đánh mục tiêu | OVR Đặc thù | làm chậm 35%, 6 đòn | Đạt chuẩn |
-| Vạn Phật Quy Tông | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Kim Đỉnh Phật Quang | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="NMC"`; Q/W/E: `Jsl`/`Jsd`, `JxH`/`JxZ`, `Jhd`/`Jhn`; chiêu bấm: `eH4`, `J9p`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Tứ Tượng Đồng Quy | Q (autocast) | 2 đòn cách 0,15 giây tại chỗ mục tiêu, bán kính 200, tối đa 7, 30% làm chậm 2 giây; sau đó tia băng 400 sang kẻ địch lân cận (tối đa 4) | 2 đòn đánh lan 200 tại mục tiêu, tối đa 7; chậm 30% 2 giây | Gần giống (không có tia băng lan) |
+| Nga My Chưởng Pháp | - | Bị động: băng công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Phật Tâm Từ Hựu | - | Bị động: sinh lực / nội lực tối đa % | Bị động: sinh lực | Gần giống |
+| Bất Diệt Bất Tuyệt | - | Sinh lực < 50% khi bị đánh: mỗi 0,5 giây hồi máu cho bản thân và đồng đội quanh đó trong 5 giây; giãn cách 30 giây | Sinh lực < 50%: hồi 20% sinh lực tối đa cho bản thân; giãn cách 30 giây | Khác một phần (không hồi cho đồng đội) |
+| Phật Quang Chiến Khí | R | Tướng phe ta trong 1000 (đồng đội 60%) 300 giây: vật công nội, sát thương chí mạng | Buff phe ta 300 giây: sát thương % + chí mạng | Gần giống |
+| Phật Pháp Vô Biên | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
+| Phong Sương Toái Ảnh | W (autocast) | Chưởng khí bay 400 tới mục tiêu rồi quay về (rộng 100), tối đa 7; 35% làm chậm 2 giây | 3 đợt đạn bay 400 cách 0,2 giây, tối đa 7; chậm 35% 2 giây | Gần giống (không quay về) |
+| Diệp Để Tàng Hoa | - | W/E trúng: thêm 3 đòn trong phạm vi nhỏ, giãn cách (3,1 − 0,1 × bậc) giây | Q/W/E trúng: 30% thêm 25% sát thương | Gần giống |
+| Kim Đỉnh Miên Chưởng | - | Khi tấn công: chí mạng + hóa giải và miễn trạng thái 3 giây, giãn cách 15 giây | Khi đánh: buff chí mạng + miễn khống chế 3 giây, giãn cách 15 giây | Giống |
+| Vạn Tướng Thần Công | D | 300 giây: kháng tỉ lệ thọ thương / định thân / chậm / bỏng, phát huy lực tấn công | Buff 300 giây: kháng thời gian trạng thái + sát thương % | Gần giống |
+| Nguyệt Hoa Khuynh Tả | E (autocast) | 3 đạo chưởng khí cách 1/6 giây đuổi mục tiêu (800, rộng 150), mỗi đạo trúng 2 lần (đi và về), tối đa 7; 40% làm chậm 2 giây | 6 đợt đạn bay 800 cách 0,17 giây, tối đa 7; chậm 40% 2 giây | Gần giống |
+| Vạn Phật Quy Tông | - | Sát thương chí mạng, cường hóa / nhược hóa ngũ hành; E tăng sát thương ngẫu nhiên (18 + 2 × bậc)% – (36 + 4 × bậc)% | Bị động: chí mạng; E 30% thêm 25% sát thương | Gần giống |
+| Kim Đỉnh Phật Quang | - | Sát thương lên hệ Hỏa, sinh lực tối đa; Kim Đỉnh Miên Chưởng mạnh hơn, giãn cách −3 giây | Bị động: sinh lực | Gần giống |
+
+Trước khi sửa: Q là đạn bay, E là nổ quanh thân 6 hit, Vạn Tướng Thần Công là buff giảm sát thương, Phật Quang Chiến Khí 30 giây (KVCT 300 giây).
 
 ### Thiên Nhẫn Kích (TNK)
 

@@ -423,12 +423,31 @@ OVR = {
     "A0G8": {"kind": 3},                                     # Phi Hong Vo Tich
     "A0G6": {"kind": 4, "hits": 3, "status": 4, "sdur": 4},  # Ma Am Phe Phach (demon nova slow)
 
-    # Nga My (NMC, NMK)
-    "A0AR": {"kind": 5, "hits": 2},                          # Tu Tuong Dong Quy
-    "A0B1": {"kind": 5, "hits": 3},                          # Phong Suong Toai Anh
-    "A0BA": {"kind": 4, "hits": 6},                          # Nguyet Hoa Khuynh Ta
-    "A0B7": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # Van Tuong Than Cong
-    "A0AX": {"kind": 7, "dur": 30, "stats": [(5, 25, 2)]},  # Phat Quang Chien Khi (party dmg buff)
+    # Nga My Chuong (NMC): read from KVCT's code
+    # Q Jsl / Jsd: 2 blows 0.15 s apart where the target stood, radius 200, at most 7, 30% cham 2 s (then an ice ray)
+    "A0AR": {"kind": 16, "hits": 2, "gap": .15, "rad": 200, "max": 7, "st": 4, "ch": 30, "sd": 2},
+    "A0AS": {"kind": 0, "stats": [3, 4]},                    # Nga My Chuong Phap: bang cong, chi mang, toc danh
+    "A0AT": {"kind": 0, "stats": [7]},                       # Phat Tam Tu Huu: sinh luc / noi luc toi da
+    # Bat Diet Bat Tuyet: hit below 50% life: heals itself and allies around every 0.5 s for 5 s, every 30 s
+    "A0AU": {"kind": 0, "stats": [], "fx": 1024, "low": (0, 30, 20, 0, 100), "lowat": 50},
+    # R eH4: heroes of the side within 1000 (allies 60%) 300 s: vat cong noi, sat thuong chi mang
+    "A0AX": {"kind": 7, "dur": 300, "stats": [5, 3]},
+    "A0B0": {"kind": 0, "stats": [5]},                       # Phat Phap Vo Bien: phat huy luc tan cong
+    # W JxH / JxZ: palm qi flies 400 at the target and back (width 100), at most 7, 35% cham 2 s
+    "A0B1": {"kind": 5, "hits": 3, "gap": .2, "rad": 400, "max": 7, "st": 4, "ch": 35, "sd": 2},
+    # Diep De Tang Hoa: W E hits: 3 more blows in a small area, every 3.1 - 0.1 x rank s
+    "A0B2": {"kind": 0, "stats": [], "link": 3, "lfx": 65536},
+    # Kim Dinh Mien Chuong: attacking: chi mang + immune to statuses 3 s, every 15 s
+    "A0B3": {"kind": 0, "stats": [3], "proc": 100, "pcd": 15, "dur": 3, "pimm": 2.9},
+    # D J9p: 300 s: khang ti le tho thuong / dinh than / cham / bong, phat huy luc tan cong
+    "A0B7": {"kind": 6, "dur": 300, "stats": [14, 5]},
+    # E Jhd / Jhn: 3 palm qi 1/6 s apart hunt the target (800, width 150), each hits going and coming back,
+    # at most 7, 40% cham 2 s
+    "A0BA": {"kind": 5, "hits": 6, "gap": .17, "rad": 800, "max": 7, "st": 4, "ch": 40, "sd": 2},
+    "A0BB": {"kind": 0, "stats": [3], "link": 2, "lfx": 65536},  # Van Phat Quy Tong: E +18..40% random damage
+    "A0WX": {"kind": 0, "stats": [7]},                       # Kim Dinh Phat Quang: sinh luc, Kim Dinh Mien Chuong stronger
+
+    # Nga My Kiem (NMK)
     "A0A5": {"kind": 5, "hits": 2},                          # Thoi Song Vong Nguyet
     "A0AN": {"kind": 5, "hits": 3},                          # Kiem Anh Phat Quang
     "A0AO": {"kind": 5, "hits": 5},                          # Bang Suong Dien Phong
