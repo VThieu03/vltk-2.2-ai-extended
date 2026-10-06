@@ -94,12 +94,31 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Thien Vuong Chuy (TVC): read from KVCT's code; A01M R and A0WA are shared with TVD / TVT
+    # Q eA8: splash 150 where the target stood, at most 7, 35% tho thuong 1 s
+    "A02C": {"kind": 16, "rad": 150, "max": 7, "st": 1, "ch": 35, "sd": 1},
+    "A02E": {"kind": 0, "stats": [5, 3]},                    # Thien Vuong Chuy Phap: chinh xac, vat cong %, chi mang
+    # Thien Vuong Ban Sinh: sinh luc toi da; hit under 40% life (25 + 5/rank %): 10 s immune to damage and
+    # control, every 45 s
+    "A02F": {"kind": 0, "stats": [7], "fx": 1024, "low": (10, 45, 0, 10, 35), "lowat": 40},
+    # F eSh: heroes of the side within 1000 (allies 60%): khang 45 + 15/rank, tho thuong time shorter, 300 s
+    "A02K": {"kind": 7, "dur": 300, "stats": [(11, 45, 15), 14]},
+    "A02N": {"kind": 0, "stats": [5, 14]},                   # Bat Diet Sat Y: phat huy luc tan cong, khang dinh than
+    # W J3D: 2 blows 0.24 s apart 100 in front of the hero, radius 220, at most 7, 40% tho thuong 1 s
+    "A02O": {"kind": 4, "hits": 2, "gap": .24, "rad": 220, "max": 7, "st": 1, "ch": 40, "sd": 1},
+    # D eLJ: dash <= 800; at the end radius 300: 100% tho thuong 2 s, pulled 150 to the centre; then 4 more
+    # pulses every 0.5 s (100% tho thuong 1 s)
+    "A02P": {"kind": 3, "st": 1, "ch": 100, "sd": 2, "fx": 2, "rad": 800},
+    "A02Q": {"kind": 0, "stats": [], "fx": 8192},            # Can Khon Chuy: tang phat huy luc tan cong (KVCT: when hit)
+    "A02U": {"kind": 0, "stats": [6]},                       # Hoa Kinh Quyet: giam sat thuong nhan
+    # E JeC: 3 sweeps 1/6 s apart 120 in front of the hero, radius 220, no limit, 45% tho thuong 1 s
+    "A02X": {"kind": 4, "hits": 3, "gap": .17, "rad": 220, "st": 1, "ch": 45, "sd": 1},
+    # Dao Hu Thien: sinh luc toi da; E 75%: a blast around the hero (radius 250) at each of its 3 sweeps
+    "A02Y": {"kind": 0, "stats": [7], "link": 2, "xw": 3, "xc": 75},
+
     # Thien Vuong Chuy (TVC)
     "A01S": {"kind": 1, "hits": 3},                          # Hao Hung Tram (strike 3 hits)
     "A02I": {"kind": 4, "hits": 4},                          # Huy Thien Diet Dia (nova 4 hits)
-    "A02K": {"kind": 7, "dur": 30, "stats": [(11, 25, 3)]},  # Kim Chung Trao (party def buff)
-    "A02P": {"kind": 3, "hits": 4},                          # Tram Long Quyet (dash slam 4 hits)
-    "A02O": {"kind": 1, "hits": 3},                          # Thua Long Quyet (triple strike)
 
     # Thieu Lam Quyen (TLQ): read from KVCT's code; A03J A03N A03Q are shared with TLD / TLB
     # Q etn: 2 hits 0.2 s apart, splash 120 where the target stood, at most 7, 30% tho thuong 0.5 s

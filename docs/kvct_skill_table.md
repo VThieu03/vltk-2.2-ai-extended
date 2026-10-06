@@ -348,244 +348,245 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Hành Vân Quyết | X247 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
+| 1 | Hành Vân Quyết | X247 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Thiên Vương Chùy Pháp | X248 | - | bị động | 1 | 6 |
-| 3 | Thiên Vương Bản Sinh | X249 | - | bị động | 1 | 15 |
-| 4 | Kim Chung Tráo | X250 | F | buff phe ta | 1 | 25 |
-| 5 | Bất Diệt Sát Ý | X251 | - | bị động | 1 | 38 |
-| 6 | Thừa Long Quyết | X252 | W | đánh mục tiêu, **autocast** | 2 | 52 |
-| 7 | Trảm Long Quyết | X253 | D | lướt | 1 | 68 |
-| 8 | Càn Khôn Chùy | X254 | - | bị động | 1 | 85 |
-| 9 | Hóa Kinh Quyết | X255 | - | tự phát khi đánh (đánh mục tiêu) | 1 | 105 |
-| 10 | Tung Hoành Tứ Hải | X256 | E | quét phía trước, **autocast** | 3 | 125 |
-| 11 | Đảo Hư Thiên | X257 | - | bị động | 1 | 145 |
-| 12 | Thiên Mã Hành Không | X258 | - | bị động | 1 | 165 |
+| 3 | Đoạn Hồn Thích | X249 | R | lướt | 1 | 15 |
+| 4 | Thiên Vương Bản Sinh | X250 | - | bị động | 1 | 25 |
+| 5 | Kim Chung Tráo | X251 | F | buff phe ta | 1 | 38 |
+| 6 | Bất Diệt Sát Ý | X252 | - | bị động | 1 | 52 |
+| 7 | Thừa Long Quyết | X253 | W | nổ quanh thân, **autocast** | 2 | 68 |
+| 8 | Trảm Long Quyết | X254 | D | lướt | 1 | 85 |
+| 9 | Càn Khôn Chùy | X255 | - | bị động | 1 | 105 |
+| 10 | Hóa Kinh Quyết | X256 | - | bị động | 1 | 125 |
+| 11 | Tung Hoành Tứ Hải | X257 | E | nổ quanh thân, **autocast** | 3 | 145 |
+| 12 | Đảo Hư Thiên | X258 | - | bị động | 1 | 165 |
+| 13 | Thiên Mã Hành Không | X259 | - | bị động | 1 | 185 |
 
 ## Đường Môn Phi Đao (DMPD, E006)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Tiểu Lý Phi Đao | X259 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
-| 2 | Đường Môn Ám Khí | X260 | - | bị động | 1 | 6 |
-| 3 | Mãn Thiên Hoa Vũ | X261 | R | trận tại điểm (nhiều nhịp) | 3 | 15 |
-| 4 | Nhiếp Hồn Nguyệt Ảnh | X262 | W | phóng / đạn bay, **autocast** | 3 | 25 |
-| 5 | Hàm Sa Xạ Ảnh | X263 | - | bị động | 1 | 38 |
-| 6 | Thực Cốt Huyết Nhẫn | X264 | - | bị động | 1 | 52 |
-| 7 | Ảnh Tung Trận | X265 | D | miễn khống | 1 | 68 |
-| 8 | Vô Ảnh Xuyên | X266 | E | lướt, **autocast** | 4 | 85 |
-| 9 | Tâm Phách | X267 | - | bị động | 1 | 105 |
-| 10 | Bách Phát Bách Trúng | X268 | - | bị động | 1 | 125 |
+| 1 | Tiểu Lý Phi Đao | X260 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
+| 2 | Đường Môn Ám Khí | X261 | - | bị động | 1 | 6 |
+| 3 | Mãn Thiên Hoa Vũ | X262 | R | trận tại điểm (nhiều nhịp) | 3 | 15 |
+| 4 | Nhiếp Hồn Nguyệt Ảnh | X263 | W | phóng / đạn bay, **autocast** | 3 | 25 |
+| 5 | Hàm Sa Xạ Ảnh | X264 | - | bị động | 1 | 38 |
+| 6 | Thực Cốt Huyết Nhẫn | X265 | - | bị động | 1 | 52 |
+| 7 | Ảnh Tung Trận | X266 | D | miễn khống | 1 | 68 |
+| 8 | Vô Ảnh Xuyên | X267 | E | lướt, **autocast** | 4 | 85 |
+| 9 | Tâm Phách | X268 | - | bị động | 1 | 105 |
+| 10 | Bách Phát Bách Trúng | X269 | - | bị động | 1 | 125 |
 
 ## Cái Bang Bổng (CBB, H020)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Bổng Đả Ác Cẩu | X269 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
-| 2 | Cái Bang Bổng Pháp | X270 | - | bị động | 1 | 6 |
-| 3 | Tiêu Dao Công | X271 | - | bị động | 1 | 15 |
-| 4 | Ác Cẩu Lan Lộ | X272 | R | nổ quanh thân | 12 | 25 |
-| 5 | Bôn Lưu Đáo Hải | X273 | - | bị động | 1 | 38 |
-| 6 | Thiên Hạ Vô Cẩu | X274 | W | phóng / đạn bay, **autocast** | 3 | 52 |
-| 7 | Đả Cẩu Bổng Pháp | X275 | - | bị động | 1 | 68 |
-| 8 | Minh Sát Thu Hào | X276 | D | buff bản thân | 1 | 85 |
-| 9 | Tung Hạc Công | X277 | - | bị động | 1 | 105 |
-| 10 | Bổng Quỷnh Lược Địa | X278 | E | nổ quanh thân, **autocast** | 6 | 125 |
-| 11 | Đả Cẩu Trận Pháp | X279 | - | bị động | 15 | 145 |
-| 12 | Hỗn Thiên Khí Công | X280 | - | bị động | 1 | 165 |
+| 1 | Bổng Đả Ác Cẩu | X270 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
+| 2 | Cái Bang Bổng Pháp | X271 | - | bị động | 1 | 6 |
+| 3 | Tiêu Dao Công | X272 | - | bị động | 1 | 15 |
+| 4 | Ác Cẩu Lan Lộ | X273 | R | nổ quanh thân | 12 | 25 |
+| 5 | Bôn Lưu Đáo Hải | X274 | - | bị động | 1 | 38 |
+| 6 | Thiên Hạ Vô Cẩu | X275 | W | phóng / đạn bay, **autocast** | 3 | 52 |
+| 7 | Đả Cẩu Bổng Pháp | X276 | - | bị động | 1 | 68 |
+| 8 | Minh Sát Thu Hào | X277 | D | buff bản thân | 1 | 85 |
+| 9 | Tung Hạc Công | X278 | - | bị động | 1 | 105 |
+| 10 | Bổng Quỷnh Lược Địa | X279 | E | nổ quanh thân, **autocast** | 6 | 125 |
+| 11 | Đả Cẩu Trận Pháp | X280 | - | bị động | 15 | 145 |
+| 12 | Hỗn Thiên Khí Công | X281 | - | bị động | 1 | 165 |
 
 ## Nga My Kiếm (NMK, H021)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thôi Song Vọng Nguyệt | X281 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
-| 2 | Từ Hàng Phổ Độ | X282 | R | buff phe ta | 1 | 6 |
-| 3 | Thiên Phật Thiên Diệp | X283 | D | buff phe ta | 1 | 15 |
-| 4 | Mộng Điệp | X284 | - | bị động | 1 | 25 |
-| 5 | Phật Tâm Từ Hựu | X285 | - | bị động | 1 | 38 |
-| 6 | Ba La Tâm Kinh | X286 | - | bị động | 1 | 52 |
-| 7 | Kiếm Ảnh Phật Quang | X287 | W | phóng / đạn bay, **autocast** | 3 | 68 |
-| 8 | Thanh Âm Phạn Xướng | X288 | - | bị động | 1 | 85 |
-| 9 | Thanh Tâm Tịnh Khí | X289 | - | bị động | 1 | 105 |
-| 10 | Liên Hoa Tâm Kinh | X290 | - | bị động | 1 | 125 |
-| 11 | Băng Sương Điện Phóng | X291 | E | phóng / đạn bay, **autocast** | 5 | 145 |
-| 12 | Độ Nguyên Công | X292 | - | bị động | 1 | 165 |
-| 13 | Bế Nguyệt Phất Trần | X293 | - | bị động | 1 | 185 |
+| 1 | Thôi Song Vọng Nguyệt | X282 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
+| 2 | Từ Hàng Phổ Độ | X283 | R | buff phe ta | 1 | 6 |
+| 3 | Thiên Phật Thiên Diệp | X284 | D | buff phe ta | 1 | 15 |
+| 4 | Mộng Điệp | X285 | - | bị động | 1 | 25 |
+| 5 | Phật Tâm Từ Hựu | X286 | - | bị động | 1 | 38 |
+| 6 | Ba La Tâm Kinh | X287 | - | bị động | 1 | 52 |
+| 7 | Kiếm Ảnh Phật Quang | X288 | W | phóng / đạn bay, **autocast** | 3 | 68 |
+| 8 | Thanh Âm Phạn Xướng | X289 | - | bị động | 1 | 85 |
+| 9 | Thanh Tâm Tịnh Khí | X290 | - | bị động | 1 | 105 |
+| 10 | Liên Hoa Tâm Kinh | X291 | - | bị động | 1 | 125 |
+| 11 | Băng Sương Điện Phóng | X292 | E | phóng / đạn bay, **autocast** | 5 | 145 |
+| 12 | Độ Nguyên Công | X293 | - | bị động | 1 | 165 |
+| 13 | Bế Nguyệt Phất Trần | X294 | - | bị động | 1 | 185 |
 
 ## Minh Giáo Chùy (MGC, H022)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Khai Thiên Thức | X294 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
-| 2 | Minh Giáo Chùy Pháp | X295 | - | bị động | 1 | 6 |
-| 3 | Khốn Hổ Vân Tiếu | X296 | R | lướt | 1 | 15 |
-| 4 | Kim Qua Thiết Mã | X297 | T | buff phe ta | 1 | 25 |
-| 5 | Phách Địa Thế | X298 | D | phóng / đạn bay | 1 | 38 |
-| 6 | Ngự Mã Thuật | X299 | - | bị động | 1 | 52 |
-| 7 | Long Thôn Thức | X300 | W | đánh mục tiêu, **autocast** | 1 | 68 |
-| 8 | Hồn Phách Phi Dương | X301 | F | nổ quanh thân | 1 | 85 |
-| 9 | Cửu Hi Hỗn Dương | X302 | - | bị động | 1 | 105 |
-| 10 | Liệt Diệm Thao Thiên | X303 | - | bị động | 1 | 125 |
-| 11 | Khu Hổ Thức | X304 | E | quét phía trước, **autocast** | 2 | 145 |
-| 12 | Trấn Ngục Phá Thiên Kinh | X305 | - | bị động | 3 | 165 |
-| 13 | Không Tuyệt Tâm Pháp | X306 | - | bị động | 1 | 185 |
+| 1 | Khai Thiên Thức | X295 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
+| 2 | Minh Giáo Chùy Pháp | X296 | - | bị động | 1 | 6 |
+| 3 | Khốn Hổ Vân Tiếu | X297 | R | lướt | 1 | 15 |
+| 4 | Kim Qua Thiết Mã | X298 | T | buff phe ta | 1 | 25 |
+| 5 | Phách Địa Thế | X299 | D | phóng / đạn bay | 1 | 38 |
+| 6 | Ngự Mã Thuật | X300 | - | bị động | 1 | 52 |
+| 7 | Long Thôn Thức | X301 | W | đánh mục tiêu, **autocast** | 1 | 68 |
+| 8 | Hồn Phách Phi Dương | X302 | F | nổ quanh thân | 1 | 85 |
+| 9 | Cửu Hi Hỗn Dương | X303 | - | bị động | 1 | 105 |
+| 10 | Liệt Diệm Thao Thiên | X304 | - | bị động | 1 | 125 |
+| 11 | Khu Hổ Thức | X305 | E | quét phía trước, **autocast** | 2 | 145 |
+| 12 | Trấn Ngục Phá Thiên Kinh | X306 | - | bị động | 3 | 165 |
+| 13 | Không Tuyệt Tâm Pháp | X307 | - | bị động | 1 | 185 |
 
 ## Minh Giáo Kiếm (MGK, H023)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thánh Hỏa Phần Tâm | X307 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
-| 2 | Minh Giáo Kiếm Pháp | X308 | - | bị động | 1 | 6 |
-| 3 | Di Khí Phiêu Tung | X309 | - | bị động | 1 | 15 |
-| 4 | Vạn Vật Câu Phần | X310 | W | nổ quanh thân, **autocast** | 2 | 25 |
-| 5 | Càn Khôn Đại Na Di | X311 | D | buff bản thân | 1 | 38 |
-| 6 | Ly Hỏa Đại Pháp | X312 | - | bị động | 1 | 52 |
-| 7 | Thánh Hỏa Liêu Nguyên | X313 | E | nổ quanh thân, **autocast** | 1 | 68 |
-| 8 | Thánh Hỏa Lệnh Pháp | X314 | F | nổ quanh thân | 1 | 85 |
-| 9 | Nhân Huân Tử Khí | X315 | - | bị động | 1 | 105 |
-| 10 | Hoang Hỏa Ngọc Phần | X316 | - | tự phát khi đánh (nổ quanh thân) | 1 | 125 |
-| 11 | Kiếm Đãng Bát Hoang | X317 | R | nổ quanh thân | 3 | 145 |
-| 12 | Thánh Hỏa Thần Công | X318 | - | bị động | 1 | 165 |
-| 13 | Mục Dã Ưng Dương | X319 | - | bị động | 1 | 185 |
+| 1 | Thánh Hỏa Phần Tâm | X308 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
+| 2 | Minh Giáo Kiếm Pháp | X309 | - | bị động | 1 | 6 |
+| 3 | Di Khí Phiêu Tung | X310 | - | bị động | 1 | 15 |
+| 4 | Vạn Vật Câu Phần | X311 | W | nổ quanh thân, **autocast** | 2 | 25 |
+| 5 | Càn Khôn Đại Na Di | X312 | D | buff bản thân | 1 | 38 |
+| 6 | Ly Hỏa Đại Pháp | X313 | - | bị động | 1 | 52 |
+| 7 | Thánh Hỏa Liêu Nguyên | X314 | E | nổ quanh thân, **autocast** | 1 | 68 |
+| 8 | Thánh Hỏa Lệnh Pháp | X315 | F | nổ quanh thân | 1 | 85 |
+| 9 | Nhân Huân Tử Khí | X316 | - | bị động | 1 | 105 |
+| 10 | Hoang Hỏa Ngọc Phần | X317 | - | tự phát khi đánh (nổ quanh thân) | 1 | 125 |
+| 11 | Kiếm Đãng Bát Hoang | X318 | R | nổ quanh thân | 3 | 145 |
+| 12 | Thánh Hỏa Thần Công | X319 | - | bị động | 1 | 165 |
+| 13 | Mục Dã Ưng Dương | X320 | - | bị động | 1 | 185 |
 
 ## Đoàn Thị Chỉ (DTC, H024)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thần Chỉ Điểm Huyệt | X320 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
-| 2 | Đoàn Thị Chỉ Pháp | X321 | - | bị động | 1 | 6 |
-| 3 | Nhất Dương Chỉ | X322 | R | phóng / đạn bay | 1 | 15 |
-| 4 | Lăng Ba Vi Bộ | X323 | F | lướt | 1 | 25 |
-| 5 | Từ Bi Quyết | X324 | - | bị động | 1 | 38 |
-| 6 | Kim Ngọc Chỉ Pháp | X325 | - | bị động | 1 | 52 |
-| 7 | Cản Dương Thần Chỉ | X326 | W | đánh mục tiêu, **autocast** | 3 | 68 |
-| 8 | Huyền Băng Cửu Kiếp | X327 | D | phóng / đạn bay | 9 | 85 |
-| 9 | Diệu Đề Chỉ | X328 | - | bị động | 1 | 105 |
-| 10 | Thí Nguyên Quyết | X329 | - | bị động | 1 | 125 |
-| 11 | Thiên Long Thần Chỉ | X330 | E | đánh mục tiêu, **autocast** | 3 | 145 |
-| 12 | Càn Thiên Chỉ Pháp | X331 | - | bị động | 1 | 165 |
-| 13 | Bách Bộ Xuyên Dương | X332 | - | bị động | 1 | 185 |
+| 1 | Thần Chỉ Điểm Huyệt | X321 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
+| 2 | Đoàn Thị Chỉ Pháp | X322 | - | bị động | 1 | 6 |
+| 3 | Nhất Dương Chỉ | X323 | R | phóng / đạn bay | 1 | 15 |
+| 4 | Lăng Ba Vi Bộ | X324 | F | lướt | 1 | 25 |
+| 5 | Từ Bi Quyết | X325 | - | bị động | 1 | 38 |
+| 6 | Kim Ngọc Chỉ Pháp | X326 | - | bị động | 1 | 52 |
+| 7 | Cản Dương Thần Chỉ | X327 | W | đánh mục tiêu, **autocast** | 3 | 68 |
+| 8 | Huyền Băng Cửu Kiếp | X328 | D | phóng / đạn bay | 9 | 85 |
+| 9 | Diệu Đề Chỉ | X329 | - | bị động | 1 | 105 |
+| 10 | Thí Nguyên Quyết | X330 | - | bị động | 1 | 125 |
+| 11 | Thiên Long Thần Chỉ | X331 | E | đánh mục tiêu, **autocast** | 3 | 145 |
+| 12 | Càn Thiên Chỉ Pháp | X332 | - | bị động | 1 | 165 |
+| 13 | Bách Bộ Xuyên Dương | X333 | - | bị động | 1 | 185 |
 
 ## Cổ Mộ Châm (CMC, H025)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Biệt Tự | X333 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
-| 2 | Mộ Châm Pháp | X334 | - | bị động | 1 | 6 |
-| 3 | Kinh Hồng Chiếu Ảnh | X335 | R | lướt | 6 | 15 |
-| 4 | Súc Thế Đãi Phát | X336 | - | bị động | 1 | 25 |
-| 5 | Ngọc Phong Châm | X337 | D | quét phía trước | 7 | 38 |
-| 6 | Lưu Vân Pháp | X338 | - | bị động | 1 | 52 |
-| 7 | Ly Hận | X339 | W | đánh mục tiêu, **autocast** | 3 | 68 |
-| 8 | Hoàng Tuyền Lảo Đảo | X340 | F | nổ quanh thân | 20 | 85 |
-| 9 | Hành Vân Đới Vũ | X341 | - | bị động | 1 | 105 |
-| 10 | Vụ Tập Vân Hợp | X342 | T | buff bản thân | 1 | 125 |
-| 11 | Bi Sầu | X343 | E | phóng / đạn bay, **autocast** | 3 | 145 |
-| 12 | Phong Lưu Vân Tán | X344 | - | bị động | 1 | 165 |
-| 13 | Mê Thần Dẫn | X345 | - | bị động | 1 | 185 |
+| 1 | Biệt Tự | X334 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
+| 2 | Mộ Châm Pháp | X335 | - | bị động | 1 | 6 |
+| 3 | Kinh Hồng Chiếu Ảnh | X336 | R | lướt | 6 | 15 |
+| 4 | Súc Thế Đãi Phát | X337 | - | bị động | 1 | 25 |
+| 5 | Ngọc Phong Châm | X338 | D | quét phía trước | 7 | 38 |
+| 6 | Lưu Vân Pháp | X339 | - | bị động | 1 | 52 |
+| 7 | Ly Hận | X340 | W | đánh mục tiêu, **autocast** | 3 | 68 |
+| 8 | Hoàng Tuyền Lảo Đảo | X341 | F | nổ quanh thân | 20 | 85 |
+| 9 | Hành Vân Đới Vũ | X342 | - | bị động | 1 | 105 |
+| 10 | Vụ Tập Vân Hợp | X343 | T | buff bản thân | 1 | 125 |
+| 11 | Bi Sầu | X344 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 12 | Phong Lưu Vân Tán | X345 | - | bị động | 1 | 165 |
+| 13 | Mê Thần Dẫn | X346 | - | bị động | 1 | 185 |
 
 ## Cổ Mộ Kiếm (CMK, H026)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thu Nhạn Bàng Hoàng | X346 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
-| 2 | Kiếm Mộ Pháp | X347 | - | bị động | 1 | 6 |
-| 3 | Hồng Tụ Triền | X348 | R | nổ quanh thân | 1 | 15 |
-| 4 | Tịnh Ảnh Trầm Bích | X349 | - | bị động | 1 | 25 |
-| 5 | Mộ Vân Ngưng Bích | X350 | - | bị động | 1 | 38 |
-| 6 | Ngọc Nữ Kiếm Pháp | X351 | - | bị động | 1 | 52 |
-| 7 | Cô Nguyệt Bồi Hồi | X352 | W | quét phía trước, **autocast** | 1 | 68 |
-| 8 | Chung Nam Vãn Chiếu | X353 | D | quét phía trước | 3 | 85 |
-| 9 | Hàn Sơn Độc Lập | X354 | - | bị động | 1 | 105 |
-| 10 | Phi Thiên Vũ | X355 | F | lướt | 1 | 125 |
-| 11 | Cô Thân Chi Ảnh | X356 | E | phóng / đạn bay, **autocast** | 1 | 145 |
-| 12 | Ngọc Nữ Tâm Kinh | X357 | - | bị động | 3 | 165 |
-| 13 | Bạch Vân Hồi Vọng | X358 | - | bị động | 1 | 185 |
+| 1 | Thu Nhạn Bàng Hoàng | X347 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
+| 2 | Kiếm Mộ Pháp | X348 | - | bị động | 1 | 6 |
+| 3 | Hồng Tụ Triền | X349 | R | nổ quanh thân | 1 | 15 |
+| 4 | Tịnh Ảnh Trầm Bích | X350 | - | bị động | 1 | 25 |
+| 5 | Mộ Vân Ngưng Bích | X351 | - | bị động | 1 | 38 |
+| 6 | Ngọc Nữ Kiếm Pháp | X352 | - | bị động | 1 | 52 |
+| 7 | Cô Nguyệt Bồi Hồi | X353 | W | quét phía trước, **autocast** | 1 | 68 |
+| 8 | Chung Nam Vãn Chiếu | X354 | D | quét phía trước | 3 | 85 |
+| 9 | Hàn Sơn Độc Lập | X355 | - | bị động | 1 | 105 |
+| 10 | Phi Thiên Vũ | X356 | F | lướt | 1 | 125 |
+| 11 | Cô Thân Chi Ảnh | X357 | E | phóng / đạn bay, **autocast** | 1 | 145 |
+| 12 | Ngọc Nữ Tâm Kinh | X358 | - | bị động | 3 | 165 |
+| 13 | Bạch Vân Hồi Vọng | X359 | - | bị động | 1 | 185 |
 
 ## Hoa Sơn Khí (HSQ, H027)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thanh Vân Tống Sảng | X359 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
-| 2 | Hoa Sơn Khí Công | X360 | - | bị động | 1 | 6 |
-| 3 | Long Nhiễu Thân | X361 | - | bị động | 1 | 15 |
-| 4 | Chân Khí Hộ Thể | X362 | R | hộ thuẫn | 1 | 25 |
-| 5 | Hải Nạp Bách Xuyên | X363 | - | bị động | 1 | 38 |
-| 6 | Khí Chấn Sơn Hà | X364 | - | bị động | 1 | 52 |
-| 7 | Ma Vân Kiếm Khí | X365 | W | nổ quanh thân, **autocast** | 3 | 68 |
-| 8 | Khí Quán Trường Hồng | X366 | - | bị động | 1 | 85 |
-| 9 | Tử Hà Chân Khí | X367 | D | buff bản thân | 1 | 105 |
-| 10 | Huyền Nhãn Yên Vân | X368 | - | bị động | 1 | 125 |
-| 11 | Phách Thạch Phá Ngọc | X369 | E | phóng / đạn bay, **autocast** | 3 | 145 |
-| 12 | Thần Quang Toàn Nhiễu | X370 | - | bị động | 6 | 165 |
-| 13 | Tử Khí Đông Lai | X371 | - | bị động | 1 | 185 |
+| 1 | Thanh Vân Tống Sảng | X360 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
+| 2 | Hoa Sơn Khí Công | X361 | - | bị động | 1 | 6 |
+| 3 | Long Nhiễu Thân | X362 | - | bị động | 1 | 15 |
+| 4 | Chân Khí Hộ Thể | X363 | R | hộ thuẫn | 1 | 25 |
+| 5 | Hải Nạp Bách Xuyên | X364 | - | bị động | 1 | 38 |
+| 6 | Khí Chấn Sơn Hà | X365 | - | bị động | 1 | 52 |
+| 7 | Ma Vân Kiếm Khí | X366 | W | nổ quanh thân, **autocast** | 3 | 68 |
+| 8 | Khí Quán Trường Hồng | X367 | - | bị động | 1 | 85 |
+| 9 | Tử Hà Chân Khí | X368 | D | buff bản thân | 1 | 105 |
+| 10 | Huyền Nhãn Yên Vân | X369 | - | bị động | 1 | 125 |
+| 11 | Phách Thạch Phá Ngọc | X370 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 12 | Thần Quang Toàn Nhiễu | X371 | - | bị động | 6 | 165 |
+| 13 | Tử Khí Đông Lai | X372 | - | bị động | 1 | 185 |
 
 ## Hoa Sơn Kiếm (HSK, H028)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Bạch Hồng Quán Nhật | X372 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
-| 2 | Kiếm Tông Tổng Quyết | X373 | - | bị động | 1 | 6 |
-| 3 | Thiên Thân Đảo Huyền | X374 | E | nổ quanh thân, **autocast** | 10 | 15 |
-| 4 | Kim Nhạn Hoành Không | X375 | R | buff bản thân | 1 | 25 |
-| 5 | Hi Di Kiếm Pháp | X376 | - | bị động | 1 | 38 |
-| 6 | Thương Tùng Nghênh Khách | X377 | W | quét phía trước, **autocast** | 3 | 52 |
-| 7 | Thái Nhạc Tam Thanh | X378 | - | bị động | 1 | 68 |
-| 8 | Đoạt Mệnh Liên Hoàn Tam Tiên Kiếm | X379 | D | buff bản thân | 1 | 85 |
-| 9 | Phá Kiếm Thức | X380 | - | bị động | 3 | 105 |
-| 10 | Cửu Kiếm Hợp Nhất | X381 | - | bị động | 9 | 125 |
-| 11 | Nhất Kiếm Phá Vạn Pháp | X382 | - | bị động | 1 | 145 |
-| 12 | Độc Cô Cửu Kiếm | X383 | - | bị động | 1 | 165 |
+| 1 | Bạch Hồng Quán Nhật | X373 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
+| 2 | Kiếm Tông Tổng Quyết | X374 | - | bị động | 1 | 6 |
+| 3 | Thiên Thân Đảo Huyền | X375 | E | nổ quanh thân, **autocast** | 10 | 15 |
+| 4 | Kim Nhạn Hoành Không | X376 | R | buff bản thân | 1 | 25 |
+| 5 | Hi Di Kiếm Pháp | X377 | - | bị động | 1 | 38 |
+| 6 | Thương Tùng Nghênh Khách | X378 | W | quét phía trước, **autocast** | 3 | 52 |
+| 7 | Thái Nhạc Tam Thanh | X379 | - | bị động | 1 | 68 |
+| 8 | Đoạt Mệnh Liên Hoàn Tam Tiên Kiếm | X380 | D | buff bản thân | 1 | 85 |
+| 9 | Phá Kiếm Thức | X381 | - | bị động | 3 | 105 |
+| 10 | Cửu Kiếm Hợp Nhất | X382 | - | bị động | 9 | 125 |
+| 11 | Nhất Kiếm Phá Vạn Pháp | X383 | - | bị động | 1 | 145 |
+| 12 | Độc Cô Cửu Kiếm | X384 | - | bị động | 1 | 165 |
 
 ## Tiêu Dao Chưởng (TDC, H029)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Dương Ca Thiên Quân | X384 | Q | quét phía trước, **autocast** | 2 | 1 |
-| 2 | Tiêu Dao Chưởng Pháp | X385 | - | bị động | 1 | 6 |
-| 3 | Hàn Tụ Huyệt | X386 | R | phóng / đạn bay | 4 | 15 |
-| 4 | Sưu Hồn Đại Pháp | X387 | - | bị động | 1 | 25 |
-| 5 | Diệm Nguyên Luân Hồi | X388 | - | bị động | 1 | 38 |
-| 6 | Phục Nhật Xuất Vân | X389 | - | bị động | 1 | 52 |
-| 7 | Bạch Nhật Sâm Thần | X390 | W | nổ quanh thân, **autocast** | 3 | 68 |
-| 8 | Sinh Tử Phù | X391 | D | nổ quanh thân | 45 | 85 |
-| 9 | Hỗn Nhật Khí Quyết | X392 | - | bị động | 1 | 105 |
-| 10 | Thiên Tàm Cửu Biến | X393 | F | nổ quanh thân | 1 | 125 |
-| 11 | Bài Sơn Đảo Hải | X394 | E | phóng / đạn bay, **autocast** | 3 | 145 |
-| 12 | Thái Hư Thần Công | X395 | - | bị động | 1 | 165 |
-| 13 | Tung Bộ Quan Hỏa | X396 | T | lướt | 1 | 185 |
+| 1 | Dương Ca Thiên Quân | X385 | Q | quét phía trước, **autocast** | 2 | 1 |
+| 2 | Tiêu Dao Chưởng Pháp | X386 | - | bị động | 1 | 6 |
+| 3 | Hàn Tụ Huyệt | X387 | R | phóng / đạn bay | 4 | 15 |
+| 4 | Sưu Hồn Đại Pháp | X388 | - | bị động | 1 | 25 |
+| 5 | Diệm Nguyên Luân Hồi | X389 | - | bị động | 1 | 38 |
+| 6 | Phục Nhật Xuất Vân | X390 | - | bị động | 1 | 52 |
+| 7 | Bạch Nhật Sâm Thần | X391 | W | nổ quanh thân, **autocast** | 3 | 68 |
+| 8 | Sinh Tử Phù | X392 | D | nổ quanh thân | 45 | 85 |
+| 9 | Hỗn Nhật Khí Quyết | X393 | - | bị động | 1 | 105 |
+| 10 | Thiên Tàm Cửu Biến | X394 | F | nổ quanh thân | 1 | 125 |
+| 11 | Bài Sơn Đảo Hải | X395 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 12 | Thái Hư Thần Công | X396 | - | bị động | 1 | 165 |
+| 13 | Tung Bộ Quan Hỏa | X397 | T | lướt | 1 | 185 |
 
 ## Tiêu Dao Kiếm (TDK, H02A)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Trảm Vân Kiếm | X397 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
-| 2 | Tiêu Dao Kiếm Pháp | X398 | - | bị động | 1 | 6 |
-| 3 | Đan Phượng Dẫn | X399 | R | nổ quanh thân | 1 | 15 |
-| 4 | Chân Hỏa Hộ Thể | X400 | - | bị động | 1 | 25 |
-| 5 | Sơ Hoa Dẫn | X401 | F | buff phe ta | 1 | 38 |
-| 6 | Đoản Ca Hành | X402 | - | bị động | 1 | 52 |
-| 7 | Tê Chiếu Phồn Thương | X403 | W | quét phía trước, **autocast** | 3 | 68 |
-| 8 | Kiếm Chủng Dẫn | X404 | D | nổ quanh thân | 25 | 85 |
-| 9 | Bính Nhược Quan Hỏa | X405 | - | bị động | 1 | 105 |
-| 10 | Ngang Nhật Đồ | X406 | - | bị động | 1 | 125 |
-| 11 | Bách Điểu Triều Phượng | X407 | E | phóng / đạn bay, **autocast** | 4 | 145 |
-| 12 | Phần Phách Tru Tâm | X408 | - | bị động | 1 | 165 |
-| 13 | Hỏa Hải Vô Nhai | X409 | - | bị động | 1 | 185 |
+| 1 | Trảm Vân Kiếm | X398 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
+| 2 | Tiêu Dao Kiếm Pháp | X399 | - | bị động | 1 | 6 |
+| 3 | Đan Phượng Dẫn | X400 | R | nổ quanh thân | 1 | 15 |
+| 4 | Chân Hỏa Hộ Thể | X401 | - | bị động | 1 | 25 |
+| 5 | Sơ Hoa Dẫn | X402 | F | buff phe ta | 1 | 38 |
+| 6 | Đoản Ca Hành | X403 | - | bị động | 1 | 52 |
+| 7 | Tê Chiếu Phồn Thương | X404 | W | quét phía trước, **autocast** | 3 | 68 |
+| 8 | Kiếm Chủng Dẫn | X405 | D | nổ quanh thân | 25 | 85 |
+| 9 | Bính Nhược Quan Hỏa | X406 | - | bị động | 1 | 105 |
+| 10 | Ngang Nhật Đồ | X407 | - | bị động | 1 | 125 |
+| 11 | Bách Điểu Triều Phượng | X408 | E | phóng / đạn bay, **autocast** | 4 | 145 |
+| 12 | Phần Phách Tru Tâm | X409 | - | bị động | 1 | 165 |
+| 13 | Hỏa Hải Vô Nhai | X410 | - | bị động | 1 | 185 |
 
 ## Thúy Yên Kiếm (TYK, H02B)
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Phong Quyển Tàn Tuyết | X410 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
-| 2 | Thúy Yên Kiếm Pháp | X411 | - | bị động | 1 | 6 |
-| 3 | Tuyết Ảnh | X412 | - | bị động | 1 | 15 |
-| 4 | Vũ Đả Lê Hoa | X413 | R | phóng / đạn bay | 16 | 25 |
-| 5 | Hộ Thể Hàn Băng | X414 | - | bị động | 1 | 38 |
-| 6 | Băng Cốt Tuyết Tâm | X415 | - | bị động | 1 | 52 |
-| 7 | Băng Tâm Tiên Tử | X416 | W | quét phía trước, **autocast** | 2 | 68 |
-| 8 | Phi Tự Phiêu Hoa | X417 | D | nổ quanh thân | 26 | 85 |
-| 9 | Phù Vân Tán Tuyết | X418 | - | bị động | 1 | 105 |
-| 10 | Băng Tâm Ngọc Lăng | X419 | F | buff bản thân | 1 | 125 |
-| 11 | Thủy Ánh Mạn Tú | X420 | E | phóng / đạn bay, **autocast** | 3 | 145 |
-| 12 | Thập Diện Mai Phục | X421 | - | bị động | 1 | 165 |
-| 13 | Tuyết Ánh Hồng Trần | X422 | - | bị động | 1 | 185 |
+| 1 | Phong Quyển Tàn Tuyết | X411 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
+| 2 | Thúy Yên Kiếm Pháp | X412 | - | bị động | 1 | 6 |
+| 3 | Tuyết Ảnh | X413 | - | bị động | 1 | 15 |
+| 4 | Vũ Đả Lê Hoa | X414 | R | phóng / đạn bay | 16 | 25 |
+| 5 | Hộ Thể Hàn Băng | X415 | - | bị động | 1 | 38 |
+| 6 | Băng Cốt Tuyết Tâm | X416 | - | bị động | 1 | 52 |
+| 7 | Băng Tâm Tiên Tử | X417 | W | quét phía trước, **autocast** | 2 | 68 |
+| 8 | Phi Tự Phiêu Hoa | X418 | D | nổ quanh thân | 26 | 85 |
+| 9 | Phù Vân Tán Tuyết | X419 | - | bị động | 1 | 105 |
+| 10 | Băng Tâm Ngọc Lăng | X420 | F | buff bản thân | 1 | 125 |
+| 11 | Thủy Ánh Mạn Tú | X421 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 12 | Thập Diện Mai Phục | X422 | - | bị động | 1 | 165 |
+| 13 | Tuyết Ánh Hồng Trần | X423 | - | bị động | 1 | 185 |
