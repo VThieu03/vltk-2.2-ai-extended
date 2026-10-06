@@ -416,12 +416,36 @@ OVR = {
     "A0X9": {"kind": 0, "stats": [], "link": 2, "lfx": 131072},
 
     # Thien Nhan Kich (TNK)
-    "A0G0": {"kind": 2, "hits": 2},                          # Tan Duong Nhu Huyet
-    "A0G1": {"kind": 2, "hits": 3},                          # Van Long Kich
-    "A0G2": {"kind": 5, "hits": 3},                          # Giang Hai No Lan
-    "A0G5": {"kind": 4, "hits": 10},                         # Liet Hoa Tinh Thien
-    "A0G8": {"kind": 3},                                     # Phi Hong Vo Tich
-    "A0G6": {"kind": 4, "hits": 3, "status": 4, "sdur": 4},  # Ma Am Phe Phach (demon nova slow)
+
+    # Thien Nhan Kich (TNK): read from KVCT's code
+    # Q eiS / eiq: splash 100 where the target stood, at most 7, 30% tho thuong 1 s and 30% bong 1.5 s; 10% of the
+    # damage back as life
+    "A0G0": {"kind": 16, "rad": 100, "max": 7, "st": 1, "ch": 30, "sd": 1, "st2": 5, "ch2": 30, "sd2": 1.5,
+             "fx": 4, "steal_pct": 10},
+    "A0G3": {"kind": 0, "stats": [3, 4]},                    # Thien Nhan Mau Phap: chinh xac, hoa cong, chi mang, toc danh
+    # R etc / eth / ets: 10 spears (0.2 s apart) thrown 560 around, 50% bong 2 s; cooldown 2
+    "A0G5": {"kind": 4, "hits": 10, "gap": .2, "rad": 560, "max": 7, "st": 5, "ch": 50, "sd": 2},
+    # D eNi / eNQ: enemies within 500 (at most 7): (45 + 5 x rank)% bong 4 s, (36 + 4 x rank)% hon loan 5 s,
+    # toc danh -25% 8 s; no damage
+    "A0G6": {"kind": 4, "nodmg": 1, "rad": 500, "max": 7, "st": 5, "ch": 45, "chr": 5, "sd": 4,
+             "st2": 3, "ch2": 36, "chr2": 4, "sd2": 5},
+    # Bi To Thanh Phong: every hit lowers the enemy's khang vat cong / ne tranh / chinh xac 30 s
+    "A0G7": {"kind": 0, "stats": [], "link": 3, "lfx": 512},
+    "A0G4": {"kind": 0, "stats": [5]},                       # Thien Ma Giai The: phat huy luc tan cong
+    # W J9F / J9s: a thrust 200 long (width 120), at most 7, 35% tho thuong 1 s and 35% bong 1.5 s; 15% back as life
+    "A0G1": {"kind": 5, "rad": 200, "max": 7, "st": 1, "ch": 35, "sd": 1, "st2": 5, "ch2": 35, "sd2": 1.5,
+             "fx": 4, "steal_pct": 15},
+    # F eHs / eHC: dash 920, hits on the way (240), 100% bong 2 s; immune meanwhile; cooldown 24
+    "A0G8": {"kind": 3, "rad": 920, "st": 5, "ch": 100, "sd": 2, "selfimm": 1},
+    # Cuu Khuc Hop Thuong: D gives 5 s, F 3 s of immunity to damage and statuses with full chi mang (not done)
+    "A0GB": {"kind": 0, "stats": []},
+    "A0G9": {"kind": 0, "stats": [4]},                       # Van Long Tam Hien: vat cong, ne tranh, toc danh; F twice
+    # E eA2 / eAm: spears fanned in front, 2 waves 0.3 s apart, at most 7, 40% tho thuong 1 s / 40% bong 1.5 s;
+    # 20% back as life
+    "A0G2": {"kind": 5, "fan": 3, "spread": 20, "hits": 2, "gap": .3, "rad": 400, "max": 7, "st": 1, "ch": 40,
+             "sd": 1, "st2": 5, "ch2": 40, "sd2": 1.5, "fx": 4, "steal_pct": 20},
+    "A0GC": {"kind": 0, "stats": [6, 3], "link": 2, "lfx": 65536},  # Ma Viem Tai Thien: giam sat thuong nhan, chi mang; E +
+    "A0XA": {"kind": 0, "stats": [5]},                       # Bich Nguyet Phi Tinh: chinh xac, vat cong ngoai
 
     # Nga My Chuong (NMC): read from KVCT's code
     # Q Jsl / Jsd: 2 blows 0.15 s apart where the target stood, radius 200, at most 7, 30% cham 2 s (then an ice ray)

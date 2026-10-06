@@ -258,17 +258,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Tàn Dương Như Huyết | X182 | Q | quét phía trước, **autocast** | 1 | 1 |
+| 1 | Tàn Dương Như Huyết | X182 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Thiên Nhẫn Mâu Pháp | X183 | - | bị động | 1 | 6 |
 | 3 | Liệt Hỏa Tinh Thiên | X184 | R | nổ quanh thân | 10 | 15 |
 | 4 | Ma Âm Phệ Phách | X185 | D | nổ quanh thân | 1 | 25 |
 | 5 | Bi Tô Thanh Phong | X186 | - | bị động | 1 | 38 |
 | 6 | Thiên Ma Giải Thể | X187 | - | bị động | 1 | 52 |
-| 7 | Vân Long Kích | X188 | W | quét phía trước, **autocast** | 1 | 68 |
+| 7 | Vân Long Kích | X188 | W | phóng / đạn bay, **autocast** | 1 | 68 |
 | 8 | Phi Hồng Vô Tích | X189 | F | lướt | 1 | 85 |
 | 9 | Cửu Khúc Hợp Thương | X190 | - | bị động | 1 | 105 |
 | 10 | Vân Long Tam Hiện | X191 | - | bị động | 1 | 125 |
-| 11 | Giang Hải Nộ Lan | X192 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 11 | Giang Hải Nộ Lan | X192 | E | phóng / đạn bay, **autocast** | 2 | 145 |
 | 12 | Ma Viêm Tại Thiên | X193 | - | bị động | 1 | 165 |
 | 13 | Bích Nguyệt Phi Tinh | X194 | - | bị động | 1 | 185 |
 

@@ -361,23 +361,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q là đạn bay, E là nổ quanh thân 6 hit, Vạn Tướng Thần Công là buff giảm sát thương, Phật Quang Chiến Khí 30 giây (KVCT 300 giây).
 
-### Thiên Nhẫn Kích (TNK)
+### Thiên Nhẫn Kích (TNK) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Tàn Dương Như Huyết | Q | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thiên Nhẫn Mâu Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Liệt Hỏa Tinh Thiên | R | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 10 đòn | Đạt chuẩn |
-| Ma Âm Phệ Phách | D | nổ quanh thân | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Bi Tô Thanh Phong | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Thiên Ma Giải Thể | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Vân Long Kích | W | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Phi Hồng Vô Tích | F | xung kích | OVR Đặc thù | độc / bỏng mỗi giây, miễn nhiễm sát thương | Đạt chuẩn |
-| Cửu Khúc Hợp Thương | - | bị động (cộng chỉ số) | Khuôn chuẩn | miễn nhiễm sát thương, giảm kháng (nhận thêm 15%), cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Vân Long Tam Hiện | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Giang Hải Nộ Lan | E | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Ma Viêm Tại Thiên | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bích Nguyệt Phi Tinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TNK"`; Q/W/E: `eiS`/`eiq`, `J9F`/`J9s`, `eA2`/`eAm`; chiêu bấm: `etc`/`eth`/`ets`, `eNi`/`eNQ`, `eHs`/`eHC`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map; bỏng = nhận thêm 50% sát thương (như KVCT).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Tàn Dương Như Huyết | Q (autocast) | Đánh lan 100 tại chỗ mục tiêu, tối đa 7; 30% thọ thương 1 giây + 30% bỏng 1,5 giây; hút 10% sát thương thành sinh / nội lực | Như KVCT (hút 10% thành sinh lực) | Giống |
+| Thiên Nhẫn Mâu Pháp | - | Bị động: chính xác, hỏa công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Liệt Hỏa Tinh Thiên | R | 10 ngọn mâu lửa (cách 0,2 giây) phóng 560 ra xung quanh, 50% bỏng 2 giây; hồi 2 giây | Nổ quanh thân 560, 10 nhịp cách 0,2 giây, tối đa 7; bỏng 50% 2 giây | Gần giống (vùng tròn thay vì từng ngọn mâu) |
+| Ma Âm Phệ Phách | D | Kẻ địch trong 500 (tối đa 7): (45 + 5 × bậc)% bỏng 4 giây, (36 + 4 × bậc)% hỗn loạn 5 giây, tốc đánh −25% 8 giây; không sát thương | Nổ quanh thân 500 không sát thương, tối đa 7: bỏng + choáng (hỗn loạn) theo đúng tỉ lệ / thời gian | Gần giống (hỗn loạn = choáng; không giảm tốc đánh) |
+| Bi Tô Thanh Phong | - | Đánh trúng: giảm kháng vật / né tránh / chính xác của kẻ địch 30 giây | Q/W/E trúng: kẻ địch nhận thêm 15% sát thương 4 giây | Gần giống |
+| Thiên Ma Giải Thể | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
+| Vân Long Kích | W (autocast) | Đâm thẳng 200 (rộng 120), tối đa 7; 35% thọ thương 1 giây + 35% bỏng 1,5 giây; hút 15% | Đạn bay 200, tối đa 7; như KVCT | Giống |
+| Phi Hồng Vô Tích | F | Xung kích 920, đánh kẻ địch trên đường đi (240), 100% bỏng 2 giây; miễn sát thương / trạng thái khi xung kích; hồi 24 giây | Lướt 920, đánh quanh điểm cuối (200); bỏng 100% 2 giây; miễn khống chế 1 giây | Gần giống (đánh ở điểm cuối, không dọc đường) |
+| Cửu Khúc Hợp Thương | - | D cho 5 giây, F cho 3 giây miễn sát thương + miễn trạng thái + chí mạng tối đa | Không có hiệu quả | Khác (chưa làm) |
+| Vân Long Tam Hiện | - | Vật công, né đòn ngoại công, tốc đánh; F dùng liên tiếp 2 lần | Bị động: tốc đánh | Khác một phần (F chưa dùng 2 lần) |
+| Giang Hải Nộ Lan | E (autocast) | Mâu đâm xuyên hình quạt, 2 đợt cách 0,3 giây, tối đa 7; 40% thọ thương 1 giây / 40% bỏng 1,5 giây; hút 20% | 3 đạn xòe 20°, 2 đợt cách 0,3 giây, 400, tối đa 7; đợt 1 thọ thương, đợt 2 bỏng; hút 20% | Gần giống |
+| Ma Viêm Tại Thiên | - | Giảm sát thương nhận, chí mạng, sát thương chí mạng; E tăng tấn công | Bị động: giảm sát thương nhận + chí mạng; E 30% thêm 25% sát thương | Gần giống |
+| Bích Nguyệt Phi Tinh | - | Sát thương lên hệ Kim, chính xác, vật công ngoại | Bị động: sát thương % | Gần giống |
+
+Trước khi sửa: Q/W là quét nón, Ma Âm Phệ Phách là nổ 3 lần làm chậm (KVCT: bỏng + hỗn loạn, không sát thương), không có hút máu ở Q/W/E.
 
 ### Võ Đang Khí (VDQ)
 
