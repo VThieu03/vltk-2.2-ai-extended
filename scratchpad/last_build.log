@@ -100,21 +100,21 @@ cuong hoa icon rows: 1115
 disabled icons: 104
 icons copied: 104 items with a new icon: 271
 === Running vfx.py ===
-vfx: 15 models (44 files), 52 ability fields, 7 buff fields, 46 script effects
+vfx: 15 models (44 files), 52 ability fields, 7 buff fields, 47 script effects
 === Running ui.py ===
 ui: 7 textures, 2 buttons, 13 skin keys
 === Running scale.py ===
 map x1.50: 168x128 -> 252x192 tiles, 3168 doodads
 === Running build.py ===
-pjass ok (33941 lines)
-ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 93685855 bytes, 2609 files from src
+pjass ok (33995 lines)
+ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 93686469 bytes, 2609 files from src
 
 >>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<
 
 === Syncing map to target directories ===
-Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta.w3x (93,685,855 bytes)
-Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta AI.w3x (93,685,855 bytes)
-Synced -> D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,685,855 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x (93,685,855 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x (93,685,855 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,685,855 bytes)
+Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta.w3x (93,686,469 bytes)
+Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta AI.w3x (93,686,469 bytes)
+Synced -> D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,686,469 bytes)
+Warning: File is locked by a running Warcraft III process: C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x (93,686,469 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,686,469 bytes)
