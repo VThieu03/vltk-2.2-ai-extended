@@ -480,7 +480,7 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 4 | Súc Thế Đãi Phát | X341 | - | bị động | 1 | 25 |
 | 5 | Ngọc Phong Châm | X342 | D | phóng / đạn bay | 1 | 38 |
 | 6 | Lưu Vân Pháp | X343 | - | bị động | 1 | 52 |
-| 7 | Ly Hận | X344 | W | đánh mục tiêu, **autocast** | 3 | 68 |
+| 7 | Ly Hận | X344 | W | phóng / đạn bay, **autocast** | 3 | 68 |
 | 8 | Hoàng Tuyền Lảo Đảo | X345 | F | nổ quanh thân | 20 | 85 |
 | 9 | Hành Vân Đới Vũ | X346 | - | bị động | 1 | 105 |
 | 10 | Vụ Tập Vân Hợp | X347 | T | buff bản thân | 1 | 125 |

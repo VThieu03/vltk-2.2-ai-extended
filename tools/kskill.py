@@ -727,9 +727,6 @@ OVR = {
     "A097": {"kind": 2, "hits": 3},                          # Hoa Long Thao Thien
 
     # Co Mo (CMC, CMK)
-    "A0LS": {"kind": 5, "hits": 2},                          # Biet Tu
-    "A0LU": {"kind": 5, "hits": 3},                          # Bi Sau
-    "A0LT": {"kind": 1, "hits": 3},                          # Ly Han (triple strike)
 
     # Hoa Son (HSQ, HSK)
     "A0L3": {"kind": 6, "dur": 20, "stats": [(5, 25, 2)]},   # Tu Ha Chan Khi
