@@ -94,6 +94,19 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Duong Mon Phi Dao (DMPD): read from KVCT's code; A07S A07T A07W as in DMTT; R A08J D A08P below
+    # Q Jsy: a knife flies 900 (width 100) through up to 7 enemies, 30% dinh than 1 s, poison 2 ticks
+    "A08H": {"kind": 5, "rad": 900, "max": 7, "st": 2, "ch": 30, "sd": 1, "fx": 8},
+    # W JxA: at the target 3 blows 0.32 s apart, radius 280, at most 7, 35% dinh than 1 s (poison on the last only)
+    "A08K": {"kind": 16, "hits": 3, "gap": .32, "rad": 280, "max": 7, "st": 2, "ch": 35, "sd": 1, "fx": 8},
+    # Thuc Cot Huyet Nhan: R marks the enemies (Cau Hon 10 s): more damage of W and E (not done)
+    "A08M": {"kind": 0, "stats": []},
+    # E JFp / JFm: a knife flies 1000 and bursts at the first enemy (180, at most 7), then 3 more bursts 0.1 s apart;
+    # 40% dinh than 1 s, poison 2 ticks on the first
+    "A08S": {"kind": 16, "hits": 4, "gap": .1, "rad": 180, "max": 7, "st": 2, "ch": 40, "sd": 1, "fx": 8},
+    "A08T": {"kind": 0, "stats": [13]},                      # Tam Phach: ne tranh noi / ngoai cong (E poison 6 ticks: not done)
+    "A0WT": {"kind": 0, "stats": [4, 13]},                   # Bach Phat Bach Trung: toc danh, than phap, sinh khi
+
     # Thien Vuong Chuy (TVC): read from KVCT's code; A01M R and A0WA are shared with TVD / TVT
     # Q eA8: splash 150 where the target stood, at most 7, 35% tho thuong 1 s
     "A02C": {"kind": 16, "rad": 150, "max": 7, "st": 1, "ch": 35, "sd": 1},
@@ -426,7 +439,7 @@ OVR = {
     "A07W": {"kind": 0, "stats": [5, 3]},                    # Toi Doc Thuat: vat cong, doc cong %, sat thuong chi mang
     # R e1T / e1z: at the point (<= 740) 3 pulses every 1 s, radius 300, at most 7: 50% dinh than 1 s, doc sat 2 s
     "A08J": {"kind": 13, "hits": 3, "gap": 1, "rad": 300, "far": 740, "max": 7, "st": 2, "ch": 50, "sd": 1, "fx": 8},
-    "A081": {"kind": 0, "stats": [5]},                       # Tam Nhan: phat huy luc tan cong
+    "A081": {"kind": 0, "stats": [5, 14]},                   # Tam Nhan: phat huy luc tan cong, khang choang
     # W JDP / JD7: 5 darts (1, then 2 + 2 curving), 800 out and back (width 80), at most 3, 35% dinh than 1 s, doc sat
     "A0Y1": {"kind": 5, "fan": 5, "spread": 10, "rad": 800, "max": 3, "st": 2, "ch": 35, "sd": 1, "fx": 8},
     "A08L": {"kind": 0, "stats": [4, 3]},                    # Ham Sa Xa Anh: toc danh, chi mang, doc sat
@@ -466,9 +479,6 @@ OVR = {
     "A0WP": {"kind": 0, "stats": [5, 3], "proc": 25, "pcd": 30, "dur": 20},
 
     # Duong Mon Phi Dao (DMPD)
-    "A08H": {"kind": 5, "hits": 2},                          # Tieu Ly Phi Dao
-    "A08K": {"kind": 5, "hits": 3},                          # Nhiep Hon Nguyet Anh
-    "A08S": {"kind": 3},                                     # Vo Anh Xuyen
 
     # Thien Nhan Dao (TND): read from KVCT's code. Status 5 = bong: KVCT's burnt enemy takes x1.5 damage
     # Q JDX / JD5: a fire spot where the target stood, 3 burns 0.95 s apart, radius 120, at most 7, 30% bong 2 s
