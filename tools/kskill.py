@@ -94,6 +94,27 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Minh Giao Kiem (MGK): read from KVCT's code
+    # Q JEv: a fire field at the target, 4 pulses 1 s apart, radius 150, at most 7, 30% dinh than 0.5 s, poison
+    "A08W": {"kind": 13, "hits": 4, "gap": 1, "rad": 150, "max": 7, "st": 2, "ch": 30, "sd": .5, "fx": 8},
+    "A08X": {"kind": 0, "stats": [3, 4]},                    # Minh Giao Kiem Phap: doc cong, chi mang, toc danh
+    "A08Y": {"kind": 0, "stats": [13]},                      # Di Khi Phieu Tung: toc chay, ne tranh noi cong
+    # W JFk: at a point <= 740: 2 bursts 0.2 s apart (radius 200, damage only), then 6 flames fly 600: 50% dinh than 2 s
+    "A08Z": {"kind": 13, "hits": 2, "gap": .2, "rad": 200, "far": 740, "max": 7, "st": 2, "ch": 50, "sd": 2, "fx": 8},
+    # D ely: 15 s: (8 + 2/rank)% of the damage as life, immune to choang / dinh than
+    "A090": {"kind": 8, "dur": 15, "stats": [(1, 8, 2)]},
+    "A093": {"kind": 0, "stats": [5, 14]},                   # Ly Hoa Dai Phap: phat huy luc tan cong, ti le dinh than, khang choang
+    # E JCp: at a point <= 740: radius 400, at most 10, 35% dinh than 1 s, poison 5 ticks
+    "A094": {"kind": 13, "hits": 1, "gap": .6, "rad": 400, "far": 740, "max": 10, "st": 2, "ch": 35, "sd": 1, "fx": 8},
+    # F JEh: 7 + 0.5/rank s: the cooldown of W / E / R is 0.3 s (not done)
+    "A095": {"kind": 6, "dur": 8, "stats": []},
+    "A098": {"kind": 0, "stats": [5]},                       # Nhan Huan Tu Khi: doc cong (W / E cooldown shorter: not done)
+    # Hoang Hoa Ngoc Phan: (8 + rank)% of the poison ticks do x (1.27 + 0.03/rank)
+    "A099": {"kind": 0, "stats": [], "link": 3, "lfx": 65536},
+    # R Jkw: at a point <= 740: 3 hits 0.2 s apart, radius 500, at most 10, 40% dinh than 1 s, poison on the last
+    "A09A": {"kind": 13, "hits": 3, "gap": .2, "rad": 500, "far": 740, "max": 10, "st": 2, "ch": 40, "sd": 1, "fx": 8},
+    "A09B": {"kind": 0, "stats": [5]},                       # Thanh Hoa Than Cong: doc sat gay ra, R cooldown shorter
+    "A0WU": {"kind": 0, "stats": [5]},                       # Muc Da Ung Duong: sat thuong he Tho, noi cong, thoi gian doc
     # Minh Giao Chuy (MGC): read from KVCT's code; A08Z A090 A094 below are Minh Giao Kiem's
     # Q e6L: burst 150 at the target, no limit, 30% tho thuong 1 s, poison 2 ticks
     "A09M": {"kind": 16, "rad": 150, "st": 1, "ch": 30, "sd": 1, "fx": 8},
@@ -640,13 +661,7 @@ OVR = {
     "A0DC": {"kind": 1, "hits": 3},                          # Can Duong Than Chi (triple strike)
 
     # Minh Giao (MGC, MGK)
-    "A095": {"kind": 4, "hits": 2},                          # Dap chuy
     "A097": {"kind": 2, "hits": 3},                          # Hoa Long Thao Thien
-    "A099": {"kind": 4, "hits": 4},                          # Cuong Phong Bao Vu
-    "A09A": {"kind": 4, "hits": 8},                          # Kiem Dang Bat Hoang
-    "A08Z": {"kind": 4, "hits": 4, "status": 1, "sdur": 3},  # Van Vat Cau Phan (fire ring nova)
-    "A090": {"kind": 6, "dur": 15, "stats": [(1, 30, 3)]},   # Can Khon Dai Na Di (life steal buff)
-    "A094": {"kind": 4, "hits": 8, "status": 1, "sdur": 4},  # Thanh Hoa Lieu Nguyen (firestorm 8 hits)
 
     # Co Mo (CMC, CMK)
     "A0LS": {"kind": 5, "hits": 2},                          # Biet Tu

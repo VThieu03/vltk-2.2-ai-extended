@@ -438,17 +438,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thánh Hỏa Phần Tâm | X312 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
+| 1 | Thánh Hỏa Phần Tâm | X312 | Q | trận tại điểm (nhiều nhịp), **autocast** | 4 | 1 |
 | 2 | Minh Giáo Kiếm Pháp | X313 | - | bị động | 1 | 6 |
 | 3 | Di Khí Phiêu Tung | X314 | - | bị động | 1 | 15 |
-| 4 | Vạn Vật Câu Phần | X315 | W | nổ quanh thân, **autocast** | 2 | 25 |
-| 5 | Càn Khôn Đại Na Di | X316 | D | buff bản thân | 1 | 38 |
+| 4 | Vạn Vật Câu Phần | X315 | W | trận tại điểm (nhiều nhịp), **autocast** | 2 | 25 |
+| 5 | Càn Khôn Đại Na Di | X316 | D | miễn khống | 1 | 38 |
 | 6 | Ly Hỏa Đại Pháp | X317 | - | bị động | 1 | 52 |
-| 7 | Thánh Hỏa Liêu Nguyên | X318 | E | nổ quanh thân, **autocast** | 1 | 68 |
-| 8 | Thánh Hỏa Lệnh Pháp | X319 | F | nổ quanh thân | 1 | 85 |
+| 7 | Thánh Hỏa Liêu Nguyên | X318 | E | trận tại điểm (nhiều nhịp), **autocast** | 1 | 68 |
+| 8 | Thánh Hỏa Lệnh Pháp | X319 | F | buff bản thân | 1 | 85 |
 | 9 | Nhân Huân Tử Khí | X320 | - | bị động | 1 | 105 |
-| 10 | Hoang Hỏa Ngọc Phần | X321 | - | tự phát khi đánh (nổ quanh thân) | 1 | 125 |
-| 11 | Kiếm Đãng Bát Hoang | X322 | R | nổ quanh thân | 3 | 145 |
+| 10 | Hoang Hỏa Ngọc Phần | X321 | - | bị động | 1 | 125 |
+| 11 | Kiếm Đãng Bát Hoang | X322 | R | trận tại điểm (nhiều nhịp) | 3 | 145 |
 | 12 | Thánh Hỏa Thần Công | X323 | - | bị động | 1 | 165 |
 | 13 | Mục Dã Ưng Dương | X324 | - | bị động | 1 | 185 |
 
