@@ -50,9 +50,6 @@ AUTO_KEY = {"Q": AUTO["blackarrow"], "W": AUTO["poisonarrowstarg"], "E": AUTO["c
 # numbers read from KVCT's own skill code (docs\kvct_skills.md), per KVCT ability:
 # kind = template, dur = buff seconds, stats = [(stat of zzVL_af, base, per rank), ...]
 OVR = {
-    "A0KG": {"kind": 3},
-    "A0KH": {"kind": 4, "hits": 40},
-    "A0XM": {"kind": 4, "status": 4, "sdur": 24, "hits": 4},
     "A0CE": {"kind": 6, "status": 5},
 
     # Thien Vuong Dao (TVD): read from KVCT's code; A01M A01R A01W A01Z A0WA are shared with TVT / TVC
@@ -77,7 +74,7 @@ OVR = {
     # E eAg / eAM: 3 blades every 1/6 s flying 450 on from the target (width 150), at most 7 each, 40% tho thuong
     "A03D": {"kind": 5, "hits": 3, "gap": .17, "rad": 450, "max": 7, "fromtgt": 1, "st": 1, "ch": 40, "sd": 1},
     # Bat Phong Tram: sinh luc toi da; E 50%: 2 more blades
-    "A03E": {"kind": 0, "stats": [7], "link": 2, "lfx": 32768},
+    "A03E": {"kind": 0, "stats": [7], "link": 2, "xw": 2, "xc": 50},
     "A0WA": {"kind": 0, "stats": [3]},                       # Thien Ma Hanh Khong (slot 14): chi mang
 
     # Thien Vuong Thuong / Chuy (TVT, TVC)
@@ -127,8 +124,33 @@ OVR = {
     "A0F0": {"kind": 4, "hits": 12},                         # Ac Cau Lan Lo
     "A0EX": {"kind": 6, "dur": 300, "stats": [(5, 20, 2)]},  # Minh Sat Thu Hao
 
-    # Vo Dang (VDQ, VDK)
-    "A0JO": {"kind": 6, "dur": 300, "stats": [(6, 18, 3)]},    # Toa Vong Vo Nga
+    # Vo Dang Kiem (VDK): read from KVCT's code; A0JO is shared with VDQ
+    # Q ei5: 3 hits 0.24 s apart, splash 100 where the target stood, 30% choang 0.5 s
+    "A0JX": {"kind": 16, "hits": 3, "gap": .24, "rad": 100, "st": 3, "ch": 30, "sd": .5},
+    "A0K8": {"kind": 0, "stats": [3, 4]},                    # Vo Dang Kiem Phap: chinh xac, loi cong, chi mang, toc danh
+    # D JfE / J3H: 300 s, mana takes (18+3/rank)% of the damage (while mana > 15%), khang cham
+    "A0JO": {"kind": 6, "dur": 300, "stats": [(6, 18, 3)]},
+    # R Jx3 / JxK / JkQ: dash <= 800, no damage of its own: the hero's Q W E on the enemies around the end (200);
+    # then Tu Tieu Hoanh Van: free of control, toc danh +40
+    "A0KG": {"kind": 3, "rad": 800, "nodmg": 1, "qwe": 1, "selfimm": 2},
+    "A0KA": {"kind": 0, "stats": [1, 2]},                    # That Tinh Quyet: ne tranh, damage -> life / mana
+    "A0K9": {"kind": 0, "stats": [5]},                       # Kiem Khi Tung Hoanh: phat huy luc tan cong
+    # W eZK / eZE: 3 sword qi 0.2 s apart from the hero, 220 long (width 100), at most 7 each, 35% choang 0.5 s
+    "A0JY": {"kind": 5, "hits": 3, "gap": .2, "rad": 220, "max": 7, "st": 3, "ch": 35, "sd": .5},
+    # F eN8 / eNR: 12 s, every 0.3 s 2 sword qi at random enemies within 800, 50% choang 0.5 s; ne tranh +50%
+    "A0KH": {"kind": 17, "hits": 40, "gap": .3, "rad": 800, "max": 2, "st": 3, "ch": 50, "sd": .5},
+    # Thai Nhat Chan Khi: noi luc, ne tranh, toc danh; every 6.6 - 0.2 x rank s: 1 s immune to damage and control
+    "A0KB": {"kind": 0, "stats": [4], "period": (66, 2)},
+    "A0KC": {"kind": 0, "stats": [5]},                       # Me Tung Huyen Anh: ne tranh (stacks when hit: not done)
+    # E J9A / J9X: 3 sword qi 0.2 s apart, 390 long (width 120), at most 7 each, 40% choang 0.5 s
+    "A0JZ": {"kind": 5, "hits": 3, "gap": .2, "rad": 390, "max": 7, "st": 3, "ch": 40, "sd": .5},
+    # Thai Cuc Kiem Phap: sat thuong ngu hanh nhan -%; E 40%: 6 sword qi instead of 3 (every 1.5 s)
+    "A0KE": {"kind": 0, "stats": [6], "link": 2, "xw": 3, "xc": 40},
+    # T JeR / Jey: 20 s, every 1 s enemies within 800 (at most 7): toc chay -15% and khang loi down, 24 s
+    "A0XM": {"kind": 18, "nodmg": 1, "hits": 20, "gap": 1, "rad": 800, "max": 7, "st": 4, "ch": 100, "sd": 24,
+             "fx": 512, "dur": 24},
+
+    # Vo Dang Khi (VDQ)
     "A0JP": {"kind": 9, "dur": 20},                            # Thuan Duong Vo Cuc
     "A0JS": {"kind": 12},                                    # Van Kiem Quy Tong
     "A0JA": {"kind": 1, "hits": 3},                          # Thien Dia Vo Cuc (triple strike)
@@ -303,8 +325,9 @@ OVR = {
 }
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
         6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0),
-        13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2), 16: (1, 250., 4, 1)}
-ATTACK = (1, 2, 3, 4, 5, 13, 16)
+        13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2), 16: (1, 250., 4, 1),
+        17: (0, 0., 30, 0), 18: (0, 0., 60, 0)}
+ATTACK = (1, 2, 3, 4, 5, 13, 16, 17)
 # stat words of a passive / buff -> stat of zzVL_af (kskill.j zzKS_per)
 STAT = [("sinh lực tối đa", 7), ("chí mạng", 3), ("tốc độ tấn công", 4), ("tốc đánh", 4), ("vật công", 5),
         ("phát huy lực tấn công", 5), ("công kích", 5), ("sát thương", 5), ("phòng thủ", 11), ("kháng", 6),
@@ -314,7 +337,7 @@ KIND_TXT = {1: "Đánh mục tiêu", 2: "Quét các mục tiêu phía trước (
             4: "Đánh các mục tiêu quanh thân (380)", 5: "Phóng chiêu bay thẳng 900, xuyên qua mọi mục tiêu"}
 STAT_TXT = {1: "Hút sinh lực +%d%%", 3: "Bạo kích +%d%%", 4: "Tốc đánh +%d%%", 5: "Sát thương +%d%%",
             6: "Giảm sát thương nhận %d%%", 7: "Sinh lực +%d", 11: "Phòng thủ +%d", 13: "Tốc chạy +%d"}
-PER = {1: 1, 3: 1, 4: 3, 5: 2, 6: 1, 7: 80, 11: 1, 13: 4}
+PER = {1: 1, 2: 1, 3: 1, 4: 3, 5: 2, 6: 1, 7: 80, 11: 1, 13: 4}
 
 
 def m(mid, typ, val, lvl=0, dp=0):
@@ -439,7 +462,7 @@ def main():
             if "dur" in o_:
                 s["dur"] = o_["dur"]
             proc = kind in ATTACK and (key not in SLOT or key in used)
-            if kind in (6, 7, 8, 9, 14, 15) and (key not in SLOT or key in used):
+            if kind in (6, 7, 8, 9, 14, 15, 18) and (key not in SLOT or key in used):
                 kind = 0                                        # keyless buff: a passive
             used.add(key)
             st = stats_of(s["tip"])
@@ -543,7 +566,9 @@ def main():
                       257: o_.get("rad", 0), 258: round(o_.get("gap", 0) * 100), 259: o_.get("max", 0),
                       245: o_.get("lfx", 0), 231: o_.get("steal", 0), 232: o_.get("mana", 0),
                       225: o_.get("chr", 0), 224: o_.get("chr2", 0), 228: o_.get("nodmg", 0), 223: o_.get("selfimm", 0),
-                      222: o_.get("durr", 0), 215: o_.get("fromtgt", 0), 216: o_.get("proc", 0)}
+                      222: o_.get("durr", 0), 215: o_.get("fromtgt", 0), 216: o_.get("proc", 0), 214: o_.get("qwe", 0),
+                      212: o_.get("period", (0, 0))[0], 211: o_.get("period", (0, 0))[1],
+                      209: o_.get("xw", 0), 208: o_.get("xc", 0)}
                 if "pcd" in o_:
                     ex[220] = o_["pcd"]
                 keep = {239: o_["link"]} if "link" in o_ else {}   # written even when 0 (Q slot / no heal)

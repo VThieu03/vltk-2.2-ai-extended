@@ -69,22 +69,30 @@ Khác biệt chung: sát thương theo công thức của map (`zzKS_Hit`); chí
 
 Trước khi sửa: Kinh Lôi Trảm / Phá Thiên Trảm là đánh 1 mục tiêu / quét nón (KVCT là chém lan tại mục tiêu), Hào Hùng Trảm là đạn bay từ tướng 1 đợt; thiếu 5 chiêu dùng chung; OVR gán sai Kinh Lôi Phá Thiên là buff, Thiên Canh Chiến Khí là nổ 3 hit (cả hai là bị động); Tung Hoành Bát Hoang không cộng chí mạng (kiểu 8 không gọi buff).
 
-### Võ Đang Kiếm (VDK)
+### Võ Đang Kiếm (VDK) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Tam Hoàn Sáo Nguyệt | Q | đánh mục tiêu | Khuôn chuẩn | choáng 30%, 3 đòn | Đạt chuẩn |
-| Võ Đang Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Lưu Tinh Cản Nguyệt | R | đánh mục tiêu | OVR Đặc thù | - | Đạt chuẩn |
-| Thất Tinh Quyết | - | đánh mục tiêu | Khuôn chuẩn | hút máu | Đạt chuẩn |
-| Kiếm Khí Tung Hoành | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Nhân Kiếm Hợp Nhất | W | đánh mục tiêu | Khuôn chuẩn | choáng 25%, 3 đòn | Đạt chuẩn |
-| Lưỡng Nghi Kiếm Pháp | F | nổ quanh thân | OVR Đặc thù | choáng 50% | Đạt chuẩn |
-| Thái Nhất Chân Khí | - | buff bản thân | Khuôn chuẩn | miễn nhiễm sát thương, giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Mê Tung Huyễn Ảnh | - | buff bản thân | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Vô Thượng Kiếm Đạo | E | đánh mục tiêu | Khuôn chuẩn | choáng 25%, 3 đòn | Đạt chuẩn |
-| Thái Cực Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tử Tiêu Hoành Vân | T | buff bản thân | OVR Đặc thù | sát thương quanh mỗi giây, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="VDK"`; Q/W/E: `ei5`, `eZK`/`eZE`, `J9A`/`J9X`; chiêu bấm: `JfE`, `Jx3`/`JxK`/`JkQ`, `eN8`/`eNR`, `JeR`/`Jey`; Thái Nhất Chân Khí: chu kỳ `6.6 - 0.2 × bậc` giây), `AbilityData.slk`.
+Bảng kỹ năng theo KVCT: 13 chiêu (trước đây 12, nay có thêm **Tọa Vọng Vô Ngã (D)** dùng chung với Võ Đang Khí).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Tam Hoàn Sáo Nguyệt | Q (autocast) | 3 nhát cách 0,24 giây, chém lan 100 tại chỗ mục tiêu; 30% choáng 0,5 giây | 3 nhát cách 0,24 giây, đánh lan 100 tại mục tiêu; choáng 30% 0,5 giây | Giống |
+| Võ Đang Kiếm Pháp | - | Bị động: chính xác, lôi công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Tọa Vọng Vô Ngã | D | 300 giây: khi nội lực > 15%, nội lực gánh (18 + 3/bậc)% sát thương nhận; kháng chậm | Buff 300 giây: giảm (18 + 3/bậc)% sát thương nhận | Gần giống (không trừ nội lực, không có kháng chậm) |
+| Lưu Tinh Cản Nguyệt | R | Lướt ≤ 800, bản thân không gây sát thương; tới nơi tự thi triển Q, W, E lên kẻ địch quanh điểm cuối (200); sau đó miễn thọ thương / chậm / choáng, tốc đánh +40 | Lướt ≤ 800 không sát thương; tới nơi tung Q, W, E (bậc hiện có) lên từng kẻ địch quanh 200 (tối đa 7); 2 giây miễn khống chế | Gần giống (không có tốc đánh +40) |
+| Thất Tinh Quyết | - | Vòng sáng: né tránh, chuyển sát thương thành sinh lực và nội lực, tốc chạy | Bị động: hút sinh lực + hút nội lực | Gần giống (không có né tránh, tốc chạy) |
+| Kiếm Khí Tung Hoành | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương % | Gần giống |
+| Nhân Kiếm Hợp Nhất | W (autocast) | 3 đạo kiếm khí cách 0,2 giây, dài 220 (rộng 100), mỗi đạo tối đa 7; 35% choáng 0,5 giây; 25% sát thương ×1,3 | 3 đạo cách 0,2 giây, dài 220, tối đa 7; choáng 35% 0,5 giây | Gần giống (không có 25% ×1,3) |
+| Lưỡng Nghi Kiếm Pháp | F | 12 giây: mỗi 0,3 giây 2 đạo kiếm khí vào 2 kẻ địch ngẫu nhiên trong 800; 50% choáng 0,5 giây; né tránh +50%; hồi 30 giây | 40 nhịp × 0,3 giây (12 giây): mỗi nhịp đánh 2 kẻ địch ngẫu nhiên trong 800 (kiểu mới 17); choáng 50% 0,5 giây; hồi 30 giây | Gần giống (đánh thẳng vào địch, không phải đạn bay; không có né tránh +50%) |
+| Thái Nhất Chân Khí | - | Bị động: nội lực tối đa +30%, né tránh, tốc đánh; mỗi (6,6 − 0,2 × bậc) giây: 1 giây miễn sát thương + miễn trạng thái | Bị động: tốc đánh; mỗi (6,6 − 0,2 × bậc) giây: 1 giây miễn sát thương + miễn khống chế | Giống (thiếu nội lực / né tránh) |
+| Mê Tung Huyễn Ảnh | - | Né tránh tối đa, né đòn tầm xa; mỗi lần bị đánh +1 tầng (tối đa 16, 5 giây): phát huy lực tấn công, né tránh, kháng | Bị động: sát thương % | Khác (chưa làm cộng tầng khi bị đánh) |
+| Vô Thượng Kiếm Đạo | E (autocast) | 3 đạo kiếm khí cách 0,2 giây, dài 390 (rộng 120), tối đa 7; 40% choáng 0,5 giây | 3 đạo cách 0,2 giây, dài 390, tối đa 7; choáng 40% 0,5 giây | Giống |
+| Thái Cực Kiếm Pháp | - | Giảm sát thương ngũ hành nhận; E 40%: Kiếm Phi Kinh Thiên, 6 đạo (sát thương 58 + 2%/bậc), giãn cách 1,5 giây | Bị động: giảm sát thương nhận; E 40%: 6 đạo | Gần giống (6 đạo gây đủ sát thương; không có giãn cách 1,5 giây) |
+| Tử Tiêu Hoành Vân | T | 20 giây: mỗi giây kẻ địch trong 800 (tối đa 7): tốc chạy −15% (cộng dồn), kháng lôi giảm, kéo dài 24 giây; hồi 60 giây | Vùng quanh thân 20 nhịp × 1 giây (kiểu mới 18), không sát thương, tối đa 7: làm chậm 24 giây + nhận thêm 15% sát thương 24 giây | Gần giống (chậm không cộng dồn; giảm kháng = nhận thêm sát thương) |
+
+Trước khi sửa: Tam Hoàn Sáo Nguyệt là đánh 1 mục tiêu, Nhân Kiếm / Vô Thượng Kiếm là đánh mục tiêu / quét nón 1 đợt; Lưu Tinh Cản Nguyệt là lướt gây sát thương; Lưỡng Nghi Kiếm Pháp là nổ quanh thân 40 lần; Tử Tiêu Hoành Vân là nổ quanh thân 4 lần; thiếu Tọa Vọng Vô Ngã.
 
 ### Thúy Yên Đao (TYD)
 

@@ -103,7 +103,7 @@ def numbers(tip):
 KV_SCRIPT = r"D:\kvct-dev\work\readable.j"
 # classes checked against KVCT's code (kskill.py OVR is complete for them): their skill list is KVCT's own class
 # table (slots 1..14, shared skills included), not the skills named after the class
-KV_ORDER = {"NDD", "TVD"}
+KV_ORDER = {"NDD", "TVD", "VDK"}
 
 
 def kv_table():
