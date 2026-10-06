@@ -12,6 +12,7 @@ pipeline = [
     "import_boss.py",
     "lvl200.py",
     "kskill.py",
+    "kskill_list.py",
     "gameplay.py",
     "describe.py",
     "icons.py",

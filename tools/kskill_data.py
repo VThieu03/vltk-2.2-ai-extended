@@ -100,6 +100,26 @@ def numbers(tip):
             "dur": int(dur.group(1)) if dur else 0, "status": st, "chance": chance, "sdur": sdur}
 
 
+KV_SCRIPT = r"D:\kvct-dev\work\readable.j"
+# classes checked against KVCT's code (kskill.py OVR is complete for them): their skill list is KVCT's own class
+# table (slots 1..14, shared skills included), not the skills named after the class
+KV_ORDER = {"NDD", "TVD", "VDK", "TYD", "DMPT", "TLQ", "TND", "CBC", "CLK", "TLD", "TVT", "NDC", "DMTT", "NMC", "TNK", "VDQ", "CLD"}
+
+
+def kv_table():
+    """KVCT's skill table of each class: set Kuz[oY]="NDD" ... SaveInteger(o8,eRS(oY,Ff),slot,'A075')"""
+    out, cur = {}, None
+    for l in open(KV_SCRIPT, encoding="utf-8", errors="ignore"):
+        m = re.match(r'set Kuz\[oY\]="(\w+)"', l)
+        if m:
+            cur = m.group(1)
+            continue
+        m = re.match(r"call SaveInteger\(o8,eRS\(oY,Ff\),(\d+),\$([0-9A-F]{8})\)", l)
+        if m and cur:
+            out.setdefault(cur, {})[int(m.group(1))] = bytes.fromhex(m.group(2)).decode()
+    return out
+
+
 def load():
     t = open(KV_STRINGS, encoding="utf-8", errors="ignore").read()
     out = {}
@@ -118,6 +138,11 @@ def load():
             "kind": kind_of(tip), **numbers(tip)})
     for v in out.values():
         v.sort(key=lambda s: s["n"])
+    if KV_ORDER:
+        byid = {s["kv"]: s for v in out.values() for s in v}
+        tab = kv_table()
+        for cl in KV_ORDER:
+            out[cl] = [dict(byid[a], n=slot) for slot, a in sorted(tab[cl].items()) if a in byid]
     return out
 
 

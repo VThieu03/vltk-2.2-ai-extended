@@ -110,6 +110,23 @@ real array zzKS_lowCd
 integer array zzKS_refl
 integer array zzKS_stack
 real array zzKS_stackEnd
+integer zzKS_wave=1
+integer array zzKS_pfx
+integer array zzKS_steal
+integer array zzKS_xw
+integer array zzKS_xc
+integer array zzKS_chg
+boolean array zzKS_chgOn
+integer array zzKS_chgPct
+real array zzKS_chgNext
+integer array zzKS_hideAb
+real array zzKS_hideEnd
+boolean zzKS_noCap=false
+unit zzKS_fh=null
+integer zzKS_fab=0
+real zzKS_fx=0.
+real zzKS_fy=0.
+integer array zzKS_dimmN
 framehandle array zzUI_hp
 framehandle array zzUI_mp
 integer zzUI_lastHp=0

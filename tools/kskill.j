@@ -1,6 +1,20 @@
 // ---- KVCT skill sets (Kiem Vo Chi Ton, Silva.Fox) rebuilt on VLTK: kskill.py makes the abilities and the table
 // (hero type: 229 count, 200+i ability, 230+i unlock level; ability: 240 kind, 241 hits, 242 status, 243 chance,
 // 244 status time, 246 buff time, 247/248 stats, 249 proc on attack, 250 effect model).
+// Keys added when matching KVCT's code (kskill.py OVR): 244 / 236 status time in tenths of a second, 234 / 235 / 236
+// second status (later waves), 257 radius / range, 258 time between hits (1/100 s), 259 most enemies per hit,
+// 239 / 245 / 231 a passive's effects on the Q (0) W (1) E (2) or all (3) hits: fx bits / life steal % per rank,
+// 232 mana per second per rank of a toggle, 225 / 224 status chance per rank, 228 no damage (dash), 223 seconds
+// free of control after the cast, 222 buff seconds per rank, 215 missile from the target point, low life passive
+// 221 / 220 / 219 / 218 / 217, 216 chance of a passive's buff on attacks (cooldown 220).
+// 214 dash end casts the hero's Q W E, 212 / 211 periodic immunity of a passive, 209 / 208 a passive's extra
+// waves on the Q W E and their chance. Kinds 13 ground field, 14 toggle, 15 curse, 16 splash at the target point,
+// 17 random enemies around, 18 field around the hero, 19 stealth (199 its buff tenths), 20 charging toggle
+// (198 / 197 % per charge). 207 / 206 / 205 fan of missiles, 204 low life freeze, 203 / 202 proc immunity and
+// chance per rank, 201 no 2 s stun cap, 200 status tenths per rank, 196 dash range per rank, 195 self buff
+// after the cast, 194 farthest point of a field; fx 65536: 30% +25% damage; fx 131072: 21% -15% life (not heroes);
+// status 5 bong (x1.5 damage taken, key 81 of the unit); 189 low life threshold %, 218 its seconds free of
+// control; kind 21 toggle firing the fan every key 258 / 100 s.
 // Kinds: 1 strike, 2 cone, 3 dash, 4 nova, 5 lance, 6 self buff, 7 party buff, 8 cleanse, 0 passive.
 // Skills open by hero level only (no skill points) and level up with it, rank 10 at level 200.
 function zzKS_Atk takes unit vl_h returns real
@@ -11,6 +25,9 @@ local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
 local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241))
 local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
 local real vl_base=zzKS_Atk(vl_h)*(.9+.17*vl_lv)*(1.+.3*(vl_n-1))/vl_n+20.*vl_lv
+if vl_p<10 and zzKS_chg[vl_p]>0 then
+set vl_base=vl_base*(1.+zzKS_chg[vl_p]*zzKS_chgPct[vl_p]/100.)
+endif
 if vl_p<10 and zzKS_stack[vl_p]>0 and TimerGetElapsed(zzVL_clock)<zzKS_stackEnd[vl_p] then
 set vl_base=vl_base*(1.+.05*I2R(zzKS_stack[vl_p]))
 endif
@@ -31,30 +48,77 @@ call DestroyTimer(vl_t)
 set vl_t=null
 set vl_u=null
 endfunction
-function zzKS_Status takes unit vl_h,unit vl_u,integer vl_ab returns nothing
-local integer vl_st=LoadInteger(zzVL_ht,vl_ab,242)
-local real vl_d=I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,244)))
+// tho thuong (KVCT effect_thothuong, a Silence): the KVCT skills of a hero cannot be cast for a while
+function zzKS_SilenceEnd takes nothing returns nothing
+local timer vl_t=GetExpiredTimer()
+local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
+local integer vl_i=0
+local integer vl_ab
+if vl_u!=null and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_u),77)-.05 then
+loop
+set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
+exitwhen vl_ab==0
+call BlzUnitDisableAbility(vl_u,vl_ab,false,false)
+set vl_i=vl_i+1
+endloop
+endif
+call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+call DestroyTimer(vl_t)
+set vl_t=null
+set vl_u=null
+endfunction
+function zzKS_Silence takes unit vl_u,real vl_d returns nothing
+local integer vl_i=0
+local integer vl_ab
+local timer vl_t
+if LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200)==0 then
+return
+endif
+loop
+set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
+exitwhen vl_ab==0
+call BlzUnitDisableAbility(vl_u,vl_ab,true,false)
+set vl_i=vl_i+1
+endloop
+call SaveReal(zzVL_ht,GetHandleId(vl_u),77,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),77),TimerGetElapsed(zzVL_clock)+vl_d))
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Silence\\SilenceTarget.mdl",vl_u,"overhead"))
+set vl_t=CreateTimer()
+call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
+call TimerStart(vl_t,vl_d,false,function zzKS_SilenceEnd)
+set vl_t=null
+endfunction
+// one status: 1 tho thuong, 2 dinh than, 3 choang, 4 cham; vl_d seconds
+function zzKS_St takes unit vl_h,unit vl_u,integer vl_st,integer vl_ch,real vl_d returns nothing
 local timer vl_tm
-if vl_st==0 or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) or zzKS_Immune(vl_u) or GetRandomInt(1,100)>LoadInteger(zzVL_ht,vl_ab,243) then
+local integer vl_q=GetPlayerId(GetOwningPlayer(vl_u))
+if vl_q<10 and vl_u==Jx[vl_q+1] and zzKS_af[vl_q*16+14]>0 then
+set vl_d=vl_d*(1.-IMinBJ(80,zzKS_af[vl_q*16+14])/100.)
+endif
+if vl_st==0 or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) or zzKS_Immune(vl_u) or GetRandomInt(1,100)>vl_ch then
+return
+endif
+if vl_st==1 then
+call zzKS_Silence(vl_u,vl_d)
+return
+elseif vl_st==5 then
+call SaveReal(zzVL_ht,GetHandleId(vl_u),81,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),81),TimerGetElapsed(zzVL_clock)+vl_d))
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl",vl_u,"chest"))
 return
 endif
 set vl_tm=CreateTimer()
 call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_u)
-if vl_st==1 then
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_u)
-call SaveReal(zzVL_ht,GetHandleId(vl_tm),2,zzKS_Atk(vl_h)*.12)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,5-R2I(vl_d))
-call DestroyEffect(AddSpecialEffectTarget("Objects\\Spawnmodels\\Human\\HumanBlood\\HumanBloodFootman.mdl",vl_u,"chest"))
-call TimerStart(vl_tm,1.,true,function zzVL_TpPoison)
-elseif vl_st==2 then
+if vl_st==2 then
 call SetUnitPropWindow(vl_u,0)
 call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Orc\\Ensnare\\ensnareMissile.mdl",vl_u,"origin"))
 call TimerStart(vl_tm,vl_d,false,function zzKS_RootEnd)
 elseif vl_st==3 and not IsUnitPaused(vl_u) then
 call PauseUnit(vl_u,true)
 call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\Thunderclap\\ThunderclapTarget.mdl",vl_u,"overhead"))
+if zzKS_noCap then
+call TimerStart(vl_tm,vl_d,false,function zzVL_TpUnpause)
+else
 call TimerStart(vl_tm,RMinBJ(vl_d,2.),false,function zzVL_TpUnpause)
+endif
 elseif vl_st==4 and LoadInteger(zzVL_ht,GetHandleId(vl_u),68)==0 then
 call SaveInteger(zzVL_ht,GetHandleId(vl_u),68,1)
 call SaveReal(zzVL_ht,GetHandleId(vl_u),69,GetUnitMoveSpeed(vl_u))
@@ -66,21 +130,69 @@ call DestroyTimer(vl_tm)
 endif
 set vl_tm=null
 endfunction
+// status of a hit (keys 242 / 243 / 244 tenths of a second); a second status (234 / 235 / 236) is for the later
+// waves of a multi-hit skill (KVCT: wave 1 tho thuong, wave 2 dinh than) or comes with the first one
+function zzKS_Status takes unit vl_h,unit vl_u,integer vl_ab returns nothing
+local integer vl_s2=LoadInteger(zzVL_ht,vl_ab,234)
+set zzKS_noCap=LoadInteger(zzVL_ht,vl_ab,201)>0
+if vl_s2==0 or LoadInteger(zzVL_ht,vl_ab,241)<=1 or zzKS_wave<=1 then
+call zzKS_St(vl_h,vl_u,LoadInteger(zzVL_ht,vl_ab,242),LoadInteger(zzVL_ht,vl_ab,243)+LoadInteger(zzVL_ht,vl_ab,225)*GetUnitAbilityLevel(vl_h,vl_ab),I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,244)+LoadInteger(zzVL_ht,vl_ab,200)*GetUnitAbilityLevel(vl_h,vl_ab)))/10.)
+endif
+if vl_s2>0 and (LoadInteger(zzVL_ht,vl_ab,241)<=1 or zzKS_wave>=2) then
+call zzKS_St(vl_h,vl_u,vl_s2,LoadInteger(zzVL_ht,vl_ab,235)+LoadInteger(zzVL_ht,vl_ab,224)*GetUnitAbilityLevel(vl_h,vl_ab),I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,236)))/10.)
+endif
+set zzKS_noCap=false
+endfunction
 // extra effects of a hit, from the KVCT description (key 252, see kskill_data.py)
 function zzKS_Fx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
 local integer vl_f=LoadInteger(zzVL_ht,vl_ab,252)
 local real vl_a=Atan2(GetUnitY(vl_u)-GetUnitY(vl_h),GetUnitX(vl_u)-GetUnitX(vl_h))
 local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+local integer vl_k=-1
 local timer vl_tm
+// passives that change the hero's Q / W / E (KVCT: Van Co Thuc Tam, Hoa Huyet Tiet Mach ...): zzKS_Tick
+if vl_p<10 then
+if LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260)==vl_ab then
+set vl_k=0
+elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),261)==vl_ab then
+set vl_k=1
+elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),262)==vl_ab then
+set vl_k=2
+endif
+if vl_k>=0 then
+set vl_f=BlzBitOr(vl_f,BlzBitOr(zzKS_pfx[vl_p*4+vl_k],zzKS_pfx[vl_p*4+3]))
+if zzKS_steal[vl_p*4+vl_k]>0 and (zzKS_wave<=1 or LoadInteger(zzVL_ht,vl_ab,241)<=1) then
+call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*zzKS_steal[vl_p*4+vl_k]/100.)
+endif
+endif
+endif
 if vl_f==0 or GetWidgetLife(vl_u)<.405 then
 return
+endif
+if BlzBitAnd(vl_f,65536)>0 and vl_d>0. and GetRandomInt(1,100)<=30 then
+call zzVL_TpHit(vl_h,vl_u,vl_d*.25)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\Spells\Other\Stampede\StampedeMissileDeath.mdl",vl_u,"chest"))
+endif
+if BlzBitAnd(vl_f,131072)>0 and not IsUnitType(vl_u,UNIT_TYPE_HERO) and GetRandomInt(1,100)<=21 then
+call zzVL_TpHit(vl_h,vl_u,GetWidgetLife(vl_u)*.15)
+endif
+// 3 hits on the same enemy burst it (KVCT Thien Thu Van Doc: 3 tang That Tam Co)
+if BlzBitAnd(vl_f,16384)>0 then
+call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,LoadInteger(zzVL_ht,GetHandleId(vl_u),76)+1)
+if LoadInteger(zzVL_ht,GetHandleId(vl_u),76)>=3 then
+call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,0)
+call zzVL_TpHit(vl_h,vl_u,vl_d)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl",vl_u,"chest"))
+endif
 endif
 if BlzBitAnd(vl_f,1)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) then
 call SetUnitPosition(vl_u,GetUnitX(vl_u)+140.*Cos(vl_a),GetUnitY(vl_u)+140.*Sin(vl_a))
 elseif BlzBitAnd(vl_f,2)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) and IsUnitInRange(vl_u,vl_h,160.)==false then
 call SetUnitPosition(vl_u,GetUnitX(vl_h)+110.*Cos(vl_a),GetUnitY(vl_h)+110.*Sin(vl_a))
 endif
-if BlzBitAnd(vl_f,4)>0 then
+if BlzBitAnd(vl_f,4)>0 and HaveSavedInteger(zzVL_ht,vl_ab,187) then
+call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*LoadInteger(zzVL_ht,vl_ab,187)/100.)
+elseif BlzBitAnd(vl_f,4)>0 then
 call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*.2)
 endif
 if BlzBitAnd(vl_f,8)>0 and TimerGetElapsed(zzVL_clock)>LoadReal(zzVL_ht,GetHandleId(vl_u),75) then
@@ -96,7 +208,7 @@ call TimerStart(vl_tm,1.,true,function zzVL_TpPoison)
 set vl_tm=null
 endif
 if BlzBitAnd(vl_f,512)>0 then
-call SaveReal(zzVL_ht,GetHandleId(vl_u),74,TimerGetElapsed(zzVL_clock)+4.)
+call SaveReal(zzVL_ht,GetHandleId(vl_u),74,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),74),TimerGetElapsed(zzVL_clock)+RMaxBJ(4.,I2R(LoadInteger(zzVL_ht,vl_ab,246)))))
 endif
 if BlzBitAnd(vl_f,4096)>0 then
 call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+vl_d*.04)
@@ -114,7 +226,9 @@ endif
 endfunction
 function zzKS_Strike takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
 if vl_u!=null and zzVL_TpFoe(vl_h,vl_u) then
+if LoadInteger(zzVL_ht,vl_ab,228)==0 then
 call zzVL_TpHit(vl_h,vl_u,vl_d)
+endif
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"chest"))
 call zzKS_Status(vl_h,vl_u,vl_ab)
 call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
@@ -125,22 +239,34 @@ function zzKS_Area takes unit vl_h,real vl_x,real vl_y,real vl_r,real vl_a,real 
 local group vl_g=CreateGroup()
 local unit vl_u
 local real vl_b
+local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+local integer vl_n=0
 call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_r,null)
 loop
 set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
+exitwhen vl_u==null or (vl_max>0 and vl_n>=vl_max)
 call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
 if vl_cone<0. then
 call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
+set vl_n=vl_n+1
 else
 set vl_b=Atan2(GetUnitY(vl_u)-vl_y,GetUnitX(vl_u)-vl_x)*bj_RADTODEG-vl_a
 if Cos(vl_b*bj_DEGTORAD)>=Cos(vl_cone*bj_DEGTORAD) then
 call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
+set vl_n=vl_n+1
+endif
 endif
 endif
 endloop
 call DestroyGroup(vl_g)
 set vl_g=null
+endfunction
+function zzKS_Rad takes integer vl_ab,real vl_r returns real
+if LoadInteger(zzVL_ht,vl_ab,257)>0 then
+return I2R(LoadInteger(zzVL_ht,vl_ab,257))
+endif
+return vl_r
 endfunction
 // a piercing missile: the skill's model flies 900 in a straight line, hitting every enemy on its way once
 function zzKS_Fly takes nothing returns nothing
@@ -166,7 +292,7 @@ loop
 set vl_u=FirstOfGroup(vl_g)
 exitwhen vl_u==null
 call GroupRemoveUnit(vl_g,vl_u)
-if vl_h!=null and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) then
+if vl_h!=null and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) and (LoadInteger(zzVL_ht,vl_ab,259)==0 or CountUnitsInGroup(vl_hit)<LoadInteger(zzVL_ht,vl_ab,259)) then
 call GroupAddUnit(vl_hit,vl_u)
 call zzVL_TpHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
 call zzKS_Status(vl_h,vl_u,vl_ab)
@@ -174,7 +300,7 @@ call zzKS_Fx(vl_h,vl_u,vl_ab,LoadReal(zzVL_ht,vl_id,9))
 endif
 endloop
 call DestroyGroup(vl_g)
-if vl_go>=900. or vl_h==null then
+if vl_go>=LoadReal(zzVL_ht,vl_id,10) or vl_h==null then
 call DestroyEffect(vl_e)
 call DestroyGroup(vl_hit)
 call FlushChildHashtable(zzVL_ht,vl_id)
@@ -186,10 +312,10 @@ set vl_e=null
 set vl_hit=null
 set vl_g=null
 endfunction
-function zzKS_Missile takes unit vl_h,integer vl_ab,real vl_a,real vl_d returns nothing
+function zzKS_Missile takes unit vl_h,integer vl_ab,real vl_a,real vl_d,real vl_sx,real vl_sy returns nothing
 local timer vl_t=CreateTimer()
 local integer vl_id=GetHandleId(vl_t)
-local effect vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h),GetUnitY(vl_h))
+local effect vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_sx,vl_sy)
 call BlzSetSpecialEffectYaw(vl_e,vl_a)
 call BlzSetSpecialEffectHeight(vl_e,60.)
 call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
@@ -197,28 +323,98 @@ call SaveEffectHandle(zzVL_ht,vl_id,1,vl_e)
 call SaveGroupHandle(zzVL_ht,vl_id,2,CreateGroup())
 call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
 call SaveReal(zzVL_ht,vl_id,5,vl_a)
-call SaveReal(zzVL_ht,vl_id,6,GetUnitX(vl_h))
-call SaveReal(zzVL_ht,vl_id,7,GetUnitY(vl_h))
+call SaveReal(zzVL_ht,vl_id,6,vl_sx)
+call SaveReal(zzVL_ht,vl_id,7,vl_sy)
 call SaveReal(zzVL_ht,vl_id,8,0.)
 call SaveReal(zzVL_ht,vl_id,9,vl_d)
+call SaveReal(zzVL_ht,vl_id,10,zzKS_Rad(vl_ab,900.))
 call TimerStart(vl_t,.03,true,function zzKS_Fly)
 set vl_t=null
 set vl_e=null
+endfunction
+function zzKS_Fan takes unit vl_h,integer vl_ab,real vl_a,real vl_d,real vl_x,real vl_y returns nothing
+local integer vl_n=LoadInteger(zzVL_ht,vl_ab,207)
+local real vl_sp=I2R(LoadInteger(zzVL_ht,vl_ab,206))
+local integer vl_i=0
+local real vl_sx=GetUnitX(vl_h)
+local real vl_sy=GetUnitY(vl_h)
+if GetUnitAbilityLevel(vl_h,vl_ab)>=3 then
+set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
+endif
+if GetUnitAbilityLevel(vl_h,vl_ab)>=5 then
+set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
+endif
+// key 186: rank - key 186 missiles when more (KVCT Hang Long Huu Hoi: 3 palms, 9 at rank 10)
+if LoadInteger(zzVL_ht,vl_ab,186)>0 then
+set vl_n=IMaxBJ(vl_n,GetUnitAbilityLevel(vl_h,vl_ab)-LoadInteger(zzVL_ht,vl_ab,186))
+endif
+if LoadInteger(zzVL_ht,vl_ab,215)==1 then
+set vl_sx=vl_x
+set vl_sy=vl_y
+endif
+loop
+exitwhen vl_i>=vl_n
+call zzKS_Missile(vl_h,vl_ab,(vl_a+(vl_i-(vl_n-1)/2.)*vl_sp)*bj_DEGTORAD,vl_d,vl_sx,vl_sy)
+set vl_i=vl_i+1
+endloop
+endfunction
+function zzKS_Random takes unit vl_h,integer vl_ab,real vl_d returns nothing
+local group vl_g=CreateGroup()
+local group vl_f=CreateGroup()
+local unit vl_u
+local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,259))
+call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,800.),null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
+call GroupAddUnit(vl_f,vl_u)
+endif
+endloop
+loop
+set vl_u=GroupPickRandomUnit(vl_f)
+exitwhen vl_u==null or vl_n<=0
+call GroupRemoveUnit(vl_f,vl_u)
+set vl_n=vl_n-1
+call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
+endloop
+call DestroyGroup(vl_g)
+call DestroyGroup(vl_f)
+set vl_g=null
+set vl_f=null
 endfunction
 function zzKS_Do takes unit vl_h,unit vl_t,integer vl_ab,real vl_x,real vl_y returns nothing
 local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
 local real vl_d=zzKS_Hit(vl_h,vl_ab)
 local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))*bj_RADTODEG
-if vl_k==1 then
+// 3 dash: on a hit (Q W E autocast, proc) it strikes the target
+if vl_k==1 or vl_k==3 then
 call zzKS_Strike(vl_h,vl_t,vl_ab,vl_d)
 elseif vl_k==2 then
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h)+150.*Cos(vl_a*bj_DEGTORAD),GetUnitY(vl_h)+150.*Sin(vl_a*bj_DEGTORAD)))
-call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),450.,vl_a,45.,vl_ab,vl_d)
+call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,450.),vl_a,45.,vl_ab,vl_d)
 elseif vl_k==4 then
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h),GetUnitY(vl_h)))
-call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),380.,0.,-1.,vl_ab,vl_d)
+call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,380.),0.,-1.,vl_ab,vl_d)
+elseif vl_k==5 and LoadInteger(zzVL_ht,vl_ab,207)>1 then
+call zzKS_Fan(vl_h,vl_ab,vl_a,vl_d,vl_x,vl_y)
+elseif vl_k==5 and LoadInteger(zzVL_ht,vl_ab,215)==1 then
+call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,vl_x,vl_y)
 elseif vl_k==5 then
-call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d)
+call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,GetUnitX(vl_h),GetUnitY(vl_h))
+elseif vl_k==17 then
+call zzKS_Random(vl_h,vl_ab,vl_d)
+elseif vl_k==13 then
+set zzKS_fh=vl_h
+set zzKS_fab=vl_ab
+set zzKS_fx=vl_x
+set zzKS_fy=vl_y
+call ExecuteFunc("zzKS_FieldX")
+elseif vl_k==16 then
+// splash at the target point (KVCT Kinh Loi Tram, Pha Thien Tram: radius 120-130 where the target stood)
+call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
+call zzKS_Area(vl_h,vl_x,vl_y,zzKS_Rad(vl_ab,130.),0.,-1.,vl_ab,vl_d)
 endif
 endfunction
 // later hits of a multi-hit skill (Bon Loi Toan Long Thuong: 7 hits ...)
@@ -229,7 +425,13 @@ local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
 local unit vl_u=LoadUnitHandle(zzVL_ht,vl_id,1)
 local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
 if vl_h!=null and GetWidgetLife(vl_h)>.405 and not IsUnitPaused(vl_h) then
+set zzKS_wave=LoadInteger(zzVL_ht,vl_id,7)-vl_n
+if LoadInteger(zzVL_ht,LoadInteger(zzVL_ht,vl_id,4),215)==1 and vl_u!=null and GetWidgetLife(vl_u)>.405 then
+call SaveReal(zzVL_ht,vl_id,5,GetUnitX(vl_u)+GetRandomReal(-30.,30.))
+call SaveReal(zzVL_ht,vl_id,6,GetUnitY(vl_u)+GetRandomReal(-30.,30.))
+endif
 call zzKS_Do(vl_h,vl_u,LoadInteger(zzVL_ht,vl_id,4),LoadReal(zzVL_ht,vl_id,5),LoadReal(zzVL_ht,vl_id,6))
+set zzKS_wave=1
 else
 set vl_n=0
 endif
@@ -241,6 +443,253 @@ endif
 set vl_t=null
 set vl_h=null
 set vl_u=null
+endfunction
+// a skill with all its hits: the first now, the next every key 258 hundredths of a second (default .22 s)
+function zzKS_Run takes unit vl_h,unit vl_t,integer vl_ab,real vl_x,real vl_y returns nothing
+local integer vl_n=LoadInteger(zzVL_ht,vl_ab,241)
+local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+local integer vl_k=-1
+local timer vl_tm
+if vl_p<10 then
+if LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260)==vl_ab then
+set vl_k=0
+elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),261)==vl_ab then
+set vl_k=1
+elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),262)==vl_ab then
+set vl_k=2
+endif
+if vl_k>=0 and zzKS_xw[vl_p*4+vl_k]>0 and GetRandomInt(1,100)<=zzKS_xc[vl_p*4+vl_k] then
+set vl_n=vl_n+zzKS_xw[vl_p*4+vl_k]
+endif
+endif
+set zzKS_wave=1
+call zzKS_Do(vl_h,vl_t,vl_ab,vl_x,vl_y)
+if vl_k>=0 then
+set zzKS_chg[vl_p]=0
+endif
+// a field (kind 13) makes its own pulses
+if vl_n>1 and LoadInteger(zzVL_ht,vl_ab,240)!=13 then
+set vl_tm=CreateTimer()
+call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
+call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_t)
+call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,vl_n-1)
+call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,vl_ab)
+call SaveReal(zzVL_ht,GetHandleId(vl_tm),5,vl_x)
+call SaveReal(zzVL_ht,GetHandleId(vl_tm),6,vl_y)
+call SaveInteger(zzVL_ht,GetHandleId(vl_tm),7,vl_n)
+if LoadInteger(zzVL_ht,vl_ab,258)>0 then
+call TimerStart(vl_tm,LoadInteger(zzVL_ht,vl_ab,258)/100.,true,function zzKS_Again)
+else
+call TimerStart(vl_tm,.22,true,function zzKS_Again)
+endif
+set vl_tm=null
+endif
+endfunction
+// KVCT ground field (Chu Cap Thanh Minh ...): at the target point (at most 640 away), a pulse every key 258
+// hundredths of a second, key 241 pulses; each pulse pulls (fx 2) the enemies in it 100 toward the middle and
+// hits them (key 257 radius, key 259 at most)
+function zzKS_FieldTick takes nothing returns nothing
+local timer vl_t=GetExpiredTimer()
+local integer vl_id=GetHandleId(vl_t)
+local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
+local real vl_x=LoadReal(zzVL_ht,vl_id,5)
+local real vl_y=LoadReal(zzVL_ht,vl_id,6)
+local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
+local integer vl_c=0
+local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+local group vl_g=CreateGroup()
+local unit vl_u
+local real vl_a
+local real vl_d
+if vl_h!=null and GetWidgetLife(vl_h)>.405 then
+set vl_d=zzKS_Hit(vl_h,vl_ab)
+if LoadBoolean(zzVL_ht,vl_id,11) then
+set vl_x=GetUnitX(vl_h)
+set vl_y=GetUnitY(vl_h)
+endif
+call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
+call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,350.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
+set vl_c=vl_c+1
+if BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),2)>0 and not zzKS_Immune(vl_u) and not IsUnitInRangeXY(vl_u,vl_x,vl_y,110.) then
+set vl_a=Atan2(vl_y-GetUnitY(vl_u),vl_x-GetUnitX(vl_u))
+call SetUnitPosition(vl_u,GetUnitX(vl_u)+100.*Cos(vl_a),GetUnitY(vl_u)+100.*Sin(vl_a))
+endif
+if LoadInteger(zzVL_ht,vl_ab,228)==0 then
+call zzVL_TpHit(vl_h,vl_u,vl_d)
+endif
+call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"origin"))
+call zzKS_Status(vl_h,vl_u,vl_ab)
+call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
+endif
+endloop
+else
+set vl_n=0
+endif
+call DestroyGroup(vl_g)
+call SaveInteger(zzVL_ht,vl_id,3,vl_n)
+if vl_n<=0 then
+call FlushChildHashtable(zzVL_ht,vl_id)
+call DestroyTimer(vl_t)
+endif
+set vl_t=null
+set vl_h=null
+set vl_g=null
+endfunction
+function zzKS_Field takes unit vl_h,integer vl_ab,real vl_x,real vl_y returns nothing
+local timer vl_t=CreateTimer()
+local integer vl_id=GetHandleId(vl_t)
+local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
+local real vl_r=SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h)))
+call SaveBoolean(zzVL_ht,vl_id,11,LoadInteger(zzVL_ht,vl_ab,240)==18)
+if LoadInteger(zzVL_ht,vl_ab,194)>0 and vl_r>LoadInteger(zzVL_ht,vl_ab,194) then
+set vl_x=GetUnitX(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Cos(vl_a)
+set vl_y=GetUnitY(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Sin(vl_a)
+elseif LoadInteger(zzVL_ht,vl_ab,194)==0 and vl_r>640. then
+set vl_x=GetUnitX(vl_h)+640.*Cos(vl_a)
+set vl_y=GetUnitY(vl_h)+640.*Sin(vl_a)
+endif
+call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
+call SaveInteger(zzVL_ht,vl_id,3,IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241)))
+call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
+call SaveReal(zzVL_ht,vl_id,5,vl_x)
+call SaveReal(zzVL_ht,vl_id,6,vl_y)
+call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
+if LoadInteger(zzVL_ht,vl_ab,258)>0 then
+call TimerStart(vl_t,LoadInteger(zzVL_ht,vl_ab,258)/100.,true,function zzKS_FieldTick)
+else
+call TimerStart(vl_t,2.,true,function zzKS_FieldTick)
+endif
+set vl_t=null
+endfunction
+function zzKS_FieldX takes nothing returns nothing
+call zzKS_Field(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
+endfunction
+// KVCT toggle (Vo Hinh Co): on until cast again or out of mana; every second costs key 232 x rank mana and hurts
+// the enemies around (key 257 radius, key 259 at most)
+function zzKS_Auto takes unit vl_h,integer vl_ab returns nothing
+local group vl_g=CreateGroup()
+local unit vl_u
+local unit vl_best=null
+local real vl_r=zzKS_Rad(vl_ab,600.)
+call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) and (vl_best==null or IsUnitInRange(vl_u,vl_h,SquareRoot((GetUnitX(vl_best)-GetUnitX(vl_h))*(GetUnitX(vl_best)-GetUnitX(vl_h))+(GetUnitY(vl_best)-GetUnitY(vl_h))*(GetUnitY(vl_best)-GetUnitY(vl_h))))) then
+set vl_best=vl_u
+endif
+endloop
+call DestroyGroup(vl_g)
+if vl_best!=null then
+call zzKS_Fan(vl_h,vl_ab,Atan2(GetUnitY(vl_best)-GetUnitY(vl_h),GetUnitX(vl_best)-GetUnitX(vl_h))*bj_RADTODEG,zzKS_Hit(vl_h,vl_ab),GetUnitX(vl_best),GetUnitY(vl_best))
+endif
+set vl_g=null
+set vl_best=null
+endfunction
+function zzKS_ToggleTick takes nothing returns nothing
+local timer vl_t=GetExpiredTimer()
+local integer vl_id=GetHandleId(vl_t)
+local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
+local real vl_cost=0.
+local boolean vl_end=LoadBoolean(zzVL_ht,vl_id,8) or vl_h==null
+local group vl_g
+local unit vl_u
+local integer vl_c=0
+local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+local real vl_d
+if not vl_end then
+set vl_end=GetWidgetLife(vl_h)<.405 or GetUnitAbilityLevel(vl_h,vl_ab)==0
+set vl_cost=I2R(LoadInteger(zzVL_ht,vl_ab,232)*IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab)))
+endif
+if not vl_end and LoadInteger(zzVL_ht,vl_ab,240)==21 then
+call SaveInteger(zzVL_ht,vl_id,12,LoadInteger(zzVL_ht,vl_id,12)+1)
+if LoadInteger(zzVL_ht,vl_id,12)*100>=LoadInteger(zzVL_ht,vl_ab,258) then
+call SaveInteger(zzVL_ht,vl_id,12,0)
+call zzKS_Auto(vl_h,vl_ab)
+endif
+set vl_t=null
+set vl_h=null
+return
+endif
+if not vl_end and GetUnitState(vl_h,UNIT_STATE_MANA)<vl_cost then
+set vl_end=true
+call zzVL_Text(vl_h,"|cff8080ffHết nội lực|r")
+endif
+if vl_end then
+call DestroyEffect(LoadEffectHandle(zzVL_ht,vl_id,9))
+if vl_h!=null and LoadTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)==vl_t then
+call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
+endif
+call FlushChildHashtable(zzVL_ht,vl_id)
+call DestroyTimer(vl_t)
+else
+call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)-vl_cost)
+set vl_d=zzKS_Atk(vl_h)*.35
+set vl_g=CreateGroup()
+call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,350.),null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
+set vl_c=vl_c+1
+call zzVL_TpHit(vl_h,vl_u,vl_d)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Weapons\\PoisonArrow\\PoisonArrowMissile.mdl",vl_u,"chest"))
+endif
+endloop
+call DestroyGroup(vl_g)
+endif
+set vl_t=null
+set vl_h=null
+set vl_g=null
+endfunction
+function zzKS_Toggle takes unit vl_h,integer vl_ab returns nothing
+local timer vl_t
+if HaveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab) then
+call SaveBoolean(zzVL_ht,GetHandleId(LoadTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)),8,true)
+call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
+call zzVL_Text(vl_h,"|cffc0c0c0"+GetObjectName(vl_ab)+": tắt|r")
+return
+endif
+set vl_t=CreateTimer()
+call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
+call SaveInteger(zzVL_ht,GetHandleId(vl_t),4,vl_ab)
+call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),9,AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
+call SaveTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab,vl_t)
+call zzVL_Text(vl_h,"|cff80ff80"+GetObjectName(vl_ab)+": bật|r")
+call TimerStart(vl_t,1.,true,function zzKS_ToggleTick)
+set vl_t=null
+endfunction
+// KVCT curse (U Minh Kho Lau ...): no damage, the enemies around the target point (key 257, key 259 at most)
+// get the skill's status and effects (fx 512 lasts key 246 seconds)
+function zzKS_Curse takes unit vl_h,integer vl_ab,real vl_x,real vl_y returns nothing
+local group vl_g=CreateGroup()
+local unit vl_u
+local integer vl_c=0
+local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
+call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,200.),null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
+set vl_c=vl_c+1
+call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"chest"))
+call zzKS_Status(vl_h,vl_u,vl_ab)
+call zzKS_Fx(vl_h,vl_u,vl_ab,0.)
+endif
+endloop
+call DestroyGroup(vl_g)
+set vl_g=null
 endfunction
 // KVCT dash (Doan Hon Thich, ...): the hero slides 48 every 1/32 s leaving a 20% ghost of itself walking,
 // then hits enemies around the end (radius key 9 of the timer, at most 7), effect at each of them
@@ -268,6 +717,18 @@ call TimerStart(vl_t,.2,false,function zzKS_GhostEnd)
 set vl_e=null
 set vl_t=null
 endfunction
+function zzKS_QWE takes unit vl_h,unit vl_u returns nothing
+local integer vl_i=0
+local integer vl_ab
+loop
+exitwhen vl_i>2
+set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260+vl_i)
+if vl_ab!=0 and GetUnitAbilityLevel(vl_h,vl_ab)>0 then
+call zzKS_Run(vl_h,vl_u,vl_ab,GetUnitX(vl_u),GetUnitY(vl_u))
+endif
+set vl_i=vl_i+1
+endloop
+endfunction
 function zzKS_DashHit takes unit vl_h,integer vl_ab,real vl_r,boolean vl_attach returns nothing
 local group vl_g=CreateGroup()
 local unit vl_u
@@ -280,7 +741,12 @@ exitwhen vl_u==null or vl_n>=7
 call GroupRemoveUnit(vl_g,vl_u)
 if zzVL_TpFoe(vl_h,vl_u) then
 set vl_n=vl_n+1
+if LoadInteger(zzVL_ht,vl_ab,228)==0 then
 call zzVL_TpHit(vl_h,vl_u,vl_d)
+endif
+if LoadInteger(zzVL_ht,vl_ab,214)>0 then
+call zzKS_QWE(vl_h,vl_u)
+endif
 if vl_attach then
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"origin"))
 else
@@ -451,8 +917,8 @@ endif
 set vl_h=null
 endfunction
 function zzKS_Buff takes integer vl_p,integer vl_ab,real vl_f returns nothing
-local real vl_end=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)))
 local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(Jx[vl_p+1],vl_ab))
+local real vl_end=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*vl_lv))
 local integer vl_s=LoadInteger(zzVL_ht,vl_ab,247)
 if vl_s>0 then
 set zzKS_buf[vl_p*16+vl_s]=R2I(zzKS_per[vl_s]*vl_lv*1.5*vl_f)
@@ -485,11 +951,21 @@ local real vl_y=GetSpellTargetY()
 local real vl_a
 local real vl_r
 local integer vl_i
-local timer vl_tm
 if vl_k==0 or vl_p>9 then
 set vl_h=null
 set vl_t=null
 return
+endif
+if LoadInteger(zzVL_ht,vl_ab,223)>0 then
+set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,223))
+endif
+if LoadInteger(zzVL_ht,vl_ab,195)>0 then
+call zzKS_Buff(vl_p,vl_ab,1.)
+endif
+// immune to damage for key 185 seconds, at most key 184 hits (KVCT Hang Long Bat Vu: 99% less damage, 30 hits)
+if LoadInteger(zzVL_ht,vl_ab,185)>0 then
+set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,185)
+set zzKS_dimmN[vl_p]=LoadInteger(zzVL_ht,vl_ab,184)
 endif
 if vl_t!=null then
 set vl_x=GetUnitX(vl_t)
@@ -500,13 +976,42 @@ set vl_y=GetUnitY(vl_h)+100.*Sin(GetUnitFacing(vl_h)*bj_DEGTORAD)
 endif
 if vl_k==3 then
 set vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
-set vl_r=RMinBJ(700.,SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h))))
+set vl_r=RMinBJ(zzKS_Rad(vl_ab,700.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h))))
 call zzKS_Dash(vl_h,vl_ab,GetUnitX(vl_h)+vl_r*Cos(vl_a),GetUnitY(vl_h)+vl_r*Sin(vl_a),200.,0,false)
 elseif vl_k==11 then
 call zzKS_Chain(vl_h,vl_ab)
 elseif vl_k==12 then
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h),GetUnitY(vl_h)))
 call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),1000.,0.,-1.,vl_ab,zzKS_Hit(vl_h,vl_ab))
+elseif vl_k==13 then
+call zzKS_Field(vl_h,vl_ab,vl_x,vl_y)
+elseif vl_k==18 then
+call zzKS_Field(vl_h,vl_ab,GetUnitX(vl_h),GetUnitY(vl_h))
+elseif vl_k==14 or vl_k==21 then
+call zzKS_Toggle(vl_h,vl_ab)
+elseif vl_k==19 then
+// stealth (KVCT Ngu Tuyet An): invisible for key 246 seconds, the next attack ends it with the skill's buff
+call UnitAddAbility(vl_h,'Apiv')
+set zzKS_hideAb[vl_p]=vl_ab
+set zzKS_hideEnd[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,246)
+call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
+elseif vl_k==20 then
+// charging toggle (KVCT Tuong Tu): on / off; while on, +1 charge every 2 s (max 20), each + key 198 + 197 x rank %
+// damage of the next Q W E (zzKS_Hit), spent by it
+if zzKS_chgOn[vl_p] then
+set zzKS_chgOn[vl_p]=false
+set zzKS_chg[vl_p]=0
+call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
+call zzVL_Text(vl_h,"|cffc0c0c0"+GetObjectName(vl_ab)+": tắt|r")
+else
+set zzKS_chgOn[vl_p]=true
+set zzKS_chgPct[vl_p]=LoadInteger(zzVL_ht,vl_ab,198)+LoadInteger(zzVL_ht,vl_ab,197)*GetUnitAbilityLevel(vl_h,vl_ab)
+set zzKS_chgNext[vl_p]=TimerGetElapsed(zzVL_clock)+2.
+call SaveUnitHandle(zzVL_ht,GetHandleId(vl_h),vl_ab,vl_h)
+call zzVL_Text(vl_h,"|cff80ff80"+GetObjectName(vl_ab)+": bật|r")
+endif
+elseif vl_k==15 then
+call zzKS_Curse(vl_h,vl_ab,vl_x,vl_y)
 elseif vl_k==6 then
 call zzKS_Buff(vl_p,vl_ab,1.)
 elseif vl_k==7 then
@@ -530,24 +1035,18 @@ set zzVL_tpEnd[vl_p*12]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzV
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
 call zzVL_Text(vl_h,"|cff80c0ffHộ thuẫn "+I2S(R2I(zzVL_shield[vl_p]))+"|r")
 elseif vl_k==8 then
+// with stats (KVCT Tung Hoanh Bat Hoang: chi mang) it is a buff too
+if LoadInteger(zzVL_ht,vl_ab,247)>0 then
+call zzKS_Buff(vl_p,vl_ab,1.)
+else
 call zzKS_BuffFx(vl_p,vl_ab)
-set zzKS_imm[vl_p]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246)))
+endif
+set zzKS_imm[vl_p]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*GetUnitAbilityLevel(vl_h,vl_ab)))
 call PauseUnit(vl_h,false)
 call SetUnitPropWindow(vl_h,GetUnitDefaultPropWindow(vl_h)*bj_DEGTORAD)
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
 else
-call zzKS_Do(vl_h,vl_t,vl_ab,vl_x,vl_y)
-if LoadInteger(zzVL_ht,vl_ab,241)>1 then
-set vl_tm=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_t)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,LoadInteger(zzVL_ht,vl_ab,241)-1)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,vl_ab)
-call SaveReal(zzVL_ht,GetHandleId(vl_tm),5,vl_x)
-call SaveReal(zzVL_ht,GetHandleId(vl_tm),6,vl_y)
-call TimerStart(vl_tm,.22,true,function zzKS_Again)
-set vl_tm=null
-endif
+call zzKS_Run(vl_h,vl_t,vl_ab,vl_x,vl_y)
 endif
 set vl_h=null
 set vl_t=null
@@ -559,25 +1058,34 @@ local unit vl_t=zzKS_tgt
 local integer vl_i=0
 local integer vl_ab
 local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+if vl_p<10 and zzKS_hideAb[vl_p]!=0 then
+set vl_ab=zzKS_hideAb[vl_p]
+set zzKS_hideAb[vl_p]=0
+call UnitRemoveAbility(vl_h,'Apiv')
+call zzKS_Buff(vl_p,vl_ab,1.)
+set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_ab,247)]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,199)/10.
+set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_ab,248)]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,199)/10.
+call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+endif
 if GetUnitAbilityLevel(vl_t, 'Bdba') > 0 then
     call UnitRemoveAbility(vl_t, 'Bdba')
     set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 260)
     if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-        call zzKS_Do(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+        call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
     endif
 endif
 if GetUnitAbilityLevel(vl_t, 'Bpoa') > 0 then
     call UnitRemoveAbility(vl_t, 'Bpoa')
     set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 261)
     if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-        call zzKS_Do(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+        call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
     endif
 endif
 if GetUnitAbilityLevel(vl_t, 'Bhea') > 0 then
     call UnitRemoveAbility(vl_t, 'Bhea')
     set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 262)
     if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-        call zzKS_Do(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+        call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
     endif
 endif
 loop
@@ -593,8 +1101,19 @@ if zzKS_stack[vl_p]==5 then
 call zzVL_Text(vl_h,"|cffffcc00[Cực hạn 5 tầng]|r")
 endif
 endif
+if LoadInteger(zzVL_ht,vl_ab,216)>0 and vl_p<10 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) and GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,216)+LoadInteger(zzVL_ht,vl_ab,202)*GetUnitAbilityLevel(vl_h,vl_ab) then
+call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,220))
+if LoadInteger(zzVL_ht,vl_ab,203)>0 then
+set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,203)+GetUnitAbilityLevel(vl_h,vl_ab))/10.)
+call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
+endif
+if LoadInteger(zzVL_ht,vl_ab,247)>0 or LoadInteger(zzVL_ht,vl_ab,203)==0 then
+call zzKS_Buff(vl_p,vl_ab,1.)
+endif
+call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+endif
 if LoadInteger(zzVL_ht,vl_ab,249)==1 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and GetRandomInt(1,100)<=10 then
-call zzKS_Do(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
+call zzKS_Run(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
 set vl_ab=0
 set vl_i=99
 endif
@@ -602,6 +1121,28 @@ set vl_i=vl_i+1
 endloop
 set vl_h=null
 set vl_t=null
+endfunction
+function zzKS_Low takes integer vl_ab returns real
+if LoadInteger(zzVL_ht,vl_ab,189)>0 then
+return LoadInteger(zzVL_ht,vl_ab,189)/100.
+endif
+return .4
+endfunction
+function zzKS_Freeze takes unit vl_h,real vl_r,real vl_d returns nothing
+local group vl_g=CreateGroup()
+local unit vl_u
+call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
+call zzKS_St(vl_h,vl_u,3,100,vl_d)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl",vl_u,"origin"))
+endif
+endloop
+call DestroyGroup(vl_g)
+set vl_g=null
 endfunction
 // every second: open / rank up the skills by hero level, sum passives and buffs into zzKS_af (read by AffixSum)
 function zzKS_Tick takes nothing returns nothing
@@ -619,7 +1160,7 @@ exitwhen vl_p>9
 set vl_h=Jx[vl_p+1]
 set vl_i=1
 loop
-exitwhen vl_i>13
+exitwhen vl_i>14
 set zzKS_af[vl_p*16+vl_i]=0
 if vl_now<zzKS_bufEnd[vl_p*16+vl_i] then
 set zzKS_af[vl_p*16+vl_i]=zzKS_buf[vl_p*16+vl_i]
@@ -633,6 +1174,28 @@ else
 set zzKS_stack[vl_p]=0
 endif
 set zzKS_refl[vl_p]=0
+if zzKS_hideAb[vl_p]!=0 and (vl_now>=zzKS_hideEnd[vl_p] or vl_h==null or GetWidgetLife(vl_h)<.405) then
+set zzKS_hideAb[vl_p]=0
+call UnitRemoveAbility(vl_h,'Apiv')
+endif
+if zzKS_chgOn[vl_p] and (vl_h==null or GetWidgetLife(vl_h)<.405) then
+set zzKS_chgOn[vl_p]=false
+set zzKS_chg[vl_p]=0
+endif
+if zzKS_chgOn[vl_p] and vl_now>=zzKS_chgNext[vl_p] then
+set zzKS_chgNext[vl_p]=vl_now+2.
+set zzKS_chg[vl_p]=IMinBJ(20,zzKS_chg[vl_p]+1)
+call zzVL_Text(vl_h,"|cffff80c0+"+I2S(zzKS_chg[vl_p])+"|r")
+endif
+set vl_i=0
+loop
+exitwhen vl_i>3
+set zzKS_pfx[vl_p*4+vl_i]=0
+set zzKS_steal[vl_p*4+vl_i]=0
+set zzKS_xw[vl_p*4+vl_i]=0
+set zzKS_xc[vl_p*4+vl_i]=0
+set vl_i=vl_i+1
+endloop
 if vl_h!=null then
 call BlzUnitDisableAbility(vl_h,'Apat',true,true)
 if LoadInteger(zzVL_ht,GetHandleId(vl_h),271)==0 and LoadStr(zzVL_ht,GetUnitTypeId(vl_h),270)!=null then
@@ -660,12 +1223,30 @@ endif
 if GetUnitAbilityLevel(vl_h,vl_ab)!=vl_w then
 call SetUnitAbilityLevel(vl_h,vl_ab,vl_w)
 endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),1024)>0 and GetWidgetLife(vl_h)>.405 and GetWidgetLife(vl_h)<BlzGetUnitMaxHP(vl_h)*.4 and vl_now>zzKS_lowCd[vl_p] then
+if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),1024)>0 and GetWidgetLife(vl_h)>.405 and GetWidgetLife(vl_h)<BlzGetUnitMaxHP(vl_h)*zzKS_Low(vl_ab) and vl_now>zzKS_lowCd[vl_p] and (not HaveSavedInteger(zzVL_ht,vl_ab,217) or GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,217)) then
+if HaveSavedInteger(zzVL_ht,vl_ab,220) then
+set zzKS_lowCd[vl_p]=vl_now+LoadInteger(zzVL_ht,vl_ab,220)
+set zzKS_dimm[vl_p]=vl_now+LoadInteger(zzVL_ht,vl_ab,221)
+if LoadInteger(zzVL_ht,vl_ab,218)>0 then
+set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+LoadInteger(zzVL_ht,vl_ab,218))
+endif
+call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*LoadInteger(zzVL_ht,vl_ab,219)/100.)
+else
 set zzKS_lowCd[vl_p]=vl_now+30.
 set zzKS_dimm[vl_p]=vl_now+4.
 call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*.1)
+endif
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
 call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+if LoadInteger(zzVL_ht,vl_ab,204)>0 then
+call zzKS_Freeze(vl_h,400.,LoadInteger(zzVL_ht,vl_ab,204)/10.)
+endif
+endif
+if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,212)>0 and GetWidgetLife(vl_h)>.405 and vl_now>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) then
+call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,vl_now+(LoadInteger(zzVL_ht,vl_ab,212)-LoadInteger(zzVL_ht,vl_ab,211)*vl_w)/10.)
+set zzKS_dimm[vl_p]=RMaxBJ(zzKS_dimm[vl_p],vl_now+1.)
+set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+1.)
+call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
 endif
 if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),128)>0 then
 set zzKS_refl[vl_p]=zzKS_refl[vl_p]+2*vl_w
@@ -673,7 +1254,23 @@ endif
 if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),4096)>0 then
 call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+12.*vl_w)
 endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 then
+if LoadInteger(zzVL_ht,vl_ab,240)==0 and HaveSavedInteger(zzVL_ht,vl_ab,239) then
+set vl_s=LoadInteger(zzVL_ht,vl_ab,239)
+set zzKS_pfx[vl_p*4+vl_s]=BlzBitOr(zzKS_pfx[vl_p*4+vl_s],LoadInteger(zzVL_ht,vl_ab,245))
+if vl_s<3 and LoadInteger(zzVL_ht,vl_ab,209)>0 then
+set zzKS_xw[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,209)
+set zzKS_xc[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,208)
+endif
+if vl_s<3 then
+set zzKS_steal[vl_p*4+vl_s]=zzKS_steal[vl_p*4+vl_s]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+else
+set zzKS_steal[vl_p*4]=zzKS_steal[vl_p*4]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+set zzKS_steal[vl_p*4+1]=zzKS_steal[vl_p*4+1]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+set zzKS_steal[vl_p*4+2]=zzKS_steal[vl_p*4+2]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+endif
+endif
+// (a passive that buffs on attacks, key 216, gives its stats only while the buff lasts)
+if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,216)==0 then
 set vl_s=LoadInteger(zzVL_ht,vl_ab,247)
 if vl_s>0 then
 set zzKS_af[vl_p*16+vl_s]=zzKS_af[vl_p*16+vl_s]+R2I(zzKS_per[vl_s]*vl_w)
@@ -854,6 +1451,7 @@ call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 call TriggerAddAction(vl_t,function zzKS_OnCast)
 // per rank: 1 hut sinh luc, 3 bao kich, 4 toc danh, 5 sat thuong %, 6 giam sat thuong, 7 sinh luc, 11 phong thu
 set zzKS_per[1]=1.
+set zzKS_per[2]=1.
 set zzKS_per[3]=1.
 set zzKS_per[4]=3.
 set zzKS_per[5]=2.
@@ -861,6 +1459,7 @@ set zzKS_per[6]=1.
 set zzKS_per[7]=80.
 set zzKS_per[11]=1.
 set zzKS_per[13]=4.
+set zzKS_per[14]=2.
 call TimerStart(CreateTimer(),1.,true,function zzKS_Tick)
 set vl_t=null
 endfunction

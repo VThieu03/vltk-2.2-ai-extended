@@ -1919,8 +1919,19 @@ function zzVL_OnDamageBody takes nothing returns nothing
     if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),74) then
         set vl_d=vl_d*1.15
     endif
+    // bong (KVCT effect_bong, kskill.j status 5): 50% more damage
+    if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),81) then
+        set vl_d=vl_d*1.5
+    endif
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and TimerGetElapsed(zzVL_clock)<zzKS_dimm[vl_pt] then
         set vl_d=0.
+        // KVCT Hang Long Bat Vu: ends after a number of hits (kskill.j key 184)
+        if zzKS_dimmN[vl_pt]>0 then
+            set zzKS_dimmN[vl_pt]=zzKS_dimmN[vl_pt]-1
+            if zzKS_dimmN[vl_pt]==0 then
+                set zzKS_dimm[vl_pt]=0.
+            endif
+        endif
     endif
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and zzKS_refl[vl_pt]>0 and not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=null and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 then
         call zzVL_TpHit(vl_tgt,vl_src,vl_d*zzKS_refl[vl_pt]/100.)
@@ -2640,7 +2651,10 @@ function zzVL_AutoTick takes nothing returns nothing
                     if vl_lv>0 and BlzGetUnitAbilityCooldownRemaining(vl_hero,vl_ab)<=.01 and BlzGetAbilityCooldown(vl_ab,vl_lv-1)<=15. and GetUnitState(vl_hero,UNIT_STATE_MANA)>=BlzGetAbilityManaCost(vl_ab,vl_lv-1) then
                         set vl_ord=LoadInteger(zzVL_ht,vl_ab,2)
                         set vl_kind=LoadInteger(zzVL_ht,vl_ab,3)
-                        if vl_kind==1 then
+                        // 4: a KVCT toggle (kskill.j zzKS_Toggle), cast only while it is off
+                        if vl_kind==4 and HaveSavedHandle(zzVL_ht,GetHandleId(vl_hero),vl_ab) then
+                            set vl_ok=false
+                        elseif vl_kind==1 then
                             set vl_ok=IssueTargetOrderById(vl_hero,vl_ord,vl_t)
                         elseif vl_kind==2 then
                             set vl_ok=IssuePointOrderById(vl_hero,vl_ord,GetUnitX(vl_t),GetUnitY(vl_t))
@@ -2707,6 +2721,8 @@ function zzVL_TryCast takes unit vl_hero,unit vl_t,integer vl_key returns boolea
             elseif vl_kind==2 and IssuePointOrderById(vl_hero,vl_ord,GetUnitX(vl_t),GetUnitY(vl_t)) then
                 return true
             elseif vl_kind==0 and IssueImmediateOrderById(vl_hero,vl_ord) then
+                return true
+            elseif vl_kind==4 and not HaveSavedHandle(zzVL_ht,GetHandleId(vl_hero),vl_ab) and IssueImmediateOrderById(vl_hero,vl_ord) then
                 return true
             endif
         endif

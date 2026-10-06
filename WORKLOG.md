@@ -31,9 +31,26 @@
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
 
 > *Cập nhật ngày 06/10/2026:*
-- Không có công việc nào đang dang dở.
+- [ ] **Yêu cầu User:** *"đã làm phần skill giống với KVCT nhất chưa, tại có nhiều skill do bạn tự bịa ra đúng không"*
+  - Việc: đối chiếu từng phái (theo thứ tự `CLASS` trong `tools/kskill_data.py`, bắt đầu NDD/E000) với code gốc KVCT (`D:\kvct-dev`: cast handler trong script, số liệu SLK), sửa/thêm OVR trong `tools/kskill.py`, chỉ mở rộng `tools/kskill.j` khi bắt buộc. Q/W/E giữ autocast; không đưa lại độ luyện / dummy summon.
+  - Sau mỗi phái: chạy `scratchpad/run_pipeline.py` (pjass pass), viết lại mục phái đó trong `docs/kvct_audit.md` (Giống / Gần giống / Khác + lý do), commit `tools/`, `docs/`, `WORKLOG.md`, push nhánh `claude/review-refactor-3tabff`.
+  - Phát hiện chung: (1) `kskill.py` chỉ dùng `kind`/`dur`/`stats` của OVR, các khóa `hits`/`status`/`sdur`/`fx` bị bỏ qua; (2) Q/W/E autocast chỉ ra 1 đợt; (3) danh sách chiêu mỗi phái lấy theo tiền tố tên, KVCT thật có bảng riêng từng phái (có chiêu dùng chung + ô 14); (4) "thọ thương" của KVCT là câm lặng (Silence), map làm thành chảy máu.
+  - Sửa engine (cộng thêm, `tools/kskill.j`): `zzKS_Run` (mọi đợt, cả khi autocast), trạng thái theo đợt + thời gian 1/10 giây, thọ thương = khóa chiêu KVCT của tướng, bán kính / tối đa mục tiêu / giãn cách theo từng chiêu, bị động gắn vào Q/W/E (`zzKS_pfx`, `zzKS_steal`), nổ 3 tầng (fx 16384), kiểu 13 trận tại điểm, 14 bật/tắt (AI không tự tắt: `gameplay_07_ai.j` kind 4), 15 bùa chú tại điểm. Phái trong `KV_ORDER` (`kskill_data.py`) dùng bảng chiêu của KVCT và OVR đầy đủ.
+  - Tiến độ: [x] NDD (E000), [x] TVD (H002), [x] VDK (E001), [x] TYD (E002), [x] DMPT (E003), [x] TLQ (H00Z), [x] TND (H014), [x] CBC (H00A), [x] CLK (H009), [x] TLD (H01E), [x] TVT (H01F), [x] NDC (H01L), [x] DMTT (H01M), [x] NMC (E005), [x] TNK (H01P), [x] VDQ (H01S), [x] CLD (H01U).
 
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
+
+- [x] **Yêu cầu User:** *"chỉnh sửa lại hệ thống skill KVCT qua map của tôi, bóc tách rõ ràng từng kỹ năng của từng phái, chuyển qua rồi làm skill Q W E là skill autocast mỗi khi nhấp chuột phải vào"*
+  - Hiện trạng trước khi sửa: autocast chọn theo order gốc của KVCT nên chỉ có Q (33/33) và W (31/33) là autocast, E (0/33) vẫn là chiêu bấm (`ANcl`).
+  - `tools/kskill.py`: thêm `AUTO_KEY`, chọn autocast theo **phím** (Q→`ANba`, W→`AEpa`, E→`AHca`) cho mọi chiêu tấn công (loại 1-5). Tooltip Q/W/E có thêm dòng hướng dẫn nhấp chuột phải.
+  - `tools/kskill.j` `zzKS_Do`: chiêu lướt (loại 3) khi tự phát trên đòn đánh thì đánh mục tiêu (trước đây không làm gì).
+  - Thêm `tools/kskill_list.py` (chạy sau `kskill.py` trong `run_pipeline.py`) sinh `docs/kvct_skill_table.md`: bảng 400 kỹ năng theo 33 phái (tên, ID, phím, loại, số hit, cấp mở, autocast).
+  - **Chưa build/pjass** trên máy cloud (cần `D:\kvct-dev` và `pjass.exe`): phải chạy `scratchpad/run_pipeline.py` trên máy Windows rồi test trong game.
+
+- [x] **Yêu cầu User:** *"pull và tổng quan lại dự án của tôi, nếu cần thiết thì refactor lại code cho dễ nhìn"*
+  - Rà soát toàn bộ cấu trúc repo. Dọn thư mục gốc: chuyển 12 script vá một lần (`patch*.py`, `check_describe.py`, `debug_regex.py`, `test.py`) và bản dump `items.txt` vào `scratchpad/legacy/` (không file nào trong pipeline tham chiếu).
+  - Không đụng JASS/Python của pipeline (không chạy được pjass.exe ngoài Windows), hành vi build giữ nguyên.
+  - Lưu ý: `tools/gameplay.j` là file **sinh tự động** bởi `gameplay.py` (ghép 8 module trong `tools/jass/`). Chỉ sửa trong `tools/jass/`, sửa `gameplay.j` sẽ bị ghi đè.
 
 - [x] **Yêu cầu User:** *"đẩy lên git toàn bộ chỉnh sửa cho tôi"*
   - Kiểm tra git status, convert `.gitignore` sang UTF-8.
