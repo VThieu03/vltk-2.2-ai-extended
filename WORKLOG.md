@@ -41,7 +41,7 @@
   - Sửa engine (cộng thêm, `tools/kskill.j`): `zzKS_Run` (mọi đợt, cả khi autocast), trạng thái theo đợt + thời gian 1/10 giây, thọ thương = khóa chiêu KVCT của tướng, bán kính / tối đa mục tiêu / giãn cách theo từng chiêu, bị động gắn vào Q/W/E (`zzKS_pfx`, `zzKS_steal`), nổ 3 tầng (fx 16384), kiểu 13 trận tại điểm, 14 bật/tắt (AI không tự tắt: `gameplay_07_ai.j` kind 4), 15 bùa chú tại điểm. Phái trong `KV_ORDER` (`kskill_data.py`) dùng bảng chiêu của KVCT và OVR đầy đủ.
   - Tiến độ: [x] NDD (E000), [x] TVD (H002), [x] VDK (E001), [x] TYD (E002), [x] DMPT (E003), [x] TLQ (H00Z), [x] TND (H014), [x] CBC (H00A), [x] CLK (H009), [x] TLD (H01E), [x] TVT (H01F), [x] NDC (H01L), [x] DMTT (H01M), [x] NMC (E005), [x] TNK (H01P), [x] VDQ (H01S), [x] CLD (H01U).
 - [ ] **Yêu cầu User (đợt 2, nhánh `kvct-doi-chieu-2`):** tiếp tục đối chiếu 16 phái còn lại theo thứ tự `CLASS`: TLB (H00L), DTK (H00U), TVC (H00V), DMPD (E006), CBB (H020), NMK (H021), MGC (H022), MGK (H023), DTC (H024), CMC (H025), CMK (H026), HSQ (H027), HSK (H028), TDC (H029), TDK (H02A), TYK (H02B). Cách làm như đợt 1; xong hết thì mở PR vào `main`. Phiên bị ngắt: đọc dòng tiến độ đợt 2 bên dưới.
-  - Tiến độ đợt 2: [x] TLB (H00L), [x] DTK (H00U) (thêm khóa 183 vào `kskill.j`: chiêu tung kèm Q/W/E); [x] TVC (H00V); [x] DMPD (E006); [x] CBB (H020); đang làm: NMK (H021) (ghi chú code đọc sẵn ở `scratchpad/notes_<phái>.md`, không commit)
+  - Tiến độ đợt 2: [x] TLB (H00L), [x] DTK (H00U) (thêm khóa 183 vào `kskill.j`: chiêu tung kèm Q/W/E); [x] TVC (H00V); [x] DMPD (E006); [x] CBB (H020); [x] NMK (H021); đang làm: MGC (H022) (ghi chú code đọc sẵn ở `scratchpad/notes_<phái>.md`, không commit)
 
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
 

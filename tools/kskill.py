@@ -94,6 +94,28 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Nga My Kiem (NMK): read from KVCT's code
+    # Q J30: 2 knives 0.2 s apart fly 600 (width 100) through up to 7 enemies each, 30% cham 2 s
+    "A0A5": {"kind": 5, "hits": 2, "gap": .2, "rad": 600, "max": 7, "st": 4, "ch": 30, "sd": 2},
+    # R Jf6: allies (heroes) within 500 get (6 + rank)% of the caster's life every second for 4 s (one burst here)
+    "A0A6": {"kind": 7, "dur": 4, "stats": [], "fx": 16},
+    # D J0S: heroes of the side within 1000 (allies 60%), 1200 s: the effects of Mong Diep, Phat Tam, Ba La,
+    # Thanh Am, Thanh Tam (each at most the rank of D)
+    "A0A7": {"kind": 7, "dur": 1200, "stats": [(6, 20, 3), 7]},
+    "A0AA": {"kind": 0, "stats": [5]},                       # Mong Diep: bang cong %, hoi phuc sinh luc / noi luc
+    # Phat Tam Tu Huu: sinh luc toi da; hit under 40% life: heal 100%, 4 s free of control, every 45 s
+    "A0AB": {"kind": 0, "stats": [7], "fx": 1024, "low": (0, 45, 100, 4, 100), "lowat": 40},
+    "A0AG": {"kind": 0, "stats": [5, 14]},                   # Ba La Tam Kinh: phat huy luc tan cong, ti le cham
+    "A0AH": {"kind": 0, "stats": [14]},                      # Thanh Am Phan Xuong: khang thoi gian trang thai
+    "A0AI": {"kind": 0, "stats": [6]},                       # Thanh Tam Tinh Khi: giam sat thuong chi mang
+    "A0AL": {"kind": 0, "stats": [4, 5]},                    # Lien Hoa Tam Kinh: toc danh, bang cong %, phat huy
+    # W eqw: 3 knives 0.15 s apart fly 900 (width 165) through up to 7 enemies each, 35% cham 2 s
+    "A0AN": {"kind": 5, "hits": 3, "gap": .15, "rad": 900, "max": 7, "st": 4, "ch": 35, "sd": 2},
+    # E ed9: 5 swords (0, +-72, +-144 degrees) turn once to the target, ~1080 (width 150), at most 7 each, 40% cham 2 s
+    "A0AO": {"kind": 5, "fan": 5, "spread": 10, "rad": 1080, "max": 7, "st": 4, "ch": 40, "sd": 2},
+    # Do Nguyen Cong: noi cong, sinh khi; E +(10 + 2/rank)% damage and 5% back as life
+    "A0AM": {"kind": 0, "stats": [7], "link": 2, "lfx": 4, "steal_pct": 5},
+    "A0WW": {"kind": 0, "stats": [4, 3]},                    # Be Nguyet Phat Tran: toc danh, chi mang, vat cong noi
     # Cai Bang Bong (CBB): read from KVCT's code; A0E9 is shared with CBC
     # Q Ja8: a stick bursts at the first enemy: radius 100, no limit, 30% bong 1.5 s and 30% tho thuong 1 s
     "A0EK": {"kind": 16, "rad": 100, "st": 5, "ch": 30, "sd": 1.5, "st2": 1, "ch2": 30, "sd2": 1},
@@ -585,11 +607,6 @@ OVR = {
     "A0WX": {"kind": 0, "stats": [7]},                       # Kim Dinh Phat Quang: sinh luc, Kim Dinh Mien Chuong stronger
 
     # Nga My Kiem (NMK)
-    "A0A5": {"kind": 5, "hits": 2},                          # Thoi Song Vong Nguyet
-    "A0AN": {"kind": 5, "hits": 3},                          # Kiem Anh Phat Quang
-    "A0AO": {"kind": 5, "hits": 5},                          # Bang Suong Dien Phong
-    "A0A6": {"kind": 7, "dur": 20},                          # Tu Hang Pho Do
-    "A0A7": {"kind": 7, "dur": 20},                          # Thien Phat Thien Diep
 
     # Doan Thi (DTK, DTC)
     "A0DB": {"kind": 1, "hits": 2},                          # Than Chi Diem Huyet

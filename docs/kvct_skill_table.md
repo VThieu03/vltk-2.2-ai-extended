@@ -412,7 +412,7 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 8 | Thanh Âm Phạn Xướng | X293 | - | bị động | 1 | 85 |
 | 9 | Thanh Tâm Tịnh Khí | X294 | - | bị động | 1 | 105 |
 | 10 | Liên Hoa Tâm Kinh | X295 | - | bị động | 1 | 125 |
-| 11 | Băng Sương Điện Phóng | X296 | E | phóng / đạn bay, **autocast** | 5 | 145 |
+| 11 | Băng Sương Điện Phóng | X296 | E | phóng / đạn bay, **autocast** | 1 | 145 |
 | 12 | Độ Nguyên Công | X297 | - | bị động | 1 | 165 |
 | 13 | Bế Nguyệt Phất Trần | X298 | - | bị động | 1 | 185 |
 
