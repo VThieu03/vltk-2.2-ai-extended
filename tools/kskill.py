@@ -147,16 +147,28 @@ OVR = {
     "A044": {"kind": 0, "stats": [5], "link": 2, "xw": 3, "xc": 40},
     "A0WB": {"kind": 0, "stats": [3, 14]},                   # Tram Ma Dao Phap: chi mang, hoa giai trang thai
 
-    # Thieu Lam Bong (TLB)
+    # Thieu Lam Bong (TLB): read from KVCT's code; A03J A03K A03Q as in TLQ / TLD
+    # Q eHN / eHt: one blow 0.1 s after the cast where the target stood, radius 180, at most 7, 30% tho thuong 1 s
+    "A047": {"kind": 16, "rad": 180, "max": 7, "st": 1, "ch": 30, "sd": 1},
+    "A048": {"kind": 0, "stats": [3, 4]},                    # Thieu Lam Con Phap: chinh xac, vat cong %, chi mang, toc danh
+    "A049": {"kind": 6, "dur": 300, "stats": [6]},           # D ed8: 300 s ne tranh, sat thuong nhan -%
+    # W JEQ / JEH: one sweep 1/6 s after the cast around the hero, radius 300, at most 7, 35% tho thuong 1 s
+    "A04C": {"kind": 4, "rad": 300, "max": 7, "st": 1, "ch": 35, "sd": 1},
+    # R JsO / JsB: 8 s: every 0.5 s pulls up to 4 enemies within 800 to the hero and casts That Tinh La Sat Con;
+    # immune to tho thuong meanwhile
+    "A04D": {"kind": 18, "hits": 16, "gap": .5, "rad": 800, "max": 4, "st": 1, "ch": 35, "sd": 1, "fx": 2},
+    # Kim Cang Bat Hoai: hit below 95% life: 3 s immune to damage and control, every (>= 10) s
+    "A04G": {"kind": 0, "stats": [], "fx": 1024, "low": (3, 15, 0, 3, 100), "lowat": 95},
+    "A04L": {"kind": 6, "dur": 180, "stats": [6, 14]},       # F eZY: 180 s sinh khi, hoa giai sat thuong, khang trang thai
+    # E J9P / J9w: 2 sweeps 0.2 s apart around the hero, radius 300, at most 7, 40% tho thuong 1 s
+    "A04O": {"kind": 4, "hits": 2, "gap": .2, "rad": 300, "max": 7, "st": 1, "ch": 40, "sd": 1},
+    # Ma Kha Vo Luong: E 50%: a thrust hits 7 enemies on a line, 5% back as life
+    "A04P": {"kind": 0, "stats": [], "link": 2, "lfx": 65536},
+    "A0WC": {"kind": 0, "stats": [3], "fx": 128},            # Tay Tuy Kinh: phan don sat thuong ky nang, chi mang
+
     "A05B": {"kind": 2, "hits": 3},                          # Dai Luc Kim Cang Chuong (cone 3 hits)
     "A05D": {"kind": 4, "hits": 4},                          # Vo Luong Tram (nova 4 hits)
     "A058": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # La Han Tran (buff)
-    "A047": {"kind": 2, "hits": 2},                          # Pho Do Con Phap
-    "A04C": {"kind": 4, "hits": 3},                          # That Tinh La Sat Con
-    "A04O": {"kind": 4, "hits": 2},                          # Vi Da Hien Chu
-    "A04D": {"kind": 4, "hits": 4},                          # Tuy Tien Bat Con
-    "A049": {"kind": 6, "dur": 300, "stats": [(6, 20, 2)]},  # Bat Dong Minh Vuong
-    "A04L": {"kind": 6, "dur": 300, "stats": [(13, 30, 3)]}, # Nhu Y Thuc Cot Cong
 
     # Thuy Yen Dao (TYD): read from KVCT's code; A0BO A0BQ are shared with TYK
     # Q JxC / Jxx: 3 missiles fanned 20 degrees, 500 (width 90), at most 4 each, 30% cham 2 s
