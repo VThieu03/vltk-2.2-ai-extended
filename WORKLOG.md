@@ -35,6 +35,11 @@
 
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
 
+- [x] **Yêu cầu User:** *"pull và tổng quan lại dự án của tôi, nếu cần thiết thì refactor lại code cho dễ nhìn"*
+  - Rà soát toàn bộ cấu trúc repo. Dọn thư mục gốc: chuyển 12 script vá một lần (`patch*.py`, `check_describe.py`, `debug_regex.py`, `test.py`) và bản dump `items.txt` vào `scratchpad/legacy/` (không file nào trong pipeline tham chiếu).
+  - Không đụng JASS/Python của pipeline (không chạy được pjass.exe ngoài Windows), hành vi build giữ nguyên.
+  - Lưu ý: `tools/gameplay.j` là file **sinh tự động** bởi `gameplay.py` (ghép 8 module trong `tools/jass/`). Chỉ sửa trong `tools/jass/`, sửa `gameplay.j` sẽ bị ghi đè.
+
 - [x] **Yêu cầu User:** *"đẩy lên git toàn bộ chỉnh sửa cho tôi"*
   - Kiểm tra git status, convert `.gitignore` sang UTF-8.
   - Gom toàn bộ thay đổi (code tools, map wts, w3a, gameplay JASS, lệnh GM, map build mới).
