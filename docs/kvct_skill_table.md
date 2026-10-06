@@ -276,18 +276,18 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Bác Cập Nhị Phục | X195 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
+| 1 | Bác Cập Nhị Phục | X195 | Q | đánh lan tại mục tiêu, **autocast** | 2 | 1 |
 | 2 | Võ Đang Khí Công | X196 | - | bị động | 1 | 6 |
 | 3 | Tọa Vọng Vô Ngã | X197 | D | buff bản thân | 1 | 15 |
-| 4 | Chân Vũ Thất Tiệt | X198 | - | tự phát khi đánh (đánh mục tiêu) | 1 | 25 |
+| 4 | Chân Vũ Thất Tiệt | X198 | - | bị động | 1 | 25 |
 | 5 | Thuần Dương Vô Cực | X199 | F | hộ thuẫn | 1 | 38 |
 | 6 | Thái Cực Vô Ý | X200 | - | bị động | 1 | 52 |
-| 7 | Thiên Địa Vô Cực | X201 | W | đánh mục tiêu, **autocast** | 3 | 68 |
-| 8 | Vạn Kiếm Quy Tông | X202 | R | nổ diện rộng 1000 | 5 | 85 |
+| 7 | Thiên Địa Vô Cực | X201 | W | đánh lan tại mục tiêu, **autocast** | 3 | 68 |
+| 8 | Vạn Kiếm Quy Tông | X202 | R | nổ quanh thân | 5 | 85 |
 | 9 | Võ Đang Cửu Dương | X203 | - | bị động | 1 | 105 |
 | 10 | Bát Quái Du Long | X204 | - | bị động | 1 | 125 |
-| 11 | Cửu Cung Bát Quái | X205 | E | nổ quanh thân, **autocast** | 3 | 145 |
-| 12 | Thái Cực Thần Công | X206 | - | bị động | 2 | 165 |
+| 11 | Cửu Cung Bát Quái | X205 | E | đánh lan tại mục tiêu, **autocast** | 3 | 145 |
+| 12 | Thái Cực Thần Công | X206 | - | bị động | 1 | 165 |
 | 13 | Lưỡng Nghi Tâm Pháp | X207 | - | bị động | 1 | 185 |
 
 ## Côn Lôn Đao (CLD, H01U)

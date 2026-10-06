@@ -240,10 +240,28 @@ OVR = {
     "A0XM": {"kind": 18, "nodmg": 1, "hits": 20, "gap": 1, "rad": 800, "max": 7, "st": 4, "ch": 100, "sd": 24,
              "fx": 512, "dur": 24},
 
-    # Vo Dang Khi (VDQ)
-    "A0JP": {"kind": 9, "dur": 20},                            # Thuan Duong Vo Cuc
-    "A0JS": {"kind": 12},                                    # Van Kiem Quy Tong
-    "A0JA": {"kind": 1, "hits": 3},                          # Thien Dia Vo Cuc (triple strike)
+    # Vo Dang Khi (VDQ): read from KVCT's code; A0JO as in VDK
+    # Q J4l / J4d: 2 blows 0.18 s apart where the target stood, radius 150, at most 7, 30% choang 1 s
+    "A0J9": {"kind": 16, "hits": 2, "gap": .18, "rad": 150, "max": 7, "st": 3, "ch": 30, "sd": 1},
+    "A0JL": {"kind": 0, "stats": [3, 4]},                    # Vo Dang Khi Cong: loi cong, chi mang, toc danh
+    "A0JR": {"kind": 0, "stats": [5, 2]},                    # Chan Vu That Tiet: vat cong noi, damage -> noi luc
+    # F JsC / Jsx: 85% of the mana becomes a shield of (rank) % of the max mana, 20 s; cooldown 30
+    "A0JP": {"kind": 9, "dur": 20},
+    "A0JM": {"kind": 0, "stats": [5]},                       # Thai Cuc Vo Y: phat huy luc tan cong
+    # W JCU / JCO: 3 blows 0.3 s apart where the target stood, radius 250, at most 7, 35% choang 1 s
+    "A0JA": {"kind": 16, "hits": 3, "gap": .3, "rad": 250, "max": 7, "st": 3, "ch": 35, "sd": 1},
+    # R J9k / J9o: 5 (+1 for each 2 enemies) sword rains 0.1 s apart on enemies within 1000 (at most 10), 80% choang
+    # 1 s; then 15 s chi mang on attacks (Kiem Tam Thong Dung); cooldown 30
+    "A0JS": {"kind": 4, "hits": 5, "gap": .1, "rad": 1000, "max": 10, "st": 3, "ch": 80, "sd": 1,
+             "selfbuf": 1, "dur": 15, "stats": [3]},
+    "A0JU": {"kind": 0, "stats": [5]},                       # Vo Dang Cuu Duong: more damage with more mana (up to !%)
+    "A0JQ": {"kind": 0, "stats": []},                        # Bat Quai Du Long: shield counters / ends with immunity (not done)
+    # E JDp / JDG: 3 blows 0.25 s apart where the target stood, radius 280, at most 7, 40% choang 1 s
+    "A0JB": {"kind": 16, "hits": 3, "gap": .25, "rad": 280, "max": 7, "st": 3, "ch": 40, "sd": 1},
+    # Thai Cuc Than Cong: loi cong; E 75%: Vo Nga Vo Kiem, 2 more blows
+    "A0JN": {"kind": 0, "stats": [5], "link": 2, "xw": 2, "xc": 75},
+    "A0XL": {"kind": 0, "stats": [5], "fx": 4096},           # Luong Nghi Tam Phap: loi cong, hoi noi luc
+
 
     # Con Lon Kiem (CLK): read from KVCT's code; A0ID is shared with CLD
     # Q e_E / eli: lightning on the target, radius 120, at most 3, 30% choang 1 s

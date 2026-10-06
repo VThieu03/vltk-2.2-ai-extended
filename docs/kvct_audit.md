@@ -385,23 +385,29 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q/W là quét nón, Ma Âm Phệ Phách là nổ 3 lần làm chậm (KVCT: bỏng + hỗn loạn, không sát thương), không có hút máu ở Q/W/E.
 
-### Võ Đang Khí (VDQ)
+### Võ Đang Khí (VDQ) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Bác Cập Nhị Phục | Q | đánh mục tiêu | Khuôn chuẩn | choáng 30%, 2 đòn | Đạt chuẩn |
-| Võ Đang Khí Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tọa Vọng Vô Ngã | D | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Chân Vũ Thất Tiệt | - | đánh mục tiêu | Khuôn chuẩn | - | Đạt chuẩn |
-| Thuần Dương Vô Cực | F | hộ thuẫn | OVR Đặc thù | - | Đạt chuẩn |
-| Thái Cực Vô Ý | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Địa Vô Cực | W | nổ quanh thân | OVR Đặc thù | choáng 35%, 3 đòn | Đạt chuẩn |
-| Vạn Kiếm Quy Tông | R | đánh mục tiêu | OVR Đặc thù | choáng 80%, 5 đòn | Đạt chuẩn |
-| Võ Đang Cửu Dương | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bát Quái Du Long | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Cửu Cung Bát Quái | E | nổ quanh thân | Khuôn chuẩn | choáng 40%, 3 đòn | Đạt chuẩn |
-| Thái Cực Thần Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | 2 đòn | Đạt chuẩn |
-| Lưỡng Nghi Tâm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi nội lực | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="VDQ"`; Q/W/E: `J4l`/`J4d`, `JCU`/`JCO`, `JDp`/`JDG`; chiêu bấm: `JsC`/`Jsx`, `J9k`/`J9o`, `JfE` (Tọa Vọng Vô Ngã, xem Võ Đang Kiếm)), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Bác Cập Nhị Phục | Q (autocast) | 2 đòn cách 0,18 giây tại chỗ mục tiêu, bán kính 150, tối đa 7; 30% choáng 1 giây | Như KVCT | Giống |
+| Võ Đang Khí Công | - | Bị động: lôi công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Tọa Vọng Vô Ngã | D | Như Võ Đang Kiếm | Như Võ Đang Kiếm | Gần giống |
+| Chân Vũ Thất Tiệt | - | Vòng sáng: vật công nội, chuyển sát thương thành nội lực | Bị động: sát thương % + hút nội lực | Gần giống |
+| Thuần Dương Vô Cực | F | 85% nội lực hiện có thành hộ thuẫn (bằng !% nội lực tối đa), 20 giây; hồi 30 giây | Như KVCT: 85% nội lực → hộ thuẫn (20 + 5 × bậc)% nội lực tối đa, 20 giây | Giống |
+| Thái Cực Vô Ý | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
+| Thiên Địa Vô Cực | W (autocast) | 3 đòn cách 0,3 giây tại chỗ mục tiêu, bán kính 250, tối đa 7; 35% choáng 1 giây | Như KVCT | Giống |
+| Vạn Kiếm Quy Tông | R | 5 đợt kiếm (+1 cho mỗi 2 kẻ địch) cách 0,1 giây lên kẻ địch trong 1000 (tối đa 10), 80% choáng 1 giây; sau đó 15 giây cộng tầng chí mạng khi đánh; hồi 30 giây | Nổ quanh thân 1000, 5 nhịp cách 0,1 giây, tối đa 10; choáng 80% 1 giây; buff chí mạng 15 giây | Gần giống (số đợt không tăng theo số địch; chí mạng không cộng tầng) |
+| Võ Đang Cửu Dương | - | Mỗi 4400 nội lực hiện có +1% sát thương (tối đa !%), tỉ lệ choáng | Bị động: sát thương % | Gần giống |
+| Bát Quái Du Long | - | Trong Thuần Dương Vô Cực bị đánh thì phản kích; hết hộ thuẫn thì chí mạng + miễn trạng thái 5 giây | Không có hiệu quả | Khác (chưa làm) |
+| Cửu Cung Bát Quái | E (autocast) | 3 đòn cách 0,25 giây tại chỗ mục tiêu, bán kính 280, tối đa 7; 40% choáng 1 giây | Như KVCT | Giống |
+| Thái Cực Thần Công | - | Lôi công; E 75%: Vô Ngã Vô Kiếm thêm 2 đòn | Bị động: sát thương %; E 75% thêm 2 đòn | Giống |
+| Lưỡng Nghi Tâm Pháp | - | Sát thương lên hệ Thủy, lôi công, hồi nội lực; hết Thuần Dương Vô Cực thì vô địch 4 giây | Bị động: sát thương % + hồi nội lực | Khác một phần (chưa có vô địch khi hết hộ thuẫn) |
+
+Trước khi sửa: Q/E dùng mô tả đoán, Thiên Địa Vô Cực là đánh 1 mục tiêu 3 hit, Vạn Kiếm Quy Tông là 1 lần nổ 1000.
 
 ### Côn Lôn Đao (CLD)
 
