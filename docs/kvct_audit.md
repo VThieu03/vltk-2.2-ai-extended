@@ -94,21 +94,30 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Tam Hoàn Sáo Nguyệt là đánh 1 mục tiêu, Nhân Kiếm / Vô Thượng Kiếm là đánh mục tiêu / quét nón 1 đợt; Lưu Tinh Cản Nguyệt là lướt gây sát thương; Lưỡng Nghi Kiếm Pháp là nổ quanh thân 40 lần; Tử Tiêu Hoành Vân là nổ quanh thân 4 lần; thiếu Tọa Vọng Vô Ngã.
 
-### Thúy Yên Đao (TYD)
+### Thúy Yên Đao (TYD) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Mục Dã Lưu Tinh | Q | quét phía trước | Khuôn chuẩn | làm chậm 35%, 3 đòn | Đạt chuẩn |
-| Thúy Yên Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ngự Tuyết Ẩn | R | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Băng Cơ Ngọc Cốt | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Băng Tung Vô Ảnh | W | quét phía trước | Khuôn chuẩn | làm chậm 35% | Đạt chuẩn |
-| Đạp Tuyết Vô Ngấn | - | bị động (cộng chỉ số) | Khuôn chuẩn | đẩy lùi, kéo đối thủ | Đạt chuẩn |
-| Hàn Nguyệt Yên Tỏa | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tương Tư | D | buff bản thân | OVR Đặc thù | độc / bỏng mỗi giây, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Băng Tước Việt Chi | E | đạn bay xuyên | Khuôn chuẩn | làm chậm 35%, 5 đòn | Đạt chuẩn |
-| Băng Tâm Thiến Ảnh | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Dạ Lai Tây Phong | F | nổ quanh thân | OVR Đặc thù | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TYD"`; Q/W/E: `JxC`/`Jxx`, `Ja0`/`JaE`, `Ja4`/`Ja9`/`Jae`; chiêu bấm: `ebl`/`ebd`/`ebU`, `Je7`/`Jev`, `e_U`/`e_O`; bị động: `eBV`/`eBG` Đạp Tuyết Vô Ngấn), `AbilityData.slk`.
+Bảng kỹ năng theo KVCT: 13 chiêu (trước 11; thêm **Tuyết Ảnh** và **Hộ Thể Hàn Băng** dùng chung với Thúy Yên Kiếm).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map. Các phái đã đối chiếu không còn giới hạn choáng 2 giây (dùng đúng thời gian KVCT).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Mục Dã Lưu Tinh | Q (autocast) | 3 đạo đao xòe quạt (−20°, 0, +20°), bay 500 (rộng 90), mỗi đạo tối đa 4; 30% làm chậm 2 giây | 3 đạn bay xòe 20°, 500, tối đa 4; chậm 30% 2 giây | Giống |
+| Thúy Yên Đao Pháp | - | Bị động: chính xác, băng công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Tuyết Ảnh | - | Bị động: tốc độ di chuyển, kháng hỏa, giảm thời gian bỏng | Bị động: tốc chạy | Gần giống |
+| Ngự Tuyết Ẩn | R | Ẩn thân 30 giây (hồi 32); đòn Q/W/E tiếp theo phá ẩn và kích hoạt Lưu Phong Hồi Tuyết (2,8 + 0,1 × bậc giây): tốc đánh +30 + 5 × bậc, phát huy lực tấn công +20 + 10 × bậc % | Ẩn thân thật 30 giây (kiểu mới 19); đòn đánh tiếp theo phá ẩn và cho buff 3 giây: tốc đánh +30 + 5 × bậc %, sát thương +20 + 10 × bậc % | Giống (thời gian buff cố định 3 giây) |
+| Hộ Thể Hàn Băng | - | Bị động: sinh lực; khi sinh lực < 40% bị đánh: đóng băng mọi kẻ địch xung quanh 3,5 giây, tăng kháng 5 giây, giãn cách 30 giây | Bị động: sinh lực; sinh lực < 40%: đóng băng (choáng) mọi kẻ địch trong 400 trong 3,5 giây, giãn cách 30 giây | Gần giống (không tăng kháng; kiểm tra mỗi giây) |
+| Băng Cơ Ngọc Cốt | - | Bị động: phát huy lực tấn công, tỉ lệ làm chậm, kháng bỏng | Bị động: sát thương % | Gần giống |
+| Băng Tung Vô Ảnh | W (autocast) | 3 đạo xòe quạt (4 đạo từ bậc 3, 5 đạo từ bậc 5), bay 500 (rộng 90), mỗi đạo tối đa 3; 35% làm chậm 2 giây | Như KVCT: 3 / 4 / 5 đạn xòe 13° theo bậc, 500, tối đa 3; chậm 35% 2 giây | Giống |
+| Đạp Tuyết Vô Ngấn | - | Khi đánh Q/W/E, (25 + 5 × bậc)%: miễn thọ thương / chậm / định thân / tê liệt / đẩy / kéo trong (4,1 + 0,1 × bậc) giây, giãn cách 15 giây | Khi đánh, (25 + 5 × bậc)%: miễn khống chế (4,1 + 0,1 × bậc) giây, giãn cách 15 giây | Giống |
+| Hàn Nguyệt Yên Tỏa | - | Bị động: tốc đánh, chí mạng, sát thương chí mạng, phát huy | Bị động: tốc đánh + chí mạng | Gần giống |
+| Tương Tư | D | Bật / tắt; khi bật mỗi 2 giây +1 tầng (tối đa 20), mỗi tầng +(10 + bậc)% phát huy lực tấn công; Q/W/E dùng hết tầng; tăng kháng thời gian trạng thái | Bật / tắt (kiểu mới 20): mỗi 2 giây +1 tầng (tối đa 20), mỗi tầng +(10 + bậc)% sát thương chiêu; Q/W/E kế tiếp dùng hết tầng | Gần giống (tầng chỉ tăng đợt đầu của chiêu; không có kháng thời gian trạng thái) |
+| Băng Tước Việt Chi | E (autocast) | 1 đạo đao bay 600, chạm kẻ địch đầu tiên thì tách 5 luồng xòe 15° bay 600 (rộng 120), mỗi luồng tối đa 7; 40% làm chậm 2 giây | Tại chỗ mục tiêu tách 5 đạn xòe 15°, bay 600, tối đa 7; chậm 40% 2 giây | Gần giống (không có đạo bay đầu tiên) |
+| Băng Tâm Thiến Ảnh | - | Bị động: sát thương chí mạng; E tăng sát thương, trúng địch cộng tầng sát thương chí mạng | Bị động: chí mạng | Khác một phần (chưa làm phần cho E) |
+| Dạ Lai Tây Phong | F | Đóng băng mọi kẻ địch trong 400 (tối đa 10) trong (2,4 + 0,3 × bậc) giây, không sát thương; hồi 45 giây | Nổ quanh thân 400 không sát thương, tối đa 10: choáng 100% (2,4 + 0,3 × bậc) giây; hồi 45 giây | Giống |
+
+Trước khi sửa: Q/W/E là 1 đạn bay xuyên; Ngự Tuyết Ẩn chỉ là buff (không ẩn thân, trạng thái 5 không có tác dụng); Tương Tư là buff sát thương 10 giây; Dạ Lai Tây Phong là nổ 4 lần làm chậm; thiếu Tuyết Ảnh và Hộ Thể Hàn Băng.
 
 ### Đường Môn Phi Tiêu (DMPT)
 

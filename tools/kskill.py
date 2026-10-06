@@ -50,7 +50,6 @@ AUTO_KEY = {"Q": AUTO["blackarrow"], "W": AUTO["poisonarrowstarg"], "E": AUTO["c
 # numbers read from KVCT's own skill code (docs\kvct_skills.md), per KVCT ability:
 # kind = template, dur = buff seconds, stats = [(stat of zzVL_af, base, per rank), ...]
 OVR = {
-    "A0CE": {"kind": 6, "status": 5},
 
     # Thien Vuong Dao (TVD): read from KVCT's code; A01M A01R A01W A01Z A0WA are shared with TVT / TVC
     "A031": {"kind": 16, "rad": 130, "max": 7, "st": 1, "ch": 30, "sd": 1},   # Q er4: splash 130 at the target
@@ -108,9 +107,32 @@ OVR = {
     "A049": {"kind": 6, "dur": 300, "stats": [(6, 20, 2)]},  # Bat Dong Minh Vuong
     "A04L": {"kind": 6, "dur": 300, "stats": [(13, 30, 3)]}, # Nhu Y Thuc Cot Cong
 
-    # Thuy Yen Dao (TYD)
-    "A0CK": {"kind": 6, "dur": 10, "stats": [(5, 50, 5)]},   # Tuong Tu (burst dmg buff)
-    "A0WZ": {"kind": 4, "hits": 4, "status": 4, "sdur": 4},  # Da Lai Tay Phong (freeze nova 4 hits)
+    # Thuy Yen Dao (TYD): read from KVCT's code; A0BO A0BQ are shared with TYK
+    # Q JxC / Jxx: 3 missiles fanned 20 degrees, 500 (width 90), at most 4 each, 30% cham 2 s
+    "A0CD": {"kind": 5, "fan": 3, "spread": 20, "rad": 500, "max": 4, "st": 4, "ch": 30, "sd": 2},
+    "A0CB": {"kind": 0, "stats": [3, 4]},                    # Thuy Yen Dao Phap: chinh xac, bang cong, chi mang, toc danh
+    "A0BO": {"kind": 0, "stats": [13]},                      # Tuyet Anh: toc do di chuyen, khang hoa
+    # R ebl / ebd: invisible 30 s; the next attack ends it: Luu Phong Hoi Tuyet (2.8 + 0.1 x rank s):
+    # toc danh +30 + 5 x rank, phat huy luc tan cong +20 + 10 x rank %
+    "A0CE": {"kind": 19, "dur": 30, "hidebuf": 3, "stats": [(4, 30, 5), (5, 20, 10)]},
+    # Ho The Han Bang: sinh luc; at 40% life: every enemy around frozen 3.5 s, khang +, every 30 s
+    "A0BQ": {"kind": 0, "stats": [7], "fx": 1024, "low": (0, 30, 0, 0, 100), "freeze": 3.5},
+    "A0CC": {"kind": 0, "stats": [5]},                       # Bang Co Ngoc Cot: phat huy luc tan cong
+    # W Ja0 / JaE: 3 missiles (4 from rank 3, 5 from rank 5) fanned ~13 degrees, 500, at most 3, 35% cham 2 s
+    "A0CG": {"kind": 5, "fan": 3, "fangrow": 1, "spread": 13, "rad": 500, "max": 3, "st": 4, "ch": 35, "sd": 2},
+    # Dap Tuyet Vo Ngan: attacking, (25 + 5 x rank)%: free of control (4.1 + 0.1 x rank) s, every 15 s
+    "A0CH": {"kind": 0, "stats": [], "proc": 25, "pchr": 5, "pcd": 15, "pimm": 4.1},
+    "A0CJ": {"kind": 0, "stats": [4, 3]},                    # Han Nguyet Yen Toa: toc danh, chi mang
+    # D Je7 / Jev: on / off; every 2 s +1 tang (max 20), each +(10 + rank)% phat huy luc tan cong, spent by Q W E
+    "A0CK": {"kind": 20, "chg": (10, 1)},
+    # E Ja4 / Ja9 / Jae: a blade that bursts at the first enemy into 5 blades fanned 15 degrees, 600 (width 120),
+    # at most 7 each, 40% cham 2 s
+    "A0CL": {"kind": 5, "fromtgt": 1, "fan": 5, "spread": 15, "rad": 600, "max": 7, "st": 4, "ch": 40, "sd": 2},
+    "A0CM": {"kind": 0, "stats": [3]},                       # Bang Tam Thien Anh: sat thuong chi mang
+    # F e_U / e_O: freeze every enemy within 400 (at most 10) (2.4 + 0.3 x rank) s, no damage; cooldown 45
+    "A0WZ": {"kind": 4, "nodmg": 1, "rad": 400, "max": 10, "st": 3, "ch": 100, "sd": 2.4, "sdr": .3},
+
+    # Thuy Yen (TYK)
 
     # Cai Bang (CBC, CBB)
     "A0E7": {"kind": 2, "hits": 3},                          # Hang Long Huu Hoi (cone 3 hits)
@@ -326,7 +348,7 @@ OVR = {
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
         6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0),
         13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2), 16: (1, 250., 4, 1),
-        17: (0, 0., 30, 0), 18: (0, 0., 60, 0)}
+        17: (0, 0., 30, 0), 18: (0, 0., 60, 0), 19: (0, 0., 32, 0), 20: (0, 0., 5, 4)}
 ATTACK = (1, 2, 3, 4, 5, 13, 16, 17)
 # stat words of a passive / buff -> stat of zzVL_af (kskill.j zzKS_per)
 STAT = [("sinh lực tối đa", 7), ("chí mạng", 3), ("tốc độ tấn công", 4), ("tốc đánh", 4), ("vật công", 5),
@@ -462,7 +484,7 @@ def main():
             if "dur" in o_:
                 s["dur"] = o_["dur"]
             proc = kind in ATTACK and (key not in SLOT or key in used)
-            if kind in (6, 7, 8, 9, 14, 15, 18) and (key not in SLOT or key in used):
+            if kind in (6, 7, 8, 9, 14, 15, 18, 19, 20) and (key not in SLOT or key in used):
                 kind = 0                                        # keyless buff: a passive
             used.add(key)
             st = stats_of(s["tip"])
@@ -568,7 +590,10 @@ def main():
                       225: o_.get("chr", 0), 224: o_.get("chr2", 0), 228: o_.get("nodmg", 0), 223: o_.get("selfimm", 0),
                       222: o_.get("durr", 0), 215: o_.get("fromtgt", 0), 216: o_.get("proc", 0), 214: o_.get("qwe", 0),
                       212: o_.get("period", (0, 0))[0], 211: o_.get("period", (0, 0))[1],
-                      209: o_.get("xw", 0), 208: o_.get("xc", 0)}
+                      209: o_.get("xw", 0), 208: o_.get("xc", 0), 207: o_.get("fan", 0), 206: o_.get("spread", 0),
+                      205: o_.get("fangrow", 0), 204: round(o_.get("freeze", 0) * 10), 203: round(o_.get("pimm", 0) * 10),
+                      202: o_.get("pchr", 0), 201: 1, 200: round(o_.get("sdr", 0) * 10), 199: round(o_.get("hidebuf", 0) * 10),
+                      198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1]}
                 if "pcd" in o_:
                     ex[220] = o_["pcd"]
                 keep = {239: o_["link"]} if "link" in o_ else {}   # written even when 0 (Q slot / no heal)

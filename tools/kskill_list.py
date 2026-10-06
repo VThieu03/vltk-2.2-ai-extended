@@ -13,7 +13,8 @@ OUT = os.path.join(ROOT, "docs", "kvct_skill_table.md")
 KIND = {0: "bị động", 1: "đánh mục tiêu", 2: "quét phía trước", 3: "lướt", 4: "nổ quanh thân", 5: "phóng / đạn bay",
         6: "buff bản thân", 7: "buff phe ta", 8: "miễn khống", 9: "hộ thuẫn", 11: "liên kích", 12: "nổ diện rộng 1000",
         13: "trận tại điểm (nhiều nhịp)", 14: "bật / tắt (tốn nội lực mỗi giây)", 15: "bùa chú tại điểm",
-        16: "đánh lan tại mục tiêu", 17: "kiếm khí vào địch ngẫu nhiên", 18: "vùng quanh thân (nhiều nhịp)"}
+        16: "đánh lan tại mục tiêu", 17: "kiếm khí vào địch ngẫu nhiên", 18: "vùng quanh thân (nhiều nhịp)",
+        19: "ẩn thân", 20: "bật / tắt tích tầng"}
 
 
 def main():

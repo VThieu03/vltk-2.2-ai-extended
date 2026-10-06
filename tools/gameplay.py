@@ -115,6 +115,13 @@ integer array zzKS_pfx
 integer array zzKS_steal
 integer array zzKS_xw
 integer array zzKS_xc
+integer array zzKS_chg
+boolean array zzKS_chgOn
+integer array zzKS_chgPct
+real array zzKS_chgNext
+integer array zzKS_hideAb
+real array zzKS_hideEnd
+boolean zzKS_noCap=false
 framehandle array zzUI_hp
 framehandle array zzUI_mp
 integer zzUI_lastHp=0
