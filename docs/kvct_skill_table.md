@@ -546,17 +546,17 @@ Q W E của các phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Dương Ca Thiên Quân | X390 | Q | quét phía trước, **autocast** | 2 | 1 |
+| 1 | Dương Ca Thiên Quân | X390 | Q | đánh lan tại mục tiêu, **autocast** | 2 | 1 |
 | 2 | Tiêu Dao Chưởng Pháp | X391 | - | bị động | 1 | 6 |
-| 3 | Hàn Tụ Huyệt | X392 | R | phóng / đạn bay | 4 | 15 |
+| 3 | Hàn Tụ Huyệt | X392 | R | kiếm khí vào địch ngẫu nhiên | 4 | 15 |
 | 4 | Sưu Hồn Đại Pháp | X393 | - | bị động | 1 | 25 |
 | 5 | Diệm Nguyên Luân Hồi | X394 | - | bị động | 1 | 38 |
 | 6 | Phục Nhật Xuất Vân | X395 | - | bị động | 1 | 52 |
-| 7 | Bạch Nhật Sâm Thần | X396 | W | nổ quanh thân, **autocast** | 3 | 68 |
-| 8 | Sinh Tử Phù | X397 | D | nổ quanh thân | 45 | 85 |
+| 7 | Bạch Nhật Sâm Thần | X396 | W | đánh lan tại mục tiêu, **autocast** | 3 | 68 |
+| 8 | Sinh Tử Phù | X397 | D | trận tại điểm (nhiều nhịp) | 15 | 85 |
 | 9 | Hỗn Nhật Khí Quyết | X398 | - | bị động | 1 | 105 |
-| 10 | Thiên Tàm Cửu Biến | X399 | F | nổ quanh thân | 1 | 125 |
-| 11 | Bài Sơn Đảo Hải | X400 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 10 | Thiên Tàm Cửu Biến | X399 | F | vùng quanh thân (nhiều nhịp) | 30 | 125 |
+| 11 | Bài Sơn Đảo Hải | X400 | E | phóng / đạn bay, **autocast** | 1 | 145 |
 | 12 | Thái Hư Thần Công | X401 | - | bị động | 1 | 165 |
 | 13 | Tung Bộ Quan Hỏa | X402 | T | lướt | 1 | 185 |
 

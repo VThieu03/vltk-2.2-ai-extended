@@ -94,6 +94,30 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Tieu Dao Chuong (TDC): read from KVCT's code
+    # Q JD6: 2 blows 0.2 s apart where the target stood, radius 150, at most 7, 30% bong 2 s
+    "A0H5": {"kind": 16, "hits": 2, "gap": .2, "rad": 150, "max": 7, "st": 5, "ch": 30, "sd": 2},
+    "A0HI": {"kind": 0, "stats": [5, 3, 4]},                 # Tieu Dao Chuong Phap: hoa cong %, chi mang, toc danh
+    # R eAU: one random enemy within 1200 is chased and held: 90% dinh than 3 s, 1 + 3 blows every 1 s
+    "A0HK": {"kind": 17, "hits": 4, "gap": 1, "rad": 1200, "max": 1, "st": 2, "ch": 90, "sd": 3},
+    # Suu Hon Dai Phap: ne tranh; hit under 50% life: 400 around, hon loan + 7 blows, life steal (not done)
+    "A0HL": {"kind": 0, "stats": [13]},
+    # Diem Nguyen Luan Hoi: every 10 s a buff of 8 s: damage taken (35 + 5/rank)% less
+    "A0HO": {"kind": 0, "stats": [(6, 35, 5)], "proc": 100, "pcd": 10, "dur": 8},
+    "A0HJ": {"kind": 0, "stats": [5, 14]},                   # Phuc Nhat Xuat Van: phat huy luc tan cong, ti le bong, khang tho thuong
+    # W J4S: 3 blows 0.2 s apart where the target stood, radius 250, at most 7, 35% bong 2 s
+    "A0H6": {"kind": 16, "hits": 3, "gap": .2, "rad": 250, "max": 7, "st": 5, "ch": 35, "sd": 2},
+    # D eiK: at a point <= 800: 15 waves 0.2 s apart of 3 talismans flying out 800 (width 100), 50% bong 2 s
+    "A0HQ": {"kind": 13, "hits": 15, "gap": .2, "rad": 450, "far": 800, "max": 7, "st": 5, "ch": 50, "sd": 2},
+    "A0HR": {"kind": 0, "stats": [6, 14]},                   # Hon Nhat Khi Quyet: giam sat thuong ngu hanh (Bat Hoang Luc Hop stacks: not done)
+    # F J0Q: 15 s: toc chay +30; every 0.5 s 3 enemies are chased, burst 150 (at most 4), 15% of the damage as life
+    "A0HS": {"kind": 18, "hits": 30, "gap": .5, "rad": 800, "max": 3, "fx": 4, "steal_pct": 15},
+    # E J4Q: 3 palms chase the target 1000 (width 160), at most 7 each, 40% bong 2 s
+    "A0H7": {"kind": 5, "fan": 3, "spread": 10, "rad": 1000, "max": 7, "st": 5, "ch": 40, "sd": 2},
+    # Thai Hu Than Cong: hoa cong %; E 75%: Bai Van Chuong, a burst around the target (200)
+    "A0HT": {"kind": 0, "stats": [5], "link": 2, "xw": 1, "xc": 75},
+    # T Jfb: jump <= 700 (immune on the way); on landing 4 s: chi mang +(265 + 35/rank), sat thuong chi mang
+    "A0XG": {"kind": 3, "rad": 700, "nodmg": 1, "selfbuf": 1, "dur": 4, "stats": [(3, 26, 4)]},
     # Hoa Son Kiem (HSK): read from KVCT's code; A0KZ as in HSQ. Only Q and W are autocast (E is a skill to press)
     # Q J46: 2 blows 0.24 s apart where the target stood, radius 150, at most 7, 30% choang 0.5 s
     "A0L6": {"kind": 16, "hits": 2, "gap": .24, "rad": 150, "max": 7, "st": 3, "ch": 30, "sd": .5},
@@ -771,13 +795,6 @@ OVR = {
     # Hoa Son (HSQ, HSK)
 
     # Tieu Dao (TDC, TDK)
-    "A0H5": {"kind": 2, "hits": 2},                          # Duong Ca Thien Quan
-    "A0HK": {"kind": 5, "hits": 4},                          # Han Tu Huyet
-    "A0H6": {"kind": 4, "hits": 3},                          # Bach Nhat Sam Than
-    "A0HQ": {"kind": 4, "hits": 15},                         # Sinh Tu Phu
-    "A0H7": {"kind": 5, "hits": 3},                          # Bai Son Dao Hai
-    "A0XG": {"kind": 3},                                     # Tung Bo Quan Hoa
-    "A0HS": {"kind": 4, "hits": 6, "fx": 4},                  # Thien Tam Cuu Bien (nova 6 hits + lifesteal)
     "A0GE": {"kind": 5, "hits": 2},                          # Tram Van Kiem
     "A0GV": {"kind": 4, "hits": 4},                          # Dan Phuong Dan
     "A0GF": {"kind": 2, "hits": 3},                          # Te Chieu Phon Thuong
