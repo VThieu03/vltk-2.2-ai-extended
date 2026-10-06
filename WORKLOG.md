@@ -19,6 +19,13 @@ Giữ ghi công tác giả: vnakira; icon KVCT: Silva.Fox.
 
 ## Đã làm trong phiên này (chưa thử trong game)
 
+- **Chuẩn hóa đường dẫn tương đối (Dynamic Paths)**: Toàn bộ 21 script trong `tools/` đã được thay thế đường dẫn cứng `D:\vltk-dev-clone` bằng đường dẫn động `os.path.abspath(...)`. Toàn bộ pipeline và build tool nay có thể chạy độc lập ở bất kỳ thư mục clone nào.
+- **Hệ thống Phi Phong ẩn (Invisible Cloaks)**: Đã áp dụng trọn vẹn bản vá vào `tools/gameplay.j` và `src/map/Scripts/war3map.j`. Khi thăng quân hàm, phi phong không còn rơi ra chiếm ô đồ mà tự động gắn chỉ số ẩn vào hero qua `zzVL_AffixSum` (Phòng thủ +4..20, Thuộc tính +1..8, Sinh lực +200..800 tùy bậc) kèm hiển thị danh hiệu trên đầu.
+- **Dọn dẹp mã nguồn (Repository Cleanup)**: Di chuyển toàn bộ các script vá và file thử nghiệm tạm thời (`patch*.py`, `check_describe.py`, `debug_regex.py`, `test.py`) vào thư mục `scratchpad/` để giữ thư mục gốc gọn gàng.
+- **Biên dịch & Đóng gói map**: Chạy thành công `tools/build.py`, pjass pass 100% 30.434 dòng JASS, sinh ra `build/VLTK-1.31.w3x` mới nhất.
+- **Tái cấu trúc mã nguồn (Refactor)**: 
+  - Làm sạch `tools/gameplay.j`: Thay thế các magic numbers bằng hằng số (`HASH_KEY_ELEMENT`, `HASH_KEY_TAIPHU`...), đổi tên biến `vl_u` -> `vl_unit`, v.v.
+  - **Modular hóa**: Tách file khổng lồ `gameplay.j` (3400 dòng) thành 8 module nhỏ theo chức năng lưu trong thư mục `tools/jass/` (`gameplay_01_core.j`, `gameplay_02_farm.j`, `gameplay_03_tranphai.j`, v.v.) và cấu hình lại `gameplay.py` để tự động gộp chúng lại khi build map. Build pass 100%.
 - Bê kỹ năng KVCT: Đã làm phái Cái Bang Chưởng (CBC). Chuyển Thời Thừa Lục Long (A0ED) và Triệt Y Thập Bát Điệt (A0X5) thành buff bản thân (kind 6) với chỉ số thực tế từ code KVCT (sát thương % và công cơ bản). Build pjass pass.
 - Bê kỹ năng KVCT: Đã làm phái Võ Đang Khí (VDQ - H01S). Chuyển Tọa Vọng Vô Ngã (A0JO) thành buff (kind 6, giảm 18%+3%/cấp sát thương, duy trì 300s). Thuần Dương Vô Cực (A0JP) thành hộ thuẫn (kind 9, duy trì 20s). Vạn Kiếm Quy Tông (A0JS) thành nổ quanh thân phạm vi 1000 (khuôn mới kind 12).
 - Bê kỹ năng KVCT: Đã làm phái Võ Đang Kiếm (VDK - E001). Cập nhật Lưu Tinh Cản Nguyệt (A0KG) thành kỹ năng lướt (kind 3). Lưỡng Nghi Kiếm Pháp (A0KH) nổ quanh thân 40 lần (kind 4). Tử Tiêu Hoành Vân (A0XM) nổ làm chậm địch (kind 4, status 4).
@@ -49,8 +56,11 @@ Giữ ghi công tác giả: vnakira; icon KVCT: Silva.Fox.
 - Dọn đồ rơi: cứ 60 giây quét, đồ nằm đất 1-2 phút bị xóa (kể cả gần quái/tướng); nhặt lên thì tính lại thời gian.
 - Nút **Tự bán** trong hành trang: đồ rơi nhặt được mạnh hơn thì tự mặc và bán đồ cũ, yếu hơn thì tự bán; đồ đã khảm, đồ mua, phi phong không bị bán.
 - **Tài phú** cho trang bị: cấp đồ x100 + chỉ số % ngẫu nhiên + 40 mỗi lỗ khảm; hiện trong mô tả và hành trang. Cường hóa không tính (đi theo ô).
+- **Hệ thống Trang Bị Ngẫu Nhiên**: Trang bị rơi ra giờ đây có chỉ số ngẫu nhiên (Diablo-style) với tổng cộng 22 dòng thuộc tính khác nhau (Hút máu, bạo kích, tốc đánh, kháng ngũ hành, STVL, điểm đánh trúng, né tránh, tốc chạy, kỹ năng + cấp...).
+- **Cơ chế Cường Hóa cố định ô (Slot-based Enhancement)**: Cấp cường hóa (1 đến 10) giờ được lưu cố định vào 4 ô trang bị (Mũ, Áo, Vũ Khí, Giày) của tướng thay vì dính liền với đồ. Khi đổi trang bị mới, cấp cường hóa được giữ nguyên. Chỉ số cơ bản của trang bị sẽ scale theo tỷ lệ `100% + 30% * Cấp cường hóa`.
+- **Nâng cấp Damage Engine (Cơ chế chiến đấu)**: Đưa các chỉ số Kháng ngũ hành (giảm trừ % sát thương), Điểm đánh trúng, Điểm né tránh, Tốc độ xuất chiêu, STVL Nội công/Ngoại công và Sát thương kỹ năng vào công thức sát thương tổng của map. Cập nhật bảng UI (C) hiển thị toàn bộ 22 chỉ số.
+- **Mở rộng hệ thống Khảm Bảo Thạch**: Thêm 12 loại Bảo Thạch mới (ID từ `I101` đến `I10C`) để khảm các dòng chỉ số nâng cao (Kháng, Tốc chạy, Kỹ năng, STVL...). Sửa lỗi format hiển thị của các loại ngọc chỉ số phẳng (không có %).
 - Nhật ký: ghi file ngay mỗi sự kiện, ghi tên người dùng chiêu, báo khi hơn 400 lần sát thương / 2 giây.
-
 ## Đã làm trước đó
 
 - Boss Thiên Kiếm (Diệp Thanh thay h01D), phóng to, dời chỗ xuất hiện.
