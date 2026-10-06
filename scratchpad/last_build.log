@@ -1,0 +1,120 @@
+=== Running convert_text.py ===
+converted strings: {'script': 104, 'skin': 155, 'war3map.w3u': 3, 'war3map.w3t': 863, 'war3map.w3a': 35, 'war3map.w3h': 3}
+TCVN3 codes without a mapping: {'à': 1}
+script       "§Êu tr­êng më sau"
+             -> "Đấu trường mở sau"
+script       "Thêi gian cßn"
+             -> "Thời gian còn"
+script       " buéc ph¶i chän "
+             -> " buộc phải chọn "
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000C­u Ma TrÝ|r ®· vµo ®Êu t
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Cưu Ma Trí|r đã vào đấu t
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000HÇu V­¬ng|r ®· vµo ®Êu tr
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Hầu Vương|r đã vào đấu tr
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000Tri Thï Tinh|r ®· vµo ®Êu
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Tri Thù Tinh|r đã vào đấu
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000Cæ B¸ch|r ®· vµo ®Êu tr­ê
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Cổ Bách|r đã vào đấu trườ
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000Lam Y Y|r ®· vµo ®Êu tr­ê
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Lam Y Y|r đã vào đấu trườ
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000DiÖu Nh­|r ®· vµo ®Êu tr­
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Diệu Như|r đã vào đấu trư
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000C¸i NhiÕp|r ®· vµo ®Êu tr
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Cái Nhiếp|r đã vào đấu tr
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000KiÕm Th¸nh|r ®· vµo ®Êu t
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Kiếm Thánh|r đã vào đấu t
+script       "|c00ffcc00B¹n ®ang ch¬i chÕ ®é ®¬n|r"
+             -> "|c00ffcc00Bạn đang chơi chế độ đơn|r"
+=== Running fix_script.py ===
+fixed: ['dh', 'th']
+drop rates: ['gG', 'kG', 'Rh']
+start coin removed
+item cleanup skips hidden items: ['St', 'mM', 'MM']
+=== Running expand.py ===
+model not in Thien Kiem: Abilities\Weapons\SteamMissile\SteamMissile.mdx
+  Rừng Trúc Lâm: entry (9632, -2848), 8 camps
+  Thiên Kiếm Thành: entry (9472, 4960), 8 camps
+map 96x128 -> 168x128 tiles, textures 13, doodads +1630 (custom types 21), files copied 38
+  Rừng Trúc Lâm: 36 x 38 tiles at world (8576, -4864)
+  Thiên Kiếm Thành: 36 x 38 tiles at world (8576, 2304)
+  Đấu Trường: 18 x 49 tiles at world (14080, -1536)
+=== Running skills.py ===
+heroes: 33 auto-cast skills: 0 AI ultimates: 0 name fixes: 0
+  E000 
+  E001 
+  E002 
+  E003 
+  E005 
+  E006 
+  H002 
+  H009 
+  H00A 
+  H00L 
+  H00U 
+  H00V 
+  H00Z 
+  H014 
+  H01E 
+  H01F 
+  H01L 
+  H01M 
+  H01P 
+  H01S 
+  H01U 
+  H020 
+  H021 
+  H022 
+  H023 
+  H024 
+  H025 
+  H026 
+  H027 
+  H028 
+  H029 
+  H02A 
+  H02B
+=== Running tranphai.py ===
+tran phai skills: 11
+=== Running import_boss.py ===
+boss o001 abilities removed
+boss n018 abilities removed
+boss h01F abilities removed
+boss e003 abilities removed
+icon missing: BTNHero_NgaMy.blp
+=== Running lvl200.py ===
+level 200: 103 stat gains, 80 hero skills
+=== Running kskill.py ===
+kskill: 429 skills on 33 heroes, 344 effect models (1199 files)
+=== Running kskill_list.py ===
+33 phái, 429 kỹ năng -> docs\kvct_skill_table.md
+=== Running gameplay.py ===
+item table rows: 9430
+bi pho: 5 vu khi, 11 trang bi
+cloaks: 5
+=== Running describe.py ===
+belv name: 'Động Sát Y' st: (2, 1)
+MD5 written: def3916f62c80df27f37be8a676eb5c8 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
+described items: 286 | materials with recipes: 14
+=== Running icons.py ===
+cuong hoa icon rows: 1115
+disabled icons: 104
+icons copied: 104 items with a new icon: 271
+=== Running vfx.py ===
+vfx: 15 models (44 files), 52 ability fields, 7 buff fields, 46 script effects
+=== Running ui.py ===
+ui: 7 textures, 2 buttons, 13 skin keys
+=== Running scale.py ===
+map x1.50: 168x128 -> 252x192 tiles, 3168 doodads
+=== Running build.py ===
+pjass ok (33941 lines)
+ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 93685855 bytes, 2609 files from src
+
+>>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<
+
+=== Syncing map to target directories ===
+Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta.w3x (93,685,855 bytes)
+Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta AI.w3x (93,685,855 bytes)
+Synced -> D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,685,855 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x (93,685,855 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x (93,685,855 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,685,855 bytes)

@@ -27576,6 +27576,52 @@ function zzVL_IsCreep takes unit vl_unit returns boolean
     local integer vl_t=GetUnitTypeId(vl_unit)
     return GetWidgetLife(vl_unit)>.405 and (vl_t=='n001' or vl_t=='n004' or vl_t=='n006' or vl_t=='n007' or vl_t=='n009' or vl_t=='n00A' or vl_t=='n00B' or vl_t=='n00D' or vl_t=='n00E')
 endfunction
+function zzVL_BossCastSpell takes nothing returns nothing
+    local timer vl_t = GetExpiredTimer()
+    local unit vl_u = LoadUnitHandle(zzVL_ht, GetHandleId(vl_t), 1)
+    local integer vl_type = GetUnitTypeId(vl_u)
+    local real vl_x
+    local real vl_y
+    local group vl_g
+    local unit vl_target
+    if vl_u == null or GetWidgetLife(vl_u) < 0.405 then
+        call FlushChildHashtable(zzVL_ht, GetHandleId(vl_t))
+        call DestroyTimer(vl_t)
+        return
+    endif
+    set vl_x = GetUnitX(vl_u)
+    set vl_y = GetUnitY(vl_u)
+    call SetUnitAnimation(vl_u, "spell")
+    if vl_type == 'H00Z' then
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", vl_x, vl_y))
+    elseif vl_type == 'E000' then
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\EntanglingRoots\\EntanglingRootsTarget.mdl", vl_x, vl_y))
+    elseif vl_type == 'H021' then
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\Effect_dongbang.mdx", vl_x, vl_y))
+    elseif vl_type == 'H00A' then
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\FlameStrike\\FlameStrike1.mdl", vl_x, vl_y))
+    elseif vl_type == 'E001' then
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl", vl_x, vl_y))
+    elseif vl_type == 'n008' then
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", vl_x, vl_y))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\FlameStrike\\FlameStrike1.mdl", vl_x, vl_y))
+    endif
+    set vl_g = CreateGroup()
+    call GroupEnumUnitsInRange(vl_g, vl_x, vl_y, 600.0, null)
+    loop
+        set vl_target = FirstOfGroup(vl_g)
+        exitwhen vl_target == null
+        call GroupRemoveUnit(vl_g, vl_target)
+        if IsUnitEnemy(vl_target, GetOwningPlayer(vl_u)) and GetWidgetLife(vl_target) > 0.405 and not IsUnitType(vl_target, UNIT_TYPE_MAGIC_IMMUNE) then
+            call UnitDamageTarget(vl_u, vl_target, BlzGetUnitBaseDamage(vl_u, 0) * 3.0, true, false, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, null)
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g = null
+    set vl_target = null
+    set vl_t = null
+    set vl_u = null
+endfunction
 function zzVL_BossSpawn takes nothing returns nothing
     local group vl_g=CreateGroup()
     local unit vl_unit
@@ -27584,6 +27630,7 @@ function zzVL_BossSpawn takes nothing returns nothing
     local integer vl_min=R2I(TimerGetElapsed(zzVL_clock)/60.)
     local integer vl_k
     local integer vl_bid
+    local timer vl_t
     call zzVL_Log("boss xuat hien")
     set zzVL_logMsg="|cffff4040TUYỆT ĐẠI CAO THỦ|r xuất hiện ở khu quái!"
     call ExecuteFunc("zzVL_BannerMsg")
@@ -27611,27 +27658,30 @@ function zzVL_BossSpawn takes nothing returns nothing
     endif
     set vl_k=GetRandomInt(1,5)
     if vl_k==1 then
-        set vl_bid='o001'
+        set vl_bid='H00Z' // Kim
     elseif vl_k==2 then
-        set vl_bid='h01F'
+        set vl_bid='E000' // Mộc
     elseif vl_k==3 then
-        set vl_bid='n0TK'
+        set vl_bid='H021' // Thủy
     elseif vl_k==4 then
-        set vl_bid='e003'
+        set vl_bid='H00A' // Hỏa
     else
-        set vl_bid='n018'
+        set vl_bid='E001' // Thổ
     endif
     set zzVL_boss=CreateUnit(Player(12),vl_bid,GetUnitX(vl_pick),GetUnitY(vl_pick),GetRandomReal(0,360))
     call SetUnitPosition(zzVL_boss,GetUnitX(vl_pick)-350.,GetUnitY(vl_pick)+250.)
     call BlzSetUnitName(zzVL_boss,"|cffff8000"+zzVL_bn[vl_k]+"|r")
-    call BlzSetUnitMaxHP(zzVL_boss,8000+1500*vl_min)
-    call SetWidgetLife(zzVL_boss,8000.+1500.*vl_min)
-    call BlzSetUnitBaseDamage(zzVL_boss,60+8*vl_min,0)
-    call BlzSetUnitArmor(zzVL_boss,10.+vl_min)
-    call SetUnitScale(zzVL_boss,2.3,2.3,2.3)
+    call BlzSetUnitMaxHP(zzVL_boss,80000+15000*vl_min)
+    call SetWidgetLife(zzVL_boss,80000.+15000.*vl_min)
+    call BlzSetUnitBaseDamage(zzVL_boss,600+80*vl_min,0)
+    call BlzSetUnitArmor(zzVL_boss,50.+5.*vl_min)
+    call SetUnitScale(zzVL_boss,5.0,5.0,5.0)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_boss),GetUnitY(zzVL_boss)))
     call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Thủy tinh|r, 1000 ngân lượng, 25 công trạng.")
     call PingMinimapEx(GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),5.,255,128,0,true)
+    set vl_t = CreateTimer()
+    call SaveUnitHandle(zzVL_ht, GetHandleId(vl_t), 1, zzVL_boss)
+    call TimerStart(vl_t, 6.0, true, function zzVL_BossCastSpell)
     set vl_pick=null
 endfunction
 function zzVL_BossKilled takes integer vl_pk returns nothing
@@ -27670,6 +27720,7 @@ function zzVL_SpawnMC takes nothing returns nothing
     local unit vl_unit
     local unit vl_pick=null
     local integer vl_n=0
+    local timer vl_t
     call zzVL_Log("minh chu xuat hien")
     call GroupEnumUnitsOfPlayer(vl_g,Player(12),null)
     loop
@@ -27690,15 +27741,18 @@ function zzVL_SpawnMC takes nothing returns nothing
     endif
     set zzVL_mc=CreateUnit(Player(12),'n008',GetUnitX(vl_pick),GetUnitY(vl_pick),GetRandomReal(0,360))
     call BlzSetUnitName(zzVL_mc,"|cffff0000Võ Lâm Minh Chủ|r")
-    call BlzSetUnitMaxHP(zzVL_mc,200000)
-    call SetWidgetLife(zzVL_mc,200000.)
-    call BlzSetUnitBaseDamage(zzVL_mc,700,0)
-    call BlzSetUnitArmor(zzVL_mc,60.)
-    call SetUnitScale(zzVL_mc,2.2,2.2,2.2)
+    call BlzSetUnitMaxHP(zzVL_mc,2000000)
+    call SetWidgetLife(zzVL_mc,2000000.)
+    call BlzSetUnitBaseDamage(zzVL_mc,7000,0)
+    call BlzSetUnitArmor(zzVL_mc,300.)
+    call SetUnitScale(zzVL_mc,5.0,5.0,5.0)
     call SetUnitVertexColor(zzVL_mc,255,60,60,255)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_mc),GetUnitY(zzVL_mc)))
     call PingMinimapEx(GetUnitX(zzVL_mc),GetUnitY(zzVL_mc),8.,255,0,0,true)
     call zzVL_All("|cffff0000VÕ LÂM MINH CHỦ|r đã xuất hiện! Phe nào hạ được nhận |cffffcc00+10 uy danh|r, mỗi người 1000 ngân lượng.")
+    set vl_t = CreateTimer()
+    call SaveUnitHandle(zzVL_ht, GetHandleId(vl_t), 1, zzVL_mc)
+    call TimerStart(vl_t, 4.5, true, function zzVL_BossCastSpell)
     set vl_pick=null
 endfunction
 function zzVL_McKilled takes integer vl_pk returns nothing
@@ -31521,11 +31575,11 @@ function zzVL_Init takes nothing returns nothing
     set zzVL_tn[3]="|cff40ff40[Kinh Thế]|r"
     set zzVL_tn[4]="|cffffcc00[Ỷ Thiên]|r"
     set zzVL_tn[5]="|cffff6000[Chí Tôn]|r"
-    set zzVL_bn[1]="Cửu Như"
-    set zzVL_bn[2]="Lam Vũ"
-    set zzVL_bn[3]="Diệp Thanh"
-    set zzVL_bn[4]="Lâm Tú Nhi"
-    set zzVL_bn[5]="Lãnh Như Băng"
+    set zzVL_bn[1]="Thiếu Lâm Thần Tăng" // Kim
+    set zzVL_bn[2]="Ngũ Độc Giáo Chủ"    // Mộc
+    set zzVL_bn[3]="Nga My Sư Thái"      // Thủy
+    set zzVL_bn[4]="Cái Bang Bang Chủ"   // Hỏa
+    set zzVL_bn[5]="Võ Đang Chân Nhân"   // Thổ
     set vl_t=CreateTrigger()
     call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_DAMAGED)
     call TriggerAddAction(vl_t,function zzVL_OnDamage)
