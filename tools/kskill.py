@@ -154,12 +154,29 @@ OVR = {
 
     # Thuy Yen (TYK)
 
-    # Cai Bang (CBC, CBB)
-    "A0E7": {"kind": 2, "hits": 3},                          # Hang Long Huu Hoi (cone 3 hits)
-    "A0ED": {"kind": 4, "hits": 6, "status": 1, "sdur": 1},  # Thoi Thua Luc Long (nova 6 hits tho thuong)
-    "A0E1": {"kind": 1, "hits": 4, "status": 1, "sdur": 2},  # Phi Long Tai Thien (strike 4 hits)
-    "A0E2": {"kind": 5, "hits": 3},                          # Long Du Thien Dia (lance 3 hits)
-    "A0X5": {"kind": 6, "dur": 20, "stats": [(5, 20, 1), (12, 80, 20)]}, # Triet Y Thap Bat Diet
+    # Cai Bang Chuong (CBC): read from KVCT's code; A0E9 is shared with CBB
+    # Q e6B / e6l: palms fanned 15 degrees, 3 (ranks 1-4) then rank - 1 (9 at rank 10), 528 (width 90), at most 7,
+    # 30% bong 1 s
+    "A0E7": {"kind": 5, "fan": 3, "fanrank": 1, "spread": 15, "rad": 528, "max": 7, "st": 5, "ch": 30, "sd": 1},
+    "A0E0": {"kind": 0, "stats": [3, 4]},                    # Cai Bang Chuong Phap: hoa cong, chi mang, toc danh
+    "A0E8": {"kind": 0, "stats": [13]},                      # Hoa Hiem Vi Di: ne tranh, khang phan don, toc chay
+    # R J3f / J33: 12 s (6 attacks): luc tan cong ky nang +60% (rank 1), thoi gian gay bong +; cooldown 25
+    "A0ED": {"kind": 6, "dur": 12, "stats": [(5, 55, 5)]},
+    "A0E9": {"kind": 0, "stats": [6, 14]},                   # Tuy Diep Cuong Vu: khang tat ca, khang thoi gian tho thuong
+    "A0EA": {"kind": 0, "stats": [5]},                       # Tiem Long Tai Uyen: phat huy luc tan cong
+    # W eHR / eHW: 4 blows on the target (0.04 s apart), at most 7, 35% bong 2 s; 35% fire damage +60%
+    "A0E1": {"kind": 16, "hits": 4, "gap": .04, "rad": 150, "max": 7, "st": 5, "ch": 35, "sd": 2, "fx": 65536},
+    "A0EB": {"kind": 0, "stats": [5]},                       # Trao Long Cong: hoa cong; below 50% life skills hit harder
+    "A0EC": {"kind": 0, "stats": []},                        # Than Long Bai Vi: chance of Trao Long Cong (not done)
+    # Ba Vuong Ta Giap: every Q W E: 4 s toc danh +15, phat huy luc tan cong +(10 + 2 x rank)%, immune; every 10 s
+    "A0EE": {"kind": 0, "stats": [(4, 15, 0), (5, 10, 2)], "proc": 100, "pcd": 10, "dur": 4, "pimm": 3.9},
+    # E Jk1: Du Long flies (600), at the enemy Long Dai Dau strikes again, at most 7, 40% bong 3 s; 35% fire +60%
+    "A0E2": {"kind": 5, "hits": 2, "gap": .3, "rad": 600, "max": 7, "st": 5, "ch": 40, "sd": 3, "fx": 65536},
+    "A0EG": {"kind": 0, "stats": [5]},                       # Giang Long Chuong: hoa cong (E -> Thoi Thua Luc Long: not done)
+    # D Jff: 20 s: sat thuong len Kim +(20 + rank)%, bo qua hoa phong +(9 + rank)%, khang tat ca +(80 + 20 x rank)
+    "A0X5": {"kind": 6, "dur": 20, "stats": [(5, 9, 1), 6]},
+
+    # Cai Bang Bong (CBB)
     "A0EK": {"kind": 5, "hits": 2},                          # Bong Da Ac Cau
     "A0EL": {"kind": 5, "hits": 3},                          # Thien Ha Vo Cau
     "A0EM": {"kind": 4, "hits": 6},                          # Bong Quynh Luoc Dia
@@ -653,7 +670,8 @@ def main():
                       205: o_.get("fangrow", 0), 204: round(o_.get("freeze", 0) * 10), 203: round(o_.get("pimm", 0) * 10),
                       202: o_.get("pchr", 0), 201: 1, 200: round(o_.get("sdr", 0) * 10), 199: round(o_.get("hidebuf", 0) * 10),
                       198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1], 196: o_.get("radr", 0),
-                      195: o_.get("selfbuf", 0), 194: o_.get("far", 0), 189: o_.get("lowat", 0)}
+                      195: o_.get("selfbuf", 0), 194: o_.get("far", 0), 189: o_.get("lowat", 0),
+                      186: o_.get("fanrank", 0)}
                 if "steal_pct" in o_:
                     ex[187] = o_["steal_pct"]
                 if "pcd" in o_:

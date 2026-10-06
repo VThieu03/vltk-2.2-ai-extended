@@ -193,23 +193,29 @@ Nguồn: `readable.j` (bảng `set Kuz[oY]="TND"`; Q/W/E: `JDX`/`JD5`, `J0M`/`J0
 
 Trước khi sửa: Q/W/E là quét nón / nổ quanh thân (KVCT là lửa tại chỗ mục tiêu), "bỏng" là độc mỗi giây; Thôi Sơn Điền Hải là lướt (KVCT là hàng rào lửa); Ma Đao Thôn Thần là 1 lần phóng 5 hit (KVCT là bật / tắt tự phóng); Nhiếp Hồn Loạn Tâm là đánh 1 mục tiêu.
 
-### Cái Bang Chưởng (CBC)
+### Cái Bang Chưởng (CBC) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Hàng Long Hữu Hối | Q | đạn bay xuyên | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Cái Bang Chưởng Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hóa Hiểm Vi Di | - | bị động (cộng chỉ số) | Khuôn chuẩn | phản đòn | Đạt chuẩn |
-| Thời Thừa Lục Long | R | buff bản thân | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Túy Điệp Cuồng Vũ | - | đánh mục tiêu | Khuôn chuẩn | - | Đạt chuẩn |
-| Tiềm Long Tại Uyên | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Phi Long Tại Thiên | W | đánh mục tiêu | Khuôn chuẩn | độc / bỏng mỗi giây, 4 đòn | Đạt chuẩn |
-| Trảo Long Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | phát động khi máu dưới 40% | Đạt chuẩn |
-| Thần Long Bài Vĩ | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bá Vương Tá Giáp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Long Du Thiên Địa | E | đánh mục tiêu | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Giáng Long Chưởng | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Triệt Y Thập Bát Điệt | D | buff bản thân | OVR Đặc thù | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="CBC"`; Q/W/E: `e6B`/`e6l`, `eHR`/`eHW`, `Jk1`/`JkN`; Bá Vương Tá Giáp: `edO`/`edd`; chiêu bấm: `J3f`/`J33`, `Jff`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map; bỏng = nhận thêm 50% sát thương (như KVCT).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Hàng Long Hữu Hối | Q (autocast) | Chưởng xòe quạt ~15°: 3 chưởng ở bậc 1–4, rồi (bậc − 1) chưởng (9 chưởng ở bậc 10), bay 528 (rộng 90), tối đa 7; 30% bỏng 1 giây | Như KVCT: 3 đạn, từ bậc 5 thành (bậc − 1) đạn, xòe 15°, 528, tối đa 7; bỏng 30% 1 giây | Giống |
+| Cái Bang Chưởng Pháp | - | Bị động: hỏa công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Hóa Hiểm Vi Di | - | Bị động: né tránh, kháng phản đòn, tốc chạy | Bị động: tốc chạy | Gần giống |
+| Thời Thừa Lục Long | R | 12 giây (hết sau 6 đòn): lực tấn công kỹ năng +60% (bậc 1), kéo dài bỏng; hồi 25 giây | Buff 12 giây: sát thương +(55 + 5 × bậc)% | Gần giống (không mất sau 6 đòn; không kéo dài bỏng) |
+| Túy Điệp Cuồng Vũ | - | Vòng sáng: kháng tất cả, kháng thời gian thọ thương | Bị động: giảm sát thương nhận + kháng thời gian trạng thái | Gần giống |
+| Tiềm Long Tại Uyên | - | Bị động: phát huy lực tấn công, tỉ lệ bỏng, kháng thọ thương | Bị động: sát thương % | Gần giống |
+| Phi Long Tại Thiên | W (autocast) | 4 đòn liên tiếp lên mục tiêu (cách ~0,04 giây), tối đa 7; 35% bỏng 2 giây; 35% hỏa công +60% | 4 đòn đánh lan 150 tại mục tiêu, tối đa 7; bỏng 35% 2 giây; 30% thêm 25% sát thương | Gần giống |
+| Trảo Long Công | - | Bị động: hỏa công; sinh lực < 50%: sát thương kỹ năng ×(1,1 + 0,02 × bậc) | Bị động: sát thương % | Khác một phần (chưa làm điều kiện máu < 50%) |
+| Thần Long Bài Vĩ | - | Tỉ lệ (20 + bậc)% tự phát Trảo Long Công; mở rộng phạm vi Phi Long Tại Thiên | Không có hiệu quả | Khác (chưa làm) |
+| Bá Vương Tá Giáp | - | Mỗi lần Q/W/E: 4 giây tốc đánh +15, phát huy lực tấn công +(10 + 2 × bậc)%, miễn trạng thái; giãn cách 10 giây | Mỗi đòn đánh: 4 giây tốc đánh +15%, sát thương +(10 + 2 × bậc)%, miễn khống chế; giãn cách 10 giây | Giống |
+| Long Du Thiên Địa | E (autocast) | Du Long bay theo đường thẳng, trúng địch thì ra thức 2 (Long Đài Đầu), tối đa 7; 40% bỏng 3 giây; 35% hỏa công +60%; tự kích hoạt Thời Thừa Lục Long (Giáng Long Chưởng) | 2 đợt đạn bay 600 cách 0,3 giây, tối đa 7; bỏng 40% 3 giây; 30% thêm 25% sát thương | Gần giống (không tự kích hoạt Thời Thừa Lục Long) |
+| Giáng Long Chưởng | - | Bị động: hỏa công; E tăng tỉ lệ Lục Long Đồng Du, 100% tự thi triển Thời Thừa Lục Long (giãn cách 15 giây) | Bị động: sát thương % | Khác một phần (chưa làm phần tự thi triển) |
+| Triệt Y Thập Bát Điệt | D | 20 giây: sát thương lên hệ Kim +(20 + bậc)%, bỏ qua hỏa phòng +(9 + bậc)%, kháng tất cả +(80 + 20 × bậc); hồi 90 giây | Buff 20 giây: sát thương +(9 + bậc)% + giảm sát thương nhận | Gần giống |
+
+Trước khi sửa: Q là quét nón 3 hit, W là đánh 1 mục tiêu 4 hit, Thời Thừa Lục Long là nổ quanh thân 6 hit (KVCT là buff), Triệt Y Thập Bát Điệt cộng vật công cố định.
 
 ### Côn Lôn Kiếm (CLK)
 

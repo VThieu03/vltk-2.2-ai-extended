@@ -132,17 +132,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Hàng Long Hữu Hối | X091 | Q | quét phía trước, **autocast** | 1 | 1 |
+| 1 | Hàng Long Hữu Hối | X091 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
 | 2 | Cái Bang Chưởng Pháp | X092 | - | bị động | 1 | 6 |
 | 3 | Hóa Hiểm Vi Di | X093 | - | bị động | 1 | 15 |
-| 4 | Thời Thừa Lục Long | X094 | R | nổ quanh thân | 1 | 25 |
-| 5 | Túy Điệp Cuồng Vũ | X095 | - | tự phát khi đánh (đánh mục tiêu) | 1 | 38 |
+| 4 | Thời Thừa Lục Long | X094 | R | buff bản thân | 1 | 25 |
+| 5 | Túy Điệp Cuồng Vũ | X095 | - | bị động | 1 | 38 |
 | 6 | Tiềm Long Tại Uyên | X096 | - | bị động | 1 | 52 |
-| 7 | Phi Long Tại Thiên | X097 | W | đánh mục tiêu, **autocast** | 4 | 68 |
+| 7 | Phi Long Tại Thiên | X097 | W | đánh lan tại mục tiêu, **autocast** | 4 | 68 |
 | 8 | Trảo Long Công | X098 | - | bị động | 1 | 85 |
 | 9 | Thần Long Bài Vĩ | X099 | - | bị động | 1 | 105 |
 | 10 | Bá Vương Tá Giáp | X100 | - | bị động | 1 | 125 |
-| 11 | Long Du Thiên Địa | X101 | E | phóng / đạn bay, **autocast** | 1 | 145 |
+| 11 | Long Du Thiên Địa | X101 | E | phóng / đạn bay, **autocast** | 2 | 145 |
 | 12 | Giáng Long Chưởng | X102 | - | bị động | 1 | 165 |
 | 13 | Triệt Y Thập Bát Điệt | X103 | D | buff bản thân | 1 | 185 |
 

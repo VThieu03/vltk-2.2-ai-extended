@@ -344,6 +344,10 @@ endif
 if GetUnitAbilityLevel(vl_h,vl_ab)>=5 then
 set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
 endif
+// key 186: rank - key 186 missiles when more (KVCT Hang Long Huu Hoi: 3 palms, 9 at rank 10)
+if LoadInteger(zzVL_ht,vl_ab,186)>0 then
+set vl_n=IMaxBJ(vl_n,GetUnitAbilityLevel(vl_h,vl_ab)-LoadInteger(zzVL_ht,vl_ab,186))
+endif
 if LoadInteger(zzVL_ht,vl_ab,215)==1 then
 set vl_sx=vl_x
 set vl_sy=vl_y
@@ -1097,7 +1101,8 @@ call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,TimerGetElapsed(zzVL_clock)+LoadI
 if LoadInteger(zzVL_ht,vl_ab,203)>0 then
 set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,203)+GetUnitAbilityLevel(vl_h,vl_ab))/10.)
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-else
+endif
+if LoadInteger(zzVL_ht,vl_ab,247)>0 or LoadInteger(zzVL_ht,vl_ab,203)==0 then
 call zzKS_Buff(vl_p,vl_ab,1.)
 endif
 call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
