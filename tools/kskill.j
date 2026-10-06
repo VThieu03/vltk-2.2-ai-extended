@@ -13,6 +13,8 @@
 // (198 / 197 % per charge). 207 / 206 / 205 fan of missiles, 204 low life freeze, 203 / 202 proc immunity and
 // chance per rank, 201 no 2 s stun cap, 200 status tenths per rank, 196 dash range per rank, 195 self buff
 // after the cast, 194 farthest point of a field; fx 65536: 30% +25% damage; fx 131072: 21% -15% life (not heroes);
+// 183 the skill also runs the hero's Q (1) W (2) E (3): with its own cast, on a proc hit, or at low life
+// (KVCT Khi Thon Van Ly + Luc Mach Than Kiem, Luc Kiem Te Phat, Am Huong So Anh);
 // status 5 bong (x1.5 damage taken, key 81 of the unit); 189 low life threshold %, 218 its seconds free of
 // control; kind 21 toggle firing the fan every key 258 / 100 s.
 // Kinds: 1 strike, 2 cone, 3 dash, 4 nova, 5 lance, 6 self buff, 7 party buff, 8 cleanse, 0 passive.
@@ -484,6 +486,52 @@ call TimerStart(vl_tm,.22,true,function zzKS_Again)
 endif
 set vl_tm=null
 endif
+if LoadInteger(zzVL_ht,vl_ab,183)>0 then
+set zzKS_fh=vl_h
+set zzKS_fab=vl_ab
+set zzKS_fx=vl_x
+set zzKS_fy=vl_y
+call ExecuteFunc("zzKS_SlotX")
+endif
+endfunction
+// a skill that also runs the hero's Q W E (key 183: 1 2 3) at a point
+function zzKS_Slot takes unit vl_h,integer vl_ab,real vl_x,real vl_y returns nothing
+local integer vl_s=LoadInteger(zzVL_ht,vl_ab,183)
+local integer vl_a=0
+if vl_s>0 then
+set vl_a=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),259+vl_s)
+endif
+if vl_a!=0 and vl_a!=vl_ab and GetUnitAbilityLevel(vl_h,vl_a)>0 then
+call zzKS_Run(vl_h,null,vl_a,vl_x,vl_y)
+endif
+endfunction
+function zzKS_SlotX takes nothing returns nothing
+call zzKS_Slot(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
+endfunction
+// nearest enemy within 900 (null when none)
+function zzKS_Near takes unit vl_h returns unit
+local group vl_g=CreateGroup()
+local unit vl_u
+local unit vl_b=null
+local real vl_d=0.
+local real vl_m=1000000.
+call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),900.,null)
+loop
+set vl_u=FirstOfGroup(vl_g)
+exitwhen vl_u==null
+call GroupRemoveUnit(vl_g,vl_u)
+if zzVL_TpFoe(vl_h,vl_u) then
+set vl_d=(GetUnitX(vl_u)-GetUnitX(vl_h))*(GetUnitX(vl_u)-GetUnitX(vl_h))+(GetUnitY(vl_u)-GetUnitY(vl_h))*(GetUnitY(vl_u)-GetUnitY(vl_h))
+if vl_d<vl_m then
+set vl_m=vl_d
+set vl_b=vl_u
+endif
+endif
+endloop
+call DestroyGroup(vl_g)
+set vl_g=null
+set vl_u=null
+return vl_b
 endfunction
 // KVCT ground field (Chu Cap Thanh Minh ...): at the target point (at most 640 away), a pulse every key 258
 // hundredths of a second, key 241 pulses; each pulse pulls (fx 2) the enemies in it 100 toward the middle and
@@ -1111,6 +1159,9 @@ if LoadInteger(zzVL_ht,vl_ab,247)>0 or LoadInteger(zzVL_ht,vl_ab,203)==0 then
 call zzKS_Buff(vl_p,vl_ab,1.)
 endif
 call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+if LoadInteger(zzVL_ht,vl_ab,183)>0 then
+call zzKS_Slot(vl_h,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
+endif
 endif
 if LoadInteger(zzVL_ht,vl_ab,249)==1 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and GetRandomInt(1,100)<=10 then
 call zzKS_Run(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
@@ -1154,6 +1205,7 @@ local integer vl_lv
 local integer vl_w
 local integer vl_s
 local unit vl_h
+local unit vl_f=null
 local real vl_now=TimerGetElapsed(zzVL_clock)
 loop
 exitwhen vl_p>9
@@ -1240,6 +1292,12 @@ call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origi
 call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
 if LoadInteger(zzVL_ht,vl_ab,204)>0 then
 call zzKS_Freeze(vl_h,400.,LoadInteger(zzVL_ht,vl_ab,204)/10.)
+endif
+if LoadInteger(zzVL_ht,vl_ab,183)>0 then
+set vl_f=zzKS_Near(vl_h)
+if vl_f!=null then
+call zzKS_Slot(vl_h,vl_ab,GetUnitX(vl_f),GetUnitY(vl_f))
+endif
 endif
 endif
 if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,212)>0 and GetWidgetLife(vl_h)>.405 and vl_now>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) then

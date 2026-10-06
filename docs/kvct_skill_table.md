@@ -330,14 +330,14 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Kim Ngọc Mãn Đường | X234 | Q | quét phía trước, **autocast** | 1 | 1 |
+| 1 | Kim Ngọc Mãn Đường | X234 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
 | 2 | Đoàn Thị Tâm Pháp | X235 | - | bị động | 1 | 6 |
-| 3 | Bắc Minh Thần Công | X236 | - | tự phát khi đánh (đánh mục tiêu) | 1 | 15 |
+| 3 | Bắc Minh Thần Công | X236 | - | bị động | 1 | 15 |
 | 4 | Lục Kiếm Tề Phát | X237 | - | bị động | 1 | 25 |
 | 5 | Khô Vinh Thiền Công | X238 | - | bị động | 1 | 38 |
 | 6 | Đoàn Gia Khí Kiếm | X239 | - | bị động | 1 | 52 |
 | 7 | Lục Mạch Thần Kiếm | X240 | W | phóng / đạn bay, **autocast** | 6 | 68 |
-| 8 | Kinh Thiên Nhất Kiếm | X241 | R | quét phía trước | 18 | 85 |
+| 8 | Kinh Thiên Nhất Kiếm | X241 | R | phóng / đạn bay | 18 | 85 |
 | 9 | Bách Hồng Thực Nhật | X242 | - | bị động | 1 | 105 |
 | 10 | Luyện Khí Hoàn Thần | X243 | - | bị động | 1 | 125 |
 | 11 | Khí Thôn Vạn Lý | X244 | E | phóng / đạn bay, **autocast** | 2 | 145 |

@@ -166,6 +166,29 @@ OVR = {
     "A04P": {"kind": 0, "stats": [], "link": 2, "lfx": 65536},
     "A0WC": {"kind": 0, "stats": [3], "fx": 128},            # Tay Tuy Kinh: phan don sat thuong ky nang, chi mang
 
+    # Doan Thi Khi (DTK): read from KVCT's code
+    # Q eSW / eSy: 3 sword qi side by side (4 at rank 4, 5 at rank 7), 900 (width 120), at most 7 each, 30% cham 2 s
+    "A0D5": {"kind": 5, "fan": 3, "fangrow": 1, "spread": 7, "rad": 900, "max": 7, "st": 4, "ch": 30, "sd": 2},
+    "A0CP": {"kind": 0, "stats": [5, 3, 4]},                 # Doan Thi Tam Phap: bang cong %, chi mang, toc danh
+    "A0CQ": {"kind": 0, "stats": [6, 14]},                   # Bac Minh Than Cong: hoa giai sat thuong, khang trang thai
+    # Luc Kiem Te Phat: life under 50%, hit: 6 sword qi (Luc Mach Than Kiem) at the attacker, every 30 s
+    "A0D3": {"kind": 0, "stats": [], "fx": 1024, "low": (0, 30, 0, 0, 100), "lowat": 50, "also": 2},
+    # Kho Vinh Thien Cong: toc danh, bang cong %; life under 35%: 5 s heal every 0.5 s, every 60 s
+    "A0CU": {"kind": 0, "stats": [4, 5], "fx": 1024, "low": (0, 60, 20, 0, 100), "lowat": 35},
+    "A0CR": {"kind": 0, "stats": [5]},                       # Doan Gia Khi Kiem: phat huy luc tan cong, ti le cham
+    # W eNp / eNG / eNh: 6 homing sword qi every 0.21 s (1 of 6 +40% damage, 35% cham 2 s, 11% bong / choang / tho thuong)
+    "A0D6": {"kind": 5, "hits": 6, "gap": .21, "rad": 800, "max": 7, "st": 4, "ch": 35, "sd": 2},
+    # R erk / erD: 18 sword qi 0.1 s apart (random +-20 degrees), 1200 (width 150), at most 5 each, cham 2 s, push 120
+    "A0D8": {"kind": 5, "hits": 18, "gap": .1, "rad": 1200, "max": 5, "st": 4, "ch": 100, "sd": 2, "fx": 1},
+    "A0CS": {"kind": 0, "stats": [4, 13, 7, 3]},            # Bach Hong Thuc Nhat: toc danh, toc chay, sinh luc, chi mang
+    # Luyen Khi Hoan Than: an orb every 10 s, 4 stacks of chi mang for 60 s
+    "A0D4": {"kind": 0, "stats": [3]},
+    # E Jko / Jk4: 2 blades 1/6 s apart, 1000 (width 100), at most 7 each, 40% cham 2 s; with Luc Mach Than Kiem
+    "A0D7": {"kind": 5, "hits": 2, "gap": .17, "rad": 1000, "max": 7, "st": 4, "ch": 40, "sd": 2, "also": 2},
+    "A0CT": {"kind": 0, "stats": [14]},                      # Thien Long Than Cong: ne tranh, khang thoi gian trang thai
+    # Am Huong So Anh: +1 stack every second, every 6 stacks Luc Mach Than Kiem
+    "A0X1": {"kind": 0, "stats": [], "proc": 100, "pcd": 6, "also": 2},
+
     "A05B": {"kind": 2, "hits": 3},                          # Dai Luc Kim Cang Chuong (cone 3 hits)
     "A05D": {"kind": 4, "hits": 4},                          # Vo Luong Tram (nova 4 hits)
     "A058": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # La Han Tran (buff)
@@ -522,10 +545,6 @@ OVR = {
     "A0A7": {"kind": 7, "dur": 20},                          # Thien Phat Thien Diep
 
     # Doan Thi (DTK, DTC)
-    "A0D5": {"kind": 2, "hits": 2},                          # Kim Ngoc Man Duong
-    "A0D6": {"kind": 5, "hits": 6},                          # Luc Mach Than Kiem
-    "A0D7": {"kind": 5, "hits": 2},                          # Khi Thon Van Ly
-    "A0D8": {"kind": 2, "hits": 18},                         # Kinh Thien Nhat Kiem
     "A0DB": {"kind": 1, "hits": 2},                          # Than Chi Diem Huyet
     "A0DO": {"kind": 5, "hits": 2},                          # Nhat Duong Chi
     "A0DQ": {"kind": 3},                                     # Lang Ba Vi Bo
@@ -843,7 +862,7 @@ def main():
                       202: o_.get("pchr", 0), 201: 1, 200: round(o_.get("sdr", 0) * 10), 199: round(o_.get("hidebuf", 0) * 10),
                       198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1], 196: o_.get("radr", 0),
                       195: o_.get("selfbuf", 0), 194: o_.get("far", 0), 189: o_.get("lowat", 0),
-                      186: o_.get("fanrank", 0), 185: o_.get("dimm", 0), 184: o_.get("dimmhits", 0)}
+                      183: o_.get("also", 0), 186: o_.get("fanrank", 0), 185: o_.get("dimm", 0), 184: o_.get("dimmhits", 0)}
                 if "steal_pct" in o_:
                     ex[187] = o_["steal_pct"]
                 if "pcd" in o_:
