@@ -94,6 +94,26 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Hoa Son Kiem (HSK): read from KVCT's code; A0KZ as in HSQ. Only Q and W are autocast (E is a skill to press)
+    # Q J46: 2 blows 0.24 s apart where the target stood, radius 150, at most 7, 30% choang 0.5 s
+    "A0L6": {"kind": 16, "hits": 2, "gap": .24, "rad": 150, "max": 7, "st": 3, "ch": 30, "sd": .5},
+    "A0LH": {"kind": 0, "stats": [5, 3, 4]},                 # Kiem Tong Tong Quyet: chinh xac, loi cong %, chi mang, toc danh
+    # E JKF: at the cursor point <= 600: 10 blows 0.3 s apart, radius 300, at most 7, 40% choang 0.5 s
+    "A0LO": {"kind": 13, "hits": 10, "gap": .3, "rad": 300, "far": 600, "max": 7, "st": 3, "ch": 40, "sd": .5},
+    # R eSU: 20 s: toc danh +(8 + rank), ne tranh, immune to hon loan / cham; Kiem Vu stacks (not done)
+    "A0LP": {"kind": 6, "dur": 20, "stats": [(4, 8, 1), 14]},
+    "A0LI": {"kind": 0, "stats": [5, 14]},                   # Hi Di Kiem Phap: phat huy luc tan cong, ti le choang, khang cham
+    # W Js2: 3 knives 1/6 s apart side by side fly 600 (width 110) through up to 7 enemies each, 35% choang 0.5 s
+    "A0L7": {"kind": 5, "hits": 3, "gap": .17, "rad": 600, "max": 7, "st": 3, "ch": 35, "sd": .5},
+    "A0LJ": {"kind": 0, "stats": [6, 14]},                   # Thai Nhac Tam Thanh: ne tranh noi cong, hoa giai trang thai
+    # D eOy: toggle: every 6 s a 3 s boost of (13 + 2/rank)% damage (a smaller steady buff here)
+    "A0LK": {"kind": 6, "dur": 300, "stats": [(5, 7, 1)]},
+    # Pha Kiem Thuc: on Q / W (every 5 s): 3 blows 0.5 s apart around the hero, radius 350, at most 7, 5% back as life
+    "A0LN": {"kind": 4, "hits": 3, "gap": .5, "rad": 350, "max": 7, "fx": 4, "steal_pct": 5},
+    # Cuu Kiem Hop Nhat: on Q / W (every 4 s): 9 swords (every 40 degrees) fly and chase, 50% choang 1 s
+    "A0LL": {"kind": 5, "fan": 9, "spread": 40, "rad": 800, "max": 7, "st": 3, "ch": 50, "sd": 1},
+    "A0LM": {"kind": 0, "stats": [3]},                       # Nhat Kiem Pha Van Phap: chi mang (Cuu Kiem +%, life steal 5%: not done)
+    "A0XS": {"kind": 0, "stats": [4]},                       # Doc Co Cuu Kiem: toc danh, sat thuong he Thuy (finishing blow: not done)
     # Hoa Son Khi (HSQ): read from KVCT's code
     # Q JEM: 2 blows 0.2 s apart where the target stood, radius 150, at most 7, 30% choang 1 s
     "A0KJ": {"kind": 16, "hits": 2, "gap": .2, "rad": 150, "max": 7, "st": 3, "ch": 30, "sd": 1},
@@ -749,10 +769,6 @@ OVR = {
     # Co Mo (CMC, CMK)
 
     # Hoa Son (HSQ, HSK)
-    "A0LO": {"kind": 4, "hits": 10},                         # Thien Than Dao Huyen
-    "A0LP": {"kind": 6, "dur": 20, "stats": [(4, 25, 2)]},   # Kim Nhan Hoanh Khong
-    "A0L7": {"kind": 2, "hits": 3},                          # Thuong Tung Nghenh Khach
-    "A0LK": {"kind": 6, "dur": 20, "stats": [(5, 35, 3)]},   # Doat Menh Lien Hoan Tam Tien Kiem (dmg buff)
 
     # Tieu Dao (TDC, TDK)
     "A0H5": {"kind": 2, "hits": 2},                          # Duong Ca Thien Quan
