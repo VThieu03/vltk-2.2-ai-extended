@@ -222,17 +222,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thiên La Địa Võng | X156 | Q | nổ quanh thân, **autocast** | 1 | 1 |
+| 1 | Thiên La Địa Võng | X156 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Đường Môn Ám Khí | X157 | - | bị động | 1 | 6 |
 | 3 | Mê Ảnh Tung | X158 | F | lướt | 1 | 15 |
 | 4 | Tôi Độc Thuật | X159 | - | bị động | 1 | 25 |
-| 5 | Đoạn Cân Nhẫn | X160 | R | quét phía trước | 1 | 38 |
+| 5 | Đoạn Cân Nhẫn | X160 | R | phóng / đạn bay | 1 | 38 |
 | 6 | Tâm Nhãn | X161 | - | bị động | 1 | 52 |
-| 7 | Bạo Vũ Lê Hoa | X162 | W | nổ quanh thân, **autocast** | 3 | 68 |
-| 8 | Xuyên Vân Tiễn | X163 | D | phóng / đạn bay | 4 | 85 |
+| 7 | Bạo Vũ Lê Hoa | X162 | W | trận tại điểm (nhiều nhịp), **autocast** | 3 | 68 |
+| 8 | Xuyên Vân Tiễn | X163 | D | đánh mục tiêu | 4 | 85 |
 | 9 | Thất Tuyệt Sát Quang | X164 | - | bị động | 1 | 105 |
 | 10 | Tang Hồn Đinh | X165 | - | bị động | 1 | 125 |
-| 11 | Khổng Tước Vũ | X166 | E | nổ quanh thân, **autocast** | 3 | 145 |
+| 11 | Khổng Tước Vũ | X166 | E | trận tại điểm (nhiều nhịp), **autocast** | 3 | 145 |
 | 12 | Tâm Ma | X167 | - | bị động | 1 | 165 |
 | 13 | Phù Quang Lược Ảnh | X168 | - | bị động | 1 | 185 |
 

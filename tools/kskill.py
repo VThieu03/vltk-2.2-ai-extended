@@ -356,12 +356,31 @@ OVR = {
     # T JKg / JKA: enemies within 650 (at most 10): khang vat cong -(20 + rank)%, toc chay / toc danh -99% 9 s
     "A0YB": {"kind": 4, "nodmg": 1, "rad": 650, "max": 10, "st": 2, "ch": 100, "sd": 9, "fx": 512, "dur": 9},
 
-    # Duong Mon (DMTT, DMPD)
-    "A07R": {"kind": 4, "hits": 4},                          # Thien La Dia Vong
-    "A082": {"kind": 4, "hits": 8},                          # Bao Vu Le Hoa
-    "A083": {"kind": 5, "hits": 4},                          # Xuyen Van Tien
-    "A07X": {"kind": 2, "hits": 3, "status": 2, "sdur": 3},  # Doan Can Nhan (fan cone root 3s)
-    "A08B": {"kind": 4, "hits": 6},                          # Khong Tuoc Vu
+    # Duong Mon Tu Tien (DMTT): read from KVCT's code; A07S A07T A07W A081 as in DMPT
+    # Q JCg / JCA: a dart hunts the target (900), 30% dinh than 1 s, then scatters around it; doc sat
+    "A07R": {"kind": 16, "rad": 180, "max": 7, "st": 2, "ch": 30, "sd": 1, "fx": 8},
+    # R eOJ / eO9: 5 darts fanned 15 degrees, 900 (width 90), at most 7, (25 + 5 x rank)% dinh than 2 s, then
+    # khang chi mang down 15 s
+    "A07S": {"kind": 0, "stats": [3, 4]},                    # Duong Mon Am Khi: chinh xac, doc cong, chi mang, toc danh
+    "A07X": {"kind": 5, "fan": 5, "spread": 15, "rad": 900, "max": 7, "st": 2, "ch": 25, "chr": 5, "sd": 2,
+             "fx": 512, "dur": 15},
+    # W JaC / Jax: at the target 3 bursts 0.4 s apart, radius 180, at most 7, 35% dinh than 1.5 s (darts fly out:
+    # 25% tho thuong 0.5 s); doc sat
+    "A082": {"kind": 13, "hits": 3, "gap": .4, "rad": 180, "max": 7, "st": 2, "ch": 35, "sd": 1.5, "fx": 8},
+    # D JJz / JJP: an arrow hunts the target, then 3 more hits 0.3 s apart; (20 + distance / 10)% dinh than 3 s,
+    # doc sat 6 s; cooldown 20
+    "A083": {"kind": 1, "hits": 4, "gap": .3, "st": 2, "ch": 30, "sd": 3, "fx": 8},
+    # That Tuyet Sat Quang: attacking: toc danh, chi mang, phat huy luc tan cong for a while, every 30 s
+    "A084": {"kind": 0, "stats": [4, 3], "proc": 100, "pcd": 30, "dur": 10},
+    "A088": {"kind": 0, "stats": [3]},                       # Tang Hon Dinh: chi mang (+ more when R is cast: not done)
+    # E Jkm / Jkc: at the target 3 bursts 0.3 s apart, at most 7, 40% dinh than 1.5 s (30% tho thuong); doc sat
+    "A08B": {"kind": 13, "hits": 3, "gap": .3, "rad": 180, "max": 7, "st": 2, "ch": 40, "sd": 1.5, "fx": 8},
+    # Tam Ma: ne tranh; every 4 hits of E: Truy Tinh Truc Dien at the target
+    "A08C": {"kind": 0, "stats": [], "link": 2, "lfx": 16384},
+    # Phu Quang Luoc Anh: a critical hit: vat cong / doc cong / sat thuong chi mang 20 s, every 30 s
+    "A0WP": {"kind": 0, "stats": [5, 3], "proc": 25, "pcd": 30, "dur": 20},
+
+    # Duong Mon Phi Dao (DMPD)
     "A08H": {"kind": 5, "hits": 2},                          # Tieu Ly Phi Dao
     "A08K": {"kind": 5, "hits": 3},                          # Nhiep Hon Nguyet Anh
     "A08S": {"kind": 3},                                     # Vo Anh Xuyen

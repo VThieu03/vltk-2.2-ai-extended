@@ -313,23 +313,29 @@ Khác biệt chung: sát thương theo công thức của map; độc của KVCT
 
 Trước khi sửa: Q là quét nón, W là nổ quanh thân, Thiên Canh Địa Sát là đánh 1 mục tiêu 4 hit, Hóa Cốt Miên Chưởng là đạn bay; Truy Phong Độc Thích (bị động) bị làm thành nổ quanh thân 5 hit.
 
-### Đường Môn Tụ Tiễn (DMTT)
+### Đường Môn Tụ Tiễn (DMTT) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Thiên La Địa Võng | Q | đạn bay xuyên | OVR Đặc thù | định thân 30%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Đường Môn Ám Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Mê Ảnh Tung | F | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Tôi Độc Thuật | - | đánh mục tiêu | Khuôn chuẩn | - | Đạt chuẩn |
-| Đoạn Cân Nhẫn | R | buff bản thân | OVR Đặc thù | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Tâm Nhãn | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bạo Vũ Lê Hoa | W | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Xuyên Vân Tiễn | D | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, giảm kháng (nhận thêm 15%), 4 đòn | Đạt chuẩn |
-| Thất Tuyệt Sát Quang | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tang Hồn Đinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Khổng Tước Vũ | E | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Tâm Ma | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Phù Quang Lược Ảnh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="DMTT"`; Q/W/E: `JCg`/`JCA`, `JaC`/`Jax`, `Jkm`/`Jkc`; chiêu bấm: `eOJ`/`eO9`, `JJz`/`JJP`; Mê Ảnh Tung, Tôi Độc Thuật, Tâm Nhãn: xem Đường Môn Phi Tiêu), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (không đổi danh sách).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Thiên La Địa Võng | Q (autocast) | Ám khí đuổi theo mục tiêu (900), 30% định thân 1 giây, trúng thì tỏa ra xung quanh; độc | Đánh lan 180 tại mục tiêu, tối đa 7; định thân 30% 1 giây; độc | Gần giống (không có đạn đuổi / tỏa) |
+| Đường Môn Ám Khí | - | Bị động: chính xác, độc công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Mê Ảnh Tung | F | Như Đường Môn Phi Tiêu | Như Đường Môn Phi Tiêu | Giống |
+| Tôi Độc Thuật | - | Như Đường Môn Phi Tiêu | Như Đường Môn Phi Tiêu | Gần giống |
+| Đoạn Cân Nhẫn | R | 5 ám khí xòe 15°, bay 900 (rộng 90), tối đa 7, (25 + 5 × bậc)% định thân 2 giây, giảm kháng chí mạng 15 giây; hồi 10 giây | 5 đạn xòe 15°, 900, tối đa 7; định thân (25 + 5 × bậc)% 2 giây; nhận thêm 15% sát thương 15 giây | Giống |
+| Tâm Nhãn | - | Như Đường Môn Phi Tiêu | Như Đường Môn Phi Tiêu | Gần giống |
+| Bạo Vũ Lê Hoa | W (autocast) | Tại mục tiêu 3 lần nổ cách 0,4 giây, bán kính 180, tối đa 7, 35% định thân 1,5 giây; ám khí tỏa ra (25% thọ thương 0,5 giây); độc | Trận tại mục tiêu 3 nhịp cách 0,4 giây, 180, tối đa 7; định thân 35% 1,5 giây; độc | Gần giống (không có ám khí tỏa ra) |
+| Xuyên Vân Tiễn | D | Tiễn đuổi theo mục tiêu, rồi thêm 3 đòn cách 0,3 giây; định thân (20 + cự li / 10)% 3 giây; độc 6 lần; hồi 20 giây | Đánh mục tiêu 4 đòn cách 0,3 giây; định thân 30% 3 giây; độc | Gần giống (tỉ lệ không tăng theo cự li) |
+| Thất Tuyệt Sát Quang | - | Khi tấn công: tốc đánh, chí mạng, phát huy lực tấn công một lúc; giãn cách 30 giây | Khi đánh: buff tốc đánh + chí mạng 10 giây, giãn cách 30 giây | Gần giống |
+| Tang Hồn Đinh | - | Chí mạng; khi tung Đoạn Cân Nhẫn thêm chí mạng 5 giây | Bị động: chí mạng | Khác một phần |
+| Khổng Tước Vũ | E (autocast) | Tại mục tiêu 3 lần cách 0,3 giây, tối đa 7, 40% định thân 1,5 giây, 30% thọ thương; độc | Trận tại mục tiêu 3 nhịp cách 0,3 giây, 180, tối đa 7; định thân 40% 1,5 giây; độc | Gần giống |
+| Tâm Ma | - | Né tránh; E mỗi 4 đòn phát động Truy Tinh Trục Điện tại mục tiêu | E trúng cùng 1 địch 3 lần thì nổ thêm 1 lần | Gần giống |
+| Phù Quang Lược Ảnh | - | Khi chí mạng: vật công / độc công / sát thương chí mạng 20 giây, giãn cách 30 giây | Khi đánh 25%: buff sát thương + chí mạng 20 giây, giãn cách 30 giây | Gần giống (không cần chí mạng) |
+
+Trước khi sửa: Q / W / E đều là nổ quanh thân (KVCT: tại chỗ mục tiêu), Đoạn Cân Nhẫn là quét nón, Xuyên Vân Tiễn là đạn bay xuyên.
 
 ### Nga My Chưởng (NMC)
 
