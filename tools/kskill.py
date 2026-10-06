@@ -55,17 +55,37 @@ OVR = {
     "A0XM": {"kind": 4, "status": 4, "sdur": 24, "hits": 4},
     "A0CE": {"kind": 6, "status": 5},
 
-    # Thien Vuong (TVT, TVD, TVC)
+    # Thien Vuong Dao (TVD): read from KVCT's code; A01M A01R A01W A01Z A0WA are shared with TVT / TVC
+    "A031": {"kind": 16, "rad": 130, "max": 7, "st": 1, "ch": 30, "sd": 1},   # Q er4: splash 130 at the target
+    "A032": {"kind": 0, "stats": [5, 3]},                    # Thien Vuong Dao Phap: chinh xac, vat cong %, chi mang
+    # R eOV / eO2: dash <= 700, no damage; around the end (200, at most 7) (30+6/rank)% dinh than 3 s and
+    # (30+5/rank)% tho thuong 2 s; then 2 s free of control (Thua Phong Pha Lang)
+    "A01M": {"kind": 3, "nodmg": 1, "st": 2, "ch": 30, "chr": 6, "sd": 3, "st2": 1, "ch2": 30, "chr2": 5, "sd2": 2,
+             "selfimm": 2},
+    # Kinh Loi Pha Thien: sinh luc toi da; at 40% life (45%): immune to damage and control 8 s, every 80 s
+    "A01R": {"kind": 0, "stats": [7], "fx": 1024, "low": (8, 80, 0, 1, 45)},
+    # D JKl: heroes of the side within 1000 (allies 60%): vat cong +70+30/rank, chi mang, 300 s
+    "A01W": {"kind": 7, "dur": 300, "stats": [(12, 70, 30), 3]},
+    "A01Z": {"kind": 0, "stats": [5]},                       # Thien Canh Chien Khi: phat huy luc tan cong
+    # W eH3: 2 hits 0.25 s apart, splash 120 where the target stood, at most 7, 35% tho thuong 1 s
+    "A033": {"kind": 16, "hits": 2, "gap": .25, "rad": 120, "max": 7, "st": 1, "ch": 35, "sd": 1},
+    "A034": {"kind": 0, "stats": [6]},                       # Tinh Tam Quyet: khang tat ca, sinh khi
+    # Phi Tinh Tram Thich: attacking, 80%: chi mang + phat huy luc tan cong 20 s, every 40 s
+    "A035": {"kind": 0, "stats": [3, 5], "proc": 80, "pcd": 40, "dur": 20},
+    # F JeJ: (8+rank) s immune to every status, chi mang + sat thuong chi mang; cooldown 40
+    "A03A": {"kind": 8, "dur": 8, "durr": 1, "stats": [3]},
+    # E eAg / eAM: 3 blades every 1/6 s flying 450 on from the target (width 150), at most 7 each, 40% tho thuong
+    "A03D": {"kind": 5, "hits": 3, "gap": .17, "rad": 450, "max": 7, "fromtgt": 1, "st": 1, "ch": 40, "sd": 1},
+    # Bat Phong Tram: sinh luc toi da; E 50%: 2 more blades
+    "A03E": {"kind": 0, "stats": [7], "link": 2, "lfx": 32768},
+    "A0WA": {"kind": 0, "stats": [3]},                       # Thien Ma Hanh Khong (slot 14): chi mang
+
+    # Thien Vuong Thuong / Chuy (TVT, TVC)
     "A021": {"kind": 11},                                    # Bon Loi Toan Long Thuong
     "A020": {"kind": 3},                                     # Doat Hon Thich (dash)
-    "A01Z": {"kind": 4, "hits": 3},                          # Huyet Chien Bat Phuong (nova 3 hits)
-    "A01W": {"dur": 300, "stats": [(12, 70, 30), (3, 3, 1)]},  # Thien Vuong Chien Y
     "A01O": {"kind": 2, "hits": 2},                          # Pha Thien Tram (cone 2 hits)
     "A01S": {"kind": 1, "hits": 3},                          # Hao Hung Tram (strike 3 hits)
-    "A01R": {"kind": 6, "dur": 300, "stats": [(5, 30, 3)]},  # Tung Hoanh Bat Hoang (buff)
     "A02I": {"kind": 4, "hits": 4},                          # Huy Thien Diet Dia (nova 4 hits)
-    "A03A": {"kind": 8, "dur": 15, "stats": [(3, 20, 2)]},   # Tung Hoanh Bat Hoang TVD (cleanse + crit)
-    "A01M": {"kind": 3, "status": 2, "sdur": 2},             # Doan Hon Thich TVT (dash + root 2s)
     "A026": {"kind": 8, "dur": 15},                          # Hoanh Hanh Vo Ky (immune 15s)
     "A02K": {"kind": 7, "dur": 30, "stats": [(11, 25, 3)]},  # Kim Chung Trao (party def buff)
     "A02P": {"kind": 3, "hits": 4},                          # Tram Long Quyet (dash slam 4 hits)
@@ -283,8 +303,8 @@ OVR = {
 }
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
         6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0),
-        13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2)}
-ATTACK = (1, 2, 3, 4, 5, 13)
+        13: (2, 500., 20, 2), 14: (0, 0., 5, 4), 15: (2, 500., 45, 2), 16: (1, 250., 4, 1)}
+ATTACK = (1, 2, 3, 4, 5, 13, 16)
 # stat words of a passive / buff -> stat of zzVL_af (kskill.j zzKS_per)
 STAT = [("sinh lực tối đa", 7), ("chí mạng", 3), ("tốc độ tấn công", 4), ("tốc đánh", 4), ("vật công", 5),
         ("phát huy lực tấn công", 5), ("công kích", 5), ("sát thương", 5), ("phòng thủ", 11), ("kháng", 6),
@@ -423,8 +443,8 @@ def main():
                 kind = 0                                        # keyless buff: a passive
             used.add(key)
             st = stats_of(s["tip"])
-            if "stats" in o_:
-                st = [x[0] for x in o_["stats"]] or [0]
+            if "stats" in o_:                          # a stat alone: the engine's scale; (stat, base, per rank): KVCT's
+                st = [x if isinstance(x, int) else x[0] for x in o_["stats"]] or [0]
             # effect: a KVCT model named like the skill, else one of its class, else a generic one
             want = key_of(s["name"])
             own = [x for x in names if os.path.basename(x).upper().startswith(cl + "_")]
@@ -457,7 +477,7 @@ def main():
                     os.makedirs(os.path.dirname(dis), exist_ok=True)
                     open(dis, "wb").write(blp1_palette(g, 64))
             first = s["tip"].split("\n")[0].strip()
-            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5) and not passive_of(kind, proc) else None
+            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 16) and not passive_of(kind, proc) else None
             mods = [m(b"anam", 3, s["name"]), m(b"aart", 3, icon), m(b"alev", 0, 10), m(b"aher", 0, 0)]
             mods.append(m(b"aani", 3, s["anim"]))
             mods += [m(b"auar", 3, icon), m(b"arar", 3, icon)]       # turn-off / research art: the same icon
@@ -514,17 +534,23 @@ def main():
                      "call SaveInteger(zzVL_ht,'%s',248,%d)" % (sid, st[1] if len(st) > 1 else 0),
                      "call SaveInteger(zzVL_ht,'%s',249,%d)" % (sid, 1 if proc else 0),
                      "call SaveInteger(zzVL_ht,'%s',252,%d)" % (sid, s["fx"]),
-                     ] + ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, 253 + 2 * n + w, v) for n, x in enumerate(o_.get("stats", [])) for w, v in ((0, x[1]), (1, x[2]))] + [
+                     ] + ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, 253 + 2 * n + w, v) for n, x in enumerate(o_.get("stats", [])) if not isinstance(x, int) for w, v in ((0, x[1]), (1, x[2]))] + [
                      'call SaveStr(zzVL_ht,\'%s\',250,"war3mapImported%s%s")' % (sid, "\\\\", model)]
             if proc:
                 rows.append("call SaveInteger(zzVL_ht,'%s',240,%d)" % (sid, kind))
             if full:                                                 # kskill.j keys of the KVCT numbers
                 ex = {234: o_.get("st2", 0), 235: o_.get("ch2", 0), 236: round(o_.get("sd2", 0) * 10),
                       257: o_.get("rad", 0), 258: round(o_.get("gap", 0) * 100), 259: o_.get("max", 0),
-                      245: o_.get("lfx", 0), 231: o_.get("steal", 0), 232: o_.get("mana", 0)}
-                if "link" in o_:
-                    ex[239] = o_["link"]
-                rows += ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, k_, v_) for k_, v_ in ex.items() if v_ or k_ == 239]
+                      245: o_.get("lfx", 0), 231: o_.get("steal", 0), 232: o_.get("mana", 0),
+                      225: o_.get("chr", 0), 224: o_.get("chr2", 0), 228: o_.get("nodmg", 0), 223: o_.get("selfimm", 0),
+                      222: o_.get("durr", 0), 215: o_.get("fromtgt", 0), 216: o_.get("proc", 0)}
+                if "pcd" in o_:
+                    ex[220] = o_["pcd"]
+                keep = {239: o_["link"]} if "link" in o_ else {}   # written even when 0 (Q slot / no heal)
+                if "low" in o_:
+                    keep.update(zip((221, 220, 219, 218, 217), o_["low"]))
+                rows += ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, k_, v_) for k_, v_ in ex.items() if v_ and k_ not in keep]
+                rows += ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, k_, v_) for k_, v_ in keep.items()]
             if not passive:                                          # AI / auto-cast table (gameplay.j zzVL_TryCast)
                 o_, k_ = (auto[1], 1) if auto else (ORDER[key], KIND[kind][3])
                 rows += ["call SaveInteger(zzVL_ht,'%s',2,OrderId(\"%s\"))" % (sid, o_),

@@ -12,7 +12,8 @@ W3A = os.path.join(ROOT, "src", "map", "war3map.w3a")
 OUT = os.path.join(ROOT, "docs", "kvct_skill_table.md")
 KIND = {0: "bị động", 1: "đánh mục tiêu", 2: "quét phía trước", 3: "lướt", 4: "nổ quanh thân", 5: "phóng / đạn bay",
         6: "buff bản thân", 7: "buff phe ta", 8: "miễn khống", 9: "hộ thuẫn", 11: "liên kích", 12: "nổ diện rộng 1000",
-        13: "trận tại điểm (nhiều nhịp)", 14: "bật / tắt (tốn nội lực mỗi giây)", 15: "bùa chú tại điểm"}
+        13: "trận tại điểm (nhiều nhịp)", 14: "bật / tắt (tốn nội lực mỗi giây)", 15: "bùa chú tại điểm",
+        16: "đánh lan tại mục tiêu"}
 
 
 def main():
@@ -47,7 +48,7 @@ def main():
                 label = "tự phát khi đánh (%s)" % KIND.get(kind, kind)
             else:
                 label = KIND.get(kind, str(kind))
-            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5):
+            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 16):
                 label += ", **autocast**"
             out.append("| %d | %s | %s | %s | %s | %s | %s |" % (i + 1, name, sid, key or "-", label,
                                                              ints.get((sid, 241), "1"), ints.get((hero, 230 + i), "?")))

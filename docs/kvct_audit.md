@@ -44,18 +44,30 @@ Khác biệt chung (mọi chiêu): sát thương tính theo công thức của m
 
 Trước khi sửa: Chu Cáp Thanh Minh là nổ quanh thân (KVCT là trận tại điểm), Vô Hình Cổ là buff 15 giây (KVCT bật / tắt), Huyền Âm Trảm là quét nón; số hit / trạng thái trong bảng OVR không được dùng (lỗi `kskill.py`); Q/W/E tự động chỉ ra 1 đợt; ba bị động Vạn Cổ Thực Tâm / Hóa Huyết Tiệt Mạch / Thiên Thù Vạn Độc không tác động lên Q/W/E như KVCT; thiếu U Minh Khô Lâu.
 
-### Thiên Vương Đao (TVD)
+### Thiên Vương Đao (TVD) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Kinh Lôi Trảm | Q | đánh mục tiêu | Khuôn chuẩn | thọ thương 30% | Đạt chuẩn |
-| Thiên Vương Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Phá Thiên Trảm | W | quét phía trước | Khuôn chuẩn | thọ thương 35%, 2 đòn | Đạt chuẩn |
-| Tĩnh Tâm Quyết | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Phi Tinh Trảm Thích | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Tung Hoành Bát Hoang | F | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Hào Hùng Trảm | E | đánh mục tiêu | Khuôn chuẩn | thọ thương 40%, 3 đòn | Đạt chuẩn |
-| Bát Phong Trảm | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TVD"`; Q/W/E: `er4`, `eH3`, `eAg`/`eAM`; chiêu bấm: `eOV`/`eO2`, `JKl`, `JeJ`), `AbilityData.slk`.
+Bảng kỹ năng lấy từ bảng của KVCT: 13 chiêu. Trước đây phái chỉ có 8 chiêu mang tên TVD; nay có thêm 5 chiêu KVCT cho dùng chung với Thiên Vương Thương / Chùy: **Đoạn Hồn Thích (R), Kinh Lôi Phá Thiên, Thiên Vương Chiến Ý (D), Thiên Canh Chiến Khí, Thiên Mã Hành Không**.
+
+Khác biệt chung: sát thương theo công thức của map (`zzKS_Hit`); chí mạng / kháng của KVCT là điểm, ở map là % nên chỉ số buff / bị động theo thang của map, trừ chỗ ghi số KVCT.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Kinh Lôi Trảm | Q (autocast) | Đánh thường trúng → chém lan bán kính 130 tại chỗ mục tiêu, tối đa 7; 30% thọ thương 1 giây | Đánh lan (kiểu mới 16) bán kính 130 tại mục tiêu, tối đa 7; thọ thương (khóa chiêu) 30% 1 giây | Giống |
+| Thiên Vương Đao Pháp | - | Bị động: chính xác, vật công %, chí mạng; tốc đánh tối đa ngay từ đầu | Bị động: sát thương % + chí mạng | Gần giống (không có chính xác; không có tốc đánh tối đa) |
+| Đoạn Hồn Thích | R | Lướt ≤ 700, **không gây sát thương**; quanh điểm cuối (200, tối đa 7): (30 + 6/bậc)% định thân 3 giây và (30 + 5/bậc)% thọ thương 2 giây; sau đó 2 giây miễn trạng thái; hồi 6 giây | Như KVCT (lướt không sát thương, 2 trạng thái tăng theo bậc, 2 giây miễn khống chế) | Giống |
+| Kinh Lôi Phá Thiên | - | Bị động: sinh lực tối đa; sinh lực còn 40% thì 45% kích hoạt: miễn sát thương + miễn trạng thái 8 giây, giãn cách 80 giây | Bị động: sinh lực; dưới 40%: 45% mỗi giây kích hoạt miễn sát thương + miễn khống chế 8 giây, giãn cách 80 giây | Gần giống (KVCT tung khi bị đánh, map kiểm tra mỗi giây) |
+| Thiên Vương Chiến Ý | D | Tướng phe ta trong 1000 (đồng đội 60%): vật công +70 + 30/bậc, chí mạng, tỉ lệ thọ thương; 300 giây | Buff phe ta 1000 (đồng đội 60%): vật công +70 + 30/bậc, chí mạng; 300 giây | Gần giống (không có tỉ lệ thọ thương) |
+| Thiên Canh Chiến Khí | - | Bị động: phát huy lực tấn công, hồi phục, kháng định thân | Bị động: sát thương % | Gần giống |
+| Phá Thiên Trảm | W (autocast) | 2 nhát cách 0,25 giây, chém lan 120 tại chỗ mục tiêu, tối đa 7; 35% thọ thương 1 giây | 2 nhát cách 0,25 giây, đánh lan 120 tại mục tiêu, tối đa 7; thọ thương 35% 1 giây | Giống |
+| Tĩnh Tâm Quyết | - | Bị động: sinh khí, kháng tất cả, giảm thời gian bị khống chế | Bị động: giảm sát thương nhận | Gần giống (không giảm thời gian khống chế) |
+| Phi Tinh Trảm Thích | - | Khi tấn công, 80%: chí mạng + phát huy lực tấn công 20 giây, giãn cách 40 giây | Như KVCT: đánh thường 80% → buff chí mạng + sát thương 20 giây, giãn cách 40 giây | Giống (không có "bỏ qua né tránh") |
+| Tung Hoành Bát Hoang | F | (8 + bậc) giây miễn mọi trạng thái, chí mạng + sát thương chí mạng; hồi 40 giây | (8 + bậc) giây miễn khống chế + chí mạng; hồi 40 giây | Gần giống (không có sát thương chí mạng) |
+| Hào Hùng Trảm | E (autocast) | 3 luồng đao cách 1/6 giây, bay 450 tiếp từ chỗ mục tiêu (rộng 150), mỗi luồng tối đa 7; 40% thọ thương 1 giây | 3 luồng cách 0,17 giây, bay 450 từ chỗ mục tiêu (rộng 120), tối đa 7; thọ thương 40% | Giống |
+| Bát Phong Trảm | - | Bị động: sinh lực tối đa; Hào Hùng Trảm 50% phóng thêm 2 luồng đao (sát thương 35 + 5%/bậc) | Bị động: sinh lực; E 50% thêm 2 luồng | Gần giống (2 luồng thêm gây đủ sát thương) |
+| Thiên Mã Hành Không | - | Bị động: chí mạng tối thiểu / tối đa, sát thương lên hệ Mộc, sinh khí | Bị động: chí mạng | Gần giống |
+
+Trước khi sửa: Kinh Lôi Trảm / Phá Thiên Trảm là đánh 1 mục tiêu / quét nón (KVCT là chém lan tại mục tiêu), Hào Hùng Trảm là đạn bay từ tướng 1 đợt; thiếu 5 chiêu dùng chung; OVR gán sai Kinh Lôi Phá Thiên là buff, Thiên Canh Chiến Khí là nổ 3 hit (cả hai là bị động); Tung Hoành Bát Hoang không cộng chí mạng (kiểu 8 không gọi buff).
 
 ### Võ Đang Kiếm (VDK)
 
