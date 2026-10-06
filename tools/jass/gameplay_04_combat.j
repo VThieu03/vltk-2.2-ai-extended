@@ -367,6 +367,13 @@ function zzVL_OnDamageBody takes nothing returns nothing
     endif
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and TimerGetElapsed(zzVL_clock)<zzKS_dimm[vl_pt] then
         set vl_d=0.
+        // KVCT Hang Long Bat Vu: ends after a number of hits (kskill.j key 184)
+        if zzKS_dimmN[vl_pt]>0 then
+            set zzKS_dimmN[vl_pt]=zzKS_dimmN[vl_pt]-1
+            if zzKS_dimmN[vl_pt]==0 then
+                set zzKS_dimm[vl_pt]=0.
+            endif
+        endif
     endif
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and zzKS_refl[vl_pt]>0 and not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=null and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 then
         call zzVL_TpHit(vl_tgt,vl_src,vl_d*zzKS_refl[vl_pt]/100.)

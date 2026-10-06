@@ -962,6 +962,11 @@ endif
 if LoadInteger(zzVL_ht,vl_ab,195)>0 then
 call zzKS_Buff(vl_p,vl_ab,1.)
 endif
+// immune to damage for key 185 seconds, at most key 184 hits (KVCT Hang Long Bat Vu: 99% less damage, 30 hits)
+if LoadInteger(zzVL_ht,vl_ab,185)>0 then
+set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,185)
+set zzKS_dimmN[vl_p]=LoadInteger(zzVL_ht,vl_ab,184)
+endif
 if vl_t!=null then
 set vl_x=GetUnitX(vl_t)
 set vl_y=GetUnitY(vl_t)

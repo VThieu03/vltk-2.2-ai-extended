@@ -111,15 +111,32 @@ OVR = {
     # T JKG: 60 s: vat cong +(4.55 + 0.65 x rank)%, immune to tho thuong / cham / dinh than; cooldown 180
     "A0WD": {"kind": 8, "dur": 60, "stats": [(5, 5, 1)]},
 
-    # Thieu Lam Dao / Bong (TLD, TLB)
+    # Thieu Lam Dao (TLD): read from KVCT's code; A03J A03K A03N A03Q shared with TLQ / TLB
+    # Q eQs: a blade along a line 700 (width 180), at most 7, 30% tho thuong 1 s
+    "A03H": {"kind": 5, "rad": 700, "max": 7, "st": 1, "ch": 30, "sd": 1},
+    "A03I": {"kind": 0, "stats": [3, 4]},                    # Thieu Lam Dao Phap: chinh xac, vat cong %, chi mang, toc danh
+    # A La Han Than Cong (aura): phan don can chien / tam xa; La Han Tran reflects
+    "A03K": {"kind": 0, "stats": [], "fx": 128},
+    # W JKw / JKv: 2 blades along the line 0.31 s apart (700), at most 7, 35% tho thuong 1 s; 30% damage +30%
+    "A03R": {"kind": 5, "hits": 2, "gap": .31, "rad": 700, "max": 7, "st": 1, "ch": 35, "sd": 1, "fx": 65536},
+    # F eAz: 20 s (ends after 30 hits taken): 99% less damage, immune to statuses, chi mang, sat thuong chi mang
+    "A03S": {"kind": 8, "dur": 20, "dimm": 20, "dimmhits": 30, "stats": [3]},
+    # Dat Ma Be Tuc: khang ti le trang thai; when hit 50%: cleanse + immune 3 s
+    "A03V": {"kind": 0, "stats": [14], "fx": 1024, "low": (0, 15, 0, 3, 50), "lowat": 100},
+    # R e_R / e_W: at the point, enemies within 350 (at most 7) pulled 140 to it, 40% dinh than 2 s, take reflect
+    # damage 15 s; no damage
+    "A040": {"kind": 13, "nodmg": 1, "hits": 1, "gap": .03, "rad": 350, "max": 7, "st": 2, "ch": 40, "sd": 2,
+             "fx": 2 | 512, "dur": 15},
+    # E eQr / eQq: 3 blades 1/6 s apart (700), at most 7, 40% tho thuong 1 s; 30% damage +30%
+    "A043": {"kind": 5, "hits": 3, "gap": .17, "rad": 700, "max": 7, "st": 1, "ch": 40, "sd": 1, "fx": 65536},
+    # Thien Nguyen Cong: suc manh, than phap, sinh khi; E 40%: the third blow throws 6 blades
+    "A044": {"kind": 0, "stats": [5], "link": 2, "xw": 3, "xc": 40},
+    "A0WB": {"kind": 0, "stats": [3, 14]},                   # Tram Ma Dao Phap: chi mang, hoa giai trang thai
+
+    # Thieu Lam Bong (TLB)
     "A05B": {"kind": 2, "hits": 3},                          # Dai Luc Kim Cang Chuong (cone 3 hits)
     "A05D": {"kind": 4, "hits": 4},                          # Vo Luong Tram (nova 4 hits)
     "A058": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # La Han Tran (buff)
-    "A03H": {"kind": 2, "hits": 2},                          # Phuc Ma Dao Phap
-    "A03R": {"kind": 2, "hits": 2},                          # Thien Truc Tuyet Dao
-    "A043": {"kind": 4, "hits": 3},                          # Quy Thien Dao Phap
-    "A040": {"kind": 4, "hits": 6},                          # Dai Thua Nhu Lai Chu
-    "A03S": {"kind": 6, "dur": 300, "stats": [(5, 20, 2)]},  # Hang Long Bat Vu
     "A047": {"kind": 2, "hits": 2},                          # Pho Do Con Phap
     "A04C": {"kind": 4, "hits": 3},                          # That Tinh La Sat Con
     "A04O": {"kind": 4, "hits": 2},                          # Vi Da Hien Chu
@@ -689,7 +706,7 @@ def main():
                       202: o_.get("pchr", 0), 201: 1, 200: round(o_.get("sdr", 0) * 10), 199: round(o_.get("hidebuf", 0) * 10),
                       198: o_.get("chg", (0, 0))[0], 197: o_.get("chg", (0, 0))[1], 196: o_.get("radr", 0),
                       195: o_.get("selfbuf", 0), 194: o_.get("far", 0), 189: o_.get("lowat", 0),
-                      186: o_.get("fanrank", 0)}
+                      186: o_.get("fanrank", 0), 185: o_.get("dimm", 0), 184: o_.get("dimmhits", 0)}
                 if "steal_pct" in o_:
                     ex[187] = o_["steal_pct"]
                 if "pcd" in o_:

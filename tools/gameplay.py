@@ -126,6 +126,7 @@ unit zzKS_fh=null
 integer zzKS_fab=0
 real zzKS_fx=0.
 real zzKS_fy=0.
+integer array zzKS_dimmN
 framehandle array zzUI_hp
 framehandle array zzUI_mp
 integer zzUI_lastHp=0

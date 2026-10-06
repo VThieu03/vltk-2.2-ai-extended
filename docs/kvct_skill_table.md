@@ -168,17 +168,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Phục Ma Đao Pháp | X117 | Q | quét phía trước, **autocast** | 1 | 1 |
+| 1 | Phục Ma Đao Pháp | X117 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
 | 2 | Thiếu Lâm Đao Pháp | X118 | - | bị động | 1 | 6 |
 | 3 | Dịch Cân Kinh | X119 | - | bị động | 1 | 15 |
-| 4 | A La Hán Thần Công | X120 | - | tự phát khi đánh (phóng / đạn bay) | 1 | 25 |
+| 4 | A La Hán Thần Công | X120 | - | bị động | 1 | 25 |
 | 5 | Bồ Đề Tâm Pháp | X121 | D | buff bản thân | 1 | 38 |
 | 6 | Như Lai Thiên Diệp | X122 | - | bị động | 1 | 52 |
-| 7 | Thiên Trúc Tuyệt Đao | X123 | W | quét phía trước, **autocast** | 1 | 68 |
-| 8 | Hàng Long Bất Vũ | X124 | F | buff bản thân | 1 | 85 |
+| 7 | Thiên Trúc Tuyệt Đao | X123 | W | phóng / đạn bay, **autocast** | 2 | 68 |
+| 8 | Hàng Long Bất Vũ | X124 | F | miễn khống | 1 | 85 |
 | 9 | Đạt Ma Bế Tức | X125 | - | bị động | 1 | 105 |
-| 10 | Đại Thừa Như Lai Chú | X126 | R | nổ quanh thân | 1 | 125 |
-| 11 | Quy Thiền Đao Pháp | X127 | E | nổ quanh thân, **autocast** | 1 | 145 |
+| 10 | Đại Thừa Như Lai Chú | X126 | R | trận tại điểm (nhiều nhịp) | 1 | 125 |
+| 11 | Quy Thiền Đao Pháp | X127 | E | phóng / đạn bay, **autocast** | 3 | 145 |
 | 12 | Thiền Nguyên Công | X128 | - | bị động | 1 | 165 |
 | 13 | Trảm Ma Đao Pháp | X129 | - | bị động | 1 | 185 |
 

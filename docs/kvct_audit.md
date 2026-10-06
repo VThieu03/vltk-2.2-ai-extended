@@ -241,23 +241,29 @@ Lưu ý: trong KVCT chỉ Q của Côn Lôn Kiếm là đánh kèm đòn đánh;
 
 Trước khi sửa: Q là đánh mục tiêu 2 hit, W / E / R đều là nổ quanh thân (KVCT: sét tại điểm / vào địch ngẫu nhiên / bão tại điểm); Ngự Phong Thuật là đạn bay 3 hit làm chậm; Thanh Phong Phù / Đạo Cốt Tiên Phong kéo dài 25–30 giây (KVCT 300 giây).
 
-### Thiếu Lâm Đao (TLD)
+### Thiếu Lâm Đao (TLD) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Phục Ma Đao Pháp | Q | đánh mục tiêu | OVR Đặc thù | thọ thương 30% | Đạt chuẩn |
-| Thiếu Lâm Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Dịch Cân Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| A La Hán Thần Công | - | đạn bay xuyên | Khuôn chuẩn | phản đòn | Đạt chuẩn |
-| Bồ Đề Tâm Pháp | D | buff bản thân | OVR Đặc thù | làm chậm 35% | Đạt chuẩn |
-| Như Lai Thiên Diệp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Trúc Tuyệt Đao | W | đánh mục tiêu | OVR Đặc thù | thọ thương 35% | Đạt chuẩn |
-| Hàng Long Bất Vũ | F | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Đạt Ma Bế Tức | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Đại Thừa Như Lai Chú | R | đánh mục tiêu | OVR Đặc thù | kéo đối thủ, phản đòn | Đạt chuẩn |
-| Quy Thiền Đao Pháp | E | đánh mục tiêu | OVR Đặc thù | thọ thương 40% | Đạt chuẩn |
-| Thiền Nguyên Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Trảm Ma Đao Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TLD"`; Q/W/E: `eQs`, `JKw`/`JKv`, `eQr`/`eQq`; chiêu bấm: `eAz`, `e_R`/`e_W`, `elV` (Bồ Đề Tâm Pháp, xem Thiếu Lâm Quyền)), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (trước 10; thêm **Dịch Cân Kinh, A La Hán Thần Công, Bồ Đề Tâm Pháp (D)**).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Phục Ma Đao Pháp | Q (autocast) | Đao khí theo đường thẳng 700 (rộng 180), tối đa 7; 30% thọ thương 1 giây | Đạn bay 700, tối đa 7; thọ thương 30% 1 giây | Giống |
+| Thiếu Lâm Đao Pháp | - | Bị động: chính xác, vật công %, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
+| Dịch Cân Kinh | - | Bị động: sinh lực tối đa % | Bị động: sinh lực | Giống |
+| A La Hán Thần Công | - | Vòng sáng: phản đòn cận chiến / tầm xa; La Hán Trận phản đòn theo sinh khí | Bị động: phản đòn (2% × bậc sát thương nhận) | Gần giống |
+| Bồ Đề Tâm Pháp | D | (như Thiếu Lâm Quyền) 300 giây kháng thời gian trạng thái +(17 + 3 × bậc)% | Như Thiếu Lâm Quyền | Giống |
+| Như Lai Thiên Diệp | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
+| Thiên Trúc Tuyệt Đao | W (autocast) | 2 đao khí theo đường thẳng cách 0,31 giây, tối đa 7; 35% thọ thương 1 giây; 30% lực tấn công +30% | 2 đợt cách 0,31 giây, 700, tối đa 7; thọ thương 35% 1 giây; 30% thêm 25% sát thương | Giống |
+| Hàng Long Bất Vũ | F | 20 giây: triệt tiêu 99% sát thương nhận, miễn trạng thái, chí mạng, sát thương chí mạng; bị đánh 30 lần thì hết; hồi 60 giây | 20 giây miễn sát thương + miễn khống chế + chí mạng; hết sau 30 lần bị đánh; hồi 60 giây | Giống |
+| Đạt Ma Bế Tức | - | Kháng tỉ lệ trạng thái; khi bị đánh 50%: hóa giải + miễn trạng thái 3 giây (giãn cách) | Bị động: kháng thời gian trạng thái; khi mất máu 50%: 3 giây miễn khống chế, giãn cách 15 giây | Gần giống (không hóa giải trạng thái đang dính) |
+| Đại Thừa Như Lai Chú | R | Tại điểm chọn: kẻ địch trong 350 (tối đa 7) bị kéo 140 về điểm, 40% định thân 2 giây, chịu thêm sát thương phản đòn 15 giây; không sát thương; hồi 30 giây | Trận 1 nhịp tại điểm: 350, tối đa 7, kéo về tâm, định thân 40% 2 giây, nhận thêm 15% sát thương 15 giây; không sát thương | Gần giống |
+| Quy Thiền Đao Pháp | E (autocast) | 3 đao khí cách 1/6 giây, tối đa 7; 40% thọ thương 1 giây; 30% lực tấn công +30% | 3 đợt cách 0,17 giây, 700, tối đa 7; thọ thương 40% 1 giây; 30% thêm 25% sát thương | Giống |
+| Thiền Nguyên Công | - | Sức mạnh, thân pháp, sinh khí; E 40%: thức thứ ba phóng 6 đạo đao phong | Bị động: sát thương %; E 40% thêm 3 đợt | Gần giống |
+| Trảm Ma Đao Pháp | - | Sát thương lên hệ Mộc, chí mạng, tấn công khi chí mạng, tỉ lệ hóa giải trạng thái | Bị động: chí mạng + kháng thời gian trạng thái | Gần giống |
+
+Trước khi sửa: Q/W là quét nón, E là nổ quanh thân 3 hit, Đại Thừa Như Lai Chú là nổ quanh thân 6 hit (KVCT: kéo + định thân tại điểm, không sát thương), Hàng Long Bất Vũ là buff sát thương 300 giây (KVCT: 20 giây gần như bất tử); thiếu 3 chiêu dùng chung.
 
 ### Thiên Vương Thương (TVT)
 
