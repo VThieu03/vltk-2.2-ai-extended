@@ -50,7 +50,7 @@ function zzVL_Tick takes nothing returns nothing
             set vl_i=0
             loop
                 exitwhen vl_i>5
-                set vl_item=UnitItemInSlot(vl_hero,vl_i)
+                set vl_item=zzVL_equipItem[vl_playerId*10+vl_i]
                 if vl_item!=null then
                     set vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)
                     if vl_v>0 then
@@ -234,6 +234,7 @@ function zzVL_OnDamageBody takes nothing returns nothing
     local integer vl_evasion = 0
     local integer vl_hit = 0
     local integer vl_chance = 0
+    local boolean vl_repl=false
     if vl_src==null or vl_tgt==null or vl_d<=0. or not IsUnitEnemy(vl_tgt,GetOwningPlayer(vl_src)) then
         set vl_src=null
         set vl_tgt=null
@@ -319,7 +320,13 @@ function zzVL_OnDamageBody takes nothing returns nothing
     if vl_ps<10 and vl_src==Jx[vl_ps+1] and not zzVL_inTp and BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL then
         set zzKS_src=vl_src
         set zzKS_tgt=vl_tgt
+        set zzKS_repl=false
         call ExecuteFunc("zzKS_OnHit")
+        // an autocast Q W E skill struck: the skill is the attack, the normal hit deals nothing
+        if zzKS_repl then
+            set zzKS_repl=false
+            set vl_repl=true
+        endif
     endif
     if vl_ps<10 and vl_src==Jx[vl_ps+1] and zzVL_wel[vl_ps]>0 and not zzVL_inTp then
         set vl_d=vl_d*1.08
@@ -361,9 +368,19 @@ function zzVL_OnDamageBody takes nothing returns nothing
     if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),74) then
         set vl_d=vl_d*1.15
     endif
+    // suy yeu (kskill.j zzKS_Weak): the source deals key 84 % less (at most 20)
+    if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_src),83) then
+        set vl_d=vl_d*(1.-IMinBJ(20,LoadInteger(zzVL_ht,GetHandleId(vl_src),84))/100.)
+    endif
     // bong (KVCT effect_bong, kskill.j status 5): 50% more damage
     if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),81) then
         set vl_d=vl_d*1.5
+    endif
+    // KVCT "khi bi danh" passives (kskill.j zzKS_OnHurt, key 165)
+    if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and vl_d>0. and not zzVL_inTp then
+        set zzKS_hurt[vl_pt]=TimerGetElapsed(zzVL_clock)
+        set zzKS_tgt=vl_tgt
+        call ExecuteFunc("zzKS_OnHurt")
     endif
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and TimerGetElapsed(zzVL_clock)<zzKS_dimm[vl_pt] then
         set vl_d=0.
@@ -382,6 +399,9 @@ function zzVL_OnDamageBody takes nothing returns nothing
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and zzVL_he[vl_pt]==3 and zzVL_set[vl_pt]>0 and vl_d>0. and BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL and not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and TimerGetElapsed(zzVL_clock)-LoadReal(zzVL_ht,GetHandleId(vl_tgt),78)>=.3 then
         call SaveReal(zzVL_ht,GetHandleId(vl_tgt),78,TimerGetElapsed(zzVL_clock))
         call zzVL_TpHit(vl_tgt,vl_src,vl_d*.02*zzVL_set[vl_pt])
+    endif
+    if vl_repl then
+        set vl_d=0.
     endif
     call BlzSetEventDamage(vl_d)
     if vl_crit then

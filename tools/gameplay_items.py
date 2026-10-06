@@ -34,6 +34,8 @@ def items():
             iid = (old if ti == 0 else new).decode("latin1")
             if not name or cls in ("Charged", "Miscellaneous", "PowerUp", "Campaign"):
                 continue
+            if iid.startswith("IJ"):                       # 10-slot jewels (gameplay.py JEWELS): own table
+                continue
             words = set(re.findall(r"[a-z]+", plain(name)))
             slot = next((s for s, keys in SLOTS if words & keys), 0)
             if not slot:

@@ -51,24 +51,24 @@ function zzVL_BossSpawn takes nothing returns nothing
     endif
     set vl_k=GetRandomInt(1,5)
     if vl_k==1 then
-        set vl_bid='o001'
+        set vl_bid='H00Z' // Kim
     elseif vl_k==2 then
-        set vl_bid='h01F'
+        set vl_bid='E000' // Mộc
     elseif vl_k==3 then
-        set vl_bid='n0TK'
+        set vl_bid='H021' // Thủy
     elseif vl_k==4 then
-        set vl_bid='e003'
+        set vl_bid='H00A' // Hỏa
     else
-        set vl_bid='n018'
+        set vl_bid='E001' // Thổ
     endif
     set zzVL_boss=CreateUnit(Player(12),vl_bid,GetUnitX(vl_pick),GetUnitY(vl_pick),GetRandomReal(0,360))
     call SetUnitPosition(zzVL_boss,GetUnitX(vl_pick)-350.,GetUnitY(vl_pick)+250.)
     call BlzSetUnitName(zzVL_boss,"|cffff8000"+zzVL_bn[vl_k]+"|r")
-    call BlzSetUnitMaxHP(zzVL_boss,8000+1500*vl_min)
-    call SetWidgetLife(zzVL_boss,8000.+1500.*vl_min)
-    call BlzSetUnitBaseDamage(zzVL_boss,60+8*vl_min,0)
-    call BlzSetUnitArmor(zzVL_boss,10.+vl_min)
-    call SetUnitScale(zzVL_boss,2.3,2.3,2.3)
+    call BlzSetUnitMaxHP(zzVL_boss,80000+15000*vl_min)
+    call SetWidgetLife(zzVL_boss,80000.+15000.*vl_min)
+    call BlzSetUnitBaseDamage(zzVL_boss,600+80*vl_min,0)
+    call BlzSetUnitArmor(zzVL_boss,50.+5.*vl_min)
+    call SetUnitScale(zzVL_boss,5.0,5.0,5.0)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_boss),GetUnitY(zzVL_boss)))
     call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Thủy tinh|r, 1000 ngân lượng, 25 công trạng.")
     call PingMinimapEx(GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),5.,255,128,0,true)
@@ -94,6 +94,7 @@ function zzVL_BossKilled takes integer vl_pk returns nothing
     endloop
     call CreateItem('I00W',GetUnitX(zzVL_boss),GetUnitY(zzVL_boss))
     call CreateItem('I00W',GetUnitX(zzVL_boss),GetUnitY(zzVL_boss))
+    call zzVL_DropGear(5, 5, GetUnitX(zzVL_boss), GetUnitY(zzVL_boss))
     call zzVL_AddCT(vl_pk,25)
     set zzVL_boss=null
 endfunction
@@ -178,6 +179,7 @@ function zzVL_McKilled takes integer vl_pk returns nothing
         endif
         set vl_i=vl_i+1
     endloop
+    call zzVL_DropGear(5, 8, GetUnitX(zzVL_mc), GetUnitY(zzVL_mc))
     call zzVL_AddCT(vl_pk,30)
     set zzVL_mc=null
     call zzVL_AddUD(vl_pk,10)

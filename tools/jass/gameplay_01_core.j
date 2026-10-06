@@ -232,10 +232,11 @@ endfunction
 //   - vl_hero (unit)
 // Trả về dữ liệu kiểu: boolean
 function zzVL_HasWeapon takes unit vl_hero returns boolean
+    local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_hero))
     local integer vl_i=0
     loop
-        exitwhen vl_i>5
-        if UnitItemInSlot(vl_hero,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_hero,vl_i)),0)/10==3 then
+        exitwhen vl_i>9
+        if zzVL_equipItem[vl_playerId*10+vl_i]!=null and LoadInteger(zzVL_ht,GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i]),0)/10==3 then
             return true
         endif
         set vl_i=vl_i+1

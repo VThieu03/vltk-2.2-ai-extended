@@ -30,22 +30,83 @@
 
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
 
-- [ ] **Yêu cầu User:** *"dùng nguyên bộ trang bị của KVCT, bao gồm liên nhẫn phù bội, yêu đái nữa"*
-  - Áp dụng nguyên vẹn hệ thống 10 loại trang bị chuẩn Kiếm Vũ Chí Tôn / Võ Lâm:
-    1. Mũ (Nón)
-    2. Áo (Giáp)
-    3. Yêu đái (Thắt lưng)
-    4. Giày (Hài)
-    5. Hộ uyển (Bao tay / Cổ tay)
-    6. Vũ khí
-    7. Hạng liên (Dây chuyền)
-    8. Giới chỉ (Nhẫn)
-    9. Ngọc bội (Bội)
-    10. Hộ thân phù (Phù)
-  - Khảo sát mã nguồn KVCT (`D:\kvct-dev`: `ItemData.slk`, `war3map.w3t`, `gm_equip.j`, logic trang bị trong `readable.j`):
-    + Cách phân loại slot 1..10 của KVCT.
-    + Cách kích hoạt thuộc tính, cường hóa, khảm nạm và set bonus của 10 món.
-    + Đưa toàn bộ UI nhân vật 10 ô (2 hàng, mỗi bên 5 ô) và logic trang bị từ KVCT sang VLTK.
+- [ ] **Yêu cầu User (06/10/2026):** *"tăng sức mạnh cho tuyệt đại cao thủ và boss võ lâm minh chủ, cho boss cũng cast chiêu theo hệ, tạo scale size boss lên 5 lần"*
+  - Kế hoạch: 
+    - Tăng mạnh chỉ số máu/đam của `zzVL_boss` và `zzVL_mc`.
+    - Scale kích thước lên 5.
+    - Cấu hình 5 loại Boss đại diện cho Ngũ Hành (Kim, Mộc, Thủy, Hỏa, Thổ) và gán logic AI hoặc dummy cast chiêu thức theo hệ.
+
+- [ ] **Yêu cầu User (06/10/2026):** *"bây giờ tạm gác lại hệ thống trang bị, chuyển sang hệ thống sinh quái tinh anh và thủ lĩnh"*
+  - Trạng thái: HOÀN THÀNH.
+  - Chi tiết:
+    + Quái thường: chỉ còn rớt nguyên liệu/Thủy Tinh, hoàn toàn không rớt đồ.
+    + Quái Tinh Anh (10%): máu x3, dmg x3, to hơn (1.3x) và có Aura xanh. Thưởng người giết 200 Vàng, 300 EXP. Rớt nguyên liệu x3 và có xác suất rớt tối đa 3 món trang bị phẩm 2 hoặc 3.
+    + Quái Thủ Lĩnh (2%): máu x8, dmg x8, to hơn (1.6x) và có Inner Fire đỏ. Thưởng người giết 1000 Vàng, 1500 EXP. Rớt nguyên liệu x6 và có xác suất rớt tối đa 6 món trang bị phẩm 2 hoặc 3.
+    + Boss / Minh Chủ: rớt trực tiếp 5 - 8 món trang bị phẩm 5 (bậc 5 cao nhất).
+
+- [ ] **Yêu cầu User (06/10/2026):** *"đọc phần kvct_audit để làm lại toàn bộ đơn vị đo lường của skill và skill"*
+  - Kế hoạch: đọc hết `docs/kvct_audit.md`, so cột KVCT với cột Map từng chiêu, tìm lệch đơn vị (ngưỡng vs khoảng, giây vs nhịp, điểm vs %, kéo/hút/đẩy, cộng dồn, sau N đòn, khi bị đánh), sửa OVR `tools/kskill.py` (+ engine `tools/kskill.j` khi cần), ghi "Giống (chưa test)". Tiến độ theo phái ghi ở đây.
+  - Đã đọc audit (429 dòng chiêu: 130 Giống, 244 Gần giống, 55 Khác). Nhóm lệch đơn vị lặp lại: proc chung "30% thêm 25%" (18), "nhận thêm 15% / 4 giây" thay giảm kháng (11), bán kính/rộng lệch (11), thời gian cố định thay công thức (9), "khi bị đánh" chưa làm (8), độc 5 nhịp vs N lần, điểm KVCT → % map, tê liệt/hỗn loạn = choáng. Chờ User chọn thứ tự.
+  - [x] Nhóm 1 (phát động riêng): khóa 180/177 tỉ lệ, 179/178 % sát thương (`pch`, `pmul`), `zzKS_pch`/`zzKS_pmul` cho bị động gắn Q/W/E; 13 chiêu điền số KVCT, audit cập nhật.
+  - [x] Nhóm 2 (thời gian / bán kính): độ rộng đạn khóa 167 (`wid`, 48 chiêu lấy từ chú thích KVCT); cộng tầng tham số hóa `zzKS_StackAdd` (khóa 173/172/171/170, `stk`; Liên Hoàn Đoạt Mệnh Thương 5+bậc tầng, 8 giây, 3%); "low" thêm tỉ lệ / giãn cách theo bậc (169/168, `lowr`; Thiên Vương Bản Sinh 25+5×bậc%); Ngự Tuyết Ẩn buff 2,8+0,1×bậc giây (khóa 174). Chưa làm: Kim Cang Bất Hoại (KVCT không ghi công thức giãn cách).
+  - [x] Nhóm 3 (độc N lần): `zzVL_TpPoison` ô 5 = số nhịp (mặc định 5 cho nơi gọi khác); khóa 166 `psec`, 14 chiêu lấy từ chú thích KVCT (12 chiêu không ghi số giữ 5).
+  - [x] Nhóm 4 ("khi bị đánh"): `zzKS_hurt` + `zzKS_OnHurt` (gọi từ `gameplay_04_combat.j`); khóa 165 `onhurt` 1 = bị động máu thấp chỉ phát khi vừa bị đánh (A01R, A0BQ, A0FM, A04G, A02F, A07I Huyết Đỉnh Công mới), 2 = cộng tầng khi bị đánh (Mê Tung Huyễn Ảnh 16 tầng 5 giây, Càn Khôn Chùy bậc+5 tầng 6 giây 6%).
+  - [x] Nhóm 5 (suy yếu): khóa 164 `wdur` thời gian KVCT cho bị động gắn Q/W/E (Vạn Cổ 30, Nghịch Chuyển 10, Bi Ma 30, Luyện Ngục 12, Bi Tô 30 giây). Mức % giữ 15% (thang map).
+  - Tất cả: pjass sạch phần này; build vẫn chặn bởi `zzVL_AiGear` (việc khác). Chưa test trong game, chưa commit.
+  - [x] Theo yêu cầu thêm: Kim Cang Bất Hoại giãn cách 3→6 giây theo bậc (khóa 168 nay là phần mười giây / bậc trên 1); suy yếu `zzKS_Weak`/`zzKS_WeakArea` (khóa 162/161/160 `weak`; nguồn bị suy yếu gây −% sát thương tối đa 20 trong `gameplay_04_combat.j`, tốc đánh chậm 20% qua `BlzSetUnitAttackCooldown`): Mê Hồn Trận (onhurt 3), Hồn Phách Phi Dương. Pipeline PASS (pjass 33941 dòng), map đã sync. Còn 48 chiêu "Khác" chưa làm (liệt kê trong câu trả lời 06/10).
+  - Sửa kèm: Chu Cáp Thanh Minh trong KVCT đúng là "kéo 100" → hút vào giữa chỉ bật bằng khóa 181 (`suck`, chỉ A0FK).
+
+- [ ] **Yêu cầu User (06/10/2026):** *"Hỏa Liên Phần Hoa không thực sự hút kẻ địch vào"*
+  - Nguyên nhân: `zzKS_FieldTick` chỉ dịch 100 đơn vị mỗi nhịp 2 giây (SetUnitPosition) → gần như không thấy. Sửa: hàm mới `zzKS_Pull`/`zzKS_PullTick` (`tools/kskill.j`) trượt mượt kẻ địch về cách tâm 80 trong 0,3 giây (10 bước × 0,03 s), dừng nếu gặp địa hình không đi được. Áp cho mọi trận có fx 2. pjass: phần này sạch; build vẫn hỏng vì `zzVL_AiGear` (không phải của phiên này).
+
+- [ ] **Yêu cầu User (06/10/2026):** *"Cái Bang, Thời Thừa Lục Long không buff cho 6 đòn đánh (kỹ năng) kế tiếp"*
+  - Làm: khóa 182 (`bhits`) trong `tools/kskill.py` (A0ED: 6); `tools/kskill.j` `zzKS_BhUse` trừ 1 lượt mỗi lần tung chiêu (`zzKS_OnCast`) hoặc đánh thường (`zzKS_OnHit`), về 0 thì hết buff (`zzKS_bufEnd`=0); biến `zzKS_bhN`/`zzKS_bhAb` trong `tools/gameplay.py`. Phần này pjass sạch; build đang hỏng vì lỗi khác: `zzVL_AiGear` (local khai báo sau lệnh, việc trang bị 10 ô đang làm song song) → map chưa sync.
+
+- [ ] **Yêu cầu User (06/10/2026):** *"chạy code KVCT nguyên bản thì sao"* → đồng ý thử theo từng phái, bắt đầu Thiên Nhẫn (TND H014 / TNK H01P). Bước 1: khảo sát code gốc `D:\kvct-dev\src\map\war3map.j` (144k dòng): hàm chiêu, hệ nền phụ thuộc, ID đối tượng; báo khối lượng trước khi port.
+  - Khảo sát: script KVCT bị làm rối bởi GRT ("Protect by GRT, Fragile Team"): tên hàm/biến vô nghĩa (6691 hàm), ID ability ghi dạng hex ($41304634 = A0F4). Chiêu được đăng ký theo bảng ô (SaveInteger(o8,eRS(oY,Ff),slot,id) + f5w(...)), dòng ~81530 cho TND; logic chạy theo phái/ô chứ không theo ID. Port nguyên bản = phải giải rối từng hàm và kéo theo hệ nền. Chờ User quyết.
+
+- [ ] **Yêu cầu User (06/10/2026):** *"thiết kế theo hướng dùng skill đó đánh, chứ không ra đòn đánh thường nữa; những skill tạm thời không thiết kế được mà đã đánh dấu rồi thì bê skill đó từ map Thiên Kiếm về"*
+  - (1) Q/W/E autocast: chiêu thay thế đòn đánh thường (không cộng sát thương đánh thường + chiêu). (2) Các chiêu KVCT đã đánh dấu "chưa làm được / khác" trong `docs/kvct_audit.md`: lấy bản tương ứng từ `D:	hienkiem-dev` (`src/War3map.j`, w3a). Tiến độ ghi bên dưới.
+  - **(1) XONG (chờ test):** `zzKS_repl` (khai báo trong `tools/gameplay.py`): `zzKS_OnHit` bật cờ khi buff autocast Q/W/E tung chiêu, `zzVL_OnDamageBody` (`gameplay_04_combat.j`) đặt sát thương đòn đánh thường = 0 khi cờ bật. Chiêu bị động tự phát 10% (kind 249) vẫn cộng thêm như cũ. pjass ok, map sync.
+  - **(2) Khảo sát:** trong `docs/kvct_audit.md` có 55 dòng "Khác"; chỉ 5 tên trùng với Thiên Kiếm (Bất Diệt Bất Tuyệt, Vân Long Tam Hiện, Liệt Diệm Thao Thiên, Trấn Ngục Phá Thiên Kinh, Thập Diện Mai Phục) và số liệu cũng khác KVCT. Chưa port, chờ User chọn hướng.
+
+- [ ] **Yêu cầu User (06/10/2026):** *"phái thiên nhẫn bật autocast rồi mà đánh thường không ra skill"* → *"đọc chiêu auto cast của map thiên kiếm (D:\thienkiem-dev) xem cách nó hoạt động rồi bê về"*
+  - Đã đọc Thiên Kiếm: mỗi chiêu autocast là bản sao Poison Arrows (`AEpa`), `abuf` đặt ở dataptr **0** với buff riêng của chiêu (`B00L,B00L,B00L`), `adur`/`ahdu` 0.1, `atar` air,enemies,ground, tốn 10 mana. Trigger sát thương: `DamageType==ATTACK` + mục tiêu có buff đó + nguồn là tướng → gỡ buff rồi tung chiêu.
+  - Khác với `tools/kskill.py`: `abuf` ghi dataptr **1** (nghi bị bỏ qua, E dùng `AHca` buff `Bhea` có thể không bao giờ xuất hiện), dùng 3 base khác nhau (ANba/AEpa/AHca) và buff chung của Blizzard. **Đã sửa (bước 1, tối thiểu):** `abuf` về dataptr 0 và lặp 3 lần như Thiên Kiếm, `adur`/`ahdu` 0.01 → 0.1 trong `tools/kskill.py`; pipeline + pjass ok (33496 dòng), map đã sync. Chờ User test lại Thiên Nhẫn; nếu vẫn không ra thì bước 2: đổi sang base `AEpa` + buff riêng từng chiêu (w3h).
+
+- [ ] **Yêu cầu User:** *"làm hệ thống trang bị của map tôi thành hệ thống trang bị 10 item đấy, tức là 10 món đấy nhặt được và trang bị trong hệ thống nhân vật"*
+  - Biến toàn bộ hệ thống trang bị trong game thành 10 món trang bị thực thể (nhặt được, mua được, lưu trong túi đồ và mặc trực tiếp vào 10 ô nhân vật):
+    + 10 loại trang bị: Nón, Áo, Yêu Đái, Hộ Uyển, Hài, Vũ Khí, Hạng Liên, Giới Chỉ, Ngọc Bội, Hộ Thân Phù.
+    + Khi nhặt hoặc bấm mặc trong Hành Trang (B): tự động nhận diện đúng slot 0..9 của 10 ô nhân vật.
+    + Lưu item đang mặc vào mảng `zzVL_equipItem[pid*10 + slot]`, lấy icon/tên/chỉ số thật của món đồ đó hiển thị lên 10 ô trên bảng phím C.
+    + Nếu ô đã có đồ: tháo đồ cũ ra chuyển về túi đồ / hành trang và mặc đồ mới vào.
+    + Cập nhật các nguồn rơi đồ (creeps, bosses), shop bán đồ hỗ trợ đầy đủ cả trang sức (liên, nhẫn, bội, phù) và phòng cụ (yêu đái, hộ uyển).
+    + Tính toán và kích hoạt toàn bộ thuộc tính, dòng affix, khảm ngọc và cường hóa của món đồ đang mặc lên nhân vật.
+
+- [x] **Yêu cầu User:** *"dùng nguyên bộ trang bị của KVCT, bao gồm liên nhẫn phù bội, yêu đái nữa"* & *"lúc bấm phím nhân vật lên sẽ có 10 ô chia thành 2 hàng mỗi bên 5 ô"*
+  - **Trạng thái:** HOÀN THÀNH 100%. Pipeline pass, pjass pass (33,340 lines), build map và tự động đồng bộ sang Warcraft III test maps thành công.
+  - **Chi tiết đã thực hiện:**
+    1. **10 Slot Trang Bị KVCT Chuẩn:**
+       - Cột trái (5 ô Phòng Cụ): 1. Nón (Mũ), 2. Áo (Giáp), 3. Yêu Đái (Lưng), 4. Hộ Uyển (Tay), 5. Hài (Giày).
+       - Cột phải (5 ô Binh Khí & Trang Sức): 6. Vũ Khí, 7. Hạng Liên (Dây chuyền), 8. Giới Chỉ (Nhẫn), 9. Ngọc Bội, 10. Hộ Thân Phù.
+    2. **Tài nguyên Giao diện (Textures & BLP):**
+       - Trích xuất 14 texture BLP từ `D:\kvct-dev\work\base.w3x` (MPQ offset 107008), chuẩn hóa power-of-two (64x64) không bị lỗi màn hình xanh 1.31:
+         + 5 ô nền viền ngọc trống: `vl_slot_bg_1.blp` .. `vl_slot_bg_5.blp`.
+         + 10 icon trang bị mẫu chuẩn KVCT: `vl_eq_1.blp` đến `vl_eq_10.blp`.
+       - Tự động hóa quá trình trích xuất trong `tools/ui.py`.
+    3. **Hệ thống Logic Cường Hóa & Chỉ số (`tools/jass/`):**
+       - Chuyển đổi toàn bộ mảng cường hóa `zzVL_cuong` sang hệ 10 slot (`pid*10 + slot`).
+       - `gameplay_03_tranphai.j`: Hỗ trợ `zzVL_CuongSlot` cường hóa độc lập từng slot từ 0..9 lên tới +10.
+       - `gameplay_02_farm.j`: `zzVL_AffixSum` cộng dồn toàn diện 22 dòng thuộc tính theo 10 slot cường hóa (STVL ngoại/nội công, kháng 5 hệ, hút máu, hút mana, bạo kích, chính xác, né tránh, giảm sát thương nhận, tăng cấp kỹ năng).
+    4. **Bảng Giao Diện Nhân Vật Phím C (`gameplay_08_ui.j`):**
+       - Mở rộng bảng nhân vật rộng 0.350, cao 0.380 với tông màu khung ngọc bích chuẩn KVCT.
+       - 5 ô phòng cụ thẳng hàng bên trái (`X = 0.025`), 5 ô trang sức/vũ khí bên phải (`X = 0.322`).
+       - Ở giữa là bảng hiển thị 22 chỉ số chi tiết, danh hiệu quân hàm và ngũ hành.
+       - Bên dưới giữ nguyên 6 nút kỹ năng bị động (passive skills).
+       - Mỗi ô trang bị có hiển thị cấp cường hóa (+0..+10), cấp phẩm chất và Tooltip tương tác hiển thị chi tiết chỉ số khi rê chuột vào.
+    5. **Lệnh GM Test Nhanh:**
+       - `-cuong <1-10>`: Cường hóa trực tiếp ô tương ứng (1: Nón .. 10: Phù).
+       - `-fullcuong`: Cường hóa toàn bộ 10 ô trang bị lên +10 tức thì và cập nhật trực tiếp bảng chỉ số.
 
 
 - [ ] **Yêu cầu User:** *"đã làm phần skill giống với KVCT nhất chưa, tại có nhiều skill do bạn tự bịa ra đúng không"*

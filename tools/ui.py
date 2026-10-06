@@ -111,6 +111,42 @@ def main():
     os.makedirs(os.path.join(SRC, "VLKT_Data"), exist_ok=True)
     for n_ in ("VLKT_FrameUI_Bottom3.blp", "FrameUI_infopanel1.blp", "FrameUI_infopanel2.blp"):
         open(os.path.join(SRC, "VLKT_Data", n_), "wb").write(open(os.path.join(r"D:\Warcraft 1.31.1\VLKT_Data", n_), "rb").read())
+    # KVCT character 10-slot equipment icons
+    kvct_path = r"D:\kvct-dev\work\base.w3x"
+    if os.path.exists(kvct_path):
+        with open(kvct_path, "rb") as kf:
+            chunk = kf.read(1024 * 1024)
+            off = chunk.find(b"MPQ\x1a")
+            if off >= 0:
+                sys.path.insert(0, r"D:\kvct-dev\tools")
+                import importlib
+                mpq = importlib.import_module("mpq")
+                sys.path.pop(0)
+                m_kvct = mpq.MPQ(kvct_path, off)
+                eq_icons = {
+                    "war3mapImported\\FrameUI_TBButton_1.blp": "vl_slot_bg_1.blp",
+                    "war3mapImported\\FrameUI_TBButton_2.blp": "vl_slot_bg_2.blp",
+                    "war3mapImported\\FrameUI_TBButton_3.blp": "vl_slot_bg_3.blp",
+                    "war3mapImported\\FrameUI_TBButton_4.blp": "vl_slot_bg_4.blp",
+                    "war3mapImported\\FrameUI_TBButton_5.blp": "vl_slot_bg_5.blp",
+                    "war3mapImported\\Icon_PC_non1_1_1.blp": "vl_eq_1.blp",
+                    "war3mapImported\\Icon_PC_ao1_1_1.blp": "vl_eq_2.blp",
+                    "war3mapImported\\Icon_PC_lung1_1_1.blp": "vl_eq_3.blp",
+                    "war3mapImported\\Icon_PC_tay1_1_1.blp": "vl_eq_4.blp",
+                    "war3mapImported\\Icon_PC_giay1_1_1.blp": "vl_eq_5.blp",
+                    "war3mapImported\\Icon_vk_kiem1.blp": "vl_eq_6.blp",
+                    "war3mapImported\\Icon_TS_lien1_1.blp": "vl_eq_7.blp",
+                    "war3mapImported\\Icon_TS_nhan1_1.blp": "vl_eq_8.blp",
+                    "war3mapImported\\Icon_TS_boi1_1.blp": "vl_eq_9.blp",
+                    "war3mapImported\\Icon_TS_phu1_1.blp": "vl_eq_10.blp",
+                }
+                from kskill import kv_image
+                for src_k, dst_k in eq_icons.items():
+                    r = m_kvct.find(src_k.encode("utf-8").decode("latin1"))
+                    if r is not None and m_kvct.blocks[r[1]][2]:
+                        raw = m_kvct.read_block(r[1], src_k)
+                        im_k = kv_image(raw).resize((64, 64))
+                        open(os.path.join(SRC, "war3mapImported", dst_k), "wb").write(blp1_palette(im_k, 64))
     print("ui: %d textures, %d buttons, %d skin keys" % (len(TEX), len(BUTTONS), len(SKIN)))
 
 

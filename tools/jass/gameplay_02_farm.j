@@ -141,12 +141,13 @@ function zzVL_AiGear takes unit vl_hero,item vl_n returns nothing
     local integer vl_i=0
     local integer vl_o
     local item vl_item
+    local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_hero))
     if vl_v<10 or vl_v>=50 or GetPlayerController(GetOwningPlayer(vl_hero))!=MAP_CONTROL_COMPUTER or not IsUnitType(vl_hero,UNIT_TYPE_HERO) then
         return
     endif
     loop
-        exitwhen vl_i>5
-        set vl_item=UnitItemInSlot(vl_hero,vl_i)
+        exitwhen vl_i>9
+        set vl_item=zzVL_equipItem[vl_playerId*10+vl_i]
         if vl_item!=null and vl_item!=vl_n then
             set vl_o=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)
             if vl_o/10==vl_v/10 then
@@ -238,8 +239,8 @@ function zzVL_AutoGear takes unit vl_hero,item vl_n returns nothing
     endif
     call RemoveSavedInteger(zzVL_ht,GetHandleId(vl_n),73)
     loop
-        exitwhen vl_i>5
-        set vl_item=UnitItemInSlot(vl_hero,vl_i)
+        exitwhen vl_i>9
+        set vl_item=zzVL_equipItem[vl_playerId*10+vl_i]
         if vl_item!=null and vl_item!=vl_n then
             set vl_o=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)
             if vl_o/10==vl_v/10 and LoadInteger(zzVL_ht,GetItemTypeId(vl_item),1)==0 then
@@ -395,9 +396,9 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     endloop
     set vl_i=0
     loop
-        exitwhen vl_i>5
-        if UnitItemInSlot(vl_hero,vl_i)!=null then
-            set vl_id=GetHandleId(UnitItemInSlot(vl_hero,vl_i))
+        exitwhen vl_i>9
+        if zzVL_equipItem[vl_playerId*10+vl_i]!=null then
+            set vl_id=GetHandleId(zzVL_equipItem[vl_playerId*10+vl_i])
             set vl_k=1
             loop
                 exitwhen vl_k>22
@@ -420,16 +421,32 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     endloop
     set vl_i=0
     loop
-        exitwhen vl_i>5
-        if UnitItemInSlot(vl_hero,vl_i)!=null then
-            set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_hero,vl_i)),0)/10
+        exitwhen vl_i>9
+        if zzVL_equipItem[vl_playerId*10+vl_i]!=null then
+            set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i]),0)/10
             if vl_k>=1 and vl_k<=4 then
-                call zzVL_CuongIcon(UnitItemInSlot(vl_hero,vl_i),zzVL_cuong[vl_playerId*4+vl_k-1])
+                if vl_k==1 then
+                    call zzVL_CuongIcon(zzVL_equipItem[vl_playerId*10+vl_i],zzVL_cuong[vl_playerId*10+0])
+                elseif vl_k==2 then
+                    call zzVL_CuongIcon(zzVL_equipItem[vl_playerId*10+vl_i],zzVL_cuong[vl_playerId*10+1])
+                elseif vl_k==3 then
+                    call zzVL_CuongIcon(zzVL_equipItem[vl_playerId*10+vl_i],zzVL_cuong[vl_playerId*10+5])
+                elseif vl_k==4 then
+                    call zzVL_CuongIcon(zzVL_equipItem[vl_playerId*10+vl_i],zzVL_cuong[vl_playerId*10+4])
+                endif
             endif
-            set vl_t=LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_hero,vl_i)),0)-vl_k*10
+            set vl_t=LoadInteger(zzVL_ht,GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i]),0)-vl_k*10
             if vl_k>=1 and vl_k<=4 then
-                set vl_n=zzVL_cuong[vl_playerId*4+vl_k-1]
-                call zzVL_CuongTip(UnitItemInSlot(vl_hero,vl_i),vl_k,vl_t,vl_n)
+                if vl_k==1 then
+                    set vl_n=zzVL_cuong[vl_playerId*10+0]
+                elseif vl_k==2 then
+                    set vl_n=zzVL_cuong[vl_playerId*10+1]
+                elseif vl_k==3 then
+                    set vl_n=zzVL_cuong[vl_playerId*10+5]
+                elseif vl_k==4 then
+                    set vl_n=zzVL_cuong[vl_playerId*10+4]
+                endif
+                call zzVL_CuongTip(zzVL_equipItem[vl_playerId*10+vl_i],vl_k,vl_t,vl_n)
                 set vl_scale = zzVL_GetScale(vl_n)
             endif
             if vl_k==1 then
@@ -449,12 +466,75 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
         endif
         set vl_i=vl_i+1
     endloop
+    set vl_n=zzVL_cuong[vl_playerId*10+0]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+8]=zzVL_af[vl_playerId*16+8]+vl_n*2
+        set zzVL_af[vl_playerId*16+9]=zzVL_af[vl_playerId*16+9]+vl_n*2
+        set zzVL_af[vl_playerId*16+10]=zzVL_af[vl_playerId*16+10]+vl_n*2
+        set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*100
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+1]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+vl_n*1
+        call SaveInteger(zzVL_ht,1000+vl_playerId,11,LoadInteger(zzVL_ht,1000+vl_playerId,11)+vl_n*2)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+2]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*150
+        call SaveInteger(zzVL_ht,1000+vl_playerId,12,LoadInteger(zzVL_ht,1000+vl_playerId,12)+vl_n*2)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,13,LoadInteger(zzVL_ht,1000+vl_playerId,13)+vl_n*2)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+3]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+4]=zzVL_af[vl_playerId*16+4]+vl_n*3
+        call SaveInteger(zzVL_ht,1000+vl_playerId,14,LoadInteger(zzVL_ht,1000+vl_playerId,14)+vl_n*2)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,15,LoadInteger(zzVL_ht,1000+vl_playerId,15)+vl_n*2)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+4]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+13]=zzVL_af[vl_playerId*16+13]+vl_n*3
+        call SaveInteger(zzVL_ht,1000+vl_playerId,20,LoadInteger(zzVL_ht,1000+vl_playerId,20)+vl_n*15)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+5]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+vl_n*3
+        call SaveInteger(zzVL_ht,1000+vl_playerId,18,LoadInteger(zzVL_ht,1000+vl_playerId,18)+vl_n*20)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+6]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+3]=zzVL_af[vl_playerId*16+3]+vl_n*1
+        call SaveInteger(zzVL_ht,1000+vl_playerId,17,LoadInteger(zzVL_ht,1000+vl_playerId,17)+vl_n*20)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,16,LoadInteger(zzVL_ht,1000+vl_playerId,16)+vl_n*2)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+7]
+    if vl_n>0 then
+        call SaveInteger(zzVL_ht,1000+vl_playerId,19,LoadInteger(zzVL_ht,1000+vl_playerId,19)+vl_n*15)
+        set zzVL_af[vl_playerId*16+1]=zzVL_af[vl_playerId*16+1]+vl_n*1
+        set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+vl_n*1
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+8]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+2]=zzVL_af[vl_playerId*16+2]+vl_n*1
+        call SaveInteger(zzVL_ht,1000+vl_playerId,11,LoadInteger(zzVL_ht,1000+vl_playerId,11)+vl_n*1)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,12,LoadInteger(zzVL_ht,1000+vl_playerId,12)+vl_n*1)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,13,LoadInteger(zzVL_ht,1000+vl_playerId,13)+vl_n*1)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,14,LoadInteger(zzVL_ht,1000+vl_playerId,14)+vl_n*1)
+        call SaveInteger(zzVL_ht,1000+vl_playerId,15,LoadInteger(zzVL_ht,1000+vl_playerId,15)+vl_n*1)
+    endif
+    set vl_n=zzVL_cuong[vl_playerId*10+9]
+    if vl_n>0 then
+        set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*200
+        set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+vl_n*1
+        if vl_n>=10 then
+            call SaveInteger(zzVL_ht,1000+vl_playerId,22,LoadInteger(zzVL_ht,1000+vl_playerId,22)+1)
+        endif
+    endif
     set zzVL_wel[vl_playerId]=0
     set vl_i=0
     loop
-        exitwhen vl_i>5
-        if UnitItemInSlot(vl_hero,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_hero,vl_i)),66)>0 then
-            set zzVL_wel[vl_playerId]=LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_hero,vl_i)),66)
+        exitwhen vl_i>9
+        if zzVL_equipItem[vl_playerId*10+vl_i]!=null and LoadInteger(zzVL_ht,GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i]),66)>0 then
+            set zzVL_wel[vl_playerId]=LoadInteger(zzVL_ht,GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i]),66)
         endif
         set vl_i=vl_i+1
     endloop
@@ -533,6 +613,35 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
 endfunction
 
 // ==========================================
+// Hàm: zzVL_DropGear
+// Chức năng: Rớt ngẫu nhiên trang bị theo tier
+function zzVL_DropGear takes integer vl_tier, integer vl_drops, real vl_x, real vl_y returns nothing
+    local integer vl_n = zzVL_gearN[vl_tier]
+    local integer vl_k_loop
+    local integer vl_i
+    local integer vl_g
+    if vl_n <= 0 then
+        return
+    endif
+    loop
+        exitwhen vl_drops <= 0
+        set vl_k_loop = GetRandomInt(0, vl_n - 1)
+        set vl_i = 0
+        loop
+            exitwhen vl_i >= vl_n
+            set vl_g = zzVL_gear[vl_tier * 200 + ModuloInteger(vl_k_loop + vl_i, vl_n)]
+            if LoadInteger(zzVL_ht, vl_g, 42) < 5 then
+                call SaveInteger(zzVL_ht, vl_g, 42, LoadInteger(zzVL_ht, vl_g, 42) + 1)
+                call SaveInteger(zzVL_ht, GetHandleId(CreateItem(vl_g, vl_x + GetRandomReal(-40, 40), vl_y + GetRandomReal(-40, 40))), 73, 1)
+                set vl_i = vl_n
+            endif
+            set vl_i = vl_i + 1
+        endloop
+        set vl_drops = vl_drops - 1
+    endloop
+endfunction
+
+// ==========================================
 // Hàm: zzVL_CampSpawn
 // Chức năng dự kiến: Quản lý bãi quái farm và thời gian hồi sinh.
 // Tham số:
@@ -542,11 +651,38 @@ endfunction
 function zzVL_CampSpawn takes integer vl_c,integer vl_type returns nothing
     local unit vl_unit=CreateUnit(Player(12),vl_type,zzVL_cX[vl_c]+GetRandomReal(-120,120),zzVL_cY[vl_c]+GetRandomReal(-120,120),GetRandomReal(0,360))
     local real vl_mul=0.6+TimerGetElapsed(zzVL_clock)/600.
+    local integer vl_rand = GetRandomInt(1, 100)
+    local integer vl_elite = 0
+    local effect vl_eff
+    
     call SaveInteger(zzVL_ht,GetHandleId(vl_unit),9,vl_c+1)
+    
+    if vl_rand <= 2 then
+        set vl_elite = 2
+        set vl_mul = vl_mul * 8.0
+        call SetUnitScale(vl_unit, 1.6, 1.6, 1.6)
+        call SetUnitVertexColor(vl_unit, 255, 100, 100, 255)
+        set vl_eff = AddSpecialEffectTarget("Abilities\\Spells\\Human\\InnerFire\\InnerFireTarget.mdl", vl_unit, "overhead")
+        call SaveEffectHandle(zzVL_ht, GetHandleId(vl_unit), 11, vl_eff)
+    elseif vl_rand <= 12 then
+        set vl_elite = 1
+        set vl_mul = vl_mul * 3.0
+        call SetUnitScale(vl_unit, 1.3, 1.3, 1.3)
+        call SetUnitVertexColor(vl_unit, 100, 255, 100, 255)
+        set vl_eff = AddSpecialEffectTarget("Abilities\\Spells\\Other\\GeneralAuraTarget\\GeneralAuraTarget.mdl", vl_unit, "origin")
+        call SaveEffectHandle(zzVL_ht, GetHandleId(vl_unit), 11, vl_eff)
+    endif
+    
+    if vl_elite > 0 then
+        call SaveInteger(zzVL_ht, GetHandleId(vl_unit), 10, vl_elite)
+    endif
+
     call BlzSetUnitMaxHP(vl_unit,R2I(GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE)*vl_mul))
     call SetWidgetLife(vl_unit,GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE))
     call BlzSetUnitBaseDamage(vl_unit,R2I(BlzGetUnitBaseDamage(vl_unit,0)*vl_mul),0)
+    
     set vl_unit=null
+    set vl_eff=null
 endfunction
 
 // ==========================================
@@ -592,42 +728,73 @@ endfunction
 // Không trả về giá trị (thực thi hành động).
 function zzVL_CampDeath takes unit vl_d returns nothing
     local integer vl_c=LoadInteger(zzVL_ht,GetHandleId(vl_d),9)-1
+    local integer vl_elite=LoadInteger(zzVL_ht,GetHandleId(vl_d),10)
+    local effect vl_eff=LoadEffectHandle(zzVL_ht,GetHandleId(vl_d),11)
+    local unit vl_k=GetKillingUnit()
+    local integer vl_pk
     local timer vl_t
     local integer vl_tier
     local integer vl_n
-    local integer vl_k
+    local integer vl_k_loop
     local integer vl_i
     local integer vl_g
+    local integer vl_drops=1
+    local real vl_x
+    local real vl_y
+
     if vl_c<0 then
         return
     endif
+    
+    if vl_eff!=null then
+        call DestroyEffect(vl_eff)
+    endif
+    
+    if vl_k!=null and GetPlayerId(GetOwningPlayer(vl_k))<10 then
+        set vl_pk=GetPlayerId(GetOwningPlayer(vl_k))
+        if vl_elite == 1 then
+            call AdjustPlayerStateBJ(200, Player(vl_pk), PLAYER_STATE_RESOURCE_GOLD)
+            if Jx[vl_pk+1]!=null then
+                call AddHeroXP(Jx[vl_pk+1], 300, true)
+            endif
+        elseif vl_elite == 2 then
+            call AdjustPlayerStateBJ(1000, Player(vl_pk), PLAYER_STATE_RESOURCE_GOLD)
+            if Jx[vl_pk+1]!=null then
+                call AddHeroXP(Jx[vl_pk+1], 1500, true)
+            endif
+            call zzVL_Msg(vl_pk, "|cffffcc00Đã tiêu diệt Thủ Lĩnh! Nhận thưởng lớn.|r")
+        endif
+    endif
+
     call FlushChildHashtable(zzVL_ht,GetHandleId(vl_d))
     set vl_t=CreateTimer()
     call SaveInteger(zzVL_ht,GetHandleId(vl_t),0,vl_c)
     call SaveInteger(zzVL_ht,GetHandleId(vl_t),1,GetUnitTypeId(vl_d))
     call TimerStart(vl_t,25.,false,function zzVL_CampRespawn)
     set vl_t=null
-    if zzVL_matN>0 and GetRandomInt(1,100)<=18 then
+    
+    if vl_elite == 1 then
+        set vl_drops = 3
+    elseif vl_elite == 2 then
+        set vl_drops = 6
+    endif
+
+    if zzVL_matN>0 and GetRandomInt(1,100)<=(18 * vl_drops) then
         call CreateItem(zzVL_mat[GetRandomInt(0,zzVL_matN-1)],GetUnitX(vl_d)+GetRandomReal(-40,40),GetUnitY(vl_d)+GetRandomReal(-40,40))
     endif
-    if GetRandomInt(1,100)<=20 then
-        set vl_tier=GetRandomInt(zzVL_cZone[vl_c]*2-1,zzVL_cZone[vl_c]*2+1)
-        set vl_n=zzVL_gearN[vl_tier]
-        if vl_n>0 then
-            set vl_k=GetRandomInt(0,vl_n-1)
-            set vl_i=0
-            loop
-                exitwhen vl_i>=vl_n
-                set vl_g=zzVL_gear[vl_tier*200+ModuloInteger(vl_k+vl_i,vl_n)]
-                if LoadInteger(zzVL_ht,vl_g,42)<5 then
-                    call SaveInteger(zzVL_ht,vl_g,42,LoadInteger(zzVL_ht,vl_g,42)+1)
-                    call SaveInteger(zzVL_ht,GetHandleId(CreateItem(vl_g,GetUnitX(vl_d),GetUnitY(vl_d))),73,1)
-                    set vl_i=vl_n
-                endif
-                set vl_i=vl_i+1
-            endloop
-        endif
+    
+    if vl_elite > 0 then
+        loop
+            exitwhen vl_drops <= 0
+            if GetRandomInt(1,100)<=40 then
+                set vl_tier=GetRandomInt(2,3)
+                call zzVL_DropGear(vl_tier, 1, GetUnitX(vl_d), GetUnitY(vl_d))
+            endif
+            set vl_drops = vl_drops - 1
+        endloop
     endif
+    set vl_eff=null
+    set vl_k=null
 endfunction
 
 // ==========================================

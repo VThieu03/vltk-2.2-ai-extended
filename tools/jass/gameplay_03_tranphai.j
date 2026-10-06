@@ -166,13 +166,45 @@ function zzVL_TpPoison takes nothing returns nothing
         endif
     endif
     call SaveInteger(zzVL_ht,vl_id,3,vl_n)
-    if vl_n>=5 or vl_unit==null or GetWidgetLife(vl_unit)<.405 then
+    // slot 5: number of ticks (KVCT doc sat N lan, kskill.j key 166); 5 when not given
+    if (vl_n>=5 and LoadInteger(zzVL_ht,vl_id,5)==0) or (LoadInteger(zzVL_ht,vl_id,5)>0 and vl_n>=LoadInteger(zzVL_ht,vl_id,5)) or vl_unit==null or GetWidgetLife(vl_unit)<.405 then
         call FlushChildHashtable(zzVL_ht,vl_id)
         call DestroyTimer(vl_t)
     endif
     set vl_t=null
     set vl_hero=null
     set vl_unit=null
+endfunction
+
+// ==========================================
+// Hàm: zzVL_CuongSlot
+// Cường hóa trực tiếp theo ô trang bị (0..9)
+function zzVL_CuongSlot takes unit vl_hero,integer vl_slot returns boolean
+    local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_hero))
+    local string array vl_n
+    if vl_playerId>9 or vl_hero!=Jx[vl_playerId+1] or vl_slot<0 or vl_slot>9 then
+        return false
+    endif
+    if zzVL_cuong[vl_playerId*10+vl_slot]>=10 then
+        call zzVL_Msg(vl_playerId,"Ô này đã cường hóa tối đa +10.")
+        return false
+    endif
+    set zzVL_cuong[vl_playerId*10+vl_slot]=zzVL_cuong[vl_playerId*10+vl_slot]+1
+    set vl_n[0]="Nón (+mọi chỉ số, sinh lực)"
+    set vl_n[1]="Áo (giảm sát thương, kháng vật lý)"
+    set vl_n[2]="Yêu Đái (sinh lực, kháng độc/thủy)"
+    set vl_n[3]="Hộ Uyển (tốc đánh, kháng hỏa/lôi)"
+    set vl_n[4]="Hài (tốc chạy, né tránh)"
+    set vl_n[5]="Vũ Khí (sát thương %, STVL ngoại công)"
+    set vl_n[6]="Hạng Liên (bạo kích, STVL nội công, xuất chiêu)"
+    set vl_n[7]="Giới Chỉ (đánh trúng, hút máu, sát thương %)"
+    set vl_n[8]="Ngọc Bội (hút mana, kháng 5 hệ)"
+    set vl_n[9]="Hộ Thân Phù (sinh lực, giảm ST, +1 cấp kỹ năng khi +10)"
+    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",vl_hero,"origin"))
+    call zzVL_Text(vl_hero,"|cffffcc00Cường hóa +"+I2S(zzVL_cuong[vl_playerId*10+vl_slot])+"|r")
+    call zzVL_Msg(vl_playerId,"|cffffcc00Cường hóa|r "+vl_n[vl_slot]+": |cffffcc00+"+I2S(zzVL_cuong[vl_playerId*10+vl_slot])+"|r. Cấp cường hóa đi theo người.")
+    call zzVL_AffixSum(vl_playerId)
+    return true
 endfunction
 
 // ==========================================
@@ -185,29 +217,23 @@ endfunction
 function zzVL_CuongDo takes unit vl_hero,item vl_item returns boolean
     local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_hero))
     local integer vl_k
-    local string array vl_n
+    local integer vl_slot=0
     if vl_playerId>9 or vl_item==null or vl_hero!=Jx[vl_playerId+1] then
         return false
     endif
     set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)/10-1
-    if vl_k<0 or vl_k>3 then
-        call zzVL_Msg(vl_playerId,"Thủy tinh chỉ dùng lên mũ, áo, vũ khí, giày.")
-        return false
+    if vl_k==0 then
+        set vl_slot=0
+    elseif vl_k==1 then
+        set vl_slot=1
+    elseif vl_k==2 then
+        set vl_slot=5
+    elseif vl_k==3 then
+        set vl_slot=4
+    else
+        set vl_slot=0
     endif
-    if zzVL_cuong[vl_playerId*4+vl_k]>=10 then
-        call zzVL_Msg(vl_playerId,"Ô này đã cường hóa tối đa +10.")
-        return false
-    endif
-    set zzVL_cuong[vl_playerId*4+vl_k]=zzVL_cuong[vl_playerId*4+vl_k]+1
-    set vl_n[0]="Mũ (mọi chỉ số theo bậc mũ)"
-    set vl_n[1]="Áo (giáp theo bậc áo, -2% sát thương nhận)"
-    set vl_n[2]="Vũ khí (+4% sát thương, sát thương gốc theo bậc vũ khí)"
-    set vl_n[3]="Giày (sinh lực theo bậc giày, +3 tốc chạy)"
-    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",vl_hero,"origin"))
-    call zzVL_Text(vl_hero,"|cffffcc00Cường hóa +"+I2S(zzVL_cuong[vl_playerId*4+vl_k])+"|r")
-    call zzVL_Msg(vl_playerId,"|cffffcc00Cường hóa|r "+vl_n[vl_k]+": |cffffcc00+"+I2S(zzVL_cuong[vl_playerId*4+vl_k])+"|r. Cấp cường hóa đi theo người, thay món mới vẫn giữ.")
-    call zzVL_AffixSum(vl_playerId)
-    return true
+    return zzVL_CuongSlot(vl_hero,vl_slot)
 endfunction
 
 // ==========================================

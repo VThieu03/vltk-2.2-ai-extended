@@ -56,6 +56,7 @@ integer array zzVL_qHave
 integer array zzVL_qDone
 unit array zzVL_aiTgt
 item array zzVL_bag
+item array zzVL_equipItem
 boolean array zzVL_bagOpen
 boolean array zzVL_sendTK
 boolean array zzVL_sellMode
@@ -105,13 +106,22 @@ real array zzKS_bufEnd
 real array zzKS_imm
 real array zzKS_per
 unit zzKS_src=null
+boolean zzKS_repl=false
 real array zzKS_dimm
 real array zzKS_lowCd
 integer array zzKS_refl
+integer array zzKS_bhN
+integer array zzKS_bhAb
 integer array zzKS_stack
+real array zzKS_hurt
+integer array zzKS_stackMax
+integer array zzKS_stackPct
 real array zzKS_stackEnd
 integer zzKS_wave=1
 integer array zzKS_pfx
+integer array zzKS_pdur
+integer array zzKS_pch
+integer array zzKS_pmul
 integer array zzKS_steal
 integer array zzKS_xw
 integer array zzKS_xc
@@ -161,6 +171,11 @@ framehandle array zzVL_fPassBtn
 framehandle array zzVL_fPassIco
 framehandle array zzVL_fPassTT
 framehandle array zzVL_fPassTTxt
+framehandle array zzVL_fEqBtn
+framehandle array zzVL_fEqIco
+framehandle array zzVL_fEqTxt
+framehandle array zzVL_fEqTT
+framehandle array zzVL_fEqTTxt
 framehandle zzVL_fBanner=null
 framehandle zzVL_fBannerBg=null
 boolean array zzVL_heroOpen
@@ -201,7 +216,10 @@ integer zzVL_matN=0
 framehandle array zzVL_fHl
 framehandle zzVL_fSplit=null
 constant integer zzVL_XAPHU='h0XP'
-group zzVL_deadArena=null"""
+group zzVL_deadArena=null
+item array zzVL_equip
+integer array zzVL_jw
+item zzVL_jOld=null"""
 
 # placed right after endglobals (the author's drop functions call it): every gear type drops at most 5 times per
 # match, then another gear type is drawn; materials and other items are not limited
@@ -243,6 +261,15 @@ DROP_FN = [
     "set vl_c=LoadInteger(zzVL_ht,GetItemTypeId(vl_it),42)",
     "if vl_c<5 then",
     "call SaveInteger(zzVL_ht,GetItemTypeId(vl_it),42,vl_c+1)",
+    # 10-slot equipment: half of the gear drops become a jewel / belt / bracer of the same tier (JEWELS)
+    "if GetRandomInt(1,100)<=50 then",
+    "set vl_c=LoadInteger(zzVL_ht,GetItemTypeId(vl_it),0)",
+    "set vl_c=vl_c-(vl_c/10)*10",
+    "if zzVL_jw[vl_c*10]!=0 then",
+    "call RemoveItem(vl_it)",
+    "set vl_it=CreateItem(zzVL_jw[vl_c*10+GetRandomInt(0,5)],vl_x,vl_y)",
+    "endif",
+    "endif",
     "call SaveInteger(zzVL_ht,GetHandleId(vl_it),73,1)",
     "return vl_it",
     "endif",
@@ -274,6 +301,11 @@ def table():
     for iid, slot, tier, name in items():
         if iid not in NOT_GEAR:
             gear.setdefault(TIER_FIX.get(iid, tier), []).append(iid)
+    for jid, kind, tier, name in jewels():
+        rows.append("call SaveInteger(zzVL_ht,'%s',0,%d)" % (jid, kind * 10 + tier))
+        rows.append("call SaveInteger(zzVL_ht,'%s',41,%d)" % (jid, 60 * tier))
+        rows.append("set zzVL_jw[%d]='%s'" % (tier * 10 + kind - 5, jid))
+        gear.setdefault(tier, []).append(jid)
     for tier, ids in sorted(gear.items()):
         for k, iid in enumerate(ids):
             rows.append("set zzVL_gear[%d]='%s'" % (tier * 200 + k, iid))
@@ -381,6 +413,32 @@ def table():
         rows.append("set zzVL_cloak[%d]='%s'" % (i + 1, c[0]))
         rows.append("call SaveInteger(zzVL_ht,'%s',1,1)" % c[0])
     return rows
+
+
+# 10-slot equipment (KVCT style): the 6 kinds the map did not have. Worn in the hidden slots zzVL_equip[pid*10+slot]
+# of the character panel (C), stats by script (gameplay_02_farm.j zzVL_JewelBase, same numbers as the text here).
+# kind -> (10-slot index, kind name, 5 tier names, stat text by tier)
+JEWELS = {
+    5: (2, "Yêu Đái", ["Bố Yêu Đái", "Bì Yêu Đái", "Ngân Yêu Đái", "Kim Ti Yêu Đái", "Bàn Long Yêu Đái"],
+        lambda t: "+%d sinh lực, +%d%% kháng độc, +%d%% kháng thủy" % (80 * t, 2 * t, 2 * t)),
+    6: (3, "Hộ Uyển", ["Bố Hộ Uyển", "Bì Hộ Uyển", "Ngân Hộ Uyển", "Kim Hộ Uyển", "Long Lân Hộ Uyển"],
+        lambda t: "+%d%% tốc đánh, +%d%% kháng hỏa, +%d%% kháng lôi" % (2 * t, 2 * t, 2 * t)),
+    7: (6, "Hạng Liên", ["Mộc Hạng Liên", "Đồng Hạng Liên", "Ngân Hạng Liên", "Phỉ Thúy Hạng Liên", "Thiên Châu Hạng Liên"],
+        lambda t: "+%d%% bạo kích, +%d STVL nội công, +%d%% tốc độ xuất chiêu" % (t, 10 * t, t)),
+    8: (7, "Giới Chỉ", ["Thiết Giới Chỉ", "Đồng Giới Chỉ", "Ngân Giới Chỉ", "Kim Giới Chỉ", "Huyết Ngọc Giới Chỉ"],
+        lambda t: "+%d điểm đánh trúng, +%d%% hút sinh lực, +%d%% sát thương" % (20 * t, (t + 1) // 2, t)),
+    9: (8, "Ngọc Bội", ["Thạch Ngọc Bội", "Thanh Ngọc Bội", "Bạch Ngọc Bội", "Mặc Ngọc Bội", "Long Phượng Ngọc Bội"],
+        lambda t: "+%d%% hút nội lực, +%d%% kháng vật lý, độc, thủy, hỏa, lôi" % ((t + 1) // 2, t)),
+    10: (9, "Hộ Thân Phù", ["Bình An Phù", "Trấn Tà Phù", "Hộ Mệnh Phù", "Kim Cang Phù", "Càn Khôn Phù"],
+         lambda t: "+%d sinh lực, giảm %d%% sát thương nhận" % (100 * t, (t + 1) // 2)),
+}
+TIER_COLOR = ["|cffffffff", "|cff00ff00", "|cff4080ff", "|cffc080ff", "|cffff8000"]
+
+
+def jewels():
+    """(id, kind, tier, name): ids IJ<kind 5..A><tier 1..5>"""
+    return [("IJ" + "56789A"[kind - 5] + str(t), kind, t, JEWELS[kind][2][t - 1])
+            for kind in sorted(JEWELS) for t in range(1, 6)]
 
 
 BIPHO = ["I06N", "I06O", "I06R", "I06T", "I06V", "I06X", "I06Y", "I00L",
@@ -792,6 +850,29 @@ def objects():
             mod(b"ipaw", 0, 0),
             mod(b"isel", 0, 0),
             mod(b"ilev", 0, 1 + i),
+            mod(b"icla", 3, "Permanent"),
+        ]]])
+    for jid, kind, t, name in jewels():
+        assert all(o[1] != jid.encode() for o in tabs[1]), jid
+        slot, kname, _, stat = JEWELS[kind]
+        col = TIER_COLOR[t - 1]
+        text = ("|cffffcc00%s|r - phẩm %d/5" % (kname, t) + "|n|cffffcc00Cơ bản|r: " + stat(t) +
+                "|n|n|cff9a9a9aMặc vào ô %s của bảng Nhân Vật (phím C), không chiếm túi đồ. "
+                "Bấm trong Hành Trang (B) để mặc, bấm ô trên bảng Nhân Vật để tháo. "
+                "Cường hóa ô bằng Thủy tinh, khảm được 2 lỗ.|r" % kname)
+        tabs[1].append([b"clfm", jid.encode(), [[
+            mod(b"unam", 3, col + name + "|r"),
+            mod(b"utip", 3, col + name + "|r"),
+            mod(b"utub", 3, text),
+            mod(b"ides", 3, text),
+            mod(b"iabi", 3, ""),
+            mod(b"iico", 3, "war3mapImported\\vl_eq_%d.blp" % (slot + 1)),
+            mod(b"igol", 0, 120 * t),
+            mod(b"ilum", 0, 0),
+            mod(b"idro", 0, 1),
+            mod(b"ipaw", 0, 1),
+            mod(b"isel", 0, 1),
+            mod(b"ilev", 0, 2 * t),
             mod(b"icla", 3, "Permanent"),
         ]]])
     open(p, "wb").write(objdata.write(ver, tabs, ".w3t"))

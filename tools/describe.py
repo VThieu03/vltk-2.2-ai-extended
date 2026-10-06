@@ -308,7 +308,7 @@ def main():
                     setv(b"utip", nm)
                 setv(b"utub", tip)
             name = get(b"unam")[4].decode("utf-8") if get(b"unam") else ""
-            if not name or iid.startswith("I0Z"):           # phi phong: done by gameplay.py
+            if not name or iid.startswith("I0Z") or iid.startswith("IJ"):   # phi phong, 10-slot jewels: done by gameplay.py
                 continue
             tub = get(b"utub")[4].decode("utf-8") if get(b"utub") else ""
             fam = family(name)
