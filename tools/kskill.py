@@ -94,6 +94,29 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Minh Giao Chuy (MGC): read from KVCT's code; A08Z A090 A094 below are Minh Giao Kiem's
+    # Q e6L: burst 150 at the target, no limit, 30% tho thuong 1 s, poison 2 ticks
+    "A09M": {"kind": 16, "rad": 150, "st": 1, "ch": 30, "sd": 1, "fx": 8},
+    "A09N": {"kind": 0, "stats": [3, 5]},                    # Minh Giao Chuy Phap: chinh xac, doc cong, chi mang
+    # R e6Q: dash <= 700 (hits 150 on the way); at the end radius 200, at most 7: 50% dinh than 2 s + poison 4 ticks
+    "A09O": {"kind": 3, "rad": 700, "st": 2, "ch": 50, "sd": 2, "fx": 8},
+    # T eS6: heroes of the side within 1000 (allies 60%), 300 s: chi mang +(16 + 8/rank), sat thuong chi mang
+    "A09P": {"kind": 7, "dur": 300, "stats": [(3, 16, 8)]},
+    # D eZ5: a hammer flies 960 (width 150) through up to 7 enemies, 80% dinh than 2 s, +25% damage on each next
+    # enemy, poison 4 ticks
+    "A09Q": {"kind": 5, "rad": 960, "max": 7, "st": 2, "ch": 80, "sd": 2, "fx": 8},
+    "A09R": {"kind": 0, "stats": [5, 6]},                    # Ngu Ma Thuat: phat huy luc tan cong, khang tat ca
+    # W etU: 0.3 s after, a burst 100 in front of the hero, radius 240, no limit, 35% tho thuong 1 s, poison 2 ticks
+    "A09S": {"kind": 4, "rad": 240, "st": 1, "ch": 35, "sd": 1, "fx": 8},
+    # F egU: 6 s: phat huy luc tan cong +(12 + 3/rank)%; 5 hammers 1000 make the enemies deal 30% less for 10 s
+    "A09T": {"kind": 6, "dur": 6, "stats": [(5, 12, 3)]},
+    # Cuu Hi Hon Duong: hit at 50% life: heal and immune to some statuses, every 30 s
+    "A09U": {"kind": 0, "stats": [], "fx": 1024, "low": (0, 30, 40, 3, 100), "lowat": 50},
+    "A09X": {"kind": 0, "stats": [7]},                       # Liet Diem Thao Thien: sinh luc toi da (ne tranh, Dia Liet: not done)
+    # E eqc: 2 sweeps 0.25 s apart 150 in front of the hero, radius 280, at most 7, 40% tho thuong 1 s; poison on the 2nd
+    "A09Z": {"kind": 4, "hits": 2, "gap": .25, "rad": 280, "max": 7, "st": 1, "ch": 40, "sd": 1, "fx": 8},
+    "A0A0": {"kind": 0, "stats": [6]},                       # Tran Nguc Pha Thien Kinh: giam sat thuong ngu hanh
+    "A0WV": {"kind": 0, "stats": [5, 14]},                   # Khong Tuyet Tam Phap: vat cong, hoa giai trang thai
     # Nga My Kiem (NMK): read from KVCT's code
     # Q J30: 2 knives 0.2 s apart fly 600 (width 100) through up to 7 enemies each, 30% cham 2 s
     "A0A5": {"kind": 5, "hits": 2, "gap": .2, "rad": 600, "max": 7, "st": 4, "ch": 30, "sd": 2},
@@ -621,11 +644,6 @@ OVR = {
     "A097": {"kind": 2, "hits": 3},                          # Hoa Long Thao Thien
     "A099": {"kind": 4, "hits": 4},                          # Cuong Phong Bao Vu
     "A09A": {"kind": 4, "hits": 8},                          # Kiem Dang Bat Hoang
-    "A09O": {"kind": 3, "status": 1, "sdur": 3},             # Khon Ho Van Tieu (dash + poison blast)
-    "A09P": {"kind": 7, "dur": 30, "stats": [(3, 20, 2)]},   # Kim Qua Thiet Ma (party crit buff)
-    "A09Q": {"kind": 5, "hits": 3},                          # Phach Dia The (piercing lance 3 hits)
-    "A09T": {"kind": 4, "hits": 5, "status": 4, "sdur": 4},  # Hon Phach Phi Duong (nova weaken)
-    "A09S": {"kind": 1, "hits": 3},                          # Long Thon Thuc (triple strike)
     "A08Z": {"kind": 4, "hits": 4, "status": 1, "sdur": 3},  # Van Vat Cau Phan (fire ring nova)
     "A090": {"kind": 6, "dur": 15, "stats": [(1, 30, 3)]},   # Can Khon Dai Na Di (life steal buff)
     "A094": {"kind": 4, "hits": 8, "status": 1, "sdur": 4},  # Thanh Hoa Lieu Nguyen (firestorm 8 hits)

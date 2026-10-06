@@ -420,18 +420,18 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Khai Thiên Thức | X299 | Q | đánh mục tiêu, **autocast** | 1 | 1 |
+| 1 | Khai Thiên Thức | X299 | Q | đánh lan tại mục tiêu, **autocast** | 1 | 1 |
 | 2 | Minh Giáo Chùy Pháp | X300 | - | bị động | 1 | 6 |
 | 3 | Khốn Hổ Vân Tiếu | X301 | R | lướt | 1 | 15 |
 | 4 | Kim Qua Thiết Mã | X302 | T | buff phe ta | 1 | 25 |
 | 5 | Phách Địa Thế | X303 | D | phóng / đạn bay | 1 | 38 |
 | 6 | Ngự Mã Thuật | X304 | - | bị động | 1 | 52 |
-| 7 | Long Thôn Thức | X305 | W | đánh mục tiêu, **autocast** | 1 | 68 |
-| 8 | Hồn Phách Phi Dương | X306 | F | nổ quanh thân | 1 | 85 |
+| 7 | Long Thôn Thức | X305 | W | nổ quanh thân, **autocast** | 1 | 68 |
+| 8 | Hồn Phách Phi Dương | X306 | F | buff bản thân | 1 | 85 |
 | 9 | Cửu Hi Hỗn Dương | X307 | - | bị động | 1 | 105 |
 | 10 | Liệt Diệm Thao Thiên | X308 | - | bị động | 1 | 125 |
-| 11 | Khu Hổ Thức | X309 | E | quét phía trước, **autocast** | 2 | 145 |
-| 12 | Trấn Ngục Phá Thiên Kinh | X310 | - | bị động | 3 | 165 |
+| 11 | Khu Hổ Thức | X309 | E | nổ quanh thân, **autocast** | 2 | 145 |
+| 12 | Trấn Ngục Phá Thiên Kinh | X310 | - | bị động | 1 | 165 |
 | 13 | Không Tuyệt Tâm Pháp | X311 | - | bị động | 1 | 185 |
 
 ## Minh Giáo Kiếm (MGK, H023)
