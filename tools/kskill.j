@@ -209,7 +209,8 @@ function zzKS_Do takes unit vl_h,unit vl_t,integer vl_ab,real vl_x,real vl_y ret
 local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
 local real vl_d=zzKS_Hit(vl_h,vl_ab)
 local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))*bj_RADTODEG
-if vl_k==1 then
+// 3 dash: on a hit (Q W E autocast, proc) it strikes the target
+if vl_k==1 or vl_k==3 then
 call zzKS_Strike(vl_h,vl_t,vl_ab,vl_d)
 elseif vl_k==2 then
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h)+150.*Cos(vl_a*bj_DEGTORAD),GetUnitY(vl_h)+150.*Sin(vl_a*bj_DEGTORAD)))

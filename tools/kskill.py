@@ -44,6 +44,9 @@ AUTO = {
     "poisonarrowstarg": (b"AEpa", "poisonarrowstarg", [(b"Poa1", 2, 0., 1), (b"Poa2", 2, 0., 2), (b"Poa3", 2, 0., 3), (b"Poa4", 2, 0., 4), (b"Poa5", 2, 0., 5), (b"abuf", 3, "Bpoa", 1)]),
     "coldarrows": (b"AHca", "coldarrows", [(b"Hca1", 2, 0., 1), (b"Hca2", 2, 0., 2), (b"Hca3", 2, 0., 3), (b"Hca4", 2, 0., 4), (b"abuf", 3, "Bhea", 1)]),
 }
+# Q W E of every sect: autocast on attacks (right click turns it on / off), whatever KVCT's own order is;
+# kskill.j zzKS_OnHit finds the skill by the buff its hit leaves (Bdba Q, Bpoa W, Bhea E)
+AUTO_KEY = {"Q": AUTO["blackarrow"], "W": AUTO["poisonarrowstarg"], "E": AUTO["coldarrows"]}
 # numbers read from KVCT's own skill code (docs\kvct_skills.md), per KVCT ability:
 # kind = template, dur = buff seconds, stats = [(stat of zzVL_af, base, per rank), ...]
 OVR = {
@@ -356,6 +359,10 @@ def kv_slk():
     return {r.get(1): (num(r.get(cols["Cool1"])), num(r.get(cols["Rng1"]))) for r in rows.values()}
 
 
+def passive_of(kind, proc):
+    return kind == 0 or proc
+
+
 def key_of(s):
     return re.sub(r"[^a-z]", "", plain(s))
 
@@ -420,10 +427,11 @@ def main():
                     os.makedirs(os.path.dirname(dis), exist_ok=True)
                     open(dis, "wb").write(blp1_palette(g, 64))
             first = s["tip"].split("\n")[0].strip()
+            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5) and not passive_of(kind, proc) else None
             mods = [m(b"anam", 3, s["name"]), m(b"aart", 3, icon), m(b"alev", 0, 10), m(b"aher", 0, 0)]
             mods.append(m(b"aani", 3, s["anim"]))
             mods += [m(b"auar", 3, icon), m(b"arar", 3, icon)]       # turn-off / research art: the same icon
-            passive = kind == 0 or proc
+            passive = passive_of(kind, proc)
             if passive:
                 mods += [m(b"abpx", 0, 0), m(b"abpy", 0, -11)]
             else:
@@ -431,6 +439,8 @@ def main():
                 mods += [m(b"abpx", 0, x), m(b"abpy", 0, y), m(b"ahky", 3, key)]
             for L in range(1, 11):
                 lines = [fill(s["raw"], L, kind, st, s["hits"], proc, s["chance"] or 30) or first]
+                if auto:
+                    lines.append("|cff00ff00Tự động: nhấp chuột phải vào biểu tượng để bật / tắt, bật thì đòn đánh thường tự tung chiêu.|r")
                 lines.append("|cff808080Mở ở cấp %d, cấp 10 khi tướng cấp 200 (võ công %s, KVCT).|r" % (UNLOCK[i], cl))
                 tipL = "%s%s - cấp %d" % (s["name"], (" (|cffffcc00%s|r)" % key) if not passive else "", L)
                 mods += [m(b"atp1", 3, tipL, L), m(b"aub1", 3, "|n".join(lines), L)]
@@ -447,7 +457,6 @@ def main():
                              m(b"adur", 2, 0., L), m(b"ahdu", 2, 0., L)]
                     if tt == 1:
                         mods.append(m(b"atar", 3, "air,enemies,ground,neutral,organic", L))
-            auto = AUTO.get(s.get("order")) if not passive else None
             if auto:                                        # KVCT "tu dong danh": autocast on attacks
                 base, order, fields = auto
                 mods = [x for x in mods if not x[0].startswith(b"Ncl")]

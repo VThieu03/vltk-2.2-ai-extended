@@ -35,6 +35,13 @@
 
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
 
+- [x] **Yêu cầu User:** *"chỉnh sửa lại hệ thống skill KVCT qua map của tôi, bóc tách rõ ràng từng kỹ năng của từng phái, chuyển qua rồi làm skill Q W E là skill autocast mỗi khi nhấp chuột phải vào"*
+  - Hiện trạng trước khi sửa: autocast chọn theo order gốc của KVCT nên chỉ có Q (33/33) và W (31/33) là autocast, E (0/33) vẫn là chiêu bấm (`ANcl`).
+  - `tools/kskill.py`: thêm `AUTO_KEY`, chọn autocast theo **phím** (Q→`ANba`, W→`AEpa`, E→`AHca`) cho mọi chiêu tấn công (loại 1-5). Tooltip Q/W/E có thêm dòng hướng dẫn nhấp chuột phải.
+  - `tools/kskill.j` `zzKS_Do`: chiêu lướt (loại 3) khi tự phát trên đòn đánh thì đánh mục tiêu (trước đây không làm gì).
+  - Thêm `tools/kskill_list.py` (chạy sau `kskill.py` trong `run_pipeline.py`) sinh `docs/kvct_skill_table.md`: bảng 400 kỹ năng theo 33 phái (tên, ID, phím, loại, số hit, cấp mở, autocast).
+  - **Chưa build/pjass** trên máy cloud (cần `D:\kvct-dev` và `pjass.exe`): phải chạy `scratchpad/run_pipeline.py` trên máy Windows rồi test trong game.
+
 - [x] **Yêu cầu User:** *"pull và tổng quan lại dự án của tôi, nếu cần thiết thì refactor lại code cho dễ nhìn"*
   - Rà soát toàn bộ cấu trúc repo. Dọn thư mục gốc: chuyển 12 script vá một lần (`patch*.py`, `check_describe.py`, `debug_regex.py`, `test.py`) và bản dump `items.txt` vào `scratchpad/legacy/` (không file nào trong pipeline tham chiếu).
   - Không đụng JASS/Python của pipeline (không chạy được pjass.exe ngoài Windows), hành vi build giữ nguyên.
