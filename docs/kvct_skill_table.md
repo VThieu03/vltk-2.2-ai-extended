@@ -476,9 +476,9 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 |---|---|---|---|---|---|---|
 | 1 | Biệt Tự | X338 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
 | 2 | Mộ Châm Pháp | X339 | - | bị động | 1 | 6 |
-| 3 | Kinh Hồng Chiếu Ảnh | X340 | R | lướt | 6 | 15 |
+| 3 | Kinh Hồng Chiếu Ảnh | X340 | R | lướt | 1 | 15 |
 | 4 | Súc Thế Đãi Phát | X341 | - | bị động | 1 | 25 |
-| 5 | Ngọc Phong Châm | X342 | D | quét phía trước | 7 | 38 |
+| 5 | Ngọc Phong Châm | X342 | D | phóng / đạn bay | 1 | 38 |
 | 6 | Lưu Vân Pháp | X343 | - | bị động | 1 | 52 |
 | 7 | Ly Hận | X344 | W | đánh mục tiêu, **autocast** | 3 | 68 |
 | 8 | Hoàng Tuyền Lảo Đảo | X345 | F | nổ quanh thân | 20 | 85 |

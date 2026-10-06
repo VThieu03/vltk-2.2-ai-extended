@@ -94,6 +94,29 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Co Mo Cham (CMC): read from KVCT's code (A0ML A0MM A0MN A0N2 A0N6 A0MZ are Co Mo Kiem's)
+    # Q Jav: 2 needles 0.2 s apart fly 250 (width 90), at most 7 each, 30% choang 1 s
+    "A0LS": {"kind": 5, "hits": 2, "gap": .2, "rad": 250, "max": 7, "st": 3, "ch": 30, "sd": 1},
+    "A0LV": {"kind": 0, "stats": [5, 3, 4]},                 # Mo Cham Phap: loi cong %, chi mang, toc danh
+    # R Jkl: dash <= 720, at the start radius 350, at most 10: 80% dinh than 2 s; then 6 volleys of needles (not done)
+    "A0M8": {"kind": 3, "rad": 720, "st": 2, "ch": 80, "sd": 2},
+    # Suc The Doi Phat: every 5 s a buff of 5 s: more damage of the next 3 skills, less damage taken
+    "A0ME": {"kind": 0, "stats": [5, 6], "proc": 100, "pcd": 5, "dur": 5},
+    # D Jxu: 7 needles 0.08 s apart in a fan of +-24 degrees, 600 (width 120), at most 7 each, 40% choang 1 s;
+    # needs 2 Thon Tu stacks (not done)
+    "A0MA": {"kind": 5, "fan": 7, "spread": 8, "rad": 600, "max": 7, "st": 3, "ch": 40, "sd": 1},
+    "A0LW": {"kind": 0, "stats": [5, 14]},                   # Luu Van Phap: phat huy luc tan cong, ti le choang, khang cham
+    # W Jxa: 3 volleys 0.2 s apart fly 384 (width 100), at most 7 each, 35% choang 1 s
+    "A0LT": {"kind": 5, "hits": 3, "gap": .2, "rad": 384, "max": 7, "st": 3, "ch": 35, "sd": 1},
+    # F Joc: 5 s, every 0.25 s radius 360 around the hero, at most 7: 30% choang 1 s (20 hits)
+    "A0MC": {"kind": 4, "hits": 20, "gap": .25, "rad": 360, "max": 7, "st": 3, "ch": 30, "sd": 1},
+    "A0MF": {"kind": 0, "stats": [5]},                       # Hanh Van Doi Vu: loi cong % (ne tranh when Thon Tu is spent: not done)
+    # T JJo: toggle: Q W E D hit one enemy only, chi mang +(175 + 25/rank), sat thuong chi mang (one buff here)
+    "A0MD": {"kind": 6, "dur": 300, "stats": [(3, 18, 3)]},
+    # E Jay: 3 volleys 0.2 s apart fly 400 (width 100), at most 7 each, 40% choang 1 s
+    "A0LU": {"kind": 5, "hits": 3, "gap": .2, "rad": 400, "max": 7, "st": 3, "ch": 40, "sd": 1},
+    "A0M7": {"kind": 0, "stats": [5, 3]},                    # Phong Luu Van Tan: loi cong %, chi mang (Luu Quang Tu Xa on E: not done)
+    "A0XT": {"kind": 0, "stats": [4, 13]},                   # Me Than Dan: toc danh, ne tranh (enemies near deal 20% less: not done)
     # Doan Thi Chi (DTC): read from KVCT's code
     # Q JCC: 2 blows 0.2 s apart where the target stood, radius 100, at most 7, 30% tho thuong 0.5 s and 30% cham 1 s
     "A0DB": {"kind": 16, "hits": 2, "gap": .2, "rad": 100, "max": 7, "st": 1, "ch": 30, "sd": .5, "st2": 4, "ch2": 30, "sd2": 1},
@@ -682,11 +705,7 @@ OVR = {
 
     # Co Mo (CMC, CMK)
     "A0LS": {"kind": 5, "hits": 2},                          # Biet Tu
-    "A0M8": {"kind": 3},                                     # Kinh Hong Chieu Anh
-    "A0MA": {"kind": 2, "hits": 7},                          # Ngoc Phong Cham
-    "A0MC": {"kind": 4, "hits": 20},                         # Hoang Tuyen Lao Dao
     "A0LU": {"kind": 5, "hits": 3},                          # Bi Sau
-    "A0MD": {"kind": 6, "dur": 20, "stats": [(3, 25, 3)]},   # Vu Tap Van Hop (crit buff)
     "A0LT": {"kind": 1, "hits": 3},                          # Ly Han (triple strike)
     "A0ML": {"kind": 5, "hits": 2},                          # Thu Nhan Bang Hoang
     "A0MM": {"kind": 2, "hits": 2},                          # Co Nguyet Boi Hoi
