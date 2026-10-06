@@ -17,6 +17,8 @@
 // (KVCT Khi Thon Van Ly + Luc Mach Than Kiem, Luc Kiem Te Phat, Am Huong So Anh);
 // status 5 bong (x1.5 damage taken, key 81 of the unit); 189 low life threshold %, 218 its seconds free of
 // control; kind 21 toggle firing the fan every key 258 / 100 s.
+// Lag limits (06/10/2026): a skill with no 259 limit hits at most 12 enemies per hit; at most 4 hit effects per area hit;
+// the dash ghost every 3rd step; a dash casts the hero's Q W E on its first 3 enemies only.
 // Kinds: 1 strike, 2 cone, 3 dash, 4 nova, 5 lance, 6 self buff, 7 party buff, 8 cleanse, 0 passive.
 // Skills open by hero level only (no skill points) and level up with it, rank 10 at level 200.
 function zzKS_Atk takes unit vl_h returns real
@@ -226,15 +228,20 @@ call zzVL_Text(vl_h,"|cffffcc00[Cực hạn 5 tầng]|r")
 endif
 endif
 endfunction
-function zzKS_Strike takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
+function zzKS_StrikeFx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d,boolean vl_fx returns nothing
 if vl_u!=null and zzVL_TpFoe(vl_h,vl_u) then
 if LoadInteger(zzVL_ht,vl_ab,228)==0 then
 call zzVL_TpHit(vl_h,vl_u,vl_d)
 endif
+if vl_fx then
 call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"chest"))
+endif
 call zzKS_Status(vl_h,vl_u,vl_ab)
 call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
 endif
+endfunction
+function zzKS_Strike takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
+call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,true)
 endfunction
 // enemies in a circle (vl_cone<0) or in front of the caster within vl_cone degrees of vl_a
 function zzKS_Area takes unit vl_h,real vl_x,real vl_y,real vl_r,real vl_a,real vl_cone,integer vl_ab,real vl_d returns nothing
@@ -243,6 +250,9 @@ local unit vl_u
 local real vl_b
 local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
 local integer vl_n=0
+if vl_max==0 then
+set vl_max=12
+endif
 call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_r,null)
 loop
 set vl_u=FirstOfGroup(vl_g)
@@ -250,12 +260,12 @@ exitwhen vl_u==null or (vl_max>0 and vl_n>=vl_max)
 call GroupRemoveUnit(vl_g,vl_u)
 if zzVL_TpFoe(vl_h,vl_u) then
 if vl_cone<0. then
-call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
+call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,vl_n<4)
 set vl_n=vl_n+1
 else
 set vl_b=Atan2(GetUnitY(vl_u)-vl_y,GetUnitX(vl_u)-vl_x)*bj_RADTODEG-vl_a
 if Cos(vl_b*bj_DEGTORAD)>=Cos(vl_cone*bj_DEGTORAD) then
-call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
+call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,vl_n<4)
 set vl_n=vl_n+1
 endif
 endif
@@ -284,6 +294,10 @@ local real vl_y=LoadReal(zzVL_ht,vl_id,7)+40.*Sin(vl_a)
 local real vl_go=LoadReal(zzVL_ht,vl_id,8)+40.
 local group vl_g=CreateGroup()
 local unit vl_u
+local integer vl_cap=LoadInteger(zzVL_ht,vl_ab,259)
+if vl_cap==0 then
+set vl_cap=12
+endif
 call SaveReal(zzVL_ht,vl_id,6,vl_x)
 call SaveReal(zzVL_ht,vl_id,7,vl_y)
 call SaveReal(zzVL_ht,vl_id,8,vl_go)
@@ -294,7 +308,7 @@ loop
 set vl_u=FirstOfGroup(vl_g)
 exitwhen vl_u==null
 call GroupRemoveUnit(vl_g,vl_u)
-if vl_h!=null and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) and (LoadInteger(zzVL_ht,vl_ab,259)==0 or CountUnitsInGroup(vl_hit)<LoadInteger(zzVL_ht,vl_ab,259)) then
+if vl_h!=null and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) and CountUnitsInGroup(vl_hit)<vl_cap then
 call GroupAddUnit(vl_hit,vl_u)
 call zzVL_TpHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
 call zzKS_Status(vl_h,vl_u,vl_ab)
@@ -550,6 +564,9 @@ local group vl_g=CreateGroup()
 local unit vl_u
 local real vl_a
 local real vl_d
+if vl_max==0 then
+set vl_max=12
+endif
 if vl_h!=null and GetWidgetLife(vl_h)>.405 then
 set vl_d=zzKS_Hit(vl_h,vl_ab)
 if LoadBoolean(zzVL_ht,vl_id,11) then
@@ -653,6 +670,9 @@ local unit vl_u
 local integer vl_c=0
 local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
 local real vl_d
+if vl_max==0 then
+set vl_max=12
+endif
 if not vl_end then
 set vl_end=GetWidgetLife(vl_h)<.405 or GetUnitAbilityLevel(vl_h,vl_ab)==0
 set vl_cost=I2R(LoadInteger(zzVL_ht,vl_ab,232)*IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab)))
@@ -723,6 +743,9 @@ local group vl_g=CreateGroup()
 local unit vl_u
 local integer vl_c=0
 local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+if vl_max==0 then
+set vl_max=12
+endif
 call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
 call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,200.),null)
 loop
@@ -792,7 +815,7 @@ set vl_n=vl_n+1
 if LoadInteger(zzVL_ht,vl_ab,228)==0 then
 call zzVL_TpHit(vl_h,vl_u,vl_d)
 endif
-if LoadInteger(zzVL_ht,vl_ab,214)>0 then
+if LoadInteger(zzVL_ht,vl_ab,214)>0 and vl_n<=3 then
 call zzKS_QWE(vl_h,vl_u)
 endif
 if vl_attach then
@@ -822,7 +845,9 @@ else
 set vl_x=GetUnitX(vl_h)+vl_s*Cos(vl_a)
 set vl_y=GetUnitY(vl_h)+vl_s*Sin(vl_a)
 if not IsTerrainPathable(vl_x,vl_y,PATHING_TYPE_WALKABILITY) then
+if ModuloInteger(vl_n,3)==0 then
 call zzKS_Ghost(vl_h,vl_a)
+endif
 call SetUnitX(vl_h,vl_x)
 call SetUnitY(vl_h,vl_y)
 else
