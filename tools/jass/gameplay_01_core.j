@@ -98,7 +98,9 @@ endfunction
 function zzVL_Log takes string vl_string returns nothing
     set zzVL_logS[ModuloInteger(zzVL_logN,80)]=zzVL_Clock()+" "+vl_string
     set zzVL_logN=zzVL_logN+1
-    if not zzVL_logBusy then
+    // ghi file nhat ky toi da 1 lan / 3 giay (moi lan ghi la mot lan dung hinh)
+    if not zzVL_logBusy and TimerGetElapsed(zzVL_clock)>=zzVL_logT then
+        set zzVL_logT=TimerGetElapsed(zzVL_clock)+3.
         set zzVL_logBusy=true
         call zzVL_LogFile()
         set zzVL_logBusy=false

@@ -123,6 +123,12 @@ integer array zzKS_hideAb
 real array zzKS_hideEnd
 boolean zzKS_noCap=false
 unit zzKS_fh=null
+integer array zzKS_mis
+integer zzKS_misN=0
+integer zzKS_misC=0
+timer zzKS_misT=null
+group zzKS_fg=null
+real zzVL_logT=0.
 integer zzKS_fab=0
 real zzKS_fx=0.
 real zzKS_fy=0.

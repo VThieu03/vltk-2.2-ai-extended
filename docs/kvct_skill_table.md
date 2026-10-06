@@ -585,13 +585,13 @@ Q W E của các phái là **autocast**: nhấp chuột phải vào biểu tư�
 | 1 | Phong Quyển Tàn Tuyết | X416 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
 | 2 | Thúy Yên Kiếm Pháp | X417 | - | bị động | 1 | 6 |
 | 3 | Tuyết Ảnh | X418 | - | bị động | 1 | 15 |
-| 4 | Vũ Đả Lê Hoa | X419 | R | phóng / đạn bay | 16 | 25 |
+| 4 | Vũ Đả Lê Hoa | X419 | R | phóng / đạn bay | 2 | 25 |
 | 5 | Hộ Thể Hàn Băng | X420 | - | bị động | 1 | 38 |
 | 6 | Băng Cốt Tuyết Tâm | X421 | - | bị động | 1 | 52 |
-| 7 | Băng Tâm Tiên Tử | X422 | W | quét phía trước, **autocast** | 2 | 68 |
-| 8 | Phi Tự Phiêu Hoa | X423 | D | nổ quanh thân | 26 | 85 |
+| 7 | Băng Tâm Tiên Tử | X422 | W | phóng / đạn bay, **autocast** | 2 | 68 |
+| 8 | Phi Tự Phiêu Hoa | X423 | D | trận tại điểm (nhiều nhịp) | 26 | 85 |
 | 9 | Phù Vân Tán Tuyết | X424 | - | bị động | 1 | 105 |
 | 10 | Băng Tâm Ngọc Lăng | X425 | F | buff bản thân | 1 | 125 |
-| 11 | Thủy Ánh Mạn Tú | X426 | E | phóng / đạn bay, **autocast** | 3 | 145 |
+| 11 | Thủy Ánh Mạn Tú | X426 | E | phóng / đạn bay, **autocast** | 4 | 145 |
 | 12 | Thập Diện Mai Phục | X427 | - | bị động | 1 | 165 |
 | 13 | Tuyết Ánh Hồng Trần | X428 | - | bị động | 1 | 185 |

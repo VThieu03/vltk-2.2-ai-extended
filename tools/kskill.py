@@ -94,6 +94,25 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Thuy Yen Kiem (TYK): read from KVCT's code; A0BO A0BQ as in TYD
+    # Q eQJ: one sword qi flies 750 (width 100), at most 7, 30% cham 2 s
+    "A0BM": {"kind": 5, "rad": 750, "max": 7, "st": 4, "ch": 30, "sd": 2},
+    "A0BN": {"kind": 0, "stats": [5, 3, 4]},                 # Thuy Yen Kiem Phap: bang cong %, chi mang, toc danh
+    # R edt: 8 shards fly out 500 (width 110, at most 4 each), 0.6 s later 8 more fly in from a ring of 640 with 80% cham
+    # 4 s; 4 s free of control for the hero
+    "A0BP": {"kind": 5, "fan": 8, "spread": 45, "hits": 2, "gap": .6, "rad": 500, "max": 4, "st": 4, "ch": 80, "sd": 4, "selfimm": 4},
+    "A0BT": {"kind": 0, "stats": [5, 14]},                   # Bang Cot Tuyet Tam: phat huy luc tan cong, ti le cham
+    # W edc: one sword qi flies 912 (width 100), at most 7; every enemy hit takes a second blow 0.3 s later; 35% cham 2 s
+    "A0BU": {"kind": 5, "hits": 2, "gap": .3, "rad": 912, "max": 7, "st": 4, "ch": 35, "sd": 2},
+    # D eHA: at a point <= 740: every 0.3 s for 7.8 s (26 hits), radius 300, at most 7: 50% cham 3 s, 50% dinh than 1 s
+    "A0BV": {"kind": 13, "hits": 26, "gap": .3, "rad": 300, "far": 740, "max": 7, "st": 4, "ch": 50, "sd": 3, "st2": 2, "ch2": 50, "sd2": 1},
+    "A0BW": {"kind": 0, "stats": [5, 13]},                   # Phu Van Tan Tuyet: vat cong noi, ne tranh, phat huy luc tan cong
+    # F edD: toggle: bang cong +(160 + 20/rank)%, life regeneration; every attacker takes (1000 + 200/rank) bang cong back
+    "A0BX": {"kind": 6, "dur": 300, "stats": [(5, 40, 5)]},
+    # E Jsw: a sword qi flies 1100 (width 220), at most 7, 40% cham 2 s; every enemy hit takes 3 more blows 0.25 s apart
+    "A0BY": {"kind": 5, "hits": 4, "gap": .25, "rad": 1100, "max": 7, "st": 4, "ch": 40, "sd": 2},
+    "A0BZ": {"kind": 0, "stats": [14]},                      # Thap Dien Mai Phuc: khang ti le trang thai (E calls Phi Tu Phieu Hoa: not done)
+    "A0WY": {"kind": 0, "stats": [5, 7]},                    # Tuyet Anh Hong Tran: sat thuong he Hoa, hoi phuc (ice blows on hit: not done)
     # Tieu Dao Kiem (TDK): read from KVCT's code
     # Q JsY: 1 sword qi (2 side by side from rank 3, 3 from rank 6) flies 600 (width 110) through everyone; 30% bong 2 s
     # and 30% tho thuong 0.5 s
@@ -821,12 +840,6 @@ OVR = {
     # Tieu Dao (TDC, TDK)
 
     # Thuy Yen Kiem (TYK)
-    "A0BM": {"kind": 5, "hits": 2},                          # Phong Quyen Tan Tuyet
-    "A0BP": {"kind": 5, "hits": 8},                          # Vu Da Le Hoa
-    "A0BU": {"kind": 2, "hits": 2},                          # Bang Tam Tien Tu
-    "A0BV": {"kind": 4, "hits": 10},                         # Phi Tu Phieu Hoa
-    "A0BY": {"kind": 5, "hits": 3},                          # Thuy Anh Man Tu
-    "A0BX": {"kind": 6, "dur": 20, "stats": [(6, 20, 2), (5, 25, 2)]}, # Bang Tam Ngoc Lang (reflect / resist)
 }
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
         6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0),

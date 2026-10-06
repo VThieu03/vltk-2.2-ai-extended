@@ -281,9 +281,9 @@ endif
 return vl_r
 endfunction
 // a piercing missile: the skill's model flies 900 in a straight line, hitting every enemy on its way once
-function zzKS_Fly takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
+// one missile step (every 0.03 s): move, hit the enemies on the way once, true when it is over. The data of a missile are in
+// the hashtable under a negative id; all missiles share one timer and one group (lag: no timer / group per missile)
+function zzKS_FlyOne takes integer vl_id returns boolean
 local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
 local effect vl_e=LoadEffectHandle(zzVL_ht,vl_id,1)
 local group vl_hit=LoadGroupHandle(zzVL_ht,vl_id,2)
@@ -292,9 +292,10 @@ local real vl_a=LoadReal(zzVL_ht,vl_id,5)
 local real vl_x=LoadReal(zzVL_ht,vl_id,6)+40.*Cos(vl_a)
 local real vl_y=LoadReal(zzVL_ht,vl_id,7)+40.*Sin(vl_a)
 local real vl_go=LoadReal(zzVL_ht,vl_id,8)+40.
-local group vl_g=CreateGroup()
 local unit vl_u
 local integer vl_cap=LoadInteger(zzVL_ht,vl_ab,259)
+local integer vl_n=LoadInteger(zzVL_ht,vl_id,11)
+local boolean vl_end=false
 if vl_cap==0 then
 set vl_cap=12
 endif
@@ -303,35 +304,61 @@ call SaveReal(zzVL_ht,vl_id,7,vl_y)
 call SaveReal(zzVL_ht,vl_id,8,vl_go)
 call BlzSetSpecialEffectX(vl_e,vl_x)
 call BlzSetSpecialEffectY(vl_e,vl_y)
-call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,120.,null)
+if vl_n<vl_cap and vl_h!=null then
+if zzKS_fg==null then
+set zzKS_fg=CreateGroup()
+endif
+call GroupEnumUnitsInRange(zzKS_fg,vl_x,vl_y,120.,null)
 loop
-set vl_u=FirstOfGroup(vl_g)
+set vl_u=FirstOfGroup(zzKS_fg)
 exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if vl_h!=null and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) and CountUnitsInGroup(vl_hit)<vl_cap then
+call GroupRemoveUnit(zzKS_fg,vl_u)
+if vl_n<vl_cap and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) then
+set vl_n=vl_n+1
 call GroupAddUnit(vl_hit,vl_u)
 call zzVL_TpHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
 call zzKS_Status(vl_h,vl_u,vl_ab)
 call zzKS_Fx(vl_h,vl_u,vl_ab,LoadReal(zzVL_ht,vl_id,9))
 endif
 endloop
-call DestroyGroup(vl_g)
+call SaveInteger(zzVL_ht,vl_id,11,vl_n)
+endif
 if vl_go>=LoadReal(zzVL_ht,vl_id,10) or vl_h==null then
 call DestroyEffect(vl_e)
 call DestroyGroup(vl_hit)
 call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
+set vl_end=true
 endif
-set vl_t=null
 set vl_h=null
 set vl_e=null
 set vl_hit=null
-set vl_g=null
+set vl_u=null
+return vl_end
+endfunction
+function zzKS_Fly takes nothing returns nothing
+local integer vl_i=0
+loop
+exitwhen vl_i>=zzKS_misN
+if zzKS_FlyOne(zzKS_mis[vl_i]) then
+set zzKS_misN=zzKS_misN-1
+set zzKS_mis[vl_i]=zzKS_mis[zzKS_misN]
+else
+set vl_i=vl_i+1
+endif
+endloop
+if zzKS_misN<=0 then
+call PauseTimer(zzKS_misT)
+endif
 endfunction
 function zzKS_Missile takes unit vl_h,integer vl_ab,real vl_a,real vl_d,real vl_sx,real vl_sy returns nothing
-local timer vl_t=CreateTimer()
-local integer vl_id=GetHandleId(vl_t)
-local effect vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_sx,vl_sy)
+local integer vl_id
+local effect vl_e
+if zzKS_misN>=399 then
+return
+endif
+set zzKS_misC=zzKS_misC-1
+set vl_id=zzKS_misC
+set vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_sx,vl_sy)
 call BlzSetSpecialEffectYaw(vl_e,vl_a)
 call BlzSetSpecialEffectHeight(vl_e,60.)
 call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
@@ -344,8 +371,14 @@ call SaveReal(zzVL_ht,vl_id,7,vl_sy)
 call SaveReal(zzVL_ht,vl_id,8,0.)
 call SaveReal(zzVL_ht,vl_id,9,vl_d)
 call SaveReal(zzVL_ht,vl_id,10,zzKS_Rad(vl_ab,900.))
-call TimerStart(vl_t,.03,true,function zzKS_Fly)
-set vl_t=null
+set zzKS_mis[zzKS_misN]=vl_id
+set zzKS_misN=zzKS_misN+1
+if zzKS_misT==null then
+set zzKS_misT=CreateTimer()
+endif
+if zzKS_misN==1 then
+call TimerStart(zzKS_misT,.03,true,function zzKS_Fly)
+endif
 set vl_e=null
 endfunction
 function zzKS_Fan takes unit vl_h,integer vl_ab,real vl_a,real vl_d,real vl_x,real vl_y returns nothing
