@@ -5,7 +5,7 @@ import objdata
 c = sys.argv[1]
 seen = 0
 for f in ("war3map.w3t", "war3map.w3u", "war3map.w3a", r"Scripts\war3map.j", "war3mapSkin.txt"):
-    d = open(os.path.join(r"D:\vltk-dev-clone\src\map", f), "rb").read().decode("utf-8", "replace")
+    d = open(os.path.join(os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map"), f), "rb").read().decode("utf-8", "replace")
     for m in re.finditer(re.escape(c), d):
         print(f, "...", d[max(0, m.start() - 30):m.end() + 20].replace("\r", " ").replace("\n", " "))
         seen += 1

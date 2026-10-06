@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 
 TK = r"D:\thienkiem-dev\src"
-SRC = r"D:\vltk-dev-clone\src\map"
+SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 BOSSES = [b"o001", b"h01F", b"e003", b"n018"]
 NEW = b"n0TK"                                         # Diep Thanh: copy of o001, unused id in VLTK
 MODELS = {"HeroButVo.mdx": ["HeroButVo.blp"],

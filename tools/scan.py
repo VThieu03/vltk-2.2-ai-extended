@@ -1,6 +1,6 @@
 # list script lines that have non-ASCII characters outside string literals
-import re
-j = open(r"D:\vltk-dev-clone\src\map\Scripts\war3map.j", "rb").read().decode("utf-8")
+import os, re
+j = open(os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map", "Scripts", "war3map.j"), "rb").read().decode("utf-8")
 L = j.replace("\r\n", "\n").replace("\r", "\n").split("\n")
 LIT = re.compile(r'"(?:[^"\\]|\\.)*"')
 n = 0

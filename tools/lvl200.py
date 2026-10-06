@@ -5,7 +5,7 @@ import os, re, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 
-SRC = r"D:\vltk-dev-clone\src\map"
+SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 K = 5
 
 

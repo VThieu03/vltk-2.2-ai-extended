@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 from gameplay_items import plain, SLOTS
 
-SRC = r"D:\vltk-dev-clone\src\map"
+SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 NL = "\r\n"
 GREY = "|cff9a9a9a"
 

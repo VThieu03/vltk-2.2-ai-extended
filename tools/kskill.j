@@ -9,7 +9,12 @@ endfunction
 function zzKS_Hit takes unit vl_h,integer vl_ab returns real
 local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
 local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241))
-return zzKS_Atk(vl_h)*(.9+.17*vl_lv)*(1.+.3*(vl_n-1))/vl_n+20.*vl_lv
+local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+local real vl_base=zzKS_Atk(vl_h)*(.9+.17*vl_lv)*(1.+.3*(vl_n-1))/vl_n+20.*vl_lv
+if vl_p<10 and zzKS_stack[vl_p]>0 and TimerGetElapsed(zzVL_clock)<zzKS_stackEnd[vl_p] then
+set vl_base=vl_base*(1.+.05*I2R(zzKS_stack[vl_p]))
+endif
+return vl_base
 endfunction
 function zzKS_Immune takes unit vl_u returns boolean
 local integer vl_p=GetPlayerId(GetOwningPlayer(vl_u))
@@ -65,6 +70,7 @@ endfunction
 function zzKS_Fx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
 local integer vl_f=LoadInteger(zzVL_ht,vl_ab,252)
 local real vl_a=Atan2(GetUnitY(vl_u)-GetUnitY(vl_h),GetUnitX(vl_u)-GetUnitX(vl_h))
+local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
 local timer vl_tm
 if vl_f==0 or GetWidgetLife(vl_u)<.405 then
 return
@@ -91,6 +97,19 @@ set vl_tm=null
 endif
 if BlzBitAnd(vl_f,512)>0 then
 call SaveReal(zzVL_ht,GetHandleId(vl_u),74,TimerGetElapsed(zzVL_clock)+4.)
+endif
+if BlzBitAnd(vl_f,4096)>0 then
+call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+vl_d*.04)
+endif
+if BlzBitAnd(vl_f,8192)>0 and vl_p<10 then
+if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
+set zzKS_stack[vl_p]=0
+endif
+set zzKS_stack[vl_p]=IMinBJ(5,zzKS_stack[vl_p]+1)
+set zzKS_stackEnd[vl_p]=TimerGetElapsed(zzVL_clock)+6.
+if zzKS_stack[vl_p]==5 then
+call zzVL_Text(vl_h,"|cffffcc00[Cực hạn 5 tầng]|r")
+endif
 endif
 endfunction
 function zzKS_Strike takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
@@ -410,6 +429,17 @@ endif
 if BlzBitAnd(vl_f,64)>0 then
 set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+3.
 endif
+if BlzBitAnd(vl_f,4096)>0 then
+call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+BlzGetUnitMaxMana(vl_h)*(.15+.02*vl_lv))
+endif
+if BlzBitAnd(vl_f,8192)>0 and vl_p<10 then
+if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
+set zzKS_stack[vl_p]=0
+endif
+set zzKS_stack[vl_p]=IMinBJ(5,zzKS_stack[vl_p]+1)
+set zzKS_stackEnd[vl_p]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)))
+call zzVL_Text(vl_h,"|cffffcc00+1 Tầng ("+I2S(zzKS_stack[vl_p])+"/5)|r")
+endif
 if BlzBitAnd(vl_f,32)>0 then
 set vl_tm=CreateTimer()
 call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
@@ -528,9 +558,41 @@ local unit vl_h=zzKS_src
 local unit vl_t=zzKS_tgt
 local integer vl_i=0
 local integer vl_ab
+local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+if GetUnitAbilityLevel(vl_t, 'Bdba') > 0 then
+    call UnitRemoveAbility(vl_t, 'Bdba')
+    set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 260)
+    if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
+        call zzKS_Do(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+    endif
+endif
+if GetUnitAbilityLevel(vl_t, 'Bpoa') > 0 then
+    call UnitRemoveAbility(vl_t, 'Bpoa')
+    set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 261)
+    if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
+        call zzKS_Do(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+    endif
+endif
+if GetUnitAbilityLevel(vl_t, 'Bhea') > 0 then
+    call UnitRemoveAbility(vl_t, 'Bhea')
+    set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 262)
+    if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
+        call zzKS_Do(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+    endif
+endif
 loop
 set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
 exitwhen vl_ab==0
+if BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),8192)>0 and vl_p<10 then
+if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
+set zzKS_stack[vl_p]=0
+endif
+set zzKS_stack[vl_p]=IMinBJ(5,zzKS_stack[vl_p]+1)
+set zzKS_stackEnd[vl_p]=TimerGetElapsed(zzVL_clock)+6.
+if zzKS_stack[vl_p]==5 then
+call zzVL_Text(vl_h,"|cffffcc00[Cực hạn 5 tầng]|r")
+endif
+endif
 if LoadInteger(zzVL_ht,vl_ab,249)==1 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and GetRandomInt(1,100)<=10 then
 call zzKS_Do(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
 set vl_ab=0
@@ -564,6 +626,12 @@ set zzKS_af[vl_p*16+vl_i]=zzKS_buf[vl_p*16+vl_i]
 endif
 set vl_i=vl_i+1
 endloop
+if vl_now<zzKS_stackEnd[vl_p] and zzKS_stack[vl_p]>0 then
+set zzKS_af[vl_p*16+5]=zzKS_af[vl_p*16+5]+zzKS_stack[vl_p]*4
+set zzKS_af[vl_p*16+3]=zzKS_af[vl_p*16+3]+zzKS_stack[vl_p]*2
+else
+set zzKS_stack[vl_p]=0
+endif
 set zzKS_refl[vl_p]=0
 if vl_h!=null then
 call BlzUnitDisableAbility(vl_h,'Apat',true,true)
@@ -601,6 +669,9 @@ call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
 endif
 if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),128)>0 then
 set zzKS_refl[vl_p]=zzKS_refl[vl_p]+2*vl_w
+endif
+if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),4096)>0 then
+call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+12.*vl_w)
 endif
 if LoadInteger(zzVL_ht,vl_ab,240)==0 then
 set vl_s=LoadInteger(zzVL_ht,vl_ab,247)

@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from mpqwrite import build
 from mpq import MPQ, hs
 
-ROOT = r"D:\vltk-dev-clone"
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 BASE = os.path.join(ROOT, "work", "base.w3x")
 OFF = 512
 SRC = os.path.join(ROOT, "src", "map")

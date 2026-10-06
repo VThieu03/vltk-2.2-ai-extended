@@ -1,8 +1,8 @@
 # Bug fixes in the original script (applied to src\map\Scripts\war3map.j after convert_text.py).
 # dh / th (boss drop to nearby heroes): "local group g" was never created, so the first use read an
 # uninitialized local and the thread stopped: the drops never happened. Create it, destroy it at the end.
-import re
-P = r"D:\vltk-dev-clone\src\map\Scripts\war3map.j"
+import os, re
+P = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map", "Scripts", "war3map.j")
 s = open(P, "rb").read().decode("utf-8")
 nl = "\r" if "\r\n" not in s and "\r" in s else ("\r\n" if "\r\n" in s else "\n")
 lines = s.split(nl)

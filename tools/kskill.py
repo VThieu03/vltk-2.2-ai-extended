@@ -13,8 +13,9 @@ from PIL import Image
 import io
 from difflib import SequenceMatcher
 
-SRC = r"D:\vltk-dev-clone\src\map"
-TABLE = r"D:\vltk-dev-clone\build\kskill_table.j"
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+SRC = os.path.join(ROOT, "src", "map")
+TABLE = os.path.join(ROOT, "build", "kskill_table.j")
 I_ = "war3mapImported" + chr(92)
 # weapon model of each class, attached to the hero's "weapon" point as KVCT does (its hero models have none)
 WEAPON = {"NDD": "VK_daoNDD", "TVD": "VK_daidaoTVD", "VDK": "VK_kiemVDK", "TYD": "VK_daoTYD", "DMPT": "VK_phitieuv1",
@@ -37,8 +38,12 @@ SLOT = {"Q": (0, 2), "W": (1, 2), "E": (2, 2), "R": (3, 2), "D": (1, 1), "F": (2
 ORDER = {"Q": "thunderbolt", "W": "shockwave", "E": "stomp", "R": "carrionswarm", "D": "roar", "F": "starfall",
          "T": "avatar"}
 # kind -> (target type of the channel: 0 none 1 unit 2 point, cast range, cooldown, AI kind)
-# KVCT order of the skill -> (base ability with autocast, order, its two effect fields set to 0)
-AUTO = {"blackarrow": (b"Aslo", "slow", b"Slo1", b"Slo2"), "poisonarrowstarg": (b"Afae", "faeriefire", b"Fae1", b"Fae2")}
+# KVCT order of the skill -> (base ability with autocast, order, list of fields to zero out)
+AUTO = {
+    "blackarrow": (b"ANba", "blackarrow", [(b"Hba1", 2, 0., 1), (b"Hba2", 3, "", 2), (b"Hba3", 2, 0., 3), (b"abuf", 3, "Bdba", 1)]),
+    "poisonarrowstarg": (b"AEpa", "poisonarrowstarg", [(b"Poa1", 2, 0., 1), (b"Poa2", 2, 0., 2), (b"Poa3", 2, 0., 3), (b"Poa4", 2, 0., 4), (b"Poa5", 2, 0., 5), (b"abuf", 3, "Bpoa", 1)]),
+    "coldarrows": (b"AHca", "coldarrows", [(b"Hca1", 2, 0., 1), (b"Hca2", 2, 0., 2), (b"Hca3", 2, 0., 3), (b"Hca4", 2, 0., 4), (b"abuf", 3, "Bhea", 1)]),
+}
 # numbers read from KVCT's own skill code (docs\kvct_skills.md), per KVCT ability:
 # kind = template, dur = buff seconds, stats = [(stat of zzVL_af, base, per rank), ...]
 OVR = {
@@ -47,13 +52,208 @@ OVR = {
     "A0XM": {"kind": 4, "status": 4, "sdur": 24, "hits": 4},
     "A0CE": {"kind": 6, "status": 5},
 
-    "A021": {"kind": 11},                                    # Bon Loi Toan Long Thuong: 7 dashes to enemies in 1000
-    "A01W": {"dur": 300, "stats": [(12, 70, 30), (3, 3, 1)]},  # Thien Vuong Chien Y: +70+30/rank attack, crit (14+6/rank)/4
-    "A0ED": {"kind": 6, "dur": 12, "stats": [(5, 28, 2)]},     # Thoi Thua Luc Long
+    # Thien Vuong (TVT, TVD, TVC)
+    "A021": {"kind": 11},                                    # Bon Loi Toan Long Thuong
+    "A020": {"kind": 3},                                     # Doat Hon Thich (dash)
+    "A01Z": {"kind": 4, "hits": 3},                          # Huyet Chien Bat Phuong (nova 3 hits)
+    "A01W": {"dur": 300, "stats": [(12, 70, 30), (3, 3, 1)]},  # Thien Vuong Chien Y
+    "A01O": {"kind": 2, "hits": 2},                          # Pha Thien Tram (cone 2 hits)
+    "A01S": {"kind": 1, "hits": 3},                          # Hao Hung Tram (strike 3 hits)
+    "A01R": {"kind": 6, "dur": 300, "stats": [(5, 30, 3)]},  # Tung Hoanh Bat Hoang (buff)
+    "A02I": {"kind": 4, "hits": 4},                          # Huy Thien Diet Dia (nova 4 hits)
+    "A03A": {"kind": 8, "dur": 15, "stats": [(3, 20, 2)]},   # Tung Hoanh Bat Hoang TVD (cleanse + crit)
+    "A01M": {"kind": 3, "status": 2, "sdur": 2},             # Doan Hon Thich TVT (dash + root 2s)
+    "A026": {"kind": 8, "dur": 15},                          # Hoanh Hanh Vo Ky (immune 15s)
+    "A02K": {"kind": 7, "dur": 30, "stats": [(11, 25, 3)]},  # Kim Chung Trao (party def buff)
+    "A02P": {"kind": 3, "hits": 4},                          # Tram Long Quyet (dash slam 4 hits)
+    "A02O": {"kind": 1, "hits": 3},                          # Thua Long Quyet (triple strike)
+
+    # Thieu Lam (TLQ, TLD, TLB)
+    "A05B": {"kind": 2, "hits": 3},                          # Dai Luc Kim Cang Chuong (cone 3 hits)
+    "A05D": {"kind": 4, "hits": 4},                          # Vo Luong Tram (nova 4 hits)
+    "A058": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # La Han Tran (buff)
+    "A04U": {"kind": 4, "hits": 3, "status": 3, "sdur": 2},  # Su Tu Hong (nova 3 hits stun 2s)
+    "A04Y": {"kind": 6, "dur": 15, "stats": [(4, 40, 4), (5, 30, 3)]}, # La Han Kim Than (atk speed + dmg)
+    "A0WD": {"kind": 6, "dur": 20, "stats": [(5, 40, 4)]},   # Thien Thu Nhu Lai An (dmg buff)
+    "A03H": {"kind": 2, "hits": 2},                          # Phuc Ma Dao Phap
+    "A03R": {"kind": 2, "hits": 2},                          # Thien Truc Tuyet Dao
+    "A043": {"kind": 4, "hits": 3},                          # Quy Thien Dao Phap
+    "A040": {"kind": 4, "hits": 6},                          # Dai Thua Nhu Lai Chu
+    "A03N": {"kind": 6, "dur": 300, "stats": [(11, 15, 2)]}, # Bo De Tam Phap
+    "A03S": {"kind": 6, "dur": 300, "stats": [(5, 20, 2)]},  # Hang Long Bat Vu
+    "A047": {"kind": 2, "hits": 2},                          # Pho Do Con Phap
+    "A04C": {"kind": 4, "hits": 3},                          # That Tinh La Sat Con
+    "A04O": {"kind": 4, "hits": 2},                          # Vi Da Hien Chu
+    "A04D": {"kind": 4, "hits": 4},                          # Tuy Tien Bat Con
+    "A049": {"kind": 6, "dur": 300, "stats": [(6, 20, 2)]},  # Bat Dong Minh Vuong
+    "A04L": {"kind": 6, "dur": 300, "stats": [(13, 30, 3)]}, # Nhu Y Thuc Cot Cong
+
+    # Thuy Yen Dao (TYD)
+    "A0CK": {"kind": 6, "dur": 10, "stats": [(5, 50, 5)]},   # Tuong Tu (burst dmg buff)
+    "A0WZ": {"kind": 4, "hits": 4, "status": 4, "sdur": 4},  # Da Lai Tay Phong (freeze nova 4 hits)
+
+    # Cai Bang (CBC, CBB)
+    "A0E7": {"kind": 2, "hits": 3},                          # Hang Long Huu Hoi (cone 3 hits)
+    "A0ED": {"kind": 4, "hits": 6, "status": 1, "sdur": 1},  # Thoi Thua Luc Long (nova 6 hits tho thuong)
+    "A0E1": {"kind": 1, "hits": 4, "status": 1, "sdur": 2},  # Phi Long Tai Thien (strike 4 hits)
+    "A0E2": {"kind": 5, "hits": 3},                          # Long Du Thien Dia (lance 3 hits)
     "A0X5": {"kind": 6, "dur": 20, "stats": [(5, 20, 1), (12, 80, 20)]}, # Triet Y Thap Bat Diet
+    "A0EK": {"kind": 5, "hits": 2},                          # Bong Da Ac Cau
+    "A0EL": {"kind": 5, "hits": 3},                          # Thien Ha Vo Cau
+    "A0EM": {"kind": 4, "hits": 6},                          # Bong Quynh Luoc Dia
+    "A0F0": {"kind": 4, "hits": 12},                         # Ac Cau Lan Lo
+    "A0EX": {"kind": 6, "dur": 300, "stats": [(5, 20, 2)]},  # Minh Sat Thu Hao
+
+    # Vo Dang (VDQ, VDK)
     "A0JO": {"kind": 6, "dur": 300, "stats": [(6, 18, 3)]},    # Toa Vong Vo Nga
     "A0JP": {"kind": 9, "dur": 20},                            # Thuan Duong Vo Cuc
-    "A0JS": {"kind": 12},                                    # Van Kiem Quy Tong (1000 range nova)
+    "A0JS": {"kind": 12},                                    # Van Kiem Quy Tong
+    "A0JA": {"kind": 1, "hits": 3},                          # Thien Dia Vo Cuc (triple strike)
+
+    # Con Lon (CLK, CLD)
+    "A0HV": {"kind": 1, "hits": 2},                          # Cuong Loi Chan Dia
+    "A0I9": {"kind": 4, "hits": 6},                          # Thien Te Tan Loi
+    "A0IA": {"kind": 4, "hits": 8},                          # Loi Dong Cuu Thien
+    "A0IB": {"kind": 4, "hits": 9},                          # Thien Loi Chan Nhac
+    "A0ID": {"kind": 7, "dur": 25, "stats": [(13, 50, 5)]},  # Thanh Phong Phu (party movespeed)
+    "A0IE": {"kind": 7, "dur": 30, "stats": [(6, 20, 2)]},   # Dao Cot Tien Phong (party resist)
+    "A0IC": {"kind": 5, "hits": 3, "status": 4, "sdur": 3},  # Ngu Phong Thuat (cyclone 3 hits slow)
+    "A0IK": {"kind": 2, "hits": 2},                          # Cuong Phong Sau Dien
+    "A0IL": {"kind": 2, "hits": 2},                          # Ngao Tuyet Tieu Phong
+    "A0IM": {"kind": 4, "hits": 3},                          # Cuu Thien Canh Phong
+    "A0J0": {"kind": 6, "dur": 300, "stats": [(5, 25, 2)]},   # Tu Nguyen Thuat
+    "A0J1": {"kind": 3},                                     # Nhat Khi Tam Thanh
+
+    # Ngu Doc (NDD, NDC)
+    "A075": {"kind": 5, "hits": 1},                          # Huyet Dao Doc Sat
+    "A077": {"kind": 6, "dur": 15},                          # Vo Hinh Co
+    "A07A": {"kind": 5, "hits": 2},                          # Bach Doc Xuyen Tam
+    "A07F": {"kind": 2, "hits": 2},                          # Huyen Am Tram
+    "A07G": {"kind": 4, "hits": 3},                          # Chu Cap Thanh Minh
+    "A07N": {"kind": 5, "hits": 2},                          # U Hon Phe Anh
+    "A06J": {"kind": 2, "hits": 2},                          # Doc Sa Chuong
+    "A06S": {"kind": 4, "hits": 3},                          # Am Phong Thuc Cot
+    "A06T": {"kind": 5, "hits": 2},                          # Doan Can Hu Cot
+    "A06U": {"kind": 4, "hits": 5},                          # Huyet Co Doc Sat
+    "A06L": {"kind": 1, "hits": 4, "status": 1, "sdur": 4},  # Thien Canh Dia Sat (bleed 4 hits)
+    "A0WM": {"kind": 4, "hits": 3, "status": 1, "sdur": 5},  # U Minh Kho Lau (skull nova poison)
+
+    # Duong Mon (DMPT, DMTT, DMPD)
+    "A0XZ": {"kind": 5, "hits": 3},                          # Tan Hoa Tieu
+    "A0Y1": {"kind": 4, "hits": 9},                          # Cuu Cung Phi Tinh
+    "A0Y2": {"kind": 4, "hits": 3},                          # Me Hon Tran
+    "A0Y9": {"kind": 5, "hits": 6},                          # Can Khon Nhat Trich
+    "A0YB": {"kind": 1, "hits": 3, "status": 2, "sdur": 3},  # Thiet Toa Hoanh Giang (trap root 3 hits)
+    "A07R": {"kind": 4, "hits": 4},                          # Thien La Dia Vong
+    "A07T": {"kind": 3},                                     # Me Anh Tung
+    "A082": {"kind": 4, "hits": 8},                          # Bao Vu Le Hoa
+    "A083": {"kind": 5, "hits": 4},                          # Xuyen Van Tien
+    "A07X": {"kind": 2, "hits": 3, "status": 2, "sdur": 3},  # Doan Can Nhan (fan cone root 3s)
+    "A08B": {"kind": 4, "hits": 6},                          # Khong Tuoc Vu
+    "A08H": {"kind": 5, "hits": 2},                          # Tieu Ly Phi Dao
+    "A08J": {"kind": 4, "hits": 3},                          # Man Thien Hoa Vu
+    "A08K": {"kind": 5, "hits": 3},                          # Nhiep Hon Nguyet Anh
+    "A08S": {"kind": 3},                                     # Vo Anh Xuyen
+    "A08P": {"kind": 8, "dur": 15, "stats": [(13, 60, 5)]},  # Anh Tung Tran (immune + speed)
+
+    # Thien Nhan (TND, TNK)
+    "A0F4": {"kind": 2, "hits": 2},                          # Dan Chi Liet Diem
+    "A0F5": {"kind": 4, "hits": 4},                          # Thien Ngoai Luu Tinh
+    "A0F6": {"kind": 2, "hits": 2},                          # Tat Hoa Lieu Nguyen
+    "A0FJ": {"kind": 3},                                     # Thoi Son Dien Hai
+    "A0FK": {"kind": 4, "hits": 5},                          # Hoa Lien Phan Hoa
+    "A0FP": {"kind": 5, "hits": 5},                          # Ma Dao Thon Than
+    "A0FL": {"kind": 1, "hits": 2, "status": 4, "sdur": 4},  # Nhiep Hon Loan Tam (curse slow)
+    "A0G0": {"kind": 2, "hits": 2},                          # Tan Duong Nhu Huyet
+    "A0G1": {"kind": 2, "hits": 3},                          # Van Long Kich
+    "A0G2": {"kind": 5, "hits": 3},                          # Giang Hai No Lan
+    "A0G5": {"kind": 4, "hits": 10},                         # Liet Hoa Tinh Thien
+    "A0G8": {"kind": 3},                                     # Phi Hong Vo Tich
+    "A0G6": {"kind": 4, "hits": 3, "status": 4, "sdur": 4},  # Ma Am Phe Phach (demon nova slow)
+
+    # Nga My (NMC, NMK)
+    "A0AR": {"kind": 5, "hits": 2},                          # Tu Tuong Dong Quy
+    "A0B1": {"kind": 5, "hits": 3},                          # Phong Suong Toai Anh
+    "A0BA": {"kind": 4, "hits": 6},                          # Nguyet Hoa Khuynh Ta
+    "A0B7": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # Van Tuong Than Cong
+    "A0AX": {"kind": 7, "dur": 30, "stats": [(5, 25, 2)]},  # Phat Quang Chien Khi (party dmg buff)
+    "A0A5": {"kind": 5, "hits": 2},                          # Thoi Song Vong Nguyet
+    "A0AN": {"kind": 5, "hits": 3},                          # Kiem Anh Phat Quang
+    "A0AO": {"kind": 5, "hits": 5},                          # Bang Suong Dien Phong
+    "A0A6": {"kind": 7, "dur": 20},                          # Tu Hang Pho Do
+    "A0A7": {"kind": 7, "dur": 20},                          # Thien Phat Thien Diep
+
+    # Doan Thi (DTK, DTC)
+    "A0D5": {"kind": 2, "hits": 2},                          # Kim Ngoc Man Duong
+    "A0D6": {"kind": 5, "hits": 6},                          # Luc Mach Than Kiem
+    "A0D7": {"kind": 5, "hits": 2},                          # Khi Thon Van Ly
+    "A0D8": {"kind": 2, "hits": 18},                         # Kinh Thien Nhat Kiem
+    "A0DB": {"kind": 1, "hits": 2},                          # Than Chi Diem Huyet
+    "A0DO": {"kind": 5, "hits": 2},                          # Nhat Duong Chi
+    "A0DQ": {"kind": 3},                                     # Lang Ba Vi Bo
+    "A0DU": {"kind": 5, "hits": 9},                          # Huyen Bang Cuu Kiep
+    "A0DD": {"kind": 1, "hits": 3},                          # Thien Long Than Chi
+    "A0DC": {"kind": 1, "hits": 3},                          # Can Duong Than Chi (triple strike)
+
+    # Minh Giao (MGC, MGK)
+    "A095": {"kind": 4, "hits": 2},                          # Dap chuy
+    "A097": {"kind": 2, "hits": 3},                          # Hoa Long Thao Thien
+    "A099": {"kind": 4, "hits": 4},                          # Cuong Phong Bao Vu
+    "A09A": {"kind": 4, "hits": 8},                          # Kiem Dang Bat Hoang
+    "A09O": {"kind": 3, "status": 1, "sdur": 3},             # Khon Ho Van Tieu (dash + poison blast)
+    "A09P": {"kind": 7, "dur": 30, "stats": [(3, 20, 2)]},   # Kim Qua Thiet Ma (party crit buff)
+    "A09Q": {"kind": 5, "hits": 3},                          # Phach Dia The (piercing lance 3 hits)
+    "A09T": {"kind": 4, "hits": 5, "status": 4, "sdur": 4},  # Hon Phach Phi Duong (nova weaken)
+    "A09S": {"kind": 1, "hits": 3},                          # Long Thon Thuc (triple strike)
+    "A08Z": {"kind": 4, "hits": 4, "status": 1, "sdur": 3},  # Van Vat Cau Phan (fire ring nova)
+    "A090": {"kind": 6, "dur": 15, "stats": [(1, 30, 3)]},   # Can Khon Dai Na Di (life steal buff)
+    "A094": {"kind": 4, "hits": 8, "status": 1, "sdur": 4},  # Thanh Hoa Lieu Nguyen (firestorm 8 hits)
+
+    # Co Mo (CMC, CMK)
+    "A0LS": {"kind": 5, "hits": 2},                          # Biet Tu
+    "A0M8": {"kind": 3},                                     # Kinh Hong Chieu Anh
+    "A0MA": {"kind": 2, "hits": 7},                          # Ngoc Phong Cham
+    "A0MC": {"kind": 4, "hits": 20},                         # Hoang Tuyen Lao Dao
+    "A0LU": {"kind": 5, "hits": 3},                          # Bi Sau
+    "A0MD": {"kind": 6, "dur": 20, "stats": [(3, 25, 3)]},   # Vu Tap Van Hop (crit buff)
+    "A0LT": {"kind": 1, "hits": 3},                          # Ly Han (triple strike)
+    "A0ML": {"kind": 5, "hits": 2},                          # Thu Nhan Bang Hoang
+    "A0MM": {"kind": 2, "hits": 2},                          # Co Nguyet Boi Hoi
+    "A0N2": {"kind": 2, "hits": 3},                          # Chung Nam Van Chieu
+    "A0N6": {"kind": 3},                                     # Phi Thien Vu
+    "A0MN": {"kind": 5, "hits": 3},                          # Co Than Chi Anh
+    "A0MZ": {"kind": 4, "hits": 3, "status": 3, "sdur": 2},  # Hong Tu Trien (stun nova 3 hits)
+
+    # Hoa Son (HSQ, HSK)
+    "A0L3": {"kind": 6, "dur": 20, "stats": [(5, 25, 2)]},   # Tu Ha Chan Khi
+    "A0LO": {"kind": 4, "hits": 10},                         # Thien Than Dao Huyen
+    "A0LP": {"kind": 6, "dur": 20, "stats": [(4, 25, 2)]},   # Kim Nhan Hoanh Khong
+    "A0L7": {"kind": 2, "hits": 3},                          # Thuong Tung Nghenh Khach
+    "A0L0": {"kind": 9, "dur": 20},                          # Chan Khi Ho The (qi shield 20s)
+    "A0LK": {"kind": 6, "dur": 20, "stats": [(5, 35, 3)]},   # Doat Menh Lien Hoan Tam Tien Kiem (dmg buff)
+
+    # Tieu Dao (TDC, TDK)
+    "A0H5": {"kind": 2, "hits": 2},                          # Duong Ca Thien Quan
+    "A0HK": {"kind": 5, "hits": 4},                          # Han Tu Huyet
+    "A0H6": {"kind": 4, "hits": 3},                          # Bach Nhat Sam Than
+    "A0HQ": {"kind": 4, "hits": 15},                         # Sinh Tu Phu
+    "A0H7": {"kind": 5, "hits": 3},                          # Bai Son Dao Hai
+    "A0XG": {"kind": 3},                                     # Tung Bo Quan Hoa
+    "A0HS": {"kind": 4, "hits": 6, "fx": 4},                  # Thien Tam Cuu Bien (nova 6 hits + lifesteal)
+    "A0GE": {"kind": 5, "hits": 2},                          # Tram Van Kiem
+    "A0GV": {"kind": 4, "hits": 4},                          # Dan Phuong Dan
+    "A0GF": {"kind": 2, "hits": 3},                          # Te Chieu Phon Thuong
+    "A0GU": {"kind": 4, "hits": 12},                         # Kiem Chung Dan
+    "A0GG": {"kind": 5, "hits": 4},                          # Bach Dieu Trieu Phuong
+    "A0GZ": {"kind": 7, "dur": 25, "stats": [(6, 25, 2)]},   # So Hoa Dan (party resist buff)
+
+    # Thuy Yen Kiem (TYK)
+    "A0BM": {"kind": 5, "hits": 2},                          # Phong Quyen Tan Tuyet
+    "A0BP": {"kind": 5, "hits": 8},                          # Vu Da Le Hoa
+    "A0BU": {"kind": 2, "hits": 2},                          # Bang Tam Tien Tu
+    "A0BV": {"kind": 4, "hits": 10},                         # Phi Tu Phieu Hoa
+    "A0BY": {"kind": 5, "hits": 3},                          # Thuy Anh Man Tu
+    "A0BX": {"kind": 6, "dur": 20, "stats": [(6, 20, 2), (5, 25, 2)]}, # Bang Tam Ngoc Lang (reflect / resist)
 }
 KIND = {1: (1, 250., 4, 1), 2: (2, 450., 6, 2), 3: (2, 700., 8, 2), 4: (0, 0., 10, 0), 5: (2, 900., 7, 2),
         6: (0, 0., 30, 0), 7: (0, 0., 30, 0), 8: (0, 0., 40, 0), 9: (0, 0., 30, 0), 11: (0, 0., 15, 0), 12: (0, 0., 15, 0)}
@@ -249,10 +449,12 @@ def main():
                         mods.append(m(b"atar", 3, "air,enemies,ground,neutral,organic", L))
             auto = AUTO.get(s.get("order")) if not passive else None
             if auto:                                        # KVCT "tu dong danh": autocast on attacks
-                base, order, f1, f2 = auto
+                base, order, fields = auto
                 mods = [x for x in mods if not x[0].startswith(b"Ncl")]
                 for L in range(1, 11):
-                    mods += [m(f1, 2, 0., L, 1), m(f2, 2, 0., L, 2), m(b"adur", 2, .01, L), m(b"ahdu", 2, .01, L),
+                    for fid, typ, val, dp in fields:
+                        mods.append(m(fid, typ, val, L, dp))
+                    mods += [m(b"adur", 2, .01, L), m(b"ahdu", 2, .01, L),
                              m(b"atar", 3, "air,enemies,ground,neutral,organic", L)]
                 tabs[1].append([base, sid.encode(), [mods]])
             else:

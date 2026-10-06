@@ -7,7 +7,7 @@ import os, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 
-ROOT = r"D:\vltk-dev-clone"
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC = os.path.join(ROOT, "src", "map")
 TABLE = os.path.join(ROOT, "build", "skills_table.j")
 AUTO_MAX_CD = 15.0

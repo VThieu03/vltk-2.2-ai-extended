@@ -10,7 +10,7 @@ VLKT_TOOLS = r"D:\kvct-dev\tools"                      # KVCT (Kiem Vo Chi Ton, 
 VLKT = r"D:\kvct-dev\work\base.w3x"
 VLKT_OFF = 107008
 KVCT_DATA = r"D:\KVCT31_Data"                         # holds KVCT3_Data\ (the KVCT models' textures)
-SRC = r"D:\vltk-dev-clone\src\map"
+SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 I = "war3mapImported\\"
 # stock model (lowercase, no extension) -> KVCT model of the same kind
 SWAP = {

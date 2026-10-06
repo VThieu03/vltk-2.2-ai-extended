@@ -1363,11 +1363,34 @@ endfunction
 // Không trả về giá trị (thực thi hành động).
 function zzVL_HeroShow takes integer vl_playerId,boolean vl_on returns nothing
     local string vl_string=zzVL_HeroText(vl_playerId)
+    local unit vl_hero=Jx[vl_playerId+1]
+    local integer vl_i=0
+    local integer vl_j=0
+    local integer vl_ab
     set zzVL_heroOpen[vl_playerId]=vl_on
     if GetLocalPlayer()==Player(vl_playerId) then
         call BlzFrameSetText(zzVL_fHeroTxt,vl_string)
+        if vl_hero!=null and vl_on then
+            loop
+                set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),200+vl_i)
+                exitwhen vl_ab==0 or vl_j>5
+                if LoadInteger(zzVL_ht,vl_ab,240)==0 and GetUnitAbilityLevel(vl_hero,vl_ab)>0 then
+                    call BlzFrameSetTexture(zzVL_fPassIco[vl_j],BlzGetAbilityIcon(vl_ab),0,true)
+                    call BlzFrameSetText(zzVL_fPassTTxt[vl_j],"|cffffcc00"+GetObjectName(vl_ab)+"|r|n"+BlzGetAbilityExtendedTooltip(vl_ab,GetUnitAbilityLevel(vl_hero,vl_ab)-1))
+                    call BlzFrameSetVisible(zzVL_fPassBtn[vl_j],true)
+                    set vl_j=vl_j+1
+                endif
+                set vl_i=vl_i+1
+            endloop
+        endif
+        loop
+            exitwhen vl_j>5
+            call BlzFrameSetVisible(zzVL_fPassBtn[vl_j],false)
+            set vl_j=vl_j+1
+        endloop
         call BlzFrameSetVisible(zzVL_fHero,vl_on)
     endif
+    set vl_hero=null
 endfunction
 
 // ==========================================
@@ -1499,7 +1522,21 @@ function zzVL_BagUI takes nothing returns nothing
     call zzVL_Panel(zzVL_fHero,.023,.517,.297,.183,"war3mapImported\\vl_ui_panel.blp",245)
     call zzVL_MakeText(zzVL_fHero,.04,.505,.24,"|cffffcc00NHÂN VẬT|r  (phím C)")
     set zzVL_fHeroTxt=zzVL_MakeText(zzVL_fHero,.04,.48,.245,"")
-    call BlzFrameSetSize(zzVL_fHeroTxt,.245,.29)
+    call BlzFrameSetSize(zzVL_fHeroTxt,.245,.25)
+    set vl_i=0
+    loop
+        exitwhen vl_i>5
+        set zzVL_fPassBtn[vl_i]=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        call BlzFrameSetSize(zzVL_fPassBtn[vl_i],.03,.03)
+        call BlzFrameSetAbsPoint(zzVL_fPassBtn[vl_i],FRAMEPOINT_BOTTOMLEFT,.04+vl_i*.035,.19)
+        set zzVL_fPassIco[vl_i]=BlzCreateFrameByType("BACKDROP","",zzVL_fPassBtn[vl_i],"",0)
+        call BlzFrameSetAllPoints(zzVL_fPassIco[vl_i],zzVL_fPassBtn[vl_i])
+        set zzVL_fPassTT[vl_i]=BlzCreateFrame("BoxedText",zzVL_fPassBtn[vl_i],0,vl_i+10)
+        set zzVL_fPassTTxt[vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+10)
+        call BlzFrameSetTooltip(zzVL_fPassBtn[vl_i],zzVL_fPassTT[vl_i])
+        call BlzFrameSetVisible(zzVL_fPassBtn[vl_i],false)
+        set vl_i=vl_i+1
+    endloop
     call BlzFrameSetVisible(zzVL_fHero,false)
     call zzVL_Panel(vl_ui,.66,.552,.79,.528,"war3mapImported\\vl_ui_tile.blp",200)
     call zzVL_Panel(vl_ui,.68,.524,.79,.484,"war3mapImported\\vl_ui_tile.blp",200)

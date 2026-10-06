@@ -4,7 +4,7 @@ import os, re, sys, unicodedata
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 
-SRC = r"D:\vltk-dev-clone\src\map"
+SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 SLOTS = [  # checked in this order ("Phá Quân Hài" is boots, not a hat)
     (4, {"hai", "ngoa", "ly"}),
     

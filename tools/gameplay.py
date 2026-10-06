@@ -7,7 +7,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 from gameplay_items import items, plain
 
-SRC = r"D:\vltk-dev-clone\src\map"
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+SRC = os.path.join(ROOT, "src", "map")
 JS = os.path.join(SRC, "Scripts", "war3map.j")
 # names the keyword rules get wrong
 SLOT_FIX = {"I04B": 3, "I04C": 3, "I04D": 3, "I04E": 3,                 # Nga Mao Phiến: fan (weapon)
@@ -107,6 +108,8 @@ unit zzKS_src=null
 real array zzKS_dimm
 real array zzKS_lowCd
 integer array zzKS_refl
+integer array zzKS_stack
+real array zzKS_stackEnd
 framehandle array zzUI_hp
 framehandle array zzUI_mp
 integer zzUI_lastHp=0
@@ -131,6 +134,10 @@ string array zzKS_bKey
 unit zzKS_tgt=null
 framehandle zzVL_fHero=null
 framehandle zzVL_fHeroTxt=null
+framehandle array zzVL_fPassBtn
+framehandle array zzVL_fPassIco
+framehandle array zzVL_fPassTT
+framehandle array zzVL_fPassTTxt
 framehandle zzVL_fBanner=null
 framehandle zzVL_fBannerBg=null
 boolean array zzVL_heroOpen
@@ -234,9 +241,9 @@ def table():
         tier = TIER_FIX.get(iid, tier)
         rows.append("call SaveInteger(zzVL_ht,'%s',0,%d)" % (iid, slot * 10 + tier))
     # auto-cast table written by skills.py
-    rows += open(r"D:\vltk-dev-clone\build\skills_table.j", encoding="utf-8").read().splitlines()
-    rows += open(r"D:\vltk-dev-clone\build\tranphai_table.j", encoding="utf-8").read().splitlines()
-    rows += open(r"D:\vltk-dev-clone\build\kskill_table.j", encoding="utf-8").read().splitlines()
+    rows += open(os.path.join(ROOT, "build", "skills_table.j"), encoding="utf-8").read().splitlines()
+    rows += open(os.path.join(ROOT, "build", "tranphai_table.j"), encoding="utf-8").read().splitlines()
+    rows += open(os.path.join(ROOT, "build", "kskill_table.j"), encoding="utf-8").read().splitlines()
     rows += prices()
     rows = [r for r in rows if r]
     # gear by tier (extra drops in the Thien Kiem areas)
@@ -619,7 +626,18 @@ def script():
     nl = "\r\n" if "\r\n" in s else ("\r" if "\r" in s else "\n")
     lines = s.split(nl)
     rows = table()
-    mod = open(os.path.join(os.path.dirname(__file__), "gameplay.j"), "rb").read().decode("utf-8").splitlines()
+    jass_dir = os.path.join(os.path.dirname(__file__), "jass")
+    if os.path.exists(jass_dir):
+        files = sorted([f for f in os.listdir(jass_dir) if f.endswith(".j")])
+        mod = []
+        for f in files:
+            mod += open(os.path.join(jass_dir, f), "rb").read().decode("utf-8").splitlines()
+        try:
+            open(os.path.join(os.path.dirname(__file__), "gameplay.j"), "w", encoding="utf-8").write("\n".join(mod))
+        except Exception:
+            pass
+    else:
+        mod = open(os.path.join(os.path.dirname(__file__), "gameplay.j"), "rb").read().decode("utf-8").splitlines()
     # comments stay in gameplay.j only: the map gets plain code (no stray ' or \ for the game's parser)
     mod = [l for l in mod if l.strip() and not l.lstrip().startswith("//")]
     ks = open(os.path.join(os.path.dirname(__file__), "kskill.j"), "rb").read().decode("utf-8").splitlines()

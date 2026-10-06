@@ -12,7 +12,7 @@ from mpq import MPQ
 from gameplay_items import items, plain
 import gameplay
 
-SRC = r"D:\vltk-dev-clone\src\map"
+SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 KVCT = r"D:\kvct-dev\work\base.w3x"
 DST = "war3mapImported\\kv\\"
 BS = chr(92)

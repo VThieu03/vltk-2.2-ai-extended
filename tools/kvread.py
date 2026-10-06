@@ -6,8 +6,9 @@ import os, re, sys, collections
 sys.path.insert(0, os.path.dirname(__file__))
 from kskill_data import CLASS, load
 
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 KJ = r"D:\kvct-dev\work\readable.j"
-OUT = r"D:\vltk-dev-clone\docs\kvct_skills.md"
+OUT = os.path.join(ROOT, "docs", "kvct_skills.md")
 src = open(KJ, encoding="utf-8", errors="ignore").read().replace("\r\n", "\n")
 L = src.split("\n")
 g0, g1 = L.index("globals"), L.index("endglobals")
@@ -95,9 +96,11 @@ def main():
                 feat.append("diễn hoạt riêng")
             radii = sorted(set(int(x) for x in re.findall(r"GroupEnumUnitsInRange\([^,]+,[^,]+,[^,]+,(\d+)", text)))
             loops = len(re.findall(r"TimerStart|fS5\(", text))
-            out.append("- **%s** (%s, %s)%s" % (s["name"], s["kv"], {0: "bị động", 1: "đánh mục tiêu", 2: "quét phía trước", 3: "xung kích",
-                                                               4: "nổ quanh thân", 5: "phóng / đạn bay", 6: "buff bản thân",
-                                                               7: "buff phe ta", 8: "miễn khống chế"}[s["kind"]],
+            k_name = {0: "bị động", 1: "đánh mục tiêu", 2: "quét phía trước", 3: "xung kích",
+                      4: "nổ quanh thân", 5: "phóng / đạn bay", 6: "buff bản thân",
+                      7: "buff phe ta", 8: "miễn khống chế", 9: "hộ thuẫn",
+                      11: "liên hoàn xung kích", 12: "đại bão nổ"}.get(s["kind"], "kỹ năng đặc biệt")
+            out.append("- **%s** (%s, %s)%s" % (s["name"], s["kv"], k_name,
                                                " - phím %s" % s["key"] if s["key"] else ""))
             out.append("  - Mô tả: " + s["tip"].split("\n")[0])
             if hs:

@@ -10,8 +10,9 @@ from tcvn3 import _T
 
 TCVN3 = {v: chr(k) for k, v in _T.items()}                # VNVOGU is a TCVN3 font
 
-SRC = r"D:\vltk-dev-clone\src\map"
-FONT = r"D:\vltk-dev-clone\work\VNVOGU.TTF"
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+SRC = os.path.join(ROOT, "src", "map")
+FONT = os.path.join(ROOT, "work", "VNVOGU.TTF")
 VLKT_TOOLS = r"D:\vlkt-dev\tools"
 VLKT = r"D:\vlkt-dev\work\base.w3x"
 VLKT_OFF = 106496

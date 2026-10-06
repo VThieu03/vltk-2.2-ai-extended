@@ -87,6 +87,8 @@ def numbers(tip):
     fx |= 512 if has("giảm kháng", "giảm tất cả kháng", "giảm phòng", "bỏ qua") else 0
     fx |= 1024 if has("sinh lực xuống thấp", "sinh lực giảm còn") else 0
     fx |= 2048 if has("bỏng", "thiêu đốt", "hỏa sát") else 0
+    fx |= 4096 if has("phục hồi nội lực", "hồi nội lực", "hồi phục nội lực") else 0
+    fx |= 8192 if has("cộng dồn", "tích lũy", "tầng ") else 0
     passive = "bị động" in t.split(chr(10))[0]
     if passive:
         st, chance, sdur = 0, 0, 0

@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import objdata, terrain
 from PIL import Image
 
-ROOT = r"D:\vltk-dev-clone"
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ORIG = os.path.join(ROOT, "work", "orig")
 SRC = os.path.join(ROOT, "src", "map")
 TK = r"D:\thienkiem-dev\src"

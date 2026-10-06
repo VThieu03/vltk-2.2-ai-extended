@@ -1,6 +1,6 @@
 # Kỹ năng KVCT - đọc từ script (tự động)
 
-Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ phần lõi dùng chung 26 hàm) và những gì chúng làm.
+Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ phần lõi dùng chung 37 hàm) và những gì chúng làm.
 
 ## NDD (E000)
 
@@ -12,12 +12,12 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Vô Hình Cổ** (A077, buff bản thân) - phím F
   - Mô tả: Hỗ trợ chủ động - Cổ độc của đệ tử Ngũ Độc, hạ độc mục tiêu xung quanh mỗi giây
-  - Code: 16 hàm riêng, 173 dòng; đánh vùng
+  - Code: 14 hàm riêng, 159 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 2
   - Model: NDD_sauvohinh.mdl
 - **Bách Độc Xuyên Tâm** (A07A, đánh mục tiêu) - phím R
   - Mô tả: Chủ động tấn công - Đao pháp trung cấp Ngũ Độc, phát ra tia độc sát di chuyển chậm theo quỹ đạo hình cung
-  - Code: 11 hàm riêng, 145 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Code: 9 hàm riêng, 130 dòng; đạn bay (effect di chuyển), đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Vạn Cổ Thực Tâm** (A07B, bị động)
   - Mô tả: Bùa chú bị động - Bùa chú trung cấp Ngũ Độc, khiến kẻ địch bị giảm tất cả kháng tính
@@ -30,7 +30,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Chu Cáp Thanh Minh** (A07G, nổ quanh thân) - phím D
   - Mô tả: Chủ động tấn công - Tuyệt kỹ Ngũ Độc Đao, tấn công mục tiêu trong phạm vi rộng và gây trạng thái xấu
-  - Code: 14 hàm riêng, 256 dòng; đánh vùng
+  - Code: 12 hàm riêng, 212 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Hóa Huyết Tiệt Mạch** (A07H, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Ngũ Độc Đao, chuyển hóa sát thương thành sinh lực bản thân
@@ -64,7 +64,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Tung Hoành Bát Hoang** (A03A, buff bản thân) - phím F
   - Mô tả: Hỗ trợ chủ động - Tuyệt học mật tịch Thiên Vương Đao, miễn nhiễm trạng thái và tăng chí mạng bản thân
-  - Code: 10 hàm riêng, 93 dòng; -
+  - Code: 7 hàm riêng, 75 dòng; -
   - Hẹn giờ / đánh lặp: 1
   - Model: TVD_tunghoanhbathoangbuff.mdl
 - **Hào Hùng Trảm** (A03D, đánh mục tiêu) - phím E
@@ -84,7 +84,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Lưu Tinh Cản Nguyệt** (A0KG, đánh mục tiêu) - phím R
   - Mô tả: Chủ động tấn công - Kiếm pháp trung cấp Võ Đang, xông vào kẻ địch đồng thời thi triển kỹ năng tấn công cao nhất
-  - Code: 10 hàm riêng, 167 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
+  - Code: 8 hàm riêng, 139 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
   - Hẹn giờ / đánh lặp: 2
   - Âm thanh: snd_vdk4.mp3
 - **Thất Tinh Quyết** (A0KA, đánh mục tiêu)
@@ -143,7 +143,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Tương Tư** (A0CK, buff bản thân) - phím D
   - Mô tả: Hỗ trợ chủ động - Tuyệt học mật tịch Thúy Yên, tăng lực tấn công của đòn đánh kế tiếp
-  - Code: 12 hàm riêng, 125 dòng; -
+  - Code: 10 hàm riêng, 115 dòng; -
   - Hẹn giờ / đánh lặp: 1
 - **Băng Tước Việt Chi** (A0CL, phóng / đạn bay) - phím E
   - Mô tả: Chủ động tấn công - Đao pháp trấn phái Thúy Yên, phát ra đao pháp tấn công kẻ địch tầm xa, khi trúng kẻ địch phát động 5 luồng đao phong gây sát thương diện rộng
@@ -199,7 +199,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **La Hán Kim Thân** (A04Y, buff bản thân) - phím F
   - Mô tả: Hỗ trợ chủ động - Tuyệt học nội công Thiếu Lâm, nâng cao tốc độ tấn công và lực đánh trong một thời gian
-  - Code: 9 hàm riêng, 81 dòng; -
+  - Code: 7 hàm riêng, 71 dòng; -
   - Hẹn giờ / đánh lặp: 1
 - **Đạt Ma Võ Kinh** (A051, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Thiếu Lâm, nâng cao lực tấn công nội công
@@ -215,7 +215,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Thiên Thủ Như Lai Ấn** (A0WD, buff bản thân) - phím T
   - Mô tả: Hỗ trợ chủ động - Tuyệt học nội công Cửu Âm Thiếu Lâm, nâng cao lực tấn công nội công
-  - Code: 7 hàm riêng, 79 dòng; -
+  - Code: 6 hàm riêng, 76 dòng; -
   - Hẹn giờ / đánh lặp: 1
   - Model: TLQ_nhulai.mdl
 
@@ -326,19 +326,19 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Hẹn giờ / đánh lặp: 2
 - **Thiên Tế Tấn Lôi** (A0I9, đánh mục tiêu) - phím W
   - Mô tả: Chủ động tấn công - Đạo thuật trung cấp Côn Lôn, triệu hồi một trận sét tấn công đối thủ trong phạm vi lớn
-  - Code: 9 hàm riêng, 167 dòng; đánh vùng
+  - Code: 8 hàm riêng, 129 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 1
   - Âm thanh: snd_CLK_2.mp3
 - **Đạo Cốt Tiên Phong** (A0IE, buff phe ta) - phím T
   - Mô tả: Hỗ trợ chủ động - Hỗ trợ cao cấp Côn Lôn, gia tăng kháng tính cho bản thân và đồng đội
-  - Code: 12 hàm riêng, 155 dòng; đánh vùng
+  - Code: 10 hàm riêng, 144 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Ngũ Lôi Chánh Pháp** (A0HY, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Côn Lôn, tăng hiệu quả tấn công toàn diện
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Lôi Động Cửu Thiên** (A0IA, đánh mục tiêu) - phím E
   - Mô tả: Chủ động tấn công - Đạo thuật cao cấp Côn Lôn, triệu hồi một tia sét lớn giáng xuống 9 kẻ địch ngẫu nhiên
-  - Code: 9 hàm riêng, 156 dòng; đánh vùng
+  - Code: 8 hàm riêng, 118 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 2
   - Âm thanh: snd_CLK_3.mp3
 - **Lôi Đình Quyết** (A0IG, nổ quanh thân)
@@ -349,11 +349,11 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Ngự Phong Thuật** (A0IC, đánh mục tiêu) - phím D
   - Mô tả: Chủ động tấn công - Tuyệt học mật tịch Côn Lôn, lốc địch trên đường thẳng, giảm kháng lôi và kháng chí mạng
-  - Code: 11 hàm riêng, 172 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Code: 9 hàm riêng, 125 dòng; đạn bay (effect di chuyển), đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Thiên Lôi Chấn Nhạc** (A0IB, đánh mục tiêu) - phím R
   - Mô tả: Chủ động tấn công - Đạo thuật trấn phái Côn Lôn, triệu hồi từng cơn bão sét tấn công đối thủ trong phạm vi lớn
-  - Code: 10 hàm riêng, 200 dòng; đánh vùng
+  - Code: 9 hàm riêng, 162 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 1
 - **Hỗn Nguyên Càn Khôn** (A0IF, bị động)
   - Mô tả: Hỗ trợ bị động - Tuyệt học Cửu Dương Côn Lôn, nâng cao năng lực chiến đấu
@@ -388,7 +388,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Hàng Long Bất Vũ** (A03S, buff bản thân) - phím F
   - Mô tả: Hỗ trợ chủ động - Tuyệt học Thiếu Lâm, khiến bản thân giảm sát thương phải chịu khi bị tấn công vài lần sau đó, đồng thời nâng cao khả năng đánh chí mạng
-  - Code: 8 hàm riêng, 84 dòng; -
+  - Code: 6 hàm riêng, 74 dòng; -
   - Hẹn giờ / đánh lặp: 1
 - **Đạt Ma Bế Tức** (A03V, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Thiếu Lâm, tăng kháng trạng thái ngũ hành và có xác suất miễn nhiễm trạng thái
@@ -417,7 +417,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Đoạn Hồn Thích** (A01M, xung kích) - phím R
   - Mô tả: Chủ động tấn công - Võ công trung cấp Thiên Vương, xung kích đối thủ gây bất động
-  - Code: 11 hàm riêng, 211 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
+  - Code: 9 hàm riêng, 183 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
   - Hẹn giờ / đánh lặp: 2
   - Âm thanh: snd_TVT_dht.wav
 - **Kinh Lôi Phá Thiên** (A01R, bị động)
@@ -425,7 +425,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Thiên Vương Chiến Ý** (A01W, buff phe ta) - phím D
   - Mô tả: Hỗ trợ chủ động - Tâm pháp cao cấp Thiên Vương, tăng hiệu quả và lực tấn công phe ta
-  - Code: 13 hàm riêng, 149 dòng; đánh vùng
+  - Code: 11 hàm riêng, 139 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Thiên Canh Chiến Khí** (A01Z, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Thiên Vương, tăng xác suất hiệu quả tấn công và hồi phục
@@ -443,7 +443,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Hoành Hành Vô Kỵ** (A026, miễn khống chế) - phím T
   - Mô tả: Hỗ trợ chủ động - Tuyệt học mật tịch Thiên Vương, khiến bản thân miễn dịch hầu hết trạng thái
-  - Code: 8 hàm riêng, 76 dòng; -
+  - Code: 7 hàm riêng, 73 dòng; -
   - Hẹn giờ / đánh lặp: 1
 - **Bá Vương Trạm Kim** (A01N, quét phía trước) - phím E
   - Mô tả: Chủ động tấn công - Thương pháp trấn phái Thiên Vương, tấn công liên tiếp nhiều mục tiêu phía trước bản thân
@@ -462,7 +462,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Thiên Canh Địa Sát** (A06L, đánh mục tiêu) - phím R
   - Mô tả: Bùa chú - Chưởng pháp trung cấp Ngũ Độc, hạ độc kẻ địch trong phạm vi nhỏ
-  - Code: 16 hàm riêng, 184 dòng; đánh vùng
+  - Code: 15 hàm riêng, 178 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 3
 - **Xuyên Tâm Độc Thích** (A06M, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Ngũ Độc, tăng sát thương độc của toàn bộ kỹ năng
@@ -507,14 +507,14 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Mê Ảnh Tung** (A07T, buff bản thân) - phím F
   - Mô tả: Hỗ trợ chủ động - Di chuyển về hướng chỉ định với tốc độ cực nhanh
-  - Code: 9 hàm riêng, 144 dòng; di chuyển (lao / đẩy / kéo)
+  - Code: 7 hàm riêng, 116 dòng; di chuyển (lao / đẩy / kéo)
   - Hẹn giờ / đánh lặp: 2
 - **Tôi Độc Thuật** (A07W, đánh mục tiêu)
   - Mô tả: Vòng sáng hỗ trợ tấn công - Độc thuật Đường Môn, tăng sát thương chí mạng và độc công
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Đoạn Cân Nhẫn** (A07X, buff bản thân) - phím R
   - Mô tả: Hỗ trợ chủ động - Võ công trung cấp Đường Môn, gây bất động mục tiêu theo hình quạt, làm giảm kháng chí mạng
-  - Code: 15 hàm riêng, 192 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Code: 12 hàm riêng, 170 dòng; đạn bay (effect di chuyển), đánh vùng
   - Bán kính: 90
   - Hẹn giờ / đánh lặp: 3
   - Model: DMTT_tanghondinh.mdl
@@ -526,7 +526,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Xuyên Vân Tiễn** (A083, phóng / đạn bay) - phím D
   - Mô tả: Chủ động tấn công - Tuyệt kỹ ám khí Đường Môn, bắn ra một tiễn với uy lực cực lớn truy kích kẻ địch tầm xa
-  - Code: 14 hàm riêng, 211 dòng; đạn bay (effect di chuyển), đánh vùng, khống chế (dừng / định thân)
+  - Code: 13 hàm riêng, 205 dòng; đạn bay (effect di chuyển), đánh vùng, khống chế (dừng / định thân)
   - Hẹn giờ / đánh lặp: 3
 - **Thất Tuyệt Sát Quang** (A084, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Đường Môn, cách một khoảng thời gian gia tăng công kích và chí mạng
@@ -560,7 +560,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Phật Quang Chiến Khí** (A0AX, buff phe ta) - phím R
   - Mô tả: Hỗ trợ chủ động - Phật pháp cao cấp Nga My, giúp tăng vật công công nội của bản thân và đồng đội
-  - Code: 24 hàm riêng, 293 dòng; đánh vùng, đổi màu / tốc độ diễn hoạt
+  - Code: 22 hàm riêng, 283 dòng; đánh vùng, đổi màu / tốc độ diễn hoạt
   - Hẹn giờ / đánh lặp: 3
 - **Phật Pháp Vô Biên** (A0B0, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Nga My, tăng hiệu quả tấn công toàn diện
@@ -576,7 +576,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Vạn Tướng Thần Công** (A0B7, buff bản thân) - phím D
   - Mô tả: Hỗ trợ chủ động - Tuyệt học mật tịch Nga My, giảm tỉ lệ trúng trạng thái ngũ hành và tăng lực tấn công
-  - Code: 14 hàm riêng, 144 dòng; -
+  - Code: 10 hàm riêng, 121 dòng; -
   - Hẹn giờ / đánh lặp: 2
 - **Nguyệt Hoa Khuynh Tả** (A0BA, đánh mục tiêu) - phím E
   - Mô tả: Chủ động tấn công - Chưởng pháp trấn phái Nga My, phát ra 3 đạo chưởng khí truy kích kẻ địch gây 2 lần sát thương
@@ -603,7 +603,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Âm thanh: snd_TND_2.mp3
 - **Ma Âm Phệ Phách** (A0G6, nổ quanh thân) - phím D
   - Mô tả: Bùa chú - Bùa chú trung cấp Thiên Nhẫn, khiến mục tiêu xung quanh bị hỗn loạn và giảm tốc độ đánh
-  - Code: 22 hàm riêng, 277 dòng; đánh vùng, đổi màu / tốc độ diễn hoạt
+  - Code: 19 hàm riêng, 262 dòng; đánh vùng, đổi màu / tốc độ diễn hoạt
   - Hẹn giờ / đánh lặp: 4
 - **Bi Tô Thanh Phong** (A0G7, bị động)
   - Mô tả: Bùa chú bị động - Bùa chú trung cấp Thiên Nhẫn, khiến kẻ địch bị giảm kháng vật và độ linh hoạt
@@ -616,7 +616,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Phi Hồng Vô Tích** (A0G8, xung kích) - phím F
   - Mô tả: Chủ động tấn công - Tuyệt kỹ tấn công Thiên Nhẫn, xung kích về phía trước gây sát thương kẻ địch trên đường đi qua
-  - Code: 11 hàm riêng, 196 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
+  - Code: 9 hàm riêng, 170 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Cửu Khúc Hợp Thương** (A0GB, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Thiên Nhẫn, khiến bản thân miễn dịch và gia tăng chí mạng
@@ -650,7 +650,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
 - **Chân Vũ Thất Tiệt** (A0JR, đánh mục tiêu)
   - Mô tả: Vòng sáng hỗ trợ tấn công - Đạo gia nội công tâm pháp, nâng cao lực tấn công và chuyển hóa sát thương thành nội lực
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
-- **Thuần Dương Vô Cực** (A0JP, buff bản thân) - phím F
+- **Thuần Dương Vô Cực** (A0JP, hộ thuẫn) - phím F
   - Mô tả: Hỗ trợ chủ động - Tiêu hao nội lực tạo lá chắn chống lại sát thương
   - Code: 10 hàm riêng, 103 dòng; -
   - Hẹn giờ / đánh lặp: 3
@@ -662,7 +662,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Vạn Kiếm Quy Tông** (A0JS, đánh mục tiêu) - phím R
   - Mô tả: Chủ động tấn công - Tuyệt kỹ đạo gia Võ Đang, tấn công kẻ địch trên phạm vi lớn, đồng thời gia tăng chí mạng khi tấn công
-  - Code: 12 hàm riêng, 186 dòng; đánh vùng
+  - Code: 11 hàm riêng, 148 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Võ Đang Cửu Dương** (A0JU, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Nội công đạo gia Võ Đang, nội lực càng cao sát thương càng to
@@ -740,7 +740,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Túy Tiên Bát Côn** (A04D, nổ quanh thân) - phím R
   - Mô tả: Chủ động tấn công - Tuyệt học Thiếu Lâm, đối thủ ở xung quanh bị hút đến bên cạnh liên tiếp gây sát thương.
-  - Code: 14 hàm riêng, 227 dòng; đánh vùng
+  - Code: 12 hàm riêng, 213 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 3
   - Âm thanh: snd_TLB_2.wav
 - **Kim Cang Bất Hoại** (A04G, bị động)
@@ -785,7 +785,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Kinh Thiên Nhất Kiếm** (A0D8, quét phía trước) - phím R
   - Mô tả: Chủ động tấn công - Tuyệt kỹ Đoàn Thị Đại Lý, phát ra liên tiếp kiếm khí đánh lui mục tiêu phía trước
-  - Code: 10 hàm riêng, 109 dòng; -
+  - Code: 9 hàm riêng, 100 dòng; -
   - Hẹn giờ / đánh lặp: 2
   - Âm thanh: snd_DTK_3.mp3
 - **Bách Hồng Thực Nhật** (A0CS, bị động)
@@ -827,7 +827,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Trảm Long Quyết** (A02P, xung kích) - phím D
   - Mô tả: Chủ động tấn công - Tuyệt kỹ Thiên Vương Chùy Pháp, xông đến địa điểm chỉ định và tạo thành sát thương phạm vi lớn duy trì một thời gian
-  - Code: 11 hàm riêng, 214 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
+  - Code: 9 hàm riêng, 186 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
   - Hẹn giờ / đánh lặp: 2
 - **Càn Khôn Chùy** (A02Q, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Thiên Vương, lực tấn công tăng lên khi trúng đòn
@@ -855,7 +855,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Mãn Thiên Hoa Vũ** (A08J, nổ quanh thân) - phím R
   - Mô tả: Chủ động tấn công - Ám khí trung cấp Đường Môn, ám khí rơi lả tả gây độc sát trong phạm vi rộng 3 lần
-  - Code: 11 hàm riêng, 152 dòng; đánh vùng
+  - Code: 10 hàm riêng, 146 dòng; đánh vùng
   - Hẹn giờ / đánh lặp: 3
 - **Nhiếp Hồn Nguyệt Ảnh** (A08K, phóng / đạn bay) - phím W
   - Mô tả: Chủ động tấn công - Võ công cao cấp Đường Môn, phóng ra nhiều đao tấn công kẻ địch tầm xa
@@ -868,7 +868,7 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Ảnh Tung Trận** (A08P, miễn khống chế) - phím D
   - Mô tả: Hỗ trợ chủ động - Trận pháp mật tịch Đường Môn Phi Đao, thân pháp nhanh nhẹn, vô ảnh vô tung, khiến kẻ địch không nắm bắt được vị trí bản thân
-  - Code: 15 hàm riêng, 172 dòng; -
+  - Code: 14 hàm riêng, 169 dòng; -
   - Hẹn giờ / đánh lặp: 3
 - **Vô Ảnh Xuyên** (A08S, phóng / đạn bay) - phím E
   - Mô tả: Chủ động tấn công - Võ công trấn phái Đường Môn Phi Đao, phi đao vô ảnh truy kích mục tiêu tầm xa
@@ -878,4 +878,555 @@ Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ ph�
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
 - **Bách Phát Bách Trúng** (A0WT, bị động)
   - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Đường Môn Phi Đao, khả năng dùng phi đao điêu luyện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## CBB (H020)
+
+- **Bổng Đả Ác Cẩu** (A0EK, phóng / đạn bay) - phím Q
+  - Mô tả: Chủ động tấn công - Bổng pháp sơ cấp Cái Bang, xuất nhiều chiêu tấn công đối thủ tầm xa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Cái Bang Bổng Pháp** (A0ER, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nhập môn Cái Bang, nâng cao hiệu quả tấn công côn pháp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tiêu Dao Công** (A0ET, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Cái Bang, kháng phản đòn thọ thương và tăng độ linh hoạt
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ác Cẩu Lan Lộ** (A0F0, nổ quanh thân) - phím R
+  - Mô tả: Chủ động tấn công - Bổng pháp trung cấp Cái Bang, phát ra 12 đạo côn pháp tấn công kẻ địch trên phạm vi rộng
+  - Code: 6 hàm riêng, 101 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Hẹn giờ / đánh lặp: 1
+- **Bôn Lưu Đáo Hải** (A0ES, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Cái Bang, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thiên Hạ Vô Cẩu** (A0EL, phóng / đạn bay) - phím W
+  - Mô tả: Chủ động tấn công - Bổng pháp cao cấp Cái Bang, phát ra 3 chiêu truy kích đối thủ tầm xa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Đả Cẩu Bổng Pháp** (A0EU, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học hỗ trợ tấn công Cái Bang, tăng sát thương ngoại công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Minh Sát Thu Hào** (A0EX, buff bản thân) - phím D
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp mật tịch Cái Bang, giúp bản thân né tránh đòn đánh của kẻ địch
+  - Code: 10 hàm riêng, 108 dòng; -
+  - Hẹn giờ / đánh lặp: 2
+  - Model: CBB_minhsatcast.mdx, CBB_minhsatthuhao.mdl
+- **Tung Hạc Công** (A0EV, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Cái Bang, hóa giải sát thương nhận vào. Xác suất phát động đẩy lùi kẻ địch và tăng né tránh, miễn dịch trạng thái tiêu cực
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Bổng Quỷnh Lược Địa** (A0EM, đánh mục tiêu) - phím E
+  - Mô tả: Chủ động tấn công - Bổng pháp trấn phái Cái Bang, phát ra 3 chiêu đeo bám đối thủ tấn công 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Đả Cẩu Trận Pháp** (A0EW, bị động)
+  - Mô tả: Hỗ trợ bị động - Tuyệt học Cửu Dương Cái Bang, nâng cao năng lực chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hỗn Thiên Khí Công** (A0X8, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Cái Bang Bổng, tăng lực tấn công ngoại công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## NMK (H021)
+
+- **Thôi Song Vọng Nguyệt** (A0A5, phóng / đạn bay) - phím Q
+  - Mô tả: Chủ động tấn công - Kiếm pháp sơ cấp Nga My, tấn công tầm xa đối thủ 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Từ Hàng Phổ Độ** (A0A6, buff phe ta) - phím R
+  - Mô tả: Hỗ trợ chủ động - Phật pháp sơ cấp Nga My, hồi phục sinh lực phe ta trong phạm vi xung quanh bản thân
+  - Code: 9 hàm riêng, 136 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Thiên Phật Thiên Diệp** (A0A7, buff phe ta) - phím D
+  - Mô tả: Hỗ trợ chủ động - Phật pháp trung cấp Nga my, tập hợp nhiều hiệu quả hỗ trợ bản thân và đồng đội
+  - Code: 15 hàm riêng, 208 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Mộng Điệp** (A0AA, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Phật pháp trung cấp Nga My, nâng cao khả năng hồi phục phe mình
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phật Tâm Từ Hựu** (A0AB, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Phật pháp trung cấp Nga My, nâng cao khả năng hồi phục phe mình
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ba La Tâm Kinh** (A0AG, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Phật pháp cao cấp Nga My, nâng cao kháng tính phe mình
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kiếm Ảnh Phật Quang** (A0AN, phóng / đạn bay) - phím W
+  - Mô tả: Chủ động tấn công - Kiếm pháp cao cấp Nga My, tấn công tầm xa đối thủ 3 lần trên đường thẳng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thanh Âm Phạn Xướng** (A0AH, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Phật pháp tuyệt học Nga My, giảm thời gian bị trạng thái ngũ hành phe mình
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thanh Tâm Tịnh Khí** (A0AI, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Phật pháp mật tịch Nga My, giảm sát thương chí mạng phải chịu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Liên Hoa Tâm Kinh** (A0AL, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Nga My, nâng cao khả năng chiến đấu toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Băng Sương Điện Phóng** (A0AO, phóng / đạn bay) - phím E
+  - Mô tả: Chủ động tấn công - Kiếm pháp trấn phái Nga My, phát ra 5 đạo kiếm khí truy kích kẻ địch tầm xa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Độ Nguyên Công** (A0AM, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Nga My, nâng cao khả năng chiến đấu toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Bế Nguyệt Phất Trần** (A0WW, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Nga My Kiếm, nâng cao tốc độ tấn công và sát thương
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## MGC (H022)
+
+- **Khai Thiên Thức** (A09M, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Chùy pháp sơ cấp Minh Giáo Chùy, tấn công mục tiêu trong phạm vi nhỏ
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Minh Giáo Chùy Pháp** (A09N, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Chùy pháp nhập môn Minh Giáo, nâng cao năng lực chiến đấu chùy pháp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Khốn Hổ Vân Tiếu** (A09O, xung kích) - phím R
+  - Mô tả: Chủ động tấn công - Võ công trung cấp Minh Giáo, xung kích tấn công mục tiêu phía trước, tại vị trí cuối cùng gây độc sát mục tiêu xung quanh
+  - Code: 7 hàm riêng, 147 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Kim Qua Thiết Mã** (A09P, buff phe ta) - phím T
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp trung cấp Minh Giáo, nâng cao khả năng chí mạng cho bản thân và đồng đội
+  - Code: 11 hàm riêng, 148 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Phách Địa Thế** (A09Q, phóng / đạn bay) - phím D
+  - Mô tả: Chủ động tấn công - Chùy pháp trung cấp Minh Giáo, gây lượng lớn sát thương xuyên thấu kẻ địch phía trước
+  - Code: 11 hàm riêng, 153 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+- **Ngự Mã Thuật** (A09R, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Minh Giáo Chùy, nâng cao khả năng tấn công và kháng tính khi cưỡi ngựa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Long Thôn Thức** (A09S, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Chùy pháp cao cấp Minh Giáo Chùy, tấn công mục tiêu phạm vi gần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hồn Phách Phi Dương** (A09T, nổ quanh thân) - phím F
+  - Mô tả: Chủ động tấn công - Tuyệt học Minh Giáo, làm suy yếu mục tiêu trên phạm vi rộng, đồng thời nâng cao lực tấn công bản thân
+  - Code: 13 hàm riêng, 165 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+- **Cửu Hi Hỗn Dương** (A09U, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Minh Giáo, khi sinh lực giảm còn 50% miễn dịch một số trạng thái và phục hồi sinh lực bản thân
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Liệt Diệm Thao Thiên** (A09X, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Minh Giáo, tỉ lệ né tránh công kích tầm xa, tích lũy Địa Liệt gây sát thương liên tiếp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Khu Hổ Thức** (A09Z, quét phía trước) - phím E
+  - Mô tả: Chủ động tấn công - Chùy pháp trấn phái Minh Giáo, tấn công mục tiêu phía trước bản thân 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Trấn Ngục Phá Thiên Kinh** (A0A0, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Minh Giáo Chùy, tăng hiệu quả chiến đấu chùy pháp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Không Tuyệt Tâm Pháp** (A0WV, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Minh Giáo Chùy, nâng cao năng lực chiến đấu và hóa giải trạng thái
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## MGK (H023)
+
+- **Thánh Hỏa Phần Tâm** (A08W, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Dị thuật sơ cấp Minh Giáo, phát ra âm hỏa thiêu đốt mục tiêu đi qua
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Minh Giáo Kiếm Pháp** (A08X, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nhập môn Minh Giáo, nâng cao khả năng dùng độc
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Di Khí Phiêu Tung** (A08Y, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Minh Giáo, có xác suất né tránh hoàn toàn tấn công hệ nội công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Vạn Vật Câu Phần** (A08Z, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Dị thuật Minh Giáo, từ trung tâm phát ra một vòng lửa thiêu đốt đối thủ
+  - Code: 9 hàm riêng, 148 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Càn Khôn Đại Na Di** (A090, miễn khống chế) - phím D
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp cao cấp Minh Giáo, chuyển hóa sát thương thành sinh lực bản thân
+  - Code: 7 hàm riêng, 62 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Ly Hỏa Đại Pháp** (A093, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Minh Giáo, tăng hiệu quả tấn công hệ độc
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thánh Hỏa Liêu Nguyên** (A094, nổ quanh thân) - phím E
+  - Mô tả: Chủ động tấn công - Dị thuật cao cấp Minh Giáo, lửa rơi tấn công mục tiêu trên phạm vi rộng và gây độc sát
+  - Code: 11 hàm riêng, 165 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+  - Âm thanh: snd_MGK_thanhhoalieunguyen.mp3
+- **Thánh Hỏa Lệnh Pháp** (A095, đánh mục tiêu) - phím F
+  - Mô tả: Hỗ trợ tấn công chủ động - Tuyệt học Minh Giáo, giải trừ thời gian giãn cách kỹ năng trong 1 khoảng thời gian
+  - Code: 6 hàm riêng, 67 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Nhân Huân Tử Khí** (A098, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Minh Giáo, giảm giãn cách thi triển kỹ năng và tăng độc công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hoang Hỏa Ngọc Phần** (A099, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Minh Giáo, tỉ lệ gia tăng sát thương độc
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kiếm Đãng Bát Hoang** (A09A, đánh mục tiêu) - phím R
+  - Mô tả: Chủ động tấn công - Dị thuật trấn phái Minh Giáo, nhiều thanh Thánh Hỏa Kiếm từ trên trời rơi xuống, tấn công đối thủ trong phạm vi lớn 3 lần, kết thúc gây ra độc sát
+  - Code: 11 hàm riêng, 174 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+  - Âm thanh: snd_MGK_kiemdang.mp3
+- **Thánh Hỏa Thần Công** (A09B, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Minh Giáo, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Mục Dã Ưng Dương** (A0WU, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Minh Giáo Kiếm, nâng cao năng lực dùng độc
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## DTC (H024)
+
+- **Thần Chỉ Điểm Huyệt** (A0DB, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Chỉ pháp sơ cấp Đoàn Thị, tấn công mục tiêu gần 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Đoàn Thị Chỉ Pháp** (A0DE, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Chỉ pháp nhập môn Đoàn Thị, tăng lực tay.
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Nhất Dương Chỉ** (A0DO, đánh mục tiêu) - phím R
+  - Mô tả: Chủ động tấn công - Chỉ pháp trung cấp Đoàn Thị, tụ khí ở đầu ngón tay bắn về phía địch cực nhanh
+  - Code: 14 hàm riêng, 191 dòng; đạn bay (effect di chuyển), đánh vùng, khống chế (dừng / định thân), đổi màu / tốc độ diễn hoạt
+  - Hẹn giờ / đánh lặp: 3
+  - Âm thanh: snd_DTC_4.mp3
+- **Lăng Ba Vi Bộ** (A0DQ, buff bản thân) - phím F
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp trung cấp Đoàn Thị Đại Lý, tăng tốc độ chạy cực nhanh và né tránh sự tấn công của đối thủ
+  - Code: 7 hàm riêng, 92 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Từ Bi Quyết** (A0DR, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Nội công trung cấp Đại Lý Đoàn Thị, khi sinh lực xuống thấp sẽ tự thi triển Lăng Ba Vi Bộ
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kim Ngọc Chỉ Pháp** (A0DF, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Đoàn Thị, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Cản Dương Thần Chỉ** (A0DC, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Chỉ pháp cao cấp Đoàn Thị, tấn công liên tiếp mục tiêu đứng gần 3 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Huyền Băng Cửu Kiếp** (A0DU, phóng / đạn bay) - phím D
+  - Mô tả: Chủ động tấn công - Tuyệt kỹ Đoàn Thị Đại Lý, phóng ra 9 tia băng truy kích kẻ địch tầm xa
+  - Code: 12 hàm riêng, 149 dòng; đánh vùng, khống chế (dừng / định thân)
+  - Hẹn giờ / đánh lặp: 2
+  - Âm thanh: snd_DTC_5.mp3
+- **Diệu Đề Chỉ** (A0DP, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Đoàn Thị, thi triển Nhất Dương Chỉ kích phát tiềm lực bản thân
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thí Nguyên Quyết** (A0DV, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Đại Lý Đoàn Thị, cách một khoảng thời gian khi tấn công nhận được trạng thái miễn nhiễm trạng thái
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thiên Long Thần Chỉ** (A0DD, đánh mục tiêu) - phím E
+  - Mô tả: Chủ động tấn công - Chỉ pháp trấn phái Đoàn Thị, tấn công liên tiếp mục tiêu trong phạm vi nhỏ
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Càn Thiên Chỉ Pháp** (A0DX, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Đoàn Thị, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Bách Bộ Xuyên Dương** (A0X4, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Đoàn Thị Chỉ, điểm huyệt kẻ địch
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## CMC (H025)
+
+- **Biệt Tự** (A0LS, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Châm pháp sơ cấp Cổ Mộ, tấn công mục tiêu trên cự li ngắn 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Mộ Châm Pháp** (A0LV, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nhập môn Cổ Mộ, tăng hiệu quả tấn công châm pháp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kinh Hồng Chiếu Ảnh** (A0M8, xung kích) - phím R
+  - Mô tả: Chủ động tấn công - Châm pháp trung cấp Cổ Mộ, lao vào kẻ địch thi triển Băng Phách Thần Châm
+  - Code: 13 hàm riêng, 216 dòng; di chuyển (lao / đẩy / kéo), đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+  - Âm thanh: snd_cmc6.mp3
+- **Súc Thế Đãi Phát** (A0ME, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Cổ Mộ, khi không tấn công gia tăng sát thương cho đòn kế tiếp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ngọc Phong Châm** (A0MA, phóng / đạn bay) - phím D
+  - Mô tả: Chủ động tấn công - Châm pháp cao cấp Cổ Mộ, liên tiếp phóng châm tấn công mục tiêu theo hình quạt
+  - Code: 22 hàm riêng, 284 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 5
+  - Âm thanh: snd_cmc4.mp3
+- **Lưu Vân Pháp** (A0LW, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Cổ Mộ, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ly Hận** (A0LT, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Châm pháp cao cấp Cổ Mộ, tấn công mục tiêu trên cự li ngắn 3 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hoàng Tuyền Lảo Đảo** (A0MC, đánh mục tiêu) - phím F
+  - Mô tả: Chủ động tấn công - Tuyệt học Cổ Mộ Châm, hàng loạt mũi châm liên tiếp rơi xuống tấn công kẻ địch trên diện rộng
+  - Code: 10 hàm riêng, 141 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+  - Âm thanh: snd_cmc5.mp3
+- **Hành Vân Đới Vũ** (A0MF, bị động)
+  - Mô tả: Hỗ trợ bị động - Tâm pháp mật tịch Cổ Mộ, khi dùng hết số tầng Thôn Tư kích hoạt trạng thái né tránh nội ngoại công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Vụ Tập Vân Hợp** (A0MD, buff bản thân) - phím T
+  - Mô tả: Hỗ trợ chủ động - Tuyệt kỹ mật tịch Cổ Mộ, giảm số mục tiêu tác động của chiêu thức và tăng khả năng chí mạng
+  - Code: 6 hàm riêng, 72 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Bi Sầu** (A0LU, đánh mục tiêu) - phím E
+  - Mô tả: Chủ động tấn công - Châm pháp trấn phái Cổ Mộ, tấn công mục tiêu 3 lần trên đường thẳng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phong Lưu Vân Tán** (A0M7, bị động)
+  - Mô tả: Hỗ trợ bị động - Tuyệt học Cửu Dương Cổ Mộ, nâng cao năng lực chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Mê Thần Dẫn** (A0XT, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Cổ Mộ Châm, nâng cao tốc độ tấn công và né tránh
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## CMK (H026)
+
+- **Thu Nhạn Bàng Hoàng** (A0ML, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Kiếm pháp sơ cấp Cổ Mộ, tấn công kẻ địch trên đường thẳng 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kiếm Mộ Pháp** (A0MO, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Kiếm pháp nhập môn Cổ Mộ, nâng cao hiệu quả tấn công kiếm pháp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hồng Tụ Triền** (A0MZ, đánh mục tiêu) - phím R
+  - Mô tả: Chủ động tấn công - Kiếm pháp trung cấp Cổ Mộ, khiến mục tiêu trong khu vực chỉ định bị choáng
+  - Code: 14 hàm riêng, 176 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 1
+  - Âm thanh: snd_TDK_3.mp3
+- **Tịnh Ảnh Trầm Bích** (A0N7, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nội công Cổ Mộ, chuyển hóa nội lực thành sinh lực
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Mộ Vân Ngưng Bích** (A0N8, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nội công cao cấp Cổ Mộ, tạo hộ thuẫn kháng sát thương khi sinh lực xuống thấp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ngọc Nữ Kiếm Pháp** (A0MP, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Cổ Mộ, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Cô Nguyệt Bồi Hồi** (A0MM, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Kiếm pháp cao cấp Cổ Mộ, tấn công kẻ địch trên đường thẳng 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Chung Nam Vãn Chiếu** (A0N2, đánh mục tiêu) - phím D
+  - Mô tả: Chủ động tấn công - Tuyệt kỹ Cổ Mộ Kiếm Pháp, gây sát thương kẻ địch 3 lần trên đường thẳng
+  - Code: 19 hàm riêng, 267 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Hẹn giờ / đánh lặp: 4
+  - Âm thanh: snd_cmk3.mp3
+- **Hàn Sơn Độc Lập** (A0N3, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Cổ Mộ, khi tấn công thi triển Cấm, khuếch đại sát thương gây ra
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phi Thiên Vũ** (A0N6, đánh mục tiêu) - phím F
+  - Mô tả: Chủ động tấn công - Tuyệt học mật tịch Cổ Mộ, giữa lại Tuyệt và Cấm đồng thời hóa giải sát thương nhận vào
+  - Code: 5 hàm riêng, 58 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Cô Thân Chi Ảnh** (A0MN, đánh mục tiêu) - phím E
+  - Mô tả: Chủ động tấn công - Kiếm pháp trấn phái Cổ Mộ, tấn công kẻ địch trên đường thẳng 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ngọc Nữ Tâm Kinh** (A0MY, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Cổ Mộ, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Bạch Vân Hồi Vọng** (A0XW, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Cổ Mộ Kiếm, tăng tấn công chí mạng và sát thương kỹ năng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## HSQ (H027)
+
+- **Thanh Vân Tống Sảng** (A0KJ, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Khí công sơ cấp Hoa Sơn, tấn công mục tiêu trong phạm vi nhỏ 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hoa Sơn Khí Công** (A0KM, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nhập môn Hoa Sơn, tăng hiệu quả tấn công nội công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Long Nhiễu Thân** (A0KZ, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Thân pháp trung cấp Hoa Sơn, gia tăng độ linh hoạt
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Chân Khí Hộ Thể** (A0L0, hộ thuẫn) - phím R
+  - Mô tả: Hỗ trợ chủ động - Nội công tâm pháp Hoa Sơn, tạo ra một tầng phòng hộ
+  - Code: 9 hàm riêng, 90 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Hải Nạp Bách Xuyên** (A0L1, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Hoa Sơn, khi nội lực đầy đủ sẽ giảm tỉ lệ và thời gian bị trạng thái
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Khí Chấn Sơn Hà** (A0KN, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Hoa Sơn, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ma Vân Kiếm Khí** (A0KK, nổ quanh thân) - phím W
+  - Mô tả: Chủ động tấn công - Khí công cao cấp Hoa Sơn, tạo ra kiếm khí tấn công kẻ địch trên phạm vi rộng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Khí Quán Trường Hồng** (A0L4, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học khí công Hoa Sơn, nội lực càng cao lực tấn công càng cao
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tử Hà Chân Khí** (A0L3, buff bản thân) - phím D
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp mật tịch Hoa Sơn Khí Tông, nâng cao công kích hệ lôi và phục hồi nội lực bản thân mỗi giây
+  - Code: 9 hàm riêng, 102 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Huyền Nhãn Yên Vân** (A0L2, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Hoa Sơn, khi nội lực đầy đủ sẽ giảm sát thương phải chịu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phách Thạch Phá Ngọc** (A0KL, phóng / đạn bay) - phím E
+  - Mô tả: Chủ động tấn công - Khí công trấn phái Hoa Sơn, tử khí hóa thành chưởng tấn công mục tiêu tầm xa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thần Quang Toàn Nhiễu** (A0KX, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Hoa Sơn, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tử Khí Đông Lai** (A0XP, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Hoa Sơn Khí Tông, tăng lôi công và phục hồi nội lực
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## HSK (H028)
+
+- **Bạch Hồng Quán Nhật** (A0L6, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Kiếm pháp sơ cấp Hoa Sơn, xuất chiêu tấn công mục tiêu trong phạm vi nhỏ 2 lần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kiếm Tông Tổng Quyết** (A0LH, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Kiếm pháp nhập môn Hoa Sơn, nâng cao hiệu quả tấn công kiếm pháp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thiên Thân Đảo Huyền** (A0LO, nổ quanh thân) - phím E
+  - Mô tả: Chủ động tấn công - Kiếm pháp trung cấp Hoa Sơn, kiếm khí liên tiến rơi xuống tấn công kẻ địch trên phạm vi rộng
+  - Code: 8 hàm riêng, 130 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 1
+  - Âm thanh: snd_TDK_4.mp3
+- **Kim Nhạn Hoành Không** (A0LP, buff bản thân) - phím R
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp trung cấp Hoa Sơn Kiếm Tông, gia tăng tốc độ bản thân và làm giảm tốc độ kẻ địch
+  - Code: 12 hàm riêng, 132 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Hi Di Kiếm Pháp** (A0LI, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Hoa Sơn, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thương Tùng Nghênh Khách** (A0L7, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Kiếm pháp cao cấp Hoa Sơn, xuất ra 3 đạo kiếm khí tấn công đối thủ cự li gần
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thái Nhạc Tam Thanh** (A0LJ, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Hoa Sơn Kiếm Tông, giảm ảnh hưởng công kích nội công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Đoạt Mệnh Liên Hoàn Tam Tiên Kiếm** (A0LK, buff bản thân) - phím D
+  - Mô tả: Hỗ trợ chủ động - Tâm pháp mật tịch Hoa Sơn Kiếm Tông, mỗi khoảng thời gian gia tăng tổng lực tấn công
+  - Code: 8 hàm riêng, 88 dòng; -
+  - Hẹn giờ / đánh lặp: 2
+  - Model: HSK_doatmenhbuff.mdx
+- **Phá Kiếm Thức** (A0LN, bị động)
+  - Mô tả: Hỗ Trợ Bị Động -  Tuyệt học mật tịch Hoa Sơn Kiếm Tông, mỗi khoảng thời gian phát chiêu tấn công toàn bộ mục tiêu xung quanh
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Cửu Kiếm Hợp Nhất** (A0LL, bị động)
+  - Mô tả: Hỗ trợ tấn công bị động - Tuyệt kỹ trấn phái Hoa Sơn Kiếm Tông, phát ra 9 đạo kiếm khí truy kích kẻ địch
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Nhất Kiếm Phá Vạn Pháp** (A0LM, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Hoa Sơn, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Độc Cô Cửu Kiếm** (A0XS, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Hoa Sơn Kiếm Tông, tăng tốc độ đánh và gây ra sát thương chí tử
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## TDC (H029)
+
+- **Dương Ca Thiên Quân** (A0H5, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Chưởng pháp sơ cấp Tiêu Dao, tấn công mục tiêu trong phạm vi nhỏ
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tiêu Dao Chưởng Pháp** (A0HI, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Chưởng pháp nhập môn Tiêu Dao, tăng chưởng lực
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hàn Tụ Huyệt** (A0HK, đánh mục tiêu) - phím R
+  - Mô tả: Chủ động tấn công - Chưởng pháp trung cấp Tiêu Dao, điểm huyệt mục tiêu ngẫu nhiên và gây sát thương mỗi giây
+  - Code: 14 hàm riêng, 192 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Sưu Hồn Đại Pháp** (A0HL, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Tiêu Dao, tăng né tránh bản thân, khi sinh lực xuống thấp có tỉ lệ khiến kẻ địch bị hoảng loạn
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Diệm Nguyên Luân Hồi** (A0HO, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Tiêu Dao, tăng kháng phản đòn và hỏa công. Nhận được trạng thái giảm sát thương nhận vào mỗi khoảng thời gian
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phục Nhật Xuất Vân** (A0HJ, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Tiêu Dao, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Bạch Nhật Sâm Thần** (A0H6, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Trận pháp cao cấp Tiêu Dao, tấn công 2 lần kẻ địch trong phạm rộng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Sinh Tử Phù** (A0HQ, đánh mục tiêu) - phím D
+  - Mô tả: Chủ động tấn công - Tuyệt học Tiêu Dao, tạo thành sát thương trong phạm vi lớn, nâng cao lực tấn công của bản thân
+  - Code: 9 hàm riêng, 143 dòng; -
+  - Hẹn giờ / đánh lặp: 2
+  - Âm thanh: snd_TDC_4.mp3, snd_TDC_4_2.mp3
+- **Hỗn Nhật Khí Quyết** (A0HR, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Tiêu Dao, giảm sát thương ngũ hành phải chịu và trạng thái phải chịu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thiên Tàm Cửu Biến** (A0HS, nổ quanh thân) - phím F
+  - Mô tả: Hỗ trợ tấn công chủ động - Tuyệt học mật tịch Tiêu Dao, trong một khoảng thời gian tăng tốc độ di chuyển và tự động tấn công đối thủ xung quanh, chuyển một phần sát thương thành sinh lực
+  - Code: 17 hàm riêng, 188 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+- **Bài Sơn Đảo Hải** (A0H7, phóng / đạn bay) - phím E
+  - Mô tả: Chủ động tấn công - Chưởng pháp trấn phái Tiêu Dao, phát ra 3 đạo chưởng lực tấn công truy kích kẻ địch tầm xa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thái Hư Thần Công** (A0HT, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Tiêu Dao, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tung Bộ Quan Hỏa** (A0XG, buff bản thân) - phím T
+  - Mô tả: Hỗ trợ chủ động - Tuyệt học Cửu Âm Tiêu Dao Chưởng, nhảy tới vị trí chỉ định, gia tăng chí mạng trong thời gian ngắn
+  - Code: 7 hàm riêng, 118 dòng; di chuyển (lao / đẩy / kéo)
+  - Hẹn giờ / đánh lặp: 2
+
+## TDK (H02A)
+
+- **Trảm Vân Kiếm** (A0GE, đánh mục tiêu) - phím Q
+  - Mô tả: Chủ động tấn công - Kiếm pháp sơ cấp Tiêu Dao, thi triển kiếm khí tấn công đối thủ trên đường thẳng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tiêu Dao Kiếm Pháp** (A0GS, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Kiếm pháp nhập môn Tiêu Dao, nâng cao năng lực chiến đấu kiếm
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Đan Phượng Dẫn** (A0GV, nổ quanh thân) - phím R
+  - Mô tả: Chủ động tấn công - Trận pháp trung cấp Tiêu Dao, gây sát thương kẻ địch mỗi giây trên phạm vi rộng
+  - Code: 16 hàm riêng, 247 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 3
+  - Âm thanh: snd_TDK_3.mp3
+- **Chân Hỏa Hộ Thể** (A0GW, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Tiêu Dao, nâng cao sinh lực và né tránh, giảm sát thương phản đòn phải chịu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Sơ Hoa Dẫn** (A0GZ, buff phe ta) - phím F
+  - Mô tả: Hỗ trợ chủ động - Trận pháp cao cấp Tiêu Dao, tăng kháng phản đòn và giảm thời gian trạng thái cho bản thân và đồng đội
+  - Code: 16 hàm riêng, 179 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+- **Đoản Ca Hành** (A0GT, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Tiêu Dao, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tê Chiếu Phồn Thương** (A0GF, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Kiếm pháp cao cấp Tiêu Dao, thi triển kiếm khí tấn công liên tiếp đối thủ theo hình quạt
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Kiếm Chủng Dẫn** (A0GU, đánh mục tiêu) - phím D
+  - Mô tả: Chủ động tấn công - Tuyệt kỹ Tiêu Dao, thi triển kiếm khí liên tục gây sát thương địch trong phạm vi
+  - Code: 13 hàm riêng, 223 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 2
+  - Âm thanh: snd_TDK_4.mp3
+- **Bính Nhược Quan Hỏa** (A0H0, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Tiêu Dao, cường hóa hiệu quả kỹ năng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Ngang Nhật Đồ** (A0H1, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học mật tịch Tiêu Dao, cường hóa toàn diện sức mạnh bản thân
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Bách Điểu Triều Phượng** (A0GG, phóng / đạn bay) - phím E
+  - Mô tả: Chủ động tấn công - Kiếm pháp trấn phái Tiêu Dao, liên tiếp phát ra 4 đạo kiếm khí tấn công kẻ địch tầm xa
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phần Phách Tru Tâm** (A0H2, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Tiêu Dao, tăng hiệu quả chiến đấu
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Hỏa Hải Vô Nhai** (A0XB, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Tiêu Dao Kiếm, đòn đánh kèm theo hỏa sát
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+
+## TYK (H02B)
+
+- **Phong Quyển Tàn Tuyết** (A0BM, phóng / đạn bay) - phím Q
+  - Mô tả: Chủ động tấn công - Kiếm pháp sơ cấp Thúy Yên, tấn công kẻ địch tầm xa trên đường thẳng
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thúy Yên Kiếm Pháp** (A0BN, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp nhập môn Thúy Yên, tăng hiệu quả tấn công nội công
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tuyết Ảnh** (A0BO, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Thúy Yên, tăng tốc độ di chuyển
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Vũ Đả Lê Hoa** (A0BP, phóng / đạn bay) - phím R
+  - Mô tả: Chủ động tấn công - Võ công trung cấp Thúy Yên, phóng ra 8 đạo hàn băng gây sát thương và làm chậm kẻ địch xung quanh, hóa giải trạng thái bất lợi cho bản thân
+  - Code: 11 hàm riêng, 180 dòng; đạn bay (effect di chuyển), đánh vùng
+  - Hẹn giờ / đánh lặp: 4
+- **Hộ Thể Hàn Băng** (A0BQ, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp trung cấp Thúy Yên, tăng khả năng chống chịu và đóng băng kẻ địch khi sinh lực xuống thấp
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Băng Cốt Tuyết Tâm** (A0BT, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp cao cấp Thúy Yên, tăng hiệu quả tấn công toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Băng Tâm Tiên Tử** (A0BU, đánh mục tiêu) - phím W
+  - Mô tả: Chủ động tấn công - Kiếm pháp cao cấp Thúy Yên, tấn công đường thẳng gây 2 lần sát thương kẻ địch
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Phi Tự Phiêu Hoa** (A0BV, đánh mục tiêu) - phím D
+  - Mô tả: Chủ động tấn công - Tuyệt học Thúy Yên, duy trì tấn công mục tiêu trong phạm vi nhỏ
+  - Code: 10 hàm riêng, 159 dòng; đánh vùng
+  - Hẹn giờ / đánh lặp: 1
+- **Phù Vân Tán Tuyết** (A0BW, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tâm pháp mật tịch Thúy Yên, nâng cao hiệu quả chiến đấu toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Băng Tâm Ngọc Lăng** (A0BX, buff bản thân) - phím F
+  - Mô tả: Hỗ trợ chủ động - Tuyệt học mật tịch Thúy Yên, phản kích lại kẻ địch đang tấn công
+  - Code: 7 hàm riêng, 64 dòng; -
+  - Hẹn giờ / đánh lặp: 1
+- **Thủy Ánh Mạn Tú** (A0BY, phóng / đạn bay) - phím E
+  - Mô tả: Chủ động tấn công - Kiếm pháp trấn phái Thúy Yên, tấn công mục tiêu tầm xa, khi trúng mục tiêu phát động thức thứ 2
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Thập Diện Mai Phục** (A0BZ, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Dương Thúy Yên, nâng cao khả năng chiến đấu toàn diện
+  - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)
+- **Tuyết Ánh Hồng Trần** (A0WY, bị động)
+  - Mô tả: Hỗ Trợ Bị Động - Tuyệt học Cửu Âm Thúy Yên Kiếm, tạo ra băng sát khi tấn công
   - Code: không có hàm tung chiêu riêng (bị động / gắn vào đòn đánh hoặc lõi)

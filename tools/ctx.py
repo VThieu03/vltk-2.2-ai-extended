@@ -1,6 +1,6 @@
 # show where given characters occur (latin-1 view of TCVN3 text) in script + wts + skin
 import re, sys, os
-root = r"D:\vltk-dev-clone\src\map"
+root = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 chars = sys.argv[1]
 for f in ["Scripts\\war3map.j", "war3map.wts", "war3mapSkin.txt"]:
     t = open(os.path.join(root, f), "rb").read().decode("utf-8", "replace")

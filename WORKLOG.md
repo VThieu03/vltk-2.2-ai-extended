@@ -1,85 +1,115 @@
-# Nhật ký công việc - VLTK v2.2 AI 1.31 (bản clone)
+# Nhật ký công việc - VLTK v2.2 AI 1.31 (bản clone mở rộng)
 
-Thư mục làm việc: `D:\vltk-dev-clone`
-Bản đồ trong game: `Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x`
-Nhật ký trong game: `CustomMapData\VLTK\log.txt`
-Build: `tools\` chạy lần lượt convert_text, fix_script, expand, skills, tranphai, import_boss, lvl200, gameplay, describe, icons, vfx, ui, scale, build rồi chép vào Maps (tắt game trước khi chép).
-**Lưu ý khi sửa (cho cả Gemini):** sửa describe.py / gameplay.j bằng cách thêm vào, không chép đè file cũ; chạy đủ pipeline và kiểm tra mô tả còn dòng "Ngũ hành vũ khí", "Tiến cử", "[Khảm]".
-Giữ ghi công tác giả: vnakira; icon KVCT: Silva.Fox.
+> ⚠️ **QUY TẮC BẮT BUỘC DÀNH CHO MỌI AI AGENT (ĐỌC ĐẦU TIÊN KHI BẮT ĐẦU)**:
+> 1. **ĐỌC FILE NÀY ĐẦU TIÊN**: Mọi AI agent trước khi bắt tay vào việc hoặc trả lời câu hỏi **BẮT BUỘC** phải đọc `WORKLOG.md` để nắm toàn cảnh dự án, trạng thái và tiến độ.
+> 2. **CƠ CHẾ PHÒNG HẾT TOKEN / NGẮT PHIÊN**: Ngay khi User đưa ra một yêu cầu mới, **TRƯỚC KHI LÀM HAY TRẢ LỜI SÂU**, AI Agent phải ghi tóm tắt nhanh yêu cầu đó vào mục **"1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN"** ở ngay đầu file này. Tránh trường hợp hết context/token làm mất dấu vết công việc đang làm dở cho AI phiên sau.
+> 3. **BẢO VỆ DỮ LIỆU & PIPELINE BUILD**:
+>    - Khi sửa mã nguồn (JASS/Python), chỉ mở rộng hoặc sửa đúng trọng tâm, KHÔNG ghi đè làm mất mô tả ("Ngũ hành vũ khí", "Tiến cử", "[Khảm]").
+>    - Giữ nguyên ghi công tác giả: vnakira; icon KVCT: Silva.Fox.
+>    - Sau khi sửa, phải chạy pipeline build và kiểm tra `pjass` đạt 100% không có lỗi cú pháp.
 
-## Đang làm / còn mở
+---
 
-| # | Yêu cầu | Trạng thái |
+## TOÀN CẢNH BỨC TRANH DỰ ÁN (PROJECT BIG PICTURE)
+
+* **Bản chất dự án**: Nâng cấp, hiện đại hóa và mở rộng map Warcraft III: **Võ Lâm Truyền Kỳ v2.2 AI 1.31** (`Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x`) kết hợp tài nguyên kỹ năng, mô hình và hiệu ứng từ **Kiếm Vũ Chí Tôn (KVCT)** (tác giả Silva.Fox) và cơ chế trang bị nhập vai hành động (Diablo-style).
+* **Môi trường & Vị trí làm việc**:
+  - Thư mục làm việc: `.` (đường dẫn động `os.path.abspath`, độc lập môi trường).
+  - Bản đồ trong game: `Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x` (hoặc `build\VLTK-1.31.w3x`).
+  - Nhật ký log trong game: `CustomMapData\VLTK\log.txt`.
+* **Cấu trúc kiến trúc chính**:
+  1. **33 Môn phái**: 21 môn phái VLTK gốc + 12 môn phái mới bổ sung đầy đủ từ KVCT (Đoàn Thị Chỉ, Minh Giáo Kiếm/Chùy, Hoa Sơn Khí/Kiếm, Cổ Mộ Kiếm/Châm, Tiêu Dao Kiếm/Chưởng, Cái Bang Bổng, Nga My Kiếm, Thúy Yên Song Đao).
+  2. **Bộ máy Kỹ năng (400 chiêu)**: Dựa trên framework `tools/kskill.py` và `tools/kskill.j`, chuyển hóa toàn bộ 400 kỹ năng từ KVCT học trực tiếp theo cấp 1-200.
+  3. **Trang bị RPG & Damage Engine**: Hệ thống 22 dòng thuộc tính ngẫu nhiên Diablo, 12 loại bảo thạch khảm (`I101`–`I10C`), cường hóa cố định theo 4 ô (Mũ, Áo, Vũ khí, Giày), tính toán né tránh/chính xác, kháng 5 hệ ngũ hành.
+  4. **Modular hóa JASS**: Toàn bộ logic `tools/gameplay.j` (3400+ dòng) đã được tách thành 8 module rõ ràng trong `tools/jass/` (`gameplay_01_core.j` đến `08_ui.j`).
+  5. **Giao diện & Tiện ích**: UI ngọc bích, phím tắt B (Hành trang), C (Bảng nhân vật 22 chỉ số), tự nhặt, tự bán đồ (Auto-sell), dọn dẹp item rác trên đất, phi phong ẩn tự cộng chỉ số khi thăng hàm.
+* **Quy trình Build map (Pipeline)**:
+  `tools\` chạy lần lượt: `convert_text` -> `fix_script` -> `expand` -> `skills` -> `tranphai` -> `import_boss` -> `lvl200` -> `gameplay` -> `describe` -> `icons` -> `vfx` -> `ui` -> `scale` -> `build`. Sau đó sao chép file `.w3x` đã build vào thư mục Maps của Warcraft III.
+
+---
+
+## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
+
+> *Cập nhật ngày 06/10/2026:*
+- Không có công việc nào đang dang dở.
+
+## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
+
+- [x] **Yêu cầu User:** *"cấu hình lại toàn bộ chiêu Q W E của các phái về autocast cường hóa đòn đánh, các chiêu bị động hiển thị hình icon vào bên trong Tab nhân vật"*
+  - Chuyển đổi toàn bộ kỹ năng phím Q (Base `ANba`), W (Base `AEpa`), và E (Base `AHca`) của 33 môn phái thành dạng Autocast Attack Modifier. Sửa trong `tools/kskill.py` để sinh đúng Base ID thay vì ép về `ANcl`.
+  - Cập nhật cơ chế xử lý sát thương/hiệu ứng trong `tools/kskill.j` (`zzKS_OnHit`) để nhận diện buff của chiêu Autocast (`Bdba`, `Bpoa`, `Bhea`) và gọi bung hiệu ứng `zzKS_Do`.
+  - Bổ sung cơ chế tạo UI icon bên trong Bảng Nhân Vật (`Nhân Vật (C)`) bằng JASS (`gameplay_08_ui.j` và `gameplay.py`), hiện danh sách các chiêu bị động của hero và xem tooltip mở rộng chứa mô tả chiêu thức bằng BoxedText khi rê chuột vào.
+- [x] **Yêu cầu User:** *"bạn bóc lại skill của KVCT rồi đọc mô tả đi"*
+  - Đã bóc tách dữ liệu từ `CampaignAbilityStrings.txt` và `AbilityData.slk`. Phát hiện Q, W, E là các chiêu Autocast cường hóa đòn đánh và đã xử lý dứt điểm.
+- [x] **Yêu cầu User:** *"sửa lại một số bộ kĩ năng chưa thực sự gây ra đúng dame"*. (Đã sửa lỗi kỹ năng Cái Bang Chưởng).
+  - Khắc phục tình trạng các chiêu bị gán nhầm loại (`kind`) dẫn đến không gây sát thương chuẩn hoặc bị lỗi hiển thị/chậm nhịp:
+    - **Hàng Long Hữu Hối (A0E7)**: Chuyển từ đạn đơn (lance) sang diện rộng hình nón (`kind: 2`), `hits: 3`.
+    - **Thời Thừa Lục Long (A0ED)**: Chuyển từ buff chỉ số thông thường (`kind: 6`) thành vòng lửa nổ diện rộng (`kind: 4` nova), `hits: 6` có kèm thọ thương.
+    - **Phi Long Tại Thiên (A0E1)**: Sửa thành sát thương đánh nhiều nhịp mục tiêu (`kind: 1`), `hits: 4`.
+    - **Long Du Thiên Địa (A0E2)**: Sửa từ kỹ năng đánh đơn (`kind: 1`) sang đạn bay xuyên thấu (`kind: 5`), `hits: 3`.
+  - Đã chạy qua Pipeline và map đã tự động chép sang thư mục test của máy User.
+
+- [x] **Chuẩn hóa đường dẫn tương đối (Dynamic Paths)**: Đã vá toàn bộ 21 script trong `tools/`, pipeline hoạt động độc lập trên repo.
+- [x] **Yêu cầu User:** *"C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps build lại map vào đây chưa ? map gốc Vo Lam Truyen Ky v2.2 AI 1.31.w3x"*.
+  - [x] **Đồng bộ file map build mới nhất**: Đã sao chép file `build\VLTK-1.31.w3x` (build lúc 13:09, 93.1 MB) sang:
+    1. `C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x` (thành công).
+    2. `D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x` (thành công).
+  - [x] **Tự động hóa pipeline**: Đã tích hợp trực tiếp cơ chế auto-sync vào cuối `scratchpad/run_pipeline.py`. Mọi lần build tiếp theo sẽ tự động ghi đè bản map mới nhất sang thư mục Warcraft III của máy người dùng.
+  - [x] **Phân tích đối soát toàn diện KVCT vs Engine VLTK**: Quét 400 chiêu / 33 phái từ `readable.j` của KVCT. Phát hiện 35 kỹ năng chủ động có cast handler chuyên sâu riêng (10-22 hàm, 60-280 dòng JASS) và 5 chiêu liên kích chưa có cấu hình OVR.
+  - [x] **Bê trọn vẹn các kỹ năng KVCT đặc thù sang Engine (`tools/kskill.py`)**: Đã bổ sung đầy đủ 40 kỹ năng vào bảng `OVR` (nâng tổng số chiêu có cấu hình đặc thù từ 126 lên 166-172 chiêu). Bao gồm:
+    * *Thiên Vương*: Tung Hoành Bát Hoang (A03A - giải khống + bạo kích), Đoạn Hồn Thích (A01M - lướt + định thân), Hoành Hành Vô Kỵ (A026 - miễn khống), Kim Chung Tráo (A02K - buff thủ phe ta), Trảm Long Quyết (A02P - lướt nổ 4 hit), Thừa Long Quyết (A02O - 3 hit).
+    * *Thiếu Lâm*: Sư Tử Hống (A04U - nổ 3 hit choáng), La Hán Kim Thân (A04Y - buff tốc đánh + công), Thiên Thủ Như Lai Ấn (A0WD - buff công).
+    * *Thúy Yên Đao*: Tương Tư (A0CK - buff sát thương bộc phát), Dạ Lai Tây Phong (A0WZ - nổ băng 4 hit làm chậm).
+    * *Côn Lôn Kiếm*: Thanh Phong Phù (A0ID - buff tốc chạy phe ta), Đạo Cốt Tiên Phong (A0IE - buff kháng phe ta), Ngự Phong Thuật (A0IC - lốc xoáy 3 hit làm chậm).
+    * *Ngũ Độc Chưởng*: Thiên Canh Địa Sát (A06L - độc sát 4 hit thọ thương), U Minh Khô Lâu (A0WM - nổ đầu lâu độc).
+    * *Đường Môn*: Thiết Tỏa Hoành Giang (A0YB - bẫy trói 3 hit), Đoạn Cân Nhẫn (A07X - quạt ám khí định thân), Ảnh Tung Trận (A08P - miễn khống + tốc chạy).
+    * *Minh Giáo*: Khốn Hổ Vân Tiếu (A09O - lướt dập nổ độc), Kim Qua Thiết Mã (A09P - buff bạo kích phe ta), Phách Địa Thế (A09Q - phóng chùy xuyên thấu 3 hit), Hồn Phách Phi Dương (A09T - nổ suy yếu 5 hit), Vạn Vật Câu Phần (A08Z - vòng lửa 4 hit), Càn Khôn Đại Na Di (A090 - hút máu cực mạnh), Thánh Hỏa Liêu Nguyên (A094 - mưa lửa 8 hit độc).
+    * *Cổ Mộ*: Vụ Tập Vân Hợp (A0MD - buff bạo kích), Ly Hận (A0LT - 3 hit), Hồng Tụ Triền (A0MZ - kiếm khí 3 hit choáng).
+    * *Hoa Sơn*: Chân Khí Hộ Thể (A0L0 - khiên hộ thuẫn hấp thụ ST), Đoạt Mệnh Liên Hoàn Tam Tiên Kiếm (A0LK - buff công).
+    * *Tiêu Dao*: Thiên Tàm Cửu Biến (A0HS - bão khí 6 hit + hút máu), Sơ Hoa Dẫn (A0GZ - buff kháng phe ta).
+    * *Nga My, Thúy Yên Kiếm, Đoàn Thị*: Phật Quang Chiến Khí (A0AX - buff công), Băng Tâm Ngọc Lăng (A0BX - buff phản đòn/kháng), Cản Dương Thần Chỉ (A0DC - 3 hit)...
+  - [x] **Đối soát chi tiết kỹ năng chưa làm được 1:1 và nguyên nhân**:
+    1. *Hệ thống Độ Luyện*: Bỏ cày số lần dùng chiêu, chuyển sang tự mở theo cấp tướng 1-200 và scale theo trang bị.
+    2. *Dummy Unit triệu hồi*: Thay bằng Multi-Hit / Area Engine để triệt tiêu nguyên nhân leak memory và freeze warcraft 3.
+    3. *Trigger On-damage thời gian thực*: Thay bằng cơ chế Buff chỉ số RPG (`zzVL_af`) và hiệu ứng trực tiếp (`zzKS_Fx`).
+    4. *Bất tử tuyệt đối*: Điều chỉnh thành Hộ Thuẫn (`kind 9`) hoặc Miễn Khống (`kind 8`) để giữ cân bằng đấu trường.
+  - [x] **Chạy toàn bộ Pipeline 15 bước & Biên dịch**:
+    * Chạy thành công: `convert_text` -> `fix_script` -> `expand` -> `skills` -> `tranphai` -> `import_boss` -> `lvl200` -> `kskill` -> `gameplay` -> `describe` -> `icons` -> `vfx` -> `ui` -> `scale` -> `build`.
+    * Kết quả pjass: **100% PASS (30.560 dòng)**.
+    * File map đã build: `build/VLTK-1.31.w3x` (93.1 MB).
+  - [x] **Cập nhật tài liệu đối soát**: Đã tái tạo `docs/kvct_audit.md` phản ánh đủ 400 kỹ năng của 33 môn phái.
+
+---
+
+## 2. CÁC ĐẦU VIỆC TỒN ĐỌNG / THEO DÕI
+
+| # | Vấn đề / Yêu cầu | Trạng thái hiện tại |
 |---|---|---|
-| 1 | Game bị treo (đứng hình) giữa trận | **Chưa sửa xong.** Treo ở 8:32 và 13:02, cả hai lần vài giây sau khi tướng chết trong Liên Đấu; ngay trước đó thường có chiêu "Tứ Tượng Đồng Quy". Lần 3 treo ở 8:45 ngay sau skill trấn phái Duy Ngã Độc Tôn (A0T1); mã skill này không có vòng lặp, chưa rõ. Đã thêm log mỗi giây ("tick") + log dọn đồ đất, vòng nhật ký 80 dòng. Chờ test tiếp. |
-| 2 | Tooltip trang bị không hiện trong cửa hàng và 6 ô | Chưa sửa (có thể do cài đặt game). |
-| 3 | Đưa tướng Thiên Kiếm (bộ kỹ năng gốc) vào VLTK | Tạm dừng, chờ chọn tướng (đề xuất Minh Giáo Chùy). |
-| 5 | Bê bộ kỹ năng KVCT cho cả 21 tướng (học theo cấp 1-200, bỏ độ luyện) | Đang làm. |
-| 4 | Map Thiên Kiếm + AI kiểu VLTK (farm theo level, Xa Phu, nhiệm vụ) | Tạm dừng; bản build "không chạy được", chờ biết lỗi cụ thể. |
+| 1 | **Game bị treo (đứng hình) giữa trận** | **Chưa sửa xong.** Treo ở 8:32, 13:02 và 8:45 (thường sau khi tướng chết ở Liên Đấu hoặc sau chiêu "Tứ Tượng Đồng Quy" / "Duy Ngã Độc Tôn" A0T1). Đã bổ sung log tick mỗi giây + log dọn đồ đất, vòng log 80 dòng. Đang chờ kết quả test thực tế. |
+| 2 | **Tooltip trang bị không hiện trong shop & 6 ô** | Chưa sửa (nghi vấn do thiết lập Warcraft III hoặc font UI). |
+| 3 | **Đưa tướng Thiên Kiếm (bộ kỹ năng gốc) vào VLTK** | Tạm dừng, chờ chọn tướng. |
+| 4 | **Map Thiên Kiếm + AI kiểu VLTK** | Tạm dừng; bản build cũ chưa chạy được. |
 
-## Đã làm trong phiên này (chưa thử trong game)
+---
 
-- **Chuẩn hóa đường dẫn tương đối (Dynamic Paths)**: Toàn bộ 21 script trong `tools/` đã được thay thế đường dẫn cứng `D:\vltk-dev-clone` bằng đường dẫn động `os.path.abspath(...)`. Toàn bộ pipeline và build tool nay có thể chạy độc lập ở bất kỳ thư mục clone nào.
+## 3. LỊCH SỬ ĐÃ HOÀN THÀNH
+
+### Phiên làm việc gần nhất
+- **Chuẩn hóa đường dẫn tương đối (Dynamic Paths)**: Toàn bộ 21 script trong `tools/` đã được thay thế đường dẫn cứng bằng `os.path.abspath(...)`. Pipeline nay hoạt động độc lập ở bất kỳ thư mục nào.
 - **Hệ thống Phi Phong ẩn (Invisible Cloaks)**: Đã áp dụng trọn vẹn bản vá vào `tools/gameplay.j` và `src/map/Scripts/war3map.j`. Khi thăng quân hàm, phi phong không còn rơi ra chiếm ô đồ mà tự động gắn chỉ số ẩn vào hero qua `zzVL_AffixSum` (Phòng thủ +4..20, Thuộc tính +1..8, Sinh lực +200..800 tùy bậc) kèm hiển thị danh hiệu trên đầu.
-- **Dọn dẹp mã nguồn (Repository Cleanup)**: Di chuyển toàn bộ các script vá và file thử nghiệm tạm thời (`patch*.py`, `check_describe.py`, `debug_regex.py`, `test.py`) vào thư mục `scratchpad/` để giữ thư mục gốc gọn gàng.
+- **Dọn dẹp mã nguồn (Repository Cleanup)**: Di chuyển toàn bộ các script vá và file thử nghiệm tạm thời (`patch*.py`, `check_describe.py`, `debug_regex.py`, `test.py`) vào thư mục `scratchpad/`.
 - **Biên dịch & Đóng gói map**: Chạy thành công `tools/build.py`, pjass pass 100% 30.434 dòng JASS, sinh ra `build/VLTK-1.31.w3x` mới nhất.
-- **Tái cấu trúc mã nguồn (Refactor)**: 
-  - Làm sạch `tools/gameplay.j`: Thay thế các magic numbers bằng hằng số (`HASH_KEY_ELEMENT`, `HASH_KEY_TAIPHU`...), đổi tên biến `vl_u` -> `vl_unit`, v.v.
-  - **Modular hóa**: Tách file khổng lồ `gameplay.j` (3400 dòng) thành 8 module nhỏ theo chức năng lưu trong thư mục `tools/jass/` (`gameplay_01_core.j`, `gameplay_02_farm.j`, `gameplay_03_tranphai.j`, v.v.) và cấu hình lại `gameplay.py` để tự động gộp chúng lại khi build map. Build pass 100%.
-- Bê kỹ năng KVCT: Đã làm phái Cái Bang Chưởng (CBC). Chuyển Thời Thừa Lục Long (A0ED) và Triệt Y Thập Bát Điệt (A0X5) thành buff bản thân (kind 6) với chỉ số thực tế từ code KVCT (sát thương % và công cơ bản). Build pjass pass.
-- Bê kỹ năng KVCT: Đã làm phái Võ Đang Khí (VDQ - H01S). Chuyển Tọa Vọng Vô Ngã (A0JO) thành buff (kind 6, giảm 18%+3%/cấp sát thương, duy trì 300s). Thuần Dương Vô Cực (A0JP) thành hộ thuẫn (kind 9, duy trì 20s). Vạn Kiếm Quy Tông (A0JS) thành nổ quanh thân phạm vi 1000 (khuôn mới kind 12).
-- Bê kỹ năng KVCT: Đã làm phái Võ Đang Kiếm (VDK - E001). Cập nhật Lưu Tinh Cản Nguyệt (A0KG) thành kỹ năng lướt (kind 3). Lưỡng Nghi Kiếm Pháp (A0KH) nổ quanh thân 40 lần (kind 4). Tử Tiêu Hoành Vân (A0XM) nổ làm chậm địch (kind 4, status 4).
-- Bê kỹ năng KVCT: Đã làm phái Thúy Yên Đao (TYD - E002). Mục Dã Lưu Tinh (A0CD) phóng đao (kind 2). Ngự Tuyết Ẩn (A0CE) thêm tàng hình (kind 6, status 5 - Wind Walk).
-- Thêm phái mới từ KVCT: Đã tạo thêm **12 nhân vật phái mới hoàn toàn** để map VLTK giờ đây có đủ **33 phái** (tổng hợp đầy đủ mọi nhánh của Kiếm Vũ Chí Tôn / Kiếm Thế). Các phái thêm mới bao gồm:
-  + Cổ Mộ Châm (CMC), Cổ Mộ Kiếm (CMK)
-  + Hoa Sơn Khí (HSQ), Hoa Sơn Kiếm (HSK)
-  + Tiêu Dao Chưởng (TDC), Tiêu Dao Kiếm (TDK)
-  + Thúy Yên Song Đao (TYK)
-  + Cái Bang Bổng (CBB), Nga My Kiếm (NMK)
-  + Minh Giáo Chùy (MGC), Minh Giáo Kiếm (MGK)
-  + Đoàn Thị Chỉ (DTC)
-  Tất cả đã được gán model chuẩn xác từ file gốc, gắn vũ khí đúng loại và liên kết vào hệ thống NPC ngũ hành. Engine dịch kỹ năng đã import tự động toàn bộ 400 kỹ năng cho 33 hero này!
-- Tăng kinh nghiệm và nhịp độ game: Rút ngắn timeline đạt cấp 200 từ 38 phút xuống còn 20 phút. Tăng giới hạn HandicapXP lên tối đa x15 (1500%) để người chơi dễ dàng đuổi kịp nhip độ.
-- Quái mạnh dần theo thời gian: Quái rừng sinh ra sẽ được nhân máu và sát thương theo thời gian thực (hệ số = `0.6 + TimerGetElapsed / 600.`), nghĩa là cứ mỗi 10 phút quái sẽ mạnh thêm 100% so với gốc để tạo thử thách khi hero lên cấp nhanh.
-- Điều kiện chiến thắng (Endgame): Mặc định đội nào đạt 150 mạng (hero kills) trước sẽ thắng. Người chơi có thể gõ lệnh `-win 100`, `-win 200`... để đổi mốc mạng.
-- Nhấn Tab (OSKEY_TAB) để xóa chữ thông báo trên màn hình (ClearTextMessages cho LocalPlayer).
-- Hiệu ứng skill thay đồng loạt bằng model KVCT (tools\vfx.py), texture KVCT3_Data nhúng vào map.
-- UI (tools\ui.py + gameplay.j): bảng hành trang nền ngọc, nút tròn Hành Trang (B) / Nhân Vật (C), bảng Nhân Vật, khung đồng hồ / tỉ số, băng thông báo boss / Liên Đấu, icon ngân lượng / KNB / công / thủ.
-- Bảng chỉ mục MPQ nới 1024 -> 2048 (mpqwrite.py) để chứa thêm file.
-
-- Khôi phục mô tả trang bị (chỉ số, khảm, ngũ hành vũ khí, tiến cử, Yêu cầu) bị mất khi describe.py bị ghi đè lúc 20:19; giữ tên mới theo cấp của Gemini. Bản describe.py trước khi khôi phục: scratchpad\describe_gemini_backup.py.
-
-- Phóng to toàn bộ map x1.5 (tools\scale.py, chạy sau icons, trước build): 168x128 -> 252x192 ô; địa hình, đường đi, bóng, cây/nhà, đơn vị đặt sẵn, vùng, camera, tọa độ trong script.
-- Chậm nhịp game: kinh nghiệm người chơi x1.6 -> x0.9, máy x2.5 -> x1.3; vàng thêm cho máy +10 -> +4 mỗi giây.
-
-- Hành trang: nguyên liệu/vật phẩm không phải trang bị cộng dồn thành 2, 3, 4...
-- Dọn đồ rơi: cứ 60 giây quét, đồ nằm đất 1-2 phút bị xóa (kể cả gần quái/tướng); nhặt lên thì tính lại thời gian.
-- Nút **Tự bán** trong hành trang: đồ rơi nhặt được mạnh hơn thì tự mặc và bán đồ cũ, yếu hơn thì tự bán; đồ đã khảm, đồ mua, phi phong không bị bán.
-- **Tài phú** cho trang bị: cấp đồ x100 + chỉ số % ngẫu nhiên + 40 mỗi lỗ khảm; hiện trong mô tả và hành trang. Cường hóa không tính (đi theo ô).
-- **Hệ thống Trang Bị Ngẫu Nhiên**: Trang bị rơi ra giờ đây có chỉ số ngẫu nhiên (Diablo-style) với tổng cộng 22 dòng thuộc tính khác nhau (Hút máu, bạo kích, tốc đánh, kháng ngũ hành, STVL, điểm đánh trúng, né tránh, tốc chạy, kỹ năng + cấp...).
-- **Cơ chế Cường Hóa cố định ô (Slot-based Enhancement)**: Cấp cường hóa (1 đến 10) giờ được lưu cố định vào 4 ô trang bị (Mũ, Áo, Vũ Khí, Giày) của tướng thay vì dính liền với đồ. Khi đổi trang bị mới, cấp cường hóa được giữ nguyên. Chỉ số cơ bản của trang bị sẽ scale theo tỷ lệ `100% + 30% * Cấp cường hóa`.
-- **Nâng cấp Damage Engine (Cơ chế chiến đấu)**: Đưa các chỉ số Kháng ngũ hành (giảm trừ % sát thương), Điểm đánh trúng, Điểm né tránh, Tốc độ xuất chiêu, STVL Nội công/Ngoại công và Sát thương kỹ năng vào công thức sát thương tổng của map. Cập nhật bảng UI (C) hiển thị toàn bộ 22 chỉ số.
-- **Mở rộng hệ thống Khảm Bảo Thạch**: Thêm 12 loại Bảo Thạch mới (ID từ `I101` đến `I10C`) để khảm các dòng chỉ số nâng cao (Kháng, Tốc chạy, Kỹ năng, STVL...). Sửa lỗi format hiển thị của các loại ngọc chỉ số phẳng (không có %).
-- Nhật ký: ghi file ngay mỗi sự kiện, ghi tên người dùng chiêu, báo khi hơn 400 lần sát thương / 2 giây.
-## Đã làm trước đó
-
-- Boss Thiên Kiếm (Diệp Thanh thay h01D), phóng to, dời chỗ xuất hiện.
-- Skill trấn phái (lấy từ Thiên Kiếm), mở ở cấp 15, phím T.
-- Set đồ cơ bản + 10 bình thuốc đầu game; thuốc hồi cả máu và mana, cấp dùng 1/10/20/30/40, không mất khi bị đánh.
-- Drop: mỗi loại trang bị tối đa 5 lần; nguyên liệu rơi đều, không giới hạn; bỏ rơi Bí Phổ.
-- Hành trang: cộng dồn, tách, bán tại chỗ; nút đang dùng sáng lên, bấm lại để tắt; tự nhặt vào hành trang khi 6 ô đầy.
-- Khảm: 2 lỗ, mỗi nguyên liệu một thuộc tính, không đè thuộc tính cũ.
-- Cường hóa theo ô (giữ khi đổi đồ), cộng chỉ số gốc theo cấp đồ, đổi icon theo cấp; dùng Thủy tinh ngay trong hành trang.
-- Tàng Bảo Các bán nguyên liệu 4000; giáp trụ / vũ khí bán đồ chế 5000, cần đủ nguyên liệu (hành trang, 6 ô, Thủ Khố); dòng "Yêu cầu"; thêm trang khi cửa hàng đầy.
-- Chỉ số: sức mạnh -> máu + hồi máu; thân pháp -> né + tốc đánh; nội lực -> mana + hồi mana.
-- Ngũ hành vũ khí (+8% sát thương): Mộc độc, Thổ choáng, Kim kháng + máu, Hỏa đốt, Thủy làm chậm + hồi phục; vũ khí có dòng tiến cử phái.
-- Sát thương skill không còn tính theo máu.
-- AI: mỗi tướng tối đa 1 món mỗi loại; bỏ AI tự mua đồ đầu game.
-- Chọn tướng qua 5 NPC ngũ hành (không cần đứng gần).
-- Đấu trường Thiên Kiếm ghép vào map; đấu trường cũ thành Lôi Đài.
-- Đồng hồ trận góc trái, tỉ số giết/chết góc phải.
-- Sửa icon xanh, đồ không bị xóa sau 1 phút, đầu game farm dễ hơn.
-
-### Roadmap (Đề xuất của User)
-- Viết lại toàn bộ hệ thống trang bị: Rơi đồ có chỉ số random (min/max opt) giống Diablo/Kiếm Thế.
-- Bổ sung các chỉ số RPG nâng cao (Hút máu, Tỉ lệ chí mạng, Bỏ qua né tránh, Sát thương ngũ hành...) và tích hợp vào Damage Engine.
+- **Tái cấu trúc mã nguồn (Refactor Modularization)**:
+  - Làm sạch `tools/gameplay.j`: Thay thế magic numbers bằng hằng số (`HASH_KEY_ELEMENT`, `HASH_KEY_TAIPHU`...), đổi tên biến `vl_u` -> `vl_unit`.
+  - Tách `gameplay.j` (3400 dòng) thành 8 module nhỏ theo chức năng lưu trong thư mục `tools/jass/` (`gameplay_01_core.j` đến `gameplay_08_ui.j`) và cấu hình `gameplay.py` tự động ghép nối khi build map. Build pass 100%.
+- **Bê kỹ năng KVCT (4 phái đã hoàn thiện OVR)**:
+  - Cái Bang Chưởng (CBC): Thời Thừa Lục Long (A0ED) và Triệt Y Thập Bát Điệt (A0X5) thành buff bản thân với chỉ số chuẩn KVCT.
+  - Võ Đang Khí (VDQ - H01S): Tọa Vọng Vô Ngã (A0JO) buff giảm 18%+3%/cấp sát thương; Thuần Dương Vô Cực (A0JP) hộ thuẫn 20s; Vạn Kiếm Quy Tông (A0JS) nổ quanh thân 1000.
+  - Võ Đang Kiếm (VDK - E001): Lưu Tinh Cản Nguyệt (A0KG) lướt; Lưỡng Nghi Kiếm Pháp (A0KH) nổ quanh thân 40 lần; Tử Tiêu Hoành Vân (A0XM) nổ làm chậm.
+  - Thúy Yên Đao (TYD - E002): Mục Dã Lưu Tinh (A0CD) phóng đao; Ngự Tuyết Ẩn (A0CE) tàng hình Wind Walk.
+- **Thêm 12 phái mới từ KVCT**: Tạo mới 12 nhân vật hoàn chỉnh đưa tổng số lên 33 phái (Cổ Mộ Châm/Kiếm, Hoa Sơn Khí/Kiếm, Tiêu Dao Chưởng/Kiếm, Thúy Yên Song Đao, Cái Bang Bổng, Nga My Kiếm, Minh Giáo Chùy/Kiếm, Đoàn Thị Chỉ). Gán model chuẩn, vũ khí và liên kết NPC Ngũ Hành. Import tự động 400 kỹ năng.
+- **Hệ thống Trang Bị Ngẫu Nhiên (Diablo-style)**: Rơi đồ có chỉ số ngẫu nhiên với 22 dòng thuộc tính (Hút máu, bạo kích, tốc đánh, kháng 5 hệ ngũ hành, STVL nội/ngoại, điểm đánh trúng, né tránh, tốc chạy, kỹ năng...).
+- **Cơ chế Cường Hóa cố định ô**: Cấp cường hóa (1-10) lưu vào 4 ô trang bị (Mũ, Áo, Vũ khí, Giày) thay vì dính liền món đồ. Đổi đồ giữ nguyên cấp cường hóa. Chỉ số đồ scale theo `100% + 30% * Cấp cường hóa`.
+- **Nâng cấp Damage Engine**: Kháng ngũ hành, né tránh/chính xác, tốc độ xuất chiêu, STVL, sát thương kỹ năng. Cập nhật bảng UI (C) hiển thị đủ 22 chỉ số.
+- **Mở rộng Khảm Bảo Thạch**: Thêm 12 loại Bảo Thạch mới (`I101`–`I10C`).
+- **Cân bằng & Tiện ích khác**: Scale map x1.5; quái tăng sức mạnh theo thời gian thực; điều kiện thắng 150 mạng (-win); phím Tab xóa thông báo nhanh; auto-sell đồ yếu; tự dọn item rơi rác; tăng tốc độ lên cấp 200...
