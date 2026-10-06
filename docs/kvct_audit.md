@@ -144,20 +144,30 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: thiếu 6 chiêu dùng chung; Q/E là 1 đạn bay, W là nổ quanh thân 9 lần; Mê Hồn Trận (bị động) bị làm thành nổ 3 lần; Thiết Tỏa Hoành Giang là đánh 1 mục tiêu 3 lần.
 
-### Thiếu Lâm Quyền (TLQ)
+### Thiếu Lâm Quyền (TLQ) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Long Trảo Hổ Trảo | Q | đánh mục tiêu | Khuôn chuẩn | thọ thương 30%, 2 đòn | Đạt chuẩn |
-| Thiếu Lâm Quyền Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Sư Tử Hống | R | nổ quanh thân | OVR Đặc thù | - | Đạt chuẩn |
-| Kim Cương Phục Ma | W | nổ quanh thân | Khuôn chuẩn | thọ thương 35%, 3 đòn | Đạt chuẩn |
-| La Hán Kim Thân | F | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Đạt Ma Võ Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hỗn Nguyên Nhất Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Đại Lực Kim Cang Chưởng | E | đạn bay xuyên | Khuôn chuẩn | thọ thương 40%, 3 đòn | Đạt chuẩn |
-| Vô Tướng Thần Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Thủ Như Lai Ấn | T | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TLQ"`; Q/W/E: `etn`, `eSG`/`eSm`, `e_z`/`e_w`; chiêu bấm: `eiz`/`eiP`, `elV`/`elG`, `ery`, `JKG`), `AbilityData.slk`.
+Bảng kỹ năng theo KVCT: 13 chiêu (trước 10; thêm **Dịch Cân Kinh, Bồ Đề Tâm Pháp (D), Như Lai Thiên Diệp** dùng chung với Thiếu Lâm Đao / Bổng).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động theo thang của map. Mới: chỉ số **kháng thời gian trạng thái** (`zzKS_af` 14) — rút ngắn thọ thương / định thân / choáng / chậm nhận vào (tối đa 80%).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Long Trảo Hổ Trảo | Q (autocast) | 2 đòn cách 0,2 giây, đánh lan 120 tại chỗ mục tiêu, tối đa 7; 30% thọ thương 0,5 giây | 2 đòn cách 0,2 giây, đánh lan 120 tại mục tiêu, tối đa 7; thọ thương 30% 0,5 giây | Giống |
+| Thiếu Lâm Quyền Pháp | - | Bị động: vật công %, chí mạng, tốc đánh | Bị động: sát thương % + chí mạng | Gần giống |
+| Dịch Cân Kinh | - | Bị động: sinh lực tối đa % | Bị động: sinh lực | Giống |
+| Sư Tử Hống | R | Kẻ địch trong 600 (tối đa 10): sát thương, (36 + 4 × bậc)% thọ thương 3 giây và (36 + 4 × bậc)% định thân 3 giây; hồi 12 giây | Nổ quanh thân 600, tối đa 10; thọ thương + định thân (36 + 4 × bậc)% 3 giây | Giống |
+| Bồ Đề Tâm Pháp | D | 300 giây: kháng thời gian thọ thương / định thân / chậm / choáng +(17 + 3 × bậc)%, kháng độc | Buff 300 giây: kháng thời gian trạng thái +(17 + 3 × bậc)% | Giống (không có kháng độc) |
+| Như Lai Thiên Diệp | - | Bị động: phát huy lực tấn công, tỉ lệ thọ thương, kháng định thân | Bị động: sát thương % | Gần giống |
+| Kim Cương Phục Ma | W (autocast) | 2 đòn (giây 0 và 0,625), đánh lan 250 tại chỗ mục tiêu, tối đa 7; 35% thọ thương 0,5 giây | 2 đòn cách 0,63 giây, đánh lan 250, tối đa 7; thọ thương 35% 0,5 giây | Giống |
+| La Hán Kim Thân | F | 30 giây: tốc đánh +(17 + 3 × bậc), phát huy lực tấn công +(10 + 10 × bậc)%; hồi 60 giây | Buff 30 giây: tốc đánh +(17 + 3 × bậc)%, sát thương +(10 + 10 × bậc)% | Giống |
+| Đạt Ma Võ Kinh | - | Bị động: vật công nội, sát thương chí mạng, tốc đánh | Bị động: sát thương % + tốc đánh | Gần giống |
+| Hỗn Nguyên Nhất Khí | - | Bị động: hóa giải % sát thương nhận (tối đa 36% sinh lực), tỉ lệ bỏ qua trạng thái | Bị động: giảm sát thương nhận + kháng thời gian trạng thái | Gần giống |
+| Đại Lực Kim Cang Chưởng | E (autocast) | 3 đạo chưởng cách 1/6 giây, bay 900 (rộng 150), tối đa 7; 40% thọ thương 1 giây | 3 đạo cách 0,17 giây, 900, tối đa 7; thọ thương 40% 1 giây | Giống |
+| Vô Tướng Thần Công | - | Bị động: sinh lực; E 40% phát động Như Lai Chưởng (sát thương ×(1,27 + 0,03 × bậc)) | Bị động: sinh lực; E 30% thêm 25% sát thương | Gần giống (tỉ lệ / mức tăng chung của map) |
+| Thiên Thủ Như Lai Ấn | T | 60 giây: vật công +(4,55 + 0,65 × bậc)%, sát thương lên hệ Mộc, miễn thọ thương / chậm / bất động; hồi 180 giây | 60 giây miễn khống chế + sát thương +(5 + bậc)%; hồi 180 giây | Gần giống (không có sát thương lên hệ Mộc) |
+
+Trước khi sửa: Q/W là đánh 1 mục tiêu / quét nón, Sư Tử Hống là nổ 3 lần choáng 2 giây (KVCT: 1 lần, thọ thương + định thân 3 giây), La Hán Kim Thân 15 giây, Thiên Thủ Như Lai Ấn 20 giây; Bồ Đề Tâm Pháp là buff phòng thủ; thiếu 3 chiêu dùng chung.
 
 ### Thiên Nhẫn Đao (TND)
 

@@ -88,6 +88,10 @@ endfunction
 // one status: 1 tho thuong, 2 dinh than, 3 choang, 4 cham; vl_d seconds
 function zzKS_St takes unit vl_h,unit vl_u,integer vl_st,integer vl_ch,real vl_d returns nothing
 local timer vl_tm
+local integer vl_q=GetPlayerId(GetOwningPlayer(vl_u))
+if vl_q<10 and vl_u==Jx[vl_q+1] and zzKS_af[vl_q*16+14]>0 then
+set vl_d=vl_d*(1.-IMinBJ(80,zzKS_af[vl_q*16+14])/100.)
+endif
 if vl_st==0 or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) or zzKS_Immune(vl_u) or GetRandomInt(1,100)>vl_ch then
 return
 endif
@@ -1088,7 +1092,7 @@ exitwhen vl_p>9
 set vl_h=Jx[vl_p+1]
 set vl_i=1
 loop
-exitwhen vl_i>13
+exitwhen vl_i>14
 set zzKS_af[vl_p*16+vl_i]=0
 if vl_now<zzKS_bufEnd[vl_p*16+vl_i] then
 set zzKS_af[vl_p*16+vl_i]=zzKS_buf[vl_p*16+vl_i]
@@ -1387,6 +1391,7 @@ set zzKS_per[6]=1.
 set zzKS_per[7]=80.
 set zzKS_per[11]=1.
 set zzKS_per[13]=4.
+set zzKS_per[14]=2.
 call TimerStart(CreateTimer(),1.,true,function zzKS_Tick)
 set vl_t=null
 endfunction

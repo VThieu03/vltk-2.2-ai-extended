@@ -87,18 +87,38 @@ OVR = {
     "A02P": {"kind": 3, "hits": 4},                          # Tram Long Quyet (dash slam 4 hits)
     "A02O": {"kind": 1, "hits": 3},                          # Thua Long Quyet (triple strike)
 
-    # Thieu Lam (TLQ, TLD, TLB)
+    # Thieu Lam Quyen (TLQ): read from KVCT's code; A03J A03N A03Q are shared with TLD / TLB
+    # Q etn: 2 hits 0.2 s apart, splash 120 where the target stood, at most 7, 30% tho thuong 0.5 s
+    "A04S": {"kind": 16, "hits": 2, "gap": .2, "rad": 120, "max": 7, "st": 1, "ch": 30, "sd": .5},
+    "A04T": {"kind": 0, "stats": [5, 3]},                    # Thieu Lam Quyen Phap: vat cong %, chi mang, toc danh
+    "A03J": {"kind": 0, "stats": [7]},                       # Dich Can Kinh: sinh luc toi da
+    # R eiz / eiP: enemies within 600 (at most 10): damage, (36 + 4 x rank)% tho thuong 3 s and dinh than 3 s
+    "A04U": {"kind": 4, "rad": 600, "max": 10, "st": 1, "ch": 36, "chr": 4, "sd": 3, "st2": 2, "ch2": 36, "chr2": 4,
+             "sd2": 3},
+    # D elV / elG: 300 s: khang thoi gian tho thuong / dinh than / cham / choang +(17 + 3 x rank)%, khang doc
+    "A03N": {"kind": 6, "dur": 300, "stats": [(14, 17, 3)]},
+    "A03Q": {"kind": 0, "stats": [5]},                       # Nhu Lai Thien Diep: phat huy luc tan cong
+    # W eSG / eSm: 2 blows 0.625 s apart, splash 250 where the target stood, at most 7, 35% tho thuong 0.5 s
+    "A04X": {"kind": 16, "hits": 2, "gap": .63, "rad": 250, "max": 7, "st": 1, "ch": 35, "sd": .5},
+    # F ery: 30 s: toc danh +(17 + 3 x rank), phat huy luc tan cong +(10 + 10 x rank)%; cooldown 60
+    "A04Y": {"kind": 6, "dur": 30, "stats": [(4, 17, 3), (5, 10, 10)]},
+    "A051": {"kind": 0, "stats": [5, 4]},                    # Dat Ma Vo Kinh: vat cong noi, sat thuong chi mang, toc danh
+    "A054": {"kind": 0, "stats": [6, 14]},                   # Hon Nguyen Nhat Khi: hoa giai sat thuong, bo qua trang thai
+    # E e_z / e_w: 3 palms 1/6 s apart, 900 (width 150), at most 7 each, 40% tho thuong 1 s
+    "A055": {"kind": 5, "hits": 3, "gap": .17, "rad": 900, "max": 7, "st": 1, "ch": 40, "sd": 1},
+    # Vo Tuong Than Cong: sinh luc; E 40%: Nhu Lai Chuong, more damage
+    "A056": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
+    # T JKG: 60 s: vat cong +(4.55 + 0.65 x rank)%, immune to tho thuong / cham / dinh than; cooldown 180
+    "A0WD": {"kind": 8, "dur": 60, "stats": [(5, 5, 1)]},
+
+    # Thieu Lam Dao / Bong (TLD, TLB)
     "A05B": {"kind": 2, "hits": 3},                          # Dai Luc Kim Cang Chuong (cone 3 hits)
     "A05D": {"kind": 4, "hits": 4},                          # Vo Luong Tram (nova 4 hits)
     "A058": {"kind": 6, "dur": 300, "stats": [(6, 15, 2)]},  # La Han Tran (buff)
-    "A04U": {"kind": 4, "hits": 3, "status": 3, "sdur": 2},  # Su Tu Hong (nova 3 hits stun 2s)
-    "A04Y": {"kind": 6, "dur": 15, "stats": [(4, 40, 4), (5, 30, 3)]}, # La Han Kim Than (atk speed + dmg)
-    "A0WD": {"kind": 6, "dur": 20, "stats": [(5, 40, 4)]},   # Thien Thu Nhu Lai An (dmg buff)
     "A03H": {"kind": 2, "hits": 2},                          # Phuc Ma Dao Phap
     "A03R": {"kind": 2, "hits": 2},                          # Thien Truc Tuyet Dao
     "A043": {"kind": 4, "hits": 3},                          # Quy Thien Dao Phap
     "A040": {"kind": 4, "hits": 6},                          # Dai Thua Nhu Lai Chu
-    "A03N": {"kind": 6, "dur": 300, "stats": [(11, 15, 2)]}, # Bo De Tam Phap
     "A03S": {"kind": 6, "dur": 300, "stats": [(5, 20, 2)]},  # Hang Long Bat Vu
     "A047": {"kind": 2, "hits": 2},                          # Pho Do Con Phap
     "A04C": {"kind": 4, "hits": 3},                          # That Tinh La Sat Con
@@ -375,7 +395,7 @@ KIND_TXT = {1: "Đánh mục tiêu", 2: "Quét các mục tiêu phía trước (
             4: "Đánh các mục tiêu quanh thân (380)", 5: "Phóng chiêu bay thẳng 900, xuyên qua mọi mục tiêu"}
 STAT_TXT = {1: "Hút sinh lực +%d%%", 3: "Bạo kích +%d%%", 4: "Tốc đánh +%d%%", 5: "Sát thương +%d%%",
             6: "Giảm sát thương nhận %d%%", 7: "Sinh lực +%d", 11: "Phòng thủ +%d", 13: "Tốc chạy +%d"}
-PER = {1: 1, 2: 1, 3: 1, 4: 3, 5: 2, 6: 1, 7: 80, 11: 1, 13: 4}
+PER = {1: 1, 2: 1, 3: 1, 4: 3, 5: 2, 6: 1, 7: 80, 11: 1, 13: 4, 14: 2}
 
 
 def m(mid, typ, val, lvl=0, dp=0):
