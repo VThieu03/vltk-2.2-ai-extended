@@ -492,18 +492,18 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thu Nhạn Bàng Hoàng | X351 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
+| 1 | Thu Nhạn Bàng Hoàng | X351 | Q | phóng / đạn bay, **autocast** | 2 | 1 |
 | 2 | Kiếm Mộ Pháp | X352 | - | bị động | 1 | 6 |
-| 3 | Hồng Tụ Triền | X353 | R | nổ quanh thân | 1 | 15 |
+| 3 | Hồng Tụ Triền | X353 | R | trận tại điểm (nhiều nhịp) | 4 | 15 |
 | 4 | Tịnh Ảnh Trầm Bích | X354 | - | bị động | 1 | 25 |
 | 5 | Mộ Vân Ngưng Bích | X355 | - | bị động | 1 | 38 |
 | 6 | Ngọc Nữ Kiếm Pháp | X356 | - | bị động | 1 | 52 |
-| 7 | Cô Nguyệt Bồi Hồi | X357 | W | quét phía trước, **autocast** | 1 | 68 |
-| 8 | Chung Nam Vãn Chiếu | X358 | D | quét phía trước | 3 | 85 |
+| 7 | Cô Nguyệt Bồi Hồi | X357 | W | phóng / đạn bay, **autocast** | 2 | 68 |
+| 8 | Chung Nam Vãn Chiếu | X358 | D | phóng / đạn bay | 3 | 85 |
 | 9 | Hàn Sơn Độc Lập | X359 | - | bị động | 1 | 105 |
-| 10 | Phi Thiên Vũ | X360 | F | lướt | 1 | 125 |
-| 11 | Cô Thân Chi Ảnh | X361 | E | phóng / đạn bay, **autocast** | 1 | 145 |
-| 12 | Ngọc Nữ Tâm Kinh | X362 | - | bị động | 3 | 165 |
+| 10 | Phi Thiên Vũ | X360 | F | miễn khống | 1 | 125 |
+| 11 | Cô Thân Chi Ảnh | X361 | E | phóng / đạn bay, **autocast** | 2 | 145 |
+| 12 | Ngọc Nữ Tâm Kinh | X362 | - | bị động | 1 | 165 |
 | 13 | Bạch Vân Hồi Vọng | X363 | - | bị động | 1 | 185 |
 
 ## Hoa Sơn Khí (HSQ, H027)

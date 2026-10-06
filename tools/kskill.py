@@ -94,6 +94,29 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Co Mo Kiem (CMK): read from KVCT's code
+    # Q JhM: a sword qi flies 832 (width 100) through everyone and comes back (2 passes, ~0.8 s apart), 30% choang 1 s
+    "A0ML": {"kind": 5, "hits": 2, "gap": .81, "rad": 832, "st": 3, "ch": 30, "sd": 1},
+    "A0MO": {"kind": 0, "stats": [5, 3, 4]},                 # Kiem Mo Phap: chinh xac, loi cong %, chi mang, toc danh
+    # R egz: at a point <= 800, radius 250, ticks at 2 4 6 8 s, at most 7: (36 + 4/rank)% choang 1.5 s
+    "A0MZ": {"kind": 13, "hits": 4, "gap": 2, "rad": 250, "far": 800, "max": 7, "st": 3, "ch": 36, "chr": 4, "sd": 1.5},
+    "A0N7": {"kind": 0, "stats": [7]},                       # Tinh Anh Tram Bich: noi luc -> sinh luc (every 60 s: not done)
+    # Mo Van Ngung Bich: hit under 50% life: a shield of (0.6 + 0.2/rank) x max mana for 5 s (a heal here), every 10 s
+    "A0N8": {"kind": 0, "stats": [5], "fx": 1024, "low": (0, 10, 30, 0, 100), "lowat": 50},
+    "A0MP": {"kind": 0, "stats": [5, 14]},                   # Ngoc Nu Kiem Phap: phat huy luc tan cong, ti le choang, khang cham
+    # W JFb: like Q, 832 (width 180), 35% choang 1 s
+    "A0MM": {"kind": 5, "hits": 2, "gap": .81, "rad": 832, "st": 3, "ch": 35, "sd": 1},
+    # D JD4: a sword qi flies 952 (width 120) through up to 7 enemies, 3 hits each, 50% choang 1 s; spends 2 Tuyet
+    "A0N2": {"kind": 5, "hits": 3, "gap": .17, "rad": 952, "max": 7, "st": 3, "ch": 50, "sd": 1},
+    # Han Son Doc Lap: every Q W E +1 Cam (chi mang, sat thuong), 5 Cam cast D by itself (stacks on hits here)
+    "A0N3": {"kind": 0, "stats": [], "fx": 8192},
+    # F eH8: 12 s: (25 + 5/rank)% of the damage taken is shrugged off (at most 36% of life), immune to 5 statuses
+    "A0N6": {"kind": 8, "dur": 12, "stats": [(6, 25, 5)]},
+    # E Jhe: a sword qi flies 900 (width 200) through everyone and comes back, 40% choang 1 s
+    "A0MN": {"kind": 5, "hits": 2, "gap": .94, "rad": 900, "st": 3, "ch": 40, "sd": 1},
+    # Ngoc Nu Tam Kinh: chi mang; E 65%: Pha Mong Hanh, 3 more blows around the first enemy
+    "A0MY": {"kind": 0, "stats": [3, 6], "link": 2, "xw": 3, "xc": 65},
+    "A0XW": {"kind": 0, "stats": [3, 14]},                   # Bach Van Hoi Vong: chi mang, mien cham (E return stronger: not done)
     # Co Mo Cham (CMC): read from KVCT's code (A0ML A0MM A0MN A0N2 A0N6 A0MZ are Co Mo Kiem's)
     # Q Jav: 2 needles 0.2 s apart fly 250 (width 90), at most 7 each, 30% choang 1 s
     "A0LS": {"kind": 5, "hits": 2, "gap": .2, "rad": 250, "max": 7, "st": 3, "ch": 30, "sd": 1},
@@ -707,12 +730,6 @@ OVR = {
     "A0LS": {"kind": 5, "hits": 2},                          # Biet Tu
     "A0LU": {"kind": 5, "hits": 3},                          # Bi Sau
     "A0LT": {"kind": 1, "hits": 3},                          # Ly Han (triple strike)
-    "A0ML": {"kind": 5, "hits": 2},                          # Thu Nhan Bang Hoang
-    "A0MM": {"kind": 2, "hits": 2},                          # Co Nguyet Boi Hoi
-    "A0N2": {"kind": 2, "hits": 3},                          # Chung Nam Van Chieu
-    "A0N6": {"kind": 3},                                     # Phi Thien Vu
-    "A0MN": {"kind": 5, "hits": 3},                          # Co Than Chi Anh
-    "A0MZ": {"kind": 4, "hits": 3, "status": 3, "sdur": 2},  # Hong Tu Trien (stun nova 3 hits)
 
     # Hoa Son (HSQ, HSK)
     "A0L3": {"kind": 6, "dur": 20, "stats": [(5, 25, 2)]},   # Tu Ha Chan Khi
