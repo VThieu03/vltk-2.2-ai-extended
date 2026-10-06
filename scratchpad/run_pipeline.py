@@ -37,9 +37,13 @@ print("\n>>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<")
 
 # Auto-sync built map to Warcraft III maps directory and local Maps folder
 import shutil
-out_map = os.path.join(ROOT, "build", "VLTK-1.31.w3x")
+out_map = os.path.join(ROOT, "build", "Tong Kim Beta.w3x")
 sync_targets = [
+    os.path.join(ROOT, "Maps", "Tong Kim Beta.w3x"),
+    os.path.join(ROOT, "Maps", "Tong Kim Beta AI.w3x"),
     os.path.join(ROOT, "Maps", "Vo Lam Truyen Ky v2.2 AI 1.31.w3x"),
+    r"C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x",
+    r"C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x",
     r"C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x"
 ]
 
@@ -47,8 +51,13 @@ print("\n=== Syncing map to target directories ===")
 for target in sync_targets:
     target_dir = os.path.dirname(target)
     if os.path.exists(target_dir):
-        shutil.copy2(out_map, target)
-        print(f"Synced -> {target} ({os.path.getsize(target):,} bytes)")
+        try:
+            shutil.copy2(out_map, target)
+            print(f"Synced -> {target} ({os.path.getsize(target):,} bytes)")
+        except PermissionError:
+            print(f"Warning: File is locked by a running Warcraft III process: {target}")
+        except Exception as e:
+            print(f"Failed to copy to {target}: {e}")
     else:
         print(f"Skipped (folder not found): {target_dir}")
 

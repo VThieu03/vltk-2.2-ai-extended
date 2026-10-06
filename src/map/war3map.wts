@@ -1,6 +1,6 @@
 ﻿STRING 1
 {
-|CFF00FF00Vo Lam Truyen Ky v2.1 AI
+|c0000ff00Tong Kim Beta AI|r
 }
 STRING 2
 {
@@ -8,11 +8,11 @@ STRING 2
 }
 STRING 3
 {
-|c00ffcc00Testers:|r -[kyo]-, KendoSai, lucifekit, killings, tengichaduoc, SD.Handsome, AmDuongNhatDoc, samake, dannyminhduc, khong2, longkekeke12|n|c00ffcc00Email:|r vnakira@yahoo.com
+Edited by |c00ff0000imba|r
 }
 STRING 4
 {
-vnakira - Garena.vn
+vnakira - Imba
 }
 STRING 4514
 {
@@ -73,7 +73,7 @@ STRING 5264
 }
 STRING 5265
 {
-Go!
+Chiến thôi!
 }
 STRING 5266
 {
@@ -81,23 +81,6 @@ STRING 5266
 }
 STRING 7211
 {
-|c0000ff00SINGLE PLAYER|r
-|c00ffcc00-rex|r: đạt cấp độ tối đa (40)
-|c00ffcc00-reveal|r: mở màn che bản đồ
-|c00ffcc00-gold x|r: nhận được x ngân lượng
-|c00ffcc00-ESC|r: đầy sinh lực, nội lực
-|c0000ff00GENERAL MODES|r
-|c00ff0000Chỉ dành cho player 1|r
-|c00ffcc00-cc|r: đầy sinh lực, nội lực khi lên cấp
-|c00ffcc00-dm|r: mỗi cấp nhận được 2 KNB
-|c00ffcc00-mo|r: tắt nhạc nền khi chơi
-|c00ffcc00-rev|r: mở màn che bản đồ
-|c00ffcc00-rain|r: chế độ thời tiết mưa
-|c00ffcc00-snow|r: chế độ thời tiết tuyết
-|c00ffcc00-moonlight|r: chế độ thời tiết ánh sáng mặt trăng
-|c00ffcc00-fog|r: chế độ thời tiết sương mù
-|c00ff0000Dành cho tất cả mọi người|r
-|c00ffcc00-ms|r: xem tốc chạy nhân vật
 |c00ffcc00-min|r: tầm nhìn camera cực tiểu
 |c00ffcc00-med|r: tầm nhìn camera mức vừa
 |c00ffcc00-max|r: tầm nhìn camera cực đại
@@ -105,11 +88,11 @@ STRING 7211
 }
 STRING 7226
 {
-Observer
+Khán giả
 }
 STRING 7227
 {
-Trung Lâp
+Trung Lập
 }
 STRING 7325
 {

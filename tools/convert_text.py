@@ -30,8 +30,9 @@ def text(name, fn):
 # script: string literals only
 LIT = re.compile(r'"(?:[^"\\\r\n]|\\.)*"')
 text(r"Scripts\war3map.j", lambda t: LIT.sub(lambda m: conv(m.group(0), "script"), t))
-# wts: each STRING body
-text("war3map.wts", lambda t: re.sub(r"(\{)(.*?)(\})", lambda m: m.group(1) + conv(m.group(2), "wts") + m.group(3), t, flags=re.S))
+# wts: each STRING body (do not overwrite if src/map/war3map.wts already exists)
+if not os.path.exists(os.path.join(SRC, "war3map.wts")):
+    text("war3map.wts", lambda t: re.sub(r"(\{)(.*?)(\})", lambda m: m.group(1) + conv(m.group(2), "wts") + m.group(3), t, flags=re.S))
 # skin / misc: values after "="
 for f in ("war3mapSkin.txt", "war3mapMisc.txt"):
     text(f, lambda t: re.sub(r"(?m)^([^=\r\n]*=)(.*)$", lambda m: m.group(1) + conv(m.group(2), "skin"), t))

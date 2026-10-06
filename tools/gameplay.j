@@ -4453,6 +4453,59 @@ function zzVL_OnFastBuy takes nothing returns nothing
 endfunction
 
 // ==========================================
+// Hàm: zzVL_OnGmCheat
+// Lệnh GM / Test: -lvl [cấp], -maxlvl, -rex, -gold [số], -knb [số]
+function zzVL_OnGmCheat takes nothing returns nothing
+    local player p = GetTriggerPlayer()
+    local integer pid = GetPlayerId(p)
+    local unit hero = Jx[pid+1]
+    local string msg = GetEventPlayerChatString()
+    local integer lvl = 200
+    local integer gold = 100000
+    local integer knb = 1000
+    local integer len = StringLength(msg)
+
+    if hero == null then
+        call zzVL_Msg(pid, "Chưa chọn tướng.")
+        return
+    endif
+
+    if msg == "-lvl" or msg == "-maxlvl" or msg == "-rex" then
+        call SetHeroLevel(hero, 200, true)
+        call zzVL_Msg(pid, "|cff00ff00[GM]|r Đã nâng cấp tướng lên cấp tối đa (200)!")
+    elseif len >= 5 and SubString(msg, 0, 5) == "-lvl " then
+        set lvl = S2I(SubString(msg, 5, len))
+        if lvl <= 0 then
+            set lvl = 200
+        elseif lvl > 200 then
+            set lvl = 200
+        endif
+        call SetHeroLevel(hero, lvl, true)
+        call zzVL_Msg(pid, "|cff00ff00[GM]|r Đã đặt cấp độ tướng thành: " + I2S(lvl) + "!")
+    elseif msg == "-gold" then
+        call SetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD, GetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD) + 100000)
+        call zzVL_Msg(pid, "|cff00ff00[GM]|r Nhận thêm 100,000 ngân lượng!")
+    elseif len >= 6 and SubString(msg, 0, 6) == "-gold " then
+        set gold = S2I(SubString(msg, 6, len))
+        if gold <= 0 then
+            set gold = 100000
+        endif
+        call SetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD, GetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD) + gold)
+        call zzVL_Msg(pid, "|cff00ff00[GM]|r Nhận thêm " + I2S(gold) + " ngân lượng!")
+    elseif msg == "-knb" then
+        call SetPlayerState(p, PLAYER_STATE_RESOURCE_LUMBER, GetPlayerState(p, PLAYER_STATE_RESOURCE_LUMBER) + 1000)
+        call zzVL_Msg(pid, "|cff00ff00[GM]|r Nhận thêm 1,000 Kim Nguyên Bảo!")
+    elseif len >= 5 and SubString(msg, 0, 5) == "-knb " then
+        set knb = S2I(SubString(msg, 5, len))
+        if knb <= 0 then
+            set knb = 1000
+        endif
+        call SetPlayerState(p, PLAYER_STATE_RESOURCE_LUMBER, GetPlayerState(p, PLAYER_STATE_RESOURCE_LUMBER) + knb)
+        call zzVL_Msg(pid, "|cff00ff00[GM]|r Nhận thêm " + I2S(knb) + " Kim Nguyên Bảo!")
+    endif
+endfunction
+
+// ==========================================
 // Hàm: zzVL_Quest
 // Chức năng dự kiến: Hệ thống nhiệm vụ (Sứ Giả Võ Lâm).
 // Không yêu cầu tham số đầu vào.
@@ -4602,6 +4655,18 @@ function zzVL_Init takes nothing returns nothing
         set vl_i=vl_i+1
     endloop
     call TriggerAddAction(vl_t,function zzVL_OnFastBuy)
+    set vl_t=CreateTrigger()
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-lvl",false)
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-maxlvl",true)
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-rex",true)
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-gold",false)
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-knb",false)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzVL_OnGmCheat)
     set vl_t=CreateTrigger()
     set vl_i=0
     loop

@@ -35,6 +35,43 @@
 
 ## 2. LỊCH SỬ CẬP NHẬT / TIẾN ĐỘ
 
+- [x] **Yêu cầu User:** *"đẩy lên git toàn bộ chỉnh sửa cho tôi"*
+  - Kiểm tra git status, convert `.gitignore` sang UTF-8.
+  - Gom toàn bộ thay đổi (code tools, map wts, w3a, gameplay JASS, lệnh GM, map build mới).
+  - Commit và push lên GitHub `origin/main`.
+
+- [x] **Yêu cầu User:** *"thêm lệnh max level rồi combine lại cho gm test"* & *"mới chỉ đổi tên file, chưa đổi được hiển thị trong game"*
+  - **Khắc phục triệt để lỗi hiển thị trống trong lobby Warcraft III**:
+    + Warcraft III engine yêu cầu file `war3map.wts` bắt buộc phải có **UTF-8 BOM** (`\xef\xbb\xbf`), định dạng xuống dòng chuẩn **CRLF** (`\r\n`), và không được thiếu `STRING 4514` (công thức ghép đồ).
+    + Đã ghi lại file chuẩn UTF-8 BOM + CRLF và đồng bộ cả vào `work/orig/war3map.wts`.
+    + Đã sửa `tools/convert_text.py` và `tools/describe.py` để bảo vệ file `src/map/war3map.wts`.
+  - **Tích hợp bộ lệnh GM / Test vào game (`tools/jass/gameplay_08_ui.j`)**:
+    + `-lvl`: Đưa hero lên cấp tối đa 200 ngay lập tức (hoặc `-maxlvl`, `-rex`).
+    + `-lvl <số>`: Đặt cấp độ hero theo ý muốn (ví dụ `-lvl 100`, `-lvl 150`).
+    + `-gold` hoặc `-gold <số>`: Nhận ngay 100,000 vàng (hoặc số lượng tùy chọn).
+    + `-knb` hoặc `-knb <số>`: Nhận ngay 1,000 Kim Nguyên Bảo (hoặc số lượng tùy chọn).
+  - **Build & Đồng bộ**: Pipeline chạy pass 100% (`pjass ok 30,679 lines`), tự động copy map mới vào cả 3 thư mục đích:
+    + `Tong Kim Beta AI.w3x`
+    + `Tong Kim Beta.w3x`
+    + `Vo Lam Truyen Ky v2.2 AI 1.31.w3x`
+
+- [x] **Yêu cầu User:** *"mới chỉ đổi tên file, chưa đổi được hiển thị trong game"*
+  - **Phát hiện nguyên nhân cốt lõi**:
+    1. Script `tools/convert_text.py` trước đây luôn đọc `work/orig/war3map.wts` và ghi đè lại `src/map/war3map.wts` mỗi khi chạy pipeline, làm mất nội dung người dùng sửa. Đã sửa `convert_text.py` để bảo toàn file `war3map.wts` hiện có.
+    2. Hàm `recipes()` trong `tools/describe.py` phụ thuộc vào chuỗi "chế tạo đồ" trong file wts. Đã bổ sung xử lý an toàn `if not m: return {}` tránh crash khi người dùng rút gọn mô tả.
+    3. Game Warcraft III đang mở và chọn vào file `Tong Kim Beta.w3x` khiến Windows khóa file (WinError 32 PermissionError).
+  - **Khắc phục**:
+    + Khôi phục và cập nhật đầy đủ cấu hình hiển thị mới: `STRING 1` là `|c0000ff00Tong Kim Beta AI|r`, tác giả `vnakira - Imba`, mô tả `Edited by imba`, đổi tên phe `Tong`, `Kim`, đếm ngược `Chiến thôi!`.
+    + Đã xuất sang file mới [Tong Kim Beta AI.w3x](file:///C:/Users/nguye/OneDrive/Documents/Warcraft%20III%20Public%20Test/Maps/Tong%20Kim%20Beta%20AI.w3x) trong thư mục test Warcraft III của người dùng. Map sẽ hiển thị chuẩn tên màu xanh **Tong Kim Beta AI**.
+
+- [x] **Yêu cầu User:** *"xem tôi đã lưu chưa, nếu lưu rồi xuất lại map thử"*
+  - Kiểm tra xác nhận file [war3map.wts](file:///d:/vltk-2.2-ai-extended/src/map/war3map.wts) đã lưu đầy đủ các thay đổi chuỗi ngôn ngữ của User (tên map, credit, các text game).
+  - Chạy toàn bộ pipeline build thành công (pjass pass 30,620 dòng, 0 lỗi).
+  - Đã xuất và đồng bộ map sang:
+    + `build\Tong Kim Beta.w3x` (93.1 MB)
+    + `Maps\Tong Kim Beta.w3x` & `Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x`
+    + Thư mục game Warcraft III test: `C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x` & `Vo Lam Truyen Ky v2.2 AI 1.31.w3x`.
+
 - [x] **Yêu cầu User:** *"cấu hình lại toàn bộ chiêu Q W E của các phái về autocast cường hóa đòn đánh, các chiêu bị động hiển thị hình icon vào bên trong Tab nhân vật"*
   - Chuyển đổi toàn bộ kỹ năng phím Q (Base `ANba`), W (Base `AEpa`), và E (Base `AHca`) của 33 môn phái thành dạng Autocast Attack Modifier. Sửa trong `tools/kskill.py` để sinh đúng Base ID thay vì ép về `ANcl`.
   - Cập nhật cơ chế xử lý sát thương/hiệu ứng trong `tools/kskill.j` (`zzKS_OnHit`) để nhận diện buff của chiêu Autocast (`Bdba`, `Bpoa`, `Bhea`) và gọi bung hiệu ứng `zzKS_Do`.

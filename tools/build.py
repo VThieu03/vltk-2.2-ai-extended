@@ -42,7 +42,7 @@ def block_index(m, name):
 
 def main():
     args = sys.argv[1:]
-    out = args[args.index("--out") + 1] if "--out" in args else os.path.join(ROOT, "build", "VLTK-1.31.w3x")
+    out = args[args.index("--out") + 1] if "--out" in args else os.path.join(ROOT, "build", "Tong Kim Beta.w3x")
     files = {}
     for root, _, fs in os.walk(SRC):                 # includes war3mapImported\kv (icons from icons.py)
         for f in fs:

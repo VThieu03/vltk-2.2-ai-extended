@@ -1,4 +1,4 @@
-﻿# Item descriptions. In the inventory the game shows the item's Description (ides), which the author
+# Item descriptions. In the inventory the game shows the item's Description (ides), which the author
 # left as a short label ("áo giáp", "Dược.") while the stats are in the shop tooltip (utub). Every item
 # gets: its stats + a short line of flavour (written in the style of Vo Lam Truyen Ky online when the map
 # has none) + for materials, what they craft (from the author's recipe list in war3map.wts).
@@ -132,7 +132,10 @@ def family(name):
 
 def recipes():
     w = open(os.path.join(SRC, "war3map.wts"), "rb").read().decode("utf-8")
-    block = re.search(r"\{[^}]*chế tạo đồ[^}]*\}", w).group(0)
+    m = re.search(r"\{[^}]*chế tạo đồ[^}]*\}", w)
+    if not m:
+        return {}
+    block = m.group(0)
     uses = {}
     for prod, mats in re.findall(r"\|c0000ff00([^|]+)\|r:[ \t]*([^\r\n]+)", block):
         for m in mats.split("+"):

@@ -1,6 +1,6 @@
 ﻿STRING 1
 {
-|CFF00FF00Vo Lam Truyen Ky v2.1 AI
+|c0000ff00Tong Kim Beta AI|r
 }
 STRING 2
 {
@@ -8,28 +8,28 @@ STRING 2
 }
 STRING 3
 {
-|c00ffcc00Testers:|r -[kyo]-, KendoSai, lucifekit, killings, tengichaduoc, SD.Handsome, AmDuongNhatDoc, samake, dannyminhduc, khong2, longkekeke12|n|c00ffcc00Email:|r vnakira@yahoo.com
+Edited by |c00ff0000imba|r
 }
 STRING 4
 {
-vnakira - Garena.vn
+vnakira - Imba
 }
 STRING 4514
 {
-|c00ffcc00Dïng thñ khè ®Ó chÕ t¹o ®å. Mçi mãn cÇn 3 nguyªn liÖu|r:
-|c0000ff00Tiªu §ao KiÕm/M©u/§ao|r: ¤ Long B¶o Th¹ch + BÝ Phæ + Hång Anh B¶o Th¹ch
-|c0000ff00Kim Xµ KiÕm/M©u/§ao|r: Lôc B¶o Th¹ch + BÝ Phæ + Hång Anh B¶o Th¹ch
-|c0000ff00XÝch Long KiÕm/M©u/§ao|r: Lam B¶o Th¹ch + BÝ Phæ + Hång Anh B¶o Th¹ch
-|c0000ff00Hoµng Long Kim Gi¸p|r: BÝ Phæ + Long Nguyªn + B¹ch B¶o Th¹ch
-|c0000ff00Hoµng Hæ Y|r: BÝ Phæ + Cæ NguyÖt B¶o Th¹ch + B¹ch B¶o Th¹ch
-|c0000ff00¢m D­¬ng V« Cùc §ao|r: BÝ Phæ + Cæ NguyÖt B¶o Th¹ch + Thiªn Niªn Cæ VËt
-|c0000ff00An Lang Kh«i|r: BÝ Phæ + Ngäc Lôc B¶o + Kim C­¬ng
-|c0000ff00T©y Thi CÈm Sam|r: BÝ Phæ + Sa Nhung + N÷ Oa Tinh Th¹ch
-|c0000ff00Du Long Ngäc Béi|r: BÝ Phæ + Hång Anh B¶o Th¹ch + Sa Nhung
-|c0000ff00Khai D­¬ng M·o|r: BÝ Phæ + Ngäc Lôc B¶o + Sa Nhung
-|c0000ff00ThÇn S¸ch Kim Gi¸p|r: BÝ Phæ + N÷ Oa Tinh Th¹ch + Bå §Ò Méc
-|c0000ff00T©y V­¬ng N÷ Gi¸p|r: BÝ Phæ + N÷ Oa Tinh Th¹ch + Cæ NguyÖt B¶o Th¹ch
-|c0000ff00Ph¸ch Phong|r: BÝ Phæ + Thiªn Niªn Cæ VËt + ¤ Long B¶o Th¹ch
+|c00ffcc00Dùng thủ khố để chế tạo đồ. Mỗi món cần 3 nguyên liệu|r:
+|c0000ff00Tiêu Đao Kiếm/Mâu/Đao|r: Ô Long Bảo Thạch + Bí Phổ + Hồng Anh Bảo Thạch
+|c0000ff00Kim Xà Kiếm/Mâu/Đao|r: Lục Bảo Thạch + Bí Phổ + Hồng Anh Bảo Thạch
+|c0000ff00Xích Long Kiếm/Mâu/Đao|r: Lam Bảo Thạch + Bí Phổ + Hồng Anh Bảo Thạch
+|c0000ff00Hoàng Long Kim Giáp|r: Bí Phổ + Long Nguyên + Bạch Bảo Thạch
+|c0000ff00Hoàng Hổ Y|r: Bí Phổ + Cổ Nguyệt Bảo Thạch + Bạch Bảo Thạch
+|c0000ff00Âm Dương Vô Cực Đao|r: Bí Phổ + Cổ Nguyệt Bảo Thạch + Thiên Niên Cổ Vật
+|c0000ff00An Lang Khôi|r: Bí Phổ + Ngọc Lục Bảo + Kim Cương
+|c0000ff00Tây Thi Cẩm Sam|r: Bí Phổ + Sa Nhung + Nữ Oa Tinh Thạch
+|c0000ff00Du Long Ngọc Bội|r: Bí Phổ + Hồng Anh Bảo Thạch + Sa Nhung
+|c0000ff00Khai Dương Mão|r: Bí Phổ + Ngọc Lục Bảo + Sa Nhung
+|c0000ff00Thần Sách Kim Giáp|r: Bí Phổ + Nữ Oa Tinh Thạch + Bồ Đề Mộc
+|c0000ff00Tây Vương Nữ Giáp|r: Bí Phổ + Nữ Oa Tinh Thạch + Cổ Nguyệt Bảo Thạch
+|c0000ff00Phách Phong|r: Bí Phổ + Thiên Niên Cổ Vật + Ô Long Bảo Thạch
 }
 STRING 4518
 {
@@ -73,7 +73,7 @@ STRING 5264
 }
 STRING 5265
 {
-Go!
+Chiến thôi!
 }
 STRING 5266
 {
@@ -81,35 +81,18 @@ STRING 5266
 }
 STRING 7211
 {
-|c0000ff00SINGLE PLAYER|r
-|c00ffcc00-rex|r: ®¹t cÊp ®é tèi ®a (40)
-|c00ffcc00-reveal|r: më mµn che b¶n ®å
-|c00ffcc00-gold x|r: nhËn ®­îc x ng©n l­îng
-|c00ffcc00-ESC|r: ®Çy sinh lùc, néi lùc
-|c0000ff00GENERAL MODES|r
-|c00ff0000ChØ dµnh cho player 1|r
-|c00ffcc00-cc|r: ®Çy sinh lùc, néi lùc khi lªn cÊp
-|c00ffcc00-dm|r: mçi cÊp nhËn ®­îc 2 KNB
-|c00ffcc00-mo|r: t¾t nh¹c nÒn khi ch¬i
-|c00ffcc00-rev|r: më mµn che b¶n ®å
-|c00ffcc00-rain|r: chÕ ®é thêi tiÕt m­a
-|c00ffcc00-snow|r: chÕ ®é thêi tiÕt tuyÕt
-|c00ffcc00-moonlight|r: chÕ ®é thêi tiÕt ¸nh s¸ng mÆt tr¨ng
-|c00ffcc00-fog|r: chÕ ®é thêi tiÕt s­¬ng mï
-|c00ff0000Dµnh cho tÊt c¶ mäi ng­êi|r
-|c00ffcc00-ms|r: xem tèc ch¹y nh©n vËt
-|c00ffcc00-min|r: tÇm nh×n camera cùc tiÓu
-|c00ffcc00-med|r: tÇm nh×n camera møc võa
-|c00ffcc00-max|r: tÇm nh×n camera cùc ®¹i
-|c00ffcc00-res|r: c©n b»ng l¹i camera
+|c00ffcc00-min|r: tầm nhìn camera cực tiểu
+|c00ffcc00-med|r: tầm nhìn camera mức vừa
+|c00ffcc00-max|r: tầm nhìn camera cực đại
+|c00ffcc00-res|r: cân bằng lại camera
 }
 STRING 7226
 {
-Observer
+Khán giả
 }
 STRING 7227
 {
-Trung Lâp
+Trung Lập
 }
 STRING 7325
 {
