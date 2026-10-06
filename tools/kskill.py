@@ -94,6 +94,29 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Doan Thi Chi (DTC): read from KVCT's code
+    # Q JCC: 2 blows 0.2 s apart where the target stood, radius 100, at most 7, 30% tho thuong 0.5 s and 30% cham 1 s
+    "A0DB": {"kind": 16, "hits": 2, "gap": .2, "rad": 100, "max": 7, "st": 1, "ch": 30, "sd": .5, "st2": 4, "ch2": 30, "sd2": 1},
+    "A0DE": {"kind": 0, "stats": [5, 3]},                    # Doan Thi Chi Phap: chinh xac, bang cong %, chi mang
+    # R enA: one finger flies 900 (width 150) through up to 7 enemies, 80% dinh than 3 s, ignores dodge
+    "A0DO": {"kind": 5, "rad": 900, "max": 7, "st": 2, "ch": 80, "sd": 3},
+    # F erd: 15 s: toc chay +(45 + 5/rank), ne tranh noi / ngoai cong, immune to tho thuong / cham
+    "A0DQ": {"kind": 6, "dur": 15, "stats": [(13, 45, 5), 14]},
+    # Tu Bi Quyet: hit under 50% life: Lang Ba Vi Bo for 15 s (not done), every 60 s
+    "A0DR": {"kind": 0, "stats": []},
+    "A0DF": {"kind": 0, "stats": [5, 14]},                   # Kim Ngoc Chi Phap: phat huy luc tan cong, ti le cham, khang bong
+    # W JaN: 3 blows 1/6 s apart around the hero, radius 250, at most 7, 35% tho thuong 0.5 s and 35% cham 1 s
+    "A0DC": {"kind": 4, "hits": 3, "gap": .17, "rad": 250, "max": 7, "st": 1, "ch": 35, "sd": .5, "st2": 4, "ch2": 35, "sd2": 1},
+    # D egt: 9 ice needles every 0.25 s chase the target, each bursts radius 180, 80% cham 3 s
+    "A0DU": {"kind": 16, "hits": 9, "gap": .25, "rad": 180, "st": 4, "ch": 80, "sd": 3},
+    "A0DP": {"kind": 0, "stats": [3]},                       # Dieu De Chi: R gives chinh xac / chi mang / phat huy 30 s (not done)
+    # Thi Nguyen Quyet: casting Q W E: 30 s immune to dinh than / te liet / hon loan / day keo, every 30 s
+    "A0DV": {"kind": 0, "stats": [5, 6], "proc": 100, "pcd": 30, "pimm": 29.9},
+    # E JCN: 3 blows 1/6 s apart where the target stood, radius 150, at most 7, 40% tho thuong 0.5 s and 40% cham 1 s
+    "A0DD": {"kind": 16, "hits": 3, "gap": .17, "rad": 150, "max": 7, "st": 1, "ch": 40, "sd": .5, "st2": 4, "ch2": 40, "sd2": 1},
+    # Can Thien Chi Phap: E 30%: more damage and ignores dodge for 10 s
+    "A0DX": {"kind": 0, "stats": [6], "link": 2, "lfx": 65536},
+    "A0X4": {"kind": 0, "stats": [5]},                       # Bach Bo Xuyen Duong: sat thuong he Hoa (R diem huyet: not done)
     # Minh Giao Kiem (MGK): read from KVCT's code
     # Q JEv: a fire field at the target, 4 pulses 1 s apart, radius 150, at most 7, 30% dinh than 0.5 s, poison
     "A08W": {"kind": 13, "hits": 4, "gap": 1, "rad": 150, "max": 7, "st": 2, "ch": 30, "sd": .5, "fx": 8},
@@ -653,12 +676,6 @@ OVR = {
     # Nga My Kiem (NMK)
 
     # Doan Thi (DTK, DTC)
-    "A0DB": {"kind": 1, "hits": 2},                          # Than Chi Diem Huyet
-    "A0DO": {"kind": 5, "hits": 2},                          # Nhat Duong Chi
-    "A0DQ": {"kind": 3},                                     # Lang Ba Vi Bo
-    "A0DU": {"kind": 5, "hits": 9},                          # Huyen Bang Cuu Kiep
-    "A0DD": {"kind": 1, "hits": 3},                          # Thien Long Than Chi
-    "A0DC": {"kind": 1, "hits": 3},                          # Can Duong Than Chi (triple strike)
 
     # Minh Giao (MGC, MGK)
     "A097": {"kind": 2, "hits": 3},                          # Hoa Long Thao Thien

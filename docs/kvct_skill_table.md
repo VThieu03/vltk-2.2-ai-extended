@@ -456,17 +456,17 @@ Q W E của mọi phái là **autocast**: nhấp chuột phải vào biểu tư�
 
 | # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |
 |---|---|---|---|---|---|---|
-| 1 | Thần Chỉ Điểm Huyệt | X325 | Q | đánh mục tiêu, **autocast** | 2 | 1 |
+| 1 | Thần Chỉ Điểm Huyệt | X325 | Q | đánh lan tại mục tiêu, **autocast** | 2 | 1 |
 | 2 | Đoàn Thị Chỉ Pháp | X326 | - | bị động | 1 | 6 |
 | 3 | Nhất Dương Chỉ | X327 | R | phóng / đạn bay | 1 | 15 |
-| 4 | Lăng Ba Vi Bộ | X328 | F | lướt | 1 | 25 |
+| 4 | Lăng Ba Vi Bộ | X328 | F | buff bản thân | 1 | 25 |
 | 5 | Từ Bi Quyết | X329 | - | bị động | 1 | 38 |
 | 6 | Kim Ngọc Chỉ Pháp | X330 | - | bị động | 1 | 52 |
-| 7 | Cản Dương Thần Chỉ | X331 | W | đánh mục tiêu, **autocast** | 3 | 68 |
-| 8 | Huyền Băng Cửu Kiếp | X332 | D | phóng / đạn bay | 9 | 85 |
+| 7 | Cản Dương Thần Chỉ | X331 | W | nổ quanh thân, **autocast** | 3 | 68 |
+| 8 | Huyền Băng Cửu Kiếp | X332 | D | đánh lan tại mục tiêu | 9 | 85 |
 | 9 | Diệu Đề Chỉ | X333 | - | bị động | 1 | 105 |
 | 10 | Thí Nguyên Quyết | X334 | - | bị động | 1 | 125 |
-| 11 | Thiên Long Thần Chỉ | X335 | E | đánh mục tiêu, **autocast** | 3 | 145 |
+| 11 | Thiên Long Thần Chỉ | X335 | E | đánh lan tại mục tiêu, **autocast** | 3 | 145 |
 | 12 | Càn Thiên Chỉ Pháp | X336 | - | bị động | 1 | 165 |
 | 13 | Bách Bộ Xuyên Dương | X337 | - | bị động | 1 | 185 |
 
