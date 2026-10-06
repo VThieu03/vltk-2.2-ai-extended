@@ -566,12 +566,12 @@ Q W E của các phái là **autocast**: nhấp chuột phải vào biểu tư�
 |---|---|---|---|---|---|---|
 | 1 | Trảm Vân Kiếm | X403 | Q | phóng / đạn bay, **autocast** | 1 | 1 |
 | 2 | Tiêu Dao Kiếm Pháp | X404 | - | bị động | 1 | 6 |
-| 3 | Đan Phượng Dẫn | X405 | R | nổ quanh thân | 1 | 15 |
+| 3 | Đan Phượng Dẫn | X405 | R | trận tại điểm (nhiều nhịp) | 10 | 15 |
 | 4 | Chân Hỏa Hộ Thể | X406 | - | bị động | 1 | 25 |
 | 5 | Sơ Hoa Dẫn | X407 | F | buff phe ta | 1 | 38 |
 | 6 | Đoản Ca Hành | X408 | - | bị động | 1 | 52 |
-| 7 | Tê Chiếu Phồn Thương | X409 | W | quét phía trước, **autocast** | 3 | 68 |
-| 8 | Kiếm Chủng Dẫn | X410 | D | nổ quanh thân | 25 | 85 |
+| 7 | Tê Chiếu Phồn Thương | X409 | W | phóng / đạn bay, **autocast** | 3 | 68 |
+| 8 | Kiếm Chủng Dẫn | X410 | D | trận tại điểm (nhiều nhịp) | 25 | 85 |
 | 9 | Bính Nhược Quan Hỏa | X411 | - | bị động | 1 | 105 |
 | 10 | Ngang Nhật Đồ | X412 | - | bị động | 1 | 125 |
 | 11 | Bách Điểu Triều Phượng | X413 | E | phóng / đạn bay, **autocast** | 4 | 145 |

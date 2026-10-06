@@ -94,6 +94,30 @@ OVR = {
     # Huyet Chien Bat Phuong: sinh luc; E 75%: a spear flies 900 (width 150)
     "A029": {"kind": 0, "stats": [7], "link": 2, "lfx": 65536},
 
+    # Tieu Dao Kiem (TDK): read from KVCT's code
+    # Q JsY: 1 sword qi (2 side by side from rank 3, 3 from rank 6) flies 600 (width 110) through everyone; 30% bong 2 s
+    # and 30% tho thuong 0.5 s
+    "A0GE": {"kind": 5, "fan": 2, "spread": 5, "fangrow": 1, "rad": 600, "st": 5, "ch": 30, "sd": 2, "st2": 1, "ch2": 30, "sd2": .5},
+    "A0GS": {"kind": 0, "stats": [5, 3, 4]},                 # Tieu Dao Kiem Phap: chinh xac, hoa cong %, chi mang, toc danh
+    # R e_Q: a field at a point <= 640: every 1 s for 10 s, radius 350, at most 7: 50% dinh than 1.5 s, 50% bong 2.5 s
+    "A0GV": {"kind": 13, "hits": 10, "gap": 1, "rad": 350, "far": 640, "max": 7, "st": 2, "ch": 50, "sd": 1.5, "st2": 5, "ch2": 50, "sd2": 2.5},
+    # Chan Hoa Ho The: sinh luc toi da, ne tranh; hit under 50% life: hon loan around, 5 s immune, every 30 s
+    "A0GW": {"kind": 0, "stats": [7, 13], "fx": 1024, "low": (0, 30, 0, 5, 100), "lowat": 50},
+    # F eik: heroes of the side within 1000, 30 s: khang phan don, khang thoi gian trang thai
+    "A0GZ": {"kind": 7, "dur": 30, "stats": [14, 6]},
+    "A0GT": {"kind": 0, "stats": [5, 14]},                   # Doan Ca Hanh: phat huy luc tan cong, ti le bong, khang tho thuong
+    # W JCk: 3 blades 0.2 s apart (the 2nd and 3rd +-12 degrees) fly 600 (width 120), at most 7 each; 35% tho thuong 0.5 s
+    # and 35% bong 2 s
+    "A0GF": {"kind": 5, "hits": 3, "gap": .2, "rad": 600, "max": 7, "st": 1, "ch": 35, "sd": .5, "st2": 5, "ch2": 35, "sd2": 2},
+    # D eqW: a field at a point <= 640: every 0.3 s for 7.5 s, radius 480, at most 7, 50% tho thuong 1 s
+    "A0GU": {"kind": 13, "hits": 25, "gap": .3, "rad": 480, "far": 640, "max": 7, "st": 1, "ch": 50, "sd": 1},
+    "A0H0": {"kind": 0, "stats": [7]},                       # Binh Nhuoc Quan Hoa: R heals 8% + 2%/rank per s (not done)
+    "A0H1": {"kind": 0, "stats": [5, 13]},                   # Ngang Nhat Do: hoa cong, toc chay, ne tranh
+    # E J4A: 4 swords side by side 0.15 s apart fly 800 (width 120), at most 7 each; 40% tho thuong 0.5 s and 40% bong 2 s
+    "A0GG": {"kind": 5, "hits": 4, "gap": .15, "rad": 800, "max": 7, "st": 5, "ch": 40, "sd": 2, "st2": 1, "ch2": 40, "sd2": .5},
+    # Phan Phach Tru Tam: chi mang; E 75%: Kiem Ngam swords around the target (3 more blows here)
+    "A0H2": {"kind": 0, "stats": [3], "link": 2, "xw": 3, "xc": 75},
+    "A0XB": {"kind": 0, "stats": [5]},                       # Hoa Hai Vo Nhai: sat thuong he Kim (fire damage on E: not done)
     # Tieu Dao Chuong (TDC): read from KVCT's code
     # Q JD6: 2 blows 0.2 s apart where the target stood, radius 150, at most 7, 30% bong 2 s
     "A0H5": {"kind": 16, "hits": 2, "gap": .2, "rad": 150, "max": 7, "st": 5, "ch": 30, "sd": 2},
@@ -795,12 +819,6 @@ OVR = {
     # Hoa Son (HSQ, HSK)
 
     # Tieu Dao (TDC, TDK)
-    "A0GE": {"kind": 5, "hits": 2},                          # Tram Van Kiem
-    "A0GV": {"kind": 4, "hits": 4},                          # Dan Phuong Dan
-    "A0GF": {"kind": 2, "hits": 3},                          # Te Chieu Phon Thuong
-    "A0GU": {"kind": 4, "hits": 12},                         # Kiem Chung Dan
-    "A0GG": {"kind": 5, "hits": 4},                          # Bach Dieu Trieu Phuong
-    "A0GZ": {"kind": 7, "dur": 25, "stats": [(6, 25, 2)]},   # So Hoa Dan (party resist buff)
 
     # Thuy Yen Kiem (TYK)
     "A0BM": {"kind": 5, "hits": 2},                          # Phong Quyen Tan Tuyet
