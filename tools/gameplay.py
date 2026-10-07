@@ -33,6 +33,7 @@ integer array zzVL_set
 integer array zzVL_he
 integer array zzVL_ct
 integer array zzVL_rank
+integer array zzVL_cl
 integer array zzVL_rq
 string array zzVL_hn
 string array zzVL_rn
@@ -58,6 +59,22 @@ integer array zzVL_qHave
 integer array zzVL_qDone
 unit array zzVL_aiTgt
 item array zzVL_bag
+integer array zzVL_bagSel
+boolean array zzKT_auto
+boolean array zzKT_ctrl
+boolean array zzKT_ctrlLeft
+boolean array zzKT_ctrlRight
+integer array zzKT_threshold
+integer array zzKT_hotAmount
+integer array zzKT_hotTick
+integer array zzKT_hotApplied
+boolean array zzKT_starter
+integer array zzKT_target
+framehandle zzKT_targetPanel=null
+framehandle array zzKT_targetBtn
+dialog array zzKTC_dialog
+integer array zzKTC_grade
+integer array zzKTC_page
 item array zzVL_equipItem
 boolean array zzEQ_starterGiven
 unit array zzEQ_starterHero
@@ -228,6 +245,8 @@ integer array zzVL_mat
 integer zzVL_matN=0
 framehandle array zzVL_fHl
 framehandle zzVL_fSplit=null
+boolean zzVL_skHit=false
+framehandle zzVL_fDrop=null
 constant integer zzVL_XAPHU='h0XP'
 group zzVL_deadArena=null
 item array zzVL_equip
@@ -237,6 +256,17 @@ item zzVL_jOld=null"""
 # placed right after endglobals (the author's drop functions call it): every gear type drops at most 5 times per
 # match, then another gear type is drawn; materials and other items are not limited
 DROP_FN = [
+    # thời gian hồi sinh của tướng theo cấp (config.py GAME REVIVE_*): trigger hồi sinh của map gốc gọi hàm này thay cho chờ 10 giây
+    "function zzVL_ReviveTime takes integer lv returns real",
+    "if lv<=%d then" % config.GAME["REVIVE_LV1"],
+    "return %r" % float(config.GAME["REVIVE_T1"]),
+    "elseif lv<=%d then" % config.GAME["REVIVE_LV2"],
+    "return %r" % float(config.GAME["REVIVE_T2"]),
+    "elseif lv<=%d then" % config.GAME["REVIVE_LV3"],
+    "return %r" % float(config.GAME["REVIVE_T3"]),
+    "endif",
+    "return %r" % float(config.GAME["REVIVE_T4"]),
+    "endfunction",
 
     "function zzVL_InArena takes unit u returns boolean",
     "local real x=GetUnitX(u)",
@@ -271,28 +301,24 @@ DROP_FN = [
     "if vl_it==null or zzVL_ht==null or LoadInteger(zzVL_ht,GetItemTypeId(vl_it),0)/10<1 then",
     "return vl_it",
     "endif",
-    "set vl_c=LoadInteger(zzVL_ht,GetItemTypeId(vl_it),42)",
-    "if vl_c<5 then",
-    "call SaveInteger(zzVL_ht,GetItemTypeId(vl_it),42,vl_c+1)",
-    # 10-slot equipment: half of the gear drops become a jewel / belt / bracer of the same tier (JEWELS)
-    "if GetRandomInt(1,100)<=50 then",
-    "set vl_c=LoadInteger(zzVL_ht,GetItemTypeId(vl_it),0)",
-    "set vl_c=vl_c-(vl_c/10)*10",
-    "if zzVL_jw[vl_c*10]!=0 then",
+    # hệ thống trang bị cũ của map đã bỏ: trang bị cũ từ bảng vật phẩm của map gốc bị xóa, chỉ còn trang bị KVCT (gameplay_12_drop.j)
     "call RemoveItem(vl_it)",
-    "set vl_it=CreateItem(zzVL_jw[vl_c*10+GetRandomInt(0,5)],vl_x,vl_y)",
-    "endif",
-    "endif",
-    "call SaveInteger(zzVL_ht,GetHandleId(vl_it),73,1)",
-    "return vl_it",
-    "endif",
-    "call RemoveItem(vl_it)",
-    "set vl_n=vl_n+1",
-    "exitwhen vl_n>=10",
+    "return null",
     "endloop",
     "return null",
     "endfunction",
 ]
+
+
+# vũ khí cũ (đồ rơi từ bản gốc): từ khóa trong tên -> loại vũ khí KVCT 0..10 (kvequip_data.WEAPONS); tên không nhận ra (Phiến, Y...) thì ai mặc cũng được
+LEGACY_WEAPON_WORDS = {"kiem": 0, "khi": 0, "dao": 1, "mau": 2, "phu": 3}
+
+
+def legacy_weapon_type(name):
+    for w in re.findall(r"[a-z]+", plain(name)):
+        if w in LEGACY_WEAPON_WORDS:
+            return LEGACY_WEAPON_WORDS[w]
+    return None
 
 
 def table():
@@ -303,6 +329,10 @@ def table():
         slot = SLOT_FIX.get(iid, slot)
         tier = TIER_FIX.get(iid, tier)
         rows.append("call SaveInteger(zzVL_ht,'%s',0,%d)" % (iid, slot * 10 + tier))
+        if slot == 3:                                   # vũ khí cũ của map: loại theo tên, để chỉ phái đúng loại mới mặc được (zzEQ_CanUse)
+            wt = legacy_weapon_type(name)
+            if wt is not None:
+                rows.append("call SaveInteger(zzVL_ht,'%s',92,%d)" % (iid, wt + 1))
     # auto-cast table written by skills.py
     rows += open(os.path.join(ROOT, "build", "skills_table.j"), encoding="utf-8").read().splitlines()
     rows += open(os.path.join(ROOT, "build", "tranphai_table.j"), encoding="utf-8").read().splitlines()
@@ -313,20 +343,7 @@ def table():
         rows.append("call SaveInteger(zzVL_ht,'ITW%s',95,%d)" % ("0123456789A"[k], config.TANLANG_WEAPON_GOLD))
     rows.append("call SaveInteger(zzVL_ht,'%s',95,1)" % config.TANLANG_SHOP_UNIT)
     rows = [r for r in rows if r]
-    # gear by tier (extra drops in the Thien Kiem areas)
-    gear = {}
-    for iid, slot, tier, name in items():
-        if iid not in NOT_GEAR:
-            gear.setdefault(TIER_FIX.get(iid, tier), []).append(iid)
-    for jid, kind, tier, name in jewels():
-        rows.append("call SaveInteger(zzVL_ht,'%s',0,%d)" % (jid, kind * 10 + tier))
-        rows.append("call SaveInteger(zzVL_ht,'%s',41,%d)" % (jid, 60 * tier))
-        rows.append("set zzVL_jw[%d]='%s'" % (tier * 10 + kind - 5, jid))
-        gear.setdefault(tier, []).append(jid)
-    for tier, ids in sorted(gear.items()):
-        for k, iid in enumerate(ids):
-            rows.append("set zzVL_gear[%d]='%s'" % (tier * 200 + k, iid))
-        rows.append("set zzVL_gearN[%d]=%d" % (tier, len(ids)))
+    # trang bị cũ của map (bảng theo bậc, trang sức) đã bỏ: zzVL_gearN = 0 nên zzVL_DropGear không rơi gì
     # KVCT farm unit pairs keyed by level. Gate-side low-level camps are walk-in;
     # the level 60+ fields keep Xa Phu travel points.
     unit_codes = {1: ("Q001", "Q011"), 20: ("Q021", "Q031"), 40: ("Q041", "Q051"),
@@ -370,7 +387,15 @@ def table():
     rows.append("call SaveInteger(zzVL_ht,'zzGS',1,%d)" % config.GEM_UP_BASE)
     rows.append("call SaveInteger(zzVL_ht,'zzGS',2,%d)" % config.GEM_UP_STEP)
     rows.append("call SaveInteger(zzVL_ht,'zzGS',3,%d)" % config.GEM_UP_GOLD)
+    rows.append("call SaveInteger(zzVL_ht,'zzGS',5,%d)" % config.GEM_UP_GOLD_STEP)
     rows.append("call SaveInteger(zzVL_ht,'zzGS',4,'%s')" % config.GEM_SHOP_UNIT)
+    rows.append("call SaveInteger(zzVL_ht,'zzKT',1,%d)" % config.POTION_AUTO_THRESHOLD_PCT)
+    rows.append("call SaveInteger(zzVL_ht,'zzKT',2,%d)" % config.POTION_REGEN_SECONDS)
+    rows.append("call SaveInteger(zzVL_ht,'zzKT',3,%d)" % config.POTION_BULK_AMOUNT)
+    rows.append("call SaveInteger(zzVL_ht,'zzKT',4,%d)" % config.POTION_STACK_LIMIT)
+    for grade, price in config.KQTRC_STONE_GOLD.items():
+        rows.append("call SaveInteger(zzVL_ht,'zzKT',%d,%d)" % (10 + grade, price))
+    rows.append("call SaveInteger(zzVL_ht,'zzKT',5,'%s')" % config.KQTRC_SHOP_UNIT)
     k = 0
     for e, (el, rep_id, heroes) in enumerate(PICK):
         for i, h in enumerate(heroes):
@@ -387,6 +412,8 @@ def table():
             rows.append("call SaveInteger(zzVL_ht,'%s',%d,'%s')" % (prod, 61 + k, mt))
     for iid, (lv, amount, abil) in POTIONS.items():
         rows.append("call SaveInteger(zzVL_ht,'%s',57,%d)" % (iid, lv))
+        rows.append("call SaveInteger(zzVL_ht,'%s',602,%d)" % (iid, amount))
+        rows.append("call SaveInteger(zzVL_ht,'%s',600,%d)" % (iid, config.POTION_GOLD[iid]))
     rows.append("set zzVL_pickU = CreateUnit(Player(15), 'H020', 0, 0, 0)")
     rows.append("call ShowUnit(zzVL_pickU, false)")
     rows.append("call GroupAddUnit(Ge, zzVL_pickU)")
@@ -596,6 +623,11 @@ def pick_cards():
     return cards
 
 
+def legacy_gear_ids():
+    """mã vật phẩm trang bị CŨ của map (khóa 0 = loại * 10 + phẩm): hệ thống đã bỏ, không rơi / không bán"""
+    return {iid for iid, slot, tier, name in items() if iid not in NOT_GEAR}
+
+
 def shops():
     """Tang Kinh Cac: two NPCs (8 Bi Pho each, 5000 gold) next to the Xa Phu of each base; Bi Pho no longer drop"""
     pu = os.path.join(SRC, "war3map.w3u")
@@ -607,7 +639,7 @@ def shops():
     for k, uid in enumerate((b"h0B1", b"h0B2")):
         mods = [list(m) for m in npc[2][0] if m[0] not in (b"usei", b"unam", b"uico", b"umdl")]
         mods += [mod(b"unam", 3, ("|cffff8040Tàng Kinh Các - Bí Phổ vũ khí|r", "|cff40c0ffTàng Kinh Các - Bí Phổ trang bị|r")[k]),
-                 mod(b"usei", 3, ",".join((weapons, gear + [MAT_EXTRA])[k][:12])),
+                 mod(b"usei", 3, ""),
                  mod(b"umdl", 3, chr(92).join(["units", "human", "Jaina", "Jaina.mdl"])),
                  mod(b"uico", 3, chr(92).join(["ReplaceableTextures", "CommandButtons", "BTNJaina.blp"]))]
         utabs[1].append([npc[0], uid, [mods]])
@@ -615,9 +647,8 @@ def shops():
     # buying one takes its materials (gameplay.j zzVL_OnCraftBuy)
     slot = {i: sl for i, sl, t, nm in items()}
     rec = craft_recipes()
-    cw = [pr for pr, ms in rec if slot.get(pr) == 3 or pr == "I01H"]
-    ca = [pr for pr, ms in rec if pr not in cw]
-    names = {b"n00K": ("|cffff8040Cửa hàng vũ khí - vũ khí chế|r", cw), b"n00L": ("|cff40c0ffCửa hàng giáp trụ - trang bị chế|r", ca),
+    cw, ca = [], ["KTR1", "KTR2", "KTR3"]          # n00L được dùng lại làm Kỳ Trân Các
+    names = {b"n00K": ("|cffff8040Cửa hàng vũ khí - vũ khí chế|r", cw), b"n00L": ("|cffffcc00Kỳ Trân Các - Đá thuộc tính|r", ca),
              b"n00M": ("|cffffcc00Tiệm tạp hóa - Nâng bảo thạch|r", [])}
     for o, n, sets in utabs[1]:
         if n in names:
@@ -629,6 +660,12 @@ def shops():
                 nm, lst = "|cffffcc00Tiệm tạp hóa - Vũ khí Tần Lăng|r", []
                 sets[0][:] = [x for x in sets[0] if x[0] not in (b"usei", b"unam")]
             sets[0] += [mod(b"unam", 3, nm), mod(b"usei", 3, ",".join(lst[:12]))]
+    legacy = legacy_gear_ids()                       # mọi cửa hàng: bỏ trang bị cũ khỏi danh sách bán
+    for tab in utabs:
+        for o, n, sets in tab:
+            for x in sets[0]:
+                if x[0] == b"usei":
+                    x[4] = ",".join(i for i in x[4].decode("latin1").split(",") if i and i not in legacy).encode("latin1")
     for o, n, sets in utabs[0]:                      # Duoc diem also sells the tier-5 potion
         x = next((x for x in sets[0] if x[0] == b"usei"), None)
         if x is not None and b"phea" in x[4] and b"pres" not in x[4]:
@@ -641,10 +678,13 @@ def shops():
         for o, n, sets in tab:
             iid_ = (o if ti == 0 else n).decode("latin1")
             stock = None
-            if iid_ in MAT_SHOP or iid_ == MAT_EXTRA:
+            if iid_ in POTIONS:
+                stock = ((b"igol", config.POTION_GOLD[iid_]), (b"isto", 99), (b"istr", 1), (b"isst", 0))
+            elif iid_ in MAT_SHOP or iid_ == MAT_EXTRA:
                 stock = ((b"igol", 4000), (b"isto", 10), (b"istr", 20), (b"isst", 0))
-            elif iid_ in GEM_IDS:                          # price = GEM_UP_GOLD (config.py section 12), shown in the gem shop
-                stock = ((b"igol", config.GEM_UP_GOLD), (b"isto", 10), (b"istr", 10), (b"isst", 0))
+            elif iid_ in GEM_IDS:                          # price: to tier t = GEM_UP_GOLD + GEM_UP_GOLD_STEP * (t - 2) (config.py section 12)
+                t_ = int(iid_[-1]) if iid_[-1].isdigit() else 2
+                stock = ((b"igol", config.GEM_UP_GOLD + config.GEM_UP_GOLD_STEP * max(0, t_ - 2)), (b"isto", 10), (b"istr", 10), (b"isst", 0))
             elif iid_ in TANLANG_IDS:                      # price from config.py (section 8)
                 stock = ((b"igol", config.TANLANG_WEAPON_GOLD), (b"isto", 10), (b"istr", 30), (b"isst", 0))
             elif iid_ in [pr for pr, ms in craft_recipes()]:
@@ -670,8 +710,8 @@ def shops():
             if iid in POTIONS:
                 lv, amount, abil = POTIONS[iid]
                 ms = sets[0]
-                text = ("|c0087ceebDạng hòa bình|r|nHồi phục |cffffcc00%d|r sinh lực và |cffffcc00%d|r nội lực trong 15 giây, "
-                        "không bị ngắt khi trúng đòn.|n|cffffcc00Yêu cầu cấp %d.|r" % (amount, amount, lv))
+                text = ("|c0087ceebDạng hòa bình|r|nHồi phục |cffffcc00%d|r sinh lực và |cffffcc00%d|r nội lực trong %d giây, "
+                        "không bị ngắt khi trúng đòn.|n|cffffcc00Yêu cầu cấp %d.|r" % (amount, amount, config.POTION_REGEN_SECONDS, lv))
                 for key, typ, val in ((b"iabi", 3, abil), (b"utub", 3, text), (b"ides", 3, text)):
                     x = next((x for x in ms if x[0] == key), None)
                     if x is None:
@@ -743,7 +783,7 @@ def script():
         # equipment (09) before the modules that call zzEQ_*, drop (12) after 02 / 09 and before 06; shop (10) and Tan Lang (11) last
         order = ["gameplay_01_core.j", "gameplay_13_glass.j", "gameplay_09_equip.j", "gameplay_14_gem.j", "gameplay_02_farm.j", "gameplay_03_tranphai.j",
                  "gameplay_04_combat.j", "gameplay_05_quests.j", "gameplay_15_gemshop.j", "gameplay_16_gemdrop.j",
-                 "gameplay_12_drop.j", "gameplay_06_events.j", "gameplay_07_ai.j", "gameplay_08_ui.j",
+                 "gameplay_12_drop.j", "gameplay_06_events.j", "gameplay_07_ai.j", "gameplay_08_ui.j", "gameplay_17_kqtc.j",
                  "gameplay_10_shop.j", "gameplay_11_tanlang.j"]
         files = [f for f in order if f in files] + [f for f in files if f not in order]
         mod = []
@@ -755,6 +795,14 @@ def script():
             pass
     else:
         mod = open(os.path.join(os.path.dirname(__file__), "gameplay.j"), "rb").read().decode("utf-8").splitlines()
+    # config.py mục 17 GAME: mỗi thông số thành một hàm hằng zzCF_<TÊN>() đặt trước mọi module
+    import config as cfg_
+    gen_ = ["// ---- thông số game từ tools/config.py GAME (tự sinh) ----"]
+    for k_, v_ in cfg_.GAME.items():
+        t_ = "integer" if isinstance(v_, int) and not isinstance(v_, bool) else "real" if isinstance(v_, float) else "string"
+        val_ = repr(v_) if t_ != "string" else '"%s"' % v_
+        gen_ += ["constant function zzCF_%s takes nothing returns %s" % (k_, t_), "    return %s" % val_, "endfunction"]
+    mod = gen_ + mod
     # comments stay in gameplay.j only: the map gets plain code (no stray ' or \ for the game's parser)
     mod = [l for l in mod if l.strip() and not l.lstrip().startswith("//")]
     ks = open(os.path.join(os.path.dirname(__file__), "kskill.j"), "rb").read().decode("utf-8").splitlines()
@@ -887,29 +935,6 @@ def objects():
             mod(b"ipaw", 0, 0),
             mod(b"isel", 0, 0),
             mod(b"ilev", 0, 1 + i),
-            mod(b"icla", 3, "Permanent"),
-        ]]])
-    for jid, kind, t, name in jewels():
-        assert all(o[1] != jid.encode() for o in tabs[1]), jid
-        slot, kname, _, stat = JEWELS[kind]
-        col = TIER_COLOR[t - 1]
-        text = ("|cffffcc00%s|r - phẩm %d/5" % (kname, t) + "|n|cffffcc00Cơ bản|r: " + stat(t) +
-                "|n|n|cff9a9a9aMặc vào ô %s của bảng Nhân Vật (phím C), không chiếm túi đồ. "
-                "Bấm trong Hành Trang (B) để mặc, bấm ô trên bảng Nhân Vật để tháo. "
-                "Cường hóa ô bằng Huyền tinh, khảm được 2 lỗ.|r" % kname)
-        tabs[1].append([b"clfm", jid.encode(), [[
-            mod(b"unam", 3, col + name + "|r"),
-            mod(b"utip", 3, col + name + "|r"),
-            mod(b"utub", 3, text),
-            mod(b"ides", 3, text),
-            mod(b"iabi", 3, ""),
-            mod(b"iico", 3, "war3mapImported\\vl_eq_%d.blp" % (slot + 1)),
-            mod(b"igol", 0, 120 * t),
-            mod(b"ilum", 0, 0),
-            mod(b"idro", 0, 1),
-            mod(b"ipaw", 0, 1),
-            mod(b"isel", 0, 1),
-            mod(b"ilev", 0, 2 * t),
             mod(b"icla", 3, "Permanent"),
         ]]])
     of_tabs.save()

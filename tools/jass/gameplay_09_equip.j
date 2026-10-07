@@ -219,6 +219,11 @@ function zzEQ_IsKv takes integer vl_type returns boolean
     return LoadInteger(zzVL_ht,vl_type,93)>0
 endfunction
 
+// Mọi trang bị mặc được: trang bị KVCT và đồ cũ của map (phôi / trang sức, khóa 0 = loại*10 + phẩm >= 10)
+function zzEQ_IsGear takes integer vl_type returns boolean
+    return LoadInteger(zzVL_ht,vl_type,93)>0 or LoadInteger(zzVL_ht,vl_type,0)>=10
+endfunction
+
 // ==========================================
 // Hàm: zzEQ_Tier
 // Bậc cường hóa 0..10 của vật phẩm đang cầm; vũ khí Tần Lăng luôn là 11.
@@ -372,6 +377,8 @@ function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
     local string vl_prev
     local string vl_hd
     local string vl_d
+    local integer vl_quality=zzIT_Get(GetHandleId(vl_it),zzIT_PHAM_CHAT())
+    local string vl_qualityPrefix=""
     if vl_it==null then
         return
     endif
@@ -404,21 +411,19 @@ function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
         if vl_t>0 and vl_t<11 then
             set vl_nm=vl_nm+" +"+I2S(vl_t)
         endif
-        call BlzSetItemName(vl_it,vl_nm+"|r"+vl_star)
+        if vl_quality==1 then
+            set vl_qualityPrefix="|cffffffff[Thường] "
+        elseif vl_quality==2 then
+            set vl_qualityPrefix="|cff4080ff[Tốt] "
+        elseif vl_quality==3 then
+            set vl_qualityPrefix="|cffc040ff[Tuyệt] "
+        elseif vl_quality>=4 then
+            set vl_qualityPrefix="|cffffcc00[Huyền thoại] "
+        endif
+        call BlzSetItemName(vl_it,vl_qualityPrefix+vl_nm+"|r"+vl_star)
     endif
-    set vl_prev=LoadStr(zzVL_ht,vl_id,94)
-    set vl_hd=zzEQ_Header(vl_type,vl_t)
-    set vl_d=BlzGetItemDescription(vl_it)
-    if vl_prev!=null and vl_prev!="" and SubString(vl_d,0,StringLength(vl_prev))==vl_prev then
-        set vl_d=SubString(vl_d,StringLength(vl_prev),StringLength(vl_d))
-    endif
-    call BlzSetItemDescription(vl_it,vl_hd+vl_d)
-    set vl_d=BlzGetItemExtendedTooltip(vl_it)
-    if vl_prev!=null and vl_prev!="" and SubString(vl_d,0,StringLength(vl_prev))==vl_prev then
-        set vl_d=SubString(vl_d,StringLength(vl_prev),StringLength(vl_d))
-    endif
-    call BlzSetItemExtendedTooltip(vl_it,vl_hd+vl_d)
-    call SaveStr(zzVL_ht,vl_id,94,vl_hd)
+    // mô tả dựng lại từ dữ liệu: chỉ số đúng bậc, dòng ngẫu nhiên, khảm (gameplay_08_ui.j zzEQ_Describe)
+    call zzEQ_Redesc(vl_it)
 endfunction
 
 // Gắn tiêu đề / icon bậc lần đầu cho trang bị KVCT chưa qua zzEQ_SetTier (nhặt, mặc)
@@ -433,7 +438,7 @@ endfunction
 
 // ==========================================
 // Hàm: zzEQ_CanUse
-// Tướng có được mặc món này không: vũ khí KVCT phải đúng loại của phái (bảng khóa 96 của loại tướng). Mọi món khác: được.
+// Tướng có được mặc món này không: MỌI vũ khí (KVCT và đồ cũ có loại, khóa 92) phải đúng loại của phái (bảng khóa 96 / 400+w của loại tướng). Món khác: được.
 function zzEQ_CanUse takes unit vl_hero,item vl_it returns boolean
     local integer vl_type
     local integer vl_wt
@@ -443,7 +448,7 @@ function zzEQ_CanUse takes unit vl_hero,item vl_it returns boolean
     endif
     set vl_type=GetItemTypeId(vl_it)
     set vl_wt=zzEQ_WeaponType(vl_type)
-    if vl_wt<0 or not zzEQ_IsKv(vl_type) then
+    if vl_wt<0 then
         return true
     endif
     set vl_hw=zzHT_MainWeapon(vl_hero)
@@ -522,11 +527,15 @@ function zzEQ_Enhance takes integer vl_pid,item vl_it returns boolean
     endif
     call zzEQ_SetTier(vl_it,vl_t+1)
     call zzIT_Set(GetHandleId(vl_it),zzIT_BAO_HIEM(),0)
+    // cấp của Ô được nhớ theo người chơi (zzVL_cuong): đồ nhặt mặc vào ô này sẽ nhận đúng cấp / icon, kể cả đồ cũ của map
+    if zzEQ_Slot(GetItemTypeId(vl_it))>0 and zzVL_equipItem[vl_pid*10+zzEQ_Slot(GetItemTypeId(vl_it))-1]==vl_it then
+        set zzVL_cuong[vl_pid*10+zzEQ_Slot(GetItemTypeId(vl_it))-1]=IMinBJ(10,vl_t+1)
+    endif
     if Jx[vl_pid+1]!=null then
         call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",Jx[vl_pid+1],"origin"))
         call zzVL_Text(Jx[vl_pid+1],"|cffffcc00Cường hóa +"+I2S(vl_t+1)+"|r")
     endif
-    call zzVL_Msg(vl_pid,"|cffffcc00Cường hóa|r "+GetItemName(vl_it)+": |cffffcc00+"+I2S(vl_t+1)+"|r (icon và chỉ số theo trùng sinh "+I2S(vl_t+1)+" của Kiếm Vũ Chí Tôn).")
+    call zzVL_Msg(vl_pid,"|cffffcc00Cường hóa|r "+GetItemName(vl_it)+" |cffffcc00+"+I2S(vl_t+1)+"|r")
     return true
 endfunction
 
@@ -666,8 +675,38 @@ function zzEQ_InheritSlot takes integer vl_pid,integer vl_slot,item vl_new,item 
                 call zzEQ_SetTier(vl_old,0)
             endif
             set zzVL_cuong[vl_index]=vl_level
+        else
+            // đồ cũ của map mặc vào ô: giữ cấp của ô (icon + chỉ số theo cấp ô), món KVCT cũ trả về +0 để không nhân đôi
+            set zzVL_cuong[vl_index]=IMinBJ(10,vl_level)
+            if vl_old!=null and vl_old!=vl_new and LoadInteger(zzVL_ht,vl_oldType,93)==1 then
+                call zzEQ_SetTier(vl_old,0)
+            endif
         endif
     endif
+endfunction
+
+// Cấp cường hóa là của Ô (zzVL_cuong), không phải của món: món KVCT đang mặc luôn mang đúng cấp của ô, bất kể mặc bằng cách nào
+// (bấm trong hành trang, tự mặc, hoán đổi...). Gọi trong zzVL_AffixSum (mỗi giây).
+function zzEQ_SyncSlots takes integer vl_pid returns nothing
+    local integer vl_i=0
+    local item vl_it
+    local integer vl_idx
+    local integer vl_t
+    loop
+        exitwhen vl_i>9
+        set vl_it=zzVL_equipItem[vl_pid*10+vl_i]
+        if vl_it!=null and LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==1 then
+            set vl_idx=vl_pid*10+vl_i
+            set vl_t=zzEQ_Tier(vl_it)
+            if vl_t>zzVL_cuong[vl_idx] then
+                set zzVL_cuong[vl_idx]=IMinBJ(10,vl_t)
+            elseif vl_t<zzVL_cuong[vl_idx] then
+                call zzEQ_SetTier(vl_it,zzVL_cuong[vl_idx])
+            endif
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_it=null
 endfunction
 
 // Cộng một chỉ số (mã chỉ số ở đầu file) vào bảng chỉ số của người chơi (zzVL_af, khóa 1000+pid): cùng chỗ với zzVL_AffixSum

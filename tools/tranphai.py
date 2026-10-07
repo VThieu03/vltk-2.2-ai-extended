@@ -9,6 +9,7 @@ import os, shutil, struct, sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
+import config
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC = os.path.join(ROOT, "src", "map")
@@ -250,8 +251,8 @@ def main():
                 m(b"irl1", 2, float(amount), 1, 1),
                 m(b"irl2", 2, float(amount), 1, 2),
                 m(b"irl5", 0, 0, 1, 5),
-                m(b"adur", 2, 15.0, 1),
-                m(b"ahdu", 2, 15.0, 1),
+                m(b"adur", 2, float(config.POTION_REGEN_SECONDS), 1),
+                m(b"ahdu", 2, float(config.POTION_REGEN_SECONDS), 1),
             ]
     of_tabs.save()
     open(TABLE, "w", encoding="utf-8").write("\n".join(rows) + "\n")

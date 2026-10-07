@@ -159,6 +159,47 @@ function zzDR_CountAff takes item vl_it returns integer
     return vl_n
 endfunction
 
+// Chấm phẩm chất bằng số dòng và độ cao mỗi dòng so với min/max riêng của chính chỉ số đó.
+// Điểm = 20 mỗi dòng + tổng phần trăm roll trong min..max. Dòng min luôn cho 0 điểm roll.
+// Ngưỡng: <100 thường, 100..179 tốt, 180..259 tuyệt, >=260 huyền thoại.
+function zzDR_Quality takes item vl_it returns integer
+    local integer vl_id=GetHandleId(vl_it)
+    local integer vl_k=1
+    local integer vl_n=0
+    local integer vl_value
+    local integer vl_min
+    local integer vl_max
+    local integer vl_roll=0
+    local integer vl_score
+    loop
+        exitwhen vl_k>22
+        set vl_value=zzIT_Line(vl_id,vl_k)
+        if vl_value>0 then
+            set vl_n=vl_n+1
+            set vl_min=zzEQ_AffixMin(vl_k)
+            set vl_max=zzEQ_AffixMax(vl_k)
+            if vl_max>vl_min then
+                set vl_roll=vl_roll+(vl_value-vl_min)*100/(vl_max-vl_min)
+            else
+                set vl_roll=vl_roll+100
+            endif
+        endif
+        set vl_k=vl_k+1
+    endloop
+    if vl_n<=0 then
+        return 1
+    endif
+    set vl_score=vl_n*20+vl_roll
+    if vl_score>=260 then
+        return 4
+    elseif vl_score>=180 then
+        return 3
+    elseif vl_score>=100 then
+        return 2
+    endif
+    return 1
+endfunction
+
 // Quay chỉ số bằng zzVL_RollAffix (hệ cũ); nếu thiếu số dòng tối thiểu thì xóa và quay lại.
 function zzDR_RollAffixMin takes item vl_it,integer vl_min returns nothing
     local integer vl_id=GetHandleId(vl_it)
@@ -186,16 +227,21 @@ function zzDR_RollAffixMin takes item vl_it,integer vl_min returns nothing
     endloop
 endfunction
 
-// Tạo một phôi KVCT tại (x,y). Phôi luôn +0; zzEQ_Touch gắn icon/tên mặc định KVCT.
+// Tạo một phôi KVCT +0, lăn chỉ số/phẩm chất ngay khi rơi để màu đã đúng trên mặt đất.
 function zzDR_MakeOne takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
     local integer vl_code=zzDR_PickCode(vl_hero)
     local item vl_it=CreateItem(vl_code,vl_x+GetRandomReal(-40.,40.),vl_y+GetRandomReal(-40.,40.))
     if vl_it==null then
         return
     endif
-    call zzEQ_SetTier(vl_it,0)
+    // Giữ model/icon của chính món KVCT nhưng thu gọn vật thể trên mặt đất.
+    call BlzSetItemRealField(vl_it,ITEM_RF_SCALING_VALUE,.35)
     // khóa 73: đồ rơi từ quái, cho phép tự mặc / tự bán (giống hệ cũ).
     call zzIT_Set(GetHandleId(vl_it),zzIT_MOI_ROI(),1)
+    call zzVL_RollAffix(vl_it)
+    call zzVL_TaiPhu(vl_it)
+    call zzIT_Set(GetHandleId(vl_it),zzIT_PHAM_CHAT(),zzDR_Quality(vl_it))
+    call zzEQ_SetTier(vl_it,0)
     set vl_it=null
 endfunction
 

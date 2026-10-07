@@ -22,8 +22,8 @@ function zzGS_Count takes integer vl_playerId,integer vl_code,item vl_skip retur
     local integer vl_i=0
     local integer vl_n=0
     loop
-        exitwhen vl_i>29
-        set vl_it=zzVL_bag[vl_playerId*30+vl_i]
+        exitwhen vl_i>=zzCF_BAG_SLOTS()
+        set vl_it=zzVL_bag[vl_playerId*zzCF_BAG_SLOTS()+vl_i]
         if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
             if GetItemCharges(vl_it)>1 then
                 set vl_n=vl_n+GetItemCharges(vl_it)
@@ -87,8 +87,8 @@ function zzGS_Take takes integer vl_playerId,integer vl_code,integer vl_n,item v
     local integer vl_c
     local integer vl_old
     loop
-        exitwhen vl_i>29 or vl_n<=0
-        set vl_it=zzVL_bag[vl_playerId*30+vl_i]
+        exitwhen vl_i>=zzCF_BAG_SLOTS() or vl_n<=0
+        set vl_it=zzVL_bag[vl_playerId*zzCF_BAG_SLOTS()+vl_i]
         if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
             set vl_c=GetItemCharges(vl_it)
             if vl_c<1 then
@@ -97,7 +97,7 @@ function zzGS_Take takes integer vl_playerId,integer vl_code,integer vl_n,item v
             set vl_old=vl_n
             set vl_n=zzGS_TakeFrom(vl_it,vl_n)
             if vl_c<=vl_old then
-                set zzVL_bag[vl_playerId*30+vl_i]=null
+                set zzVL_bag[vl_playerId*zzCF_BAG_SLOTS()+vl_i]=null
             endif
         endif
         set vl_i=vl_i+1
@@ -178,7 +178,7 @@ function zzGS_Upgrade takes integer vl_playerId,item vl_item,unit vl_b returns b
     local integer vl_code=GetItemTypeId(vl_item)
     local integer vl_kind=zzGM_Type(vl_code)
     local integer vl_tier=zzGM_Tier(vl_code)-1
-    local integer vl_gold=LoadInteger(zzVL_ht,'zzGS',3)
+    local integer vl_gold=LoadInteger(zzVL_ht,'zzGS',3)+LoadInteger(zzVL_ht,'zzGS',5)*IMaxBJ(0,zzGM_Tier(vl_code)-2)
     local integer vl_need
     local integer vl_have
     if vl_kind<1 or vl_tier<1 then

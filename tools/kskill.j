@@ -64,6 +64,12 @@ function zzKS_PopT takes integer vl_ab,unit vl_u,string vl_pt returns nothing
     call DestroyEffect(vl_e)
     set vl_e=null
 endfunction
+// sát thương của KỸ NĂNG KVCT: như đòn đánh thường nó cũng hút máu / nội lực, kích hoạt hiệu ứng bộ ngũ hành và ngũ hành vũ khí (zzVL_skHit)
+function zzKS_SkHit takes unit vl_hero,unit vl_unit,real vl_d returns nothing
+    set zzVL_skHit=true
+    call zzVL_TpHit(vl_hero,vl_unit,vl_d)
+    set zzVL_skHit=false
+endfunction
 function zzKS_Atk takes unit vl_h returns real
     local real vl_w=I2R(BlzGetUnitBaseDamage(vl_h,0)+BlzGetUnitDiceNumber(vl_h,0)*(BlzGetUnitDiceSides(vl_h,0)+1)/2)
     local real vl_r=zzVL_PheAtk(vl_h,vl_w)
@@ -77,7 +83,7 @@ function zzKS_Hit takes unit vl_h,integer vl_ab returns real
     local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
     local integer vl_n=IMaxBJ(1,zzSK_Int(vl_ab,zzSK_HITS()))
     local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-    local real vl_base=zzKS_Atk(vl_h)*(.9+.17*vl_lv)*(1.+.3*(vl_n-1))/vl_n+20.*vl_lv
+    local real vl_base=zzKS_Atk(vl_h)*(zzCF_SKILL_DMG_GOC()+zzCF_SKILL_DMG_MOI_BAC()*vl_lv)*(1.+zzCF_SKILL_DMG_NHIEU_DON()*(vl_n-1))/vl_n+zzCF_SKILL_DMG_CONG_MOI_BAC()*vl_lv
     if vl_p<10 and zzKS_chg[vl_p]>0 then
         set vl_base=vl_base*(1.+zzKS_chg[vl_p]*zzKS_chgPct[vl_p]/100.)
     endif
@@ -107,7 +113,8 @@ function zzKS_SilenceEnd takes nothing returns nothing
     local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
     local integer vl_i=0
     local integer vl_ab
-    if vl_u!=null and TimerGetElapsed(zzVL_clock)>=zzUS_Real(GetHandleId(vl_u),zzUS_SILENCE_END())-.05 then
+    // mở khóa đúng một lần (BlzUnitDisableAbility cộng dồn: khóa N lần thì phải mở N lần)
+    if vl_u!=null and zzUS_Real(GetHandleId(vl_u),zzUS_SILENCE_END())>0. and TimerGetElapsed(zzVL_clock)>=zzUS_Real(GetHandleId(vl_u),zzUS_SILENCE_END())-.05 then
         loop
             set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
             exitwhen vl_ab==0 or vl_i>=14
@@ -128,12 +135,18 @@ function zzKS_Silence takes unit vl_u,real vl_d returns nothing
     if LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200)==0 then
         return
     endif
-    loop
-        set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
-        exitwhen vl_ab==0 or vl_i>=14
-        call BlzUnitDisableAbility(vl_u,vl_ab,true,false)
-        set vl_i=vl_i+1
-    endloop
+    if GetWidgetLife(vl_u)<.405 then
+        return
+    endif
+    // đang bị thọ thương: chỉ kéo dài, không khóa thêm lớp nữa (khóa cộng dồn làm kỹ năng bị khóa vĩnh viễn)
+    if zzUS_Real(GetHandleId(vl_u),zzUS_SILENCE_END())<=0. then
+        loop
+            set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
+            exitwhen vl_ab==0 or vl_i>=14
+            call BlzUnitDisableAbility(vl_u,vl_ab,true,false)
+            set vl_i=vl_i+1
+        endloop
+    endif
     call zzUS_SetReal(GetHandleId(vl_u),zzUS_SILENCE_END(),RMaxBJ(zzUS_Real(GetHandleId(vl_u),zzUS_SILENCE_END()),TimerGetElapsed(zzVL_clock)+vl_d))
     call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Silence\\SilenceTarget.mdl",vl_u,"overhead"))
     set vl_t=CreateTimer()
@@ -392,18 +405,18 @@ function zzKS_Fx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothi
         set vl_m=zzSK_Int(vl_ab,zzSK_PROC_MUL())+zzSK_Int(vl_ab,zzSK_PROC_MUL_PER())*GetUnitAbilityLevel(vl_h,vl_ab)
     endif
     if BlzBitAnd(vl_f,65536)>0 and vl_d>0. and GetRandomInt(1,100)<=vl_c then
-        call zzVL_TpHit(vl_h,vl_u,vl_d*vl_m/100.)
+        call zzKS_SkHit(vl_h,vl_u,vl_d*vl_m/100.)
         call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl",vl_u,"chest"))
     endif
     if BlzBitAnd(vl_f,131072)>0 and not IsUnitType(vl_u,UNIT_TYPE_HERO) and GetRandomInt(1,100)<=21 then
-        call zzVL_TpHit(vl_h,vl_u,GetWidgetLife(vl_u)*.15)
+        call zzKS_SkHit(vl_h,vl_u,GetWidgetLife(vl_u)*.15)
     endif
     // 3 hits on the same enemy burst it (KVCT Thien Thu Van Doc: 3 tang That Tam Co)
     if BlzBitAnd(vl_f,16384)>0 then
         call zzUS_SetInt(GetHandleId(vl_u),zzUS_HIT_COUNT(),zzUS_Int(GetHandleId(vl_u),zzUS_HIT_COUNT())+1)
         if zzUS_Int(GetHandleId(vl_u),zzUS_HIT_COUNT())>=3 then
             call zzUS_SetInt(GetHandleId(vl_u),zzUS_HIT_COUNT(),0)
-            call zzVL_TpHit(vl_h,vl_u,vl_d)
+            call zzKS_SkHit(vl_h,vl_u,vl_d)
             call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl",vl_u,"chest"))
         endif
     endif
@@ -457,7 +470,7 @@ endfunction
 function zzKS_StrikeFx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d,boolean vl_fx returns nothing
     if vl_u!=null and zzVL_TpFoe(vl_h,vl_u) then
         if zzSK_Int(vl_ab,zzSK_NO_DAMAGE())==0 then
-            call zzVL_TpHit(vl_h,vl_u,vl_d)
+            call zzKS_SkHit(vl_h,vl_u,vl_d)
         endif
         if vl_fx then
             call zzKS_PopT(vl_ab,vl_u,"chest")
@@ -547,7 +560,7 @@ function zzKS_FlyOne takes integer vl_id returns boolean
             if vl_n<vl_cap and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) then
                 set vl_n=vl_n+1
                 call GroupAddUnit(vl_hit,vl_u)
-                call zzVL_TpHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
+                call zzKS_SkHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
                 call zzKS_Status(vl_h,vl_u,vl_ab)
                 call zzKS_Fx(vl_h,vl_u,vl_ab,LoadReal(zzVL_ht,vl_id,9))
             endif
@@ -912,7 +925,7 @@ function zzKS_FieldTick takes nothing returns nothing
                     endif
                 endif
                 if zzSK_Int(vl_ab,zzSK_NO_DAMAGE())==0 then
-                    call zzVL_TpHit(vl_h,vl_u,vl_d)
+                    call zzKS_SkHit(vl_h,vl_u,vl_d)
                 endif
                 call zzKS_PopT(vl_ab,vl_u,"origin")
                 call zzKS_Status(vl_h,vl_u,vl_ab)
@@ -1035,7 +1048,7 @@ function zzKS_ToggleTick takes nothing returns nothing
             call GroupRemoveUnit(vl_g,vl_u)
             if zzVL_TpFoe(vl_h,vl_u) then
                 set vl_c=vl_c+1
-                call zzVL_TpHit(vl_h,vl_u,vl_d)
+                call zzKS_SkHit(vl_h,vl_u,vl_d)
                 call DestroyEffect(AddSpecialEffectTarget("Abilities\\Weapons\\PoisonArrow\\PoisonArrowMissile.mdl",vl_u,"chest"))
             endif
         endloop
@@ -1139,7 +1152,7 @@ function zzKS_DashHit takes unit vl_h,integer vl_ab,real vl_r,boolean vl_attach 
         if zzVL_TpFoe(vl_h,vl_u) then
             set vl_n=vl_n+1
             if zzSK_Int(vl_ab,zzSK_NO_DAMAGE())==0 then
-                call zzVL_TpHit(vl_h,vl_u,vl_d)
+                call zzKS_SkHit(vl_h,vl_u,vl_d)
             endif
             if zzSK_Int(vl_ab,zzSK_DASH_QWE())>0 and vl_n<=3 then
                 call zzKS_QWE(vl_h,vl_u)
@@ -1515,6 +1528,12 @@ function zzKS_OnHit takes nothing returns nothing
     local integer vl_i=0
     local integer vl_ab
     local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    if vl_p<10 and LoadInteger(zzVL_ht,7300+vl_p,1)>0 then
+        call SaveInteger(zzVL_ht,7300+vl_p,1,0)
+        if TimerGetElapsed(zzVL_clock)-LoadReal(zzVL_ht,7300+vl_p,2)<3. then
+            set zzKS_repl=true
+        endif
+    endif
     if vl_p<10 then
         call zzKS_BhUse(vl_p,0)
     endif
@@ -1529,27 +1548,12 @@ function zzKS_OnHit takes nothing returns nothing
     endif
     if GetUnitAbilityLevel(vl_t, 'Bdba') > 0 then
         call UnitRemoveAbility(vl_t, 'Bdba')
-        set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 260)
-        if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-            set zzKS_repl = true
-            call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
-        endif
     endif
     if GetUnitAbilityLevel(vl_t, 'Bpoa') > 0 then
         call UnitRemoveAbility(vl_t, 'Bpoa')
-        set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 261)
-        if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-            set zzKS_repl = true
-            call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
-        endif
     endif
     if GetUnitAbilityLevel(vl_t, 'Bhea') > 0 then
         call UnitRemoveAbility(vl_t, 'Bhea')
-        set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 262)
-        if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-            set zzKS_repl = true
-            call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
-        endif
     endif
     loop
         set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
@@ -1622,7 +1626,7 @@ function zzKS_Tick takes nothing returns nothing
         exitwhen vl_p>9
         set vl_h=Jx[vl_p+1]
         // Fail-safe: never leave the hero's KVCT skills disabled if a silence timer is interrupted.
-        if vl_h!=null and zzUS_Real(GetHandleId(vl_h),zzUS_SILENCE_END())>0. and vl_now>=zzUS_Real(GetHandleId(vl_h),zzUS_SILENCE_END()) then
+        if vl_h!=null and zzUS_Real(GetHandleId(vl_h),zzUS_SILENCE_END())>0. and (vl_now>=zzUS_Real(GetHandleId(vl_h),zzUS_SILENCE_END()) or GetWidgetLife(vl_h)<.405) then
             set vl_i=0
             loop
                 set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
@@ -1942,6 +1946,82 @@ function zzKS_BarInit takes nothing returns nothing
     set vl_t=null
     set vl_f=null
 endfunction
+// ---- AUTOCAST thật: bấm chuột phải vào chiêu Q / W / E để bật "tự dùng": chiêu tự thi triển (có động tác tung chiêu, không cần đòn đánh
+// thường) khi có địch trong tầm đánh và chiêu đã hết hồi. Trạng thái bật / tắt lấy từ lệnh "<order>on / off" của nút autocast,
+// lưu ở hashtable 7200+pid, trường 0..2 (Q W E). Máy (AI) coi như luôn bật.
+// Lệnh bật / tắt autocast của từng nút (Q = Mũi tên đen, W = Mũi tên độc, E = Mũi tên băng): trả về 1 bật, 2 tắt, 0 không phải lệnh bật tắt
+function zzKS_AcKind takes string vl_o returns integer
+    if vl_o=="blackarrowon" then
+        return 1
+    elseif vl_o=="blackarrowoff" then
+        return 2
+    elseif vl_o=="poisonarrows" or vl_o=="poisonarrowson" or vl_o=="poisonarrowstargon" then
+        return 1
+    elseif vl_o=="unpoisonarrows" or vl_o=="poisonarrowsoff" or vl_o=="poisonarrowstargoff" then
+        return 2
+    elseif vl_o=="coldarrows" or vl_o=="coldarrowson" then
+        return 1
+    elseif vl_o=="uncoldarrows" or vl_o=="coldarrowsoff" then
+        return 2
+    endif
+    return 0
+endfunction
+function zzKS_AcSlot takes string vl_o returns integer
+    if StringLength(vl_o)>=10 and (SubString(vl_o,0,10)=="blackarrow") then
+        return 0
+    elseif StringLength(vl_o)>=11 and (SubString(vl_o,0,11)=="poisonarrow" or SubString(vl_o,0,13)=="unpoisonarrow") then
+        return 1
+    elseif StringLength(vl_o)>=9 and (SubString(vl_o,0,9)=="coldarrow" or SubString(vl_o,0,11)=="uncoldarrow") then
+        return 2
+    endif
+    return -1
+endfunction
+function zzKS_OnOrder takes nothing returns nothing
+    local unit vl_u=GetTriggerUnit()
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_u))
+    local string vl_o=OrderId2String(GetIssuedOrderId())
+    local integer vl_k
+    local integer vl_s
+    if vl_p<10 and vl_u==Jx[vl_p+1] and vl_o!=null and vl_o!="" then
+        set vl_k=zzKS_AcKind(vl_o)
+        set vl_s=zzKS_AcSlot(vl_o)
+        if vl_k>0 and vl_s>=0 then
+            call SaveInteger(zzVL_ht,7200+vl_p,vl_s,2-vl_k)
+        endif
+    endif
+    set vl_u=null
+endfunction
+
+// Khi tướng ĐÁNH THƯỜNG (đòn đánh tay): MỖI đòn đánh = MỘT chiêu trong số chiêu Q / W / E đang bật autocast (nhiều chiêu cùng bật thì luân phiên
+// Q -> W -> E); không bật chiêu nào thì đánh thường. Không xét hồi chiêu: chiêu autocast chính là đòn đánh. Sát thương đòn đánh tay lần này
+// bị bỏ (khóa 7300+pid: zzKS_OnHit đặt zzKS_repl). Máy (AI) coi như luôn bật.
+function zzKS_OnAttack takes nothing returns nothing
+    local unit vl_h=GetAttacker()
+    local unit vl_t=GetTriggerUnit()
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    local integer vl_n=0
+    local integer vl_s
+    local integer vl_ab
+    if vl_p<10 and vl_h==Jx[vl_p+1] and vl_t!=null and GetWidgetLife(vl_h)>.405 and not zzVL_inTp and zzVL_TpFoe(vl_h,vl_t) and TimerGetElapsed(zzVL_clock)>=zzUS_Real(GetHandleId(vl_h),zzUS_SILENCE_END()) then
+        loop
+            exitwhen vl_n>=3
+            set vl_s=ModuloInteger(LoadInteger(zzVL_ht,7300+vl_p,3)+vl_n,3)
+            set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260+vl_s)
+                if vl_ab!=0 and (LoadInteger(zzVL_ht,7200+vl_p,vl_s)>0 or GetPlayerController(Player(vl_p))==MAP_CONTROL_COMPUTER) and zzSK_Str(vl_ab,zzSK_ORDER_ON())!="" and GetUnitAbilityLevel(vl_h,vl_ab)>0 then
+                call SaveInteger(zzVL_ht,7300+vl_p,3,vl_s+1)
+                call SaveInteger(zzVL_ht,7300+vl_p,1,1)
+                call SaveReal(zzVL_ht,7300+vl_p,2,TimerGetElapsed(zzVL_clock))
+                // Chặn zzVL_AutoTick chèn một chiêu tấn công khác vào cùng nhịp đánh.
+                call SaveReal(zzVL_ht,7400+vl_p,0,TimerGetElapsed(zzVL_clock)+RMaxBJ(.45,BlzGetUnitAttackCooldown(vl_h,0)+.12))
+                call zzKS_Run(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
+                set vl_n=9
+            endif
+            set vl_n=vl_n+1
+        endloop
+    endif
+    set vl_h=null
+    set vl_t=null
+endfunction
 function zzKS_Init takes nothing returns nothing
     local trigger vl_t=CreateTrigger()
     call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
@@ -1958,5 +2038,11 @@ function zzKS_Init takes nothing returns nothing
     set zzKS_per[13]=4.
     set zzKS_per[14]=2.
     call TimerStart(CreateTimer(),1.,true,function zzKS_Tick)
+    set vl_t=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_ISSUED_ORDER)
+    call TriggerAddAction(vl_t,function zzKS_OnOrder)
+    set vl_t=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_ATTACKED)
+    call TriggerAddAction(vl_t,function zzKS_OnAttack)
     set vl_t=null
 endfunction

@@ -49,8 +49,11 @@ function zzVL_AutoTick takes nothing returns nothing
                     if vl_lv>0 and BlzGetUnitAbilityCooldownRemaining(vl_hero,vl_ab)<=.01 and BlzGetAbilityCooldown(vl_ab,vl_lv-1)<=15. and GetUnitState(vl_hero,UNIT_STATE_MANA)>=BlzGetAbilityManaCost(vl_ab,vl_lv-1) then
                         set vl_ord=zzSK_Int(vl_ab,zzSK_AI_ORDER())
                         set vl_kind=zzSK_Int(vl_ab,zzSK_AI_TARGET())
+                        // Q/W/E bật chuột phải được ưu tiên trọn nhịp đánh; khóa không chặn nội tại, buff hoặc toggle.
+                        if zzVL_ActionBusy(vl_playerId) and not zzVL_ActionUtility(vl_ab) then
+                            set vl_ok=false
                         // 4: a KVCT toggle (kskill.j zzKS_Toggle), cast only while it is off
-                        if vl_kind==4 and HaveSavedHandle(zzVL_ht,GetHandleId(vl_hero),vl_ab) then
+                        elseif vl_kind==4 and HaveSavedHandle(zzVL_ht,GetHandleId(vl_hero),vl_ab) then
                             set vl_ok=false
                         elseif vl_kind==1 then
                             set vl_ok=IssueTargetOrderById(vl_hero,vl_ord,vl_t)

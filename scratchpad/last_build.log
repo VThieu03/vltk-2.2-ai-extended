@@ -31,6 +31,8 @@ drop rates: ['gG', 'kG', 'Rh']
 start coin removed
 starter KVCT gear hook added
 item cleanup skips hidden items: ['St', 'mM', 'MM']
+hero kill message: players 0..9 only
+hero revive time by level: 2 waits
 === Running expand.py ===
 model not in Thien Kiem: Abilities\Weapons\SteamMissile\SteamMissile.mdx
   Bãi Cấp 1 - Cổng phía trên (cấp 1): entry (9632, -2848), 4 camps
@@ -113,19 +115,36 @@ tanlang: unit n0TL (Tan Thuy Hoang), 9 model/texture files
 === Running lvl200.py ===
 level 200: 103 stat gains, 80 hero skills
 === Running kskill.py ===
+TEXTURES: MGK_effect1.mdx: Textures\star.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star1.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star2.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star2_32.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star3.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star32.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star4.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star5tga.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star6.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star8.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star8b.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star8c.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star9.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoaln.mdx: Textures\star2_32.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoacast.mdx: Textures\star2.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoaeffect.mdx: Textures\Yellow_Star_Dim.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoaeffect.mdx: Textures\star5tga.blp -> Textures\Flame4.blp
 kskill: 429 skills on 33 heroes, 484 effect models (1788 files)
 === Running kskill_list.py ===
 33 phái, 429 kỹ năng -> docs\kvct_skill_table.md
 === Running gameplay.py ===
-item table rows: 10345
+item table rows: 10043
 bi pho: 5 vu khi, 11 trang bi
 cloaks: 5
 === Running describe.py ===
 belv name: 'Động Sát Y' st: (2, 1)
-MD5 written: 9beff655165516b613f24dcfce374db0 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
+MD5 written: 11a2dc83f7aa6d7a426078305bc29621 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
 described items: 286 | materials with recipes: 14
 === Running kvequip.py ===
-kvequip: 288 vật phẩm trong w3t, 232 icon (32 bản disabled), 1008 hàng bảng
+kvequip: 258 vật phẩm trong w3t, 232 icon (32 bản disabled), 1098 hàng bảng
 === Running icons.py ===
 cuong hoa icon rows: 1115
 disabled icons: 104
@@ -139,10 +158,10 @@ ui: 7 textures, 2 buttons, 13 skin keys
 === Running scale.py ===
 map x1.00: 264x128 -> 264x128 tiles, 4810 doodads
 === Running build.py ===
-pjass ok (38914 lines)
-ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 102929998 bytes, 3233 files from src
+pjass ok (39195 lines)
+ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 102931143 bytes, 3233 files from src
 
 >>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<
 
 === Syncing map to target directories ===
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,929,998 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,931,143 bytes)

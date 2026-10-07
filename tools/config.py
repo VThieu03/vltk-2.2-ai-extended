@@ -176,41 +176,36 @@ GLASS_SUCCESS_RATE = [100] * 10
 GLASS_PITY_REQUIRED = [0, 0, 1, 1, 2, 2, 3, 4, 5, 6]
 
 # ---------------------------------------------------------
-# 13. RƠI BẢO THẠCH (IG<loại><bậc>) THEO LỊCH PHÚT (tools/jass/gameplay_16_gemdrop.j)
+# 13. RƠI BẢO THẠCH (IG<loại><bậc>) - giống Huyền tinh: không mở khóa theo phút, rơi ngẫu nhiên theo loại quái
 # ---------------------------------------------------------
-# Quái bãi farm rơi bảo thạch (loại 1..6 ngẫu nhiên, bậc 1..9) theo "lịch" từng người: mỗi bậc có mục tiêu số viên tích lũy theo phút,
-# thiếu bao nhiêu thì mỗi lần giết rơi bù 1/GD_CATCHUP_KILLS phần thiếu (chọn bậc theo trọng số phần thiếu: bậc mới mở hiếm, bậc cũ dồi dào).
-# Tinh anh x1.5, thủ lĩnh x2, boss x3 (vẫn tính vào lịch). Mục tiêu bậc t tại phút m = GD_TIER_START[t] + tốc độ * (m - mở bậc), 0 trước khi mở,
-# tốc độ = (GD_TIER_N40[t] - GD_TIER_START[t]) / (40 - mở bậc); bậc 9 (N40 = None) tăng GD_T9_PER_MIN viên mỗi phút sau phút 40.
+# Loại quái: 0 = quái thường, 1 = Tinh Anh, 2 = Thủ Lĩnh, 3 = Boss (Hoàng Kim, Tần Thủy Hoàng...).
+# Mỗi lần giết: GD_CHANCE_PCT[loại] % rơi GD_COUNT[loại] viên; mỗi viên loại (1..6) và bậc ngẫu nhiên trong GD_TIERS[loại].
 GD_ENABLED = 1
-GD_TIER_UNLOCK = [0, 4, 8, 12, 16, 22, 28, 33, 40]     # phút mở bậc 1..9
-# Bộ đồ chính có 10 ô, mỗi ô 2 lỗ khảm (zzVL_Kham: "lỗ x/2") = 20 viên. Đến phút 40 phải có ít nhất bấy nhiêu viên bậc 8.
-GD_FILL_SLOTS = 20
-GD_MARGIN_PCT = 110                                    # hệ số dư (%) cho bậc 8 (phòng nhặt sót / bán / đổi loại)
-GD_TIER_N40 = [8, 8, 8, 8, 10, 12, 14, round(GD_FILL_SLOTS * GD_MARGIN_PCT / 100), None]   # số viên tích lũy từng bậc tại phút 40
-GD_TIER_START = [1, 1, 1, 1, 1, 1, 1, 1, 1]            # số viên mục tiêu ngay khi mở bậc (cục đầu tiên)
-GD_T9_PER_MIN = 0.5                                    # bậc 9: viên / phút sau phút 40
-GD_CATCHUP_KILLS = 4                                   # mỗi lần giết rơi bù 1/N phần thiếu
-GD_MAX_PER_KILL = 2                                    # tối đa viên một lần giết (quái thường / tinh anh / thủ lĩnh)
-GD_MAX_PER_KILL_BOSS = 3                               # tối đa viên một lần giết boss
-# Bảng tóm tắt (mô phỏng 200 ván, 4-12 lần giết / phút; số viên bậc 1..9 trung bình mỗi người):
-#   phút 20: b1 ~4.7  b2 ~4.1  b3 ~3.7  b4 ~3.0  b5 ~2.5                                   (tổng ~17-19)
-#   phút 30: b1 ~6.3  b2 ~6.0  b3 ~5.9  b4 ~5.6  b5 ~6.1  b6 ~5.7  b7 ~2.6                (tổng ~38-40)
-#   phút 40: b1-b4 ~8 mỗi bậc  b5 ~10  b6 ~11.8  b7 ~13.5  b8 ~20-21 (đủ 20 ô khảm)  b9 ~1 (từ phút 40; 0.5 viên/phút sau đó)
-# Chỉ 2 lần giết / phút thì bậc 8 chỉ ~13 viên tại phút 40 (trần 2 viên mỗi lần giết); từ 4 lần giết / phút trở lên đủ.
+GD_TIERS = {0: (1, 3), 1: (4, 6), 2: (4, 6), 3: (7, 9)}   # (bậc thấp nhất, bậc cao nhất)
+GD_CHANCE_PCT = {0: 12, 1: 60, 2: 80, 3: 100}               # tỉ lệ rơi % mỗi lần giết
+GD_COUNT = {0: 1, 1: 1, 2: 1, 3: 2}                        # số viên mỗi lần rơi
 
 # ---------------------------------------------------------
 # 12. BẢO THẠCH (tiệm tạp hóa - nâng bậc)
 # ---------------------------------------------------------
 # Bảo thạch có 6 loại x 9 bậc. Ở tiệm tạp hóa (đơn vị GEM_SHOP_UNIT) chọn tiệm, mua viên bảo thạch loại nào là nâng loại đó lên một bậc.
-# Nâng bậc t lên t+1 tốn: N(t) = GEM_UP_BASE + GEM_UP_STEP * (t-1) viên bảo thạch CÙNG LOẠI, CÙNG BẬC t  +  GEM_UP_GOLD vàng (cố định). Bậc 9 là tối đa.
+# Nâng bậc t lên t+1 tốn: N(t) = GEM_UP_BASE + GEM_UP_STEP * (t-1) viên bảo thạch CÙNG LOẠI, CÙNG BẬC t
+#   + vàng theo cấp số cộng: lên bậc 2 = GEM_UP_GOLD, mỗi bậc sau thêm GEM_UP_GOLD_STEP (mặc định 1000, 2000 ... lên bậc 9 = 8000). Bậc 9 là tối đa.
 # Mặc định BASE 2, STEP 1:   bậc 1->2: 2 viên | 2->3: 3 | 3->4: 4 | 4->5: 5 | 5->6: 6 | 6->7: 7 | 7->8: 8 | 8->9: 9 viên.
 # Ví dụ BASE 3, STEP 2:      3, 5, 7, 9, 11, 13, 15, 17 viên.
 GEM_UP_BASE = 2
 GEM_UP_STEP = 1
-GEM_UP_GOLD = 500
+GEM_UP_GOLD = 1000          # vàng nâng lên bậc 2
+GEM_UP_GOLD_STEP = 1000     # thêm mỗi bậc sau
 # Mã đơn vị tiệm nâng bảo thạch (mặc định n00M = Tàng Bảo Các, đổi tên "Tiệm tạp hóa - Nâng bảo thạch"; không còn bán nguyên liệu).
 GEM_SHOP_UNIT = "n00M"
+KQTRC_SHOP_UNIT = "n00L"          # cửa hàng giáp cũ đã bỏ, nay bán đá thuộc tính
+KQTRC_STONE_GOLD = {1: 20000, 2: 40000, 3: 80000}  # Tốt, Trung, Cao
+POTION_GOLD = {"phea": 200, "pghe": 450, "pman": 800, "pgma": 1250, "pres": 2000}
+POTION_BULK_AMOUNT = 10
+POTION_STACK_LIMIT = 10
+POTION_AUTO_THRESHOLD_PCT = 50
+POTION_REGEN_SECONDS = 4
 
 # ---------------------------------------------------------
 # 14. ẢNH GIAO DIỆN (UI CUSTOM ART)
@@ -280,3 +275,124 @@ PHE_SKILL_SCALE = {
 }
 # Né tránh nội công gốc = Nội công × hệ số này (né tránh ngoại công gốc vẫn = Thân pháp / 2), cộng dòng "né tránh" trang bị.
 PHE_DODGE_NOI_PER_INT = 0.5
+#Sửa xong thì chạy python tools/pipeline.py.
+
+# ---------------------------------------------------------
+# 16. KHUÔN Ô TRANG BỊ TRONG BẢNG NHÂN VẬT (phím C)
+# ---------------------------------------------------------
+# Tọa độ màn hình của WC3: x 0 (trái) .. 0.8 (phải), y 0 (dưới) .. 0.6 (trên).
+#   x, y  : góc trên-trái của ô đầu tiên trong cột
+#   size  : cạnh ô (khung bấm)
+#   step  : khoảng cách dọc giữa hai ô
+#   inset : icon thụt vào mỗi cạnh so với khung ô (0 = phủ kín khung; tăng lên để icon nhỏ lại, nằm giữa khuôn)
+#   dx, dy: dịch cả cột sang phải (+) / trái (-), lên (+) / xuống (-) để khớp khuôn UI
+# Cột trái: Nón, Áo, Yêu Đái, Hộ Uyển, Hài; cột phải: Vũ Khí, Hạng Liên, Giới Chỉ, Ngọc Bội, Hộ Thân Phù.
+# Nút "+" cường hóa đi theo cột (cột trái: bên phải ô; cột phải: bên trái ô).
+EQUIP_UI = {
+    "icon_left":  {"x": 0.025, "y": 0.482, "size": 0.032, "step": 0.048, "inset": 0.003, "dx": 0.0, "dy": 0.0},
+    "icon_right": {"x": 0.322, "y": 0.482, "size": 0.032, "step": 0.048, "inset": 0.003, "dx": 0.0, "dy": 0.0},
+}
+
+# ---------------------------------------------------------
+# 17. THÔNG SỐ CHIẾN ĐẤU / KỸ NĂNG (mỗi dòng sinh hàm JASS zzCF_<TÊN>(); số nguyên ra integer, số thập phân ra real)
+# ---------------------------------------------------------
+# Đổi số ở đây rồi build lại, không cần sửa JASS. Ghi số thập phân có dấu chấm (1.0, không ghi 1) cho thông số dạng real.
+GAME = {
+    # --- Sát thương kỹ năng KVCT (tools/kskill.j zzKS_Hit):
+    #     sức mạnh đòn × (GOC + MOI_BAC × bậc) × (1 + NHIEU_DON × (số đòn - 1)) / số đòn + CONG_MOI_BAC × bậc
+    "SKILL_DMG_GOC": 0.9,
+    "SKILL_DMG_MOI_BAC": 0.17,
+    "SKILL_DMG_NHIEU_DON": 0.3,
+    "SKILL_DMG_CONG_MOI_BAC": 20.0,
+    "CAP_KY_NANG_PCT": 10.0,        # mỗi "cấp kỹ năng +1" trên trang bị: +% sát thương kỹ năng
+    # --- Kháng, né, đánh trúng (gameplay_04_combat.j)
+    "KHANG_TOI_DA": 80,             # kháng ngũ hành tối đa %
+    "NE_TOI_DA": 500,               # tỉ lệ né tối đa (phần nghìn: 500 = 50%)
+    "NE_QUAI": 50,                  # né tránh của quái / unit không phải tướng
+    "DANH_TRUNG_QUAI": 50,          # đánh trúng của quái
+    # --- Trạng thái
+    "BI_THUONG_NHAN": 1.15,         # bị thương (fx 512): nhân sát thương nhận
+    "BONG_NHAN": 1.5,               # bỏng: nhân sát thương nhận
+    "SUY_YEU_TOI_DA": 20,           # suy yếu: giảm sát thương gây ra tối đa %
+    "NGU_HANH_VU_KHI_NHAN": 1.08,   # vũ khí có ngũ hành: nhân sát thương
+    # --- Bộ ngũ hành (hệ của tướng, theo cấp bộ)
+    "KIM_SAT_THUONG_MOI_CAP": 0.05, # Kim: +sát thương mỗi cấp bộ
+    "KIM_CHOANG_PCT_MOI_CAP": 2,    # Kim: tỉ lệ choáng % mỗi cấp
+    "KIM_CHOANG_GIAY": 0.5,
+    "KIM_CHOANG_HOI": 3.0,          # mỗi mục tiêu tối đa 1 lần / số giây này
+    "MOC_DOC_GIAY": 5.0,            # Mộc: độc kéo dài / hồi
+    "MOC_DOC_MOI_CAP": 0.006,       # Mộc: mỗi giây × sát thương đòn × cấp
+    "THUY_CHAM_MOI_CAP": 0.05,      # Thủy: chậm % mỗi cấp (0.05 = 5%)
+    "THUY_CHAM_GIAY": 2.0,
+    "HOA_GAP_DOI_PCT_MOI_CAP": 4,   # Hỏa: tỉ lệ đòn gấp đôi % mỗi cấp
+    "HOA_THIEU_DOT_GIAY": 3.0,      # Hỏa: thiêu đốt (giảm 50% hồi máu)
+    "THO_PHAN_CHAN_MOI_CAP": 0.02,  # Thổ: trả lại sát thương mỗi cấp
+    "THO_PHAN_CHAN_HOI": 0.3,       # Thổ: giãn cách phản chấn (giây)
+    "QUAN_HAM_SAT_THUONG": 0.0125,  # mỗi bậc QUAN ẤN (8 bậc): +sát thương (8 bậc x 1.25% = 10%)
+    "CLOAK_DEF_PER_TIER": 4,        # phi phong: mỗi bậc cộng phòng thủ
+    "CLOAK_STAT_PER_TIER": 1,       # phi phong: mỗi bậc cộng Sức mạnh / Thân pháp / Nội công
+    "CLOAK_HP_PER_TIER": 200,       # phi phong: mỗi bậc cộng sinh lực
+    # --- Khung mô tả vật phẩm khi rê chuột (hành trang / nhân vật): rộng, cao mỗi dòng chữ, số ký tự mỗi dòng (để tính cao khung)
+    "TIP_WIDTH": 0.30,
+    "TIP_LINE_H": 0.0082,
+    "TIP_CHARS": 56,
+    # --- Thời gian HỒI SINH của tướng theo cấp tướng lúc chết (giây): cấp <= LV1 hồi T1, <= LV2 hồi T2, <= LV3 hồi T3, còn lại T4
+    "REVIVE_LV1": 50,
+    "REVIVE_LV2": 100,
+    "REVIVE_LV3": 150,
+    "REVIVE_T1": 5.0,
+    "REVIVE_T2": 7.0,
+    "REVIVE_T3": 8.0,
+    "REVIVE_T4": 10.0,
+    # --- Hành trang (phím B): số ô (tối đa 99), số cột, góc trên-trái và bề rộng khung (tọa độ màn hình 0..0.8 x 0..0.6).
+    #     Ô được chia đều trong khung; chiều cao khung tự tính theo số hàng. Khung gốc rộng 0.31; hiện dùng 85% = 0.2635.
+    "BAG_SLOTS": 60,
+    "BAG_COLS": 10,
+    "BAG_X": 0.475,
+    "BAG_Y": 0.565,
+    "BAG_W": 0.2635,
+    # --- Bộ ngũ hành (đủ 10 ô trang bị): cấp bộ = món thấp nhất; món KVCT +0 = cấp 1, từ bậc dưới đây lên cấp 2..5
+    "BO_CAP2_TU_BAC": 1,
+    "BO_CAP3_TU_BAC": 4,
+    "BO_CAP4_TU_BAC": 7,
+    "BO_CAP5_TU_BAC": 10,
+    # --- Khảm (hành trang): Tách bảo thạch khỏi trang bị
+    "KHAM_SO_LO": 2,                # số lỗ khảm mỗi trang bị
+    "KHAM_TACH_VANG": 2000,         # vàng phải trả cho MỖI viên khi tách khỏi trang bị
+}
+
+# ---------------------------------------------------------
+# 18. PHI PHONG (15 bậc) VÀ QUAN ẤN (8 bậc) THEO KVCT (tên + màu chữ lấy từ code KVCT: fBO / K_8, shop.tsv)
+# ---------------------------------------------------------
+# Cả hai tăng theo CÔNG TRẠNG của người chơi (hạ tướng +10, hỗ trợ +4, hạ boss +15..40, nhiệm vụ +8 ...). Đạt mốc là lên bậc.
+#   - Phi phong: danh hiệu [..] hiện trên đầu tướng + cộng chỉ số theo bậc (CLOAK_*_PER_TIER trong GAME).
+#   - Quan ấn: chức quan hiện trước tên tướng, mỗi bậc cộng sát thương (QUAN_HAM_SAT_THUONG trong GAME).
+# Mỗi dòng: (mã màu RRGGBB, tên, [tên phi phong đầy đủ của KVCT], công trạng cần). Muốn lên bậc nhanh / chậm hơn: sửa số cuối.
+PHI_PHONG = [
+    ("7fff00", "Siêu Phàm",  "Phi Phong Siêu Phàm Hi Ký",          30),
+    ("0078d7", "Xuất Trần",  "Phi Phong Xuất Trần Kinh Hồng",      80),
+    ("9370db", "Lăng Tuyệt", "Phi Phong Lăng Tuyệt Vụ Ảnh",       150),
+    ("9370db", "Kinh Thế",   "Phi Phong Kinh Thế Độc Vũ",         250),
+    ("ffa500", "Ngự Không",  "Phi Phong Ngự Không Phùng Hư",      400),
+    ("ffa500", "Hỗn Thiên",  "Phi Phong Hỗn Thiên Trấn Nguyên",   600),
+    ("ffa500", "Sồ Phượng",  "Phi Phong Sồ Phượng Linh Vũ",       850),
+    ("ffa500", "Tiềm Long",  "Phi Phong Tiềm Long Ngâm Uyên",    1150),
+    ("ffff00", "Chí Tôn",    "Phi Phong Chí Tôn Truyền Thuyết",  1500),
+    ("ffff00", "Vô Song",    "Phi Phong Vô Song Vương Giả",      1950),
+    ("ffff00", "Đại Thánh",  "Phi Phong Huyền Tinh Đại Thánh",   2500),
+    ("ffff00", "Siêu Thần",  "Siêu Thần Nhật Tuyệt Nhẫn",        3200),
+    ("ffff00", "Trấn Thiên", "Phi Phong Trấn Thiên Vương",       4000),
+    ("ffff00", "Phong Vân",  "Phi Phong Phong Vân Vương Giả",    5000),
+    ("ffff00", "Thần Thoại", "Phi Phong Thần Thoại Vương Giả",   6200),
+]
+# Quan ấn (KVCT: Trí Sự ... Hoàng Đế): (mã màu, tên, công trạng cần)
+QUAN_AN = [
+    ("0078d7", "Trí Sự",     40),
+    ("9370db", "Tư Mã",     120),
+    ("ffa500", "Thái Thú",  250),
+    ("ffa500", "Thiếu Khanh", 450),
+    ("ffa500", "Thượng Khanh", 750),
+    ("ffa500", "Quốc Công", 1200),
+    ("ffff00", "Thừa Tướng", 2000),
+    ("ffff00", "Hoàng Đế",  3500),
+]

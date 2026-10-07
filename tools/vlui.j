@@ -37,6 +37,9 @@ function zzUI_Tick takes nothing returns nothing
     local integer vl_i=0
     local integer vl_tp=0
     local framehandle vl_f
+    local group vl_g
+    local unit vl_sel
+    local boolean vl_shop
     if vl_p<10 then
         set vl_h=Jx[vl_p+1]
     endif
@@ -71,12 +74,23 @@ function zzUI_Tick takes nothing returns nothing
         call BlzFrameSetVisible(zzUI_mp[vl_mp],vl_h!=null)
         set zzUI_lastMp=vl_mp
     endif
+    // đang chọn unit KHÔNG phải của mình (thương nhân, NPC...): nút lệnh xếp lưới 4 x 3 như cửa hàng mặc định;
+    // còn lại (tướng của mình): 5 nút đầu ẩn, 7 nút sau thành thanh kỹ năng
+    set vl_g=CreateGroup()
+    call GroupEnumUnitsSelected(vl_g,GetLocalPlayer(),null)
+    set vl_sel=FirstOfGroup(vl_g)
+    call DestroyGroup(vl_g)
+    set vl_g=null
+    set vl_shop=vl_sel!=null and GetOwningPlayer(vl_sel)!=GetLocalPlayer()
+    set vl_sel=null
     set vl_i=0
     loop
         exitwhen vl_i>11
         set vl_f=BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,vl_i)
         call BlzFrameClearAllPoints(vl_f)
-        if vl_i <= 4 then
+        if vl_shop then
+            call zzUI_At(vl_f,.039,.039,.615+.0445*ModuloInteger(vl_i,4),.145-.0445*(vl_i/4))
+        elseif vl_i <= 4 then
             call zzUI_At(vl_f,.03556,.03556,99.,99.)
         else
             call zzUI_At(vl_f,.03556,.03556,.37+.035*(vl_i-5),.012)

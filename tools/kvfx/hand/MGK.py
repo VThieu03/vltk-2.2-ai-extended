@@ -1,23 +1,27 @@
 # MGK: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
-    'Thánh Hỏa Phần Tâm': {'main': 'MDX\\ThanhHoaPhanTam.mdx', 'cast': 'MGK_thanhhoacast.mdx', 'buff': 'MGK_thanhhoalenhbuff.mdx', 'area': ['MGK_thanhhoaeffect.mdx', 'MGK_thanhhoaln.mdx']},   # [Q]
+    'Thánh Hỏa Phần Tâm': {'main': 'MGK_thanhhoapt.mdx'},   # [Q] KVCT: chỉ MGK_thanhhoapt (hàm JEv), không có lớp cast / buff / area
     'Minh Giáo Kiếm Pháp': {'main': 'MGK_kiemdangbathoang.mdx'},   # [bị động]
     'Di Khí Phiêu Tung': {'main': 'MGK_thanhhoaeffect.mdx'},   # [bị động]
     'Vạn Vật Câu Phần': {'main': 'MDX\\VanVat.mdx'},   # [W]
     'Càn Khôn Đại Na Di': {'main': 'MGK_cankhonbuff.mdx', 'cast': 'MGK_cankhoncaster.mdx'},   # [D]
     'Ly Hỏa Đại Pháp': {'main': 'MGK_effect1.mdx'},   # [bị động]
-    'Thánh Hỏa Liêu Nguyên': {'main': 'MGK_thanhhoaln.mdx', 'cast': 'MGK_thanhhoacast.mdx', 'buff': 'MGK_thanhhoalenhbuff.mdx', 'area': ['MGK_thanhhoaeffect.mdx']},   # [E]
-    'Thánh Hỏa Lệnh Pháp': {'main': 'MDX\\ThanhHoa.mdx', 'cast': 'MGK_thanhhoacast.mdx', 'area': ['MGK_thanhhoaln.mdx', 'MGK_thanhhoaeffect.mdx']},   # [F]
+    'Thánh Hỏa Liêu Nguyên': {'main': 'MGK_thanhhoaln.mdx', 'cast': 'MGK_thanhhoaeffect.mdx', 'area': ['MGK_effect1.mdx']},   # [E] KVCT: thanhhoaln rơi xuống, nổ effect1 lúc chạm đất, thanhhoaeffect trên tướng lúc tung (hàm JCc / JCh / JCp)
+    'Thánh Hỏa Lệnh Pháp': {'main': 'MGK_thanhhoalenhbuff.mdx', 'cast': 'MGK_thanhhoacast.mdx'},   # [F] KVCT: CasterArt thanhhoacast (A095), buff thanhhoalenhbuff (A096)
     'Nhân Huân Tử Khí': {'main': 'MGK_thanhhoaln.mdx'},   # [bị động]
     'Hoang Hỏa Ngọc Phần': {'main': 'MGK_kiemdangbathoang.mdx'},   # [bị động]
     'Kiếm Đãng Bát Hoang': {'main': 'MGK_kiemdangbathoang.mdx'},   # [R]
-    'Thánh Hỏa Thần Công': {'main': 'MDX\\ThanhHoa.mdx', 'cast': 'MGK_thanhhoacast.mdx', 'area': ['MGK_thanhhoaeffect.mdx', 'MGK_thanhhoaln.mdx']},   # [bị động]
+    'Thánh Hỏa Thần Công': {'main': 'MDX\\ThanhHoa.mdx'},   # [bị động]
     'Mục Dã Ưng Dương': {'main': 'MGK_thanhhoaeffect.mdx'},   # [bị động]
 }
 
-# Đổi texture của model (xem danh mục bên dưới).
+# Đổi texture của model (xem danh mục bên dưới). MGK: các texture hình SAO (star*.blp) đổi sang lửa Flame4 như Cái Bang / Thiên Nhẫn.
 TEXTURES = {
+    'MGK_effect1.mdx': {'Textures\\star.blp': 'Textures\\Flame4.blp', 'Textures\\star1.blp': 'Textures\\Flame4.blp', 'Textures\\star2.blp': 'Textures\\Flame4.blp', 'Textures\\star2_32.blp': 'Textures\\Flame4.blp', 'Textures\\star3.blp': 'Textures\\Flame4.blp', 'Textures\\star32.blp': 'Textures\\Flame4.blp', 'Textures\\star4.blp': 'Textures\\Flame4.blp', 'Textures\\star5tga.blp': 'Textures\\Flame4.blp', 'Textures\\star6.blp': 'Textures\\Flame4.blp', 'Textures\\Star8.blp': 'Textures\\Flame4.blp', 'Textures\\Star8b.blp': 'Textures\\Flame4.blp', 'Textures\\Star8c.blp': 'Textures\\Flame4.blp', 'Textures\\Star9.blp': 'Textures\\Flame4.blp'},
+    'MGK_thanhhoaln.mdx': {'Textures\\star2_32.blp': 'Textures\\Flame4.blp'},
+    'MGK_thanhhoacast.mdx': {'Textures\\star2.blp': 'Textures\\Flame4.blp'},
+    'MGK_thanhhoaeffect.mdx': {'Textures\\Yellow_Star_Dim.blp': 'Textures\\Flame4.blp', 'Textures\\star5tga.blp': 'Textures\\Flame4.blp'},
 }
 
 # ===== DANH MỤC MODEL + TEXTURE (tự sinh bởi kvfx_doc.py; chỉ đoạn giữa hai dòng này bị ghi đè) =====

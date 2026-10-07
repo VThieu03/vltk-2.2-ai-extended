@@ -29,8 +29,8 @@ endfunction
 function zzGL_HasItemInBag takes integer vl_pid,item vl_find returns boolean
     local integer vl_i=0
     loop
-        exitwhen vl_i>=30
-        if zzVL_bag[vl_pid*30+vl_i]==vl_find then
+        exitwhen vl_i>=zzCF_BAG_SLOTS()
+        if zzVL_bag[vl_pid*zzCF_BAG_SLOTS()+vl_i]==vl_find then
             return true
         endif
         set vl_i=vl_i+1
@@ -46,8 +46,8 @@ function zzGL_Count takes integer vl_pid returns integer
     local unit vl_h=Jx[vl_pid+1]
     local unit vl_tk=Er[vl_pid+1]
     loop
-        exitwhen vl_i>=30
-        set vl_it=zzVL_bag[vl_pid*30+vl_i]
+        exitwhen vl_i>=zzCF_BAG_SLOTS()
+        set vl_it=zzVL_bag[vl_pid*zzCF_BAG_SLOTS()+vl_i]
         if vl_it!=null and GetItemTypeId(vl_it)=='I00W' then
             set vl_n=vl_n+IMaxBJ(1,GetItemCharges(vl_it))
         endif
@@ -96,7 +96,6 @@ function zzGL_Drop takes integer vl_kind,real vl_x,real vl_y,unit vl_hero return
     local real vl_want
     local real vl_frac
     local real vl_stamp
-    local item vl_crystal
     if vl_hero==null or LoadInteger(zzVL_ht,'zzGL',6)<=0 or LoadInteger(zzVL_ht,'zzGL',4)<=0 then
         return
     endif
@@ -142,18 +141,14 @@ function zzGL_Drop takes integer vl_kind,real vl_x,real vl_y,unit vl_hero return
     if vl_n<=0 then
         return
     endif
-    // Physical KVCT Huyền Tinh (I00W), stacked into one pickup to avoid item piles.
-    set vl_crystal=CreateItem('I00W',vl_x+GetRandomReal(-32.,32.),vl_y+GetRandomReal(-32.,32.))
-    if vl_crystal==null then
-        return
-    endif
-    call SetItemCharges(vl_crystal,vl_n)
+    // Grant directly to the killer; never create a terrain item for Huyền Tinh.
+    // Keep lifetime-earned accounting so the existing catch-up schedule stays balanced.
     call SaveInteger(zzVL_ht,6200+vl_pid,1,LoadInteger(zzVL_ht,6200+vl_pid,1)+vl_n)
+    call zzGL_Give(vl_pid,vl_n)
     // Rate-limit text feedback to one notice every 2 seconds per player.
     set vl_stamp=TimerGetElapsed(zzVL_clock)
     if vl_stamp-LoadReal(zzVL_ht,6200+vl_pid,3)>=2. then
-        call DisplayTimedTextToPlayer(Player(vl_pid),0.,0.,2.,"|cffffcc00Huyền Tinh x"+I2S(vl_n)+" rơi gần quái.|r")
+        call DisplayTimedTextToPlayer(Player(vl_pid),0.,0.,2.,"|cffffcc00Nhận Huyền Tinh +"+I2S(vl_n)+".|r")
         call SaveReal(zzVL_ht,6200+vl_pid,3,vl_stamp)
     endif
-    set vl_crystal=null
 endfunction

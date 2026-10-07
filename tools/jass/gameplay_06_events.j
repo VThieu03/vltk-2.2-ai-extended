@@ -409,7 +409,6 @@ function zzVL_OnDeath takes nothing returns nothing
         if vl_pd<10 and vl_d==Jx[vl_pd+1] and vl_pk>=10 then
             // bi the luc ngoai dao danh bai
             call zzVL_AddCT(vl_pd,-3)
-            call zzVL_Msg(vl_pd,"|cffff8000Bị thế lực ngoại đạo đánh bại, công trạng giảm 3.|r")
         elseif vl_pk<10 and Jx[vl_pk+1]!=null and IsUnitEnemy(vl_d,Player(vl_pk)) then
             if vl_pd>=10 and not IsUnitType(vl_d,UNIT_TYPE_HERO) and not IsUnitType(vl_d,UNIT_TYPE_STRUCTURE) then
                 call zzVL_ShareCreep(vl_pk,vl_d)
@@ -425,7 +424,7 @@ function zzVL_OnDeath takes nothing returns nothing
             elseif vl_pd<10 and vl_d==Jx[vl_pd+1] then
                 if not zzVL_fb then
                     set zzVL_fb=true
-                    call zzVL_All("|cffff4000Nhất đao đoạt mạng!|r "+zzVL_Name(vl_pk)+" hạ "+GetPlayerName(Player(vl_pd))+" đầu tiên, nhận thêm 500 ngân lượng và 10 công trạng.")
+                    call zzVL_All("|cffff4000Nhất đao đoạt mạng!|r "+zzVL_Name(vl_pk)+" hạ "+GetPlayerName(Player(vl_pd)))
                     call AdjustPlayerStateBJ(500,Player(vl_pk),PLAYER_STATE_RESOURCE_GOLD)
                     call zzVL_AddCT(vl_pk,10)
                 endif

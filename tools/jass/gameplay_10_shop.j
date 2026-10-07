@@ -38,11 +38,11 @@ function zzSH_FindPlus10 takes integer vl_playerId,integer vl_wt,boolean vl_take
     local item vl_it
     local integer vl_i=0
     loop
-        exitwhen vl_i>29
-        set vl_it=zzVL_bag[vl_playerId*30+vl_i]
+        exitwhen vl_i>=zzCF_BAG_SLOTS()
+        set vl_it=zzVL_bag[vl_playerId*zzCF_BAG_SLOTS()+vl_i]
         if vl_it!=null and vl_it!=vl_skip and zzEQ_IsPlus10Weapon(vl_it) and zzEQ_WeaponType(GetItemTypeId(vl_it))==vl_wt then
             if vl_take then
-                set zzVL_bag[vl_playerId*30+vl_i]=null
+                set zzVL_bag[vl_playerId*zzCF_BAG_SLOTS()+vl_i]=null
                 call RemoveItem(vl_it)
             endif
             set vl_it=null

@@ -83,3 +83,34 @@ for name in ("St", "mM", "MM"):
             done.append(name)
 open(P, "wb").write(nl.join(lines).encode("utf-8"))
 print("item cleanup skips hidden items:", done)
+
+# The author's hero-kill trigger ("X đánh bại Y và nhận được N ngân lượng", Tống / Kim thủ lĩnh, danh hiệu) also fires for
+# hero-type creeps of the neutral players (no player name: "Thieulmba đánh bại  và ..."). Run it only for heroes of players 0..9.
+s = open(P, "rb").read().decode("utf-8")
+lines = s.split(nl)
+msg = [i for i, l in enumerate(lines) if '" đánh bại "+(Eo[(1+GetPlayerId(GetOwningPlayer(GetDyingUnit())))]' in l]
+assert len(msg) == 1, "kill message line not found"
+f = max(i for i in range(msg[0]) if lines[i].startswith("function ") and " takes nothing returns nothing" in lines[i])
+guard = "if GetPlayerId(GetOwningPlayer(GetDyingUnit()))>9 then"
+if lines[f + 1] != guard:
+    lines[f + 1:f + 1] = [guard, "return", "endif"]
+open(P, "wb").write(nl.join(lines).encode("utf-8"))
+print("hero kill message: players 0..9 only")
+
+# Hero revive (original trigger, function with "Hero_Revive" logic): waits 10 s on both branches; wait zzVL_ReviveTime(hero level) instead
+# (config.py GAME REVIVE_*: 1-50 5 s, 51-100 7 s, 101-150 8 s, 151-200 10 s)
+s = open(P, "rb").read().decode("utf-8")
+lines = s.split(nl)
+start = [i for i, l in enumerate(lines) if l.startswith("function ") and lines[i:lines.index("endfunction", i)].count("call TriggerSleepAction(10.)") == 2
+         and any("ReviveHeroLoc(GetTriggerUnit()" in x for x in lines[i:lines.index("endfunction", i)])]
+assert len(start) == 1, start
+i = start[0]
+j = lines.index("endfunction", i)
+n = 0
+for k in range(i, j):
+    if lines[k] == "call TriggerSleepAction(10.)":
+        lines[k] = "call TriggerSleepAction(zzVL_ReviveTime(GetHeroLevel(GetTriggerUnit())))"
+        n += 1
+assert n == 2, n
+open(P, "wb").write(nl.join(lines).encode("utf-8"))
+print("hero revive time by level: %d waits" % n)

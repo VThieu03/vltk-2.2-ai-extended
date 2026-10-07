@@ -1,3 +1,9 @@
 build/
 *.pyc
 __pycache__/
+
+# bản sao làm việc tạm của agent, file biên dịch Python
+.*-stage/
+__pycache__/
+*.pyc
+scratchpad/oserror22.log

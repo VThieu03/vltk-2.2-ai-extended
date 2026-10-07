@@ -45,6 +45,9 @@ for f in ("war3mapSkin.txt", "war3mapMisc.txt"):
 p = os.path.join(SRC, "war3mapSkin.txt")
 t = open(p, "rb").read().decode("utf-8")
 t = re.sub(r"(?mi)^\w*Font=Font\\VNVOGU\.TTF[^\S\n]*\n?", "", t)
+# chữ sai trong map gốc (Ê thay cho Ấ): "CÊp" = Cấp, "RÊt" = Rất ... (thêm cặp (sai, đúng) vào đây)
+for bad, good in (("CÊp", "Cấp"), ("RÊt", "Rất")):
+    t = t.replace(bad, good)
 open(p, "wb").write(t.encode("utf-8"))
 # object data string values
 for f in ("war3map.w3u", "war3map.w3t", "war3map.w3b", "war3map.w3d", "war3map.w3a", "war3map.w3h", "war3map.w3q"):

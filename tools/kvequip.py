@@ -62,29 +62,21 @@ def icon_path(slot, w, tier):
 
 
 def static_text(iid, slot, w, tanlang):
-    """mô tả nền của vật phẩm (utub = ides); tiêu đề bậc và chỉ số đã nhân hệ số do zzEQ_SetTier gắn thêm ở đầu"""
+    """khối cố định của mô tả (loại, dùng cho, ngũ hành); JASS zzEQ_Describe dựng phần còn lại quanh khối này (khóa 97)."""
     import gameplay as gp
 
-    sname = D.SLOTS[slot][1]
+    G = "|cff9a9a9a"
     if slot == 6:
-        wn = D.WEAPONS[w][0]
-        t = "|cffffcc00Vũ Khí|r - loại |cffffcc00%s|r" % wn
+        t = G + "Loại:|r |cffffffffVũ Khí - %s|r" % D.WEAPONS[w][0]
         if tanlang:
-            t += NL + "|cffff8000Trùng sinh 11 - Vũ khí Tần Lăng|r: cực phẩm, luôn ở bậc cao nhất, không cường hóa thêm."
-    else:
-        t = "|cffffcc00%s|r (ô %d của bảng Nhân Vật, phím C)" % (sname, slot)
-    t += NL + "|cffffcc00Chỉ số gốc (100%%)|r: %s" % D.stat_line(slot, 100)
-    if tanlang:
-        t += NL + "|cffffcc00Chỉ số Tần Lăng|r (500%%): %s" % D.stat_line(slot, D.pct(D.TANLANG_TIER))
-    t += NL + "|cff80c0ffLỗ khảm: 2 - Cường hóa: Huyền tinh +1 đến +10, mỗi bậc đổi icon và chỉ số theo trùng sinh 1 đến 10 của Kiếm Vũ Chí Tôn|r"
-    if slot == 6:
+            t += NL + "|cffff8000Trùng sinh 11 - Vũ khí Tần Lăng|r"
+        t += NL + G + "Tiến cử:|r |cff00ff80" + (", ".join(D.class_names(w)) or "-") + "|r"
         e = D.weapon_element(w) - 1
-        t += NL + "|cffffcc00Ngũ hành vũ khí:|r %s%s|r - %s" % (gp.ELEMENT_COLOR[e], gp.ELEMENTS[e], gp.ELEMENT_TEXT[e])
-        t += NL + "|cff00ff80Tiến cử:|r " + (", ".join(D.class_names(w)) or "chưa phái nào dùng loại này (chỉ rơi / thần binh)")
-        t += NL + "|cff9a9a9aChỉ các phái trên (dùng vũ khí loại %s) mới mặc được.|r" % D.WEAPONS[w][0].lower()
-        if tanlang:
-            t += NL + "|cff9a9a9aMua ở tiệm tạp hóa: vàng + 1 vũ khí %s +10 + 1 Tần Lăng Hòa Thị Bích.|r" % D.WEAPONS[w][0].lower()
-    t += NL + "|cff9a9a9aBấm trong Hành Trang (B) để mặc, bấm ô trên bảng Nhân Vật để tháo. Cường hóa đi theo món đồ.|r"
+        t += NL + G + "Ngũ hành vũ khí:|r %s%s|r" % (gp.ELEMENT_COLOR[e], gp.ELEMENTS[e])
+        t += NL + G + "   " + gp.ELEMENT_TEXT[e] + "|r"
+    else:
+        t = G + "Loại:|r |cffffffff%s|r" % D.SLOTS[slot][1]
+        t += NL + G + "Dùng cho:|r |cff00ff80mọi môn phái|r"
     return t
 
 
@@ -212,6 +204,7 @@ def rows():
         r.append("call SaveInteger(zzVL_ht,%s,91,%d)" % (q, slot))
         r.append("call SaveInteger(zzVL_ht,%s,92,%d)" % (q, w + 1 if slot == 6 else 0))
         r.append("call SaveInteger(zzVL_ht,%s,93,%d)" % (q, 2 if tanlang else 1))
+        r.append('call SaveStr(zzVL_ht,%s,97,"%s")' % (q, esc(static_text(iid, slot, w, tanlang))))
         r.append("call SaveInteger(zzVL_ht,%s,41,%d)" % (q, config.TANLANG_WEAPON_GOLD // 2 if tanlang else D.SELL_GOLD))
         if slot == 6:
             r.append("call SaveInteger(zzVL_ht,%s,66,%d)" % (q, D.weapon_element(w)))
@@ -236,19 +229,15 @@ def rows():
         r.append("call SaveInteger(zzVL_ht,'zzGL',%d,%d)" % (40 + t_, config.GLASS_SUCCESS_RATE[t_ - 1]))
         r.append("call SaveInteger(zzVL_ht,'zzGL',%d,%d)" % (60 + t_, config.GLASS_PITY_REQUIRED[t_ - 1]))
     
-    # Ruoi bao thach theo lich phut (gameplay_16_gemdrop.j; config muc 13)
-    r.append("call SaveInteger(zzVL_ht,0,360,%d)" % config.GD_CATCHUP_KILLS)
-    r.append("call SaveInteger(zzVL_ht,0,361,%d)" % config.GD_MAX_PER_KILL)
-    r.append("call SaveInteger(zzVL_ht,0,362,%d)" % config.GD_MAX_PER_KILL_BOSS)
+    # rơi bảo thạch theo loại quái (gameplay_16_gemdrop.j; config mục 13): 0/363 bật, 0/370+loại bậc thấp, 380+loại bậc cao,
+    # 390+loại tỉ lệ %, 400+loại... (400+ đã dùng trên loại tướng, khác khóa cha) -> 0/365+loại số viên
     r.append("call SaveInteger(zzVL_ht,0,363,%d)" % config.GD_ENABLED)
-    for t_ in range(1, 10):
-        u_ = config.GD_TIER_UNLOCK[t_ - 1]
-        n40_ = config.GD_TIER_N40[t_ - 1]
-        s_ = config.GD_TIER_START[t_ - 1]
-        rate_ = config.GD_T9_PER_MIN if n40_ is None else (n40_ - s_) / float(40 - u_)
-        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (370 + t_, u_))
-        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (380 + t_, round(rate_ * 1000)))
-        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (390 + t_, s_))
+    for k_ in range(4):
+        lo_, hi_ = config.GD_TIERS[k_]
+        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (370 + k_, lo_))
+        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (380 + k_, hi_))
+        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (390 + k_, config.GD_CHANCE_PCT[k_]))
+        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (365 + k_, config.GD_COUNT[k_]))
         
     # hệ ngoại / nội công (config mục 15): khóa 99 trên loại tướng (1 ngoại, 2 nội); 450-457 hệ số kỹ năng ×100, 458 né nội ×100
     from model import Phai
@@ -258,6 +247,23 @@ def rows():
         for j_, v_ in enumerate(config.PHE_SKILL_SCALE[he_]):
             r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (450 + 4 * i_ + j_, round(v_ * (1 if j_ == 0 else 100))))
     r.append("call SaveInteger(zzVL_ht,0,458,%d)" % round(config.PHE_DODGE_NOI_PER_INT * 100))
+    # phi phong 15 bậc + quan ấn 8 bậc (config mục 18): 0/599 số bậc phi phong, 600+i danh hiệu, 620+i tên đầy đủ, 640+i công trạng;
+    # 0/659 số bậc quan ấn, 660+i tên, 680+i công trạng
+    r.append("call SaveInteger(zzVL_ht,0,599,%d)" % len(config.PHI_PHONG))
+    for i_, (col_, nm_, full_, ct_) in enumerate(config.PHI_PHONG, 1):
+        r.append('call SaveStr(zzVL_ht,0,%d,"|cff%s[%s]|r")' % (600 + i_, col_, nm_))
+        r.append('call SaveStr(zzVL_ht,0,%d,"|cff%s%s|r")' % (620 + i_, col_, full_))
+        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (640 + i_, ct_))
+    r.append("call SaveInteger(zzVL_ht,0,659,%d)" % len(config.QUAN_AN))
+    for i_, (col_, nm_, ct_) in enumerate(config.QUAN_AN, 1):
+        r.append('call SaveStr(zzVL_ht,0,%d,"|cff%s%s|r")' % (660 + i_, col_, nm_))
+        r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (680 + i_, ct_))
+    # khuôn ô trang bị bảng nhân vật (config mục 16): khóa 0/470.. (cột trái) và 0/480.. (cột phải), số thực
+    for base_, col_ in ((470, "icon_left"), (480, "icon_right")):
+        c_ = config.EQUIP_UI[col_]
+        for j_, f_ in enumerate(("x", "y", "size", "step", "inset")):
+            v_ = c_[f_] + (c_.get("dx", 0) if f_ == "x" else c_.get("dy", 0) if f_ == "y" else 0)
+            r.append("call SaveReal(zzVL_ht,0,%d,%r)" % (base_ + j_, round(v_, 4)))
     # vũ khí: khóa 96 = loại chính + 1 (vũ khí khởi đầu), 400+w = 1 nếu phái mặc được loại w
     for p_ in sorted(Phai.all(), key=lambda p: p.hero_id):
         r.append("call SaveInteger(zzVL_ht,'%s',96,%d)" % (p_.hero_id, p_.main_weapon + 1))

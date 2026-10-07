@@ -68,6 +68,9 @@ endfunction
 constant function zzIT_MOI_ROI takes nothing returns integer
     return 73 // 1 = vừa rơi ra, chưa xét tự mặc
 endfunction
+constant function zzIT_PHAM_CHAT takes nothing returns integer
+    return 76 // 1 thường, 2 tốt, 3 tuyệt, 4 huyền thoại
+endfunction
 constant function zzIT_TAI_PHU takes nothing returns integer
     return 74 // 1 = đã gắn dòng "Tài phú" vào mô tả
 endfunction
@@ -82,6 +85,85 @@ constant function zzIT_BAC_DA_GAN takes nothing returns integer
 endfunction
 constant function zzIT_BAO_HIEM takes nothing returns integer
     return 98 // số lần cường hóa thất bại liên tiếp (bảo hiểm)
+endfunction
+constant function zzIT_SO_LO_KHAM takes nothing returns integer
+    return 43 // số lỗ đã khảm
+endfunction
+constant function zzIT_LO_KHAM takes nothing returns integer
+    return 57 // 57 + i (i = 0, 1 ...): loại vật phẩm bảo thạch đã khảm vào lỗ i
+endfunction
+constant function zzIT_LO_KHAM_CHU takes nothing returns integer
+    return 67 // 67 + i: đoạn mô tả "[Khảm] ..." đã thêm cho lỗ i (để gỡ khi tách)
+endfunction
+// Dựng lại mô tả trang bị KVCT (zzEQ_DescribeRun ở gameplay_08_ui.j); gọi được từ mọi module
+function zzEQ_Redesc takes item vl_it returns nothing
+    if vl_it!=null then
+        call SaveItemHandle(zzVL_ht,0,499,vl_it)
+        call ExecuteFunc("zzEQ_DescribeRun")
+    endif
+endfunction
+constant function zzIT_DA_MO_TA takes nothing returns integer
+    return 58 // 1 = đã dựng mô tả kiểu mới
+endfunction
+constant function zzIT_MO_TA_GOC takes nothing returns integer
+    return 59 // (chuỗi) mô tả gốc của đồ cũ, chụp trước khi dựng lại
+endfunction
+constant function zzIT_CUONG_O takes nothing returns integer
+    return 60 // cấp cường hóa ô của đồ cũ + 1 (0 = chưa gắn)
+endfunction
+// Món này đang được mặc (nằm ở một ô trang bị) không
+function zzVL_IsEquipped takes integer vl_pid,item vl_it returns boolean
+    local integer vl_i=0
+    if vl_it==null or vl_pid<0 or vl_pid>9 then
+        return false
+    endif
+    loop
+        exitwhen vl_i>9
+        if zzVL_equipItem[vl_pid*10+vl_i]==vl_it then
+            return true
+        endif
+        set vl_i=vl_i+1
+    endloop
+    return false
+endfunction
+constant function zzIT_DA_VUT takes nothing returns integer
+    return 61 // 1 = người chơi vừa vứt xuống đất (tự nhặt bỏ qua)
+endfunction
+// Chế độ Vứt của hành trang (khóa cha 7000+pid, trường 1): bật thì bấm món trong hành trang là vứt xuống đất
+function zzVL_DropMode takes integer vl_pid returns boolean
+    return LoadInteger(zzVL_ht,7000+vl_pid,1)>0
+endfunction
+function zzVL_SetDropMode takes integer vl_pid,boolean vl_on returns nothing
+    if vl_on then
+        call SaveInteger(zzVL_ht,7000+vl_pid,1,1)
+    else
+        call SaveInteger(zzVL_ht,7000+vl_pid,1,0)
+    endif
+endfunction
+// Phi phong (15 bậc) và quan ấn (8 bậc) theo KVCT: dữ liệu ở zzVL_ht khóa cha 0 (tools/kvequip.py, config.py mục 18)
+function zzVL_QAMax takes nothing returns integer
+    return LoadInteger(zzVL_ht,0,659)
+endfunction
+function zzVL_QAName takes integer vl_i returns string
+    if vl_i<=0 then
+        return "Binh Sĩ"
+    endif
+    return LoadStr(zzVL_ht,0,660+vl_i)
+endfunction
+function zzVL_QAReq takes integer vl_i returns integer
+    return LoadInteger(zzVL_ht,0,680+vl_i)
+endfunction
+function zzVL_PPMax takes nothing returns integer
+    return LoadInteger(zzVL_ht,0,599)
+endfunction
+function zzVL_PPTitle takes integer vl_i returns string
+    return LoadStr(zzVL_ht,0,600+vl_i)
+endfunction
+function zzVL_PPName takes integer vl_i returns string
+    return LoadStr(zzVL_ht,0,620+vl_i)
+endfunction
+function zzVL_PPReq takes integer vl_i returns integer
+    return LoadInteger(zzVL_ht,0,640+vl_i)
 endfunction
 function zzIT_Get takes integer vl_h,integer vl_field returns integer
     return LoadInteger(zzVL_ht,vl_h,vl_field)
@@ -100,6 +182,17 @@ function zzIT_AddLine takes integer vl_h,integer vl_k,integer vl_v returns nothi
 endfunction
 function zzIT_ClearLine takes integer vl_h,integer vl_k returns nothing
     call RemoveSavedInteger(zzVL_ht,vl_h,30+vl_k)
+endfunction
+
+// Khóa một nhịp đánh để auto skill không chèn chiêu tấn công vào hoạt ảnh autocast Q/W/E.
+function zzVL_ActionBusy takes integer vl_p returns boolean
+    return vl_p>=0 and vl_p<10 and LoadReal(zzVL_ht,7400+vl_p,0)>TimerGetElapsed(zzVL_clock)
+endfunction
+
+// Các loại nội tại, buff và toggle không bị khóa bởi bộ ưu tiên đòn đánh.
+function zzVL_ActionUtility takes integer vl_ab returns boolean
+    local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
+    return vl_k==0 or vl_k==6 or vl_k==7 or vl_k==8 or vl_k==9 or vl_k==14 or vl_k==19 or vl_k==20 or vl_k==21
 endfunction
 
 // ==========================================
