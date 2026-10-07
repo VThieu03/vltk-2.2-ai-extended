@@ -40,7 +40,7 @@
 
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
 
-- [ ] **Yêu cầu User (08/10/2026):** Đã tạo commit local cho toàn bộ thay đổi tracked hiện có (map/JASS, cấu hình, UI, tài liệu, log build). Push tới `origin` (`https://github.com/VThieu03/vltk-2.2-ai-extended.git`) bị auto-review từ chối vì chưa xác minh remote thuộc User/tổ chức; không dùng đường vòng. Chờ User xác nhận rõ đích remote này trước khi push.
+- [x] **Yêu cầu User (08/10/2026):** Đã commit toàn bộ thay đổi tracked (map/JASS, cấu hình, UI, tài liệu, log build) và push nhánh `kvct-doi-chieu-2` lên remote User xác nhận `https://github.com/VThieu03/vltk-2.2-ai-extended.git`; push thành công từ `6e7fcf9` đến `8899ff9`.
 
 - [x] **Steering User (08/10/2026):** Chốt phím B mở hành trang, I mở bảng nhân vật, Tab xóa thông báo, C dùng Khinh Công. Key event và nhãn nút/hướng dẫn trong game đã đồng bộ; pipeline đầy đủ `pjass ok (40541 lines)`, map 102,940,731 bytes đã đồng bộ, SHA-256 build/Public Test khớp `FEBBE01830D326BA4DECD2FDA0F1385C2A2430D92D41F2DAE5B0A44184258FE6`.
 
