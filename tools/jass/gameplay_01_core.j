@@ -557,6 +557,12 @@ endfunction
 constant function zzUS_MOC_POISON_CD takes nothing returns integer
     return 87 // hết hồi độc của hệ Mộc (tách khỏi 77)
 endfunction
+constant function zzUS_DASH_IMMUNE_END takes nothing returns integer
+    return 90 // hết miễn sát thương khinh công
+endfunction
+constant function zzUS_DASH_COOLDOWN_END takes nothing returns integer
+    return 91 // hết hồi chiêu khinh công
+endfunction
 constant function zzUS_TP_REFLECT_LAST takes nothing returns integer
     return 70 // lần cuối phản đòn của trấn phái (giãn 0.3 giây)
 endfunction

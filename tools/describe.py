@@ -626,7 +626,7 @@ def main():
                 lines = [
                     "|c008080ffCường hóa trang bị|r",
                     "Huyền tinh được cộng thẳng cho người hạ quái (hoặc nhặt vào hành trang), cộng dồn, không rơi từng viên.",
-                    "Bấm nút + cạnh ô trang bị trong bảng Nhân Vật (C) để cường hóa +1, tối đa +10; mỗi bậc đổi icon, tên và chỉ số.",
+                    "Bấm nút + cạnh ô trang bị trong bảng Nhân Vật (I) để cường hóa +1, tối đa +10; mỗi bậc đổi icon, tên và chỉ số.",
                     "Huyền tinh cần cho mỗi bậc: " + ", ".join("+%d: %d" % (i + 1, c) for i, c in enumerate(cost)) + ".",
                 ]
                 if any(r < 100 for r in rate):

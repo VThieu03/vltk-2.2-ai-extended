@@ -241,6 +241,13 @@ function zzVL_OnDamageBody takes nothing returns nothing
         set vl_tgt=null
         return
     endif
+    // Khinh công: mọi nguồn sát thương đều bị chặn trong cửa sổ lướt.
+    if IsUnitType(vl_tgt,UNIT_TYPE_HERO) and TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_tgt),zzUS_DASH_IMMUNE_END()) then
+        call BlzSetEventDamage(0.)
+        set vl_src=null
+        set vl_tgt=null
+        return
+    endif
     set vl_ps=GetPlayerId(GetOwningPlayer(vl_src))
     set vl_pt=GetPlayerId(GetOwningPlayer(vl_tgt))
     if vl_ps<10 and Jx[vl_ps+1]!=null then
@@ -380,6 +387,14 @@ function zzVL_OnDamageBody takes nothing returns nothing
     // bong (KVCT effect_bong, kskill.j status 5): 50% more damage
     if TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_tgt),zzUS_BONG_END()) then
         set vl_d=vl_d*zzCF_BONG_NHAN()
+    endif
+    // Tướng có thêm thời gian phản ứng trong giao tranh; sát thương lên quái không đổi.
+    // Kỹ năng chịu thêm hệ số riêng vì burst nhiều hit là nguyên nhân chính khiến combat kết thúc tức thì.
+    if IsUnitType(vl_tgt,UNIT_TYPE_HERO) then
+        set vl_d=vl_d*zzCF_HERO_DMG_NHAN()
+        if BlzGetEventDamageType()!=DAMAGE_TYPE_NORMAL then
+            set vl_d=vl_d*zzCF_HERO_SKILL_DMG_NHAN()
+        endif
     endif
     // KVCT "khi bi danh" passives (kskill.j zzKS_OnHurt, key 165)
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and vl_d>0. and not zzVL_inTp then
@@ -521,7 +536,7 @@ function zzVL_AddCT takes integer vl_playerId,integer vl_n returns nothing
     if vl_r>zzVL_rank[vl_playerId] or vl_c>zzVL_cl[vl_playerId] then
         set zzVL_rank[vl_playerId]=vl_r
         set zzVL_cl[vl_playerId]=vl_c
-        // không báo lên màn hình khi thăng cấp (chỉ báo ai hạ ai); xem ở bảng Nhân vật (C)
+        // không báo lên màn hình khi thăng cấp (chỉ báo ai hạ ai); xem ở bảng Nhân vật (TAB)
         if vl_hero!=null then
             if zzVL_pn[vl_playerId]==null then
                 set zzVL_pn[vl_playerId]=GetHeroProperName(vl_hero)

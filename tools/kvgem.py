@@ -40,7 +40,7 @@ def item_rows():
             color = ("|cff9a9a9a", "|cff40c040", "|cff4080ff", "|cffc080ff", "|cffff8040", "|cffff4040", "|cffffcc00", "|cffffcc00", "|cffffcc00")[tier-1]
             title = "%sBảo Thạch %s - Bậc %d|r" % (color, stat_name, tier)
             detail = "%sChỉ số KVCT: %s +%s%s|r" % (color, stat_name, value, "%" if stat not in (7, 8, 9, 10) else "")
-            text = detail + "|n|cff80c0ff[Khảm] Mở Hành Trang (B) và Nhân Vật (C), bật Khảm, bấm viên này rồi bấm trang bị; tối đa %d lỗ mỗi trang bị. Tách: %d vàng / viên.|r" % (config.GAME["KHAM_SO_LO"], config.GAME["KHAM_TACH_VANG"])
+            text = detail + "|n|cff80c0ff[Khảm] Mở Hành Trang (B) và Nhân Vật (I), bật Khảm, bấm viên này rồi bấm trang bị; tối đa %d lỗ mỗi trang bị. Tách: %d vàng / viên.|r" % (config.GAME["KHAM_SO_LO"], config.GAME["KHAM_TACH_VANG"])
             icon = ICON_PREFIX + D.icon_name(kind, tier)
             mods = [mod(b"unam", title, 3), mod(b"utip", title, 3), mod(b"utub", text, 3),
                     mod(b"ides", text, 3), mod(b"iabi", "", 3), mod(b"iico", icon, 3),

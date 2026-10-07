@@ -258,3 +258,13 @@
 04:27:06 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\VLKT_Data\\VLKT_FrameUI_Bottom3.blp' winerror=None try 1 (ui.py)
 04:30:36 winapi=1224
 04:30:36 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\war3map.w3u' winerror=None try 0 (kskill.py)
+04:41:14 winapi=1224
+04:41:14 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\war3map.w3t' winerror=None try 0 (kvequip.py)
+04:42:16 winapi=1224
+04:42:16 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\war3map.w3t' winerror=None try 0 (kvequip.py)
+04:42:19 winapi=1224
+04:42:19 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\war3map.w3t' winerror=None try 0 (kvgem.py)
+04:44:03 winapi=1224
+04:44:03 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\war3map.w3t' winerror=None try 0 (icons.py)
+04:47:21 winapi=open ok
+04:47:21 open wb 'D:\\vltk-2.2-ai-extended\\src\\map\\war3mapImported\\Hero_thuyyendao.mdx' winerror=None try 0 (kskill.py)

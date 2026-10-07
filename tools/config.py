@@ -231,7 +231,7 @@ UI_CUSTOM_IMAGES = {
 #     (cộng vào cả đánh thường lẫn kỹ năng);
 #   - sát thương kỹ năng tính theo chỉ số nào (PHE_SKILL_SCALE bên dưới);
 #   - né tránh: đòn của phái ngoại bị né bằng "né tránh ngoại công", đòn của phái nội bằng "né tránh nội công";
-#   - bảng nhân vật (C) ghi "Hệ: Ngoại công" / "Hệ: Nội công".
+#   - bảng nhân vật (I) ghi "Hệ: Ngoại công" / "Hệ: Nội công".
 CLASS_PHE = {
     "TLD": "ngoai",  # Thiếu Lâm Đao
     "TLQ": "ngoai",  # Thiếu Lâm Quyền
@@ -278,7 +278,7 @@ PHE_DODGE_NOI_PER_INT = 0.5
 #Sửa xong thì chạy python tools/pipeline.py.
 
 # ---------------------------------------------------------
-# 16. KHUÔN Ô TRANG BỊ TRONG BẢNG NHÂN VẬT (phím C)
+# 16. KHUÔN Ô TRANG BỊ TRONG BẢNG NHÂN VẬT (phím I)
 # ---------------------------------------------------------
 # Tọa độ màn hình của WC3: x 0 (trái) .. 0.8 (phải), y 0 (dưới) .. 0.6 (trên).
 #   x, y  : góc trên-trái của ô đầu tiên trong cột
@@ -304,6 +304,12 @@ GAME = {
     "SKILL_DMG_MOI_BAC": 0.17,
     "SKILL_DMG_NHIEU_DON": 0.3,
     "SKILL_DMG_CONG_MOI_BAC": 20.0,
+    "HERO_DMG_NHAN": 0.65,          # mọi nguồn sát thương lên tướng: còn 65%, tăng thời gian sống sót
+    "HERO_SKILL_DMG_NHAN": 0.45,    # sát thương kỹ năng lên tướng nhân thêm 45% sau hệ số chung
+    "KHINH_CONG_DISTANCE": 420.0,   # quãng lướt theo hướng tướng đang quay
+    "KHINH_CONG_TIME": 0.375,       # thời gian lướt (giây)
+    "KHINH_CONG_IMMUNE": 0.45,      # miễn sát thương trong lúc lướt và 0.075 giây đệm
+    "KHINH_CONG_COOLDOWN": 4.0,    # hồi chiêu khinh công
     "CAP_KY_NANG_PCT": 10.0,        # mỗi "cấp kỹ năng +1" trên trang bị: +% sát thương kỹ năng
     # --- Kháng, né, đánh trúng (gameplay_04_combat.j)
     "KHANG_TOI_DA": 80,             # kháng ngũ hành tối đa %

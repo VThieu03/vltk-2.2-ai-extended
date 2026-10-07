@@ -52,7 +52,7 @@ Thư viện dùng chung (không phải bước pipeline): `mpq.py` / `mpqwrite.p
 | `jass\gameplay_05_quests.j` | Nhiệm vụ, Xa phu, Dã Tẩu, boss Diệp Thanh. |
 | `jass\gameplay_06_events.j` | Đấu trường, Liên Đấu, Lôi Đài, điều kiện thắng. |
 | `jass\gameplay_07_ai.j` | AI máy: farm, mua đồ, tung chiêu. |
-| `jass\gameplay_08_ui.j` | Hành trang (B), bảng nhân vật (C), tự bán đồ, thông báo. |
+| `jass\gameplay_08_ui.j` | Hành trang (B), bảng nhân vật (I), xóa thông báo (Tab), khinh công (C), tự bán đồ. |
 | `kskill.j` | **Engine chiêu KVCT** (mục 4). |
 | `vlui.j` | Khung giao diện. |
 | `gameplay.j` | Bản ghép tự sinh từ các module (đừng sửa tay). |

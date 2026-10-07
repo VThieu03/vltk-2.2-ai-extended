@@ -32,13 +32,23 @@
   2. **Bộ máy Kỹ năng (400 chiêu)**: Dựa trên framework `tools/kskill.py` và `tools/kskill.j`, chuyển hóa toàn bộ 400 kỹ năng từ KVCT học trực tiếp theo cấp 1-200.
   3. **Trang bị RPG & Damage Engine**: Hệ thống 22 dòng thuộc tính ngẫu nhiên Diablo, 12 loại bảo thạch khảm (`I101`–`I10C`), cường hóa cố định theo 4 ô (Mũ, Áo, Vũ khí, Giày), tính toán né tránh/chính xác, kháng 5 hệ ngũ hành.
   4. **Modular hóa JASS**: Toàn bộ logic `tools/gameplay.j` (3400+ dòng) đã được tách thành 8 module rõ ràng trong `tools/jass/` (`gameplay_01_core.j` đến `08_ui.j`).
-  5. **Giao diện & Tiện ích**: UI ngọc bích, phím tắt B (Hành trang), C (Bảng nhân vật 22 chỉ số), tự nhặt, tự bán đồ (Auto-sell), dọn dẹp item rác trên đất, phi phong ẩn tự cộng chỉ số khi thăng hàm.
+  5. **Giao diện & Tiện ích**: UI ngọc bích, phím tắt B (Hành trang), I (Bảng nhân vật 22 chỉ số), Tab (xóa thông báo), C (Khinh Công), tự nhặt, tự bán đồ (Auto-sell), dọn dẹp item rác trên đất, phi phong ẩn tự cộng chỉ số khi thăng hàm.
 * **Quy trình Build map (Pipeline)**:
   `tools\` chạy lần lượt: `convert_text` -> `fix_script` -> `expand` -> `skills` -> `tranphai` -> `import_boss` -> `lvl200` -> `gameplay` -> `describe` -> `icons` -> `vfx` -> `ui` -> `scale` -> `build`. Sau đó sao chép file `.w3x` đã build vào thư mục Maps của Warcraft III.
 
 ---
 
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
+
+- [ ] **Yêu cầu User (08/10/2026):** Đã tạo commit local cho toàn bộ thay đổi tracked hiện có (map/JASS, cấu hình, UI, tài liệu, log build). Push tới `origin` (`https://github.com/VThieu03/vltk-2.2-ai-extended.git`) bị auto-review từ chối vì chưa xác minh remote thuộc User/tổ chức; không dùng đường vòng. Chờ User xác nhận rõ đích remote này trước khi push.
+
+- [x] **Steering User (08/10/2026):** Chốt phím B mở hành trang, I mở bảng nhân vật, Tab xóa thông báo, C dùng Khinh Công. Key event và nhãn nút/hướng dẫn trong game đã đồng bộ; pipeline đầy đủ `pjass ok (40541 lines)`, map 102,940,731 bytes đã đồng bộ, SHA-256 build/Public Test khớp `FEBBE01830D326BA4DECD2FDA0F1385C2A2430D92D41F2DAE5B0A44184258FE6`.
+
+- [x] **Yêu cầu User (08/10/2026):** Thêm Khinh Công phím C và nút giày trên HUD; lướt 420 đơn vị theo hướng tướng đang quay trong 0,375 giây, miễn sát thương 0,45 giây, hồi chiêu 4 giây; có tàn ảnh hiệu ứng. Bảng nhân vật chuyển sang I theo steering mới; Tab dành để xóa thông báo. Thông số đặt trong `tools/config.py`; pipeline đầy đủ, `pjass ok (40528 lines)`, map 102,941,150 bytes đã đồng bộ; SHA-256 build/Public Test khớp `DED9EAEF7A71013B5BE9B49A7BCD82F41669803540784A5CF6FF39588A5E111D`.
+
+
+
+- [x] **Yêu cầu User (08/10/2026):** Combat giao tranh hiện kết thúc trong khoảng 1 giây; thêm hệ số cấu hình sát thương nhận vào tướng: mọi sát thương còn 65%, kỹ năng còn thêm 45% (tổng 29,25%); quái thường giữ nguyên sát thương nhận để không chậm farm. `tools/config.py` (`HERO_DMG_NHAN`, `HERO_SKILL_DMG_NHAN`) + `gameplay_04_combat.j`. Pipeline đầy đủ, `pjass ok (40418 lines)`, map build 102,939,896 bytes; map Public Test đã ghi đè và SHA-256 khớp `2E3BB95842BAD63F613C74F0DB5D4527324C6B66E838BB6019F01A6A7C907E55`. Cần test cảm giác giao tranh trong game để tinh chỉnh tiếp nếu cần.
 
 - [x] **Steering User (08/10/2026):** Nút Chuyển mở danh sách đồng minh đang có tướng cạnh hành trang; chọn mục sẽ sáng chữ, rồi chọn vật phẩm để gửi. Build kiểm tra `pjass ok (40406 lines)`; sau khi gộp đầy đủ, map build/Public Test cùng SHA-256 `06445821365F4FE1C23E8B0F6DFEADC7D8B42C987D4BFE32A7A2D8511C080D41`.
 

@@ -557,6 +557,12 @@ endfunction
 constant function zzUS_MOC_POISON_CD takes nothing returns integer
     return 87 // hết hồi độc của hệ Mộc (tách khỏi 77)
 endfunction
+constant function zzUS_DASH_IMMUNE_END takes nothing returns integer
+    return 90 // hết miễn sát thương khinh công
+endfunction
+constant function zzUS_DASH_COOLDOWN_END takes nothing returns integer
+    return 91 // hết hồi chiêu khinh công
+endfunction
 constant function zzUS_TP_REFLECT_LAST takes nothing returns integer
     return 70 // lần cuối phản đòn của trấn phái (giãn 0.3 giây)
 endfunction
@@ -3556,6 +3562,13 @@ function zzVL_OnDamageBody takes nothing returns nothing
         set vl_tgt=null
         return
     endif
+    // Khinh công: mọi nguồn sát thương đều bị chặn trong cửa sổ lướt.
+    if IsUnitType(vl_tgt,UNIT_TYPE_HERO) and TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_tgt),zzUS_DASH_IMMUNE_END()) then
+        call BlzSetEventDamage(0.)
+        set vl_src=null
+        set vl_tgt=null
+        return
+    endif
     set vl_ps=GetPlayerId(GetOwningPlayer(vl_src))
     set vl_pt=GetPlayerId(GetOwningPlayer(vl_tgt))
     if vl_ps<10 and Jx[vl_ps+1]!=null then
@@ -3695,6 +3708,14 @@ function zzVL_OnDamageBody takes nothing returns nothing
     // bong (KVCT effect_bong, kskill.j status 5): 50% more damage
     if TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_tgt),zzUS_BONG_END()) then
         set vl_d=vl_d*zzCF_BONG_NHAN()
+    endif
+    // Tướng có thêm thời gian phản ứng trong giao tranh; sát thương lên quái không đổi.
+    // Kỹ năng chịu thêm hệ số riêng vì burst nhiều hit là nguyên nhân chính khiến combat kết thúc tức thì.
+    if IsUnitType(vl_tgt,UNIT_TYPE_HERO) then
+        set vl_d=vl_d*zzCF_HERO_DMG_NHAN()
+        if BlzGetEventDamageType()!=DAMAGE_TYPE_NORMAL then
+            set vl_d=vl_d*zzCF_HERO_SKILL_DMG_NHAN()
+        endif
     endif
     // KVCT "khi bi danh" passives (kskill.j zzKS_OnHurt, key 165)
     if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and vl_d>0. and not zzVL_inTp then
@@ -3836,7 +3857,7 @@ function zzVL_AddCT takes integer vl_playerId,integer vl_n returns nothing
     if vl_r>zzVL_rank[vl_playerId] or vl_c>zzVL_cl[vl_playerId] then
         set zzVL_rank[vl_playerId]=vl_r
         set zzVL_cl[vl_playerId]=vl_c
-        // không báo lên màn hình khi thăng cấp (chỉ báo ai hạ ai); xem ở bảng Nhân vật (C)
+        // không báo lên màn hình khi thăng cấp (chỉ báo ai hạ ai); xem ở bảng Nhân vật (TAB)
         if vl_hero!=null then
             if zzVL_pn[vl_playerId]==null then
                 set zzVL_pn[vl_playerId]=GetHeroProperName(vl_hero)
@@ -6344,7 +6365,7 @@ function zzVL_Kham takes integer vl_playerId,item vl_g returns nothing
     endif
     set vl_id=GetHandleId(vl_g)
     if not zzVL_bagOpen[vl_playerId] or not zzVL_heroOpen[vl_playerId] then
-        call zzVL_Msg(vl_playerId,"Khảm cần mở cả |cffffcc00Hành trang (B)|r và |cffffcc00Nhân vật (C)|r.")
+        call zzVL_Msg(vl_playerId,"Khảm cần mở cả |cffffcc00Hành trang (B)|r và |cffffcc00Nhân vật (I)|r.")
         set vl_m=null
         return
     endif
@@ -6954,6 +6975,81 @@ function zzKT_Init takes nothing returns nothing
     call TimerStart(CreateTimer(),.25,true,function zzKT_Tick)
     set vl_t=null
 endfunction
+// Khinh công chủ động: lao theo hướng mặt, để lại tàn ảnh KVCT và miễn sát thương trong lúc lướt.
+function zzVL_KinhCongTick takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,1)
+    local real vl_a=LoadReal(zzVL_ht,vl_id,2)
+    local real vl_s=LoadReal(zzVL_ht,vl_id,3)
+    local real vl_x
+    local real vl_y
+    if vl_h==null or GetWidgetLife(vl_h)<.405 then
+        set vl_n=0
+    else
+        set vl_x=GetUnitX(vl_h)+vl_s*Cos(vl_a)
+        set vl_y=GetUnitY(vl_h)+vl_s*Sin(vl_a)
+        if not IsTerrainPathable(vl_x,vl_y,PATHING_TYPE_WALKABILITY) then
+            if ModuloInteger(vl_n,3)==0 then
+                call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl",vl_h,"origin"))
+            endif
+            call SetUnitX(vl_h,vl_x)
+            call SetUnitY(vl_h,vl_y)
+            set vl_n=vl_n-1
+        else
+            set vl_n=0
+        endif
+    endif
+    call SaveInteger(zzVL_ht,vl_id,1,vl_n)
+    if vl_n<=0 then
+        if vl_h!=null then
+            call ResetUnitAnimation(vl_h)
+        endif
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_h=null
+endfunction
+
+function zzVL_KinhCong takes integer vl_pid returns nothing
+    local unit vl_h
+    local timer vl_t
+    local integer vl_steps
+    local real vl_now
+    local real vl_a
+    if vl_pid<0 or vl_pid>9 then
+        return
+    endif
+    set vl_h=Jx[vl_pid+1]
+    if vl_h==null or GetWidgetLife(vl_h)<.405 or IsUnitPaused(vl_h) then
+        call zzVL_Msg(vl_pid,"Không thể khinh công lúc này.")
+        set vl_h=null
+        return
+    endif
+    set vl_now=TimerGetElapsed(zzVL_clock)
+    if vl_now<zzUS_Real(GetHandleId(vl_h),zzUS_DASH_COOLDOWN_END()) then
+        set vl_h=null
+        return
+    endif
+    set vl_a=GetUnitFacing(vl_h)*bj_DEGTORAD
+    set vl_steps=IMaxBJ(1,R2I(zzCF_KHINH_CONG_TIME()/.03125))
+    call zzUS_SetReal(GetHandleId(vl_h),zzUS_DASH_COOLDOWN_END(),vl_now+zzCF_KHINH_CONG_COOLDOWN())
+    call zzUS_SetReal(GetHandleId(vl_h),zzUS_DASH_IMMUNE_END(),vl_now+zzCF_KHINH_CONG_IMMUNE())
+    call SetUnitFacing(vl_h,vl_a*bj_RADTODEG)
+    call SetUnitAnimation(vl_h,"walk")
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),1,vl_steps)
+    call SaveReal(zzVL_ht,GetHandleId(vl_t),2,vl_a)
+    call SaveReal(zzVL_ht,GetHandleId(vl_t),3,zzCF_KHINH_CONG_DISTANCE()/I2R(vl_steps))
+    call TimerStart(vl_t,.03125,true,function zzVL_KinhCongTick)
+    call zzVL_Msg(vl_pid,"|cff80c0ffKhinh công!|r Miễn sát thương trong lúc lướt.")
+    set vl_t=null
+    set vl_h=null
+endfunction
+
 function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
     local unit vl_hero=Jx[vl_playerId+1]
     local unit vl_tk=Er[vl_playerId+1]
@@ -6961,6 +7057,12 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
     local item vl_old
     local integer vl_w
     call zzVL_Log("bag p"+I2S(vl_playerId)+" o "+I2S(vl_code))
+    if vl_code==251 then
+        call zzVL_KinhCong(vl_playerId)
+        set vl_hero=null
+        set vl_tk=null
+        return
+    endif
     if vl_code==250 then
         set zzVL_heroOpen[vl_playerId]=not zzVL_heroOpen[vl_playerId]
         call ExecuteFunc("zzVL_HeroTick")
@@ -7153,7 +7255,7 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
         set zzVL_splitMode[vl_playerId]=false
         if zzVL_khamMode[vl_playerId] then
             if not zzVL_heroOpen[vl_playerId] then
-                call zzVL_Msg(vl_playerId,"Mở thêm bảng |cffffcc00Nhân vật (C)|r để khảm vào đồ đang mặc.")
+                call zzVL_Msg(vl_playerId,"Mở thêm bảng |cffffcc00Nhân vật (I)|r để khảm vào đồ đang mặc.")
             endif
             call zzVL_Msg(vl_playerId,"|cff80c0ffKhảm|r: bấm bảo thạch trong hành trang, rồi bấm trang bị (ô nhân vật hoặc hành trang). Mỗi trang bị "+I2S(zzCF_KHAM_SO_LO())+" lỗ. Muốn thay viên: bật |cff00ff00Tách|r rồi bấm trang bị ("+I2S(zzCF_KHAM_TACH_VANG())+" vàng / viên).")
         endif
@@ -7941,6 +8043,8 @@ function zzVL_BagUI takes nothing returns nothing
     local trigger vl_t
     local framehandle vl_b
     local framehandle vl_x
+    local framehandle vl_tip
+    local framehandle vl_tipTxt
     call BlzLoadTOCFile("war3mapImported\\vltk.toc")
     set zzVL_tClick=CreateTrigger()
     call TriggerAddAction(zzVL_tClick,function zzVL_OnFrameClick)
@@ -8003,11 +8107,19 @@ function zzVL_BagUI takes nothing returns nothing
     set zzVL_fClock=zzVL_MakeText(vl_ui,.67,.548,.12,"|cffffcc00Thời gian|r 0:00")
     set zzVL_fOpen=zzVL_MakeIconButton(244,vl_ui,.232,.566,.045,"war3mapImported\\vl_ui_bag.blp")
     call zzVL_MakeIconButton(250,vl_ui,.280,.566,.045,"war3mapImported\\vl_ui_hero.blp")
+    set vl_b=zzVL_MakeIconButton(251,vl_ui,.328,.566,.045,"ReplaceableTextures\\CommandButtons\\BTNBootsOfSpeed.blp")
+    set vl_tip=BlzCreateFrame("EscMenuBackdrop",vl_ui,0,71)
+    call BlzFrameSetSize(vl_tip,.17,.045)
+    set vl_tipTxt=BlzCreateFrameByType("TEXT","",vl_tip,"",0)
+    call BlzFrameSetPoint(vl_tipTxt,FRAMEPOINT_TOPLEFT,vl_tip,FRAMEPOINT_TOPLEFT,.008,-.008)
+    call BlzFrameSetSize(vl_tipTxt,.154,.03)
+    call BlzFrameSetText(vl_tipTxt,"Khinh Công (C)|nLướt tới trước, miễn sát thương. Hồi 4 giây.")
+    call BlzFrameSetTooltip(vl_b,vl_tip)
     set zzVL_fHero=BlzCreateFrame("EscMenuBackdrop",vl_ui,0,0)
     call BlzFrameSetAbsPoint(zzVL_fHero,FRAMEPOINT_TOPLEFT,.015,.535)
     call BlzFrameSetAbsPoint(zzVL_fHero,FRAMEPOINT_BOTTOMRIGHT,.365,.155)
     call zzVL_Panel(zzVL_fHero,.018,.532,.362,.158,"war3mapImported\\vl_ui_panel.blp",245)
-    call zzVL_MakeText(zzVL_fHero,.085,.520,.20,"|cffffcc00NHÂN VẬT & TRANG BỊ|r  (phím C)")
+    call zzVL_MakeText(zzVL_fHero,.085,.520,.20,"|cffffcc00NHÂN VẬT & TRANG BỊ|r  (phím I)")
     set zzVL_fHeroTxt=zzVL_MakeText(zzVL_fHero,.083,.502,.211,"")
     call BlzFrameSetSize(zzVL_fHeroTxt,.211,.33)
     call BlzFrameSetScale(zzVL_fHeroTxt,.88)
@@ -8389,6 +8501,10 @@ function zzVL_OnTabKey takes nothing returns nothing
     endif
 endfunction
 
+function zzVL_OnKinhCongKey takes nothing returns nothing
+    call zzVL_KinhCong(GetPlayerId(GetTriggerPlayer()))
+endfunction
+
 // ==========================================
 // Hàm: zzVL_Init
 // Chức năng dự kiến: Xử lý logic hệ thống.
@@ -8553,12 +8669,20 @@ function zzVL_Init takes nothing returns nothing
         call BlzTriggerRegisterPlayerKeyEvent(vl_t,Player(vl_i),OSKEY_C,0,true)
         set vl_i=vl_i+1
     endloop
-    call TriggerAddAction(vl_t,function zzVL_OnTabKey)
+    call TriggerAddAction(vl_t,function zzVL_OnKinhCongKey)
     set vl_t=CreateTrigger()
     set vl_i=0
     loop
         exitwhen vl_i>9
         call BlzTriggerRegisterPlayerKeyEvent(vl_t,Player(vl_i),OSKEY_TAB,0,true)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzVL_OnTabKey)
+    set vl_t=CreateTrigger()
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        call BlzTriggerRegisterPlayerKeyEvent(vl_t,Player(vl_i),OSKEY_I,0,true)
         set vl_i=vl_i+1
     endloop
     call TriggerAddAction(vl_t,function zzVL_OnHeroKey)

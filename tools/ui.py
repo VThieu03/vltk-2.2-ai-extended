@@ -32,7 +32,7 @@ TEX = {
 }
 BUTTONS = {
     "FrameButtonIcon_hanhtrang.tga": ("vl_ui_bag", "Hành Trang (B)"),
-    "FrameButtonIcon_nhanvat.tga": ("vl_ui_hero", "Nhân Vật (C)"),
+    "FrameButtonIcon_nhanvat.tga": ("vl_ui_hero", "Nhân Vật (I)"),
 }
 SKIN = {
     "GoldIcon": "vl_ui_gold",
@@ -134,7 +134,7 @@ def apply_custom_art():
     out = os.path.join(SRC, "VLKT_Data", "VLKT_FrameUI_Bottom3.blp")
     open(out, "wb").write(blp1_palette_rect(hud, 1024, 256))
     for key, name, label in (("bag_button", "vl_ui_bag", "Hành Trang (B)"),
-                             ("hero_button", "vl_ui_hero", "Nhân Vật (C)")):
+                             ("hero_button", "vl_ui_hero", "Nhân Vật (I)")):
         button = configured_image(key)
         if button is not None:
             save(name, relabel(button, label), 128)
