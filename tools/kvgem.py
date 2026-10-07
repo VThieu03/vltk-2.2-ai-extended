@@ -22,7 +22,8 @@ def mod(mid, val, typ=0):
 
 def item_rows():
     path = os.path.join(SRC, "war3map.w3t")
-    version, tabs = objdata.parse(open(path, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(path)
+    version, tabs = of_tabs.ver, of_tabs.tables
     wanted = {D.item_id(k, t).encode("ascii") for k in range(1, 7) for t in range(1, 10)}
     used = {n for _, n, _ in tabs[1]}
     clash = wanted & used
@@ -43,7 +44,7 @@ def item_rows():
                     mod(b"igol", 0), mod(b"ilum", 0), mod(b"idro", 1), mod(b"ipaw", 1),
                     mod(b"isel", 1), mod(b"ilev", tier), mod(b"icla", "Permanent", 3)]
             tabs[1].append([b"clfm", iid.encode("ascii"), [mods]])
-    open(path, "wb").write(objdata.write(version, tabs, ".w3t"))
+    of_tabs.save()
     return 54, len(clash)
 
 def copy_icons():

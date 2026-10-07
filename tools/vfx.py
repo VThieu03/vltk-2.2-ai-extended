@@ -98,7 +98,8 @@ def key(path):
 
 def objects(ext, fields):
     p = os.path.join(SRC, "war3map" + ext)
-    ver, tabs = objdata.parse(open(p, "rb").read(), ext)
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     n = 0
     for tab in tabs:
         for o, nw, sets in tab:
@@ -110,7 +111,7 @@ def objects(ext, fields):
                         if new != parts:
                             x[4] = ",".join(new).encode("utf-8")
                             n += 1
-    open(p, "wb").write(objdata.write(ver, tabs, ext))
+    of_tabs.save()
     return n
 
 

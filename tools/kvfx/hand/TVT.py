@@ -1,4 +1,4 @@
-# TVT: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TVT.py). Sửa file này rồi chạy lại pipeline.
+# TVT: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Hồi Phong Lạc Nhạn': {'main': 'TVT_hoiphonglacnhan.mdx', 'area': ['HydraliskImpact.mdx']},   # [Q]

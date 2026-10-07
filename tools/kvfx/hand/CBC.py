@@ -8,9 +8,9 @@
 # Khóa mỗi chiêu: main (model chính), cast (trên tướng lúc tung), target (trên địch bị trúng), area (thêm lớp tại điểm).
 VFX = {
     "Hàng Long Hữu Hối": {"main": "CBC_hanglong.mdx","scale": 1.5},   # thêm "scale": 1.5 để to gấp rưỡi
-    "Phi Long Tại Thiên": {"main": "CBC_hanglong.mdx", "cast": "CBC_luclongbuff.mdx","cast_scale": 0.1, "target": "CBC_casting.mdx","cast_scale": 0.5, "target_ground": True},
-    "Long Du Thiên Địa": {"main": "CBC_dulong.mdx", "cast": "CBC_casting.mdx", "cast_scale": 0.1, "target": "CBC_flame.mdx", "target_ground": True},
-    "Túy Điệp Cuồng Vũ": {"main": "CBC_hoatbatluuthu.mdx"},
+    "Phi Long Tại Thiên": {"main": "CBC_hanglong.mdx", "cast": "CBC_luclongbuff.mdx","cast_scale": 0.1, "target": "CBC_casting.mdx","cast_scale": 0.5, "target_ground": True, "area": ["VolcanoMissile.mdx"], "cast_ground": True},
+    "Long Du Thiên Địa": {"main": "CBC_dulong.mdx", "cast": "CBC_casting.mdx", "cast_scale": 0.1, "target": "CBC_flame.mdx", "target_ground": True, "area": ["CBC_flame.mdx"], "cast_ground": True},
+    "Túy Điệp Cuồng Vũ": {"main": "CBC_hoatbatluuthu.mdx", "aura": "CBC_hoatbatluuthu.mdx"},
     "Thời Thừa Lục Long": {"main": "CBC_luclongbuff.mdx", "cast": "CBC_luclongcast.mdx"},
     "Triệt Y Thập Bát Điệt": {"main": "CBC_trietytbd.mdx"},
     "Giáng Long Chưởng": {"main": "CBC_gianglong.mdx"},
@@ -27,7 +27,7 @@ VFX = {
 
 # Đổi texture của model (xem danh mục bên dưới).
 TEXTURES = {
-    "CBC_trietytbd.mdx": {"Hero_EmberSpirit_N4S_E_Shield4.blp": "Textures\\Flame4.blp"},
+    
 }
 #python tools/kvfx_doc.py
 #chạy lưu 

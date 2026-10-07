@@ -5,7 +5,8 @@
 import os, re, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata, vfx
-from kskill_data import CLASS, HERO, KV_STRINGS, KV_ORDER, MANUAL_QWE, load
+from kskill_data import CLASS, HERO, KV_STRINGS, KV_ORDER
+from model import Phai
 KV_STRINGS_DIR = KV_STRINGS
 from icons import blp1_palette
 from gameplay_items import plain
@@ -1010,13 +1011,13 @@ def key_of(s):
 
 
 def main():
-    data = load()
     slk = kv_slk()
     kv = vfx.vlkt()
     names = [l.strip() for l in open(r"D:\kvct-dev\work\listfile.txt", encoding="utf-8", errors="ignore")
              if l.strip().lower().endswith(".mdx") and l.strip().lower().startswith("war3mapimported")]
     p = os.path.join(SRC, "war3map.w3a")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3a")
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     tabs[1][:] = [o for o in tabs[1] if not o[1].startswith(b"X")]
     rows, made, models = ["call SaveInteger(zzVL_ht,0,291,%d)" % config.SKILL_VFX_SCALE_PERCENT], 0, {}
     for st_, (mdl_, per_) in config.STATUS_VFX.items():              # status effect models (kskill.j zzKS_StatusFx)
@@ -1025,10 +1026,11 @@ def main():
             rows.append('call SaveStr(zzVL_ht,0,%d,"war3mapImported%s%s")' % (300 + st_, "\\\\", mdl_))
             rows.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (310 + st_, round(per_ * 100)))
     n = 0
-    for hero, cl in CLASS.items():
-        skills = data.get(cl, [])[:14]
+    for phai in Phai.all():
+        hero, cl = phai.hero_id, phai.code
         used = set()
-        for i, s in enumerate(skills):
+        for s in phai.skills:
+            i = s.index
             sid = "X%03d" % n if n < 1000 else "Y%03d" % (n - 1000)
             n += 1
             # numbers of the skill: the OVR table below, any of HAND_OVR set in tools/kvfx/hand/<PHAI>.py wins (the user's config)
@@ -1092,7 +1094,7 @@ def main():
                 for r_ in ("cast", "target"):
                     for x in extra[r_]:
                         models[x] = 1
-            # read from KVCT's code (tools/kvfx/hand/<class>.py by hand, tools/kvfx/auto/<class>.py by kvfx_extract.py): wins over the name matching
+            # read from KVCT's code (tools/kvfx/hand/<class>.py by hand; the auto layer was removed): wins over the name matching
             # and over tk_mapping; a skill with no entry keeps the name matching / tk_mapping
             kvfx_ = kvfx.get(cl, s["name"])
             for r_, k_ in (("scale", 290), ("cast_scale", 292), ("target_scale", 293)):
@@ -1144,7 +1146,7 @@ def main():
                     os.makedirs(os.path.dirname(dis), exist_ok=True)
                     open(dis, "wb").write(blp1_palette(g, 64))
             first = s["tip"].split("\n")[0].strip()
-            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16, 17) and not passive_of(kind, proc) and key not in MANUAL_QWE.get(cl, ()) else None
+            auto = AUTO_KEY.get(key) if kind in (1, 2, 3, 4, 5, 13, 16, 17) and not passive_of(kind, proc) and key not in phai.manual_qwe else None
             mods = [m(b"anam", 3, s["name"]), m(b"aart", 3, icon), m(b"alev", 0, 10), m(b"aher", 0, 0)]
             mods.append(m(b"aani", 3, s["anim"]))
             mods += [m(b"auar", 3, icon), m(b"arar", 3, icon)]       # turn-off / research art: the same icon
@@ -1248,9 +1250,10 @@ def main():
         # auto-cast keys 10.. of the hero: the new actives only
         act = [r for r in rows if False]
     # hero skill lists emptied (no skill points: kskill.j opens the skills by level)
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3a"))
+    of_tabs.save()
     pu = os.path.join(SRC, "war3map.w3u")
-    uver, utabs = objdata.parse(open(pu, "rb").read(), ".w3u")
+    of_utabs = objdata.ObjectFile.load(pu)
+    uver, utabs = of_utabs.ver, of_utabs.tables
     for ti, tab in enumerate(utabs):
         for o, nw, sets in tab:
             if (o if ti == 0 else nw).decode("latin1") in CLASS:
@@ -1300,7 +1303,7 @@ def main():
                     sc[0][4] = v
                 else:
                     sets[0].append([b"usca", 0, 0, 1, v, bytes(4)])   # real field: type 1 (2 made the model invisible)
-    open(pu, "wb").write(objdata.write(uver, utabs, ".w3u"))
+    of_utabs.save()
     # auto-cast list per hero (keys 10..), in skill order
     by = {}
     for r in rows:

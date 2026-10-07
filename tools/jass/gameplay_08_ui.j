@@ -84,13 +84,17 @@ function zzEQ_GiveStarter takes nothing returns nothing
                 else
                     set vl_type='ITSA'
                 endif
-                set vl_it=CreateItem(vl_type,GetUnitX(vl_hero),GetUnitY(vl_hero))
+                // ô đã có trang bị (nhặt trước khi được phát) thì giữ nguyên
+                set vl_it=null
+                if zzVL_equipItem[vl_pid*10+vl_slot]==null then
+                    set vl_it=CreateItem(vl_type,GetUnitX(vl_hero),GetUnitY(vl_hero))
+                endif
                 if vl_it!=null then
                     call zzEQ_SetTier(vl_it,0)
                     call zzVL_TaiPhu(vl_it)
                     set zzVL_equipItem[vl_pid*10+vl_slot]=vl_it
                     call SetItemVisible(vl_it,false)
-                else
+                elseif zzVL_equipItem[vl_pid*10+vl_slot]==null then
                     call zzVL_Log("starter item creation failed p"+I2S(vl_pid)+" slot"+I2S(vl_slot))
                 endif
                 set vl_slot=vl_slot+1
@@ -765,7 +769,7 @@ function zzVL_Kham takes integer vl_playerId,item vl_g returns nothing
         set vl_v=zzGM_Stat(zzGM_Type(GetItemTypeId(vl_m)),zzGM_Tier(GetItemTypeId(vl_m)))
     endif
     call SaveInteger(zzVL_ht,vl_id,43,LoadInteger(zzVL_ht,vl_id,43)+1)
-    call SaveInteger(zzVL_ht,vl_id,30+vl_k,LoadInteger(zzVL_ht,vl_id,30+vl_k)+vl_v)
+    call zzIT_AddLine(vl_id,vl_k,vl_v)
     set vl_string="|n|cff80c0ff[Khảm] "+GetItemName(vl_m)+": "+zzVL_KhamText(vl_k,vl_v)+"|r"
     if LoadInteger(zzVL_ht,vl_id,55)>0 then
         call SaveStr(zzVL_ht,vl_id,54,LoadStr(zzVL_ht,vl_id,54)+vl_string)
@@ -1510,14 +1514,19 @@ function zzVL_HeroText takes integer vl_playerId returns string
     set vl_string=vl_string+"|nBạo kích: "+I2S(zzVL_af[vl_playerId*16+3])+"%"
     set vl_string=vl_string+"|nTốc đánh: +"+I2S(zzVL_af[vl_playerId*16+4])+"%   Sát thương: +"+I2S(zzVL_af[vl_playerId*16+5])+"%"
     set vl_string=vl_string+"|nGiảm sát thương nhận: "+I2S(zzVL_af[vl_playerId*16+6])+"%"
-    set vl_string=vl_string+"|nTốc xuất chiêu: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,16))+"%"
-    set vl_string=vl_string+"|nSát thương nội công: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,17))
-    set vl_string=vl_string+"|nSát thương ngoại công: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,18))
-    set vl_string=vl_string+"|nCấp kỹ năng: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,22))+"   Đánh trúng: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,19))
-    set vl_string=vl_string+"|nNé tránh: "+I2S(R2I(GetHeroAgi(vl_hero,true)/2.)+LoadInteger(zzVL_ht,1000+vl_playerId,20))+"   Tốc chạy: +"+I2S(zzVL_af[vl_playerId*16+13])
-    set vl_string=vl_string+"|nKháng vật lý: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,11))+"%"
-    set vl_string=vl_string+"|nKháng độc: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,12))+"%   Kháng thủy: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,13))+"%"
-    set vl_string=vl_string+"|nKháng hỏa: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,14))+"%   Kháng lôi: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,15))+"%"
+    set vl_string=vl_string+"|nTốc xuất chiêu: +"+I2S(zzPS_Get(vl_playerId,zzPS_TOC_XUAT_CHIEU()))+"%"
+    if zzVL_Phe(vl_hero)==2 then
+        set vl_string=vl_string+"|nHệ: |cff66ccffNội công|r (hưởng STVL nội công, kỹ năng theo Nội công)"
+        set vl_string=vl_string+"|nSát thương nội công: +"+I2S(zzPS_Get(vl_playerId,zzPS_STVL_NOI()))+"   |cff808080STVL ngoại công: +"+I2S(zzPS_Get(vl_playerId,zzPS_STVL_NGOAI()))+" (không tác dụng)|r"
+    else
+        set vl_string=vl_string+"|nHệ: |cffff9933Ngoại công|r (hưởng STVL ngoại công, kỹ năng theo Sức mạnh / vũ khí)"
+        set vl_string=vl_string+"|nSát thương ngoại công: +"+I2S(zzPS_Get(vl_playerId,zzPS_STVL_NGOAI()))+"   |cff808080STVL nội công: +"+I2S(zzPS_Get(vl_playerId,zzPS_STVL_NOI()))+" (không tác dụng)|r"
+    endif
+    set vl_string=vl_string+"|nCấp kỹ năng: +"+I2S(zzPS_Get(vl_playerId,zzPS_CAP_KY_NANG()))+"   Đánh trúng: "+I2S(zzPS_Get(vl_playerId,zzPS_DANH_TRUNG()))
+    set vl_string=vl_string+"|nNé ngoại công: "+I2S(zzVL_PheDodge(vl_hero,vl_playerId,1))+"   Né nội công: "+I2S(zzVL_PheDodge(vl_hero,vl_playerId,2))+"   Tốc chạy: +"+I2S(zzVL_af[vl_playerId*16+13])
+    set vl_string=vl_string+"|nKháng vật lý: "+I2S(zzPS_Get(vl_playerId,zzPS_KHANG_VL()))+"%"
+    set vl_string=vl_string+"|nKháng độc: "+I2S(zzPS_Get(vl_playerId,zzPS_KHANG_DOC()))+"%   Kháng thủy: "+I2S(zzPS_Get(vl_playerId,zzPS_KHANG_THUY()))+"%"
+    set vl_string=vl_string+"|nKháng hỏa: "+I2S(zzPS_Get(vl_playerId,zzPS_KHANG_HOA()))+"%   Kháng lôi: "+I2S(zzPS_Get(vl_playerId,zzPS_KHANG_LOI()))+"%"
     set vl_string=vl_string+"|n|n|cffffcc00TRANG BỊ (10 Ô)|r  Cấp cường hóa hiển thị trên từng ô"
     set vl_string=vl_string+"|n|cffffcc00Tài phú|r "+I2S(vl_tp)+"|n|cffffcc00Hạ|r "+I2S(zzVL_kills[vl_playerId])+"   |cffffcc00Chết|r "+I2S(zzVL_deaths[vl_playerId])
     set vl_string=vl_string+"|n|n|cffffcc00HUYỀN TINH|r  "+I2S(zzGL_Count(vl_playerId))+" viên"
@@ -1656,7 +1665,7 @@ function zzVL_HeroShow takes integer vl_playerId,boolean vl_on returns nothing
             loop
                 set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),200+vl_i)
                 exitwhen vl_ab==0 or vl_i>=14 or vl_j>5
-                if LoadInteger(zzVL_ht,vl_ab,240)==0 and GetUnitAbilityLevel(vl_hero,vl_ab)>0 then
+                if zzSK_Int(vl_ab,zzSK_KIND())==0 and GetUnitAbilityLevel(vl_hero,vl_ab)>0 then
                     call BlzFrameSetTexture(zzVL_fPassIco[vl_j],BlzGetAbilityIcon(vl_ab),0,true)
                     call BlzFrameSetText(zzVL_fPassTTxt[vl_j],"|cffffcc00"+GetObjectName(vl_ab)+"|r|n"+BlzGetAbilityExtendedTooltip(vl_ab,GetUnitAbilityLevel(vl_hero,vl_ab)-1))
                     call SaveInteger(zzVL_ht,GetHandleId(zzVL_fPassBtn[vl_j]),8,vl_ab)
@@ -1705,6 +1714,11 @@ function zzVL_HeroTick takes nothing returns nothing
     local integer vl_playerId=0
     loop
         exitwhen vl_playerId>9
+        // lưới an toàn: tướng có rồi mà chưa được phát bộ +0 (hook chọn tướng không chạy) thì phát ở đây
+        if not zzEQ_starterGiven[vl_playerId] and Jx[vl_playerId+1]!=null and IsUnitType(Jx[vl_playerId+1],UNIT_TYPE_HERO) then
+            set zzEQ_starterHero[vl_playerId]=Jx[vl_playerId+1]
+            call zzEQ_GiveStarter()
+        endif
         call zzVL_HeroShow(vl_playerId,zzVL_heroOpen[vl_playerId])
         set vl_playerId=vl_playerId+1
     endloop

@@ -1,4 +1,4 @@
-# TDC: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TDC.py). Sửa file này rồi chạy lại pipeline.
+# TDC: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Dương Ca Thiên Quân': {'main': 'TDC_duongca.mdx', 'cast': 'TDC_caster.mdx', 'target': 'TDC_target.mdx', 'area': ['TDC_wave1.mdx']},   # [Q]

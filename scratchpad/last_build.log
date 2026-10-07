@@ -29,6 +29,7 @@ script       "|c00ffcc00B¹n ®ang ch¬i chÕ ®é ®¬n|r"
 fixed: ['dh', 'th']
 drop rates: ['gG', 'kG', 'Rh']
 start coin removed
+starter KVCT gear hook added
 item cleanup skips hidden items: ['St', 'mM', 'MM']
 === Running expand.py ===
 model not in Thien Kiem: Abilities\Weapons\SteamMissile\SteamMissile.mdx
@@ -112,7 +113,6 @@ tanlang: unit n0TL (Tan Thuy Hoang), 9 model/texture files
 === Running lvl200.py ===
 level 200: 103 stat gains, 80 hero skills
 === Running kskill.py ===
-TEXTURES: CBC_trietytbd.mdx: KVCT3_Data\Hero_EmberSpirit_N4S_E_Shield4.blp -> Textures\Flame4.blp
 kskill: 429 skills on 33 heroes, 484 effect models (1788 files)
 === Running kskill_list.py ===
 33 phái, 429 kỹ năng -> docs\kvct_skill_table.md
@@ -125,7 +125,7 @@ belv name: 'Động Sát Y' st: (2, 1)
 MD5 written: 9beff655165516b613f24dcfce374db0 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
 described items: 286 | materials with recipes: 14
 === Running kvequip.py ===
-kvequip: 288 vật phẩm trong w3t, 232 icon (32 bản disabled), 966 hàng bảng
+kvequip: 288 vật phẩm trong w3t, 232 icon (32 bản disabled), 1008 hàng bảng
 === Running icons.py ===
 cuong hoa icon rows: 1115
 disabled icons: 104
@@ -139,15 +139,10 @@ ui: 7 textures, 2 buttons, 13 skin keys
 === Running scale.py ===
 map x1.00: 264x128 -> 264x128 tiles, 4810 doodads
 === Running build.py ===
-pjass ok (38315 lines)
-ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 102920523 bytes, 3233 files from src
+pjass ok (38914 lines)
+ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 102929998 bytes, 3233 files from src
 
 >>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<
 
 === Syncing map to target directories ===
-Failed to copy to D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta.w3x: [WinError 1224] The requested operation cannot be performed on a file with a user-mapped section open
-Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta AI.w3x (102,920,523 bytes)
-Synced -> D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,920,523 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x (102,920,523 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x (102,920,523 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,920,523 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,929,998 bytes)

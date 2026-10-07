@@ -1,4 +1,4 @@
-# TVD: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TVD.py). Sửa file này rồi chạy lại pipeline.
+# TVD: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Kinh Lôi Trảm': {'main': 'TVD_targeteffect1.mdx', 'target': 'TVD_targeteffect1.mdx'},   # [Q]

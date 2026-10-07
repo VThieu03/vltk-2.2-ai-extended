@@ -1,4 +1,4 @@
-# NMC: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/NMC.py). Sửa file này rồi chạy lại pipeline.
+# NMC: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Tứ Tượng Đồng Quy': {'main': 'NMC_tutuongdq.mdx', 'target': 'NMC_tutuongtarget.mdx', 'buff': 'NMC_vantuongbuff.mdx', 'target_ground': True},   # [Q]

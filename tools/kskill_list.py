@@ -5,7 +5,7 @@ import os, re, sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
-from kskill_data import CLASS, HERO, MANUAL_QWE
+from model import Phai
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 TABLE = os.path.join(ROOT, "build", "kskill_table.j")
@@ -41,9 +41,9 @@ def main():
     ints = {}
     for o, k, v in re.findall(r"SaveInteger\(zzVL_ht,'(\w+)',(\d+),('?\w+'?)\)", t):
         ints[(o, int(k))] = v.strip("'")
-    _, tabs = objdata.parse(open(W3A, "rb").read(), ".w3a")
+    w3a = objdata.ObjectFile.load(W3A)
     ab = {}
-    for o in tabs[1]:
+    for o in w3a.custom:
         sid = o[1].decode("latin-1")
         if sid[0] not in "XY":
             continue
@@ -60,9 +60,10 @@ def main():
         "",
     ]
     total = 0
-    for hero, cl in CLASS.items():
+    for p in Phai.all():
+        hero = p.hero_id
         out += [
-            "## %s (%s, %s)" % (HERO[hero][1], cl, hero),
+            "## %s (%s, %s)" % (p.name, p.code, hero),
             "",
             "| # | Kỹ năng | ID | Phím | Loại | Số hit | Mở ở cấp |",
             "|---|---|---|---|---|---|---|",
@@ -77,7 +78,7 @@ def main():
                 label = "tự phát khi đánh (%s)" % KIND.get(kind, kind)
             else:
                 label = KIND.get(kind, str(kind))
-            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16, 17) and key not in MANUAL_QWE.get(cl, ()):
+            if key in ("Q", "W", "E") and kind in (1, 2, 3, 4, 5, 13, 16, 17) and key not in p.manual_qwe:
                 label += ", **autocast**"
             out.append(
                 "| %d | %s | %s | %s | %s | %s | %s |"
@@ -86,7 +87,7 @@ def main():
             total += 1
         out.append("")
     open(OUT, "w", encoding="utf-8").write("\n".join(out))
-    print("%d phái, %d kỹ năng -> %s" % (len(CLASS), total, os.path.relpath(OUT, ROOT)))
+    print("%d phái, %d kỹ năng -> %s" % (len(Phai.all()), total, os.path.relpath(OUT, ROOT)))
 
 
 if __name__ == "__main__":

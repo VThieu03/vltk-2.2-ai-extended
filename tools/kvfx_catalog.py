@@ -22,7 +22,7 @@ def write_catalog(cl, cat):
         text = open(path, encoding="utf-8").read()
     else:
         text = (
-            "# %s: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/%s.py). Sửa file này rồi chạy lại pipeline.\n"
+            "# %s: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto %s). Sửa file này rồi chạy lại pipeline.\n"
             "VFX = {\n}\n" % (cl, cl)
         )
     if "\nTEXTURES" not in text and not text.startswith("TEXTURES"):

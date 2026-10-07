@@ -79,9 +79,9 @@ function zzVL_RollAffix takes item vl_item returns nothing
         exitwhen vl_n<=0
         set vl_k=zzEQ_PickAffix(vl_slot)
         exitwhen vl_k==0
-        if LoadInteger(zzVL_ht,vl_id,30+vl_k)==0 then
+        if zzIT_Line(vl_id,vl_k)==0 then
             set vl_v=GetRandomInt(zzEQ_AffixMin(vl_k),zzEQ_AffixMax(vl_k))
-            call SaveInteger(zzVL_ht,vl_id,30+vl_k,vl_v)
+            call zzIT_SetLine(vl_id,vl_k,vl_v)
 
             if vl_k == 22 then
                 set vl_string=vl_string+"|n|cff00ff00"+zzVL_AffixName(vl_k)+" +"+I2S(vl_v)+" cấp|r"
@@ -97,7 +97,7 @@ function zzVL_RollAffix takes item vl_item returns nothing
     endloop
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)/10!=3 then
         set vl_k=GetRandomInt(1,5)
-        call SaveInteger(zzVL_ht,vl_id,75,vl_k)
+        call zzIT_Set(vl_id,zzIT_DO_CO(),vl_k)
         set vl_string=vl_string+"|n|cffffcc00Hệ|r "+zzVL_hn[vl_k]+": giảm 3% sát thương nhận, +150 sinh lực, +2% sát thương"
     endif
     if vl_string!="" then
@@ -154,7 +154,7 @@ function zzVL_GearScore takes item vl_item returns integer
     local integer vl_k=1
     loop
         exitwhen vl_k>4
-        set vl_string=vl_string+LoadInteger(zzVL_ht,GetHandleId(vl_item),30+vl_k)
+        set vl_string=vl_string+zzIT_Line(GetHandleId(vl_item),vl_k)
         set vl_k=vl_k+1
     endloop
     return vl_string+40*LoadInteger(zzVL_ht,GetHandleId(vl_item),43)+100*zzEQ_Tier(vl_item)
@@ -169,10 +169,10 @@ endfunction
 function zzVL_TaiPhu takes item vl_item returns nothing
     local integer vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)
     local string vl_string
-    if vl_v<10 or vl_v>=50 or LoadInteger(zzVL_ht,GetHandleId(vl_item),74)>0 then
+    if vl_v<10 or vl_v>=50 or zzIT_Get(GetHandleId(vl_item),zzIT_TAI_PHU())>0 then
         return
     endif
-    call SaveInteger(zzVL_ht,GetHandleId(vl_item),74,1)
+    call zzIT_Set(GetHandleId(vl_item),zzIT_TAI_PHU(),1)
     set vl_string="|n|cffffcc00Tài phú: "+I2S(zzVL_GearScore(vl_item))+"|r"
     call BlzSetItemDescription(vl_item,BlzGetItemDescription(vl_item)+vl_string)
     call BlzSetItemExtendedTooltip(vl_item,BlzGetItemExtendedTooltip(vl_item)+vl_string)
@@ -212,10 +212,10 @@ function zzVL_AutoGear takes unit vl_hero,item vl_n returns nothing
     local item vl_item
     local item vl_old=null
     local integer vl_o
-    if vl_playerId>9 or not zzVL_autoSell[vl_playerId] or vl_hero!=Jx[vl_playerId+1] or vl_v<10 or vl_v>=50 or LoadInteger(zzVL_ht,GetItemTypeId(vl_n),1)>0 or LoadInteger(zzVL_ht,GetHandleId(vl_n),73)==0 then
+    if vl_playerId>9 or not zzVL_autoSell[vl_playerId] or vl_hero!=Jx[vl_playerId+1] or vl_v<10 or vl_v>=50 or LoadInteger(zzVL_ht,GetItemTypeId(vl_n),1)>0 or zzIT_Get(GetHandleId(vl_n),zzIT_MOI_ROI())==0 then
         return
     endif
-    call RemoveSavedInteger(zzVL_ht,GetHandleId(vl_n),73)
+    call zzIT_Set(GetHandleId(vl_n),zzIT_MOI_ROI(),0)
     loop
         exitwhen vl_i>9
         set vl_item=zzVL_equipItem[vl_playerId*10+vl_i]
@@ -358,17 +358,17 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     local integer vl_id
     local real vl_base
     local integer vl_scale
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 11, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 12, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 13, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 14, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 15, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 16, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 17, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 18, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 19, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 20, 0)
-    call SaveInteger(zzVL_ht, 1000+vl_playerId, 22, 0)
+    call zzPS_Set(vl_playerId,zzPS_KHANG_VL(),0)
+    call zzPS_Set(vl_playerId,zzPS_KHANG_DOC(),0)
+    call zzPS_Set(vl_playerId,zzPS_KHANG_THUY(),0)
+    call zzPS_Set(vl_playerId,zzPS_KHANG_HOA(),0)
+    call zzPS_Set(vl_playerId,zzPS_KHANG_LOI(),0)
+    call zzPS_Set(vl_playerId,zzPS_TOC_XUAT_CHIEU(),0)
+    call zzPS_Set(vl_playerId,zzPS_STVL_NOI(),0)
+    call zzPS_Set(vl_playerId,zzPS_STVL_NGOAI(),0)
+    call zzPS_Set(vl_playerId,zzPS_DANH_TRUNG(),0)
+    call zzPS_Set(vl_playerId,zzPS_NE_TRANH(),0)
+    call zzPS_Set(vl_playerId,zzPS_CAP_KY_NANG(),0)
     loop
         exitwhen vl_i>13
         set zzVL_af[vl_playerId*16+vl_i]=zzKS_af[vl_playerId*16+vl_i]
@@ -383,17 +383,17 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
             loop
                 exitwhen vl_k>22
                 // random lines grow with the enhancement of the item (zzEQ_LineValue)
-                set vl_v=zzEQ_LineValue(zzVL_equipItem[vl_playerId*10+vl_i],vl_k,LoadInteger(zzVL_ht,vl_id,30+vl_k))
+                set vl_v=zzEQ_LineValue(zzVL_equipItem[vl_playerId*10+vl_i],vl_k,zzIT_Line(vl_id,vl_k))
                 if vl_k <= 10 then
                     set zzVL_af[vl_playerId*16+vl_k]=zzVL_af[vl_playerId*16+vl_k]+vl_v
                 elseif vl_k == 21 then
                     set zzVL_af[vl_playerId*16+13]=zzVL_af[vl_playerId*16+13]+vl_v
                 else
-                    call SaveInteger(zzVL_ht, 1000+vl_playerId, vl_k, LoadInteger(zzVL_ht, 1000+vl_playerId, vl_k) + vl_v)
+                    call zzPS_Add(vl_playerId,vl_k,vl_v)
                 endif
                 set vl_k=vl_k+1
             endloop
-            if LoadInteger(zzVL_ht,vl_id,75)>0 then
+            if zzIT_Get(vl_id,zzIT_DO_CO())>0 then
                 set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+3
                 set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+150
                 set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+2
@@ -466,57 +466,57 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     set vl_n=zzEQ_SlotLv(vl_playerId,1)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+vl_n*1
-        call SaveInteger(zzVL_ht,1000+vl_playerId,11,LoadInteger(zzVL_ht,1000+vl_playerId,11)+vl_n*2)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_VL(),vl_n*2)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,2)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*150
-        call SaveInteger(zzVL_ht,1000+vl_playerId,12,LoadInteger(zzVL_ht,1000+vl_playerId,12)+vl_n*2)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,13,LoadInteger(zzVL_ht,1000+vl_playerId,13)+vl_n*2)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_DOC(),vl_n*2)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_THUY(),vl_n*2)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,3)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+4]=zzVL_af[vl_playerId*16+4]+vl_n*3
-        call SaveInteger(zzVL_ht,1000+vl_playerId,14,LoadInteger(zzVL_ht,1000+vl_playerId,14)+vl_n*2)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,15,LoadInteger(zzVL_ht,1000+vl_playerId,15)+vl_n*2)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_HOA(),vl_n*2)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_LOI(),vl_n*2)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,4)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+13]=zzVL_af[vl_playerId*16+13]+vl_n*3
-        call SaveInteger(zzVL_ht,1000+vl_playerId,20,LoadInteger(zzVL_ht,1000+vl_playerId,20)+vl_n*15)
+        call zzPS_Add(vl_playerId,zzPS_NE_TRANH(),vl_n*15)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,5)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+vl_n*3
-        call SaveInteger(zzVL_ht,1000+vl_playerId,18,LoadInteger(zzVL_ht,1000+vl_playerId,18)+vl_n*20)
+        call zzPS_Add(vl_playerId,zzPS_STVL_NGOAI(),vl_n*20)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,6)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+3]=zzVL_af[vl_playerId*16+3]+vl_n*1
-        call SaveInteger(zzVL_ht,1000+vl_playerId,17,LoadInteger(zzVL_ht,1000+vl_playerId,17)+vl_n*20)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,16,LoadInteger(zzVL_ht,1000+vl_playerId,16)+vl_n*2)
+        call zzPS_Add(vl_playerId,zzPS_STVL_NOI(),vl_n*20)
+        call zzPS_Add(vl_playerId,zzPS_TOC_XUAT_CHIEU(),vl_n*2)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,7)
     if vl_n>0 then
-        call SaveInteger(zzVL_ht,1000+vl_playerId,19,LoadInteger(zzVL_ht,1000+vl_playerId,19)+vl_n*15)
+        call zzPS_Add(vl_playerId,zzPS_DANH_TRUNG(),vl_n*15)
         set zzVL_af[vl_playerId*16+1]=zzVL_af[vl_playerId*16+1]+vl_n*1
         set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+vl_n*1
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,8)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+2]=zzVL_af[vl_playerId*16+2]+vl_n*1
-        call SaveInteger(zzVL_ht,1000+vl_playerId,11,LoadInteger(zzVL_ht,1000+vl_playerId,11)+vl_n*1)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,12,LoadInteger(zzVL_ht,1000+vl_playerId,12)+vl_n*1)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,13,LoadInteger(zzVL_ht,1000+vl_playerId,13)+vl_n*1)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,14,LoadInteger(zzVL_ht,1000+vl_playerId,14)+vl_n*1)
-        call SaveInteger(zzVL_ht,1000+vl_playerId,15,LoadInteger(zzVL_ht,1000+vl_playerId,15)+vl_n*1)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_VL(),vl_n*1)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_DOC(),vl_n*1)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_THUY(),vl_n*1)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_HOA(),vl_n*1)
+        call zzPS_Add(vl_playerId,zzPS_KHANG_LOI(),vl_n*1)
     endif
     set vl_n=zzEQ_SlotLv(vl_playerId,9)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*200
         set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+vl_n*1
         if vl_n>=10 then
-            call SaveInteger(zzVL_ht,1000+vl_playerId,22,LoadInteger(zzVL_ht,1000+vl_playerId,22)+1)
+            call zzPS_Add(vl_playerId,zzPS_CAP_KY_NANG(),1)
         endif
     endif
     set zzVL_wel[vl_playerId]=0
@@ -573,7 +573,7 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     endif
 
     // Tốc độ xuất chiêu (16)
-    call SetUnitTimeScale(vl_hero, 1.0 + LoadInteger(zzVL_ht, 1000+vl_playerId, 16) / 100.0)
+    call SetUnitTimeScale(vl_hero, 1.0 + zzPS_Get(vl_playerId,zzPS_TOC_XUAT_CHIEU()) / 100.0)
 
     set vl_k=7
     loop

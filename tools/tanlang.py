@@ -53,7 +53,8 @@ FIELDS = {
 
 def main():
     p = os.path.join(SRC, "war3map.w3u")
-    ver, vl = objdata.parse(open(p, "rb").read(), ".w3u")
+    of_vl = objdata.ObjectFile.load(p)
+    ver, vl = of_vl.ver, of_vl.tables
     used = [e[1] for e in vl[0] + vl[1] if e[1] != NEW]
     if NEW in used:
         sys.exit("tanlang: unit id %s already used" % NEW.decode())
@@ -65,7 +66,7 @@ def main():
     for k, (typ, val) in FIELDS.items():
         mods.append([k, None, None, typ, val, b"\0\0\0\0"])
     vl[1].append([tpl[0], NEW, [mods]])
-    open(p, "wb").write(objdata.write(ver, vl, ".w3u"))
+    of_vl.save()
 
     # models and textures (read from KVCT's archive; its outside texture pack D:\KVCT31_Data, as vfx.py does)
     kv = vfx.vlkt()

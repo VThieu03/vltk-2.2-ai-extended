@@ -226,3 +226,57 @@ UI_CUSTOM_IMAGES = {
     "bag_button": "ui_custom/bag_button.png",
     "hero_button": "",
 }
+
+# ---------------------------------------------------------
+# 15. HỆ NGOẠI CÔNG / NỘI CÔNG CỦA TỪNG PHÁI
+# ---------------------------------------------------------
+# "ngoai" = ngoại công (binh khí), "noi" = nội công (chưởng, khí, chỉ, châm...). Sửa chữ ở cột phải để đổi hệ.
+# Hệ quyết định:
+#   - dòng trang bị nào có tác dụng: "STVL ngoại công" chỉ cộng cho phái ngoại, "STVL nội công" chỉ cộng cho phái nội
+#     (cộng vào cả đánh thường lẫn kỹ năng);
+#   - sát thương kỹ năng tính theo chỉ số nào (PHE_SKILL_SCALE bên dưới);
+#   - né tránh: đòn của phái ngoại bị né bằng "né tránh ngoại công", đòn của phái nội bằng "né tránh nội công";
+#   - bảng nhân vật (C) ghi "Hệ: Ngoại công" / "Hệ: Nội công".
+CLASS_PHE = {
+    "TLD": "ngoai",  # Thiếu Lâm Đao
+    "TLQ": "ngoai",  # Thiếu Lâm Quyền
+    "TLB": "ngoai",  # Thiếu Lâm Bổng
+    "TVD": "ngoai",  # Thiên Vương Đao
+    "TVT": "ngoai",  # Thiên Vương Thương
+    "TVC": "ngoai",  # Thiên Vương Chùy
+    "DMPT": "ngoai", # Đường Môn Phi Tiêu
+    "DMTT": "ngoai", # Đường Môn Tụ Tiễn
+    "DMPD": "ngoai", # Đường Môn Phi Đao
+    "NDD": "ngoai",  # Ngũ Độc Đao
+    "NDC": "noi",    # Ngũ Độc Chưởng
+    "NMK": "noi",    # Nga My Kiếm
+    "NMC": "noi",    # Nga My Chưởng
+    "TYD": "ngoai",  # Thúy Yên Đao
+    "TYK": "noi",    # Thúy Yên Kiếm
+    "CBB": "ngoai",  # Cái Bang Bổng
+    "CBC": "noi",    # Cái Bang Chưởng
+    "TNK": "ngoai",  # Thiên Nhẫn Kích
+    "TND": "noi",    # Thiên Nhẫn Đao (ma đao, nội công)
+    "VDK": "ngoai",  # Võ Đang Kiếm
+    "VDQ": "noi",    # Võ Đang Khí
+    "CLD": "ngoai",  # Côn Lôn Đao
+    "CLK": "noi",    # Côn Lôn Kiếm (lôi pháp, nội công)
+    "DTK": "noi",    # Đoàn Thị Khí
+    "DTC": "ngoai",    # Đoàn Thị Chỉ
+    "MGC": "ngoai",  # Minh Giáo Chùy
+    "MGK": "noi",  # Minh Giáo Kiếm
+    "CMC": "noi",    # Cổ Mộ Châm
+    "CMK": "ngoai",  # Cổ Mộ Kiếm
+    "HSQ": "noi",    # Hoa Sơn Khí
+    "HSK": "ngoai",  # Hoa Sơn Kiếm
+    "TDC": "noi",    # Tiêu Dao Chưởng
+    "TDK": "ngoai",  # Tiêu Dao Kiếm
+}
+# Sức mạnh đòn kỹ năng = % sát thương vũ khí + hệ số × Sức mạnh / Thân pháp / Nội công (số thập phân được).
+#                 (% vũ khí, Sức mạnh, Thân pháp, Nội công)
+PHE_SKILL_SCALE = {
+    "ngoai": (100, 1.0, 0.5, 0.5),
+    "noi":   (100,  1.0, 0.5, 0.5),
+}
+# Né tránh nội công gốc = Nội công × hệ số này (né tránh ngoại công gốc vẫn = Thân pháp / 2), cộng dòng "né tránh" trang bị.
+PHE_DODGE_NOI_PER_INT = 0.5

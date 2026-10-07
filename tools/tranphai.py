@@ -191,7 +191,8 @@ def m(mid, typ, val, lvl=0, dp=0):
 
 def main():
     p = os.path.join(SRC, "war3map.w3a")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3a")
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     ids = [s[0].encode() for s in SKILLS]
     tabs[1][:] = [o for o in tabs[1] if o[1] not in ids]
     rows = []
@@ -252,7 +253,7 @@ def main():
                 m(b"adur", 2, 15.0, 1),
                 m(b"ahdu", 2, 15.0, 1),
             ]
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3a"))
+    of_tabs.save()
     open(TABLE, "w", encoding="utf-8").write("\n".join(rows) + "\n")
     for sub, f in (
         ("CommandButtons", "BTNSpell_ThuanDuongVoCuc.blp"),

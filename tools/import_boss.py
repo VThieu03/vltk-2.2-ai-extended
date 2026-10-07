@@ -35,9 +35,10 @@ def setf(mods, key, typ, val):
 
 
 def main():
-    _, tk = objdata.parse(open(os.path.join(TK, "war3map.w3u"), "rb").read(), ".w3u")
+    tk = objdata.ObjectFile.load(os.path.join(TK, "war3map.w3u")).tables
     p = os.path.join(SRC, "war3map.w3u")
-    ver, vl = objdata.parse(open(p, "rb").read(), ".w3u")
+    of_vl = objdata.ObjectFile.load(p)
+    ver, vl = of_vl.ver, of_vl.tables
     vl[1][:] = [e for e in vl[1] if e[1] not in BOSSES + [NEW]]
     for o, n, sets in tk[1]:
         if n in BOSSES:
@@ -50,7 +51,7 @@ def main():
                 setf(d, b"uico", 3, b"ReplaceableTextures\\CommandButtons\\BTNHero_NgaMy.blp")
                 vl[1].append((o, NEW, [d]))
             print("boss", n.decode(), "abilities removed")
-    open(p, "wb").write(objdata.write(ver, vl, ".w3u"))
+    of_vl.save()
     os.makedirs(os.path.join(SRC, "Hero"), exist_ok=True)
     for mdl, texs in MODELS.items():
         shutil.copy(os.path.join(TK, "Hero", mdl), os.path.join(SRC, "Hero", mdl))

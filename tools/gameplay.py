@@ -353,7 +353,8 @@ def table():
         rows.append("set zzVL_mat[%d]='%s'" % (i, m))
     rows.append("set zzVL_matN=%d" % len(MATS))
     # Bi Pho with the same product (3 pairs): either copy counts for the recipe (key 59 = the recipe's id)
-    ver_, tabs_ = objdata.parse(open(os.path.join(SRC, "war3map.w3t"), "rb").read(), ".w3t")
+    of_ = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3t"))
+    ver_, tabs_ = of_.ver, of_.tables
     prod_of = {}
     for ti, tab in enumerate(tabs_):
         for o, n, sets in tab:
@@ -470,7 +471,8 @@ def bipho_product(ides):
 def bipho_kinds():
     """Bi Pho id lists (weapons, armor/other) and their names 'Bi Pho - product' in two colours"""
     pt = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(pt, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(pt)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     weapons, gear = [], []
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
@@ -490,7 +492,7 @@ def bipho_kinds():
                         ms.append(mod(key, 3, nm))
                     else:
                         x[3], x[4] = 3, nm.encode("utf-8")
-    open(pt, "wb").write(objdata.write(ver, tabs, ".w3t"))
+    of_tabs.save()
     print("bi pho: %d vu khi, %d trang bi" % (len(weapons), len(gear)))
     return weapons, gear
 
@@ -563,7 +565,8 @@ PICK_COLOR = ["|cffffd700", "|cff40c040", "|cff4080ff", "|cffff4040", "|cffc0804
 def pick_cards():
     """unit types: cards h0S0.. (copies of the author's 'Chon' unit h001) and NPCs h0E1..h0E5"""
     pu = os.path.join(SRC, "war3map.w3u")
-    uver, utabs = objdata.parse(open(pu, "rb").read(), ".w3u")
+    of_utabs = objdata.ObjectFile.load(pu)
+    uver, utabs = of_utabs.ver, of_utabs.tables
     mine = [b"h0E%d" % (k + 1) for k in range(5)]
     cards = []
     utabs[1][:] = [o for o in utabs[1] if not (o[1].startswith(b"h0S") or o[1] in mine)]
@@ -589,14 +592,15 @@ def pick_cards():
                  mod(b"umdl", 3, hm.get(b"umdl", b"").decode("latin1")),
                  mod(b"uico", 3, hm.get(b"uico", b"").decode("latin1"))]
         utabs[1].append([npc[0], mine[e], [mods]])
-    open(pu, "wb").write(objdata.write(uver, utabs, ".w3u"))
+    of_utabs.save()
     return cards
 
 
 def shops():
     """Tang Kinh Cac: two NPCs (8 Bi Pho each, 5000 gold) next to the Xa Phu of each base; Bi Pho no longer drop"""
     pu = os.path.join(SRC, "war3map.w3u")
-    uver, utabs = objdata.parse(open(pu, "rb").read(), ".w3u")
+    of_utabs = objdata.ObjectFile.load(pu)
+    uver, utabs = of_utabs.ver, of_utabs.tables
     utabs[1][:] = [o for o in utabs[1] if o[1] not in (b"h0B1", b"h0B2")]
     npc = next(o for o in utabs[1] if o[1] == b"h01N")
     weapons, gear = bipho_kinds()
@@ -629,9 +633,10 @@ def shops():
         x = next((x for x in sets[0] if x[0] == b"usei"), None)
         if x is not None and b"phea" in x[4] and b"pres" not in x[4]:
             x[4] = x[4].replace(b"pgma", b"pgma,pres")
-    open(pu, "wb").write(objdata.write(uver, utabs, ".w3u"))
+    of_utabs.save()
     pt = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(pt, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(pt)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
             iid_ = (o if ti == 0 else n).decode("latin1")
@@ -681,7 +686,7 @@ def shops():
         mod(b"iabi", 3, ""), mod(b"igol", 0, 0), mod(b"ilum", 0, 0), mod(b"isto", 0, 1), mod(b"istr", 0, 1),
         mod(b"isst", 0, 0), mod(b"ipow", 0, 1), mod(b"icla", 3, "PowerUp"),
         mod(b"iico", 3, chr(92).join(["ReplaceableTextures", "CommandButtons", "BTNReplay-Loop.blp"]))]]])
-    open(pt, "wb").write(objdata.write(ver, tabs, ".w3t"))
+    of_tabs.save()
 
 
 # potions: hero level needed, life = mana healed in 15 s, item ability (tranphai.py sets the amounts)
@@ -691,7 +696,8 @@ POTIONS = {"phea": (1, 400, "A009"), "pghe": (40, 900, "A0CS"), "pman": (80, 160
 
 def prices():
     """sell price in the bag (key 41): half the gold cost of the custom items; others use the item level"""
-    ver, tabs = objdata.parse(open(os.path.join(SRC, "war3map.w3t"), "rb").read(), ".w3t")
+    of_ = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3t"))
+    ver, tabs = of_.ver, of_.tables
     rows = []
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
@@ -855,7 +861,8 @@ def mod(mid, typ, val):
 
 def objects():
     p = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     abil = {}
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
@@ -905,16 +912,17 @@ def objects():
             mod(b"ilev", 0, 2 * t),
             mod(b"icla", 3, "Permanent"),
         ]]])
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3t"))
+    of_tabs.save()
     pu = os.path.join(SRC, "war3map.w3u")
-    uver, utabs = objdata.parse(open(pu, "rb").read(), ".w3u")
+    of_utabs = objdata.ObjectFile.load(pu)
+    uver, utabs = of_utabs.ver, of_utabs.tables
     if all(o[1] != b"h0XP" for o in utabs[1]):
         npc = next(o for o in utabs[1] if o[1] == b"h01N")
         mods = [list(m) for m in npc[2][0] if m[0] not in (b"usei", b"unam", b"uico", b"umdl")]
         mods += [mod(b"unam", 3, "|cffffcc00Xa Phu|r"), mod(b"umdl", 3, chr(92).join(["units", "critters", "VillagerMan1", "VillagerMan1.mdl"])),
                  mod(b"uico", 3, chr(92).join(["ReplaceableTextures", "CommandButtons", "BTNVillagerMan1.blp"]))]
         utabs[1].append([npc[0], b"h0XP", [mods]])
-        open(pu, "wb").write(objdata.write(uver, utabs, ".w3u"))
+        of_utabs.save()
     shops()
     misc()
     pick_cards()

@@ -102,8 +102,8 @@ function zzVL_SlowEnd takes nothing returns nothing
     local timer vl_tm=GetExpiredTimer()
     local unit vl_unit=LoadUnitHandle(zzVL_ht,GetHandleId(vl_tm),0)
     if vl_unit!=null then
-        call SetUnitMoveSpeed(vl_unit,LoadReal(zzVL_ht,GetHandleId(vl_unit),69))
-        call SaveInteger(zzVL_ht,GetHandleId(vl_unit),68,0)
+        call SetUnitMoveSpeed(vl_unit,zzUS_Real(GetHandleId(vl_unit),zzUS_SLOW_SPEED()))
+        call zzUS_SetInt(GetHandleId(vl_unit),zzUS_SLOWED(),0)
     endif
     call FlushChildHashtable(zzVL_ht,GetHandleId(vl_tm))
     call DestroyTimer(vl_tm)
@@ -140,9 +140,9 @@ function zzVL_WeaponHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boo
         call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_t)
         call TimerStart(vl_tm,.7,false,function zzVL_TpUnpause)
         set vl_tm=null
-    elseif zzVL_wel[vl_ps]==4 and vl_atk and GetWidgetLife(vl_t)>.405 and LoadInteger(zzVL_ht,GetHandleId(vl_t),68)==0 then
-        call SaveInteger(zzVL_ht,GetHandleId(vl_t),68,1)
-        call SaveReal(zzVL_ht,GetHandleId(vl_t),69,GetUnitMoveSpeed(vl_t))
+    elseif zzVL_wel[vl_ps]==4 and vl_atk and GetWidgetLife(vl_t)>.405 and zzUS_Int(GetHandleId(vl_t),zzUS_SLOWED())==0 then
+        call zzUS_SetInt(GetHandleId(vl_t),zzUS_SLOWED(),1)
+        call zzUS_SetReal(GetHandleId(vl_t),zzUS_SLOW_SPEED(),GetUnitMoveSpeed(vl_t))
         call SetUnitMoveSpeed(vl_t,GetUnitMoveSpeed(vl_t)*.7)
         call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\FrostDamage\\FrostDamage.mdl",vl_t,"chest"))
         set vl_tm=CreateTimer()
@@ -175,8 +175,8 @@ function zzVL_SetHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boolea
     endif
     if vl_a==1 then
         // Kim - Choáng: 2%/cấp, 0.5 giây, mỗi mục tiêu tối đa 1 lần / 3 giây
-        if GetRandomInt(1,100)<=2*vl_lv and vl_now>=LoadReal(zzVL_ht,vl_id,76) and not IsUnitPaused(vl_t) and not zzVL_Steady(vl_t) then
-            call SaveReal(zzVL_ht,vl_id,76,vl_now+3.)
+        if GetRandomInt(1,100)<=2*vl_lv and vl_now>=zzUS_Real(vl_id,zzUS_KIM_STUN_CD()) and not IsUnitPaused(vl_t) and not zzVL_Steady(vl_t) then
+            call zzUS_SetReal(vl_id,zzUS_KIM_STUN_CD(),vl_now+3.)
             call PauseUnit(vl_t,true)
             call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\Thunderclap\\ThunderclapTarget.mdl",vl_t,"overhead"))
             set vl_tm=CreateTimer()
@@ -185,8 +185,8 @@ function zzVL_SetHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boolea
         endif
     elseif vl_a==2 then
         // Mộc - Độc: 5 lần, mỗi giây 0.6%/cấp sát thương đòn đánh (tổng 3%/cấp), không cộng dồn
-        if vl_now>=LoadReal(zzVL_ht,vl_id,77) then
-            call SaveReal(zzVL_ht,vl_id,77,vl_now+5.)
+        if vl_now>=zzUS_Real(vl_id,zzUS_MOC_POISON_CD()) then
+            call zzUS_SetReal(vl_id,zzUS_MOC_POISON_CD(),vl_now+5.)
             set vl_tm=CreateTimer()
             call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_hero)
             call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_t)
@@ -195,9 +195,9 @@ function zzVL_SetHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boolea
         endif
     elseif vl_a==4 then
         // Thủy - Băng sát: chậm 5%/cấp trong 2 giây, không cộng dồn với chậm khác
-        if LoadInteger(zzVL_ht,vl_id,68)==0 and not zzVL_Steady(vl_t) then
-            call SaveInteger(zzVL_ht,vl_id,68,1)
-            call SaveReal(zzVL_ht,vl_id,69,GetUnitMoveSpeed(vl_t))
+        if zzUS_Int(vl_id,zzUS_SLOWED())==0 and not zzVL_Steady(vl_t) then
+            call zzUS_SetInt(vl_id,zzUS_SLOWED(),1)
+            call zzUS_SetReal(vl_id,zzUS_SLOW_SPEED(),GetUnitMoveSpeed(vl_t))
             call SetUnitMoveSpeed(vl_t,GetUnitMoveSpeed(vl_t)*(1.-.05*vl_lv))
             call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\FrostDamage\\FrostDamage.mdl",vl_t,"chest"))
             set vl_tm=CreateTimer()
@@ -206,7 +206,7 @@ function zzVL_SetHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boolea
         endif
     elseif vl_a==5 and vl_fire then
         // Hỏa - Thiêu đốt: đòn gấp đôi làm mục tiêu giảm 50% hồi máu/hút máu trong 3 giây
-        call SaveReal(zzVL_ht,vl_id,79,vl_now+3.)
+        call zzUS_SetReal(vl_id,zzUS_BURN_END(),vl_now+3.)
         call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\ImmolationRed\\ImmolationRedDamage.mdl",vl_t,"chest"))
     endif
     set vl_tm=null
@@ -277,13 +277,16 @@ function zzVL_OnDamageBody takes nothing returns nothing
     endif
     set vl_d=vl_d*vl_m
 
-    // Cộng thêm STVL Nội Công / Ngoại Công (phẳng)
+    // Cộng thêm STVL Nội Công / Ngoại Công (phẳng) theo hệ của phái (config.py mục 15): phái ngoại chỉ hưởng
+    // dòng STVL ngoại công (khóa 18), phái nội chỉ hưởng dòng STVL nội công (khóa 17), cho cả đánh thường lẫn kỹ năng
     if vl_ps<10 and vl_src==Jx[vl_ps+1] then
-        if BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL then
-            set vl_d=vl_d + LoadInteger(zzVL_ht, 1000+vl_ps, 18)
+        if zzVL_Phe(vl_src)==2 then
+            set vl_d=vl_d + zzPS_Get(vl_ps,zzPS_STVL_NOI())
         else
-            set vl_d=vl_d + LoadInteger(zzVL_ht, 1000+vl_ps, 17)
-            set vl_d=vl_d * (1.0 + LoadInteger(zzVL_ht, 1000+vl_ps, 22) * 10.0 / 100.0)
+            set vl_d=vl_d + zzPS_Get(vl_ps,zzPS_STVL_NGOAI())
+        endif
+        if BlzGetEventDamageType()!=DAMAGE_TYPE_NORMAL then
+            set vl_d=vl_d * (1.0 + zzPS_Get(vl_ps,zzPS_CAP_KY_NANG()) * 10.0 / 100.0)
         endif
     endif
 
@@ -300,7 +303,7 @@ function zzVL_OnDamageBody takes nothing returns nothing
         endif
 
         if vl_srcHe > 0 then
-            set vl_res = LoadInteger(zzVL_ht, 1000 + vl_pt, 10 + vl_srcHe)
+            set vl_res = zzPS_Get(vl_pt,10 + vl_srcHe)
             if vl_res > 0 then
                 if vl_res > 80 then
                     set vl_res = 80
@@ -338,13 +341,14 @@ function zzVL_OnDamageBody takes nothing returns nothing
     endif
     if BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL then
         if vl_pt<10 and vl_tgt==Jx[vl_pt+1] then
-            set vl_evasion = R2I(GetHeroAgi(vl_tgt,true)/2.0) + LoadInteger(zzVL_ht, 1000+vl_pt, 20)
+            // né theo hệ của đòn: phái nội công → né tránh nội công, còn lại (phái ngoại, quái) → né tránh ngoại công
+            set vl_evasion = zzVL_PheDodge(vl_tgt,vl_pt,zzVL_Phe(vl_src))
         else
             set vl_evasion = 50
         endif
 
         if vl_ps<10 and vl_src==Jx[vl_ps+1] then
-            set vl_hit = LoadInteger(zzVL_ht, 1000+vl_ps, 19)
+            set vl_hit = zzPS_Get(vl_ps,zzPS_DANH_TRUNG())
         else
             set vl_hit = 50
         endif
@@ -365,15 +369,15 @@ function zzVL_OnDamageBody takes nothing returns nothing
         endif
     endif
     set vl_d=zzVL_TpDef(vl_src,vl_tgt,vl_pt,vl_d)
-    if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),74) then
+    if TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_tgt),zzUS_VULN_END()) then
         set vl_d=vl_d*1.15
     endif
     // suy yeu (kskill.j zzKS_Weak): the source deals key 84 % less (at most 20)
-    if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_src),83) then
-        set vl_d=vl_d*(1.-IMinBJ(20,LoadInteger(zzVL_ht,GetHandleId(vl_src),84))/100.)
+    if TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_src),zzUS_WEAK_END()) then
+        set vl_d=vl_d*(1.-IMinBJ(20,zzUS_Int(GetHandleId(vl_src),zzUS_WEAK_PCT()))/100.)
     endif
     // bong (KVCT effect_bong, kskill.j status 5): 50% more damage
-    if TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_tgt),81) then
+    if TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_tgt),zzUS_BONG_END()) then
         set vl_d=vl_d*1.5
     endif
     // KVCT "khi bi danh" passives (kskill.j zzKS_OnHurt, key 165)
@@ -396,8 +400,8 @@ function zzVL_OnDamageBody takes nothing returns nothing
         call zzVL_TpHit(vl_tgt,vl_src,vl_d*zzKS_refl[vl_pt]/100.)
     endif
     // Bộ Thổ - Phản chấn: trả lại 2%/cấp sát thương đánh thường cho kẻ tấn công (tối đa 1 lần / 0.3 giây)
-    if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and zzVL_he[vl_pt]==3 and zzVL_set[vl_pt]>0 and vl_d>0. and BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL and not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and TimerGetElapsed(zzVL_clock)-LoadReal(zzVL_ht,GetHandleId(vl_tgt),78)>=.3 then
-        call SaveReal(zzVL_ht,GetHandleId(vl_tgt),78,TimerGetElapsed(zzVL_clock))
+    if vl_pt<10 and vl_tgt==Jx[vl_pt+1] and zzVL_he[vl_pt]==3 and zzVL_set[vl_pt]>0 and vl_d>0. and BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL and not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and TimerGetElapsed(zzVL_clock)-zzUS_Real(GetHandleId(vl_tgt),zzUS_THO_REFLECT_LAST())>=.3 then
+        call zzUS_SetReal(GetHandleId(vl_tgt),zzUS_THO_REFLECT_LAST(),TimerGetElapsed(zzVL_clock))
         call zzVL_TpHit(vl_tgt,vl_src,vl_d*.02*zzVL_set[vl_pt])
     endif
     if vl_repl then

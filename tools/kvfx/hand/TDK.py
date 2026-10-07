@@ -1,4 +1,4 @@
-# TDK: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TDK.py). Sửa file này rồi chạy lại pipeline.
+# TDK: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Trảm Vân Kiếm': {'main': 'TDK_tramvankiem2.mdx', 'target': 'TDK_target.mdx'},   # [Q]

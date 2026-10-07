@@ -1,4 +1,4 @@
-# HSQ: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/HSQ.py). Sửa file này rồi chạy lại pipeline.
+# HSQ: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Thanh Vân Tống Sảng': {'main': 'HSQ_thanhvan.mdx', 'cast': 'HSQ_caster.mdx'},   # [Q]

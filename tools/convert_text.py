@@ -49,15 +49,15 @@ open(p, "wb").write(t.encode("utf-8"))
 # object data string values
 for f in ("war3map.w3u", "war3map.w3t", "war3map.w3b", "war3map.w3d", "war3map.w3a", "war3map.w3h", "war3map.w3q"):
     ext = os.path.splitext(f)[1]
-    d = open(os.path.join(ORIG, f), "rb").read()
-    ver, tables = objdata.parse(d, ext)
+    of_ = objdata.ObjectFile.load(os.path.join(ORIG, f))
+    tables = of_.tables
     for tab in tables:
         for obj in tab:
             for mods in obj[2]:
                 for m in mods:
                     if m[3] == 3:
                         m[4] = conv(m[4].decode("utf-8"), f).encode("utf-8")
-    open(os.path.join(SRC, f), "wb").write(objdata.write(ver, tables, ext))
+    of_.save(os.path.join(SRC, f))  # đọc bản gốc, ghi vào src
 
 print("converted strings:", stats)
 print("TCVN3 codes without a mapping:", tcvn3.unknown)

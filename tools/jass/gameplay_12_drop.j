@@ -151,7 +151,7 @@ function zzDR_CountAff takes item vl_it returns integer
     local integer vl_n=0
     loop
         exitwhen vl_k>22
-        if LoadInteger(zzVL_ht,vl_id,30+vl_k)!=0 then
+        if zzIT_Line(vl_id,vl_k)!=0 then
             set vl_n=vl_n+1
         endif
         set vl_k=vl_k+1
@@ -176,10 +176,10 @@ function zzDR_RollAffixMin takes item vl_it,integer vl_min returns nothing
         set vl_k=1
         loop
             exitwhen vl_k>22
-            call RemoveSavedInteger(zzVL_ht,vl_id,30+vl_k)
+            call zzIT_ClearLine(vl_id,vl_k)
             set vl_k=vl_k+1
         endloop
-        call RemoveSavedInteger(zzVL_ht,vl_id,75)
+        call zzIT_Set(vl_id,zzIT_DO_CO(),0)
         call RemoveSavedInteger(zzVL_ht,vl_id,29)
         call zzVL_RollAffix(vl_it)
         set vl_tries=vl_tries+1
@@ -195,7 +195,7 @@ function zzDR_MakeOne takes integer vl_kind,real vl_x,real vl_y,unit vl_hero ret
     endif
     call zzEQ_SetTier(vl_it,0)
     // khóa 73: đồ rơi từ quái, cho phép tự mặc / tự bán (giống hệ cũ).
-    call SaveInteger(zzVL_ht,GetHandleId(vl_it),73,1)
+    call zzIT_Set(GetHandleId(vl_it),zzIT_MOI_ROI(),1)
     set vl_it=null
 endfunction
 

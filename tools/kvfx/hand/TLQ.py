@@ -1,4 +1,4 @@
-# TLQ: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TLQ.py). Sửa file này rồi chạy lại pipeline.
+# TLQ: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Long Trảo Hổ Trảo': {'main': 'TLQ_longtraohotrao.mdx', 'target': 'TLQ_targeteffect.mdx'},   # [Q]

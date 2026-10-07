@@ -1,6 +1,5 @@
 # Model hieu ung cua tung chieu KVCT, chia theo phai:
-#   auto/<PHAI>.py  tu sinh tu code goc KVCT (python tools/kvfx_extract.py)
-#   hand/<PHAI>.py  sua tay, thang auto/
+#   hand/<PHAI>.py  bang sua tay (da bo lop auto/ tu sinh)
 # get(phai, ten_chieu) -> {"main", "cast", "target", "area", ...} hoac {} (khong co: kskill.py chon theo ten / tk_mapping)
 import importlib
 
@@ -13,9 +12,7 @@ def _load(kind, cl):
 
 
 def get(cl, name):
-    e = dict(_load("auto", cl).get(name) or {})
-    e.update(_load("hand", cl).get(name) or {})          # hand keys win, the others (aura ...) come from auto
-    return e
+    return dict(_load("hand", cl).get(name) or {})
 
 
 def texture_overrides():

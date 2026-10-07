@@ -52,7 +52,8 @@ def main():
     head = open(KVCT, "rb").read(1 << 20)
     archive = MPQ(KVCT, head.find(b"MPQ\x1a"))
     units_path = os.path.join(SRC, "war3map.w3u")
-    version, tables = objdata.parse(open(units_path, "rb").read(), ".w3u")
+    of_tables = objdata.ObjectFile.load(units_path)
+    version, tables = of_tables.ver, of_tables.tables
     template = next((x for x in tables[1] if x[1] == b"n006"), None)
     if template is None:
         raise RuntimeError("KVCT creep base template n006 is missing")
@@ -96,7 +97,7 @@ def main():
             codes.add(code)
             specs.append((level, code.decode("ascii"), model_name))
 
-    open(units_path, "wb").write(objdata.write(version, tables, ".w3u"))
+    of_tables.save()
     print("kvcreep: imported %d KVCT models and defined %d farm unit types" % (ix, len(specs)))
     for level, code, model in specs:
         print("  level %d %s %s" % (level, code, model))

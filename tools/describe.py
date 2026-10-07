@@ -187,7 +187,8 @@ Y = "|c00ffff00"
 def ability_values():
     import struct as st
 
-    ver, tabs = objdata.parse(open(os.path.join(SRC, "war3map.w3a"), "rb").read(), ".w3a")
+    of_ = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3a"))
+    ver, tabs = of_.ver, of_.tables
     out = {}
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
@@ -337,7 +338,8 @@ REQ = {}
 
 def main():
     p = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3t")
+    w3t = objdata.ObjectFile.load(p)
+    ver, tabs = w3t.ver, w3t.tables
     uses = recipes()
     abil = ability_values()
     from gameplay_items import items
@@ -662,8 +664,8 @@ def main():
             if parts:
                 setv(b"ides", (NL + NL).join(parts))
                 n += 1
-    data = objdata.write(ver, tabs, ".w3t")
-    open(p, "wb").write(data)
+    data = w3t.to_bytes()
+    w3t.save()
     import hashlib
 
     print('MD5 written:', hashlib.md5(data).hexdigest(), 'to', p)

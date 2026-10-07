@@ -47,8 +47,8 @@ function zzVL_AutoTick takes nothing returns nothing
                     exitwhen vl_ab==0 or vl_ok
                     set vl_lv=GetUnitAbilityLevel(vl_hero,vl_ab)
                     if vl_lv>0 and BlzGetUnitAbilityCooldownRemaining(vl_hero,vl_ab)<=.01 and BlzGetAbilityCooldown(vl_ab,vl_lv-1)<=15. and GetUnitState(vl_hero,UNIT_STATE_MANA)>=BlzGetAbilityManaCost(vl_ab,vl_lv-1) then
-                        set vl_ord=LoadInteger(zzVL_ht,vl_ab,2)
-                        set vl_kind=LoadInteger(zzVL_ht,vl_ab,3)
+                        set vl_ord=zzSK_Int(vl_ab,zzSK_AI_ORDER())
+                        set vl_kind=zzSK_Int(vl_ab,zzSK_AI_TARGET())
                         // 4: a KVCT toggle (kskill.j zzKS_Toggle), cast only while it is off
                         if vl_kind==4 and HaveSavedHandle(zzVL_ht,GetHandleId(vl_hero),vl_ab) then
                             set vl_ok=false
@@ -112,8 +112,8 @@ function zzVL_TryCast takes unit vl_hero,unit vl_t,integer vl_key returns boolea
         exitwhen vl_ab==0
         set vl_lv=GetUnitAbilityLevel(vl_hero,vl_ab)
         if vl_lv>0 and BlzGetUnitAbilityCooldownRemaining(vl_hero,vl_ab)<=.01 and GetUnitState(vl_hero,UNIT_STATE_MANA)>=BlzGetAbilityManaCost(vl_ab,vl_lv-1) then
-            set vl_ord=LoadInteger(zzVL_ht,vl_ab,2)
-            set vl_kind=LoadInteger(zzVL_ht,vl_ab,3)
+            set vl_ord=zzSK_Int(vl_ab,zzSK_AI_ORDER())
+            set vl_kind=zzSK_Int(vl_ab,zzSK_AI_TARGET())
             if vl_kind==1 and IssueTargetOrderById(vl_hero,vl_ord,vl_t) then
                 return true
             elseif vl_kind==2 and IssuePointOrderById(vl_hero,vl_ord,GetUnitX(vl_t),GetUnitY(vl_t)) then

@@ -1,4 +1,4 @@
-# CBB: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/CBB.py). Sửa file này rồi chạy lại pipeline.
+# CBB: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Bổng Đả Ác Cẩu': {'main': 'CBB_bong.mdx', 'target': 'CBB_bongtarget.mdx'},   # [Q]

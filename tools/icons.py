@@ -127,7 +127,8 @@ def main():
     d = open(KVCT, "rb").read(1 << 20)
     kv = MPQ(KVCT, d.find(b"MPQ\x1a"))
     p = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     names = {}
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
@@ -215,7 +216,7 @@ def main():
         data = blp1_palette(g)
         open(os.path.join(dis, "DIS" + f), "wb").write(data)
     print("disabled icons:", len(copied))
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3t"))
+    of_tabs.save()
     print("icons copied:", len(copied), "items with a new icon:", set_n)
 
 

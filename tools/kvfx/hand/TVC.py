@@ -1,4 +1,4 @@
-# TVC: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TVC.py). Sửa file này rồi chạy lại pipeline.
+# TVC: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Hành Vân Quyết': {'main': 'TVC_Hanhvan.mdx', 'target': 'TVC_thualongquyettarget.mdx'},   # [Q]

@@ -108,7 +108,8 @@ def f32(b):
 
 
 def main():
-    ver, u = objdata.parse(open(os.path.join(SRC, "war3map.w3u"), "rb").read(), ".w3u")
+    of_u = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3u"))
+    ver, u = of_u.ver, of_u.tables
     heroes = {}
     for tab in u:
         for o, n, sets in tab:
@@ -116,7 +117,8 @@ def main():
             if n[:1] in (b"H", b"E") and n != b"H00R" and b"uhab" in d:
                 heroes[n.decode()] = d[b"uhab"].decode().split(",")
     p = os.path.join(SRC, "war3map.w3a")
-    ver, a = objdata.parse(open(p, "rb").read(), ".w3a")
+    of_a = objdata.ObjectFile.load(p)
+    ver, a = of_a.ver, of_a.tables
     abil = {n.decode(): (o.decode(), sets[0]) for o, n, sets in a[1]}
 
     def base(x):
@@ -198,7 +200,7 @@ def main():
                 tag = "|cff9a9a9aNội công bị động, luôn có hiệu lực|r"
             add = (NL + "   ".join(info) if info else "") + NL + tag
             m[4] = (t + NL + add).encode("utf-8")
-    open(p, "wb").write(objdata.write(ver, a, ".w3a"))
+    of_a.save()
     print("heroes:", len(heroes), "auto-cast skills:", len(auto), "AI ultimates:", len(ult), "name fixes:", named)
     for h, lst in sorted(heroes.items()):
         print(" ", h, " ".join(("*" if x in auto else "") + x for x in lst))

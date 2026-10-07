@@ -133,8 +133,9 @@ def main():
     # 2. doodads
     head, vitems, rest = terrain.read_doo(rd(os.path.join(ORIG, "war3map.doo")))
     _, titems, _ = terrain.read_doo(rd(os.path.join(TK, "war3map.doo")))
-    ver, tdd = objdata.parse(rd(os.path.join(TK, "war3map.w3d")), ".w3d")
-    vver, vdd = objdata.parse(rd(os.path.join(SRC, "war3map.w3d")), ".w3d")  # converted by convert_text.py
+    tdd = objdata.ObjectFile.load(os.path.join(TK, "war3map.w3d")).tables
+    w3d = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3d"))  # converted by convert_text.py
+    vdd = w3d.tables
     tk_custom = {n: (o, s) for o, n, s in tdd[1]}
     used_ids = {n for o, n, s in vdd[1]}
     rename, assets = {}, set()
@@ -248,7 +249,7 @@ def main():
     open(os.path.join(SRC, "war3map.wpm"), "wb").write(vp.write())
     open(os.path.join(SRC, "war3map.shd"), "wb").write(vs.write())
     open(os.path.join(SRC, "war3map.doo"), "wb").write(terrain.write_doo(head, vitems, rest))
-    open(os.path.join(SRC, "war3map.w3d"), "wb").write(objdata.write(vver, vdd, ".w3d"))
+    w3d.save()
     open(os.path.join(SRC, "war3map.w3i"), "wb").write(bytes(i3))
     open(os.path.join(SRC, "war3map.mmp"), "wb").write(bytes(mm))
 

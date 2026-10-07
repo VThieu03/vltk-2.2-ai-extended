@@ -9,7 +9,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import kvfx
-from kskill_data import CLASS, load
+from model import Phai
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -72,19 +72,19 @@ def add_to_file(cl, new_lines):
 
 def main():
     models, flags, hero_skill = parse_table()
-    data = load()
     total = 0
-    for hero, cl in CLASS.items():
+    for p in Phai.all():
+        hero, cl = p.hero_id, p.code
         mine = kvfx._load("hand", cl)
         lines = []
-        for i, s in enumerate(data[cl][:14]):
-            sid = hero_skill[hero].get(i)
-            if not sid or s["name"] in mine:
+        for s in p.skills:
+            sid = hero_skill[hero].get(s.index)
+            if not sid or s.name in mine:
                 continue
             e = entry_of(models.get(sid, {}), flags.get(sid, {}))
             if not e:
                 continue
-            lines.append("    %r: %r,   # [%s]" % (s["name"], e, s["key"] or "bị động"))
+            lines.append("    %r: %r,   # [%s]" % (s.name, e, s.key or "bị động"))
         if lines:
             add_to_file(cl, lines)
             total += len(lines)

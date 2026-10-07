@@ -16,7 +16,7 @@ work\base.w3x  ──(tách file)──►  src\map\  ──(13 bước Python)�
 
 ## 2. Pipeline build (chạy theo thứ tự)
 
-Chạy tất cả: `python scratchpad\run_pipeline.py` (dừng ngay khi một bước lỗi, cuối cùng chạy pjass và sync map vào `Maps\`).
+Chạy tất cả: `python tools\pipeline.py` (lệnh cũ `python scratchpad\run_pipeline.py` vẫn dùng được; `--no-ui` bỏ bước ui; luôn build từ đầu vì các bước sửa `src` tại chỗ). Dừng ngay khi một bước lỗi, cuối cùng chạy pjass và chép 1 bản map vào `Warcraft III Public Test\Maps\`. Code: lớp `Pipeline` / `BuildStep` / `MapSync` trong `tools/pipeline.py`; dữ liệu phái dùng chung là lớp `Phai` trong `tools/model.py`.
 
 | # | File | Làm gì |
 |---|---|---|
@@ -171,8 +171,7 @@ Khóa ghi trên loại tướng (`zzVL_ht, 'H014', khóa`): 200 + i là chiêu t
 Mỗi chiêu có thể có tới 5 lớp hiệu ứng: `main` (khóa 250, hiệu ứng chính), `cast` (280, trên tướng lúc tung), `target` (281, trên địch bị trúng), `buff` (284), `area` (285 / 286, thêm lớp tại điểm). Nguồn dữ liệu, ưu tiên từ cao xuống thấp:
 
 1. `tools/kvfx/hand/<PHAI>.py`: sửa tay, kèm bằng chứng (số dòng trong `readable.j`). Muốn chỉnh model của một chiêu thì sửa ở đây.
-2. `tools/kvfx/auto/<PHAI>.py`: tự sinh bằng `python tools/kvfx_extract.py` từ code gốc KVCT (hằng số model → hàm dùng nó → chiêu sở hữu hàm). Không sửa tay vì chạy lại sẽ ghi đè.
-3. Không có bảng: `kskill.py` chọn model theo tên chiêu, rồi `tk_mapping.py` (model Thiên Kiếm) nếu có.
+2. Không có bảng: `kskill.py` chọn model theo tên chiêu, rồi `tk_mapping.py` (model Thiên Kiếm) nếu có.
 
 ## 5. Thêm hoặc sửa một chiêu (cách làm chuẩn)
 

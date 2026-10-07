@@ -19,6 +19,40 @@ function zzVL_MainStat takes unit vl_hero returns real
 endfunction
 
 // ==========================================
+// Hàm: zzVL_Phe
+// Hệ của tướng (config.py mục 15, khóa 99 trên loại tướng): 1 ngoại công, 2 nội công; 1 nếu không phải tướng có phái (quái tính là ngoại).
+function zzVL_Phe takes unit vl_u returns integer
+    if zzHT_He(vl_u)==2 then
+        return 2
+    endif
+    return 1
+endfunction
+
+// ==========================================
+// Hàm: zzVL_PheAtk
+// Sức mạnh đòn kỹ năng theo hệ: % sát thương vũ khí + hệ số × Sức mạnh / Thân pháp / Nội công (khóa 0/450..457, ×100).
+// Trả về -1 nếu tướng chưa có hệ (khi đó dùng cách cũ: vũ khí + chỉ số chính).
+function zzVL_PheAtk takes unit vl_h,real vl_weapon returns real
+    local integer vl_k
+    if zzHT_He(vl_h)==0 or not IsUnitType(vl_h,UNIT_TYPE_HERO) then
+        return -1.
+    endif
+    set vl_k=450+4*(zzVL_Phe(vl_h)-1)
+    return vl_weapon*LoadInteger(zzVL_ht,0,vl_k)/100.+(GetHeroStr(vl_h,true)*LoadInteger(zzVL_ht,0,vl_k+1)+GetHeroAgi(vl_h,true)*LoadInteger(zzVL_ht,0,vl_k+2)+GetHeroInt(vl_h,true)*LoadInteger(zzVL_ht,0,vl_k+3))/100.
+endfunction
+
+// ==========================================
+// Hàm: zzVL_PheDodge
+// Né tránh (phần nghìn trước khi trừ đánh trúng) của tướng vl_t trước đòn hệ vl_phe:
+// ngoại = Thân pháp/2 + dòng né tránh + khóa 25 (buff né ngoại); nội = Nội công × khóa 0/458 /100 + dòng né tránh + khóa 26 (buff né nội).
+function zzVL_PheDodge takes unit vl_t,integer vl_pt,integer vl_phe returns integer
+    if vl_phe==2 then
+        return R2I(GetHeroInt(vl_t,true)*LoadInteger(zzVL_ht,0,458)/100.)+zzPS_Get(vl_pt,zzPS_NE_TRANH())+zzPS_Get(vl_pt,zzPS_NE_NOI_BUFF())
+    endif
+    return R2I(GetHeroAgi(vl_t,true)/2.0)+zzPS_Get(vl_pt,zzPS_NE_TRANH())+zzPS_Get(vl_pt,zzPS_NE_NGOAI_BUFF())
+endfunction
+
+// ==========================================
 // Hàm: zzVL_TpFoe
 // Chức năng dự kiến: Kỹ năng Trấn Phái.
 // Tham số:
@@ -109,8 +143,8 @@ function zzVL_TpDef takes unit vl_src,unit vl_tgt,integer vl_pt,real vl_d return
     if vl_now<zzVL_tpEnd[vl_pt*12+3] then
         set vl_lv=GetUnitAbilityLevel(vl_tgt,'A0T3')
         set vl_d=vl_d*(.85-.05*vl_lv)
-        if not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=null and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and vl_now-LoadReal(zzVL_ht,GetHandleId(vl_tgt),70)>=.3 then
-            call SaveReal(zzVL_ht,GetHandleId(vl_tgt),70,vl_now)
+        if not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=null and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and vl_now-zzUS_Real(GetHandleId(vl_tgt),zzUS_TP_REFLECT_LAST())>=.3 then
+            call zzUS_SetReal(GetHandleId(vl_tgt),zzUS_TP_REFLECT_LAST(),vl_now)
             call zzVL_TpHit(vl_tgt,vl_src,vl_d*.1*vl_lv)
         endif
     endif

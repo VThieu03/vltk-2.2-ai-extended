@@ -1,4 +1,4 @@
-# DMTT: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/DMTT.py). Sửa file này rồi chạy lại pipeline.
+# DMTT: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Thiên La Địa Võng': {'main': 'DMTT_doancannhan.mdx', 'area': ['DMTT_tanghondinh.mdx', 'HydraliskImpact.mdx']},   # [Q]

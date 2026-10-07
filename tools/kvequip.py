@@ -139,7 +139,8 @@ def make_hoathibich():
 
 def items_w3t():
     p = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     orig = {o for o, n, s in tabs[0]}
     clash = [i for i in ITEM_IDS if i.encode() in orig]
     if clash:
@@ -149,7 +150,7 @@ def items_w3t():
     for iid, slot, w, tanlang in entries():
         tabs[1].append(make_item(iid, slot, w, tanlang))
     tabs[1].append(make_hoathibich())
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3t"))
+    of_tabs.save()
     return len(tabs[1])
 
 
@@ -249,10 +250,19 @@ def rows():
         r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (380 + t_, round(rate_ * 1000)))
         r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (390 + t_, s_))
         
-    for hero, ws in sorted(D.hero_weapon().items()):
-        r.append("call SaveInteger(zzVL_ht,'%s',96,%d)" % (hero, ws[0] + 1))
-        for w in ws:
-            r.append("call SaveInteger(zzVL_ht,'%s',%d,1)" % (hero, 400 + w))
+    # hệ ngoại / nội công (config mục 15): khóa 99 trên loại tướng (1 ngoại, 2 nội); 450-457 hệ số kỹ năng ×100, 458 né nội ×100
+    from model import Phai
+    for p_ in sorted(Phai.all(), key=lambda p: p.hero_id):
+        r.append("call SaveInteger(zzVL_ht,'%s',99,%d)" % (p_.hero_id, p_.he_id))
+    for i_, he_ in enumerate(("ngoai", "noi")):
+        for j_, v_ in enumerate(config.PHE_SKILL_SCALE[he_]):
+            r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (450 + 4 * i_ + j_, round(v_ * (1 if j_ == 0 else 100))))
+    r.append("call SaveInteger(zzVL_ht,0,458,%d)" % round(config.PHE_DODGE_NOI_PER_INT * 100))
+    # vũ khí: khóa 96 = loại chính + 1 (vũ khí khởi đầu), 400+w = 1 nếu phái mặc được loại w
+    for p_ in sorted(Phai.all(), key=lambda p: p.hero_id):
+        r.append("call SaveInteger(zzVL_ht,'%s',96,%d)" % (p_.hero_id, p_.main_weapon + 1))
+        for w in p_.weapons:
+            r.append("call SaveInteger(zzVL_ht,'%s',%d,1)" % (p_.hero_id, 400 + w))
     return r
 
 

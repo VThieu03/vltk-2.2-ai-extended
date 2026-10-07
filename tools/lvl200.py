@@ -11,8 +11,7 @@ K = config.HERO_STAT_DIVIDER
 
 
 def load(ext):
-    p = os.path.join(SRC, "war3map" + ext)
-    return p, objdata.parse(open(p, "rb").read(), ext)
+    return objdata.ObjectFile.load(os.path.join(SRC, "war3map" + ext))
 
 
 def setint(mods, key, v):
@@ -24,7 +23,8 @@ def setint(mods, key, v):
 
 
 def main():
-    p, (ver, tabs) = load(".w3u")
+    w3u = load(".w3u")
+    tabs = w3u.tables
     nu = 0
     for tab in tabs:
         for o, n, sets in tab:
@@ -32,8 +32,9 @@ def main():
                 if x[0] in (b"ustp", b"uagp", b"uinp"):
                     x[4] = struct.pack("<f", struct.unpack("<f", x[4])[0] / K)
                     nu += 1
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3u"))
-    p, (ver, tabs) = load(".w3a")
+    w3u.save()
+    w3a = load(".w3a")
+    tabs = w3a.tables
     na = 0
     for tab in tabs:
         for o, n, sets in tab:
@@ -49,7 +50,7 @@ def main():
             setint(mods, b"arlv", 1 + (rl - 1) * K)
             setint(mods, b"alsk", sk * K)
             na += 1
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3a"))
+    w3a.save()
     p = os.path.join(SRC, "war3mapMisc.txt")
     s = open(p, "rb").read().decode("utf-8")
     nl = "\r\n" if "\r\n" in s else "\n"

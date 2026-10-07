@@ -1,6 +1,6 @@
-# TND: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/TND.py). Sửa file này rồi chạy lại pipeline.
+# TND: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
-    "Thiên Ngoại Lưu Tinh": {"main": "TND_thienngoaistone.mdx", "scale": 0.1, "hits": 1},
+    "Thiên Ngoại Lưu Tinh": {"main": "TND_thienngoaistone.mdx", "scale": 0.1, "hits": 1, "cast": "TND_thienngoailuutinhcaster.mdx", "area": ["TND_thienngoaifire.mdx"], "cast_ground": True},
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Đạn Chỉ Liệt Diệm': {'main': 'TND_danchifire.mdx'},   # [Q]
     'Thiên Nhẫn Đao Pháp': {'main': 'TND_thienngoaifire.mdx', 'cast': 'TND_thienngoailuutinhcaster.mdx', 'area': ['TND_thienngoaistone.mdx']},   # [bị động]

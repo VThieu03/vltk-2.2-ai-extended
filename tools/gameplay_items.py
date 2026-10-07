@@ -23,7 +23,8 @@ def plain(s):
 
 
 def items():
-    ver, tabs = objdata.parse(open(os.path.join(SRC, "war3map.w3t"), "rb").read(), ".w3t")
+    of_ = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3t"))
+    ver, tabs = of_.ver, of_.tables
     out = []
     for ti, tab in enumerate(tabs):
         for old, new, sets in tab:

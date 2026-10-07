@@ -1,4 +1,4 @@
-# MGK: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/MGK.py). Sửa file này rồi chạy lại pipeline.
+# MGK: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Thánh Hỏa Phần Tâm': {'main': 'MDX\\ThanhHoaPhanTam.mdx', 'cast': 'MGK_thanhhoacast.mdx', 'buff': 'MGK_thanhhoalenhbuff.mdx', 'area': ['MGK_thanhhoaeffect.mdx', 'MGK_thanhhoaln.mdx']},   # [Q]

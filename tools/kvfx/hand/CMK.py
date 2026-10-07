@@ -1,4 +1,4 @@
-# CMK: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/CMK.py). Sửa file này rồi chạy lại pipeline.
+# CMK: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Thu Nhạn Bàng Hoàng': {'main': 'CMK_thunhan.mdx', 'target': 'CMK_target1.mdx', 'area': ['CMK_chungnam.mdx'], 'target_ground': True},   # [Q]

@@ -1,4 +1,4 @@
-# CMC: BẢNG SỬA TAY (thắng bảng tự sinh trong tools/kvfx/auto/CMC.py). Sửa file này rồi chạy lại pipeline.
+# CMC: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
     'Biệt Tự': {'main': 'CMC_lyhan.mdx'},   # [Q]

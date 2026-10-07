@@ -229,7 +229,7 @@ function zzEQ_Tier takes item vl_it returns integer
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==2 then
         return 11
     endif
-    return LoadInteger(zzVL_ht,GetHandleId(vl_it),90)
+    return zzIT_Get(GetHandleId(vl_it),zzIT_BAC())
 endfunction
 
 // Hệ số chỉ số (%) theo bậc t: 100 + 30*t (+10 = 400%), Tần Lăng (bậc 11) = 500%. Trùng công thức kvequip_data.pct.
@@ -388,8 +388,8 @@ function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
     if vl_t<0 then
         set vl_t=0
     endif
-    call SaveInteger(zzVL_ht,vl_id,90,vl_t)
-    call SaveInteger(zzVL_ht,vl_id,97,1)
+    call zzIT_Set(vl_id,zzIT_BAC(),vl_t)
+    call zzIT_Set(vl_id,zzIT_BAC_DA_GAN(),1)
     set vl_nm=LoadStr(zzVL_ht,vl_type,120+vl_t)
     if vl_nm!=null and vl_nm!="" then
         call BlzSetItemIconPath(vl_it,vl_nm)
@@ -426,7 +426,7 @@ function zzEQ_Touch takes item vl_it returns nothing
     if vl_it==null then
         return
     endif
-    if zzEQ_IsKv(GetItemTypeId(vl_it)) and LoadInteger(zzVL_ht,GetHandleId(vl_it),97)==0 then
+    if zzEQ_IsKv(GetItemTypeId(vl_it)) and zzIT_Get(GetHandleId(vl_it),zzIT_BAC_DA_GAN())==0 then
         call zzEQ_SetTier(vl_it,zzEQ_Tier(vl_it))
     endif
 endfunction
@@ -446,11 +446,11 @@ function zzEQ_CanUse takes unit vl_hero,item vl_it returns boolean
     if vl_wt<0 or not zzEQ_IsKv(vl_type) then
         return true
     endif
-    set vl_hw=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),96)-1
+    set vl_hw=zzHT_MainWeapon(vl_hero)
     if vl_hw<0 then
         return true
     endif
-    return LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),400+vl_wt)>0
+    return zzHT_CanWear(vl_hero,vl_wt)
 endfunction
 
 // Danh sách loại vũ khí phái của tướng dùng được ("Đao, Trường Đao, Đại Đao")
@@ -459,7 +459,7 @@ function zzEQ_UseList takes unit vl_hero returns string
     local string vl_s=""
     loop
         exitwhen vl_w>10
-        if LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),400+vl_w)>0 then
+        if zzHT_CanWear(vl_hero,vl_w) then
             if vl_s!="" then
                 set vl_s=vl_s+", "
             endif
@@ -481,7 +481,7 @@ endfunction
 
 // Loại vật phẩm vũ khí khởi đầu đúng loại của phái (ITV0..ITVA); 0 nếu không biết phái
 function zzEQ_StartWeapon takes unit vl_hero returns integer
-    local integer vl_w=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),96)-1
+    local integer vl_w=zzHT_MainWeapon(vl_hero)
     if vl_w<0 then
         return 0
     endif
@@ -521,7 +521,7 @@ function zzEQ_Enhance takes integer vl_pid,item vl_it returns boolean
         return false
     endif
     call zzEQ_SetTier(vl_it,vl_t+1)
-    call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,0)
+    call zzIT_Set(GetHandleId(vl_it),zzIT_BAO_HIEM(),0)
     if Jx[vl_pid+1]!=null then
         call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",Jx[vl_pid+1],"origin"))
         call zzVL_Text(Jx[vl_pid+1],"|cffffcc00Cường hóa +"+I2S(vl_t+1)+"|r")
@@ -553,14 +553,14 @@ function zzEQ_TryEnhance takes integer vl_pid,item vl_it returns boolean
         return false
     endif
     call zzGL_Spend(vl_pid,vl_cost)
-    set vl_pity=LoadInteger(zzVL_ht,GetHandleId(vl_it),98)
+    set vl_pity=zzIT_Get(GetHandleId(vl_it),zzIT_BAO_HIEM())
     set vl_required=LoadInteger(zzVL_ht,'zzGL',60+vl_level)
     set vl_rate=LoadInteger(zzVL_ht,'zzGL',40+vl_level)
     if vl_pity>=vl_required or GetRandomInt(1,100)<=vl_rate then
         call zzEQ_Enhance(vl_pid,vl_it)
         return true
     endif
-    call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,vl_pity+1)
+    call zzIT_Set(GetHandleId(vl_it),zzIT_BAO_HIEM(),vl_pity+1)
     call zzVL_Msg(vl_pid,"|cffff8040Cường hóa thất bại.|r Trang bị giữ nguyên +"+I2S(vl_t)+"; đã mất "+I2S(vl_cost)+" Huyền Tinh. Bảo hiểm món này: "+I2S(vl_pity+1)+"/"+I2S(vl_required)+" lần.")
     return true
 endfunction
@@ -588,15 +588,15 @@ function zzEQ_TrySlotEnhance takes integer vl_pid,integer vl_slot,item vl_it ret
         return false
     endif
     call zzGL_Spend(vl_pid,vl_cost)
-    set vl_pity=LoadInteger(zzVL_ht,GetHandleId(vl_it),98)
+    set vl_pity=zzIT_Get(GetHandleId(vl_it),zzIT_BAO_HIEM())
     set vl_required=LoadInteger(zzVL_ht,'zzGL',60+vl_level)
     set vl_rate=LoadInteger(zzVL_ht,'zzGL',40+vl_level)
     if vl_pity>=vl_required or GetRandomInt(1,100)<=vl_rate then
         set zzVL_cuong[vl_index]=vl_level
-        call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,0)
+        call zzIT_Set(GetHandleId(vl_it),zzIT_BAO_HIEM(),0)
         call zzVL_Msg(vl_pid,"|cffffcc00Cường hóa +"+I2S(vl_level)+" thành công.|r")
     else
-        call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,vl_pity+1)
+        call zzIT_Set(GetHandleId(vl_it),zzIT_BAO_HIEM(),vl_pity+1)
         call zzVL_Msg(vl_pid,"|cffff8040Cường hóa thất bại.|r Không tụt cấp; bảo hiểm "+I2S(vl_pity+1)+"/"+I2S(vl_required)+".")
     endif
     return true
@@ -682,7 +682,7 @@ function zzEQ_AddOne takes integer vl_pid,integer vl_code,integer vl_v returns n
     elseif vl_code==24 then
         set zzVL_af[vl_b+11]=zzVL_af[vl_b+11]+vl_v
     elseif vl_code>=11 and vl_code<=20 then
-        call SaveInteger(zzVL_ht,1000+vl_pid,vl_code,LoadInteger(zzVL_ht,1000+vl_pid,vl_code)+vl_v)
+        call zzPS_Add(vl_pid,vl_code,vl_v)
     endif
 endfunction
 
