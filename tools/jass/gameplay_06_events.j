@@ -23,17 +23,17 @@ function zzVL_BossCastSpell takes nothing returns nothing
     local real vl_y
     local group vl_g
     local unit vl_target
-    
+
     if vl_u == null or GetWidgetLife(vl_u) < 0.405 then
         call FlushChildHashtable(zzVL_ht, GetHandleId(vl_t))
         call DestroyTimer(vl_t)
         return
     endif
-    
+
     set vl_x = GetUnitX(vl_u)
     set vl_y = GetUnitY(vl_u)
     call SetUnitAnimation(vl_u, "spell")
-    
+
     if vl_type == 'H00Z' then
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", vl_x, vl_y))
     elseif vl_type == 'E000' then
@@ -48,7 +48,7 @@ function zzVL_BossCastSpell takes nothing returns nothing
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", vl_x, vl_y))
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\FlameStrike\\FlameStrike1.mdl", vl_x, vl_y))
     endif
-    
+
     set vl_g = CreateGroup()
     call GroupEnumUnitsInRange(vl_g, vl_x, vl_y, 600.0, null)
     loop
@@ -126,14 +126,14 @@ function zzVL_BossSpawn takes nothing returns nothing
     call BlzSetUnitArmor(zzVL_boss,50.+5.*vl_min)
     call SetUnitScale(zzVL_boss,5.0,5.0,5.0)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_boss),GetUnitY(zzVL_boss)))
-    call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Thủy tinh|r, 1000 ngân lượng, 25 công trạng.")
+    call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Huyền tinh|r, 1000 ngân lượng, 25 công trạng.")
     call PingMinimapEx(GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),5.,255,128,0,true)
-    
+
     // Start spell timer
     set vl_t = CreateTimer()
     call SaveUnitHandle(zzVL_ht, GetHandleId(vl_t), 1, zzVL_boss)
     call TimerStart(vl_t, 6.0, true, function zzVL_BossCastSpell)
-    
+
     set vl_pick=null
 endfunction
 
@@ -154,9 +154,7 @@ function zzVL_BossKilled takes integer vl_pk returns nothing
         endif
         set vl_i=vl_i+1
     endloop
-    call CreateItem('I00W',GetUnitX(zzVL_boss),GetUnitY(zzVL_boss))
-    call CreateItem('I00W',GetUnitX(zzVL_boss),GetUnitY(zzVL_boss))
-    call zzVL_DropGear(5, 5, GetUnitX(zzVL_boss), GetUnitY(zzVL_boss))
+    call zzDR_DropKind(4,GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),Jx[vl_pk+1])
     call zzVL_AddCT(vl_pk,25)
     set zzVL_boss=null
 endfunction
@@ -223,12 +221,12 @@ function zzVL_SpawnMC takes nothing returns nothing
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_mc),GetUnitY(zzVL_mc)))
     call PingMinimapEx(GetUnitX(zzVL_mc),GetUnitY(zzVL_mc),8.,255,0,0,true)
     call zzVL_All("|cffff0000VÕ LÂM MINH CHỦ|r đã xuất hiện! Phe nào hạ được nhận |cffffcc00+10 uy danh|r, mỗi người 1000 ngân lượng.")
-    
+
     // Start spell timer
     set vl_t = CreateTimer()
     call SaveUnitHandle(zzVL_ht, GetHandleId(vl_t), 1, zzVL_mc)
     call TimerStart(vl_t, 4.5, true, function zzVL_BossCastSpell)
-    
+
     set vl_pick=null
 endfunction
 
@@ -248,7 +246,7 @@ function zzVL_McKilled takes integer vl_pk returns nothing
         endif
         set vl_i=vl_i+1
     endloop
-    call zzVL_DropGear(5, 8, GetUnitX(zzVL_mc), GetUnitY(zzVL_mc))
+    call zzDR_DropKind(4,GetUnitX(zzVL_mc),GetUnitY(zzVL_mc),Jx[vl_pk+1])
     call zzVL_AddCT(vl_pk,30)
     set zzVL_mc=null
     call zzVL_AddUD(vl_pk,10)
@@ -384,7 +382,12 @@ function zzVL_OnDeath takes nothing returns nothing
     local integer vl_pk
     local integer vl_pd
     local integer vl_i=0
+    local integer vl_kind
     if vl_d!=null then
+        set vl_kind=LoadInteger(zzVL_ht,GetHandleId(vl_d),10)
+        if LoadInteger(zzVL_ht,GetHandleId(vl_d),9)>0 then
+            call zzDR_DropKind(vl_kind,GetUnitX(vl_d),GetUnitY(vl_d),zzDR_KillerHero(vl_k))
+        endif
         call zzVL_CampDeath(vl_d)
     endif
     if vl_d!=null and IsUnitType(vl_d,UNIT_TYPE_HERO) and GetPlayerId(GetOwningPlayer(vl_d))<10 and vl_d==Jx[GetPlayerId(GetOwningPlayer(vl_d))+1] then

@@ -32,12 +32,38 @@ start coin removed
 item cleanup skips hidden items: ['St', 'mM', 'MM']
 === Running expand.py ===
 model not in Thien Kiem: Abilities\Weapons\SteamMissile\SteamMissile.mdx
-  Rừng Trúc Lâm: entry (9632, -2848), 8 camps
-  Thiên Kiếm Thành: entry (9472, 4960), 8 camps
-map 96x128 -> 168x128 tiles, textures 13, doodads +1630 (custom types 21), files copied 38
-  Rừng Trúc Lâm: 36 x 38 tiles at world (8576, -4864)
-  Thiên Kiếm Thành: 36 x 38 tiles at world (8576, 2304)
+  Bãi Cấp 1 - Cổng phía trên (cấp 1): entry (9632, -2848), 4 camps
+  Bãi Cấp 20 - Cổng phía trên (cấp 20): entry (10688, -2368), 4 camps
+  Bãi Cấp 40 - Cổng phía trên (cấp 40): entry (11904, -2368), 4 camps
+  Bãi Cấp 1 - Cổng phía dưới (cấp 1): entry (9632, 4320), 4 camps
+  Bãi Cấp 20 - Cổng phía dưới (cấp 20): entry (10688, 4800), 4 camps
+  Bãi Cấp 40 - Cổng phía dưới (cấp 40): entry (11904, 4800), 4 camps
+  Xa Phu - Bãi Cấp 60 phía Bắc (cấp 60): entry (20224, -2208), 4 camps / Xa Phu
+  Xa Phu - Bãi Cấp 60 phía Nam (cấp 60): entry (20224, 4960), 4 camps / Xa Phu
+  Xa Phu - Bãi Cấp 80 (cấp 80): entry (25600, -2208), 4 camps / Xa Phu
+  Xa Phu - Bãi Cấp 100 (cấp 100): entry (25600, 4960), 4 camps / Xa Phu
+map 96x128 -> 264x128 tiles, textures 13, doodads +3272 (custom types 21), files copied 38
+  Cổng Phía Trên: 36 x 38 tiles at world (8576, -4864)
+  Cổng Phía Dưới: 36 x 38 tiles at world (8576, 2304)
+  Xa Phu - Bãi Cấp 60 phía Bắc: 36 x 38 tiles at world (19328, -4864)
+  Xa Phu - Bãi Cấp 60 phía Nam: 36 x 38 tiles at world (19328, 2304)
+  Xa Phu - Bãi Cấp 80: 36 x 38 tiles at world (24704, -4864)
+  Xa Phu - Bãi Cấp 100: 36 x 38 tiles at world (24704, 2304)
   Đấu Trường: 18 x 49 tiles at world (14080, -1536)
+=== Running kvcreep.py ===
+kvcreep: imported 12 KVCT models and defined 12 farm unit types
+  level 1 Q001 Creep_manhho.mdx
+  level 1 Q011 Creep_bachho.mdx
+  level 20 Q021 Creep_cuoptieu.mdx
+  level 20 Q031 Creep_bokhoai.mdx
+  level 40 Q041 Creep_dinhankiemkhach.mdx
+  level 40 Q051 Creep_thanhthanhkiemkhach.mdx
+  level 60 Q061 Creep_mongcokybinh.mdx
+  level 60 Q071 Creep_kybinhkimquoc.mdx
+  level 80 Q081 Creep_hoangnguyendaokhach.mdx
+  level 80 Q091 Creep_bachphutruong.mdx
+  level 100 Q0A1 Creep_culinhchienthan.mdx
+  level 100 Q0B1 Creep_uminhdocsu.mdx
 === Running skills.py ===
 heroes: 33 auto-cast skills: 0 AI ultimates: 0 name fixes: 0
   E000 
@@ -81,40 +107,47 @@ boss n018 abilities removed
 boss h01F abilities removed
 boss e003 abilities removed
 icon missing: BTNHero_NgaMy.blp
+=== Running tanlang.py ===
+tanlang: unit n0TL (Tan Thuy Hoang), 9 model/texture files
 === Running lvl200.py ===
 level 200: 103 stat gains, 80 hero skills
 === Running kskill.py ===
-kskill: 429 skills on 33 heroes, 344 effect models (1199 files)
+TEXTURES: CBC_trietytbd.mdx: KVCT3_Data\Hero_EmberSpirit_N4S_E_Shield4.blp -> Textures\Flame4.blp
+kskill: 429 skills on 33 heroes, 484 effect models (1788 files)
 === Running kskill_list.py ===
 33 phái, 429 kỹ năng -> docs\kvct_skill_table.md
 === Running gameplay.py ===
-item table rows: 9430
+item table rows: 10345
 bi pho: 5 vu khi, 11 trang bi
 cloaks: 5
 === Running describe.py ===
 belv name: 'Động Sát Y' st: (2, 1)
-MD5 written: def3916f62c80df27f37be8a676eb5c8 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
+MD5 written: 9beff655165516b613f24dcfce374db0 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
 described items: 286 | materials with recipes: 14
+=== Running kvequip.py ===
+kvequip: 288 vật phẩm trong w3t, 232 icon (32 bản disabled), 966 hàng bảng
 === Running icons.py ===
 cuong hoa icon rows: 1115
 disabled icons: 104
 icons copied: 104 items with a new icon: 271
+=== Running kvgem.py ===
+kvgem: 54 gem items, 54 icons, 378 hashtable rows; replaced 0 previous records
 === Running vfx.py ===
-vfx: 15 models (44 files), 52 ability fields, 7 buff fields, 47 script effects
+vfx: 15 models (44 files), 52 ability fields, 7 buff fields, 46 script effects
 === Running ui.py ===
 ui: 7 textures, 2 buttons, 13 skin keys
 === Running scale.py ===
-map x1.50: 168x128 -> 252x192 tiles, 3168 doodads
+map x1.00: 264x128 -> 264x128 tiles, 4810 doodads
 === Running build.py ===
-pjass ok (33995 lines)
-ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 93686469 bytes, 2609 files from src
+pjass ok (38315 lines)
+ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 102920523 bytes, 3233 files from src
 
 >>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<
 
 === Syncing map to target directories ===
-Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta.w3x (93,686,469 bytes)
-Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta AI.w3x (93,686,469 bytes)
-Synced -> D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,686,469 bytes)
-Warning: File is locked by a running Warcraft III process: C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x (93,686,469 bytes)
-Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (93,686,469 bytes)
+Failed to copy to D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta.w3x: [WinError 1224] The requested operation cannot be performed on a file with a user-mapped section open
+Synced -> D:\vltk-2.2-ai-extended\Maps\Tong Kim Beta AI.w3x (102,920,523 bytes)
+Synced -> D:\vltk-2.2-ai-extended\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,920,523 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta AI.w3x (102,920,523 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Tong Kim Beta.w3x (102,920,523 bytes)
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,920,523 bytes)

@@ -276,7 +276,7 @@ function zzVL_OnDamageBody takes nothing returns nothing
         set vl_m=vl_m*(1.-.04*zzVL_set[vl_pt])
     endif
     set vl_d=vl_d*vl_m
-    
+
     // Cộng thêm STVL Nội Công / Ngoại Công (phẳng)
     if vl_ps<10 and vl_src==Jx[vl_ps+1] then
         if BlzGetEventDamageType()==DAMAGE_TYPE_NORMAL then
@@ -290,7 +290,7 @@ function zzVL_OnDamageBody takes nothing returns nothing
     if vl_ps<10 and vl_src==Jx[vl_ps+1] and zzVL_af[vl_ps*16+5]>0 then
         set vl_d=vl_d*(1.+zzVL_af[vl_ps*16+5]/100.)
     endif
-    
+
     // Elemental Resistances
     if vl_pt<10 then
         if vl_ps<10 then
@@ -298,7 +298,7 @@ function zzVL_OnDamageBody takes nothing returns nothing
         else
             set vl_srcHe = zzVL_HeU(vl_src)
         endif
-        
+
         if vl_srcHe > 0 then
             set vl_res = LoadInteger(zzVL_ht, 1000 + vl_pt, 10 + vl_srcHe)
             if vl_res > 0 then
@@ -342,13 +342,13 @@ function zzVL_OnDamageBody takes nothing returns nothing
         else
             set vl_evasion = 50
         endif
-        
+
         if vl_ps<10 and vl_src==Jx[vl_ps+1] then
             set vl_hit = LoadInteger(zzVL_ht, 1000+vl_ps, 19)
         else
             set vl_hit = 50
         endif
-        
+
         if vl_evasion > 0 then
             set vl_chance = vl_evasion - vl_hit
             if vl_chance < 0 then
@@ -357,7 +357,7 @@ function zzVL_OnDamageBody takes nothing returns nothing
             if vl_chance > 500 then
                 set vl_chance = 500
             endif
-            
+
             if GetRandomInt(1,1000) <= vl_chance then
                 set vl_d=0.
                 call zzVL_Text(vl_tgt,"|cff80ff80Né|r")

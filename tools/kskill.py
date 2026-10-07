@@ -12,6 +12,9 @@ from gameplay_items import plain
 from PIL import Image
 import io
 from difflib import SequenceMatcher
+from tk_mapping import TK_OVERRIDES
+import kvfx
+import config
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC = os.path.join(ROOT, "src", "map")
@@ -886,6 +889,59 @@ def kv_image(d):
     return Image.open(io.BytesIO(d)).convert("RGBA")
 
 
+# keys of an OVR entry that tools/kvfx/hand/<PHAI>.py may override per skill: hits (number of hits / waves / pulses), gap (seconds between
+# them), rad (radius or range), max (most enemies per hit), st / ch / sd (status, chance %, seconds), dur (buff seconds), far, radr, wid, psec
+HAND_OVR = {"hits", "gap", "rad", "max", "st", "ch", "sd", "dur", "far", "radr", "wid", "psec"}
+
+
+def patch_textures(kv):
+    """tools/kvfx/hand/<PHAI>.py TEXTURES = {"model.mdx": {"old.blp": "new.blp"}}: rewrite the texture table (TEXS) of the model copy in
+    src/map/war3mapImported; the new texture is copied from KVCT when it is not in the map yet (stock textures need nothing)."""
+    for model, mp in kvfx.texture_overrides().items():
+        path = os.path.join(SRC, "war3mapImported", *model.replace("/", chr(92)).split(chr(92)))
+        if not os.path.exists(path):
+            print("TEXTURES: model not in the map:", model)
+            continue
+        data = bytearray(open(path, "rb").read())
+        i = data.find(b"TEXS")
+        low = {k.lower().replace("/", chr(92)): v for k, v in mp.items()}
+        for j in range(struct.unpack_from("<i", data, i + 4)[0] // 268):
+            o = i + 8 + 268 * j + 4
+            cur = bytes(data[o : o + 260]).split(bytes(1))[0].decode("latin1")
+            new = low.get(cur.lower()) or low.get(os.path.basename(cur.replace(chr(92), "/")).lower())
+            if new is None:
+                continue
+            new = new.replace("/", chr(92))
+            assert len(new) < 260, new
+            data[o : o + 260] = new.encode("latin1").ljust(260, bytes(1))
+            dst = os.path.join(SRC, *new.split(chr(92)))
+            if not os.path.exists(dst):
+                d = vfx.read(kv, new)
+                ext = os.path.join(vfx.KVCT_DATA, *new.split(chr(92)))
+                if d is None and os.path.exists(ext):
+                    d = open(ext, "rb").read()
+                if d is not None:
+                    os.makedirs(os.path.dirname(dst), exist_ok=True)
+                    open(dst, "wb").write(d)
+            print("TEXTURES: %s: %s -> %s" % (model, cur, new))
+        open(path, "wb").write(bytes(data))
+
+
+def model_loops(kv, name):
+    """1 when the model has a Stand sequence (it loops: a buff / aura shown for as long as it lasts), else 0"""
+    d = vfx.read(kv, "war3mapImported" + chr(92) + name.replace("/", chr(92)))
+    if not d:
+        path = os.path.join(SRC, "war3mapImported", *name.replace("/", chr(92)).split(chr(92)))
+        d = open(path, "rb").read() if os.path.exists(path) else b""
+    i = d.find(b"SEQS")
+    if i < 0:
+        return 0
+    for j in range(struct.unpack_from("<i", d, i + 4)[0] // 132):
+        if d[8 + i + 132 * j : 8 + i + 132 * j + 80].split(bytes(1))[0].lower().startswith(b"stand"):
+            return 1
+    return 0
+
+
 def hero_scale(model):
     """scale so the model's stand animation is as tall as Huyen Giac (Thieu Lam Quyen) on screen, ~157"""
     d = vfx.read(vfx.vlkt(), I_ + model + ".mdx")
@@ -962,7 +1018,12 @@ def main():
     p = os.path.join(SRC, "war3map.w3a")
     ver, tabs = objdata.parse(open(p, "rb").read(), ".w3a")
     tabs[1][:] = [o for o in tabs[1] if not o[1].startswith(b"X")]
-    rows, made, models = [], 0, {}
+    rows, made, models = ["call SaveInteger(zzVL_ht,0,291,%d)" % config.SKILL_VFX_SCALE_PERCENT], 0, {}
+    for st_, (mdl_, per_) in config.STATUS_VFX.items():              # status effect models (kskill.j zzKS_StatusFx)
+        if mdl_:
+            models[mdl_] = 1
+            rows.append('call SaveStr(zzVL_ht,0,%d,"war3mapImported%s%s")' % (300 + st_, "\\\\", mdl_))
+            rows.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (310 + st_, round(per_ * 100)))
     n = 0
     for hero, cl in CLASS.items():
         skills = data.get(cl, [])[:14]
@@ -970,7 +1031,10 @@ def main():
         for i, s in enumerate(skills):
             sid = "X%03d" % n if n < 1000 else "Y%03d" % (n - 1000)
             n += 1
-            o_ = OVR.get(s["kv"], {})
+            # numbers of the skill: the OVR table below, any of HAND_OVR set in tools/kvfx/hand/<PHAI>.py wins (the user's config)
+            kvfx_ = kvfx.get(cl, s["name"])
+            o_ = dict(OVR.get(s["kv"], {}))
+            o_.update({k_: v_ for k_, v_ in kvfx_.items() if k_ in HAND_OVR})
             full = cl in KV_ORDER                       # checked against KVCT's code: OVR has every number
             if full:
                 assert s["kv"] in OVR, "%s %s: no OVR entry" % (cl, s["kv"])
@@ -998,13 +1062,75 @@ def main():
                 if mt < 5:
                     return 0
                 return mt * 2 + (1 if buff == (kind in (6, 7, 8, 0)) else 0)
+            # roles of a KVCT model by its name: cast / caster on the hero, target on a hit enemy, buff / aura on the
+            # hero, the rest is the effect itself (numbered variants of a model are more layers of the same effect)
+            def role(x):
+                w = os.path.basename(x)[len(cl) + 1:-4].lower()
+                return ("cast" if re.search(r"cast", w) else "target" if re.search(r"target|hit|taget", w)
+                        else "buff" if re.search(r"buff|aura", w) else "main")
+
+            is_buff = kind in (6, 7, 8, 0)
             best = max(own, key=score) if own else None
+            mains = [x for x in own if role(x) == ("buff" if is_buff else "main") and score(x)] or                     [x for x in own if role(x) == "main" and score(x)]
+            if mains:                                   # the effect model first, the others serve their own role
+                best = max(mains, key=score)
+            extra = {}                                  # role -> up to 2 models (top scores, not the main one)
+            for r_, cnt in (("cast", 2), ("target", 2), ("buff", 1), ("main", 2)):
+                cand = sorted([x for x in own if role(x) == r_ and score(x) and x is not best], key=score, reverse=True)
+                extra[r_] = [os.path.basename(x) for x in cand[:cnt]]
+                for x in extra[r_]:
+                    models[x] = 1
+            # a class model named only "caster" / "target" (no skill name in it) is the class's own generic layer
+            def generic(r_):
+                g_ = [x for x in own if role(x) == r_ and not re.sub(r"cast(er)?|target|taget|hit|effect|\d|_|buff|aura", "", key_of(os.path.basename(x)[len(cl) + 1:-4]))]
+                return os.path.basename(sorted(g_)[0]) if g_ else None
+            if kind in ATTACK and not passive_of(kind, proc):
+                if not extra["target"] and generic("target"):
+                    extra["target"] = [generic("target")]
+                if not extra["cast"] and key in SLOT and generic("cast"):
+                    extra["cast"] = [generic("cast")]
+                for r_ in ("cast", "target"):
+                    for x in extra[r_]:
+                        models[x] = 1
+            # read from KVCT's code (tools/kvfx/hand/<class>.py by hand, tools/kvfx/auto/<class>.py by kvfx_extract.py): wins over the name matching
+            # and over tk_mapping; a skill with no entry keeps the name matching / tk_mapping
+            kvfx_ = kvfx.get(cl, s["name"])
+            for r_, k_ in (("scale", 290), ("cast_scale", 292), ("target_scale", 293)):
+                v_ = kvfx_.get(r_)                       # size of the main / cast / target effect: a factor (0.5, 1.5) or percent (>= 10)
+                if v_:
+                    rows.append("call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, k_, round(v_ * 100) if v_ < 10 else round(v_)))
+            for r_, k_ in (("cast", 289), ("target", 288)):
+                if kvfx_.get(r_ + "_ground"):
+                    rows.append("call SaveInteger(zzVL_ht,'%s',%d,1)" % (sid, k_))
+            def as_list(v):
+                return list(v) if isinstance(v, (list, tuple)) else [v]
+
+            def reg(x):                                  # copy a KVCT model into the map (Thien Kiem models "MDX/..." are already there)
+                if not x.upper().startswith("MDX" + chr(92)):
+                    models[x] = 1
+
+            def esc(x):                                  # a model path inside a JASS string
+                return x.replace(chr(92), chr(92) * 2)
+
+            if "aura" in kvfx_:
+                reg(kvfx_["aura"])
+                rows.append("call SaveStr(zzVL_ht,'%s',287,\"war3mapImported%s%s\")" % (sid, chr(92) * 2, esc(kvfx_["aura"])))
+            for r_ in ("cast", "target", "buff"):
+                if r_ in kvfx_:                          # a model or a list of models
+                    extra[r_] = as_list(kvfx_[r_])
+            if kvfx_:
+                extra["main"] = as_list(kvfx_.get("area", []))
+            for r_ in extra:
+                for x in extra[r_]:
+                    reg(x)
             if best and score(best):
                 model = os.path.basename(best)
             else:
                 pool = [x for x in own if not re.search(r"buff|aura|cast", x, re.I)] or own
                 model = os.path.basename(pool[i % len(pool)] if pool else "Effect_Slam.mdx")
-            models[model] = 1
+            if "main" in kvfx_:
+                model = kvfx_["main"]
+            reg(model)
             icon = s["icon"] or "ReplaceableTextures\\CommandButtons\\BTNSpell_Lightning.blp"
             if icon.lower().startswith("war3mapimported"):
                 d = vfx.read(kv, icon)
@@ -1063,6 +1189,11 @@ def main():
             if not passive and key in SLOT:                         # skill bar (kskill.j zzKS_BarAb)
                 rows.append("call SaveInteger(zzVL_ht,'%s',%d,'%s')" % (hero, 260 + "QWERDFT".index(key), sid))
             k = 0 if passive else kind
+            # extra effect models by role (kskill.j): 280 / 282 cast on the hero, 281 / 283 on a hit enemy, 284 buff on the hero,
+            # 285 / 286 more layers of the effect at the point
+            for r_, keys in (("cast", (280, 282)), ("target", (281, 283)), ("buff", (284,)), ("main", (285, 286))):
+                for x_, k_ in zip(extra.get(r_, []), keys):
+                    rows.append('call SaveStr(zzVL_ht,\'%s\',%d,"war3mapImported%s%s")' % (sid, k_, "\\\\", esc(x_)))
             rows += ["call SaveInteger(zzVL_ht,'%s',%d,'%s')" % (hero, 200 + i, sid),
                      "call SaveInteger(zzVL_ht,'%s',%d,%d)" % (hero, 230 + i, UNLOCK[i]),
                      "call SaveInteger(zzVL_ht,'%s',240,%d)" % (sid, k if not proc else 0),
@@ -1075,8 +1206,15 @@ def main():
                      "call SaveInteger(zzVL_ht,'%s',248,%d)" % (sid, st[1] if len(st) > 1 else 0),
                      "call SaveInteger(zzVL_ht,'%s',249,%d)" % (sid, 1 if proc else 0),
                      "call SaveInteger(zzVL_ht,'%s',252,%d)" % (sid, s["fx"]),
-                     ] + ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, 253 + 2 * n + w, v) for n, x in enumerate(o_.get("stats", [])) if not isinstance(x, int) for w, v in ((0, x[1]), (1, x[2]))] + [
-                     'call SaveStr(zzVL_ht,\'%s\',250,"war3mapImported%s%s")' % (sid, "\\\\", model)]
+                     ] + ["call SaveInteger(zzVL_ht,'%s',%d,%d)" % (sid, 253 + 2 * n + w, v) for n, x in enumerate(o_.get("stats", [])) if not isinstance(x, int) for w, v in ((0, x[1]), (1, x[2]))]
+            main_model = TK_OVERRIDES[s["name"]] if s["name"] in TK_OVERRIDES and "main" not in kvfx_ else model
+            if model_loops(kv, main_model):          # a looping model (Stand sequence): a self buff keeps it for the whole buff
+                rows.append("call SaveInteger(zzVL_ht,'%s',294,1)" % sid)
+            if s["name"] in TK_OVERRIDES and "main" not in kvfx_:
+                tk_model = TK_OVERRIDES[s["name"]]
+                rows.append('call SaveStr(zzVL_ht,\'%s\',250,"war3mapImported%s%s")' % (sid, "\\\\", tk_model.replace("\\", "\\\\")))
+            else:
+                rows.append('call SaveStr(zzVL_ht,\'%s\',250,"war3mapImported%s%s")' % (sid, "\\\\", esc(model)))
             if proc:
                 rows.append("call SaveInteger(zzVL_ht,'%s',240,%d)" % (sid, kind))
             if full:                                                 # kskill.j keys of the KVCT numbers
@@ -1118,11 +1256,38 @@ def main():
             if (o if ti == 0 else nw).decode("latin1") in CLASS:
                 hid = (o if ti == 0 else nw).decode("latin1")
                 model, cname = HERO[hid]
+                has_w = has_m = has_z = False
                 for x in sets[0]:
                     if x[0] == b"uhab":
                         x[4] = b""
                     elif x[0] in (b"umdl", b"unam"):
                         x[4] = (I_ + model + ".mdx" if x[0] == b"umdl" else cname).encode("utf-8")
+                    elif x[0] == b"ua1w":
+                        x[4] = b"missile"
+                        has_w = True
+                    elif x[0] == b"ua1m":
+                        x[4] = b""
+                        has_m = True
+                    elif x[0] == b"ua1z":
+                        x[4] = struct.pack("<i", config.ATTACK_PROJECTILE_SPEED)
+                        has_z = True
+                rng = config.HERO_ATTACK_RANGE.get(CLASS[hid])   # attack range per sect (tools/config.py)
+                if rng:
+                    sets[0] = [x for x in sets[0] if x[0] not in (b"ua1r", b"uacq")]
+                    sets[0].append([b"ua1r", 1, 0, 0, struct.pack("<i", rng), bytes(4)])
+                    sets[0].append([b"uacq", 1, 0, 1, struct.pack("<f", float(max(rng, 600))), bytes(4)])
+                if not has_w:
+                    sets[0].append([b"ua1w", 1, 0, 3, b"missile", bytes(4)])
+                if not has_m:
+                    sets[0].append([b"ua1m", 1, 0, 3, b"", bytes(4)])
+                if not has_z:
+                    sets[0].append([b"ua1z", 1, 0, 0, struct.pack("<i", config.ATTACK_PROJECTILE_SPEED), bytes(4)])
+                pm = config.HERO_ATTACK_PROJECTILE.get(CLASS[hid])   # missile of the normal attack per sect (tools/config.py)
+                if pm and pm[0]:
+                    sets[0] = [x for x in sets[0] if x[0] not in (b"ua1m", b"ua1z")]
+                    sets[0].append([b"ua1m", 1, 0, 3, (I_ + pm[0]).encode("utf-8"), bytes(4)])
+                    sets[0].append([b"ua1z", 1, 0, 0, struct.pack("<i", int(pm[1] if len(pm) > 1 else config.ATTACK_PROJECTILE_SPEED)), bytes(4)])
+                    models[pm[0]] = 1
                 if not any(x[0] == b"umdl" for x in sets[0]):
                     sets[0].append([b"umdl", 0, 0, 3, (I_ + model + ".mdx").encode(), bytes(4)])
                 models[model + ".mdx"] = 1
@@ -1155,6 +1320,7 @@ def main():
     # effect models (+ their textures) from KVCT
     vfx.SWAP = {m_: m_[:-4] for m_ in models}
     done, nf = vfx.copy_models(kv)
+    patch_textures(kv)                      # TEXTURES of tools/kvfx/hand/<PHAI>.py: change the textures of a model
     print("kskill: %d skills on %d heroes, %d effect models (%d files)" % (made, len(CLASS), len(done), nf))
 
 

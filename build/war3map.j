@@ -1215,19 +1215,20 @@ real array zzVL_cX
 real array zzVL_cY
 integer array zzVL_cZone
 integer array zzVL_cType
+integer array zzVL_cLevel
 integer zzVL_cN=0
 integer array zzVL_gear
 integer array zzVL_gearN
 string array zzVL_zName
 real array zzVL_zEx
 real array zzVL_zEy
+integer array zzVL_zTele
 integer zzVL_zN=0
 dialog array zzVL_dlg
 button array zzVL_dlgB
 trigger zzVL_tXp=null
 real array zzVL_homeX
 real array zzVL_homeY
-integer array zzVL_start
 real array zzVL_tpEnd
 real array zzVL_shield
 boolean array zzVL_splitMode
@@ -1309,6 +1310,12 @@ framehandle zzVL_fHeroTxt=null
 framehandle array zzVL_fPassBtn
 framehandle array zzVL_fPassIco
 framehandle array zzVL_fPassTT
+framehandle zzVL_fPassTip=null
+framehandle zzVL_fPassTipTxt=null
+framehandle zzVL_fItemHover=null
+framehandle zzVL_fItemHoverTxt=null
+trigger zzVL_tItemHoverOn=null
+trigger zzVL_tItemHoverOff=null
 framehandle array zzVL_fPassTTxt
 framehandle array zzVL_fEqBtn
 framehandle array zzVL_fEqIco
@@ -1325,6 +1332,8 @@ boolean array zzVL_autoSell
 integer array zzVL_cuong
 item array zzVL_kItem
 item array zzVL_tSel
+integer zzVL_plusP=0
+integer zzVL_plusS=0
 item zzVL_potion=null
 item array zzVL_want
 unit zzVL_cbH=null
@@ -1385,9 +1394,9 @@ local integer vl_n=0
 local integer vl_c
 loop
 set vl_it=PlaceRandomItem(vl_p,vl_x,vl_y)
-if vl_it!=null and zzVL_ht!=null and zzVL_matN>0 and (LoadInteger(zzVL_ht,GetItemTypeId(vl_it),53)>0 or LoadInteger(zzVL_ht,GetItemTypeId(vl_it),44)>0) then
+if vl_it!=null and zzVL_ht!=null and (LoadInteger(zzVL_ht,GetItemTypeId(vl_it),53)>0 or LoadInteger(zzVL_ht,GetItemTypeId(vl_it),44)>0) then
 call RemoveItem(vl_it)
-return CreateItem(zzVL_mat[GetRandomInt(0,zzVL_matN-1)],vl_x,vl_y)
+return null
 endif
 if vl_it==null or zzVL_ht==null or LoadInteger(zzVL_ht,GetItemTypeId(vl_it),0)/10<1 then
 return vl_it
@@ -5085,8 +5094,8 @@ local unit u
 local integer unitID
 local trigger t
 local real LJ
-set JE=CreateUnit(p,'n00R',10602.,3393.,211.48)
-set WE=CreateUnit(p,'n00R',-4347.,2053.,337.88)
+set JE=CreateUnit(p,'n00R',7068.,2262.,211.48)
+set WE=CreateUnit(p,'n00R',-2898.,1368.,337.88)
 endfunction
 function mJ takes nothing returns nothing
 local player p=Player($C)
@@ -5094,287 +5103,287 @@ local unit u
 local integer unitID
 local trigger t
 local real LJ
-set u=CreateUnit(p,'h01Q',10459.,3725.,244.561)
+set u=CreateUnit(p,'h01Q',6973.,2484.,244.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',10224.,3062.,219.561)
+set u=CreateUnit(p,'h01Q',6816.,2041.,219.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',9931.,2968.,139.561)
+set u=CreateUnit(p,'h01Q',6621.,1979.,139.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',10316.,3476.,193.)
+set u=CreateUnit(p,'nfor',6877.,2318.,193.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',10515.,3076.,178.)
+set u=CreateUnit(p,'nfor',7010.,2051.,178.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',10219.,2804.,148.)
+set u=CreateUnit(p,'nfor',6812.,1870.,148.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',-3943.,1861.,48.)
+set u=CreateUnit(p,'nfor',-2629.,1240.,48.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',-3980.,2376.,328.)
+set u=CreateUnit(p,'nfor',-2653.,1584.,328.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',-4108.,2047.,359.561)
+set u=CreateUnit(p,'h01Q',-2739.,1364.,359.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',-3870.,1542.,104.561)
+set u=CreateUnit(p,'h01Q',-2580.,1028.,104.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',-3825.,2606.,269.561)
+set u=CreateUnit(p,'h01Q',-2550.,1738.,269.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',-4317.,2421.,358.)
+set u=CreateUnit(p,'nfor',-2878.,1614.,358.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',-2977.,-350.,46.16)
+set u=CreateUnit(p,'n009',-1985.,-233.,46.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',-2952.,-769.,326.16)
+set u=CreateUnit(p,'n009',-1968.,-512.,326.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nlkl',1053.,4003.,189.33)
+set u=CreateUnit(p,'nlkl',702.,2668.,189.33)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',862.,3805.,180.76)
+set u=CreateUnit(p,'nltc',575.,2537.,180.76)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',858.,4227.,180.76)
+set u=CreateUnit(p,'nltc',572.,2818.,180.76)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',1217.,4248.,180.76)
+set u=CreateUnit(p,'nltc',812.,2832.,180.76)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',1224.,3827.,180.76)
+set u=CreateUnit(p,'nltc',816.,2551.,180.76)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nlkl',5092.,1516.,350.17)
+set u=CreateUnit(p,'nlkl',3394.,1011.,350.17)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',9009.,5938.,166.16)
+set u=CreateUnit(p,'n009',6006.,3959.,166.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3197.,1981.,319.379)
+set u=CreateUnit(p,'n007',2132.,1320.,319.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2967.,2216.,134.379)
+set u=CreateUnit(p,'n007',1978.,1477.,134.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3184.,2226.,34.379)
+set u=CreateUnit(p,'n007',2123.,1484.,34.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',4954.,292.,135.366)
+set u=CreateUnit(p,'n006',3302.,195.,135.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',5212.,303.,40.366)
+set u=CreateUnit(p,'n006',3475.,202.,40.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',940.,5488.,135.366)
+set u=CreateUnit(p,'n006',626.,3659.,135.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',1198.,5500.,40.366)
+set u=CreateUnit(p,'n006',799.,3666.,40.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',4963.,90.,220.366)
+set u=CreateUnit(p,'n006',3309.,60.,220.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',5204.,83.,320.366)
+set u=CreateUnit(p,'n006',3469.,55.,320.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',9028.,5529.,206.16)
+set u=CreateUnit(p,'n009',6018.,3686.,206.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',5211.,-701.,320.366)
+set u=CreateUnit(p,'n006',3474.,-467.,320.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',4971.,-694.,220.366)
+set u=CreateUnit(p,'n006',3314.,-463.,220.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',928.,6253.,135.366)
+set u=CreateUnit(p,'n006',618.,4169.,135.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',1186.,6264.,40.366)
+set u=CreateUnit(p,'n006',791.,4176.,40.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',937.,6051.,220.366)
+set u=CreateUnit(p,'n006',625.,4034.,220.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',-4251.,1713.,18.)
+set u=CreateUnit(p,'nfor',-2834.,1142.,18.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',9931.,3859.,249.561)
+set u=CreateUnit(p,'h01Q',6621.,2573.,249.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nfor',10135.,4016.,313.)
+set u=CreateUnit(p,'nfor',6757.,2678.,313.)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'h01Q',-3643.,1747.,34.561)
+set u=CreateUnit(p,'h01Q',-2428.,1165.,34.561)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n000',5961.,5088.,249.89)
-set u=CreateUnit(p,'n009',8870.,7748.,216.16)
+set u=CreateUnit(p,'n000',3974.,3392.,249.89)
+set u=CreateUnit(p,'n009',5913.,5165.,216.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',8947.,7361.,223.079)
+set u=CreateUnit(p,'n006',5964.,4907.,223.079)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',8290.,3167.,194.481)
+set u=CreateUnit(p,'n00B',5527.,2111.,194.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n000',180.,540.,84.89)
-set u=CreateUnit(p,'n000',-193.,526.,139.89)
-set u=CreateUnit(p,'narg',94.,1998.,349.766)
+set u=CreateUnit(p,'n000',120.,360.,84.89)
+set u=CreateUnit(p,'n000',-128.,351.,139.89)
+set u=CreateUnit(p,'narg',63.,1332.,349.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',949.,5286.,220.366)
+set u=CreateUnit(p,'n006',633.,3524.,220.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',1190.,5279.,320.366)
+set u=CreateUnit(p,'n006',793.,3520.,320.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',4914.,1337.,355.724)
+set u=CreateUnit(p,'nltc',3276.,891.,355.724)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',4914.,1723.,356.405)
+set u=CreateUnit(p,'nltc',3276.,1149.,356.405)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00D',2540.,2102.,350.134)
+set u=CreateUnit(p,'n00D',1693.,1401.,350.134)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00D',3600.,3453.,175.134)
+set u=CreateUnit(p,'n00D',2400.,2302.,175.134)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',1178.,6044.,320.366)
+set u=CreateUnit(p,'n006',785.,4029.,320.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n000',6333.,5085.,309.89)
-set u=CreateUnit(p,'narg',-93.,2002.,234.766)
+set u=CreateUnit(p,'n000',4222.,3390.,309.89)
+set u=CreateUnit(p,'narg',-62.,1335.,234.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'narg',-97.,2183.,129.766)
+set u=CreateUnit(p,'narg',-65.,1456.,129.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3184.,3338.,319.379)
+set u=CreateUnit(p,'n007',2123.,2226.,319.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',3649.,5745.,212.15)
-set u=CreateUnit(p,'n006',8671.,7497.,223.079)
+set u=CreateUnit(p,'n00N',2432.,3830.,212.15)
+set u=CreateUnit(p,'n006',5781.,4998.,223.079)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',7538.,7010.,61.16)
+set u=CreateUnit(p,'n009',5025.,4674.,61.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n005',-3011.,-548.,349.31)
+set u=CreateUnit(p,'n005',-2008.,-365.,349.31)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'narg',88.,2195.,74.766)
+set u=CreateUnit(p,'narg',59.,1463.,74.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'narg',6236.,3337.,349.766)
+set u=CreateUnit(p,'narg',4157.,2224.,349.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'narg',6049.,3341.,234.766)
+set u=CreateUnit(p,'narg',4033.,2227.,234.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'narg',6045.,3522.,129.766)
+set u=CreateUnit(p,'narg',4030.,2348.,129.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2954.,3573.,134.379)
+set u=CreateUnit(p,'n007',1969.,2382.,134.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',2486.,5758.,357.15)
-set u=CreateUnit(p,'n007',2941.,3332.,229.379)
+set u=CreateUnit(p,'n00N',1658.,3839.,357.15)
+set u=CreateUnit(p,'n007',1961.,2221.,229.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',891.,-1011.,332.15)
-set u=CreateUnit(p,'n007',3171.,3584.,34.379)
+set u=CreateUnit(p,'n00N',594.,-674.,332.15)
+set u=CreateUnit(p,'n007',2114.,2389.,34.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2954.,1974.,229.379)
+set u=CreateUnit(p,'n007',1969.,1316.,229.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',629.,-1017.,247.15)
-set u=CreateUnit(p,'n00N',904.,-737.,22.15)
-set u=CreateUnit(p,'narg',6230.,3533.,74.766)
+set u=CreateUnit(p,'n00N',419.,-678.,247.15)
+set u=CreateUnit(p,'n00N',602.,-492.,22.15)
+set u=CreateUnit(p,'narg',4153.,2356.,74.766)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',2495.,-210.,357.15)
-set u=CreateUnit(p,'n005',9050.,5711.,169.31)
+set u=CreateUnit(p,'n00N',1664.,-140.,357.15)
+set u=CreateUnit(p,'n005',6033.,3807.,169.31)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',3641.,-211.,212.15)
-set u=CreateUnit(p,'n00N',636.,-724.,137.15)
-set u=CreateUnit(p,'n00N',5507.,6208.,332.15)
-set u=CreateUnit(p,'n00N',5245.,6203.,247.15)
-set u=CreateUnit(p,'n00N',5520.,6482.,22.15)
-set u=CreateUnit(p,'n006',4961.,-492.,135.366)
+set u=CreateUnit(p,'n00N',2427.,-140.,212.15)
+set u=CreateUnit(p,'n00N',424.,-483.,137.15)
+set u=CreateUnit(p,'n00N',3672.,4139.,332.15)
+set u=CreateUnit(p,'n00N',3497.,4135.,247.15)
+set u=CreateUnit(p,'n00N',3680.,4322.,22.15)
+set u=CreateUnit(p,'n006',3308.,-328.,135.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',5220.,-481.,40.366)
+set u=CreateUnit(p,'n006',3480.,-320.,40.366)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00N',5253.,6495.,137.15)
-set u=CreateUnit(p,'n00J',-22.,458.,150.023)
+set u=CreateUnit(p,'n00N',3502.,4330.,137.15)
+set u=CreateUnit(p,'n00J',-15.,305.,150.023)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',-2743.,-2128.,46.16)
+set u=CreateUnit(p,'n009',-1828.,-1418.,46.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',-2881.,-1990.,66.16)
+set u=CreateUnit(p,'n009',-1920.,-1326.,66.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',-2513.,-2047.,313.079)
+set u=CreateUnit(p,'n006',-1675.,-1364.,313.079)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00J',6155.,5183.,305.023)
+set u=CreateUnit(p,'n00J',4103.,3455.,305.023)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',8246.,3396.,224.481)
+set u=CreateUnit(p,'n00B',5497.,2264.,224.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-2134.,2176.,304.481)
+set u=CreateUnit(p,'n00B',-1423.,1451.,304.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-501.,4529.,344.481)
+set u=CreateUnit(p,'n00B',-334.,3019.,344.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-503.,4207.,304.481)
+set u=CreateUnit(p,'n00B',-335.,2805.,304.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-441.,4364.,344.481)
+set u=CreateUnit(p,'n00B',-294.,2909.,344.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',6851.,1053.,229.481)
+set u=CreateUnit(p,'n00B',4567.,702.,229.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',6807.,1199.,164.481)
+set u=CreateUnit(p,'n00B',4538.,800.,164.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',6853.,1404.,139.481)
+set u=CreateUnit(p,'n00B',4568.,936.,139.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',5259.,1730.,356.405)
+set u=CreateUnit(p,'nltc',3506.,1153.,356.405)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'nltc',5250.,1353.,356.405)
+set u=CreateUnit(p,'nltc',3500.,902.,356.405)
 call SetUnitState(u,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n009',8980.,7598.,221.16)
+set u=CreateUnit(p,'n009',5986.,5066.,221.16)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',-2841.,-1723.,358.079)
+set u=CreateUnit(p,'n006',-1894.,-1149.,358.079)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n002',6821.,-1599.,247.654)
+set u=CreateUnit(p,'n002',4547.,-1066.,247.654)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',8701.,7826.,178.079)
+set u=CreateUnit(p,'n006',5801.,5217.,178.079)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',-1361.,698.,232.381)
+set u=CreateUnit(p,'n00A',-907.,465.,232.381)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',-1488.,646.,295.362)
+set u=CreateUnit(p,'n00A',-992.,431.,295.362)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',-1363.,509.,213.818)
+set u=CreateUnit(p,'n00A',-908.,339.,213.818)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',-1214.,533.,161.146)
+set u=CreateUnit(p,'n00A',-810.,356.,161.146)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',-1422.,312.,192.838)
+set u=CreateUnit(p,'n00A',-948.,208.,192.838)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',7577.,4855.,7.381)
+set u=CreateUnit(p,'n00A',5051.,3236.,7.381)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',7551.,5226.,350.362)
+set u=CreateUnit(p,'n00A',5034.,3484.,350.362)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',7550.,5048.,303.818)
+set u=CreateUnit(p,'n00A',5033.,3365.,303.818)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',7398.,5117.,11.146)
+set u=CreateUnit(p,'n00A',4932.,3411.,11.146)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00A',7406.,4860.,12.838)
+set u=CreateUnit(p,'n00A',4937.,3240.,12.838)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n006',-2604.,-1787.,68.079)
+set u=CreateUnit(p,'n006',-1736.,-1192.,68.079)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n002',6788.,-1983.,137.654)
+set u=CreateUnit(p,'n002',4526.,-1322.,137.654)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n002',6495.,-1992.,72.654)
+set u=CreateUnit(p,'n002',4330.,-1328.,72.654)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n002',-466.,7536.,342.654)
+set u=CreateUnit(p,'n002',-310.,5024.,342.654)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n002',-471.,7183.,347.654)
+set u=CreateUnit(p,'n002',-314.,4789.,347.654)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n002',-154.,7522.,282.654)
+set u=CreateUnit(p,'n002',-103.,5014.,282.654)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3187.,-304.,319.379)
+set u=CreateUnit(p,'n007',2124.,-203.,319.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2956.,-70.,134.379)
+set u=CreateUnit(p,'n007',1971.,-46.,134.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2944.,-311.,229.379)
+set u=CreateUnit(p,'n007',1962.,-207.,229.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3174.,-59.,34.379)
+set u=CreateUnit(p,'n007',2116.,-39.,34.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3193.,5905.,34.379)
+set u=CreateUnit(p,'n007',2128.,3937.,34.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',3206.,5660.,319.379)
+set u=CreateUnit(p,'n007',2137.,3773.,319.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2975.,5894.,134.379)
+set u=CreateUnit(p,'n007',1984.,3930.,134.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n007',2962.,5653.,229.379)
+set u=CreateUnit(p,'n007',1975.,3769.,229.379)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',8047.,3318.,164.481)
+set u=CreateUnit(p,'n00B',5365.,2212.,164.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',8449.,3448.,259.481)
+set u=CreateUnit(p,'n00B',5633.,2299.,259.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',8206.,3627.,134.481)
+set u=CreateUnit(p,'n00B',5470.,2418.,134.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-2062.,1937.,194.48)
+set u=CreateUnit(p,'n00B',-1375.,1291.,194.48)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-2310.,2138.,164.481)
+set u=CreateUnit(p,'n00B',-1540.,1426.,164.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-1911.,2205.,19.481)
+set u=CreateUnit(p,'n00B',-1274.,1470.,19.481)
 call SetUnitAcquireRange(u,200.)
-set u=CreateUnit(p,'n00B',-2133.,2409.,134.481)
+set u=CreateUnit(p,'n00B',-1422.,1606.,134.481)
 call SetUnitAcquireRange(u,200.)
 endfunction
 function MJ takes nothing returns nothing
@@ -5383,23 +5392,23 @@ local unit u
 local integer unitID
 local trigger t
 local real LJ
-set u=CreateUnit(p,'n00K',1920.,9600.,270.)
+set u=CreateUnit(p,'n00K',1280.,6400.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'nfoh',3072.,-4128.,270.)
-set u=CreateUnit(p,'ngme',4128.,-2880.,270.)
-set u=CreateUnit(p,'n00L',4128.,-3456.,270.)
+set u=CreateUnit(p,'nfoh',2048.,-2752.,270.)
+set u=CreateUnit(p,'ngme',2752.,-1920.,270.)
+set u=CreateUnit(p,'n00L',2752.,-2304.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'n00K',4128.,-4032.,270.)
+set u=CreateUnit(p,'n00K',2752.,-2688.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'nfoh',3072.,9696.,270.)
-set u=CreateUnit(p,'n00L',1920.,8928.,270.)
+set u=CreateUnit(p,'nfoh',2048.,6464.,270.)
+set u=CreateUnit(p,'n00L',1280.,5952.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'ngme',1920.,8256.,270.)
-set u=CreateUnit(p,'ncp3',3072.,2784.,270.)
+set u=CreateUnit(p,'ngme',1280.,5504.,270.)
+set u=CreateUnit(p,'ncp3',2048.,1856.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'n00M',2016.,-2880.,270.)
+set u=CreateUnit(p,'n00M',1344.,-1920.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'n00M',4128.,8352.,270.)
+set u=CreateUnit(p,'n00M',2752.,5568.,270.)
 call SetUnitColor(u,ConvertPlayerColor(0))
 endfunction
 function pJ takes nothing returns nothing
@@ -5408,81 +5417,81 @@ local unit u
 local integer unitID
 local trigger t
 local real LJ
-set u=CreateUnit(p,'nalb',2285.,2609.,3.45)
-set u=CreateUnit(p,'nalb',3088.,6493.,124.852)
-set u=CreateUnit(p,'nalb',3076.,-981.,317.998)
-set u=CreateUnit(p,'nalb',3093.,4949.,93.672)
-set u=CreateUnit(p,'E005',-3079.,-4939.,80.924)
+set u=CreateUnit(p,'nalb',1523.,1740.,3.45)
+set u=CreateUnit(p,'nalb',2058.,4329.,124.852)
+set u=CreateUnit(p,'nalb',2050.,-654.,317.998)
+set u=CreateUnit(p,'nalb',2062.,3299.,93.672)
+set u=CreateUnit(p,'E005',-2052.,-3293.,80.924)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'E003',-2866.,-3953.,267.662)
+set u=CreateUnit(p,'E003',-1910.,-2636.,267.662)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'E000',-2929.,-4655.,162.039)
+set u=CreateUnit(p,'E000',-1952.,-3103.,162.039)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'E002',-3240.,-4380.,336.607)
+set u=CreateUnit(p,'E002',-2160.,-2920.,336.607)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'E001',-2500.,-4683.,193.712)
+set u=CreateUnit(p,'E001',-1667.,-3122.,193.712)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H00A',-3647.,-4376.,345.748)
+set u=CreateUnit(p,'H00A',-2432.,-2918.,345.748)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H01M',-3294.,-3935.,259.693)
+set u=CreateUnit(p,'H01M',-2196.,-2624.,259.693)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H01P',-2512.,-3947.,237.439)
+set u=CreateUnit(p,'H01P',-1675.,-2632.,237.439)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'h01N',2454.,-2910.,257.96)
+set u=CreateUnit(p,'h01N',1636.,-1940.,257.96)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'H002',-2501.,-4388.,172.428)
+set u=CreateUnit(p,'H002',-1668.,-2925.,172.428)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H01F',-3646.,-4659.,349.221)
+set u=CreateUnit(p,'H01F',-2431.,-3106.,349.221)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H00L',-3661.,-3937.,329.215)
+set u=CreateUnit(p,'H00L',-2440.,-2625.,329.215)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H01E',-3651.,-5077.,47.552)
+set u=CreateUnit(p,'H01E',-2434.,-3385.,47.552)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H00Z',-2493.,-5097.,165.913)
+set u=CreateUnit(p,'H00Z',-1662.,-3398.,165.913)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H01U',-3293.,-5102.,108.373)
+set u=CreateUnit(p,'H01U',-2195.,-3401.,108.373)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H009',-2874.,-5095.,108.248)
+set u=CreateUnit(p,'H009',-1916.,-3397.,108.248)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'h01N',2714.,9524.,257.96)
+set u=CreateUnit(p,'h01N',1810.,6350.,257.96)
 call SetUnitColor(u,ConvertPlayerColor(0))
-set u=CreateUnit(p,'H01L',-3069.,-3964.,281.974)
+set u=CreateUnit(p,'H01L',-2046.,-2642.,281.974)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'nfro',-4236.,3070.,320.249)
-set u=CreateUnit(p,'nfro',-4431.,1362.,43.671)
-set u=CreateUnit(p,'H014',-3084.,-4193.,285.25)
+set u=CreateUnit(p,'nfro',-2824.,2047.,320.249)
+set u=CreateUnit(p,'nfro',-2954.,908.,43.671)
+set u=CreateUnit(p,'H014',-2056.,-2795.,285.25)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set u=CreateUnit(p,'H01S',-2936.,-4377.,234.167)
+set u=CreateUnit(p,'H01S',-1957.,-2918.,234.167)
 call SetUnitState(u,UNIT_STATE_MANA,0)
-set uE=CreateUnit(p,'nfra',-191.,13422.,277.553)
+set uE=CreateUnit(p,'nfra',-127.,8948.,277.553)
 call SetUnitState(uE,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(uE,200.)
-set PE=CreateUnit(p,'n00F',932.,13456.,268.813)
+set PE=CreateUnit(p,'n00F',621.,8971.,268.813)
 call SetUnitState(PE,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(PE,200.)
-set wE=CreateUnit(p,'n00C',2110.,13422.,269.094)
+set wE=CreateUnit(p,'n00C',1407.,8948.,269.094)
 call SetUnitState(wE,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(wE,200.)
-set UE=CreateUnit(p,'n00H',3254.,13445.,291.95)
+set UE=CreateUnit(p,'n00H',2169.,8963.,291.95)
 call SetUnitState(UE,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(UE,200.)
-set TE=CreateUnit(p,'n00I',3263.,12097.,273.092)
+set TE=CreateUnit(p,'n00I',2176.,8065.,273.092)
 call SetUnitState(TE,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(TE,200.)
-set kE=CreateUnit(p,'n00Q',-177.,12114.,259.43)
+set kE=CreateUnit(p,'n00Q',-118.,8076.,259.43)
 call SetUnitAcquireRange(kE,200.)
-set pE=CreateUnit(p,'n00G',4418.,13443.,275.603)
+set pE=CreateUnit(p,'n00G',2945.,8962.,275.603)
 call SetUnitState(pE,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(pE,200.)
-set ME=CreateUnit(p,'otbk',4407.,12067.,274.722)
+set ME=CreateUnit(p,'otbk',2938.,8045.,274.722)
 call SetUnitState(ME,UNIT_STATE_MANA,0)
 call SetUnitAcquireRange(ME,200.)
-set tE=CreateUnit(p,'nggr',2113.,12087.,276.067)
+set tE=CreateUnit(p,'nggr',1409.,8058.,276.067)
 call SetUnitState(tE,UNIT_STATE_MANA,0)
 call SetUnitColor(tE,ConvertPlayerColor(0))
 call SetUnitAcquireRange(tE,200.)
-set u=CreateUnit(p,'H00V',-3210.,-4655.,53.12)
-set u=CreateUnit(p,'H00U',-3089.,-5118.,81.)
+set u=CreateUnit(p,'H00V',-2140.,-3103.,53.12)
+set u=CreateUnit(p,'H00U',-2059.,-3412.,81.)
 endfunction
 function PJ takes nothing returns nothing
 local player p
@@ -5491,25 +5500,25 @@ local integer unitID
 local trigger t
 local real LJ
 set p=Player(0)
-set LE=CreateUnit(p,'h01B',2016.,-4416.,270.)
+set LE=CreateUnit(p,'h01B',1344.,-2944.,270.)
 set p=Player(1)
-set sE=CreateUnit(p,'h01B',2304.,-4416.,270.)
+set sE=CreateUnit(p,'h01B',1536.,-2944.,270.)
 set p=Player(2)
-set SE=CreateUnit(p,'h01B',2592.,-4416.,270.)
+set SE=CreateUnit(p,'h01B',1728.,-2944.,270.)
 set p=Player(3)
-set QE=CreateUnit(p,'h01B',3552.,-4416.,270.)
+set QE=CreateUnit(p,'h01B',2368.,-2944.,270.)
 set p=Player(4)
-set mE=CreateUnit(p,'h01B',3840.,-4416.,270.)
+set mE=CreateUnit(p,'h01B',2560.,-2944.,270.)
 set p=Player(5)
-set lE=CreateUnit(p,'h01B',4128.,9888.,270.)
+set lE=CreateUnit(p,'h01B',2752.,6592.,270.)
 set p=Player(6)
-set qE=CreateUnit(p,'h01B',3840.,9888.,270.)
+set qE=CreateUnit(p,'h01B',2560.,6592.,270.)
 set p=Player(7)
-set HE=CreateUnit(p,'h01B',3552.,9888.,270.)
+set HE=CreateUnit(p,'h01B',2368.,6592.,270.)
 set p=Player(8)
-set jE=CreateUnit(p,'h01B',2592.,9888.,270.)
+set jE=CreateUnit(p,'h01B',1728.,6592.,270.)
 set p=Player(9)
-set KE=CreateUnit(p,'h01B',2304.,9888.,270.)
+set KE=CreateUnit(p,'h01B',1536.,6592.,270.)
 endfunction
 function CreatePlayerUnits takes nothing returns nothing
 local player p
@@ -5518,8 +5527,8 @@ local integer unitID
 local trigger t
 local real LJ
 set p=Player($A)
-set JE=CreateUnit(p,'n00R',10602.,3393.,211.48)
-set WE=CreateUnit(p,'n00R',-4347.,2053.,337.88)
+set JE=CreateUnit(p,'n00R',7068.,2262.,211.48)
+set WE=CreateUnit(p,'n00R',-2898.,1368.,337.88)
 endfunction
 function qJ takes nothing returns nothing
 call SetDestructableInvulnerable(GetEnumDestructable(),true)
@@ -15406,6 +15415,13 @@ call SaveInteger(zzVL_ht,'A0T9',51,1)
 call SaveInteger(zzVL_ht,'A0T9',52,OrderId("holybolt"))
 call SaveInteger(zzVL_ht,'H00U',50,'A0TA')
 call SaveInteger(zzVL_ht,'A0TA',51,-1)
+call SaveInteger(zzVL_ht,0,291,100)
+call SaveStr(zzVL_ht,0,302,"war3mapImported\\Effect_dinhthan.mdx")
+call SaveInteger(zzVL_ht,0,312,0)
+call SaveStr(zzVL_ht,0,304,"war3mapImported\\Effect_dongbang.mdx")
+call SaveInteger(zzVL_ht,0,314,0)
+call SaveStr(zzVL_ht,0,305,"war3mapImported\\Effect_fire2.mdx")
+call SaveInteger(zzVL_ht,0,315,180)
 call SaveInteger(zzVL_ht,'E000',260,'X000')
 call SaveInteger(zzVL_ht,'E000',200,'X000')
 call SaveInteger(zzVL_ht,'E000',230,1)
@@ -15419,6 +15435,7 @@ call SaveInteger(zzVL_ht,'X000',247,5)
 call SaveInteger(zzVL_ht,'X000',248,0)
 call SaveInteger(zzVL_ht,'X000',249,0)
 call SaveInteger(zzVL_ht,'X000',252,8)
+call SaveInteger(zzVL_ht,'X000',294,1)
 call SaveStr(zzVL_ht,'X000',250,"war3mapImported\\NDD_huyetdao.mdx")
 call SaveInteger(zzVL_ht,'X000',257,500)
 call SaveInteger(zzVL_ht,'X000',259,7)
@@ -15444,6 +15461,7 @@ call SaveInteger(zzVL_ht,'X001',253,0)
 call SaveInteger(zzVL_ht,'X001',254,0)
 call SaveInteger(zzVL_ht,'X001',255,0)
 call SaveInteger(zzVL_ht,'X001',256,0)
+call SaveInteger(zzVL_ht,'X001',294,1)
 call SaveStr(zzVL_ht,'X001',250,"war3mapImported\\NDD_chucapcoc.mdx")
 call SaveInteger(zzVL_ht,'X001',201,1)
 call SaveInteger(zzVL_ht,'E000',265,'X002')
@@ -15459,6 +15477,7 @@ call SaveInteger(zzVL_ht,'X002',247,5)
 call SaveInteger(zzVL_ht,'X002',248,0)
 call SaveInteger(zzVL_ht,'X002',249,0)
 call SaveInteger(zzVL_ht,'X002',252,0)
+call SaveInteger(zzVL_ht,'X002',294,1)
 call SaveStr(zzVL_ht,'X002',250,"war3mapImported\\NDD_sauvohinh.mdx")
 call SaveInteger(zzVL_ht,'X002',257,700)
 call SaveInteger(zzVL_ht,'X002',259,7)
@@ -15479,6 +15498,7 @@ call SaveInteger(zzVL_ht,'X003',247,5)
 call SaveInteger(zzVL_ht,'X003',248,0)
 call SaveInteger(zzVL_ht,'X003',249,0)
 call SaveInteger(zzVL_ht,'X003',252,8)
+call SaveInteger(zzVL_ht,'X003',294,1)
 call SaveStr(zzVL_ht,'X003',250,"war3mapImported\\NDD_bachdocxuyentam.mdx")
 call SaveInteger(zzVL_ht,'X003',257,460)
 call SaveInteger(zzVL_ht,'X003',259,10)
@@ -15498,6 +15518,7 @@ call SaveInteger(zzVL_ht,'X004',247,0)
 call SaveInteger(zzVL_ht,'X004',248,0)
 call SaveInteger(zzVL_ht,'X004',249,0)
 call SaveInteger(zzVL_ht,'X004',252,0)
+call SaveInteger(zzVL_ht,'X004',294,1)
 call SaveStr(zzVL_ht,'X004',250,"war3mapImported\\NDD_vancobuff.mdx")
 call SaveInteger(zzVL_ht,'X004',245,512)
 call SaveInteger(zzVL_ht,'X004',201,1)
@@ -15517,9 +15538,11 @@ call SaveInteger(zzVL_ht,'X005',249,0)
 call SaveInteger(zzVL_ht,'X005',252,0)
 call SaveInteger(zzVL_ht,'X005',253,0)
 call SaveInteger(zzVL_ht,'X005',254,0)
+call SaveInteger(zzVL_ht,'X005',294,1)
 call SaveStr(zzVL_ht,'X005',250,"war3mapImported\\NDD_huyetdao.mdx")
 call SaveInteger(zzVL_ht,'X005',201,1)
 call SaveInteger(zzVL_ht,'E000',261,'X006')
+call SaveStr(zzVL_ht,'X006',281,"war3mapImported\\NDD_huyenamtarget.mdx")
 call SaveInteger(zzVL_ht,'E000',206,'X006')
 call SaveInteger(zzVL_ht,'E000',236,68)
 call SaveInteger(zzVL_ht,'X006',240,5)
@@ -15544,6 +15567,7 @@ call SaveInteger(zzVL_ht,'X006',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X006',3,1)
 call SaveStr(zzVL_ht,'X006',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'E000',264,'X007')
+call SaveStr(zzVL_ht,'X007',285,"war3mapImported\\NDD_chucapcoc.mdx")
 call SaveInteger(zzVL_ht,'E000',207,'X007')
 call SaveInteger(zzVL_ht,'E000',237,85)
 call SaveInteger(zzVL_ht,'X007',240,13)
@@ -15556,7 +15580,7 @@ call SaveInteger(zzVL_ht,'X007',247,5)
 call SaveInteger(zzVL_ht,'X007',248,0)
 call SaveInteger(zzVL_ht,'X007',249,0)
 call SaveInteger(zzVL_ht,'X007',252,10)
-call SaveStr(zzVL_ht,'X007',250,"war3mapImported\\NDD_chucapcoc.mdx")
+call SaveStr(zzVL_ht,'X007',250,"war3mapImported\\NDD_chucapeffect.mdx")
 call SaveInteger(zzVL_ht,'X007',257,350)
 call SaveInteger(zzVL_ht,'X007',258,200)
 call SaveInteger(zzVL_ht,'X007',259,7)
@@ -15575,6 +15599,7 @@ call SaveInteger(zzVL_ht,'X008',247,0)
 call SaveInteger(zzVL_ht,'X008',248,0)
 call SaveInteger(zzVL_ht,'X008',249,0)
 call SaveInteger(zzVL_ht,'X008',252,0)
+call SaveInteger(zzVL_ht,'X008',294,1)
 call SaveStr(zzVL_ht,'X008',250,"war3mapImported\\NDD_huyetdao.mdx")
 call SaveInteger(zzVL_ht,'X008',231,1)
 call SaveInteger(zzVL_ht,'X008',201,1)
@@ -15595,6 +15620,7 @@ call SaveInteger(zzVL_ht,'X009',253,0)
 call SaveInteger(zzVL_ht,'X009',254,0)
 call SaveInteger(zzVL_ht,'X009',255,0)
 call SaveInteger(zzVL_ht,'X009',256,0)
+call SaveInteger(zzVL_ht,'X009',294,1)
 call SaveStr(zzVL_ht,'X009',250,"war3mapImported\\NDD_huyetdao.mdx")
 call SaveInteger(zzVL_ht,'X009',201,1)
 call SaveInteger(zzVL_ht,'X009',189,95)
@@ -15604,7 +15630,13 @@ call SaveInteger(zzVL_ht,'X009',220,25)
 call SaveInteger(zzVL_ht,'X009',219,0)
 call SaveInteger(zzVL_ht,'X009',218,10)
 call SaveInteger(zzVL_ht,'X009',217,100)
+call SaveInteger(zzVL_ht,'X010',289,1)
+call SaveInteger(zzVL_ht,'X010',288,1)
 call SaveInteger(zzVL_ht,'E000',262,'X010')
+call SaveStr(zzVL_ht,'X010',280,"war3mapImported\\NDD_uhoncast.mdx")
+call SaveStr(zzVL_ht,'X010',281,"war3mapImported\\NDD_uhonpheanhtarget.mdx")
+call SaveStr(zzVL_ht,'X010',285,"war3mapImported\\NDD_uhonpheanh.mdx")
+call SaveStr(zzVL_ht,'X010',286,"war3mapImported\\NDD_uhonpheanh3.mdx")
 call SaveInteger(zzVL_ht,'E000',210,'X010')
 call SaveInteger(zzVL_ht,'E000',240,145)
 call SaveInteger(zzVL_ht,'X010',240,5)
@@ -15617,7 +15649,7 @@ call SaveInteger(zzVL_ht,'X010',247,5)
 call SaveInteger(zzVL_ht,'X010',248,0)
 call SaveInteger(zzVL_ht,'X010',249,0)
 call SaveInteger(zzVL_ht,'X010',252,8)
-call SaveStr(zzVL_ht,'X010',250,"war3mapImported\\NDD_uhonpheanh.mdx")
+call SaveStr(zzVL_ht,'X010',250,"war3mapImported\\NDD_uhonpheanh2.mdx")
 call SaveInteger(zzVL_ht,'X010',234,2)
 call SaveInteger(zzVL_ht,'X010',235,40)
 call SaveInteger(zzVL_ht,'X010',236,10)
@@ -15642,6 +15674,7 @@ call SaveInteger(zzVL_ht,'X011',249,0)
 call SaveInteger(zzVL_ht,'X011',252,0)
 call SaveInteger(zzVL_ht,'X011',253,0)
 call SaveInteger(zzVL_ht,'X011',254,0)
+call SaveInteger(zzVL_ht,'X011',294,1)
 call SaveStr(zzVL_ht,'X011',250,"war3mapImported\\NDD_bachdocxuyentam.mdx")
 call SaveInteger(zzVL_ht,'X011',245,16384)
 call SaveInteger(zzVL_ht,'X011',201,1)
@@ -15659,13 +15692,14 @@ call SaveInteger(zzVL_ht,'X012',247,6)
 call SaveInteger(zzVL_ht,'X012',248,0)
 call SaveInteger(zzVL_ht,'X012',249,0)
 call SaveInteger(zzVL_ht,'X012',252,512)
-call SaveStr(zzVL_ht,'X012',250,"war3mapImported\\NDD_chucapcoc.mdx")
+call SaveStr(zzVL_ht,'X012',250,"war3mapImported\\NDC_uminhkholautarget.mdx")
 call SaveInteger(zzVL_ht,'X012',257,200)
 call SaveInteger(zzVL_ht,'X012',259,7)
 call SaveInteger(zzVL_ht,'X012',201,1)
 call SaveInteger(zzVL_ht,'X012',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X012',3,2)
 call SaveInteger(zzVL_ht,'H002',260,'X013')
+call SaveStr(zzVL_ht,'X013',281,"war3mapImported\\TVD_targeteffect1.mdx")
 call SaveInteger(zzVL_ht,'H002',200,'X013')
 call SaveInteger(zzVL_ht,'H002',230,1)
 call SaveInteger(zzVL_ht,'X013',240,16)
@@ -15678,7 +15712,7 @@ call SaveInteger(zzVL_ht,'X013',247,5)
 call SaveInteger(zzVL_ht,'X013',248,0)
 call SaveInteger(zzVL_ht,'X013',249,0)
 call SaveInteger(zzVL_ht,'X013',252,0)
-call SaveStr(zzVL_ht,'X013',250,"war3mapImported\\TVD_phathientram.mdx")
+call SaveStr(zzVL_ht,'X013',250,"war3mapImported\\TVD_targeteffect1.mdx")
 call SaveInteger(zzVL_ht,'X013',257,130)
 call SaveInteger(zzVL_ht,'X013',259,7)
 call SaveInteger(zzVL_ht,'X013',201,1)
@@ -15697,9 +15731,11 @@ call SaveInteger(zzVL_ht,'X014',247,5)
 call SaveInteger(zzVL_ht,'X014',248,3)
 call SaveInteger(zzVL_ht,'X014',249,0)
 call SaveInteger(zzVL_ht,'X014',252,0)
+call SaveInteger(zzVL_ht,'X014',294,1)
 call SaveStr(zzVL_ht,'X014',250,"war3mapImported\\TVD_phathientram.mdx")
 call SaveInteger(zzVL_ht,'X014',201,1)
 call SaveInteger(zzVL_ht,'H002',263,'X015')
+call SaveStr(zzVL_ht,'X015',281,"war3mapImported\\TVD_targeteffect1.mdx")
 call SaveInteger(zzVL_ht,'H002',202,'X015')
 call SaveInteger(zzVL_ht,'H002',232,15)
 call SaveInteger(zzVL_ht,'X015',240,3)
@@ -15712,7 +15748,7 @@ call SaveInteger(zzVL_ht,'X015',247,5)
 call SaveInteger(zzVL_ht,'X015',248,0)
 call SaveInteger(zzVL_ht,'X015',249,0)
 call SaveInteger(zzVL_ht,'X015',252,0)
-call SaveStr(zzVL_ht,'X015',250,"war3mapImported\\TVD_phitinhtramthichbuff.mdx")
+call SaveStr(zzVL_ht,'X015',250,"war3mapImported\\TVT_doanhonthich.mdx")
 call SaveInteger(zzVL_ht,'X015',234,1)
 call SaveInteger(zzVL_ht,'X015',235,30)
 call SaveInteger(zzVL_ht,'X015',236,20)
@@ -15735,6 +15771,7 @@ call SaveInteger(zzVL_ht,'X016',247,7)
 call SaveInteger(zzVL_ht,'X016',248,0)
 call SaveInteger(zzVL_ht,'X016',249,0)
 call SaveInteger(zzVL_ht,'X016',252,1024)
+call SaveInteger(zzVL_ht,'X016',294,1)
 call SaveStr(zzVL_ht,'X016',250,"war3mapImported\\TVD_phathientram.mdx")
 call SaveInteger(zzVL_ht,'X016',201,1)
 call SaveInteger(zzVL_ht,'X016',165,1)
@@ -15758,6 +15795,7 @@ call SaveInteger(zzVL_ht,'X017',249,0)
 call SaveInteger(zzVL_ht,'X017',252,0)
 call SaveInteger(zzVL_ht,'X017',253,70)
 call SaveInteger(zzVL_ht,'X017',254,30)
+call SaveInteger(zzVL_ht,'X017',294,1)
 call SaveStr(zzVL_ht,'X017',250,"war3mapImported\\TVD_phathientram.mdx")
 call SaveInteger(zzVL_ht,'X017',201,1)
 call SaveInteger(zzVL_ht,'X017',2,OrderId("roar"))
@@ -15774,9 +15812,11 @@ call SaveInteger(zzVL_ht,'X018',247,5)
 call SaveInteger(zzVL_ht,'X018',248,0)
 call SaveInteger(zzVL_ht,'X018',249,0)
 call SaveInteger(zzVL_ht,'X018',252,0)
+call SaveInteger(zzVL_ht,'X018',294,1)
 call SaveStr(zzVL_ht,'X018',250,"war3mapImported\\TVD_phathientram.mdx")
 call SaveInteger(zzVL_ht,'X018',201,1)
 call SaveInteger(zzVL_ht,'H002',261,'X019')
+call SaveStr(zzVL_ht,'X019',281,"war3mapImported\\TVD_targeteffect2.mdx")
 call SaveInteger(zzVL_ht,'H002',206,'X019')
 call SaveInteger(zzVL_ht,'H002',236,68)
 call SaveInteger(zzVL_ht,'X019',240,16)
@@ -15789,6 +15829,7 @@ call SaveInteger(zzVL_ht,'X019',247,5)
 call SaveInteger(zzVL_ht,'X019',248,0)
 call SaveInteger(zzVL_ht,'X019',249,0)
 call SaveInteger(zzVL_ht,'X019',252,0)
+call SaveInteger(zzVL_ht,'X019',294,1)
 call SaveStr(zzVL_ht,'X019',250,"war3mapImported\\TVD_phathientram.mdx")
 call SaveInteger(zzVL_ht,'X019',257,120)
 call SaveInteger(zzVL_ht,'X019',258,25)
@@ -15809,6 +15850,7 @@ call SaveInteger(zzVL_ht,'X020',247,6)
 call SaveInteger(zzVL_ht,'X020',248,0)
 call SaveInteger(zzVL_ht,'X020',249,0)
 call SaveInteger(zzVL_ht,'X020',252,0)
+call SaveInteger(zzVL_ht,'X020',294,1)
 call SaveStr(zzVL_ht,'X020',250,"war3mapImported\\TVD_phitinhtramthichbuff.mdx")
 call SaveInteger(zzVL_ht,'X020',201,1)
 call SaveInteger(zzVL_ht,'H002',208,'X021')
@@ -15823,6 +15865,7 @@ call SaveInteger(zzVL_ht,'X021',247,3)
 call SaveInteger(zzVL_ht,'X021',248,5)
 call SaveInteger(zzVL_ht,'X021',249,0)
 call SaveInteger(zzVL_ht,'X021',252,0)
+call SaveInteger(zzVL_ht,'X021',294,1)
 call SaveStr(zzVL_ht,'X021',250,"war3mapImported\\TVD_phitinhtramthichbuff.mdx")
 call SaveInteger(zzVL_ht,'X021',216,80)
 call SaveInteger(zzVL_ht,'X021',201,1)
@@ -15840,12 +15883,15 @@ call SaveInteger(zzVL_ht,'X022',247,3)
 call SaveInteger(zzVL_ht,'X022',248,0)
 call SaveInteger(zzVL_ht,'X022',249,0)
 call SaveInteger(zzVL_ht,'X022',252,0)
+call SaveInteger(zzVL_ht,'X022',294,1)
 call SaveStr(zzVL_ht,'X022',250,"war3mapImported\\TVD_tunghoanhbathoangbuff.mdx")
 call SaveInteger(zzVL_ht,'X022',222,1)
 call SaveInteger(zzVL_ht,'X022',201,1)
 call SaveInteger(zzVL_ht,'X022',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X022',3,0)
 call SaveInteger(zzVL_ht,'H002',262,'X023')
+call SaveStr(zzVL_ht,'X023',280,"war3mapImported\\TVD_tranphaicast.mdx")
+call SaveStr(zzVL_ht,'X023',281,"war3mapImported\\TVD_targeteffect1.mdx")
 call SaveInteger(zzVL_ht,'H002',210,'X023')
 call SaveInteger(zzVL_ht,'H002',240,145)
 call SaveInteger(zzVL_ht,'X023',240,5)
@@ -15858,7 +15904,7 @@ call SaveInteger(zzVL_ht,'X023',247,5)
 call SaveInteger(zzVL_ht,'X023',248,0)
 call SaveInteger(zzVL_ht,'X023',249,0)
 call SaveInteger(zzVL_ht,'X023',252,0)
-call SaveStr(zzVL_ht,'X023',250,"war3mapImported\\TVD_phathientram.mdx")
+call SaveStr(zzVL_ht,'X023',250,"war3mapImported\\TVD_tranphainewz2.mdx")
 call SaveInteger(zzVL_ht,'X023',257,450)
 call SaveInteger(zzVL_ht,'X023',258,17)
 call SaveInteger(zzVL_ht,'X023',259,7)
@@ -15897,7 +15943,8 @@ call SaveInteger(zzVL_ht,'X025',247,3)
 call SaveInteger(zzVL_ht,'X025',248,0)
 call SaveInteger(zzVL_ht,'X025',249,0)
 call SaveInteger(zzVL_ht,'X025',252,0)
-call SaveStr(zzVL_ht,'X025',250,"war3mapImported\\TVD_phathientram.mdx")
+call SaveInteger(zzVL_ht,'X025',294,1)
+call SaveStr(zzVL_ht,'X025',250,"war3mapImported\\MDX\\ThienMaHanhKhong.mdx")
 call SaveInteger(zzVL_ht,'X025',201,1)
 call SaveInteger(zzVL_ht,'E001',260,'X026')
 call SaveInteger(zzVL_ht,'E001',200,'X026')
@@ -15934,6 +15981,7 @@ call SaveInteger(zzVL_ht,'X027',252,0)
 call SaveStr(zzVL_ht,'X027',250,"war3mapImported\\VDK_vothuongkiem.mdx")
 call SaveInteger(zzVL_ht,'X027',201,1)
 call SaveInteger(zzVL_ht,'E001',264,'X028')
+call SaveStr(zzVL_ht,'X028',280,"war3mapImported\\VDK_vongacast.mdx")
 call SaveInteger(zzVL_ht,'E001',202,'X028')
 call SaveInteger(zzVL_ht,'E001',232,15)
 call SaveInteger(zzVL_ht,'X028',240,6)
@@ -15948,7 +15996,8 @@ call SaveInteger(zzVL_ht,'X028',249,0)
 call SaveInteger(zzVL_ht,'X028',252,0)
 call SaveInteger(zzVL_ht,'X028',253,18)
 call SaveInteger(zzVL_ht,'X028',254,3)
-call SaveStr(zzVL_ht,'X028',250,"war3mapImported\\VDK_vongabuffs.mdx")
+call SaveInteger(zzVL_ht,'X028',294,1)
+call SaveStr(zzVL_ht,'X028',250,"war3mapImported\\MDX\\ToaVongVoNga.mdx")
 call SaveInteger(zzVL_ht,'X028',201,1)
 call SaveInteger(zzVL_ht,'X028',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X028',3,0)
@@ -15965,7 +16014,7 @@ call SaveInteger(zzVL_ht,'X029',247,4)
 call SaveInteger(zzVL_ht,'X029',248,0)
 call SaveInteger(zzVL_ht,'X029',249,0)
 call SaveInteger(zzVL_ht,'X029',252,0)
-call SaveStr(zzVL_ht,'X029',250,"war3mapImported\\VDK_luutinhcn.mdx")
+call SaveStr(zzVL_ht,'X029',250,"war3mapImported\\VDK_nhankiemcast.mdx")
 call SaveInteger(zzVL_ht,'X029',257,800)
 call SaveInteger(zzVL_ht,'X029',228,1)
 call SaveInteger(zzVL_ht,'X029',223,2)
@@ -15973,6 +16022,7 @@ call SaveInteger(zzVL_ht,'X029',214,1)
 call SaveInteger(zzVL_ht,'X029',201,1)
 call SaveInteger(zzVL_ht,'X029',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X029',3,2)
+call SaveStr(zzVL_ht,'X030',287,"war3mapImported\\VDK_thattinhaura.mdx")
 call SaveInteger(zzVL_ht,'E001',204,'X030')
 call SaveInteger(zzVL_ht,'E001',234,38)
 call SaveInteger(zzVL_ht,'X030',240,0)
@@ -15985,6 +16035,7 @@ call SaveInteger(zzVL_ht,'X030',247,1)
 call SaveInteger(zzVL_ht,'X030',248,2)
 call SaveInteger(zzVL_ht,'X030',249,0)
 call SaveInteger(zzVL_ht,'X030',252,0)
+call SaveInteger(zzVL_ht,'X030',294,1)
 call SaveStr(zzVL_ht,'X030',250,"war3mapImported\\VDK_thattinhaura.mdx")
 call SaveInteger(zzVL_ht,'X030',201,1)
 call SaveInteger(zzVL_ht,'E001',205,'X031')
@@ -15999,9 +16050,14 @@ call SaveInteger(zzVL_ht,'X031',247,5)
 call SaveInteger(zzVL_ht,'X031',248,0)
 call SaveInteger(zzVL_ht,'X031',249,0)
 call SaveInteger(zzVL_ht,'X031',252,0)
+call SaveInteger(zzVL_ht,'X031',294,1)
 call SaveStr(zzVL_ht,'X031',250,"war3mapImported\\VDK_tutieuhoanhvan.mdx")
 call SaveInteger(zzVL_ht,'X031',201,1)
+call SaveInteger(zzVL_ht,'X032',289,1)
+call SaveInteger(zzVL_ht,'X032',288,1)
 call SaveInteger(zzVL_ht,'E001',261,'X032')
+call SaveStr(zzVL_ht,'X032',280,"war3mapImported\\VDK_nhankiemcast.mdx")
+call SaveStr(zzVL_ht,'X032',281,"war3mapImported\\VDK_nhankiemtarget.mdx")
 call SaveInteger(zzVL_ht,'E001',206,'X032')
 call SaveInteger(zzVL_ht,'E001',236,68)
 call SaveInteger(zzVL_ht,'X032',240,5)
@@ -16014,7 +16070,8 @@ call SaveInteger(zzVL_ht,'X032',247,5)
 call SaveInteger(zzVL_ht,'X032',248,0)
 call SaveInteger(zzVL_ht,'X032',249,0)
 call SaveInteger(zzVL_ht,'X032',252,0)
-call SaveStr(zzVL_ht,'X032',250,"war3mapImported\\VDK_nhankiemcast.mdx")
+call SaveInteger(zzVL_ht,'X032',294,1)
+call SaveStr(zzVL_ht,'X032',250,"war3mapImported\\VDK_nhankiemsword.mdx")
 call SaveInteger(zzVL_ht,'X032',257,220)
 call SaveInteger(zzVL_ht,'X032',258,20)
 call SaveInteger(zzVL_ht,'X032',259,7)
@@ -16036,6 +16093,7 @@ call SaveInteger(zzVL_ht,'X033',247,5)
 call SaveInteger(zzVL_ht,'X033',248,0)
 call SaveInteger(zzVL_ht,'X033',249,0)
 call SaveInteger(zzVL_ht,'X033',252,0)
+call SaveInteger(zzVL_ht,'X033',294,1)
 call SaveStr(zzVL_ht,'X033',250,"war3mapImported\\VDK_luongnghikiem.mdx")
 call SaveInteger(zzVL_ht,'X033',257,800)
 call SaveInteger(zzVL_ht,'X033',258,30)
@@ -16055,6 +16113,7 @@ call SaveInteger(zzVL_ht,'X034',247,4)
 call SaveInteger(zzVL_ht,'X034',248,0)
 call SaveInteger(zzVL_ht,'X034',249,0)
 call SaveInteger(zzVL_ht,'X034',252,0)
+call SaveInteger(zzVL_ht,'X034',294,1)
 call SaveStr(zzVL_ht,'X034',250,"war3mapImported\\VDK_thainhat.mdx")
 call SaveInteger(zzVL_ht,'X034',212,66)
 call SaveInteger(zzVL_ht,'X034',211,2)
@@ -16071,13 +16130,19 @@ call SaveInteger(zzVL_ht,'X035',247,5)
 call SaveInteger(zzVL_ht,'X035',248,0)
 call SaveInteger(zzVL_ht,'X035',249,0)
 call SaveInteger(zzVL_ht,'X035',252,8192)
-call SaveStr(zzVL_ht,'X035',250,"war3mapImported\\VDK_metungbuff.mdx")
+call SaveInteger(zzVL_ht,'X035',294,1)
+call SaveStr(zzVL_ht,'X035',250,"war3mapImported\\MDX\\MeTungHuyenAnh.mdx")
 call SaveInteger(zzVL_ht,'X035',201,1)
 call SaveInteger(zzVL_ht,'X035',173,16)
 call SaveInteger(zzVL_ht,'X035',171,5)
 call SaveInteger(zzVL_ht,'X035',170,2)
 call SaveInteger(zzVL_ht,'X035',165,2)
+call SaveInteger(zzVL_ht,'X036',289,1)
+call SaveInteger(zzVL_ht,'X036',288,1)
 call SaveInteger(zzVL_ht,'E001',262,'X036')
+call SaveStr(zzVL_ht,'X036',280,"war3mapImported\\VDK_vothuongcastereffect.mdx")
+call SaveStr(zzVL_ht,'X036',281,"war3mapImported\\VDK_vothuongtarget.mdx")
+call SaveStr(zzVL_ht,'X036',285,"war3mapImported\\VDK_vocuckiemy.mdx")
 call SaveInteger(zzVL_ht,'E001',210,'X036')
 call SaveInteger(zzVL_ht,'E001',240,145)
 call SaveInteger(zzVL_ht,'X036',240,5)
@@ -16117,6 +16182,7 @@ call SaveInteger(zzVL_ht,'X037',208,40)
 call SaveInteger(zzVL_ht,'X037',201,1)
 call SaveInteger(zzVL_ht,'X037',239,2)
 call SaveInteger(zzVL_ht,'E001',266,'X038')
+call SaveStr(zzVL_ht,'X038',284,"war3mapImported\\VDK_tutieubuff.mdx")
 call SaveInteger(zzVL_ht,'E001',212,'X038')
 call SaveInteger(zzVL_ht,'E001',242,185)
 call SaveInteger(zzVL_ht,'X038',240,18)
@@ -16129,6 +16195,7 @@ call SaveInteger(zzVL_ht,'X038',247,5)
 call SaveInteger(zzVL_ht,'X038',248,6)
 call SaveInteger(zzVL_ht,'X038',249,0)
 call SaveInteger(zzVL_ht,'X038',252,512)
+call SaveInteger(zzVL_ht,'X038',294,1)
 call SaveStr(zzVL_ht,'X038',250,"war3mapImported\\VDK_tutieuhoanhvan.mdx")
 call SaveInteger(zzVL_ht,'X038',257,800)
 call SaveInteger(zzVL_ht,'X038',258,100)
@@ -16150,6 +16217,7 @@ call SaveInteger(zzVL_ht,'X039',247,5)
 call SaveInteger(zzVL_ht,'X039',248,0)
 call SaveInteger(zzVL_ht,'X039',249,0)
 call SaveInteger(zzVL_ht,'X039',252,0)
+call SaveInteger(zzVL_ht,'X039',294,1)
 call SaveStr(zzVL_ht,'X039',250,"war3mapImported\\TYD_mucda.mdx")
 call SaveInteger(zzVL_ht,'X039',257,500)
 call SaveInteger(zzVL_ht,'X039',259,4)
@@ -16174,6 +16242,7 @@ call SaveInteger(zzVL_ht,'X040',249,0)
 call SaveInteger(zzVL_ht,'X040',252,0)
 call SaveStr(zzVL_ht,'X040',250,"war3mapImported\\TYD_bangtunghoasen.mdx")
 call SaveInteger(zzVL_ht,'X040',201,1)
+call SaveStr(zzVL_ht,'X041',287,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'E002',202,'X041')
 call SaveInteger(zzVL_ht,'E002',232,15)
 call SaveInteger(zzVL_ht,'X041',240,0)
@@ -16186,9 +16255,11 @@ call SaveInteger(zzVL_ht,'X041',247,13)
 call SaveInteger(zzVL_ht,'X041',248,0)
 call SaveInteger(zzVL_ht,'X041',249,0)
 call SaveInteger(zzVL_ht,'X041',252,0)
+call SaveInteger(zzVL_ht,'X041',294,1)
 call SaveStr(zzVL_ht,'X041',250,"war3mapImported\\TYD_daptuyetbuff.mdx")
 call SaveInteger(zzVL_ht,'X041',201,1)
 call SaveInteger(zzVL_ht,'E002',263,'X042')
+call SaveStr(zzVL_ht,'X042',284,"war3mapImported\\TYD_daptuyetbuff.mdx")
 call SaveInteger(zzVL_ht,'E002',203,'X042')
 call SaveInteger(zzVL_ht,'E002',233,25)
 call SaveInteger(zzVL_ht,'X042',240,19)
@@ -16205,7 +16276,7 @@ call SaveInteger(zzVL_ht,'X042',253,30)
 call SaveInteger(zzVL_ht,'X042',254,5)
 call SaveInteger(zzVL_ht,'X042',255,20)
 call SaveInteger(zzVL_ht,'X042',256,10)
-call SaveStr(zzVL_ht,'X042',250,"war3mapImported\\TYD_luuphonghoituyet.mdx")
+call SaveStr(zzVL_ht,'X042',250,"war3mapImported\\TYK_effectcast.mdx")
 call SaveInteger(zzVL_ht,'X042',201,1)
 call SaveInteger(zzVL_ht,'X042',199,28)
 call SaveInteger(zzVL_ht,'X042',174,1)
@@ -16223,6 +16294,7 @@ call SaveInteger(zzVL_ht,'X043',247,7)
 call SaveInteger(zzVL_ht,'X043',248,0)
 call SaveInteger(zzVL_ht,'X043',249,0)
 call SaveInteger(zzVL_ht,'X043',252,1024)
+call SaveInteger(zzVL_ht,'X043',294,1)
 call SaveStr(zzVL_ht,'X043',250,"war3mapImported\\TYD_bangtuocdao2.mdx")
 call SaveInteger(zzVL_ht,'X043',204,35)
 call SaveInteger(zzVL_ht,'X043',201,1)
@@ -16247,6 +16319,7 @@ call SaveInteger(zzVL_ht,'X044',252,0)
 call SaveStr(zzVL_ht,'X044',250,"war3mapImported\\TYD_bangtuochoasen.mdx")
 call SaveInteger(zzVL_ht,'X044',201,1)
 call SaveInteger(zzVL_ht,'E002',261,'X045')
+call SaveStr(zzVL_ht,'X045',285,"war3mapImported\\TYD_bangtungvoanh.mdx")
 call SaveInteger(zzVL_ht,'E002',206,'X045')
 call SaveInteger(zzVL_ht,'E002',236,68)
 call SaveInteger(zzVL_ht,'X045',240,5)
@@ -16259,7 +16332,7 @@ call SaveInteger(zzVL_ht,'X045',247,5)
 call SaveInteger(zzVL_ht,'X045',248,0)
 call SaveInteger(zzVL_ht,'X045',249,0)
 call SaveInteger(zzVL_ht,'X045',252,0)
-call SaveStr(zzVL_ht,'X045',250,"war3mapImported\\TYD_bangtungvoanh.mdx")
+call SaveStr(zzVL_ht,'X045',250,"war3mapImported\\TYD_bangtunghoasen.mdx")
 call SaveInteger(zzVL_ht,'X045',257,500)
 call SaveInteger(zzVL_ht,'X045',259,3)
 call SaveInteger(zzVL_ht,'X045',207,3)
@@ -16269,6 +16342,7 @@ call SaveInteger(zzVL_ht,'X045',201,1)
 call SaveInteger(zzVL_ht,'X045',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X045',3,1)
 call SaveStr(zzVL_ht,'X045',251,"poisonarrowstargon")
+call SaveStr(zzVL_ht,'X046',285,"war3mapImported\\TYD_luuphonghoituyet.mdx")
 call SaveInteger(zzVL_ht,'E002',207,'X046')
 call SaveInteger(zzVL_ht,'E002',237,85)
 call SaveInteger(zzVL_ht,'X046',240,0)
@@ -16281,6 +16355,9 @@ call SaveInteger(zzVL_ht,'X046',247,0)
 call SaveInteger(zzVL_ht,'X046',248,0)
 call SaveInteger(zzVL_ht,'X046',249,0)
 call SaveInteger(zzVL_ht,'X046',252,0)
+call SaveInteger(zzVL_ht,'X046',294,1)
+endfunction
+function zzVL_Items1 takes nothing returns nothing
 call SaveStr(zzVL_ht,'X046',250,"war3mapImported\\TYD_daptuyetbuff.mdx")
 call SaveInteger(zzVL_ht,'X046',216,25)
 call SaveInteger(zzVL_ht,'X046',203,41)
@@ -16299,6 +16376,7 @@ call SaveInteger(zzVL_ht,'X047',247,4)
 call SaveInteger(zzVL_ht,'X047',248,3)
 call SaveInteger(zzVL_ht,'X047',249,0)
 call SaveInteger(zzVL_ht,'X047',252,0)
+call SaveInteger(zzVL_ht,'X047',294,1)
 call SaveStr(zzVL_ht,'X047',250,"war3mapImported\\TYD_banglongpha.mdx")
 call SaveInteger(zzVL_ht,'X047',201,1)
 call SaveInteger(zzVL_ht,'E002',264,'X048')
@@ -16314,6 +16392,7 @@ call SaveInteger(zzVL_ht,'X048',247,5)
 call SaveInteger(zzVL_ht,'X048',248,6)
 call SaveInteger(zzVL_ht,'X048',249,0)
 call SaveInteger(zzVL_ht,'X048',252,0)
+call SaveInteger(zzVL_ht,'X048',294,1)
 call SaveStr(zzVL_ht,'X048',250,"war3mapImported\\TYD_bufftuongtu.mdx")
 call SaveInteger(zzVL_ht,'X048',201,1)
 call SaveInteger(zzVL_ht,'X048',198,10)
@@ -16321,6 +16400,8 @@ call SaveInteger(zzVL_ht,'X048',197,1)
 call SaveInteger(zzVL_ht,'X048',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X048',3,4)
 call SaveInteger(zzVL_ht,'E002',262,'X049')
+call SaveStr(zzVL_ht,'X049',285,"war3mapImported\\TYD_bangtuocdao2.mdx")
+call SaveStr(zzVL_ht,'X049',286,"war3mapImported\\TYD_bangtuochoasen.mdx")
 call SaveInteger(zzVL_ht,'E002',210,'X049')
 call SaveInteger(zzVL_ht,'E002',240,145)
 call SaveInteger(zzVL_ht,'X049',240,5)
@@ -16333,6 +16414,7 @@ call SaveInteger(zzVL_ht,'X049',247,5)
 call SaveInteger(zzVL_ht,'X049',248,0)
 call SaveInteger(zzVL_ht,'X049',249,0)
 call SaveInteger(zzVL_ht,'X049',252,0)
+call SaveInteger(zzVL_ht,'X049',294,1)
 call SaveStr(zzVL_ht,'X049',250,"war3mapImported\\TYD_bangtuocdao1.mdx")
 call SaveInteger(zzVL_ht,'X049',257,600)
 call SaveInteger(zzVL_ht,'X049',259,7)
@@ -16344,11 +16426,11 @@ call SaveInteger(zzVL_ht,'X049',167,120)
 call SaveInteger(zzVL_ht,'X049',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X049',3,1)
 call SaveStr(zzVL_ht,'X049',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X050',285,"war3mapImported\\TYD_bangtungvoanh.mdx")
+call SaveStr(zzVL_ht,'X050',286,"war3mapImported\\TYD_bangtuocdao1.mdx")
 call SaveInteger(zzVL_ht,'E002',211,'X050')
 call SaveInteger(zzVL_ht,'E002',241,165)
 call SaveInteger(zzVL_ht,'X050',240,0)
-endfunction
-function zzVL_Items1 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X050',241,1)
 call SaveInteger(zzVL_ht,'X050',242,0)
 call SaveInteger(zzVL_ht,'X050',243,0)
@@ -16373,7 +16455,7 @@ call SaveInteger(zzVL_ht,'X051',247,5)
 call SaveInteger(zzVL_ht,'X051',248,0)
 call SaveInteger(zzVL_ht,'X051',249,0)
 call SaveInteger(zzVL_ht,'X051',252,0)
-call SaveStr(zzVL_ht,'X051',250,"war3mapImported\\TYD_luuphonghoituyet.mdx")
+call SaveStr(zzVL_ht,'X051',250,"war3mapImported\\TYK_huyenbang.mdx")
 call SaveInteger(zzVL_ht,'X051',257,400)
 call SaveInteger(zzVL_ht,'X051',259,10)
 call SaveInteger(zzVL_ht,'X051',228,1)
@@ -16394,6 +16476,7 @@ call SaveInteger(zzVL_ht,'X052',247,5)
 call SaveInteger(zzVL_ht,'X052',248,0)
 call SaveInteger(zzVL_ht,'X052',249,0)
 call SaveInteger(zzVL_ht,'X052',252,8)
+call SaveInteger(zzVL_ht,'X052',294,1)
 call SaveStr(zzVL_ht,'X052',250,"war3mapImported\\DMPT_tanhoatieu.mdx")
 call SaveInteger(zzVL_ht,'X052',257,500)
 call SaveInteger(zzVL_ht,'X052',259,4)
@@ -16441,6 +16524,7 @@ call SaveInteger(zzVL_ht,'X054',196,40)
 call SaveInteger(zzVL_ht,'X054',195,1)
 call SaveInteger(zzVL_ht,'X054',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X054',3,2)
+call SaveStr(zzVL_ht,'X055',287,"war3mapImported\\DMTT_toidocaura.mdx")
 call SaveInteger(zzVL_ht,'E003',203,'X055')
 call SaveInteger(zzVL_ht,'E003',233,25)
 call SaveInteger(zzVL_ht,'X055',240,0)
@@ -16489,7 +16573,8 @@ call SaveInteger(zzVL_ht,'X057',247,5)
 call SaveInteger(zzVL_ht,'X057',248,14)
 call SaveInteger(zzVL_ht,'X057',249,0)
 call SaveInteger(zzVL_ht,'X057',252,0)
-call SaveStr(zzVL_ht,'X057',250,"war3mapImported\\DMPT_cuucung3.mdx")
+call SaveInteger(zzVL_ht,'X057',294,1)
+call SaveStr(zzVL_ht,'X057',250,"war3mapImported\\MDX\\TamNhan.mdx")
 call SaveInteger(zzVL_ht,'X057',201,1)
 call SaveInteger(zzVL_ht,'E003',261,'X058')
 call SaveInteger(zzVL_ht,'E003',206,'X058')
@@ -16504,7 +16589,8 @@ call SaveInteger(zzVL_ht,'X058',247,5)
 call SaveInteger(zzVL_ht,'X058',248,0)
 call SaveInteger(zzVL_ht,'X058',249,0)
 call SaveInteger(zzVL_ht,'X058',252,8)
-call SaveStr(zzVL_ht,'X058',250,"war3mapImported\\DMPT_cuucung3.mdx")
+call SaveInteger(zzVL_ht,'X058',294,1)
+call SaveStr(zzVL_ht,'X058',250,"war3mapImported\\DMPT_cuucung4.mdx")
 call SaveInteger(zzVL_ht,'X058',257,800)
 call SaveInteger(zzVL_ht,'X058',259,3)
 call SaveInteger(zzVL_ht,'X058',207,5)
@@ -16526,6 +16612,7 @@ call SaveInteger(zzVL_ht,'X059',247,4)
 call SaveInteger(zzVL_ht,'X059',248,3)
 call SaveInteger(zzVL_ht,'X059',249,0)
 call SaveInteger(zzVL_ht,'X059',252,0)
+call SaveInteger(zzVL_ht,'X059',294,1)
 call SaveStr(zzVL_ht,'X059',250,"war3mapImported\\DMPT_cuucung5.mdx")
 call SaveInteger(zzVL_ht,'X059',201,1)
 call SaveInteger(zzVL_ht,'E003',208,'X060')
@@ -16540,6 +16627,7 @@ call SaveInteger(zzVL_ht,'X060',247,6)
 call SaveInteger(zzVL_ht,'X060',248,0)
 call SaveInteger(zzVL_ht,'X060',249,0)
 call SaveInteger(zzVL_ht,'X060',252,0)
+call SaveInteger(zzVL_ht,'X060',294,1)
 call SaveStr(zzVL_ht,'X060',250,"war3mapImported\\DMPT_mehontrap.mdx")
 call SaveInteger(zzVL_ht,'X060',201,1)
 call SaveInteger(zzVL_ht,'X060',165,3)
@@ -16548,6 +16636,7 @@ call SaveInteger(zzVL_ht,'X060',161,6)
 call SaveInteger(zzVL_ht,'X060',160,400)
 call SaveInteger(zzVL_ht,'X060',220,20)
 call SaveInteger(zzVL_ht,'E003',264,'X061')
+call SaveStr(zzVL_ht,'X061',285,"war3mapImported\\DMPD_anhtungtran.mdx")
 call SaveInteger(zzVL_ht,'E003',209,'X061')
 call SaveInteger(zzVL_ht,'E003',239,125)
 call SaveInteger(zzVL_ht,'X061',240,8)
@@ -16562,11 +16651,15 @@ call SaveInteger(zzVL_ht,'X061',249,0)
 call SaveInteger(zzVL_ht,'X061',252,0)
 call SaveInteger(zzVL_ht,'X061',253,27)
 call SaveInteger(zzVL_ht,'X061',254,3)
-call SaveStr(zzVL_ht,'X061',250,"war3mapImported\\DMPT_mehontrap.mdx")
+call SaveStr(zzVL_ht,'X061',250,"war3mapImported\\DMPD_anhtungtranaura.mdx")
 call SaveInteger(zzVL_ht,'X061',201,1)
 call SaveInteger(zzVL_ht,'X061',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X061',3,0)
+call SaveInteger(zzVL_ht,'X062',288,1)
 call SaveInteger(zzVL_ht,'E003',262,'X062')
+call SaveStr(zzVL_ht,'X062',281,"war3mapImported\\DMPT_cankhontarget.mdx")
+call SaveStr(zzVL_ht,'X062',285,"war3mapImported\\DMPT_kimnguyenbao.mdx")
+call SaveStr(zzVL_ht,'X062',286,"war3mapImported\\DMPT_cankhonnhattrich2.mdx")
 call SaveInteger(zzVL_ht,'E003',210,'X062')
 call SaveInteger(zzVL_ht,'E003',240,145)
 call SaveInteger(zzVL_ht,'X062',240,5)
@@ -16579,7 +16672,7 @@ call SaveInteger(zzVL_ht,'X062',247,5)
 call SaveInteger(zzVL_ht,'X062',248,0)
 call SaveInteger(zzVL_ht,'X062',249,0)
 call SaveInteger(zzVL_ht,'X062',252,8)
-call SaveStr(zzVL_ht,'X062',250,"war3mapImported\\DMPT_cankhonnhattrich.mdx")
+call SaveStr(zzVL_ht,'X062',250,"war3mapImported\\DMPT_cankhonnhattrich3.mdx")
 call SaveInteger(zzVL_ht,'X062',257,800)
 call SaveInteger(zzVL_ht,'X062',259,3)
 call SaveInteger(zzVL_ht,'X062',207,5)
@@ -16605,7 +16698,10 @@ call SaveStr(zzVL_ht,'X063',250,"war3mapImported\\DMPT_thiettoahg.mdx")
 call SaveInteger(zzVL_ht,'X063',245,65536)
 call SaveInteger(zzVL_ht,'X063',201,1)
 call SaveInteger(zzVL_ht,'X063',239,2)
+call SaveInteger(zzVL_ht,'X064',288,1)
 call SaveInteger(zzVL_ht,'E003',266,'X064')
+call SaveStr(zzVL_ht,'X064',281,"war3mapImported\\DMPT_thiettoataget.mdx")
+call SaveStr(zzVL_ht,'X064',284,"war3mapImported\\DMPT_thiettoabuff.mdx")
 call SaveInteger(zzVL_ht,'E003',212,'X064')
 call SaveInteger(zzVL_ht,'E003',242,185)
 call SaveInteger(zzVL_ht,'X064',240,4)
@@ -16626,6 +16722,7 @@ call SaveInteger(zzVL_ht,'X064',201,1)
 call SaveInteger(zzVL_ht,'X064',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X064',3,0)
 call SaveInteger(zzVL_ht,'H00Z',260,'X065')
+call SaveStr(zzVL_ht,'X065',281,"war3mapImported\\TLQ_targeteffect.mdx")
 call SaveInteger(zzVL_ht,'H00Z',200,'X065')
 call SaveInteger(zzVL_ht,'H00Z',230,1)
 call SaveInteger(zzVL_ht,'X065',240,16)
@@ -16658,6 +16755,7 @@ call SaveInteger(zzVL_ht,'X066',247,5)
 call SaveInteger(zzVL_ht,'X066',248,3)
 call SaveInteger(zzVL_ht,'X066',249,0)
 call SaveInteger(zzVL_ht,'X066',252,0)
+call SaveInteger(zzVL_ht,'X066',294,1)
 call SaveStr(zzVL_ht,'X066',250,"war3mapImported\\TLQ_kimcangchuongeffect2.mdx")
 call SaveInteger(zzVL_ht,'X066',201,1)
 call SaveInteger(zzVL_ht,'H00Z',202,'X067')
@@ -16672,9 +16770,13 @@ call SaveInteger(zzVL_ht,'X067',247,7)
 call SaveInteger(zzVL_ht,'X067',248,0)
 call SaveInteger(zzVL_ht,'X067',249,0)
 call SaveInteger(zzVL_ht,'X067',252,0)
+call SaveInteger(zzVL_ht,'X067',294,1)
 call SaveStr(zzVL_ht,'X067',250,"war3mapImported\\TLQ_kimcuongchuongefffect3.mdx")
 call SaveInteger(zzVL_ht,'X067',201,1)
 call SaveInteger(zzVL_ht,'H00Z',263,'X068')
+call SaveStr(zzVL_ht,'X068',281,"war3mapImported\\TLQ_targeteffect.mdx")
+call SaveStr(zzVL_ht,'X068',284,"war3mapImported\\TLQ_sutuhongbuff.mdx")
+call SaveStr(zzVL_ht,'X068',285,"war3mapImported\\HydraliskImpact.mdx")
 call SaveInteger(zzVL_ht,'H00Z',203,'X068')
 call SaveInteger(zzVL_ht,'H00Z',233,25)
 call SaveInteger(zzVL_ht,'X068',240,4)
@@ -16687,6 +16789,7 @@ call SaveInteger(zzVL_ht,'X068',247,5)
 call SaveInteger(zzVL_ht,'X068',248,0)
 call SaveInteger(zzVL_ht,'X068',249,0)
 call SaveInteger(zzVL_ht,'X068',252,0)
+call SaveInteger(zzVL_ht,'X068',294,1)
 call SaveStr(zzVL_ht,'X068',250,"war3mapImported\\TLQ_sutuhong.mdx")
 call SaveInteger(zzVL_ht,'X068',234,2)
 call SaveInteger(zzVL_ht,'X068',235,36)
@@ -16729,9 +16832,13 @@ call SaveInteger(zzVL_ht,'X070',247,5)
 call SaveInteger(zzVL_ht,'X070',248,0)
 call SaveInteger(zzVL_ht,'X070',249,0)
 call SaveInteger(zzVL_ht,'X070',252,0)
+call SaveInteger(zzVL_ht,'X070',294,1)
 call SaveStr(zzVL_ht,'X070',250,"war3mapImported\\TLQ_nhulai.mdx")
 call SaveInteger(zzVL_ht,'X070',201,1)
+call SaveInteger(zzVL_ht,'X071',288,1)
 call SaveInteger(zzVL_ht,'H00Z',261,'X071')
+call SaveStr(zzVL_ht,'X071',281,"war3mapImported\\TLQ_kimcuongtarget.mdx")
+call SaveStr(zzVL_ht,'X071',285,"war3mapImported\\TLQ_kimcuongeff2.mdx")
 call SaveInteger(zzVL_ht,'H00Z',206,'X071')
 call SaveInteger(zzVL_ht,'H00Z',236,68)
 call SaveInteger(zzVL_ht,'X071',240,16)
@@ -16744,6 +16851,7 @@ call SaveInteger(zzVL_ht,'X071',247,5)
 call SaveInteger(zzVL_ht,'X071',248,0)
 call SaveInteger(zzVL_ht,'X071',249,0)
 call SaveInteger(zzVL_ht,'X071',252,0)
+call SaveInteger(zzVL_ht,'X071',294,1)
 call SaveStr(zzVL_ht,'X071',250,"war3mapImported\\TLQ_kimcuongphucma.mdx")
 call SaveInteger(zzVL_ht,'X071',257,250)
 call SaveInteger(zzVL_ht,'X071',258,63)
@@ -16753,6 +16861,8 @@ call SaveInteger(zzVL_ht,'X071',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X071',3,1)
 call SaveStr(zzVL_ht,'X071',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H00Z',265,'X072')
+call SaveStr(zzVL_ht,'X072',280,"war3mapImported\\TLQ_lahankimthancast.mdx")
+call SaveStr(zzVL_ht,'X072',284,"war3mapImported\\TLQ_lahanbuff2.mdx")
 call SaveInteger(zzVL_ht,'H00Z',207,'X072')
 call SaveInteger(zzVL_ht,'H00Z',237,85)
 call SaveInteger(zzVL_ht,'X072',240,6)
@@ -16769,7 +16879,8 @@ call SaveInteger(zzVL_ht,'X072',253,17)
 call SaveInteger(zzVL_ht,'X072',254,3)
 call SaveInteger(zzVL_ht,'X072',255,10)
 call SaveInteger(zzVL_ht,'X072',256,10)
-call SaveStr(zzVL_ht,'X072',250,"war3mapImported\\TLQ_lahankimthancast.mdx")
+call SaveInteger(zzVL_ht,'X072',294,1)
+call SaveStr(zzVL_ht,'X072',250,"war3mapImported\\TLQ_lahanbuff.mdx")
 call SaveInteger(zzVL_ht,'X072',201,1)
 call SaveInteger(zzVL_ht,'X072',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X072',3,0)
@@ -16785,6 +16896,7 @@ call SaveInteger(zzVL_ht,'X073',247,5)
 call SaveInteger(zzVL_ht,'X073',248,4)
 call SaveInteger(zzVL_ht,'X073',249,0)
 call SaveInteger(zzVL_ht,'X073',252,0)
+call SaveInteger(zzVL_ht,'X073',294,1)
 call SaveStr(zzVL_ht,'X073',250,"war3mapImported\\TLQ_nhulai.mdx")
 call SaveInteger(zzVL_ht,'X073',201,1)
 call SaveInteger(zzVL_ht,'H00Z',209,'X074')
@@ -16799,9 +16911,13 @@ call SaveInteger(zzVL_ht,'X074',247,6)
 call SaveInteger(zzVL_ht,'X074',248,14)
 call SaveInteger(zzVL_ht,'X074',249,0)
 call SaveInteger(zzVL_ht,'X074',252,0)
-call SaveStr(zzVL_ht,'X074',250,"war3mapImported\\TLQ_sutuhong.mdx")
+call SaveStr(zzVL_ht,'X074',250,"war3mapImported\\MDX\\HonNguyenNhatKhi.mdx")
 call SaveInteger(zzVL_ht,'X074',201,1)
+call SaveInteger(zzVL_ht,'X075',288,1)
 call SaveInteger(zzVL_ht,'H00Z',262,'X075')
+call SaveStr(zzVL_ht,'X075',281,"war3mapImported\\TLQ_targeteffect.mdx")
+call SaveStr(zzVL_ht,'X075',285,"war3mapImported\\TLQ_kimcangchuongeffect1.mdx")
+call SaveStr(zzVL_ht,'X075',286,"war3mapImported\\TLQ_kimcuongchuongefffect3.mdx")
 call SaveInteger(zzVL_ht,'H00Z',210,'X075')
 call SaveInteger(zzVL_ht,'H00Z',240,145)
 call SaveInteger(zzVL_ht,'X075',240,5)
@@ -16814,7 +16930,7 @@ call SaveInteger(zzVL_ht,'X075',247,5)
 call SaveInteger(zzVL_ht,'X075',248,0)
 call SaveInteger(zzVL_ht,'X075',249,0)
 call SaveInteger(zzVL_ht,'X075',252,0)
-call SaveStr(zzVL_ht,'X075',250,"war3mapImported\\TLQ_kimcangchuongeffect1.mdx")
+call SaveStr(zzVL_ht,'X075',250,"war3mapImported\\TLQ_votuongeffect.mdx")
 call SaveInteger(zzVL_ht,'X075',257,900)
 call SaveInteger(zzVL_ht,'X075',258,17)
 call SaveInteger(zzVL_ht,'X075',259,7)
@@ -16857,6 +16973,7 @@ call SaveInteger(zzVL_ht,'X077',249,0)
 call SaveInteger(zzVL_ht,'X077',252,0)
 call SaveInteger(zzVL_ht,'X077',253,5)
 call SaveInteger(zzVL_ht,'X077',254,1)
+call SaveInteger(zzVL_ht,'X077',294,1)
 call SaveStr(zzVL_ht,'X077',250,"war3mapImported\\TLQ_nhulai.mdx")
 call SaveInteger(zzVL_ht,'X077',201,1)
 call SaveInteger(zzVL_ht,'X077',2,OrderId("avatar"))
@@ -16874,6 +16991,7 @@ call SaveInteger(zzVL_ht,'X078',247,5)
 call SaveInteger(zzVL_ht,'X078',248,0)
 call SaveInteger(zzVL_ht,'X078',249,0)
 call SaveInteger(zzVL_ht,'X078',252,0)
+call SaveInteger(zzVL_ht,'X078',294,1)
 call SaveStr(zzVL_ht,'X078',250,"war3mapImported\\TND_danchifire.mdx")
 call SaveInteger(zzVL_ht,'X078',257,120)
 call SaveInteger(zzVL_ht,'X078',258,95)
@@ -16882,6 +17000,8 @@ call SaveInteger(zzVL_ht,'X078',201,1)
 call SaveInteger(zzVL_ht,'X078',2,OrderId("blackarrow"))
 call SaveInteger(zzVL_ht,'X078',3,1)
 call SaveStr(zzVL_ht,'X078',251,"blackarrowon")
+call SaveStr(zzVL_ht,'X079',280,"war3mapImported\\TND_thienngoailuutinhcaster.mdx")
+call SaveStr(zzVL_ht,'X079',285,"war3mapImported\\TND_thienngoaistone.mdx")
 call SaveInteger(zzVL_ht,'H014',201,'X079')
 call SaveInteger(zzVL_ht,'H014',231,6)
 call SaveInteger(zzVL_ht,'X079',240,0)
@@ -16897,6 +17017,7 @@ call SaveInteger(zzVL_ht,'X079',252,0)
 call SaveStr(zzVL_ht,'X079',250,"war3mapImported\\TND_thienngoaifire.mdx")
 call SaveInteger(zzVL_ht,'X079',201,1)
 call SaveInteger(zzVL_ht,'H014',264,'X080')
+call SaveStr(zzVL_ht,'X080',285,"war3mapImported\\TND_hoalieneffect.mdx")
 call SaveInteger(zzVL_ht,'H014',202,'X080')
 call SaveInteger(zzVL_ht,'H014',232,15)
 call SaveInteger(zzVL_ht,'X080',240,13)
@@ -16909,7 +17030,8 @@ call SaveInteger(zzVL_ht,'X080',247,1)
 call SaveInteger(zzVL_ht,'X080',248,0)
 call SaveInteger(zzVL_ht,'X080',249,0)
 call SaveInteger(zzVL_ht,'X080',252,2)
-call SaveStr(zzVL_ht,'X080',250,"war3mapImported\\TND_hoalieneffect.mdx")
+call SaveInteger(zzVL_ht,'X080',294,1)
+call SaveStr(zzVL_ht,'X080',250,"war3mapImported\\TND_hoalienhole.mdx")
 call SaveInteger(zzVL_ht,'X080',257,270)
 call SaveInteger(zzVL_ht,'X080',258,200)
 call SaveInteger(zzVL_ht,'X080',259,7)
@@ -16933,6 +17055,7 @@ call SaveInteger(zzVL_ht,'X081',247,5)
 call SaveInteger(zzVL_ht,'X081',248,0)
 call SaveInteger(zzVL_ht,'X081',249,0)
 call SaveInteger(zzVL_ht,'X081',252,0)
+call SaveInteger(zzVL_ht,'X081',294,1)
 call SaveStr(zzVL_ht,'X081',250,"war3mapImported\\TND_thoisonfire.mdx")
 call SaveInteger(zzVL_ht,'X081',257,250)
 call SaveInteger(zzVL_ht,'X081',258,50)
@@ -16942,6 +17065,7 @@ call SaveInteger(zzVL_ht,'X081',194,600)
 call SaveInteger(zzVL_ht,'X081',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X081',3,2)
 call SaveInteger(zzVL_ht,'H014',265,'X082')
+call SaveStr(zzVL_ht,'X082',281,"war3mapImported\\TND_nhiephontarget.mdx")
 call SaveInteger(zzVL_ht,'H014',204,'X082')
 call SaveInteger(zzVL_ht,'H014',234,38)
 call SaveInteger(zzVL_ht,'X082',240,15)
@@ -16976,13 +17100,18 @@ call SaveInteger(zzVL_ht,'X083',247,5)
 call SaveInteger(zzVL_ht,'X083',248,0)
 call SaveInteger(zzVL_ht,'X083',249,0)
 call SaveInteger(zzVL_ht,'X083',252,0)
+call SaveInteger(zzVL_ht,'X083',294,1)
 call SaveStr(zzVL_ht,'X083',250,"war3mapImported\\TND_madao.mdx")
 call SaveInteger(zzVL_ht,'X083',201,1)
+call SaveInteger(zzVL_ht,'X084',290,10)
+call SaveInteger(zzVL_ht,'X084',289,1)
 call SaveInteger(zzVL_ht,'H014',261,'X084')
+call SaveStr(zzVL_ht,'X084',280,"war3mapImported\\TND_thienngoailuutinhcaster.mdx")
+call SaveStr(zzVL_ht,'X084',285,"war3mapImported\\TND_thienngoaifire.mdx")
 call SaveInteger(zzVL_ht,'H014',206,'X084')
 call SaveInteger(zzVL_ht,'H014',236,68)
 call SaveInteger(zzVL_ht,'X084',240,13)
-call SaveInteger(zzVL_ht,'X084',241,3)
+call SaveInteger(zzVL_ht,'X084',241,1)
 call SaveInteger(zzVL_ht,'X084',242,5)
 call SaveInteger(zzVL_ht,'X084',243,35)
 call SaveInteger(zzVL_ht,'X084',244,20)
@@ -16991,7 +17120,7 @@ call SaveInteger(zzVL_ht,'X084',247,5)
 call SaveInteger(zzVL_ht,'X084',248,0)
 call SaveInteger(zzVL_ht,'X084',249,0)
 call SaveInteger(zzVL_ht,'X084',252,0)
-call SaveStr(zzVL_ht,'X084',250,"war3mapImported\\TND_thienngoailuutinhcaster.mdx")
+call SaveStr(zzVL_ht,'X084',250,"war3mapImported\\TND_thienngoaistone.mdx")
 call SaveInteger(zzVL_ht,'X084',257,230)
 call SaveInteger(zzVL_ht,'X084',258,40)
 call SaveInteger(zzVL_ht,'X084',259,7)
@@ -17010,6 +17139,7 @@ call SaveInteger(zzVL_ht,'X085',247,5)
 call SaveInteger(zzVL_ht,'X085',248,0)
 call SaveInteger(zzVL_ht,'X085',249,0)
 call SaveInteger(zzVL_ht,'X085',252,1024)
+call SaveInteger(zzVL_ht,'X085',294,1)
 call SaveStr(zzVL_ht,'X085',250,"war3mapImported\\TND_thucphocchubuff.mdx")
 call SaveInteger(zzVL_ht,'X085',201,1)
 call SaveInteger(zzVL_ht,'X085',189,95)
@@ -17031,6 +17161,7 @@ call SaveInteger(zzVL_ht,'X086',247,0)
 call SaveInteger(zzVL_ht,'X086',248,0)
 call SaveInteger(zzVL_ht,'X086',249,0)
 call SaveInteger(zzVL_ht,'X086',252,0)
+call SaveInteger(zzVL_ht,'X086',294,1)
 call SaveStr(zzVL_ht,'X086',250,"war3mapImported\\TND_nghichchuyenbuff.mdx")
 call SaveInteger(zzVL_ht,'X086',245,512)
 call SaveInteger(zzVL_ht,'X086',201,1)
@@ -17049,6 +17180,7 @@ call SaveInteger(zzVL_ht,'X087',247,5)
 call SaveInteger(zzVL_ht,'X087',248,7)
 call SaveInteger(zzVL_ht,'X087',249,0)
 call SaveInteger(zzVL_ht,'X087',252,4)
+call SaveInteger(zzVL_ht,'X087',294,1)
 call SaveStr(zzVL_ht,'X087',250,"war3mapImported\\TND_madao.mdx")
 call SaveInteger(zzVL_ht,'X087',257,600)
 call SaveInteger(zzVL_ht,'X087',258,500)
@@ -17058,7 +17190,12 @@ call SaveInteger(zzVL_ht,'X087',201,1)
 call SaveInteger(zzVL_ht,'X087',187,5)
 call SaveInteger(zzVL_ht,'X087',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X087',3,4)
+call SaveInteger(zzVL_ht,'X088',289,1)
 call SaveInteger(zzVL_ht,'H014',262,'X088')
+call SaveStr(zzVL_ht,'X088',280,"war3mapImported\\TND_tathoacast.mdx")
+call SaveStr(zzVL_ht,'X088',281,"war3mapImported\\TND_tathoatarget.mdx")
+call SaveStr(zzVL_ht,'X088',285,"war3mapImported\\TND_bladerain.mdx")
+call SaveStr(zzVL_ht,'X088',286,"war3mapImported\\TND_tathoafire2.mdx")
 call SaveInteger(zzVL_ht,'H014',210,'X088')
 call SaveInteger(zzVL_ht,'H014',240,145)
 call SaveInteger(zzVL_ht,'X088',240,13)
@@ -17071,7 +17208,8 @@ call SaveInteger(zzVL_ht,'X088',247,5)
 call SaveInteger(zzVL_ht,'X088',248,0)
 call SaveInteger(zzVL_ht,'X088',249,0)
 call SaveInteger(zzVL_ht,'X088',252,2056)
-call SaveStr(zzVL_ht,'X088',250,"war3mapImported\\TND_hoalieneffect.mdx")
+call SaveInteger(zzVL_ht,'X088',294,1)
+call SaveStr(zzVL_ht,'X088',250,"war3mapImported\\TND_tathoafire.mdx")
 call SaveInteger(zzVL_ht,'X088',257,250)
 call SaveInteger(zzVL_ht,'X088',258,40)
 call SaveInteger(zzVL_ht,'X088',259,7)
@@ -17110,10 +17248,12 @@ call SaveInteger(zzVL_ht,'X090',247,0)
 call SaveInteger(zzVL_ht,'X090',248,0)
 call SaveInteger(zzVL_ht,'X090',249,0)
 call SaveInteger(zzVL_ht,'X090',252,0)
+call SaveInteger(zzVL_ht,'X090',294,1)
 call SaveStr(zzVL_ht,'X090',250,"war3mapImported\\TND_nghichchuyenbuff.mdx")
 call SaveInteger(zzVL_ht,'X090',245,131072)
 call SaveInteger(zzVL_ht,'X090',201,1)
 call SaveInteger(zzVL_ht,'X090',239,2)
+call SaveInteger(zzVL_ht,'X091',290,150)
 call SaveInteger(zzVL_ht,'H00A',260,'X091')
 call SaveInteger(zzVL_ht,'H00A',200,'X091')
 call SaveInteger(zzVL_ht,'H00A',230,1)
@@ -17127,6 +17267,7 @@ call SaveInteger(zzVL_ht,'X091',247,5)
 call SaveInteger(zzVL_ht,'X091',248,0)
 call SaveInteger(zzVL_ht,'X091',249,0)
 call SaveInteger(zzVL_ht,'X091',252,0)
+call SaveInteger(zzVL_ht,'X091',294,1)
 call SaveStr(zzVL_ht,'X091',250,"war3mapImported\\CBC_hanglong.mdx")
 call SaveInteger(zzVL_ht,'X091',257,528)
 call SaveInteger(zzVL_ht,'X091',259,7)
@@ -17164,9 +17305,10 @@ call SaveInteger(zzVL_ht,'X093',247,13)
 call SaveInteger(zzVL_ht,'X093',248,0)
 call SaveInteger(zzVL_ht,'X093',249,0)
 call SaveInteger(zzVL_ht,'X093',252,0)
-call SaveStr(zzVL_ht,'X093',250,"war3mapImported\\CBC_flame.mdx")
+call SaveStr(zzVL_ht,'X093',250,"war3mapImported\\MDX\\HoaHiemViDi.mdx")
 call SaveInteger(zzVL_ht,'X093',201,1)
 call SaveInteger(zzVL_ht,'H00A',263,'X094')
+call SaveStr(zzVL_ht,'X094',280,"war3mapImported\\CBC_luclongcast.mdx")
 call SaveInteger(zzVL_ht,'H00A',203,'X094')
 call SaveInteger(zzVL_ht,'H00A',233,25)
 call SaveInteger(zzVL_ht,'X094',240,6)
@@ -17181,11 +17323,13 @@ call SaveInteger(zzVL_ht,'X094',249,0)
 call SaveInteger(zzVL_ht,'X094',252,0)
 call SaveInteger(zzVL_ht,'X094',253,55)
 call SaveInteger(zzVL_ht,'X094',254,5)
+call SaveInteger(zzVL_ht,'X094',294,1)
 call SaveStr(zzVL_ht,'X094',250,"war3mapImported\\CBC_luclongbuff.mdx")
 call SaveInteger(zzVL_ht,'X094',201,1)
 call SaveInteger(zzVL_ht,'X094',182,6)
 call SaveInteger(zzVL_ht,'X094',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X094',3,0)
+call SaveStr(zzVL_ht,'X095',287,"war3mapImported\\CBC_hoatbatluuthu.mdx")
 call SaveInteger(zzVL_ht,'H00A',204,'X095')
 call SaveInteger(zzVL_ht,'H00A',234,38)
 call SaveInteger(zzVL_ht,'X095',240,0)
@@ -17198,6 +17342,7 @@ call SaveInteger(zzVL_ht,'X095',247,6)
 call SaveInteger(zzVL_ht,'X095',248,14)
 call SaveInteger(zzVL_ht,'X095',249,0)
 call SaveInteger(zzVL_ht,'X095',252,0)
+call SaveInteger(zzVL_ht,'X095',294,1)
 call SaveStr(zzVL_ht,'X095',250,"war3mapImported\\CBC_hoatbatluuthu.mdx")
 call SaveInteger(zzVL_ht,'X095',201,1)
 call SaveInteger(zzVL_ht,'H00A',205,'X096')
@@ -17212,9 +17357,16 @@ call SaveInteger(zzVL_ht,'X096',247,5)
 call SaveInteger(zzVL_ht,'X096',248,0)
 call SaveInteger(zzVL_ht,'X096',249,0)
 call SaveInteger(zzVL_ht,'X096',252,0)
-call SaveStr(zzVL_ht,'X096',250,"war3mapImported\\CBC_trietytbd.mdx")
+call SaveInteger(zzVL_ht,'X096',294,1)
+call SaveStr(zzVL_ht,'X096',250,"war3mapImported\\MDX\\TiemLong.mdx")
 call SaveInteger(zzVL_ht,'X096',201,1)
+call SaveInteger(zzVL_ht,'X097',292,50)
+call SaveInteger(zzVL_ht,'X097',289,1)
+call SaveInteger(zzVL_ht,'X097',288,1)
 call SaveInteger(zzVL_ht,'H00A',261,'X097')
+call SaveStr(zzVL_ht,'X097',280,"war3mapImported\\CBC_luclongbuff.mdx")
+call SaveStr(zzVL_ht,'X097',281,"war3mapImported\\CBC_casting.mdx")
+call SaveStr(zzVL_ht,'X097',285,"war3mapImported\\VolcanoMissile.mdx")
 call SaveInteger(zzVL_ht,'H00A',206,'X097')
 call SaveInteger(zzVL_ht,'H00A',236,68)
 call SaveInteger(zzVL_ht,'X097',240,16)
@@ -17227,7 +17379,8 @@ call SaveInteger(zzVL_ht,'X097',247,5)
 call SaveInteger(zzVL_ht,'X097',248,0)
 call SaveInteger(zzVL_ht,'X097',249,0)
 call SaveInteger(zzVL_ht,'X097',252,65536)
-call SaveStr(zzVL_ht,'X097',250,"war3mapImported\\CBC_dulong.mdx")
+call SaveInteger(zzVL_ht,'X097',294,1)
+call SaveStr(zzVL_ht,'X097',250,"war3mapImported\\CBC_hanglong.mdx")
 call SaveInteger(zzVL_ht,'X097',257,150)
 call SaveInteger(zzVL_ht,'X097',258,4)
 call SaveInteger(zzVL_ht,'X097',259,7)
@@ -17249,7 +17402,8 @@ call SaveInteger(zzVL_ht,'X098',247,5)
 call SaveInteger(zzVL_ht,'X098',248,0)
 call SaveInteger(zzVL_ht,'X098',249,0)
 call SaveInteger(zzVL_ht,'X098',252,0)
-call SaveStr(zzVL_ht,'X098',250,"war3mapImported\\CBC_effect.mdx")
+call SaveInteger(zzVL_ht,'X098',294,1)
+call SaveStr(zzVL_ht,'X098',250,"war3mapImported\\MDX\\TraoLongCong.mdx")
 call SaveInteger(zzVL_ht,'X098',201,1)
 call SaveInteger(zzVL_ht,'H00A',208,'X099')
 call SaveInteger(zzVL_ht,'H00A',238,105)
@@ -17286,7 +17440,13 @@ call SaveInteger(zzVL_ht,'X100',216,100)
 call SaveInteger(zzVL_ht,'X100',203,39)
 call SaveInteger(zzVL_ht,'X100',201,1)
 call SaveInteger(zzVL_ht,'X100',220,10)
+call SaveInteger(zzVL_ht,'X101',292,10)
+call SaveInteger(zzVL_ht,'X101',289,1)
+call SaveInteger(zzVL_ht,'X101',288,1)
 call SaveInteger(zzVL_ht,'H00A',262,'X101')
+call SaveStr(zzVL_ht,'X101',280,"war3mapImported\\CBC_casting.mdx")
+call SaveStr(zzVL_ht,'X101',281,"war3mapImported\\CBC_flame.mdx")
+call SaveStr(zzVL_ht,'X101',285,"war3mapImported\\CBC_flame.mdx")
 call SaveInteger(zzVL_ht,'H00A',210,'X101')
 call SaveInteger(zzVL_ht,'H00A',240,145)
 call SaveInteger(zzVL_ht,'X101',240,5)
@@ -17299,7 +17459,8 @@ call SaveInteger(zzVL_ht,'X101',247,5)
 call SaveInteger(zzVL_ht,'X101',248,0)
 call SaveInteger(zzVL_ht,'X101',249,0)
 call SaveInteger(zzVL_ht,'X101',252,65536)
-call SaveStr(zzVL_ht,'X101',250,"war3mapImported\\CBC_hoatbatluuthu.mdx")
+call SaveInteger(zzVL_ht,'X101',294,1)
+call SaveStr(zzVL_ht,'X101',250,"war3mapImported\\CBC_dulong.mdx")
 call SaveInteger(zzVL_ht,'X101',257,600)
 call SaveInteger(zzVL_ht,'X101',258,30)
 call SaveInteger(zzVL_ht,'X101',259,7)
@@ -17321,7 +17482,7 @@ call SaveInteger(zzVL_ht,'X102',247,5)
 call SaveInteger(zzVL_ht,'X102',248,0)
 call SaveInteger(zzVL_ht,'X102',249,0)
 call SaveInteger(zzVL_ht,'X102',252,0)
-call SaveStr(zzVL_ht,'X102',250,"war3mapImported\\CBC_hanglong.mdx")
+call SaveStr(zzVL_ht,'X102',250,"war3mapImported\\MDX\\GiangLong.mdx")
 call SaveInteger(zzVL_ht,'X102',201,1)
 call SaveInteger(zzVL_ht,'H00A',264,'X103')
 call SaveInteger(zzVL_ht,'H00A',212,'X103')
@@ -17338,11 +17499,14 @@ call SaveInteger(zzVL_ht,'X103',249,0)
 call SaveInteger(zzVL_ht,'X103',252,0)
 call SaveInteger(zzVL_ht,'X103',253,9)
 call SaveInteger(zzVL_ht,'X103',254,1)
+call SaveInteger(zzVL_ht,'X103',294,1)
 call SaveStr(zzVL_ht,'X103',250,"war3mapImported\\CBC_trietytbd.mdx")
 call SaveInteger(zzVL_ht,'X103',201,1)
 call SaveInteger(zzVL_ht,'X103',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X103',3,0)
 call SaveInteger(zzVL_ht,'H009',260,'X104')
+call SaveStr(zzVL_ht,'X104',280,"war3mapImported\\CLK_cast.mdx")
+call SaveStr(zzVL_ht,'X104',285,"war3mapImported\\CLK_thienloichannhac.mdx")
 call SaveInteger(zzVL_ht,'H009',200,'X104')
 call SaveInteger(zzVL_ht,'H009',230,1)
 call SaveInteger(zzVL_ht,'X104',240,16)
@@ -17355,7 +17519,7 @@ call SaveInteger(zzVL_ht,'X104',247,5)
 call SaveInteger(zzVL_ht,'X104',248,0)
 call SaveInteger(zzVL_ht,'X104',249,0)
 call SaveInteger(zzVL_ht,'X104',252,0)
-call SaveStr(zzVL_ht,'X104',250,"war3mapImported\\CLK_cuongloi.mdx")
+call SaveStr(zzVL_ht,'X104',250,"war3mapImported\\MDX\\CuongLoi.mdx")
 call SaveInteger(zzVL_ht,'X104',257,120)
 call SaveInteger(zzVL_ht,'X104',259,3)
 call SaveInteger(zzVL_ht,'X104',201,1)
@@ -17374,9 +17538,13 @@ call SaveInteger(zzVL_ht,'X105',247,3)
 call SaveInteger(zzVL_ht,'X105',248,4)
 call SaveInteger(zzVL_ht,'X105',249,0)
 call SaveInteger(zzVL_ht,'X105',252,0)
+call SaveInteger(zzVL_ht,'X105',294,1)
 call SaveStr(zzVL_ht,'X105',250,"war3mapImported\\CLK_daocottienphong.mdx")
 call SaveInteger(zzVL_ht,'X105',201,1)
 call SaveInteger(zzVL_ht,'H009',265,'X106')
+call SaveStr(zzVL_ht,'X106',280,"war3mapImported\\CLK_nguphongcaster.mdx")
+call SaveStr(zzVL_ht,'X106',285,"war3mapImported\\CLK_thanhphongphu.mdx")
+call SaveStr(zzVL_ht,'X106',286,"war3mapImported\\CLK_daocottienphong.mdx")
 call SaveInteger(zzVL_ht,'H009',202,'X106')
 call SaveInteger(zzVL_ht,'H009',232,15)
 call SaveInteger(zzVL_ht,'X106',240,7)
@@ -17390,14 +17558,19 @@ call SaveInteger(zzVL_ht,'X106',248,14)
 call SaveInteger(zzVL_ht,'X106',249,0)
 call SaveInteger(zzVL_ht,'X106',252,0)
 call SaveInteger(zzVL_ht,'X106',253,5)
+endfunction
+function zzVL_Items2 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X106',254,1)
 call SaveInteger(zzVL_ht,'X106',255,18)
 call SaveInteger(zzVL_ht,'X106',256,2)
-call SaveStr(zzVL_ht,'X106',250,"war3mapImported\\CLK_thanhphongphu.mdx")
+call SaveInteger(zzVL_ht,'X106',294,1)
+call SaveStr(zzVL_ht,'X106',250,"war3mapImported\\CLK_nguphongbuff.mdx")
 call SaveInteger(zzVL_ht,'X106',201,1)
 call SaveInteger(zzVL_ht,'X106',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X106',3,0)
 call SaveInteger(zzVL_ht,'H009',261,'X107')
+call SaveStr(zzVL_ht,'X107',280,"war3mapImported\\CLK_cast.mdx")
+call SaveStr(zzVL_ht,'X107',281,"war3mapImported\\CLK_targetlight2.mdx")
 call SaveInteger(zzVL_ht,'H009',203,'X107')
 call SaveInteger(zzVL_ht,'H009',233,25)
 call SaveInteger(zzVL_ht,'X107',240,16)
@@ -17410,6 +17583,7 @@ call SaveInteger(zzVL_ht,'X107',247,5)
 call SaveInteger(zzVL_ht,'X107',248,0)
 call SaveInteger(zzVL_ht,'X107',249,0)
 call SaveInteger(zzVL_ht,'X107',252,0)
+call SaveInteger(zzVL_ht,'X107',294,1)
 call SaveStr(zzVL_ht,'X107',250,"war3mapImported\\CLK_thientetanloi.mdx")
 call SaveInteger(zzVL_ht,'X107',257,420)
 call SaveInteger(zzVL_ht,'X107',258,20)
@@ -17418,6 +17592,7 @@ call SaveInteger(zzVL_ht,'X107',201,1)
 call SaveInteger(zzVL_ht,'X107',2,OrderId("shockwave"))
 call SaveInteger(zzVL_ht,'X107',3,1)
 call SaveInteger(zzVL_ht,'H009',266,'X108')
+call SaveStr(zzVL_ht,'X108',280,"war3mapImported\\CLK_nguphongcaster.mdx")
 call SaveInteger(zzVL_ht,'H009',204,'X108')
 call SaveInteger(zzVL_ht,'H009',234,38)
 call SaveInteger(zzVL_ht,'X108',240,7)
@@ -17432,10 +17607,12 @@ call SaveInteger(zzVL_ht,'X108',249,0)
 call SaveInteger(zzVL_ht,'X108',252,0)
 call SaveInteger(zzVL_ht,'X108',253,10)
 call SaveInteger(zzVL_ht,'X108',254,2)
+call SaveInteger(zzVL_ht,'X108',294,1)
 call SaveStr(zzVL_ht,'X108',250,"war3mapImported\\CLK_daocottienphong.mdx")
 call SaveInteger(zzVL_ht,'X108',201,1)
 call SaveInteger(zzVL_ht,'X108',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X108',3,0)
+call SaveStr(zzVL_ht,'X109',285,"war3mapImported\\CLK_thanhphongphu.mdx")
 call SaveInteger(zzVL_ht,'H009',205,'X109')
 call SaveInteger(zzVL_ht,'H009',235,52)
 call SaveInteger(zzVL_ht,'X109',240,0)
@@ -17451,6 +17628,7 @@ call SaveInteger(zzVL_ht,'X109',252,0)
 call SaveStr(zzVL_ht,'X109',250,"war3mapImported\\CLK_thienloichannhac.mdx")
 call SaveInteger(zzVL_ht,'X109',201,1)
 call SaveInteger(zzVL_ht,'H009',262,'X110')
+call SaveStr(zzVL_ht,'X110',280,"war3mapImported\\CLK_cast.mdx")
 call SaveInteger(zzVL_ht,'H009',206,'X110')
 call SaveInteger(zzVL_ht,'H009',236,68)
 call SaveInteger(zzVL_ht,'X110',240,17)
@@ -17470,6 +17648,7 @@ call SaveInteger(zzVL_ht,'X110',259,1)
 call SaveInteger(zzVL_ht,'X110',201,1)
 call SaveInteger(zzVL_ht,'X110',2,OrderId("stomp"))
 call SaveInteger(zzVL_ht,'X110',3,0)
+call SaveStr(zzVL_ht,'X111',287,"war3mapImported\\CLK_loidinhquyet.mdx")
 call SaveInteger(zzVL_ht,'H009',207,'X111')
 call SaveInteger(zzVL_ht,'H009',237,85)
 call SaveInteger(zzVL_ht,'X111',240,0)
@@ -17482,8 +17661,11 @@ call SaveInteger(zzVL_ht,'X111',247,5)
 call SaveInteger(zzVL_ht,'X111',248,0)
 call SaveInteger(zzVL_ht,'X111',249,0)
 call SaveInteger(zzVL_ht,'X111',252,0)
+call SaveInteger(zzVL_ht,'X111',294,1)
 call SaveStr(zzVL_ht,'X111',250,"war3mapImported\\CLK_loidinhquyet.mdx")
 call SaveInteger(zzVL_ht,'X111',201,1)
+call SaveStr(zzVL_ht,'X112',285,"war3mapImported\\CLK_thienloichannhac.mdx")
+call SaveStr(zzVL_ht,'X112',286,"war3mapImported\\CLK_thientetanloi.mdx")
 call SaveInteger(zzVL_ht,'H009',208,'X112')
 call SaveInteger(zzVL_ht,'H009',238,105)
 call SaveInteger(zzVL_ht,'X112',240,0)
@@ -17499,6 +17681,8 @@ call SaveInteger(zzVL_ht,'X112',252,0)
 call SaveStr(zzVL_ht,'X112',250,"war3mapImported\\CLK_loidongcuuthien.mdx")
 call SaveInteger(zzVL_ht,'X112',201,1)
 call SaveInteger(zzVL_ht,'H009',264,'X113')
+call SaveStr(zzVL_ht,'X113',280,"war3mapImported\\CLK_nguphongcaster.mdx")
+call SaveStr(zzVL_ht,'X113',284,"war3mapImported\\CLK_nguphongbuff.mdx")
 call SaveInteger(zzVL_ht,'H009',209,'X113')
 call SaveInteger(zzVL_ht,'H009',239,125)
 call SaveInteger(zzVL_ht,'X113',240,5)
@@ -17511,6 +17695,7 @@ call SaveInteger(zzVL_ht,'X113',247,3)
 call SaveInteger(zzVL_ht,'X113',248,6)
 call SaveInteger(zzVL_ht,'X113',249,0)
 call SaveInteger(zzVL_ht,'X113',252,512)
+call SaveInteger(zzVL_ht,'X113',294,1)
 call SaveStr(zzVL_ht,'X113',250,"war3mapImported\\CLK_nguphongthuat.mdx")
 call SaveInteger(zzVL_ht,'X113',257,960)
 call SaveInteger(zzVL_ht,'X113',228,1)
@@ -17519,6 +17704,8 @@ call SaveInteger(zzVL_ht,'X113',167,220)
 call SaveInteger(zzVL_ht,'X113',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X113',3,2)
 call SaveInteger(zzVL_ht,'H009',263,'X114')
+call SaveStr(zzVL_ht,'X114',280,"war3mapImported\\CLK_cast.mdx")
+call SaveStr(zzVL_ht,'X114',285,"war3mapImported\\CLK_set5.mdx")
 call SaveInteger(zzVL_ht,'H009',210,'X114')
 call SaveInteger(zzVL_ht,'H009',240,145)
 call SaveInteger(zzVL_ht,'X114',240,13)
@@ -17549,8 +17736,6 @@ call SaveInteger(zzVL_ht,'X115',243,0)
 call SaveInteger(zzVL_ht,'X115',244,1)
 call SaveInteger(zzVL_ht,'X115',246,0)
 call SaveInteger(zzVL_ht,'X115',247,3)
-endfunction
-function zzVL_Items2 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X115',248,0)
 call SaveInteger(zzVL_ht,'X115',249,0)
 call SaveInteger(zzVL_ht,'X115',252,0)
@@ -17568,6 +17753,7 @@ call SaveInteger(zzVL_ht,'X116',247,3)
 call SaveInteger(zzVL_ht,'X116',248,0)
 call SaveInteger(zzVL_ht,'X116',249,0)
 call SaveInteger(zzVL_ht,'X116',252,0)
+call SaveInteger(zzVL_ht,'X116',294,1)
 call SaveStr(zzVL_ht,'X116',250,"war3mapImported\\CLK_daocottienphong.mdx")
 call SaveInteger(zzVL_ht,'X116',201,1)
 call SaveInteger(zzVL_ht,'H01E',260,'X117')
@@ -17583,6 +17769,7 @@ call SaveInteger(zzVL_ht,'X117',247,5)
 call SaveInteger(zzVL_ht,'X117',248,0)
 call SaveInteger(zzVL_ht,'X117',249,0)
 call SaveInteger(zzVL_ht,'X117',252,0)
+call SaveInteger(zzVL_ht,'X117',294,1)
 call SaveStr(zzVL_ht,'X117',250,"war3mapImported\\TLD_phucmadp.mdx")
 call SaveInteger(zzVL_ht,'X117',257,700)
 call SaveInteger(zzVL_ht,'X117',259,7)
@@ -17603,6 +17790,7 @@ call SaveInteger(zzVL_ht,'X118',247,3)
 call SaveInteger(zzVL_ht,'X118',248,4)
 call SaveInteger(zzVL_ht,'X118',249,0)
 call SaveInteger(zzVL_ht,'X118',252,0)
+call SaveInteger(zzVL_ht,'X118',294,1)
 call SaveStr(zzVL_ht,'X118',250,"war3mapImported\\TLD_lahantran.mdx")
 call SaveInteger(zzVL_ht,'X118',201,1)
 call SaveInteger(zzVL_ht,'H01E',202,'X119')
@@ -17617,8 +17805,10 @@ call SaveInteger(zzVL_ht,'X119',247,7)
 call SaveInteger(zzVL_ht,'X119',248,0)
 call SaveInteger(zzVL_ht,'X119',249,0)
 call SaveInteger(zzVL_ht,'X119',252,0)
+call SaveInteger(zzVL_ht,'X119',294,1)
 call SaveStr(zzVL_ht,'X119',250,"war3mapImported\\TLD_phucmadp.mdx")
 call SaveInteger(zzVL_ht,'X119',201,1)
+call SaveStr(zzVL_ht,'X120',287,"war3mapImported\\TLD_lahantran.mdx")
 call SaveInteger(zzVL_ht,'H01E',203,'X120')
 call SaveInteger(zzVL_ht,'H01E',233,25)
 call SaveInteger(zzVL_ht,'X120',240,0)
@@ -17631,6 +17821,7 @@ call SaveInteger(zzVL_ht,'X120',247,0)
 call SaveInteger(zzVL_ht,'X120',248,0)
 call SaveInteger(zzVL_ht,'X120',249,0)
 call SaveInteger(zzVL_ht,'X120',252,128)
+call SaveInteger(zzVL_ht,'X120',294,1)
 call SaveStr(zzVL_ht,'X120',250,"war3mapImported\\TLD_lahantran.mdx")
 call SaveInteger(zzVL_ht,'X120',201,1)
 call SaveInteger(zzVL_ht,'H01E',264,'X121')
@@ -17648,10 +17839,12 @@ call SaveInteger(zzVL_ht,'X121',249,0)
 call SaveInteger(zzVL_ht,'X121',252,0)
 call SaveInteger(zzVL_ht,'X121',253,17)
 call SaveInteger(zzVL_ht,'X121',254,3)
+call SaveInteger(zzVL_ht,'X121',294,1)
 call SaveStr(zzVL_ht,'X121',250,"war3mapImported\\TLD_bodetamphapcast.mdx")
 call SaveInteger(zzVL_ht,'X121',201,1)
 call SaveInteger(zzVL_ht,'X121',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X121',3,0)
+call SaveStr(zzVL_ht,'X122',281,"war3mapImported\\TLD_thientructarget.mdx")
 call SaveInteger(zzVL_ht,'H01E',205,'X122')
 call SaveInteger(zzVL_ht,'H01E',235,52)
 call SaveInteger(zzVL_ht,'X122',240,0)
@@ -17664,9 +17857,12 @@ call SaveInteger(zzVL_ht,'X122',247,5)
 call SaveInteger(zzVL_ht,'X122',248,0)
 call SaveInteger(zzVL_ht,'X122',249,0)
 call SaveInteger(zzVL_ht,'X122',252,0)
+call SaveInteger(zzVL_ht,'X122',294,1)
 call SaveStr(zzVL_ht,'X122',250,"war3mapImported\\TLD_thientrucdao.mdx")
 call SaveInteger(zzVL_ht,'X122',201,1)
 call SaveInteger(zzVL_ht,'H01E',261,'X123')
+call SaveStr(zzVL_ht,'X123',281,"war3mapImported\\TLD_thientructarget.mdx")
+call SaveStr(zzVL_ht,'X123',285,"war3mapImported\\TLD_thientrucdao.mdx")
 call SaveInteger(zzVL_ht,'H01E',206,'X123')
 call SaveInteger(zzVL_ht,'H01E',236,68)
 call SaveInteger(zzVL_ht,'X123',240,5)
@@ -17679,7 +17875,7 @@ call SaveInteger(zzVL_ht,'X123',247,5)
 call SaveInteger(zzVL_ht,'X123',248,0)
 call SaveInteger(zzVL_ht,'X123',249,0)
 call SaveInteger(zzVL_ht,'X123',252,65536)
-call SaveStr(zzVL_ht,'X123',250,"war3mapImported\\TLD_thientrucdao.mdx")
+call SaveStr(zzVL_ht,'X123',250,"war3mapImported\\TLD_votuongtram.mdx")
 call SaveInteger(zzVL_ht,'X123',257,700)
 call SaveInteger(zzVL_ht,'X123',258,31)
 call SaveInteger(zzVL_ht,'X123',259,7)
@@ -17690,6 +17886,7 @@ call SaveInteger(zzVL_ht,'X123',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X123',3,1)
 call SaveStr(zzVL_ht,'X123',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H01E',265,'X124')
+call SaveStr(zzVL_ht,'X124',280,"war3mapImported\\TLD_hanglongcast.mdx")
 call SaveInteger(zzVL_ht,'H01E',207,'X124')
 call SaveInteger(zzVL_ht,'H01E',237,85)
 call SaveInteger(zzVL_ht,'X124',240,8)
@@ -17702,6 +17899,7 @@ call SaveInteger(zzVL_ht,'X124',247,3)
 call SaveInteger(zzVL_ht,'X124',248,0)
 call SaveInteger(zzVL_ht,'X124',249,0)
 call SaveInteger(zzVL_ht,'X124',252,0)
+call SaveInteger(zzVL_ht,'X124',294,1)
 call SaveStr(zzVL_ht,'X124',250,"war3mapImported\\TLD_hanglongbuff.mdx")
 call SaveInteger(zzVL_ht,'X124',201,1)
 call SaveInteger(zzVL_ht,'X124',185,20)
@@ -17720,6 +17918,7 @@ call SaveInteger(zzVL_ht,'X125',247,14)
 call SaveInteger(zzVL_ht,'X125',248,0)
 call SaveInteger(zzVL_ht,'X125',249,0)
 call SaveInteger(zzVL_ht,'X125',252,1024)
+call SaveInteger(zzVL_ht,'X125',294,1)
 call SaveStr(zzVL_ht,'X125',250,"war3mapImported\\TLD_datmabetucbuff.mdx")
 call SaveInteger(zzVL_ht,'X125',201,1)
 call SaveInteger(zzVL_ht,'X125',189,100)
@@ -17729,6 +17928,8 @@ call SaveInteger(zzVL_ht,'X125',219,0)
 call SaveInteger(zzVL_ht,'X125',218,3)
 call SaveInteger(zzVL_ht,'X125',217,50)
 call SaveInteger(zzVL_ht,'H01E',263,'X126')
+call SaveStr(zzVL_ht,'X126',284,"war3mapImported\\TLD_daithuabuff.mdx")
+call SaveStr(zzVL_ht,'X126',285,"war3mapImported\\TLD_votuongtram.mdx")
 call SaveInteger(zzVL_ht,'H01E',209,'X126')
 call SaveInteger(zzVL_ht,'H01E',239,125)
 call SaveInteger(zzVL_ht,'X126',240,13)
@@ -17750,6 +17951,9 @@ call SaveInteger(zzVL_ht,'X126',201,1)
 call SaveInteger(zzVL_ht,'X126',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X126',3,2)
 call SaveInteger(zzVL_ht,'H01E',262,'X127')
+call SaveStr(zzVL_ht,'X127',281,"war3mapImported\\TLD_thientructarget.mdx")
+call SaveStr(zzVL_ht,'X127',285,"war3mapImported\\TLD_votuongtram.mdx")
+call SaveStr(zzVL_ht,'X127',286,"war3mapImported\\TLD_tamgioidao.mdx")
 call SaveInteger(zzVL_ht,'H01E',210,'X127')
 call SaveInteger(zzVL_ht,'H01E',240,145)
 call SaveInteger(zzVL_ht,'X127',240,5)
@@ -17762,7 +17966,8 @@ call SaveInteger(zzVL_ht,'X127',247,5)
 call SaveInteger(zzVL_ht,'X127',248,0)
 call SaveInteger(zzVL_ht,'X127',249,0)
 call SaveInteger(zzVL_ht,'X127',252,65536)
-call SaveStr(zzVL_ht,'X127',250,"war3mapImported\\TLD_thientrucdao.mdx")
+call SaveInteger(zzVL_ht,'X127',294,1)
+call SaveStr(zzVL_ht,'X127',250,"war3mapImported\\TLD_tamgioihoasen.mdx")
 call SaveInteger(zzVL_ht,'X127',257,700)
 call SaveInteger(zzVL_ht,'X127',258,17)
 call SaveInteger(zzVL_ht,'X127',259,7)
@@ -17772,6 +17977,7 @@ call SaveInteger(zzVL_ht,'X127',179,30)
 call SaveInteger(zzVL_ht,'X127',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X127',3,1)
 call SaveStr(zzVL_ht,'X127',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X128',281,"war3mapImported\\TLD_thientructarget.mdx")
 call SaveInteger(zzVL_ht,'H01E',211,'X128')
 call SaveInteger(zzVL_ht,'H01E',241,165)
 call SaveInteger(zzVL_ht,'X128',240,0)
@@ -17784,6 +17990,7 @@ call SaveInteger(zzVL_ht,'X128',247,5)
 call SaveInteger(zzVL_ht,'X128',248,0)
 call SaveInteger(zzVL_ht,'X128',249,0)
 call SaveInteger(zzVL_ht,'X128',252,0)
+call SaveInteger(zzVL_ht,'X128',294,1)
 call SaveStr(zzVL_ht,'X128',250,"war3mapImported\\TLD_thientrucdao.mdx")
 call SaveInteger(zzVL_ht,'X128',209,3)
 call SaveInteger(zzVL_ht,'X128',208,40)
@@ -17801,9 +18008,11 @@ call SaveInteger(zzVL_ht,'X129',247,3)
 call SaveInteger(zzVL_ht,'X129',248,14)
 call SaveInteger(zzVL_ht,'X129',249,0)
 call SaveInteger(zzVL_ht,'X129',252,0)
+call SaveInteger(zzVL_ht,'X129',294,1)
 call SaveStr(zzVL_ht,'X129',250,"war3mapImported\\TLD_tamgioihoasen.mdx")
 call SaveInteger(zzVL_ht,'X129',201,1)
 call SaveInteger(zzVL_ht,'H01F',260,'X130')
+call SaveStr(zzVL_ht,'X130',285,"war3mapImported\\HydraliskImpact.mdx")
 call SaveInteger(zzVL_ht,'H01F',200,'X130')
 call SaveInteger(zzVL_ht,'H01F',230,1)
 call SaveInteger(zzVL_ht,'X130',240,16)
@@ -17816,6 +18025,7 @@ call SaveInteger(zzVL_ht,'X130',247,5)
 call SaveInteger(zzVL_ht,'X130',248,0)
 call SaveInteger(zzVL_ht,'X130',249,0)
 call SaveInteger(zzVL_ht,'X130',252,0)
+call SaveInteger(zzVL_ht,'X130',294,1)
 call SaveStr(zzVL_ht,'X130',250,"war3mapImported\\TVT_hoiphonglacnhan.mdx")
 call SaveInteger(zzVL_ht,'X130',257,100)
 call SaveInteger(zzVL_ht,'X130',259,7)
@@ -17823,6 +18033,9 @@ call SaveInteger(zzVL_ht,'X130',201,1)
 call SaveInteger(zzVL_ht,'X130',2,OrderId("blackarrow"))
 call SaveInteger(zzVL_ht,'X130',3,1)
 call SaveStr(zzVL_ht,'X130',251,"blackarrowon")
+call SaveStr(zzVL_ht,'X131',281,"war3mapImported\\TVT_bavuongtramkim_target.mdx")
+call SaveStr(zzVL_ht,'X131',285,"war3mapImported\\TVT_bonloithuong.mdx")
+call SaveStr(zzVL_ht,'X131',286,"war3mapImported\\TVT_bavuongeffect1.mdx")
 call SaveInteger(zzVL_ht,'H01F',201,'X131')
 call SaveInteger(zzVL_ht,'H01F',231,6)
 call SaveInteger(zzVL_ht,'X131',240,0)
@@ -17835,9 +18048,11 @@ call SaveInteger(zzVL_ht,'X131',247,5)
 call SaveInteger(zzVL_ht,'X131',248,3)
 call SaveInteger(zzVL_ht,'X131',249,0)
 call SaveInteger(zzVL_ht,'X131',252,0)
-call SaveStr(zzVL_ht,'X131',250,"war3mapImported\\TVT_bavuongtramkim_target.mdx")
+call SaveInteger(zzVL_ht,'X131',294,1)
+call SaveStr(zzVL_ht,'X131',250,"war3mapImported\\TVT_buffkinhloiphathien.mdx")
 call SaveInteger(zzVL_ht,'X131',201,1)
 call SaveInteger(zzVL_ht,'H01F',263,'X132')
+call SaveStr(zzVL_ht,'X132',284,"war3mapImported\\TVT_buffdoanhonthich.mdx")
 call SaveInteger(zzVL_ht,'H01F',202,'X132')
 call SaveInteger(zzVL_ht,'H01F',232,15)
 call SaveInteger(zzVL_ht,'X132',240,3)
@@ -17873,6 +18088,7 @@ call SaveInteger(zzVL_ht,'X133',247,7)
 call SaveInteger(zzVL_ht,'X133',248,0)
 call SaveInteger(zzVL_ht,'X133',249,0)
 call SaveInteger(zzVL_ht,'X133',252,1024)
+call SaveInteger(zzVL_ht,'X133',294,1)
 call SaveStr(zzVL_ht,'X133',250,"war3mapImported\\TVT_buffkinhloiphathien.mdx")
 call SaveInteger(zzVL_ht,'X133',201,1)
 call SaveInteger(zzVL_ht,'X133',165,1)
@@ -17882,6 +18098,10 @@ call SaveInteger(zzVL_ht,'X133',219,0)
 call SaveInteger(zzVL_ht,'X133',218,8)
 call SaveInteger(zzVL_ht,'X133',217,45)
 call SaveInteger(zzVL_ht,'H01F',264,'X134')
+call SaveStr(zzVL_ht,'X134',280,"war3mapImported\\TVT_chienycast.mdx")
+call SaveStr(zzVL_ht,'X134',281,"war3mapImported\\TVT_bavuongtramkim_target.mdx")
+call SaveStr(zzVL_ht,'X134',285,"war3mapImported\\TVT_bavuongeffect1.mdx")
+call SaveStr(zzVL_ht,'X134',286,"war3mapImported\\TVT_bavuongeffect2.mdx")
 call SaveInteger(zzVL_ht,'H01F',204,'X134')
 call SaveInteger(zzVL_ht,'H01F',234,38)
 call SaveInteger(zzVL_ht,'X134',240,7)
@@ -17896,10 +18116,12 @@ call SaveInteger(zzVL_ht,'X134',249,0)
 call SaveInteger(zzVL_ht,'X134',252,0)
 call SaveInteger(zzVL_ht,'X134',253,70)
 call SaveInteger(zzVL_ht,'X134',254,30)
-call SaveStr(zzVL_ht,'X134',250,"war3mapImported\\TVT_chienycast.mdx")
+call SaveInteger(zzVL_ht,'X134',294,1)
+call SaveStr(zzVL_ht,'X134',250,"war3mapImported\\TVT_buffkinhloiphathien.mdx")
 call SaveInteger(zzVL_ht,'X134',201,1)
 call SaveInteger(zzVL_ht,'X134',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X134',3,0)
+call SaveStr(zzVL_ht,'X135',280,"war3mapImported\\TVT_chienycast.mdx")
 call SaveInteger(zzVL_ht,'H01F',205,'X135')
 call SaveInteger(zzVL_ht,'H01F',235,52)
 call SaveInteger(zzVL_ht,'X135',240,0)
@@ -17912,9 +18134,12 @@ call SaveInteger(zzVL_ht,'X135',247,5)
 call SaveInteger(zzVL_ht,'X135',248,0)
 call SaveInteger(zzVL_ht,'X135',249,0)
 call SaveInteger(zzVL_ht,'X135',252,0)
+call SaveInteger(zzVL_ht,'X135',294,1)
 call SaveStr(zzVL_ht,'X135',250,"war3mapImported\\TVT_buffkinhloiphathien.mdx")
 call SaveInteger(zzVL_ht,'X135',201,1)
 call SaveInteger(zzVL_ht,'H01F',261,'X136')
+call SaveStr(zzVL_ht,'X136',281,"war3mapImported\\TVT_truytinhtarget.mdx")
+call SaveStr(zzVL_ht,'X136',285,"war3mapImported\\HydraliskImpact.mdx")
 call SaveInteger(zzVL_ht,'H01F',206,'X136')
 call SaveInteger(zzVL_ht,'H01F',236,68)
 call SaveInteger(zzVL_ht,'X136',240,16)
@@ -17927,6 +18152,7 @@ call SaveInteger(zzVL_ht,'X136',247,5)
 call SaveInteger(zzVL_ht,'X136',248,0)
 call SaveInteger(zzVL_ht,'X136',249,0)
 call SaveInteger(zzVL_ht,'X136',252,0)
+call SaveInteger(zzVL_ht,'X136',294,1)
 call SaveStr(zzVL_ht,'X136',250,"war3mapImported\\TVT_truytinheffect.mdx")
 call SaveInteger(zzVL_ht,'X136',257,120)
 call SaveInteger(zzVL_ht,'X136',258,17)
@@ -17936,6 +18162,7 @@ call SaveInteger(zzVL_ht,'X136',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X136',3,1)
 call SaveStr(zzVL_ht,'X136',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H01F',265,'X137')
+call SaveStr(zzVL_ht,'X137',281,"war3mapImported\\TVT_bonloitarget.mdx")
 call SaveInteger(zzVL_ht,'H01F',207,'X137')
 call SaveInteger(zzVL_ht,'H01F',237,85)
 call SaveInteger(zzVL_ht,'X137',240,11)
@@ -17952,6 +18179,7 @@ call SaveStr(zzVL_ht,'X137',250,"war3mapImported\\TVT_bonloithuong.mdx")
 call SaveInteger(zzVL_ht,'X137',201,1)
 call SaveInteger(zzVL_ht,'X137',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X137',3,0)
+call SaveStr(zzVL_ht,'X138',285,"war3mapImported\\TVT_bonloithuong.mdx")
 call SaveInteger(zzVL_ht,'H01F',208,'X138')
 call SaveInteger(zzVL_ht,'H01F',238,105)
 call SaveInteger(zzVL_ht,'X138',240,0)
@@ -17964,6 +18192,7 @@ call SaveInteger(zzVL_ht,'X138',247,0)
 call SaveInteger(zzVL_ht,'X138',248,0)
 call SaveInteger(zzVL_ht,'X138',249,0)
 call SaveInteger(zzVL_ht,'X138',252,8192)
+call SaveInteger(zzVL_ht,'X138',294,1)
 call SaveStr(zzVL_ht,'X138',250,"war3mapImported\\TVT_doatmenhbuff.mdx")
 call SaveInteger(zzVL_ht,'X138',201,1)
 call SaveInteger(zzVL_ht,'X138',173,5)
@@ -17983,12 +18212,14 @@ call SaveInteger(zzVL_ht,'X139',247,5)
 call SaveInteger(zzVL_ht,'X139',248,0)
 call SaveInteger(zzVL_ht,'X139',249,0)
 call SaveInteger(zzVL_ht,'X139',252,0)
+call SaveInteger(zzVL_ht,'X139',294,1)
 call SaveStr(zzVL_ht,'X139',250,"war3mapImported\\TVT_hoanhhanhbuff.mdx")
 call SaveInteger(zzVL_ht,'X139',222,1)
 call SaveInteger(zzVL_ht,'X139',201,1)
 call SaveInteger(zzVL_ht,'X139',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X139',3,0)
 call SaveInteger(zzVL_ht,'H01F',262,'X140')
+call SaveStr(zzVL_ht,'X140',281,"war3mapImported\\TVT_bavuongtramkim_target.mdx")
 call SaveInteger(zzVL_ht,'H01F',210,'X140')
 call SaveInteger(zzVL_ht,'H01F',240,145)
 call SaveInteger(zzVL_ht,'X140',240,16)
@@ -18009,6 +18240,7 @@ call SaveInteger(zzVL_ht,'X140',201,1)
 call SaveInteger(zzVL_ht,'X140',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X140',3,1)
 call SaveStr(zzVL_ht,'X140',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X141',280,"war3mapImported\\TVT_chienycast.mdx")
 call SaveInteger(zzVL_ht,'H01F',211,'X141')
 call SaveInteger(zzVL_ht,'H01F',241,165)
 call SaveInteger(zzVL_ht,'X141',240,0)
@@ -18039,7 +18271,8 @@ call SaveInteger(zzVL_ht,'X142',247,3)
 call SaveInteger(zzVL_ht,'X142',248,0)
 call SaveInteger(zzVL_ht,'X142',249,0)
 call SaveInteger(zzVL_ht,'X142',252,0)
-call SaveStr(zzVL_ht,'X142',250,"war3mapImported\\TVT_buffkinhloiphathien.mdx")
+call SaveInteger(zzVL_ht,'X142',294,1)
+call SaveStr(zzVL_ht,'X142',250,"war3mapImported\\MDX\\ThienMaHanhKhong.mdx")
 call SaveInteger(zzVL_ht,'X142',201,1)
 call SaveInteger(zzVL_ht,'H01L',260,'X143')
 call SaveInteger(zzVL_ht,'H01L',200,'X143')
@@ -18054,7 +18287,7 @@ call SaveInteger(zzVL_ht,'X143',247,5)
 call SaveInteger(zzVL_ht,'X143',248,0)
 call SaveInteger(zzVL_ht,'X143',249,0)
 call SaveInteger(zzVL_ht,'X143',252,8)
-call SaveStr(zzVL_ht,'X143',250,"war3mapImported\\NDC_hoacotmienchuong2.mdx")
+call SaveStr(zzVL_ht,'X143',250,"war3mapImported\\NDC_effect1.mdx")
 call SaveInteger(zzVL_ht,'X143',257,150)
 call SaveInteger(zzVL_ht,'X143',259,7)
 call SaveInteger(zzVL_ht,'X143',201,1)
@@ -18108,8 +18341,10 @@ call SaveInteger(zzVL_ht,'X146',247,5)
 call SaveInteger(zzVL_ht,'X146',248,0)
 call SaveInteger(zzVL_ht,'X146',249,0)
 call SaveInteger(zzVL_ht,'X146',252,0)
+call SaveInteger(zzVL_ht,'X146',294,1)
 call SaveStr(zzVL_ht,'X146',250,"war3mapImported\\NDC_truyphongdocthich.mdx")
 call SaveInteger(zzVL_ht,'X146',201,1)
+call SaveStr(zzVL_ht,'X147',285,"war3mapImported\\NDC_bimahuyetquang.mdx")
 call SaveInteger(zzVL_ht,'H01L',204,'X147')
 call SaveInteger(zzVL_ht,'H01L',234,38)
 call SaveInteger(zzVL_ht,'X147',240,0)
@@ -18122,7 +18357,8 @@ call SaveInteger(zzVL_ht,'X147',247,0)
 call SaveInteger(zzVL_ht,'X147',248,0)
 call SaveInteger(zzVL_ht,'X147',249,0)
 call SaveInteger(zzVL_ht,'X147',252,0)
-call SaveStr(zzVL_ht,'X147',250,"war3mapImported\\NDC_bimahuyetquang.mdx")
+call SaveInteger(zzVL_ht,'X147',294,1)
+call SaveStr(zzVL_ht,'X147',250,"war3mapImported\\NDC_huyetdinhbuff.mdx")
 call SaveInteger(zzVL_ht,'X147',245,512)
 call SaveInteger(zzVL_ht,'X147',201,1)
 call SaveInteger(zzVL_ht,'X147',164,30)
@@ -18142,6 +18378,9 @@ call SaveInteger(zzVL_ht,'X148',252,0)
 call SaveStr(zzVL_ht,'X148',250,"war3mapImported\\NDC_hoacotmienchuong2.mdx")
 call SaveInteger(zzVL_ht,'X148',201,1)
 call SaveInteger(zzVL_ht,'H01L',261,'X149')
+call SaveStr(zzVL_ht,'X149',280,"war3mapImported\\NDC_amphongcast.mdx")
+call SaveStr(zzVL_ht,'X149',285,"war3mapImported\\NDC_amphong3.mdx")
+call SaveStr(zzVL_ht,'X149',286,"war3mapImported\\NDC_amphong2.mdx")
 call SaveInteger(zzVL_ht,'H01L',206,'X149')
 call SaveInteger(zzVL_ht,'H01L',236,68)
 call SaveInteger(zzVL_ht,'X149',240,13)
@@ -18164,6 +18403,8 @@ call SaveInteger(zzVL_ht,'X149',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X149',3,1)
 call SaveStr(zzVL_ht,'X149',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H01L',264,'X150')
+call SaveStr(zzVL_ht,'X150',284,"war3mapImported\\NDC_hoacotbuff.mdx")
+call SaveStr(zzVL_ht,'X150',285,"war3mapImported\\NDC_hoacotbuff.mdx")
 call SaveInteger(zzVL_ht,'H01L',207,'X150')
 call SaveInteger(zzVL_ht,'H01L',237,85)
 call SaveInteger(zzVL_ht,'X150',240,13)
@@ -18183,6 +18424,9 @@ call SaveInteger(zzVL_ht,'X150',259,7)
 call SaveInteger(zzVL_ht,'X150',201,1)
 call SaveInteger(zzVL_ht,'X150',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X150',3,2)
+call SaveStr(zzVL_ht,'X151',280,"war3mapImported\\NDC_amphongcast.mdx")
+call SaveStr(zzVL_ht,'X151',285,"war3mapImported\\NDC_amphong1.mdx")
+call SaveStr(zzVL_ht,'X151',286,"war3mapImported\\NDC_amphong2.mdx")
 call SaveInteger(zzVL_ht,'H01L',208,'X151')
 call SaveInteger(zzVL_ht,'H01L',238,105)
 call SaveInteger(zzVL_ht,'X151',240,0)
@@ -18195,6 +18439,7 @@ call SaveInteger(zzVL_ht,'X151',247,0)
 call SaveInteger(zzVL_ht,'X151',248,0)
 call SaveInteger(zzVL_ht,'X151',249,0)
 call SaveInteger(zzVL_ht,'X151',252,0)
+call SaveInteger(zzVL_ht,'X151',294,1)
 call SaveStr(zzVL_ht,'X151',250,"war3mapImported\\NDC_truyphongdocthich.mdx")
 call SaveInteger(zzVL_ht,'X151',216,30)
 call SaveInteger(zzVL_ht,'X151',203,30)
@@ -18218,6 +18463,10 @@ call SaveInteger(zzVL_ht,'X152',201,1)
 call SaveInteger(zzVL_ht,'X152',164,12)
 call SaveInteger(zzVL_ht,'X152',239,3)
 call SaveInteger(zzVL_ht,'H01L',262,'X153')
+call SaveStr(zzVL_ht,'X153',280,"war3mapImported\\NDC_amphongcast.mdx")
+call SaveStr(zzVL_ht,'X153',281,"war3mapImported\\NDC_uminhkholautarget.mdx")
+call SaveStr(zzVL_ht,'X153',285,"war3mapImported\\NDC_quytrao3.mdx")
+call SaveStr(zzVL_ht,'X153',286,"war3mapImported\\NDC_uminheffect.mdx")
 call SaveInteger(zzVL_ht,'H01L',210,'X153')
 call SaveInteger(zzVL_ht,'H01L',240,145)
 call SaveInteger(zzVL_ht,'X153',240,13)
@@ -18230,6 +18479,7 @@ call SaveInteger(zzVL_ht,'X153',247,5)
 call SaveInteger(zzVL_ht,'X153',248,0)
 call SaveInteger(zzVL_ht,'X153',249,0)
 call SaveInteger(zzVL_ht,'X153',252,8)
+call SaveInteger(zzVL_ht,'X153',294,1)
 call SaveStr(zzVL_ht,'X153',250,"war3mapImported\\NDC_quytrao.mdx")
 call SaveInteger(zzVL_ht,'X153',257,200)
 call SaveInteger(zzVL_ht,'X153',258,48)
@@ -18256,6 +18506,7 @@ call SaveInteger(zzVL_ht,'X154',245,65536)
 call SaveInteger(zzVL_ht,'X154',201,1)
 call SaveInteger(zzVL_ht,'X154',239,2)
 call SaveInteger(zzVL_ht,'H01L',266,'X155')
+call SaveStr(zzVL_ht,'X155',281,"war3mapImported\\NDC_uminhkholautarget.mdx")
 call SaveInteger(zzVL_ht,'H01L',212,'X155')
 call SaveInteger(zzVL_ht,'H01L',242,185)
 call SaveInteger(zzVL_ht,'X155',240,15)
@@ -18268,13 +18519,15 @@ call SaveInteger(zzVL_ht,'X155',247,6)
 call SaveInteger(zzVL_ht,'X155',248,0)
 call SaveInteger(zzVL_ht,'X155',249,0)
 call SaveInteger(zzVL_ht,'X155',252,512)
-call SaveStr(zzVL_ht,'X155',250,"war3mapImported\\NDC_uminhkholau.mdx")
+call SaveStr(zzVL_ht,'X155',250,"war3mapImported\\NDC_uminhkholautarget.mdx")
 call SaveInteger(zzVL_ht,'X155',257,200)
 call SaveInteger(zzVL_ht,'X155',259,7)
 call SaveInteger(zzVL_ht,'X155',201,1)
 call SaveInteger(zzVL_ht,'X155',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X155',3,2)
 call SaveInteger(zzVL_ht,'H01M',260,'X156')
+call SaveStr(zzVL_ht,'X156',285,"war3mapImported\\DMTT_tanghondinh.mdx")
+call SaveStr(zzVL_ht,'X156',286,"war3mapImported\\HydraliskImpact.mdx")
 call SaveInteger(zzVL_ht,'H01M',200,'X156')
 call SaveInteger(zzVL_ht,'H01M',230,1)
 call SaveInteger(zzVL_ht,'X156',240,16)
@@ -18287,7 +18540,8 @@ call SaveInteger(zzVL_ht,'X156',247,5)
 call SaveInteger(zzVL_ht,'X156',248,0)
 call SaveInteger(zzVL_ht,'X156',249,0)
 call SaveInteger(zzVL_ht,'X156',252,8)
-call SaveStr(zzVL_ht,'X156',250,"war3mapImported\\DMTT_baovu.mdx")
+call SaveInteger(zzVL_ht,'X156',294,1)
+call SaveStr(zzVL_ht,'X156',250,"war3mapImported\\DMTT_doancannhan.mdx")
 call SaveInteger(zzVL_ht,'X156',257,180)
 call SaveInteger(zzVL_ht,'X156',259,7)
 call SaveInteger(zzVL_ht,'X156',201,1)
@@ -18306,6 +18560,7 @@ call SaveInteger(zzVL_ht,'X157',247,3)
 call SaveInteger(zzVL_ht,'X157',248,4)
 call SaveInteger(zzVL_ht,'X157',249,0)
 call SaveInteger(zzVL_ht,'X157',252,0)
+call SaveInteger(zzVL_ht,'X157',294,1)
 call SaveStr(zzVL_ht,'X157',250,"war3mapImported\\DMTT_baovucham.mdx")
 call SaveInteger(zzVL_ht,'X157',201,1)
 call SaveInteger(zzVL_ht,'H01M',265,'X158')
@@ -18323,6 +18578,7 @@ call SaveInteger(zzVL_ht,'X158',249,0)
 call SaveInteger(zzVL_ht,'X158',252,0)
 call SaveInteger(zzVL_ht,'X158',253,12)
 call SaveInteger(zzVL_ht,'X158',254,3)
+call SaveInteger(zzVL_ht,'X158',294,1)
 call SaveStr(zzVL_ht,'X158',250,"war3mapImported\\DMTT_doancannhan.mdx")
 call SaveInteger(zzVL_ht,'X158',257,300)
 call SaveInteger(zzVL_ht,'X158',228,1)
@@ -18331,6 +18587,7 @@ call SaveInteger(zzVL_ht,'X158',196,40)
 call SaveInteger(zzVL_ht,'X158',195,1)
 call SaveInteger(zzVL_ht,'X158',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X158',3,2)
+call SaveStr(zzVL_ht,'X159',287,"war3mapImported\\DMTT_toidocaura.mdx")
 call SaveInteger(zzVL_ht,'H01M',203,'X159')
 call SaveInteger(zzVL_ht,'H01M',233,25)
 call SaveInteger(zzVL_ht,'X159',240,0)
@@ -18343,9 +18600,12 @@ call SaveInteger(zzVL_ht,'X159',247,5)
 call SaveInteger(zzVL_ht,'X159',248,3)
 call SaveInteger(zzVL_ht,'X159',249,0)
 call SaveInteger(zzVL_ht,'X159',252,0)
+call SaveInteger(zzVL_ht,'X159',294,1)
 call SaveStr(zzVL_ht,'X159',250,"war3mapImported\\DMTT_toidocaura.mdx")
 call SaveInteger(zzVL_ht,'X159',201,1)
 call SaveInteger(zzVL_ht,'H01M',263,'X160')
+call SaveStr(zzVL_ht,'X160',285,"war3mapImported\\DMTT_tanghondinh.mdx")
+call SaveStr(zzVL_ht,'X160',286,"war3mapImported\\HydraliskImpact.mdx")
 call SaveInteger(zzVL_ht,'H01M',204,'X160')
 call SaveInteger(zzVL_ht,'H01M',234,38)
 call SaveInteger(zzVL_ht,'X160',240,5)
@@ -18358,6 +18618,7 @@ call SaveInteger(zzVL_ht,'X160',247,3)
 call SaveInteger(zzVL_ht,'X160',248,6)
 call SaveInteger(zzVL_ht,'X160',249,0)
 call SaveInteger(zzVL_ht,'X160',252,512)
+call SaveInteger(zzVL_ht,'X160',294,1)
 call SaveStr(zzVL_ht,'X160',250,"war3mapImported\\DMTT_doancannhan.mdx")
 call SaveInteger(zzVL_ht,'X160',257,900)
 call SaveInteger(zzVL_ht,'X160',259,7)
@@ -18379,9 +18640,12 @@ call SaveInteger(zzVL_ht,'X161',247,5)
 call SaveInteger(zzVL_ht,'X161',248,14)
 call SaveInteger(zzVL_ht,'X161',249,0)
 call SaveInteger(zzVL_ht,'X161',252,0)
-call SaveStr(zzVL_ht,'X161',250,"war3mapImported\\DMTT_khongtuocvu3.mdx")
+call SaveInteger(zzVL_ht,'X161',294,1)
+call SaveStr(zzVL_ht,'X161',250,"war3mapImported\\MDX\\TamNhan.mdx")
 call SaveInteger(zzVL_ht,'X161',201,1)
 call SaveInteger(zzVL_ht,'H01M',261,'X162')
+call SaveStr(zzVL_ht,'X162',285,"war3mapImported\\DMTT_baovucham.mdx")
+call SaveStr(zzVL_ht,'X162',286,"war3mapImported\\HydraliskImpact.mdx")
 call SaveInteger(zzVL_ht,'H01M',206,'X162')
 call SaveInteger(zzVL_ht,'H01M',236,68)
 call SaveInteger(zzVL_ht,'X162',240,13)
@@ -18394,6 +18658,7 @@ call SaveInteger(zzVL_ht,'X162',247,5)
 call SaveInteger(zzVL_ht,'X162',248,0)
 call SaveInteger(zzVL_ht,'X162',249,0)
 call SaveInteger(zzVL_ht,'X162',252,8)
+call SaveInteger(zzVL_ht,'X162',294,1)
 call SaveStr(zzVL_ht,'X162',250,"war3mapImported\\DMTT_baovu.mdx")
 call SaveInteger(zzVL_ht,'X162',257,180)
 call SaveInteger(zzVL_ht,'X162',258,40)
@@ -18421,6 +18686,7 @@ call SaveInteger(zzVL_ht,'X163',201,1)
 call SaveInteger(zzVL_ht,'X163',166,6)
 call SaveInteger(zzVL_ht,'X163',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X163',3,1)
+call SaveStr(zzVL_ht,'X164',284,"war3mapImported\\DMTT_phuquangluocanhbuff.mdx")
 call SaveInteger(zzVL_ht,'H01M',208,'X164')
 call SaveInteger(zzVL_ht,'H01M',238,105)
 call SaveInteger(zzVL_ht,'X164',240,0)
@@ -18433,7 +18699,8 @@ call SaveInteger(zzVL_ht,'X164',247,4)
 call SaveInteger(zzVL_ht,'X164',248,3)
 call SaveInteger(zzVL_ht,'X164',249,0)
 call SaveInteger(zzVL_ht,'X164',252,0)
-call SaveStr(zzVL_ht,'X164',250,"war3mapImported\\DMTT_thattuyetbuff.mdx")
+call SaveInteger(zzVL_ht,'X164',294,1)
+call SaveStr(zzVL_ht,'X164',250,"war3mapImported\\MDX\\ThatTuyetSatQuang.mdx")
 call SaveInteger(zzVL_ht,'X164',216,100)
 call SaveInteger(zzVL_ht,'X164',201,1)
 call SaveInteger(zzVL_ht,'X164',220,30)
@@ -18449,9 +18716,12 @@ call SaveInteger(zzVL_ht,'X165',247,3)
 call SaveInteger(zzVL_ht,'X165',248,0)
 call SaveInteger(zzVL_ht,'X165',249,0)
 call SaveInteger(zzVL_ht,'X165',252,0)
+call SaveInteger(zzVL_ht,'X165',294,1)
 call SaveStr(zzVL_ht,'X165',250,"war3mapImported\\DMTT_tanghondinh.mdx")
 call SaveInteger(zzVL_ht,'X165',201,1)
 call SaveInteger(zzVL_ht,'H01M',262,'X166')
+call SaveStr(zzVL_ht,'X166',285,"war3mapImported\\DMTT_khongtuocvu3.mdx")
+call SaveStr(zzVL_ht,'X166',286,"war3mapImported\\DMTT_khongtuocvu2.mdx")
 call SaveInteger(zzVL_ht,'H01M',210,'X166')
 call SaveInteger(zzVL_ht,'H01M',240,145)
 call SaveInteger(zzVL_ht,'X166',240,13)
@@ -18464,6 +18734,7 @@ call SaveInteger(zzVL_ht,'X166',247,5)
 call SaveInteger(zzVL_ht,'X166',248,0)
 call SaveInteger(zzVL_ht,'X166',249,0)
 call SaveInteger(zzVL_ht,'X166',252,8)
+call SaveInteger(zzVL_ht,'X166',294,1)
 call SaveStr(zzVL_ht,'X166',250,"war3mapImported\\DMTT_khongtuocvu1.mdx")
 call SaveInteger(zzVL_ht,'X166',257,180)
 call SaveInteger(zzVL_ht,'X166',258,30)
@@ -18484,10 +18755,13 @@ call SaveInteger(zzVL_ht,'X167',247,0)
 call SaveInteger(zzVL_ht,'X167',248,0)
 call SaveInteger(zzVL_ht,'X167',249,0)
 call SaveInteger(zzVL_ht,'X167',252,0)
+call SaveInteger(zzVL_ht,'X167',294,1)
 call SaveStr(zzVL_ht,'X167',250,"war3mapImported\\DMTT_doancannhan.mdx")
 call SaveInteger(zzVL_ht,'X167',245,16384)
 call SaveInteger(zzVL_ht,'X167',201,1)
 call SaveInteger(zzVL_ht,'X167',239,2)
+endfunction
+function zzVL_Items3 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'H01M',212,'X168')
 call SaveInteger(zzVL_ht,'H01M',242,185)
 call SaveInteger(zzVL_ht,'X168',240,0)
@@ -18500,11 +18774,15 @@ call SaveInteger(zzVL_ht,'X168',247,5)
 call SaveInteger(zzVL_ht,'X168',248,3)
 call SaveInteger(zzVL_ht,'X168',249,0)
 call SaveInteger(zzVL_ht,'X168',252,0)
+call SaveInteger(zzVL_ht,'X168',294,1)
 call SaveStr(zzVL_ht,'X168',250,"war3mapImported\\DMTT_phuquangluocanhbuff.mdx")
 call SaveInteger(zzVL_ht,'X168',216,25)
 call SaveInteger(zzVL_ht,'X168',201,1)
 call SaveInteger(zzVL_ht,'X168',220,30)
+call SaveInteger(zzVL_ht,'X169',288,1)
 call SaveInteger(zzVL_ht,'E005',260,'X169')
+call SaveStr(zzVL_ht,'X169',281,"war3mapImported\\NMC_tutuongtarget.mdx")
+call SaveStr(zzVL_ht,'X169',284,"war3mapImported\\NMC_vantuongbuff.mdx")
 call SaveInteger(zzVL_ht,'E005',200,'X169')
 call SaveInteger(zzVL_ht,'E005',230,1)
 call SaveInteger(zzVL_ht,'X169',240,16)
@@ -18517,6 +18795,7 @@ call SaveInteger(zzVL_ht,'X169',247,5)
 call SaveInteger(zzVL_ht,'X169',248,0)
 call SaveInteger(zzVL_ht,'X169',249,0)
 call SaveInteger(zzVL_ht,'X169',252,0)
+call SaveInteger(zzVL_ht,'X169',294,1)
 call SaveStr(zzVL_ht,'X169',250,"war3mapImported\\NMC_tutuongdq.mdx")
 call SaveInteger(zzVL_ht,'X169',257,200)
 call SaveInteger(zzVL_ht,'X169',258,15)
@@ -18553,6 +18832,7 @@ call SaveInteger(zzVL_ht,'X171',249,0)
 call SaveInteger(zzVL_ht,'X171',252,0)
 call SaveStr(zzVL_ht,'X171',250,"war3mapImported\\NMC_diepdetanghoa.mdx")
 call SaveInteger(zzVL_ht,'X171',201,1)
+call SaveStr(zzVL_ht,'X172',285,"war3mapImported\\NMC_batdiet2.mdx")
 call SaveInteger(zzVL_ht,'E005',203,'X172')
 call SaveInteger(zzVL_ht,'E005',233,25)
 call SaveInteger(zzVL_ht,'X172',240,0)
@@ -18565,7 +18845,8 @@ call SaveInteger(zzVL_ht,'X172',247,0)
 call SaveInteger(zzVL_ht,'X172',248,0)
 call SaveInteger(zzVL_ht,'X172',249,0)
 call SaveInteger(zzVL_ht,'X172',252,1024)
-call SaveStr(zzVL_ht,'X172',250,"war3mapImported\\NMC_batdiet1.mdx")
+call SaveInteger(zzVL_ht,'X172',294,1)
+call SaveStr(zzVL_ht,'X172',250,"war3mapImported\\MDX\\BatDietBatTuyet.mdx")
 call SaveInteger(zzVL_ht,'X172',201,1)
 call SaveInteger(zzVL_ht,'X172',189,50)
 call SaveInteger(zzVL_ht,'X172',221,0)
@@ -18586,7 +18867,7 @@ call SaveInteger(zzVL_ht,'X173',247,5)
 call SaveInteger(zzVL_ht,'X173',248,3)
 call SaveInteger(zzVL_ht,'X173',249,0)
 call SaveInteger(zzVL_ht,'X173',252,0)
-call SaveStr(zzVL_ht,'X173',250,"war3mapImported\\NMC_phatquangbuff.mdx")
+call SaveStr(zzVL_ht,'X173',250,"war3mapImported\\TLHD_khaphuyet.mdx")
 call SaveInteger(zzVL_ht,'X173',201,1)
 call SaveInteger(zzVL_ht,'X173',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X173',3,0)
@@ -18602,9 +18883,13 @@ call SaveInteger(zzVL_ht,'X174',247,5)
 call SaveInteger(zzVL_ht,'X174',248,0)
 call SaveInteger(zzVL_ht,'X174',249,0)
 call SaveInteger(zzVL_ht,'X174',252,0)
+call SaveInteger(zzVL_ht,'X174',294,1)
 call SaveStr(zzVL_ht,'X174',250,"war3mapImported\\NMC_phongsuongtoaianh.mdx")
 call SaveInteger(zzVL_ht,'X174',201,1)
+call SaveInteger(zzVL_ht,'X175',288,1)
 call SaveInteger(zzVL_ht,'E005',261,'X175')
+call SaveStr(zzVL_ht,'X175',281,"war3mapImported\\NMC_phongsuongtarget.mdx")
+call SaveStr(zzVL_ht,'X175',285,"war3mapImported\\NMC_phongsuongtoaianh.mdx")
 call SaveInteger(zzVL_ht,'E005',206,'X175')
 call SaveInteger(zzVL_ht,'E005',236,68)
 call SaveInteger(zzVL_ht,'X175',240,5)
@@ -18617,7 +18902,7 @@ call SaveInteger(zzVL_ht,'X175',247,5)
 call SaveInteger(zzVL_ht,'X175',248,0)
 call SaveInteger(zzVL_ht,'X175',249,0)
 call SaveInteger(zzVL_ht,'X175',252,0)
-call SaveStr(zzVL_ht,'X175',250,"war3mapImported\\NMC_phongsuongtoaianh.mdx")
+call SaveStr(zzVL_ht,'X175',250,"war3mapImported\\NMC_diepdetanghoa.mdx")
 call SaveInteger(zzVL_ht,'X175',257,400)
 call SaveInteger(zzVL_ht,'X175',258,20)
 call SaveInteger(zzVL_ht,'X175',259,7)
@@ -18654,12 +18939,14 @@ call SaveInteger(zzVL_ht,'X177',247,3)
 call SaveInteger(zzVL_ht,'X177',248,0)
 call SaveInteger(zzVL_ht,'X177',249,0)
 call SaveInteger(zzVL_ht,'X177',252,0)
+call SaveInteger(zzVL_ht,'X177',294,1)
 call SaveStr(zzVL_ht,'X177',250,"war3mapImported\\NMC_kimdinhbuff.mdx")
 call SaveInteger(zzVL_ht,'X177',216,100)
 call SaveInteger(zzVL_ht,'X177',203,29)
 call SaveInteger(zzVL_ht,'X177',201,1)
 call SaveInteger(zzVL_ht,'X177',220,15)
 call SaveInteger(zzVL_ht,'E005',264,'X178')
+call SaveStr(zzVL_ht,'X178',281,"war3mapImported\\NMC_tutuongtarget.mdx")
 call SaveInteger(zzVL_ht,'E005',209,'X178')
 call SaveInteger(zzVL_ht,'E005',239,125)
 call SaveInteger(zzVL_ht,'X178',240,6)
@@ -18672,11 +18959,15 @@ call SaveInteger(zzVL_ht,'X178',247,14)
 call SaveInteger(zzVL_ht,'X178',248,5)
 call SaveInteger(zzVL_ht,'X178',249,0)
 call SaveInteger(zzVL_ht,'X178',252,0)
+call SaveInteger(zzVL_ht,'X178',294,1)
 call SaveStr(zzVL_ht,'X178',250,"war3mapImported\\NMC_vantuongbuff.mdx")
 call SaveInteger(zzVL_ht,'X178',201,1)
 call SaveInteger(zzVL_ht,'X178',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X178',3,0)
+call SaveInteger(zzVL_ht,'X179',289,1)
 call SaveInteger(zzVL_ht,'E005',262,'X179')
+call SaveStr(zzVL_ht,'X179',280,"war3mapImported\\NMC_nguyethoacast.mdx")
+call SaveStr(zzVL_ht,'X179',285,"war3mapImported\\NMC_diepdetanghoa.mdx")
 call SaveInteger(zzVL_ht,'E005',210,'X179')
 call SaveInteger(zzVL_ht,'E005',240,145)
 call SaveInteger(zzVL_ht,'X179',240,5)
@@ -18689,7 +18980,8 @@ call SaveInteger(zzVL_ht,'X179',247,5)
 call SaveInteger(zzVL_ht,'X179',248,0)
 call SaveInteger(zzVL_ht,'X179',249,0)
 call SaveInteger(zzVL_ht,'X179',252,0)
-call SaveStr(zzVL_ht,'X179',250,"war3mapImported\\NMC_nguyethoacast.mdx")
+call SaveInteger(zzVL_ht,'X179',294,1)
+call SaveStr(zzVL_ht,'X179',250,"war3mapImported\\NMC_nguyethoaeffect.mdx")
 call SaveInteger(zzVL_ht,'X179',257,800)
 call SaveInteger(zzVL_ht,'X179',258,17)
 call SaveInteger(zzVL_ht,'X179',259,7)
@@ -18710,6 +19002,7 @@ call SaveInteger(zzVL_ht,'X180',247,3)
 call SaveInteger(zzVL_ht,'X180',248,0)
 call SaveInteger(zzVL_ht,'X180',249,0)
 call SaveInteger(zzVL_ht,'X180',252,0)
+call SaveInteger(zzVL_ht,'X180',294,1)
 call SaveStr(zzVL_ht,'X180',250,"war3mapImported\\NMC_phatquangbuff.mdx")
 call SaveInteger(zzVL_ht,'X180',245,65536)
 call SaveInteger(zzVL_ht,'X180',201,1)
@@ -18717,6 +19010,7 @@ call SaveInteger(zzVL_ht,'X180',180,100)
 call SaveInteger(zzVL_ht,'X180',179,27)
 call SaveInteger(zzVL_ht,'X180',178,3)
 call SaveInteger(zzVL_ht,'X180',239,2)
+call SaveStr(zzVL_ht,'X181',284,"war3mapImported\\NMC_kimdinhbuff.mdx")
 call SaveInteger(zzVL_ht,'E005',212,'X181')
 call SaveInteger(zzVL_ht,'E005',242,185)
 call SaveInteger(zzVL_ht,'X181',240,0)
@@ -18729,6 +19023,7 @@ call SaveInteger(zzVL_ht,'X181',247,7)
 call SaveInteger(zzVL_ht,'X181',248,0)
 call SaveInteger(zzVL_ht,'X181',249,0)
 call SaveInteger(zzVL_ht,'X181',252,0)
+call SaveInteger(zzVL_ht,'X181',294,1)
 call SaveStr(zzVL_ht,'X181',250,"war3mapImported\\NMC_phatquangbuff.mdx")
 call SaveInteger(zzVL_ht,'X181',201,1)
 call SaveInteger(zzVL_ht,'H01P',260,'X182')
@@ -18751,8 +19046,6 @@ call SaveInteger(zzVL_ht,'X182',236,15)
 call SaveInteger(zzVL_ht,'X182',257,100)
 call SaveInteger(zzVL_ht,'X182',259,7)
 call SaveInteger(zzVL_ht,'X182',201,1)
-endfunction
-function zzVL_Items3 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X182',187,10)
 call SaveInteger(zzVL_ht,'X182',2,OrderId("blackarrow"))
 call SaveInteger(zzVL_ht,'X182',3,1)
@@ -18769,6 +19062,7 @@ call SaveInteger(zzVL_ht,'X183',247,3)
 call SaveInteger(zzVL_ht,'X183',248,4)
 call SaveInteger(zzVL_ht,'X183',249,0)
 call SaveInteger(zzVL_ht,'X183',252,0)
+call SaveInteger(zzVL_ht,'X183',294,1)
 call SaveStr(zzVL_ht,'X183',250,"war3mapImported\\TNK_gianghai2.mdx")
 call SaveInteger(zzVL_ht,'X183',201,1)
 call SaveInteger(zzVL_ht,'H01P',263,'X184')
@@ -18784,7 +19078,8 @@ call SaveInteger(zzVL_ht,'X184',247,5)
 call SaveInteger(zzVL_ht,'X184',248,0)
 call SaveInteger(zzVL_ht,'X184',249,0)
 call SaveInteger(zzVL_ht,'X184',252,0)
-call SaveStr(zzVL_ht,'X184',250,"war3mapImported\\TNK_liethoacaster.mdx")
+call SaveInteger(zzVL_ht,'X184',294,1)
+call SaveStr(zzVL_ht,'X184',250,"war3mapImported\\MDX\\LietHoaTinhThien.mdx")
 call SaveInteger(zzVL_ht,'X184',257,560)
 call SaveInteger(zzVL_ht,'X184',258,20)
 call SaveInteger(zzVL_ht,'X184',259,7)
@@ -18804,7 +19099,7 @@ call SaveInteger(zzVL_ht,'X185',247,4)
 call SaveInteger(zzVL_ht,'X185',248,0)
 call SaveInteger(zzVL_ht,'X185',249,0)
 call SaveInteger(zzVL_ht,'X185',252,0)
-call SaveStr(zzVL_ht,'X185',250,"war3mapImported\\TNK_maamphephachbuff.mdx")
+call SaveStr(zzVL_ht,'X185',250,"war3mapImported\\TNK_maamtarget.mdx")
 call SaveInteger(zzVL_ht,'X185',234,3)
 call SaveInteger(zzVL_ht,'X185',235,36)
 call SaveInteger(zzVL_ht,'X185',236,50)
@@ -18845,9 +19140,13 @@ call SaveInteger(zzVL_ht,'X187',247,5)
 call SaveInteger(zzVL_ht,'X187',248,0)
 call SaveInteger(zzVL_ht,'X187',249,0)
 call SaveInteger(zzVL_ht,'X187',252,0)
+call SaveInteger(zzVL_ht,'X187',294,1)
 call SaveStr(zzVL_ht,'X187',250,"war3mapImported\\TNK_vanlong3.mdx")
 call SaveInteger(zzVL_ht,'X187',201,1)
+call SaveInteger(zzVL_ht,'X188',289,1)
 call SaveInteger(zzVL_ht,'H01P',261,'X188')
+call SaveStr(zzVL_ht,'X188',280,"war3mapImported\\TNK_vanlongcast.mdx")
+call SaveStr(zzVL_ht,'X188',281,"war3mapImported\\TNK_vanlongtarget.mdx")
 call SaveInteger(zzVL_ht,'H01P',206,'X188')
 call SaveInteger(zzVL_ht,'H01P',236,68)
 call SaveInteger(zzVL_ht,'X188',240,5)
@@ -18860,6 +19159,7 @@ call SaveInteger(zzVL_ht,'X188',247,5)
 call SaveInteger(zzVL_ht,'X188',248,0)
 call SaveInteger(zzVL_ht,'X188',249,0)
 call SaveInteger(zzVL_ht,'X188',252,4)
+call SaveInteger(zzVL_ht,'X188',294,1)
 call SaveStr(zzVL_ht,'X188',250,"war3mapImported\\TNK_vanlongkich.mdx")
 call SaveInteger(zzVL_ht,'X188',234,5)
 call SaveInteger(zzVL_ht,'X188',235,35)
@@ -18884,6 +19184,7 @@ call SaveInteger(zzVL_ht,'X189',247,5)
 call SaveInteger(zzVL_ht,'X189',248,0)
 call SaveInteger(zzVL_ht,'X189',249,0)
 call SaveInteger(zzVL_ht,'X189',252,0)
+call SaveInteger(zzVL_ht,'X189',294,1)
 call SaveStr(zzVL_ht,'X189',250,"war3mapImported\\TNK_phihongcast.mdx")
 call SaveInteger(zzVL_ht,'X189',257,920)
 call SaveInteger(zzVL_ht,'X189',223,1)
@@ -18902,8 +19203,12 @@ call SaveInteger(zzVL_ht,'X190',247,0)
 call SaveInteger(zzVL_ht,'X190',248,0)
 call SaveInteger(zzVL_ht,'X190',249,0)
 call SaveInteger(zzVL_ht,'X190',252,0)
+call SaveInteger(zzVL_ht,'X190',294,1)
 call SaveStr(zzVL_ht,'X190',250,"war3mapImported\\TNK_cuukhucbuff.MDX")
 call SaveInteger(zzVL_ht,'X190',201,1)
+call SaveStr(zzVL_ht,'X191',280,"war3mapImported\\TNK_vanlongcast.mdx")
+call SaveStr(zzVL_ht,'X191',281,"war3mapImported\\TNK_vanlongtarget.mdx")
+call SaveStr(zzVL_ht,'X191',285,"war3mapImported\\TNK_vanlongkich.mdx")
 call SaveInteger(zzVL_ht,'H01P',209,'X191')
 call SaveInteger(zzVL_ht,'H01P',239,125)
 call SaveInteger(zzVL_ht,'X191',240,0)
@@ -18916,9 +19221,15 @@ call SaveInteger(zzVL_ht,'X191',247,4)
 call SaveInteger(zzVL_ht,'X191',248,0)
 call SaveInteger(zzVL_ht,'X191',249,0)
 call SaveInteger(zzVL_ht,'X191',252,0)
-call SaveStr(zzVL_ht,'X191',250,"war3mapImported\\TNK_vanlong3.mdx")
+call SaveInteger(zzVL_ht,'X191',294,1)
+call SaveStr(zzVL_ht,'X191',250,"war3mapImported\\MDX\\VanLong.mdx")
 call SaveInteger(zzVL_ht,'X191',201,1)
+call SaveInteger(zzVL_ht,'X192',289,1)
+call SaveInteger(zzVL_ht,'X192',288,1)
 call SaveInteger(zzVL_ht,'H01P',262,'X192')
+call SaveStr(zzVL_ht,'X192',280,"war3mapImported\\TNK_vanlongcast.mdx")
+call SaveStr(zzVL_ht,'X192',281,"war3mapImported\\TNK_gianghaitarget.mdx")
+call SaveStr(zzVL_ht,'X192',285,"war3mapImported\\TNK_gianghai2.mdx")
 call SaveInteger(zzVL_ht,'H01P',210,'X192')
 call SaveInteger(zzVL_ht,'H01P',240,145)
 call SaveInteger(zzVL_ht,'X192',240,5)
@@ -18931,6 +19242,7 @@ call SaveInteger(zzVL_ht,'X192',247,5)
 call SaveInteger(zzVL_ht,'X192',248,0)
 call SaveInteger(zzVL_ht,'X192',249,0)
 call SaveInteger(zzVL_ht,'X192',252,4)
+call SaveInteger(zzVL_ht,'X192',294,1)
 call SaveStr(zzVL_ht,'X192',250,"war3mapImported\\TNK_gianghai1.mdx")
 call SaveInteger(zzVL_ht,'X192',234,5)
 call SaveInteger(zzVL_ht,'X192',235,40)
@@ -18976,6 +19288,7 @@ call SaveInteger(zzVL_ht,'X194',252,0)
 call SaveStr(zzVL_ht,'X194',250,"war3mapImported\\TNK_tanduongnhuhuyet.mdx")
 call SaveInteger(zzVL_ht,'X194',201,1)
 call SaveInteger(zzVL_ht,'H01S',260,'X195')
+call SaveStr(zzVL_ht,'X195',280,"war3mapImported\\VDQ_caster2.mdx")
 call SaveInteger(zzVL_ht,'H01S',200,'X195')
 call SaveInteger(zzVL_ht,'H01S',230,1)
 call SaveInteger(zzVL_ht,'X195',240,16)
@@ -19008,9 +19321,11 @@ call SaveInteger(zzVL_ht,'X196',247,3)
 call SaveInteger(zzVL_ht,'X196',248,4)
 call SaveInteger(zzVL_ht,'X196',249,0)
 call SaveInteger(zzVL_ht,'X196',252,0)
+call SaveInteger(zzVL_ht,'X196',294,1)
 call SaveStr(zzVL_ht,'X196',250,"war3mapImported\\VDQ_batquaidulong.mdx")
 call SaveInteger(zzVL_ht,'X196',201,1)
 call SaveInteger(zzVL_ht,'H01S',264,'X197')
+call SaveStr(zzVL_ht,'X197',285,"war3mapImported\\VDQ_vongakiem.mdx")
 call SaveInteger(zzVL_ht,'H01S',202,'X197')
 call SaveInteger(zzVL_ht,'H01S',232,15)
 call SaveInteger(zzVL_ht,'X197',240,6)
@@ -19025,7 +19340,8 @@ call SaveInteger(zzVL_ht,'X197',249,0)
 call SaveInteger(zzVL_ht,'X197',252,0)
 call SaveInteger(zzVL_ht,'X197',253,18)
 call SaveInteger(zzVL_ht,'X197',254,3)
-call SaveStr(zzVL_ht,'X197',250,"war3mapImported\\VDQ_thuanduongvocuc.mdx")
+call SaveInteger(zzVL_ht,'X197',294,1)
+call SaveStr(zzVL_ht,'X197',250,"war3mapImported\\MDX\\ToaVongVoNga.mdx")
 call SaveInteger(zzVL_ht,'X197',201,1)
 call SaveInteger(zzVL_ht,'X197',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X197',3,0)
@@ -19041,6 +19357,7 @@ call SaveInteger(zzVL_ht,'X198',247,5)
 call SaveInteger(zzVL_ht,'X198',248,2)
 call SaveInteger(zzVL_ht,'X198',249,0)
 call SaveInteger(zzVL_ht,'X198',252,0)
+call SaveInteger(zzVL_ht,'X198',294,1)
 call SaveStr(zzVL_ht,'X198',250,"war3mapImported\\VDQ_chanvutt.mdx")
 call SaveInteger(zzVL_ht,'X198',201,1)
 call SaveInteger(zzVL_ht,'H01S',265,'X199')
@@ -19056,6 +19373,7 @@ call SaveInteger(zzVL_ht,'X199',247,5)
 call SaveInteger(zzVL_ht,'X199',248,6)
 call SaveInteger(zzVL_ht,'X199',249,0)
 call SaveInteger(zzVL_ht,'X199',252,0)
+call SaveInteger(zzVL_ht,'X199',294,1)
 call SaveStr(zzVL_ht,'X199',250,"war3mapImported\\VDQ_thuanduongvocuc.mdx")
 call SaveInteger(zzVL_ht,'X199',201,1)
 call SaveInteger(zzVL_ht,'X199',2,OrderId("starfall"))
@@ -19072,9 +19390,14 @@ call SaveInteger(zzVL_ht,'X200',247,5)
 call SaveInteger(zzVL_ht,'X200',248,0)
 call SaveInteger(zzVL_ht,'X200',249,0)
 call SaveInteger(zzVL_ht,'X200',252,0)
+call SaveInteger(zzVL_ht,'X200',294,1)
 call SaveStr(zzVL_ht,'X200',250,"war3mapImported\\VDQ_thaicuc.mdx")
 call SaveInteger(zzVL_ht,'X200',201,1)
+call SaveInteger(zzVL_ht,'X201',289,1)
 call SaveInteger(zzVL_ht,'H01S',261,'X201')
+call SaveStr(zzVL_ht,'X201',280,"war3mapImported\\VDQ_thiendiacaster.mdx")
+call SaveStr(zzVL_ht,'X201',281,"war3mapImported\\VDQ_thiendiatarget.mdx")
+call SaveStr(zzVL_ht,'X201',285,"war3mapImported\\VDQ_thiendia.mdx")
 call SaveInteger(zzVL_ht,'H01S',206,'X201')
 call SaveInteger(zzVL_ht,'H01S',236,68)
 call SaveInteger(zzVL_ht,'X201',240,16)
@@ -19087,7 +19410,8 @@ call SaveInteger(zzVL_ht,'X201',247,5)
 call SaveInteger(zzVL_ht,'X201',248,0)
 call SaveInteger(zzVL_ht,'X201',249,0)
 call SaveInteger(zzVL_ht,'X201',252,0)
-call SaveStr(zzVL_ht,'X201',250,"war3mapImported\\VDQ_thiendia.mdx")
+call SaveInteger(zzVL_ht,'X201',294,1)
+call SaveStr(zzVL_ht,'X201',250,"war3mapImported\\VDQ_thaicuc.mdx")
 call SaveInteger(zzVL_ht,'X201',257,250)
 call SaveInteger(zzVL_ht,'X201',258,30)
 call SaveInteger(zzVL_ht,'X201',259,7)
@@ -19096,6 +19420,8 @@ call SaveInteger(zzVL_ht,'X201',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X201',3,1)
 call SaveStr(zzVL_ht,'X201',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H01S',263,'X202')
+call SaveStr(zzVL_ht,'X202',280,"war3mapImported\\VDQ_caster2.mdx")
+call SaveStr(zzVL_ht,'X202',281,"war3mapImported\\VDQ_thiendiatarget.mdx")
 call SaveInteger(zzVL_ht,'H01S',207,'X202')
 call SaveInteger(zzVL_ht,'H01S',237,85)
 call SaveInteger(zzVL_ht,'X202',240,4)
@@ -19108,7 +19434,7 @@ call SaveInteger(zzVL_ht,'X202',247,3)
 call SaveInteger(zzVL_ht,'X202',248,0)
 call SaveInteger(zzVL_ht,'X202',249,0)
 call SaveInteger(zzVL_ht,'X202',252,0)
-call SaveStr(zzVL_ht,'X202',250,"war3mapImported\\VDQ_vankiemquytong.mdx")
+call SaveStr(zzVL_ht,'X202',250,"war3mapImported\\VDQ_vongakiem.mdx")
 call SaveInteger(zzVL_ht,'X202',257,1000)
 call SaveInteger(zzVL_ht,'X202',258,10)
 call SaveInteger(zzVL_ht,'X202',259,10)
@@ -19128,6 +19454,7 @@ call SaveInteger(zzVL_ht,'X203',247,5)
 call SaveInteger(zzVL_ht,'X203',248,0)
 call SaveInteger(zzVL_ht,'X203',249,0)
 call SaveInteger(zzVL_ht,'X203',252,0)
+call SaveInteger(zzVL_ht,'X203',294,1)
 call SaveStr(zzVL_ht,'X203',250,"war3mapImported\\VDQ_thuanduongvocuc.mdx")
 call SaveInteger(zzVL_ht,'X203',201,1)
 call SaveInteger(zzVL_ht,'H01S',209,'X204')
@@ -19142,9 +19469,14 @@ call SaveInteger(zzVL_ht,'X204',247,0)
 call SaveInteger(zzVL_ht,'X204',248,0)
 call SaveInteger(zzVL_ht,'X204',249,0)
 call SaveInteger(zzVL_ht,'X204',252,0)
-call SaveStr(zzVL_ht,'X204',250,"war3mapImported\\VDQ_batquaidulong.mdx")
+call SaveInteger(zzVL_ht,'X204',294,1)
+call SaveStr(zzVL_ht,'X204',250,"war3mapImported\\MDX\\BatQuaiDuLong.mdx")
 call SaveInteger(zzVL_ht,'X204',201,1)
+call SaveInteger(zzVL_ht,'X205',289,1)
 call SaveInteger(zzVL_ht,'H01S',262,'X205')
+call SaveStr(zzVL_ht,'X205',280,"war3mapImported\\VDQ_thiendiacaster.mdx")
+call SaveStr(zzVL_ht,'X205',285,"war3mapImported\\VDQ_cuucung2.mdx")
+call SaveStr(zzVL_ht,'X205',286,"war3mapImported\\VDQ_thaicuc.mdx")
 call SaveInteger(zzVL_ht,'H01S',210,'X205')
 call SaveInteger(zzVL_ht,'H01S',240,145)
 call SaveInteger(zzVL_ht,'X205',240,16)
@@ -19157,7 +19489,7 @@ call SaveInteger(zzVL_ht,'X205',247,5)
 call SaveInteger(zzVL_ht,'X205',248,0)
 call SaveInteger(zzVL_ht,'X205',249,0)
 call SaveInteger(zzVL_ht,'X205',252,0)
-call SaveStr(zzVL_ht,'X205',250,"war3mapImported\\VDQ_batquaidulong.mdx")
+call SaveStr(zzVL_ht,'X205',250,"war3mapImported\\VDQ_cuucung1.mdx")
 call SaveInteger(zzVL_ht,'X205',257,280)
 call SaveInteger(zzVL_ht,'X205',258,25)
 call SaveInteger(zzVL_ht,'X205',259,7)
@@ -19177,7 +19509,8 @@ call SaveInteger(zzVL_ht,'X206',247,5)
 call SaveInteger(zzVL_ht,'X206',248,0)
 call SaveInteger(zzVL_ht,'X206',249,0)
 call SaveInteger(zzVL_ht,'X206',252,0)
-call SaveStr(zzVL_ht,'X206',250,"war3mapImported\\VDQ_thaicuc.mdx")
+call SaveInteger(zzVL_ht,'X206',294,1)
+call SaveStr(zzVL_ht,'X206',250,"war3mapImported\\MDX\\ThaiCucThanCong.mdx")
 call SaveInteger(zzVL_ht,'X206',209,2)
 call SaveInteger(zzVL_ht,'X206',208,75)
 call SaveInteger(zzVL_ht,'X206',201,1)
@@ -19194,9 +19527,12 @@ call SaveInteger(zzVL_ht,'X207',247,5)
 call SaveInteger(zzVL_ht,'X207',248,0)
 call SaveInteger(zzVL_ht,'X207',249,0)
 call SaveInteger(zzVL_ht,'X207',252,4096)
+call SaveInteger(zzVL_ht,'X207',294,1)
 call SaveStr(zzVL_ht,'X207',250,"war3mapImported\\VDQ_batquaidulong.mdx")
 call SaveInteger(zzVL_ht,'X207',201,1)
 call SaveInteger(zzVL_ht,'H01U',260,'X208')
+call SaveStr(zzVL_ht,'X208',280,"war3mapImported\\CLD_buffcast.MDX")
+call SaveStr(zzVL_ht,'X208',281,"war3mapImported\\CLD_effecttarget.mdx")
 call SaveInteger(zzVL_ht,'H01U',200,'X208')
 call SaveInteger(zzVL_ht,'H01U',230,1)
 call SaveInteger(zzVL_ht,'X208',240,5)
@@ -19209,6 +19545,7 @@ call SaveInteger(zzVL_ht,'X208',247,5)
 call SaveInteger(zzVL_ht,'X208',248,0)
 call SaveInteger(zzVL_ht,'X208',249,0)
 call SaveInteger(zzVL_ht,'X208',252,0)
+call SaveInteger(zzVL_ht,'X208',294,1)
 call SaveStr(zzVL_ht,'X208',250,"war3mapImported\\CLD_cuongphong.mdx")
 call SaveInteger(zzVL_ht,'X208',257,800)
 call SaveInteger(zzVL_ht,'X208',259,7)
@@ -19229,9 +19566,13 @@ call SaveInteger(zzVL_ht,'X209',247,3)
 call SaveInteger(zzVL_ht,'X209',248,4)
 call SaveInteger(zzVL_ht,'X209',249,0)
 call SaveInteger(zzVL_ht,'X209',252,0)
+call SaveInteger(zzVL_ht,'X209',294,1)
 call SaveStr(zzVL_ht,'X209',250,"war3mapImported\\CLD_canhphong2.mdx")
 call SaveInteger(zzVL_ht,'X209',201,1)
 call SaveInteger(zzVL_ht,'H01U',265,'X210')
+call SaveStr(zzVL_ht,'X210',281,"war3mapImported\\CLD_hoiphongtarget2.mdx")
+call SaveStr(zzVL_ht,'X210',285,"war3mapImported\\CLD_canhphong.mdx")
+call SaveStr(zzVL_ht,'X210',286,"war3mapImported\\CLD_canhphong2.mdx")
 call SaveInteger(zzVL_ht,'H01U',202,'X210')
 call SaveInteger(zzVL_ht,'H01U',232,15)
 call SaveInteger(zzVL_ht,'X210',240,7)
@@ -19248,7 +19589,8 @@ call SaveInteger(zzVL_ht,'X210',253,5)
 call SaveInteger(zzVL_ht,'X210',254,1)
 call SaveInteger(zzVL_ht,'X210',255,18)
 call SaveInteger(zzVL_ht,'X210',256,2)
-call SaveStr(zzVL_ht,'X210',250,"war3mapImported\\CLD_canhphong.mdx")
+call SaveInteger(zzVL_ht,'X210',294,1)
+call SaveStr(zzVL_ht,'X210',250,"war3mapImported\\CLD_tamthanhbuff.mdx")
 call SaveInteger(zzVL_ht,'X210',201,1)
 call SaveInteger(zzVL_ht,'X210',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X210',3,0)
@@ -19265,6 +19607,7 @@ call SaveInteger(zzVL_ht,'X211',247,7)
 call SaveInteger(zzVL_ht,'X211',248,0)
 call SaveInteger(zzVL_ht,'X211',249,0)
 call SaveInteger(zzVL_ht,'X211',252,0)
+call SaveInteger(zzVL_ht,'X211',294,1)
 call SaveStr(zzVL_ht,'X211',250,"war3mapImported\\CLD_tunguyenthuatbuff.mdx")
 call SaveInteger(zzVL_ht,'X211',201,1)
 call SaveInteger(zzVL_ht,'X211',2,OrderId("carrionswarm"))
@@ -19282,7 +19625,8 @@ call SaveInteger(zzVL_ht,'X212',247,5)
 call SaveInteger(zzVL_ht,'X212',248,0)
 call SaveInteger(zzVL_ht,'X212',249,0)
 call SaveInteger(zzVL_ht,'X212',252,0)
-call SaveStr(zzVL_ht,'X212',250,"war3mapImported\\CLD_tamthanhbuff.mdx")
+call SaveInteger(zzVL_ht,'X212',294,1)
+call SaveStr(zzVL_ht,'X212',250,"war3mapImported\\NMC_phongsuongtoaianh.mdx")
 call SaveInteger(zzVL_ht,'X212',201,1)
 call SaveInteger(zzVL_ht,'X212',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X212',3,0)
@@ -19298,9 +19642,14 @@ call SaveInteger(zzVL_ht,'X213',247,5)
 call SaveInteger(zzVL_ht,'X213',248,0)
 call SaveInteger(zzVL_ht,'X213',249,0)
 call SaveInteger(zzVL_ht,'X213',252,0)
+call SaveInteger(zzVL_ht,'X213',294,1)
 call SaveStr(zzVL_ht,'X213',250,"war3mapImported\\CLD_tamthanhbuff.mdx")
 call SaveInteger(zzVL_ht,'X213',201,1)
+call SaveInteger(zzVL_ht,'X214',289,1)
 call SaveInteger(zzVL_ht,'H01U',261,'X214')
+call SaveStr(zzVL_ht,'X214',280,"war3mapImported\\CLD_ngaotuyetcast.mdx")
+call SaveStr(zzVL_ht,'X214',281,"war3mapImported\\CLD_ngaotuyettarget.mdx")
+call SaveStr(zzVL_ht,'X214',285,"war3mapImported\\CLD_hoiphongphatlieu.mdx")
 call SaveInteger(zzVL_ht,'H01U',206,'X214')
 call SaveInteger(zzVL_ht,'H01U',236,68)
 call SaveInteger(zzVL_ht,'X214',240,5)
@@ -19313,6 +19662,7 @@ call SaveInteger(zzVL_ht,'X214',247,5)
 call SaveInteger(zzVL_ht,'X214',248,0)
 call SaveInteger(zzVL_ht,'X214',249,0)
 call SaveInteger(zzVL_ht,'X214',252,0)
+call SaveInteger(zzVL_ht,'X214',294,1)
 call SaveStr(zzVL_ht,'X214',250,"war3mapImported\\CLD_ngaotuyet.mdx")
 call SaveInteger(zzVL_ht,'X214',257,800)
 call SaveInteger(zzVL_ht,'X214',258,17)
@@ -19322,6 +19672,9 @@ call SaveInteger(zzVL_ht,'X214',167,180)
 call SaveInteger(zzVL_ht,'X214',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X214',3,1)
 call SaveStr(zzVL_ht,'X214',251,"poisonarrowstargon")
+call SaveStr(zzVL_ht,'X215',281,"war3mapImported\\CLD_hoiphongtarget2.mdx")
+call SaveStr(zzVL_ht,'X215',285,"war3mapImported\\CLD_canhphong.mdx")
+call SaveStr(zzVL_ht,'X215',286,"war3mapImported\\CLD_canhphong2.mdx")
 call SaveInteger(zzVL_ht,'H01U',207,'X215')
 call SaveInteger(zzVL_ht,'H01U',237,85)
 call SaveInteger(zzVL_ht,'X215',240,0)
@@ -19334,10 +19687,12 @@ call SaveInteger(zzVL_ht,'X215',247,0)
 call SaveInteger(zzVL_ht,'X215',248,0)
 call SaveInteger(zzVL_ht,'X215',249,0)
 call SaveInteger(zzVL_ht,'X215',252,0)
+call SaveInteger(zzVL_ht,'X215',294,1)
 call SaveStr(zzVL_ht,'X215',250,"war3mapImported\\CLD_hoiphongphatlieu.mdx")
 call SaveInteger(zzVL_ht,'X215',245,65536)
 call SaveInteger(zzVL_ht,'X215',201,1)
 call SaveInteger(zzVL_ht,'X215',239,3)
+call SaveStr(zzVL_ht,'X216',284,"war3mapImported\\CLD_luongnghibuff.mdx")
 call SaveInteger(zzVL_ht,'H01U',208,'X216')
 call SaveInteger(zzVL_ht,'H01U',238,105)
 call SaveInteger(zzVL_ht,'X216',240,0)
@@ -19350,11 +19705,13 @@ call SaveInteger(zzVL_ht,'X216',247,6)
 call SaveInteger(zzVL_ht,'X216',248,13)
 call SaveInteger(zzVL_ht,'X216',249,0)
 call SaveInteger(zzVL_ht,'X216',252,0)
+call SaveInteger(zzVL_ht,'X216',294,1)
 call SaveStr(zzVL_ht,'X216',250,"war3mapImported\\CLD_buffphanluongnghi.mdx")
 call SaveInteger(zzVL_ht,'X216',216,100)
 call SaveInteger(zzVL_ht,'X216',203,140)
 call SaveInteger(zzVL_ht,'X216',201,1)
 call SaveInteger(zzVL_ht,'X216',220,60)
+call SaveStr(zzVL_ht,'X217',284,"war3mapImported\\CLD_luongnghibuff.mdx")
 call SaveInteger(zzVL_ht,'H01U',209,'X217')
 call SaveInteger(zzVL_ht,'H01U',239,125)
 call SaveInteger(zzVL_ht,'X217',240,0)
@@ -19367,9 +19724,15 @@ call SaveInteger(zzVL_ht,'X217',247,0)
 call SaveInteger(zzVL_ht,'X217',248,0)
 call SaveInteger(zzVL_ht,'X217',249,0)
 call SaveInteger(zzVL_ht,'X217',252,0)
+call SaveInteger(zzVL_ht,'X217',294,1)
 call SaveStr(zzVL_ht,'X217',250,"war3mapImported\\CLD_buffphanluongnghi.mdx")
 call SaveInteger(zzVL_ht,'X217',201,1)
+call SaveInteger(zzVL_ht,'X218',289,1)
 call SaveInteger(zzVL_ht,'H01U',262,'X218')
+call SaveStr(zzVL_ht,'X218',280,"war3mapImported\\CLD_ngaotuyetcast.mdx")
+call SaveStr(zzVL_ht,'X218',281,"war3mapImported\\CLD_hoiphongtarget2.mdx")
+call SaveStr(zzVL_ht,'X218',285,"war3mapImported\\CLD_canhphong.mdx")
+call SaveStr(zzVL_ht,'X218',286,"war3mapImported\\CLD_hoiphongphatlieu.mdx")
 call SaveInteger(zzVL_ht,'H01U',210,'X218')
 call SaveInteger(zzVL_ht,'H01U',240,145)
 call SaveInteger(zzVL_ht,'X218',240,5)
@@ -19382,7 +19745,8 @@ call SaveInteger(zzVL_ht,'X218',247,5)
 call SaveInteger(zzVL_ht,'X218',248,0)
 call SaveInteger(zzVL_ht,'X218',249,0)
 call SaveInteger(zzVL_ht,'X218',252,0)
-call SaveStr(zzVL_ht,'X218',250,"war3mapImported\\CLD_canhphong.mdx")
+call SaveInteger(zzVL_ht,'X218',294,1)
+call SaveStr(zzVL_ht,'X218',250,"war3mapImported\\CLD_canhphong2.mdx")
 call SaveInteger(zzVL_ht,'X218',257,1000)
 call SaveInteger(zzVL_ht,'X218',258,17)
 call SaveInteger(zzVL_ht,'X218',259,7)
@@ -19403,10 +19767,12 @@ call SaveInteger(zzVL_ht,'X219',247,4)
 call SaveInteger(zzVL_ht,'X219',248,14)
 call SaveInteger(zzVL_ht,'X219',249,0)
 call SaveInteger(zzVL_ht,'X219',252,0)
-call SaveStr(zzVL_ht,'X219',250,"war3mapImported\\CLD_effecttarget.mdx")
+call SaveInteger(zzVL_ht,'X219',294,1)
+call SaveStr(zzVL_ht,'X219',250,"war3mapImported\\MDX\\VoNhanVoNga.mdx")
 call SaveInteger(zzVL_ht,'X219',245,65536)
 call SaveInteger(zzVL_ht,'X219',201,1)
 call SaveInteger(zzVL_ht,'X219',239,2)
+call SaveStr(zzVL_ht,'X220',284,"war3mapImported\\CLD_luongnghibuff.mdx")
 call SaveInteger(zzVL_ht,'H01U',212,'X220')
 call SaveInteger(zzVL_ht,'H01U',242,185)
 call SaveInteger(zzVL_ht,'X220',240,0)
@@ -19419,9 +19785,11 @@ call SaveInteger(zzVL_ht,'X220',247,5)
 call SaveInteger(zzVL_ht,'X220',248,0)
 call SaveInteger(zzVL_ht,'X220',249,0)
 call SaveInteger(zzVL_ht,'X220',252,0)
+call SaveInteger(zzVL_ht,'X220',294,1)
 call SaveStr(zzVL_ht,'X220',250,"war3mapImported\\CLD_buffphanluongnghi.mdx")
 call SaveInteger(zzVL_ht,'X220',201,1)
 call SaveInteger(zzVL_ht,'H00L',260,'X221')
+call SaveStr(zzVL_ht,'X221',281,"war3mapImported\\TLB_targeteffect.mdx")
 call SaveInteger(zzVL_ht,'H00L',200,'X221')
 call SaveInteger(zzVL_ht,'H00L',230,1)
 call SaveInteger(zzVL_ht,'X221',240,16)
@@ -19434,7 +19802,7 @@ call SaveInteger(zzVL_ht,'X221',247,5)
 call SaveInteger(zzVL_ht,'X221',248,0)
 call SaveInteger(zzVL_ht,'X221',249,0)
 call SaveInteger(zzVL_ht,'X221',252,0)
-call SaveStr(zzVL_ht,'X221',250,"war3mapImported\\TLB_lasatcon11.mdx")
+call SaveStr(zzVL_ht,'X221',250,"war3mapImported\\TLB_targeteffect.mdx")
 call SaveInteger(zzVL_ht,'X221',257,180)
 call SaveInteger(zzVL_ht,'X221',259,7)
 call SaveInteger(zzVL_ht,'X221',201,1)
@@ -19467,8 +19835,10 @@ call SaveInteger(zzVL_ht,'X223',247,7)
 call SaveInteger(zzVL_ht,'X223',248,0)
 call SaveInteger(zzVL_ht,'X223',249,0)
 call SaveInteger(zzVL_ht,'X223',252,0)
+call SaveInteger(zzVL_ht,'X223',294,1)
 call SaveStr(zzVL_ht,'X223',250,"war3mapImported\\TLB_nhuythuccotcong.mdx")
 call SaveInteger(zzVL_ht,'X223',201,1)
+call SaveStr(zzVL_ht,'X224',287,"war3mapImported\\TLD_lahantran.mdx")
 call SaveInteger(zzVL_ht,'H00L',203,'X224')
 call SaveInteger(zzVL_ht,'H00L',233,25)
 call SaveInteger(zzVL_ht,'X224',240,0)
@@ -19484,6 +19854,7 @@ call SaveInteger(zzVL_ht,'X224',252,128)
 call SaveStr(zzVL_ht,'X224',250,"war3mapImported\\TLB_targeteffect.mdx")
 call SaveInteger(zzVL_ht,'X224',201,1)
 call SaveInteger(zzVL_ht,'H00L',264,'X225')
+call SaveStr(zzVL_ht,'X225',280,"war3mapImported\\TLB_batdongcast.mdx")
 call SaveInteger(zzVL_ht,'H00L',204,'X225')
 call SaveInteger(zzVL_ht,'H00L',234,38)
 call SaveInteger(zzVL_ht,'X225',240,6)
@@ -19496,6 +19867,7 @@ call SaveInteger(zzVL_ht,'X225',247,6)
 call SaveInteger(zzVL_ht,'X225',248,0)
 call SaveInteger(zzVL_ht,'X225',249,0)
 call SaveInteger(zzVL_ht,'X225',252,0)
+call SaveInteger(zzVL_ht,'X225',294,1)
 call SaveStr(zzVL_ht,'X225',250,"war3mapImported\\TLB_batdongbuff.mdx")
 call SaveInteger(zzVL_ht,'X225',201,1)
 call SaveInteger(zzVL_ht,'X225',2,OrderId("roar"))
@@ -19515,6 +19887,8 @@ call SaveInteger(zzVL_ht,'X226',252,0)
 call SaveStr(zzVL_ht,'X226',250,"war3mapImported\\TLB_vidaeffect.mdx")
 call SaveInteger(zzVL_ht,'X226',201,1)
 call SaveInteger(zzVL_ht,'H00L',261,'X227')
+call SaveStr(zzVL_ht,'X227',281,"war3mapImported\\TLB_targeteffect.mdx")
+call SaveStr(zzVL_ht,'X227',285,"war3mapImported\\TLB_lasatcon2.mdx")
 call SaveInteger(zzVL_ht,'H00L',206,'X227')
 call SaveInteger(zzVL_ht,'H00L',236,68)
 call SaveInteger(zzVL_ht,'X227',240,4)
@@ -19535,6 +19909,8 @@ call SaveInteger(zzVL_ht,'X227',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X227',3,1)
 call SaveStr(zzVL_ht,'X227',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H00L',263,'X228')
+call SaveStr(zzVL_ht,'X228',281,"war3mapImported\\TLB_targeteffect.mdx")
+call SaveStr(zzVL_ht,'X228',285,"war3mapImported\\TLB_lasatcon2.mdx")
 call SaveInteger(zzVL_ht,'H00L',207,'X228')
 call SaveInteger(zzVL_ht,'H00L',237,85)
 call SaveInteger(zzVL_ht,'X228',240,18)
@@ -19547,7 +19923,7 @@ call SaveInteger(zzVL_ht,'X228',247,5)
 call SaveInteger(zzVL_ht,'X228',248,1)
 call SaveInteger(zzVL_ht,'X228',249,0)
 call SaveInteger(zzVL_ht,'X228',252,2)
-call SaveStr(zzVL_ht,'X228',250,"war3mapImported\\TLB_tuytienbatcon.mdx")
+call SaveStr(zzVL_ht,'X228',250,"war3mapImported\\TLB_lasatcon11.mdx")
 call SaveInteger(zzVL_ht,'X228',257,800)
 call SaveInteger(zzVL_ht,'X228',258,50)
 call SaveInteger(zzVL_ht,'X228',259,4)
@@ -19586,14 +19962,20 @@ call SaveInteger(zzVL_ht,'X230',243,0)
 call SaveInteger(zzVL_ht,'X230',244,1)
 call SaveInteger(zzVL_ht,'X230',246,180)
 call SaveInteger(zzVL_ht,'X230',247,6)
+endfunction
+function zzVL_Items4 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X230',248,14)
 call SaveInteger(zzVL_ht,'X230',249,0)
 call SaveInteger(zzVL_ht,'X230',252,0)
+call SaveInteger(zzVL_ht,'X230',294,1)
 call SaveStr(zzVL_ht,'X230',250,"war3mapImported\\TLB_nhuythuccotcong.mdx")
 call SaveInteger(zzVL_ht,'X230',201,1)
 call SaveInteger(zzVL_ht,'X230',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X230',3,0)
+call SaveInteger(zzVL_ht,'X231',288,1)
 call SaveInteger(zzVL_ht,'H00L',262,'X231')
+call SaveStr(zzVL_ht,'X231',280,"war3mapImported\\TLB_vidacast.mdx")
+call SaveStr(zzVL_ht,'X231',281,"war3mapImported\\TLB_vidatarget.mdx")
 call SaveInteger(zzVL_ht,'H00L',210,'X231')
 call SaveInteger(zzVL_ht,'H00L',240,145)
 call SaveInteger(zzVL_ht,'X231',240,4)
@@ -19606,7 +19988,7 @@ call SaveInteger(zzVL_ht,'X231',247,5)
 call SaveInteger(zzVL_ht,'X231',248,0)
 call SaveInteger(zzVL_ht,'X231',249,0)
 call SaveInteger(zzVL_ht,'X231',252,0)
-call SaveStr(zzVL_ht,'X231',250,"war3mapImported\\TLB_targeteffect.mdx")
+call SaveStr(zzVL_ht,'X231',250,"war3mapImported\\TLB_vidaeffect.mdx")
 call SaveInteger(zzVL_ht,'X231',257,300)
 call SaveInteger(zzVL_ht,'X231',258,20)
 call SaveInteger(zzVL_ht,'X231',259,7)
@@ -19626,6 +20008,7 @@ call SaveInteger(zzVL_ht,'X232',247,0)
 call SaveInteger(zzVL_ht,'X232',248,0)
 call SaveInteger(zzVL_ht,'X232',249,0)
 call SaveInteger(zzVL_ht,'X232',252,0)
+call SaveInteger(zzVL_ht,'X232',294,1)
 call SaveStr(zzVL_ht,'X232',250,"war3mapImported\\TLB_tuytienbatcon.mdx")
 call SaveInteger(zzVL_ht,'X232',245,65536)
 call SaveInteger(zzVL_ht,'X232',201,1)
@@ -19660,6 +20043,7 @@ call SaveInteger(zzVL_ht,'X234',247,5)
 call SaveInteger(zzVL_ht,'X234',248,0)
 call SaveInteger(zzVL_ht,'X234',249,0)
 call SaveInteger(zzVL_ht,'X234',252,0)
+call SaveInteger(zzVL_ht,'X234',294,1)
 call SaveStr(zzVL_ht,'X234',250,"war3mapImported\\DTK_kimngocmanduong.mdx")
 call SaveInteger(zzVL_ht,'X234',257,900)
 call SaveInteger(zzVL_ht,'X234',259,7)
@@ -19685,6 +20069,7 @@ call SaveInteger(zzVL_ht,'X235',249,0)
 call SaveInteger(zzVL_ht,'X235',252,0)
 call SaveStr(zzVL_ht,'X235',250,"war3mapImported\\DTK_khithontarget.mdx")
 call SaveInteger(zzVL_ht,'X235',201,1)
+call SaveStr(zzVL_ht,'X236',287,"war3mapImported\\DTK_bacminhaura.mdx")
 call SaveInteger(zzVL_ht,'H00U',202,'X236')
 call SaveInteger(zzVL_ht,'H00U',232,15)
 call SaveInteger(zzVL_ht,'X236',240,0)
@@ -19697,7 +20082,8 @@ call SaveInteger(zzVL_ht,'X236',247,6)
 call SaveInteger(zzVL_ht,'X236',248,14)
 call SaveInteger(zzVL_ht,'X236',249,0)
 call SaveInteger(zzVL_ht,'X236',252,0)
-call SaveStr(zzVL_ht,'X236',250,"war3mapImported\\DTK_bacminhaura.mdx")
+call SaveInteger(zzVL_ht,'X236',294,1)
+call SaveStr(zzVL_ht,'X236',250,"war3mapImported\\MDX\\BacMinhThanCong.mdx")
 call SaveInteger(zzVL_ht,'X236',201,1)
 call SaveInteger(zzVL_ht,'H00U',203,'X237')
 call SaveInteger(zzVL_ht,'H00U',233,25)
@@ -19752,9 +20138,12 @@ call SaveInteger(zzVL_ht,'X239',247,5)
 call SaveInteger(zzVL_ht,'X239',248,0)
 call SaveInteger(zzVL_ht,'X239',249,0)
 call SaveInteger(zzVL_ht,'X239',252,0)
+call SaveInteger(zzVL_ht,'X239',294,1)
 call SaveStr(zzVL_ht,'X239',250,"war3mapImported\\DTK_lucmachtarget42.mdx")
 call SaveInteger(zzVL_ht,'X239',201,1)
 call SaveInteger(zzVL_ht,'H00U',261,'X240')
+call SaveStr(zzVL_ht,'X240',280,"war3mapImported\\DTK_lucmachcaster.mdx")
+call SaveStr(zzVL_ht,'X240',281,"war3mapImported\\DTK_lucmachtarget42.mdx")
 call SaveInteger(zzVL_ht,'H00U',206,'X240')
 call SaveInteger(zzVL_ht,'H00U',236,68)
 call SaveInteger(zzVL_ht,'X240',240,5)
@@ -19767,7 +20156,7 @@ call SaveInteger(zzVL_ht,'X240',247,5)
 call SaveInteger(zzVL_ht,'X240',248,0)
 call SaveInteger(zzVL_ht,'X240',249,0)
 call SaveInteger(zzVL_ht,'X240',252,0)
-call SaveStr(zzVL_ht,'X240',250,"war3mapImported\\DTK_lucmachthankiem1.mdx")
+call SaveStr(zzVL_ht,'X240',250,"war3mapImported\\DTK_lucmachcaster.mdx")
 call SaveInteger(zzVL_ht,'X240',257,800)
 call SaveInteger(zzVL_ht,'X240',258,21)
 call SaveInteger(zzVL_ht,'X240',259,7)
@@ -19788,7 +20177,8 @@ call SaveInteger(zzVL_ht,'X241',247,5)
 call SaveInteger(zzVL_ht,'X241',248,0)
 call SaveInteger(zzVL_ht,'X241',249,0)
 call SaveInteger(zzVL_ht,'X241',252,1)
-call SaveStr(zzVL_ht,'X241',250,"war3mapImported\\DTK_lucmachthankiem2.mdx")
+call SaveInteger(zzVL_ht,'X241',294,1)
+call SaveStr(zzVL_ht,'X241',250,"war3mapImported\\DTK_kimngocmanduong.mdx")
 call SaveInteger(zzVL_ht,'X241',257,1200)
 call SaveInteger(zzVL_ht,'X241',258,10)
 call SaveInteger(zzVL_ht,'X241',259,5)
@@ -19808,8 +20198,11 @@ call SaveInteger(zzVL_ht,'X242',247,4)
 call SaveInteger(zzVL_ht,'X242',248,13)
 call SaveInteger(zzVL_ht,'X242',249,0)
 call SaveInteger(zzVL_ht,'X242',252,0)
+call SaveInteger(zzVL_ht,'X242',294,1)
 call SaveStr(zzVL_ht,'X242',250,"war3mapImported\\DTK_lucmachthankiem3.mdx")
 call SaveInteger(zzVL_ht,'X242',201,1)
+call SaveStr(zzVL_ht,'X243',285,"war3mapImported\\DTK_luyenkhihh.mdx")
+call SaveStr(zzVL_ht,'X243',286,"war3mapImported\\DTK_luyenkhi.mdx")
 call SaveInteger(zzVL_ht,'H00U',209,'X243')
 call SaveInteger(zzVL_ht,'H00U',239,125)
 call SaveInteger(zzVL_ht,'X243',240,0)
@@ -19822,9 +20215,12 @@ call SaveInteger(zzVL_ht,'X243',247,3)
 call SaveInteger(zzVL_ht,'X243',248,0)
 call SaveInteger(zzVL_ht,'X243',249,0)
 call SaveInteger(zzVL_ht,'X243',252,0)
-call SaveStr(zzVL_ht,'X243',250,"war3mapImported\\DTK_luyenkhihh.mdx")
+call SaveInteger(zzVL_ht,'X243',294,1)
+call SaveStr(zzVL_ht,'X243',250,"war3mapImported\\DTK_luyenkhibuff.mdx")
 call SaveInteger(zzVL_ht,'X243',201,1)
+call SaveInteger(zzVL_ht,'X244',288,1)
 call SaveInteger(zzVL_ht,'H00U',262,'X244')
+call SaveStr(zzVL_ht,'X244',281,"war3mapImported\\DTK_khithonvanly.mdx")
 call SaveInteger(zzVL_ht,'H00U',210,'X244')
 call SaveInteger(zzVL_ht,'H00U',240,145)
 call SaveInteger(zzVL_ht,'X244',240,5)
@@ -19837,7 +20233,7 @@ call SaveInteger(zzVL_ht,'X244',247,5)
 call SaveInteger(zzVL_ht,'X244',248,0)
 call SaveInteger(zzVL_ht,'X244',249,0)
 call SaveInteger(zzVL_ht,'X244',252,0)
-call SaveStr(zzVL_ht,'X244',250,"war3mapImported\\DTK_khithonvanly.mdx")
+call SaveStr(zzVL_ht,'X244',250,"war3mapImported\\DTK_lucmachcaster.mdx")
 call SaveInteger(zzVL_ht,'X244',257,1000)
 call SaveInteger(zzVL_ht,'X244',258,17)
 call SaveInteger(zzVL_ht,'X244',259,7)
@@ -19859,6 +20255,7 @@ call SaveInteger(zzVL_ht,'X245',247,14)
 call SaveInteger(zzVL_ht,'X245',248,0)
 call SaveInteger(zzVL_ht,'X245',249,0)
 call SaveInteger(zzVL_ht,'X245',252,0)
+call SaveInteger(zzVL_ht,'X245',294,1)
 call SaveStr(zzVL_ht,'X245',250,"war3mapImported\\DTK_lucmachthankiem6.mdx")
 call SaveInteger(zzVL_ht,'X245',201,1)
 call SaveInteger(zzVL_ht,'H00U',212,'X246')
@@ -19873,12 +20270,14 @@ call SaveInteger(zzVL_ht,'X246',247,0)
 call SaveInteger(zzVL_ht,'X246',248,0)
 call SaveInteger(zzVL_ht,'X246',249,0)
 call SaveInteger(zzVL_ht,'X246',252,0)
+call SaveInteger(zzVL_ht,'X246',294,1)
 call SaveStr(zzVL_ht,'X246',250,"war3mapImported\\DTK_luyenkhi.mdx")
 call SaveInteger(zzVL_ht,'X246',216,100)
 call SaveInteger(zzVL_ht,'X246',201,1)
 call SaveInteger(zzVL_ht,'X246',183,2)
 call SaveInteger(zzVL_ht,'X246',220,6)
 call SaveInteger(zzVL_ht,'H00V',260,'X247')
+call SaveStr(zzVL_ht,'X247',281,"war3mapImported\\TVC_thualongquyettarget.mdx")
 call SaveInteger(zzVL_ht,'H00V',200,'X247')
 call SaveInteger(zzVL_ht,'H00V',230,1)
 call SaveInteger(zzVL_ht,'X247',240,16)
@@ -19891,6 +20290,7 @@ call SaveInteger(zzVL_ht,'X247',247,5)
 call SaveInteger(zzVL_ht,'X247',248,0)
 call SaveInteger(zzVL_ht,'X247',249,0)
 call SaveInteger(zzVL_ht,'X247',252,0)
+call SaveInteger(zzVL_ht,'X247',294,1)
 call SaveStr(zzVL_ht,'X247',250,"war3mapImported\\TVC_Hanhvan.mdx")
 call SaveInteger(zzVL_ht,'X247',257,150)
 call SaveInteger(zzVL_ht,'X247',259,7)
@@ -19910,6 +20310,7 @@ call SaveInteger(zzVL_ht,'X248',247,5)
 call SaveInteger(zzVL_ht,'X248',248,3)
 call SaveInteger(zzVL_ht,'X248',249,0)
 call SaveInteger(zzVL_ht,'X248',252,0)
+call SaveInteger(zzVL_ht,'X248',294,1)
 call SaveStr(zzVL_ht,'X248',250,"war3mapImported\\TVC_hoakinhquyet.mdx")
 call SaveInteger(zzVL_ht,'X248',201,1)
 call SaveInteger(zzVL_ht,'H00V',263,'X249')
@@ -19925,7 +20326,7 @@ call SaveInteger(zzVL_ht,'X249',247,5)
 call SaveInteger(zzVL_ht,'X249',248,0)
 call SaveInteger(zzVL_ht,'X249',249,0)
 call SaveInteger(zzVL_ht,'X249',252,0)
-call SaveStr(zzVL_ht,'X249',250,"war3mapImported\\TVC_kimchungtrao.mdx")
+call SaveStr(zzVL_ht,'X249',250,"war3mapImported\\TVT_doanhonthich.mdx")
 call SaveInteger(zzVL_ht,'X249',234,1)
 call SaveInteger(zzVL_ht,'X249',235,30)
 call SaveInteger(zzVL_ht,'X249',236,20)
@@ -19948,19 +20349,19 @@ call SaveInteger(zzVL_ht,'X250',247,7)
 call SaveInteger(zzVL_ht,'X250',248,0)
 call SaveInteger(zzVL_ht,'X250',249,0)
 call SaveInteger(zzVL_ht,'X250',252,1024)
+call SaveInteger(zzVL_ht,'X250',294,1)
 call SaveStr(zzVL_ht,'X250',250,"war3mapImported\\TVC_thualongquyet.mdx")
 call SaveInteger(zzVL_ht,'X250',201,1)
 call SaveInteger(zzVL_ht,'X250',189,40)
 call SaveInteger(zzVL_ht,'X250',169,5)
 call SaveInteger(zzVL_ht,'X250',165,1)
-endfunction
-function zzVL_Items4 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X250',221,10)
 call SaveInteger(zzVL_ht,'X250',220,45)
 call SaveInteger(zzVL_ht,'X250',219,0)
 call SaveInteger(zzVL_ht,'X250',218,10)
 call SaveInteger(zzVL_ht,'X250',217,25)
 call SaveInteger(zzVL_ht,'H00V',265,'X251')
+call SaveStr(zzVL_ht,'X251',280,"war3mapImported\\TVC_kimchungcast.mdx")
 call SaveInteger(zzVL_ht,'H00V',204,'X251')
 call SaveInteger(zzVL_ht,'H00V',234,38)
 call SaveInteger(zzVL_ht,'X251',240,7)
@@ -19975,7 +20376,8 @@ call SaveInteger(zzVL_ht,'X251',249,0)
 call SaveInteger(zzVL_ht,'X251',252,0)
 call SaveInteger(zzVL_ht,'X251',253,45)
 call SaveInteger(zzVL_ht,'X251',254,15)
-call SaveStr(zzVL_ht,'X251',250,"war3mapImported\\TVC_kimchungtraobuff.mdx")
+call SaveInteger(zzVL_ht,'X251',294,1)
+call SaveStr(zzVL_ht,'X251',250,"war3mapImported\\TVC_kimchungtrao.mdx")
 call SaveInteger(zzVL_ht,'X251',201,1)
 call SaveInteger(zzVL_ht,'X251',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X251',3,0)
@@ -19993,7 +20395,10 @@ call SaveInteger(zzVL_ht,'X252',249,0)
 call SaveInteger(zzVL_ht,'X252',252,0)
 call SaveStr(zzVL_ht,'X252',250,"war3mapImported\\TVC_tramlongeffect1.mdx")
 call SaveInteger(zzVL_ht,'X252',201,1)
+call SaveInteger(zzVL_ht,'X253',289,1)
 call SaveInteger(zzVL_ht,'H00V',261,'X253')
+call SaveStr(zzVL_ht,'X253',280,"war3mapImported\\TVC_thualongcast.mdx")
+call SaveStr(zzVL_ht,'X253',281,"war3mapImported\\TVC_thualongquyettarget.mdx")
 call SaveInteger(zzVL_ht,'H00V',206,'X253')
 call SaveInteger(zzVL_ht,'H00V',236,68)
 call SaveInteger(zzVL_ht,'X253',240,4)
@@ -20006,6 +20411,7 @@ call SaveInteger(zzVL_ht,'X253',247,5)
 call SaveInteger(zzVL_ht,'X253',248,0)
 call SaveInteger(zzVL_ht,'X253',249,0)
 call SaveInteger(zzVL_ht,'X253',252,0)
+call SaveInteger(zzVL_ht,'X253',294,1)
 call SaveStr(zzVL_ht,'X253',250,"war3mapImported\\TVC_thualongquyet.mdx")
 call SaveInteger(zzVL_ht,'X253',257,220)
 call SaveInteger(zzVL_ht,'X253',258,24)
@@ -20015,6 +20421,7 @@ call SaveInteger(zzVL_ht,'X253',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X253',3,1)
 call SaveStr(zzVL_ht,'X253',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H00V',264,'X254')
+call SaveStr(zzVL_ht,'X254',281,"war3mapImported\\TVC_thualongquyettarget.mdx")
 call SaveInteger(zzVL_ht,'H00V',207,'X254')
 call SaveInteger(zzVL_ht,'H00V',237,85)
 call SaveInteger(zzVL_ht,'X254',240,3)
@@ -20027,7 +20434,7 @@ call SaveInteger(zzVL_ht,'X254',247,5)
 call SaveInteger(zzVL_ht,'X254',248,0)
 call SaveInteger(zzVL_ht,'X254',249,0)
 call SaveInteger(zzVL_ht,'X254',252,2)
-call SaveStr(zzVL_ht,'X254',250,"war3mapImported\\TVC_thualongquyet.mdx")
+call SaveStr(zzVL_ht,'X254',250,"war3mapImported\\TVC_tramlongeffect2.mdx")
 call SaveInteger(zzVL_ht,'X254',257,800)
 call SaveInteger(zzVL_ht,'X254',201,1)
 call SaveInteger(zzVL_ht,'X254',2,OrderId("roar"))
@@ -20044,6 +20451,7 @@ call SaveInteger(zzVL_ht,'X255',247,0)
 call SaveInteger(zzVL_ht,'X255',248,0)
 call SaveInteger(zzVL_ht,'X255',249,0)
 call SaveInteger(zzVL_ht,'X255',252,8192)
+call SaveInteger(zzVL_ht,'X255',294,1)
 call SaveStr(zzVL_ht,'X255',250,"war3mapImported\\TVC_cankhonchuybuff.mdx")
 call SaveInteger(zzVL_ht,'X255',201,1)
 call SaveInteger(zzVL_ht,'X255',173,5)
@@ -20051,6 +20459,8 @@ call SaveInteger(zzVL_ht,'X255',172,1)
 call SaveInteger(zzVL_ht,'X255',171,6)
 call SaveInteger(zzVL_ht,'X255',170,6)
 call SaveInteger(zzVL_ht,'X255',165,2)
+call SaveStr(zzVL_ht,'X256',287,"war3mapImported\\TVC_hoakinhquyet.mdx")
+call SaveStr(zzVL_ht,'X256',281,"war3mapImported\\TVC_thualongquyettarget.mdx")
 call SaveInteger(zzVL_ht,'H00V',209,'X256')
 call SaveInteger(zzVL_ht,'H00V',239,125)
 call SaveInteger(zzVL_ht,'X256',240,0)
@@ -20063,9 +20473,12 @@ call SaveInteger(zzVL_ht,'X256',247,6)
 call SaveInteger(zzVL_ht,'X256',248,0)
 call SaveInteger(zzVL_ht,'X256',249,0)
 call SaveInteger(zzVL_ht,'X256',252,0)
+call SaveInteger(zzVL_ht,'X256',294,1)
 call SaveStr(zzVL_ht,'X256',250,"war3mapImported\\TVC_hoakinhquyet.mdx")
 call SaveInteger(zzVL_ht,'X256',201,1)
 call SaveInteger(zzVL_ht,'H00V',262,'X257')
+call SaveStr(zzVL_ht,'X257',285,"war3mapImported\\TVC_tranphaieffect2.mdx")
+call SaveStr(zzVL_ht,'X257',286,"war3mapImported\\TVC_tranphaichuy.mdx")
 call SaveInteger(zzVL_ht,'H00V',210,'X257')
 call SaveInteger(zzVL_ht,'H00V',240,145)
 call SaveInteger(zzVL_ht,'X257',240,4)
@@ -20078,7 +20491,7 @@ call SaveInteger(zzVL_ht,'X257',247,5)
 call SaveInteger(zzVL_ht,'X257',248,0)
 call SaveInteger(zzVL_ht,'X257',249,0)
 call SaveInteger(zzVL_ht,'X257',252,0)
-call SaveStr(zzVL_ht,'X257',250,"war3mapImported\\TVC_Hanhvan.mdx")
+call SaveStr(zzVL_ht,'X257',250,"war3mapImported\\TVC_tranphaieffect1.mdx")
 call SaveInteger(zzVL_ht,'X257',257,220)
 call SaveInteger(zzVL_ht,'X257',258,17)
 call SaveInteger(zzVL_ht,'X257',201,1)
@@ -20097,6 +20510,7 @@ call SaveInteger(zzVL_ht,'X258',247,7)
 call SaveInteger(zzVL_ht,'X258',248,0)
 call SaveInteger(zzVL_ht,'X258',249,0)
 call SaveInteger(zzVL_ht,'X258',252,0)
+call SaveInteger(zzVL_ht,'X258',294,1)
 call SaveStr(zzVL_ht,'X258',250,"war3mapImported\\TVC_hoakinhquyet.mdx")
 call SaveInteger(zzVL_ht,'X258',209,3)
 call SaveInteger(zzVL_ht,'X258',208,75)
@@ -20114,7 +20528,8 @@ call SaveInteger(zzVL_ht,'X259',247,3)
 call SaveInteger(zzVL_ht,'X259',248,0)
 call SaveInteger(zzVL_ht,'X259',249,0)
 call SaveInteger(zzVL_ht,'X259',252,0)
-call SaveStr(zzVL_ht,'X259',250,"war3mapImported\\TVC_kimchungtrao.mdx")
+call SaveInteger(zzVL_ht,'X259',294,1)
+call SaveStr(zzVL_ht,'X259',250,"war3mapImported\\MDX\\ThienMaHanhKhong.mdx")
 call SaveInteger(zzVL_ht,'X259',201,1)
 call SaveInteger(zzVL_ht,'E006',260,'X260')
 call SaveInteger(zzVL_ht,'E006',200,'X260')
@@ -20129,6 +20544,7 @@ call SaveInteger(zzVL_ht,'X260',247,5)
 call SaveInteger(zzVL_ht,'X260',248,0)
 call SaveInteger(zzVL_ht,'X260',249,0)
 call SaveInteger(zzVL_ht,'X260',252,8)
+call SaveInteger(zzVL_ht,'X260',294,1)
 call SaveStr(zzVL_ht,'X260',250,"war3mapImported\\DMPD_phidao1.mdx")
 call SaveInteger(zzVL_ht,'X260',257,900)
 call SaveInteger(zzVL_ht,'X260',259,7)
@@ -20153,6 +20569,8 @@ call SaveInteger(zzVL_ht,'X261',252,0)
 call SaveStr(zzVL_ht,'X261',250,"war3mapImported\\DMPD_manthienhoavu1.mdx")
 call SaveInteger(zzVL_ht,'X261',201,1)
 call SaveInteger(zzVL_ht,'E006',265,'X262')
+call SaveStr(zzVL_ht,'X262',280,"war3mapImported\\DMPD_anhtungtrancast.mdx")
+call SaveStr(zzVL_ht,'X262',284,"war3mapImported\\DMPD_anhtungtranaura.mdx")
 call SaveInteger(zzVL_ht,'E006',202,'X262')
 call SaveInteger(zzVL_ht,'E006',232,15)
 call SaveInteger(zzVL_ht,'X262',240,3)
@@ -20167,6 +20585,7 @@ call SaveInteger(zzVL_ht,'X262',249,0)
 call SaveInteger(zzVL_ht,'X262',252,0)
 call SaveInteger(zzVL_ht,'X262',253,12)
 call SaveInteger(zzVL_ht,'X262',254,3)
+call SaveInteger(zzVL_ht,'X262',294,1)
 call SaveStr(zzVL_ht,'X262',250,"war3mapImported\\DMPD_anhtungtran.mdx")
 call SaveInteger(zzVL_ht,'X262',257,300)
 call SaveInteger(zzVL_ht,'X262',228,1)
@@ -20175,6 +20594,7 @@ call SaveInteger(zzVL_ht,'X262',196,40)
 call SaveInteger(zzVL_ht,'X262',195,1)
 call SaveInteger(zzVL_ht,'X262',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X262',3,2)
+call SaveStr(zzVL_ht,'X263',287,"war3mapImported\\DMTT_toidocaura.mdx")
 call SaveInteger(zzVL_ht,'E006',203,'X263')
 call SaveInteger(zzVL_ht,'E006',233,25)
 call SaveInteger(zzVL_ht,'X263',240,0)
@@ -20190,6 +20610,8 @@ call SaveInteger(zzVL_ht,'X263',252,0)
 call SaveStr(zzVL_ht,'X263',250,"war3mapImported\\DMPD_manthienhoavu3.mdx")
 call SaveInteger(zzVL_ht,'X263',201,1)
 call SaveInteger(zzVL_ht,'E006',263,'X264')
+call SaveStr(zzVL_ht,'X264',285,"war3mapImported\\DMPD_manthienhoavu2.mdx")
+call SaveStr(zzVL_ht,'X264',286,"war3mapImported\\DMPD_manthienhoavu3.mdx")
 call SaveInteger(zzVL_ht,'E006',204,'X264')
 call SaveInteger(zzVL_ht,'E006',234,38)
 call SaveInteger(zzVL_ht,'X264',240,13)
@@ -20223,9 +20645,13 @@ call SaveInteger(zzVL_ht,'X265',247,5)
 call SaveInteger(zzVL_ht,'X265',248,14)
 call SaveInteger(zzVL_ht,'X265',249,0)
 call SaveInteger(zzVL_ht,'X265',252,0)
-call SaveStr(zzVL_ht,'X265',250,"war3mapImported\\DMPD_nhiephonwave1_1.mdx")
+call SaveInteger(zzVL_ht,'X265',294,1)
+call SaveStr(zzVL_ht,'X265',250,"war3mapImported\\MDX\\TamNhan.mdx")
 call SaveInteger(zzVL_ht,'X265',201,1)
+call SaveInteger(zzVL_ht,'X266',288,1)
 call SaveInteger(zzVL_ht,'E006',261,'X266')
+call SaveStr(zzVL_ht,'X266',281,"war3mapImported\\DMPD_nhiephontarget.mdx")
+call SaveStr(zzVL_ht,'X266',285,"war3mapImported\\DMPD_nhiephonwave2_1.mdx")
 call SaveInteger(zzVL_ht,'E006',206,'X266')
 call SaveInteger(zzVL_ht,'E006',236,68)
 call SaveInteger(zzVL_ht,'X266',240,16)
@@ -20238,7 +20664,8 @@ call SaveInteger(zzVL_ht,'X266',247,5)
 call SaveInteger(zzVL_ht,'X266',248,0)
 call SaveInteger(zzVL_ht,'X266',249,0)
 call SaveInteger(zzVL_ht,'X266',252,8)
-call SaveStr(zzVL_ht,'X266',250,"war3mapImported\\DMPD_nhiephontarget.mdx")
+call SaveInteger(zzVL_ht,'X266',294,1)
+call SaveStr(zzVL_ht,'X266',250,"war3mapImported\\DMPD_nhiephonwave1_1.mdx")
 call SaveInteger(zzVL_ht,'X266',257,280)
 call SaveInteger(zzVL_ht,'X266',258,32)
 call SaveInteger(zzVL_ht,'X266',259,7)
@@ -20258,6 +20685,7 @@ call SaveInteger(zzVL_ht,'X267',247,4)
 call SaveInteger(zzVL_ht,'X267',248,3)
 call SaveInteger(zzVL_ht,'X267',249,0)
 call SaveInteger(zzVL_ht,'X267',252,0)
+call SaveInteger(zzVL_ht,'X267',294,1)
 call SaveStr(zzVL_ht,'X267',250,"war3mapImported\\DMPD_phidao1.mdx")
 call SaveInteger(zzVL_ht,'X267',201,1)
 call SaveInteger(zzVL_ht,'E006',208,'X268')
@@ -20272,9 +20700,12 @@ call SaveInteger(zzVL_ht,'X268',247,0)
 call SaveInteger(zzVL_ht,'X268',248,0)
 call SaveInteger(zzVL_ht,'X268',249,0)
 call SaveInteger(zzVL_ht,'X268',252,0)
+call SaveInteger(zzVL_ht,'X268',294,1)
 call SaveStr(zzVL_ht,'X268',250,"war3mapImported\\DMPD_voanhxuyen.mdx")
 call SaveInteger(zzVL_ht,'X268',201,1)
 call SaveInteger(zzVL_ht,'E006',264,'X269')
+call SaveStr(zzVL_ht,'X269',280,"war3mapImported\\DMPD_anhtungtrancast.mdx")
+call SaveStr(zzVL_ht,'X269',285,"war3mapImported\\DMPD_anhtungtran.mdx")
 call SaveInteger(zzVL_ht,'E006',209,'X269')
 call SaveInteger(zzVL_ht,'E006',239,125)
 call SaveInteger(zzVL_ht,'X269',240,8)
@@ -20294,6 +20725,8 @@ call SaveInteger(zzVL_ht,'X269',201,1)
 call SaveInteger(zzVL_ht,'X269',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X269',3,0)
 call SaveInteger(zzVL_ht,'E006',262,'X270')
+call SaveStr(zzVL_ht,'X270',285,"war3mapImported\\DMPD_voanhxuyen_11.mdx")
+call SaveStr(zzVL_ht,'X270',286,"war3mapImported\\DMPD_voanhxuyen_2.mdx")
 call SaveInteger(zzVL_ht,'E006',210,'X270')
 call SaveInteger(zzVL_ht,'E006',240,145)
 call SaveInteger(zzVL_ht,'X270',240,16)
@@ -20306,6 +20739,7 @@ call SaveInteger(zzVL_ht,'X270',247,5)
 call SaveInteger(zzVL_ht,'X270',248,0)
 call SaveInteger(zzVL_ht,'X270',249,0)
 call SaveInteger(zzVL_ht,'X270',252,8)
+call SaveInteger(zzVL_ht,'X270',294,1)
 call SaveStr(zzVL_ht,'X270',250,"war3mapImported\\DMPD_voanhxuyen.mdx")
 call SaveInteger(zzVL_ht,'X270',257,180)
 call SaveInteger(zzVL_ht,'X270',258,10)
@@ -20327,6 +20761,7 @@ call SaveInteger(zzVL_ht,'X271',247,13)
 call SaveInteger(zzVL_ht,'X271',248,0)
 call SaveInteger(zzVL_ht,'X271',249,0)
 call SaveInteger(zzVL_ht,'X271',252,0)
+call SaveInteger(zzVL_ht,'X271',294,1)
 call SaveStr(zzVL_ht,'X271',250,"war3mapImported\\DMPD_voanhxuyen_111.mdx")
 call SaveInteger(zzVL_ht,'X271',201,1)
 call SaveInteger(zzVL_ht,'E006',212,'X272')
@@ -20341,9 +20776,11 @@ call SaveInteger(zzVL_ht,'X272',247,4)
 call SaveInteger(zzVL_ht,'X272',248,13)
 call SaveInteger(zzVL_ht,'X272',249,0)
 call SaveInteger(zzVL_ht,'X272',252,0)
+call SaveInteger(zzVL_ht,'X272',294,1)
 call SaveStr(zzVL_ht,'X272',250,"war3mapImported\\DMPD_voanhxuyen_1111.mdx")
 call SaveInteger(zzVL_ht,'X272',201,1)
 call SaveInteger(zzVL_ht,'H020',260,'X273')
+call SaveStr(zzVL_ht,'X273',281,"war3mapImported\\CBB_bongtarget.mdx")
 call SaveInteger(zzVL_ht,'H020',200,'X273')
 call SaveInteger(zzVL_ht,'H020',230,1)
 call SaveInteger(zzVL_ht,'X273',240,16)
@@ -20356,6 +20793,7 @@ call SaveInteger(zzVL_ht,'X273',247,5)
 call SaveInteger(zzVL_ht,'X273',248,0)
 call SaveInteger(zzVL_ht,'X273',249,0)
 call SaveInteger(zzVL_ht,'X273',252,0)
+call SaveInteger(zzVL_ht,'X273',294,1)
 call SaveStr(zzVL_ht,'X273',250,"war3mapImported\\CBB_bong.mdx")
 call SaveInteger(zzVL_ht,'X273',234,1)
 call SaveInteger(zzVL_ht,'X273',235,30)
@@ -20377,6 +20815,7 @@ call SaveInteger(zzVL_ht,'X274',247,5)
 call SaveInteger(zzVL_ht,'X274',248,3)
 call SaveInteger(zzVL_ht,'X274',249,0)
 call SaveInteger(zzVL_ht,'X274',252,0)
+call SaveInteger(zzVL_ht,'X274',294,1)
 call SaveStr(zzVL_ht,'X274',250,"war3mapImported\\CBB_bongquynheffect.mdx")
 call SaveInteger(zzVL_ht,'X274',201,1)
 call SaveInteger(zzVL_ht,'H020',202,'X275')
@@ -20391,9 +20830,11 @@ call SaveInteger(zzVL_ht,'X275',247,13)
 call SaveInteger(zzVL_ht,'X275',248,0)
 call SaveInteger(zzVL_ht,'X275',249,0)
 call SaveInteger(zzVL_ht,'X275',252,0)
+call SaveInteger(zzVL_ht,'X275',294,1)
 call SaveStr(zzVL_ht,'X275',250,"war3mapImported\\CBB_bongtarget.mdx")
 call SaveInteger(zzVL_ht,'X275',201,1)
 call SaveInteger(zzVL_ht,'H020',263,'X276')
+call SaveStr(zzVL_ht,'X276',281,"war3mapImported\\CBB_bongtarget.mdx")
 call SaveInteger(zzVL_ht,'H020',203,'X276')
 call SaveInteger(zzVL_ht,'H020',233,25)
 call SaveInteger(zzVL_ht,'X276',240,5)
@@ -20406,7 +20847,8 @@ call SaveInteger(zzVL_ht,'X276',247,5)
 call SaveInteger(zzVL_ht,'X276',248,0)
 call SaveInteger(zzVL_ht,'X276',249,0)
 call SaveInteger(zzVL_ht,'X276',252,0)
-call SaveStr(zzVL_ht,'X276',250,"war3mapImported\\CBB_dacautran.mdx")
+call SaveInteger(zzVL_ht,'X276',294,1)
+call SaveStr(zzVL_ht,'X276',250,"war3mapImported\\CBB_bong.mdx")
 call SaveInteger(zzVL_ht,'X276',234,1)
 call SaveInteger(zzVL_ht,'X276',235,50)
 call SaveInteger(zzVL_ht,'X276',236,10)
@@ -20417,6 +20859,7 @@ call SaveInteger(zzVL_ht,'X276',201,1)
 call SaveInteger(zzVL_ht,'X276',167,100)
 call SaveInteger(zzVL_ht,'X276',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X276',3,2)
+call SaveStr(zzVL_ht,'X277',287,"war3mapImported\\CBC_hoatbatluuthu.mdx")
 call SaveInteger(zzVL_ht,'H020',204,'X277')
 call SaveInteger(zzVL_ht,'H020',234,38)
 call SaveInteger(zzVL_ht,'X277',240,0)
@@ -20443,9 +20886,12 @@ call SaveInteger(zzVL_ht,'X278',247,5)
 call SaveInteger(zzVL_ht,'X278',248,14)
 call SaveInteger(zzVL_ht,'X278',249,0)
 call SaveInteger(zzVL_ht,'X278',252,0)
+call SaveInteger(zzVL_ht,'X278',294,1)
 call SaveStr(zzVL_ht,'X278',250,"war3mapImported\\CBB_minhsatthuhao.mdx")
 call SaveInteger(zzVL_ht,'X278',201,1)
 call SaveInteger(zzVL_ht,'H020',261,'X279')
+call SaveStr(zzVL_ht,'X279',280,"war3mapImported\\CBB_thienhavocaucaster.mdx")
+call SaveStr(zzVL_ht,'X279',281,"war3mapImported\\CBB_firetarget.mdx")
 call SaveInteger(zzVL_ht,'H020',206,'X279')
 call SaveInteger(zzVL_ht,'H020',236,68)
 call SaveInteger(zzVL_ht,'X279',240,5)
@@ -20458,7 +20904,8 @@ call SaveInteger(zzVL_ht,'X279',247,5)
 call SaveInteger(zzVL_ht,'X279',248,0)
 call SaveInteger(zzVL_ht,'X279',249,0)
 call SaveInteger(zzVL_ht,'X279',252,0)
-call SaveStr(zzVL_ht,'X279',250,"war3mapImported\\CBB_thienhavocaucaster.mdx")
+call SaveInteger(zzVL_ht,'X279',294,1)
+call SaveStr(zzVL_ht,'X279',250,"war3mapImported\\CBB_bong.mdx")
 call SaveInteger(zzVL_ht,'X279',234,1)
 call SaveInteger(zzVL_ht,'X279',235,35)
 call SaveInteger(zzVL_ht,'X279',236,10)
@@ -20483,6 +20930,7 @@ call SaveInteger(zzVL_ht,'X280',247,5)
 call SaveInteger(zzVL_ht,'X280',248,0)
 call SaveInteger(zzVL_ht,'X280',249,0)
 call SaveInteger(zzVL_ht,'X280',252,0)
+call SaveInteger(zzVL_ht,'X280',294,1)
 call SaveStr(zzVL_ht,'X280',250,"war3mapImported\\CBB_dacautran.mdx")
 call SaveInteger(zzVL_ht,'X280',245,65536)
 call SaveInteger(zzVL_ht,'X280',201,1)
@@ -20490,7 +20938,9 @@ call SaveInteger(zzVL_ht,'X280',180,35)
 call SaveInteger(zzVL_ht,'X280',179,12)
 call SaveInteger(zzVL_ht,'X280',178,8)
 call SaveInteger(zzVL_ht,'X280',239,3)
+call SaveInteger(zzVL_ht,'X281',289,1)
 call SaveInteger(zzVL_ht,'H020',264,'X281')
+call SaveStr(zzVL_ht,'X281',280,"war3mapImported\\CBB_minhsatcast.mdx")
 call SaveInteger(zzVL_ht,'H020',208,'X281')
 call SaveInteger(zzVL_ht,'H020',238,105)
 call SaveInteger(zzVL_ht,'X281',240,6)
@@ -20505,10 +20955,12 @@ call SaveInteger(zzVL_ht,'X281',249,0)
 call SaveInteger(zzVL_ht,'X281',252,0)
 call SaveInteger(zzVL_ht,'X281',253,10)
 call SaveInteger(zzVL_ht,'X281',254,2)
+call SaveInteger(zzVL_ht,'X281',294,1)
 call SaveStr(zzVL_ht,'X281',250,"war3mapImported\\CBB_minhsatthuhao.mdx")
 call SaveInteger(zzVL_ht,'X281',201,1)
 call SaveInteger(zzVL_ht,'X281',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X281',3,0)
+call SaveStr(zzVL_ht,'X282',280,"war3mapImported\\CBB_tunghaccast.mdx")
 call SaveInteger(zzVL_ht,'H020',209,'X282')
 call SaveInteger(zzVL_ht,'H020',239,125)
 call SaveInteger(zzVL_ht,'X282',240,0)
@@ -20521,6 +20973,7 @@ call SaveInteger(zzVL_ht,'X282',247,6)
 call SaveInteger(zzVL_ht,'X282',248,0)
 call SaveInteger(zzVL_ht,'X282',249,0)
 call SaveInteger(zzVL_ht,'X282',252,1024)
+call SaveInteger(zzVL_ht,'X282',294,1)
 call SaveStr(zzVL_ht,'X282',250,"war3mapImported\\CBB_tunghacbuff.mdx")
 call SaveInteger(zzVL_ht,'X282',201,1)
 call SaveInteger(zzVL_ht,'X282',189,95)
@@ -20530,6 +20983,9 @@ call SaveInteger(zzVL_ht,'X282',219,0)
 call SaveInteger(zzVL_ht,'X282',218,15)
 call SaveInteger(zzVL_ht,'X282',217,100)
 call SaveInteger(zzVL_ht,'H020',262,'X283')
+call SaveStr(zzVL_ht,'X283',280,"war3mapImported\\CBB_thienhavocaucaster.mdx")
+call SaveStr(zzVL_ht,'X283',285,"war3mapImported\\CBB_bongquynheffect.mdx")
+call SaveStr(zzVL_ht,'X283',286,"war3mapImported\\CBB_tranphai2.mdx")
 call SaveInteger(zzVL_ht,'H020',210,'X283')
 call SaveInteger(zzVL_ht,'H020',240,145)
 call SaveInteger(zzVL_ht,'X283',240,5)
@@ -20542,7 +20998,8 @@ call SaveInteger(zzVL_ht,'X283',247,5)
 call SaveInteger(zzVL_ht,'X283',248,0)
 call SaveInteger(zzVL_ht,'X283',249,0)
 call SaveInteger(zzVL_ht,'X283',252,0)
-call SaveStr(zzVL_ht,'X283',250,"war3mapImported\\CBB_bongquynheffect.mdx")
+call SaveInteger(zzVL_ht,'X283',294,1)
+call SaveStr(zzVL_ht,'X283',250,"war3mapImported\\CBB_bong.mdx")
 call SaveInteger(zzVL_ht,'X283',234,1)
 call SaveInteger(zzVL_ht,'X283',235,40)
 call SaveInteger(zzVL_ht,'X283',236,10)
@@ -20554,6 +21011,7 @@ call SaveInteger(zzVL_ht,'X283',167,110)
 call SaveInteger(zzVL_ht,'X283',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X283',3,1)
 call SaveStr(zzVL_ht,'X283',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X284',285,"war3mapImported\\CBB_tranphai2.mdx")
 call SaveInteger(zzVL_ht,'H020',211,'X284')
 call SaveInteger(zzVL_ht,'H020',241,165)
 call SaveInteger(zzVL_ht,'X284',240,0)
@@ -20566,6 +21024,7 @@ call SaveInteger(zzVL_ht,'X284',247,6)
 call SaveInteger(zzVL_ht,'X284',248,0)
 call SaveInteger(zzVL_ht,'X284',249,0)
 call SaveInteger(zzVL_ht,'X284',252,0)
+call SaveInteger(zzVL_ht,'X284',294,1)
 call SaveStr(zzVL_ht,'X284',250,"war3mapImported\\CBB_dacautran.mdx")
 call SaveInteger(zzVL_ht,'X284',201,1)
 call SaveInteger(zzVL_ht,'H020',212,'X285')
@@ -20580,9 +21039,11 @@ call SaveInteger(zzVL_ht,'X285',247,6)
 call SaveInteger(zzVL_ht,'X285',248,0)
 call SaveInteger(zzVL_ht,'X285',249,0)
 call SaveInteger(zzVL_ht,'X285',252,0)
+call SaveInteger(zzVL_ht,'X285',294,1)
 call SaveStr(zzVL_ht,'X285',250,"war3mapImported\\CBB_thienhavocaucaster.mdx")
 call SaveInteger(zzVL_ht,'X285',201,1)
 call SaveInteger(zzVL_ht,'H021',260,'X286')
+call SaveStr(zzVL_ht,'X286',285,"war3mapImported\\NMK_thoisongvongnguyet.mdx")
 call SaveInteger(zzVL_ht,'H021',200,'X286')
 call SaveInteger(zzVL_ht,'H021',230,1)
 call SaveInteger(zzVL_ht,'X286',240,5)
@@ -20595,7 +21056,7 @@ call SaveInteger(zzVL_ht,'X286',247,5)
 call SaveInteger(zzVL_ht,'X286',248,0)
 call SaveInteger(zzVL_ht,'X286',249,0)
 call SaveInteger(zzVL_ht,'X286',252,0)
-call SaveStr(zzVL_ht,'X286',250,"war3mapImported\\NMK_thoisongvongnguyet.mdx")
+call SaveStr(zzVL_ht,'X286',250,"war3mapImported\\NMK_thoisongeffect.mdx")
 call SaveInteger(zzVL_ht,'X286',257,600)
 call SaveInteger(zzVL_ht,'X286',258,20)
 call SaveInteger(zzVL_ht,'X286',259,7)
@@ -20605,6 +21066,8 @@ call SaveInteger(zzVL_ht,'X286',2,OrderId("blackarrow"))
 call SaveInteger(zzVL_ht,'X286',3,1)
 call SaveStr(zzVL_ht,'X286',251,"blackarrowon")
 call SaveInteger(zzVL_ht,'H021',263,'X287')
+call SaveStr(zzVL_ht,'X287',285,"war3mapImported\\NMK_tuhang2.mdx")
+call SaveStr(zzVL_ht,'X287',286,"war3mapImported\\NMK_effect8.mdx")
 call SaveInteger(zzVL_ht,'H021',201,'X287')
 call SaveInteger(zzVL_ht,'H021',231,6)
 call SaveInteger(zzVL_ht,'X287',240,7)
@@ -20617,6 +21080,7 @@ call SaveInteger(zzVL_ht,'X287',247,0)
 call SaveInteger(zzVL_ht,'X287',248,0)
 call SaveInteger(zzVL_ht,'X287',249,0)
 call SaveInteger(zzVL_ht,'X287',252,16)
+call SaveInteger(zzVL_ht,'X287',294,1)
 call SaveStr(zzVL_ht,'X287',250,"war3mapImported\\NMK_tuhang.mdx")
 call SaveInteger(zzVL_ht,'X287',201,1)
 call SaveInteger(zzVL_ht,'X287',2,OrderId("carrionswarm"))
@@ -20636,6 +21100,7 @@ call SaveInteger(zzVL_ht,'X288',249,0)
 call SaveInteger(zzVL_ht,'X288',252,0)
 call SaveInteger(zzVL_ht,'X288',253,20)
 call SaveInteger(zzVL_ht,'X288',254,3)
+call SaveInteger(zzVL_ht,'X288',294,1)
 call SaveStr(zzVL_ht,'X288',250,"war3mapImported\\NMK_thienphatbuff.mdx")
 call SaveInteger(zzVL_ht,'X288',201,1)
 call SaveInteger(zzVL_ht,'X288',2,OrderId("roar"))
@@ -20666,6 +21131,7 @@ call SaveInteger(zzVL_ht,'X290',247,7)
 call SaveInteger(zzVL_ht,'X290',248,0)
 call SaveInteger(zzVL_ht,'X290',249,0)
 call SaveInteger(zzVL_ht,'X290',252,1024)
+call SaveInteger(zzVL_ht,'X290',294,1)
 call SaveStr(zzVL_ht,'X290',250,"war3mapImported\\NMK_kiemanhphatquang.mdx")
 call SaveInteger(zzVL_ht,'X290',201,1)
 call SaveInteger(zzVL_ht,'X290',189,40)
@@ -20688,7 +21154,9 @@ call SaveInteger(zzVL_ht,'X291',249,0)
 call SaveInteger(zzVL_ht,'X291',252,0)
 call SaveStr(zzVL_ht,'X291',250,"war3mapImported\\NMK_kiemanhphatquangtarget.mdx")
 call SaveInteger(zzVL_ht,'X291',201,1)
+call SaveInteger(zzVL_ht,'X292',288,1)
 call SaveInteger(zzVL_ht,'H021',261,'X292')
+call SaveStr(zzVL_ht,'X292',281,"war3mapImported\\NMK_kiemanhphatquangtarget.mdx")
 call SaveInteger(zzVL_ht,'H021',206,'X292')
 call SaveInteger(zzVL_ht,'H021',236,68)
 call SaveInteger(zzVL_ht,'X292',240,5)
@@ -20696,11 +21164,14 @@ call SaveInteger(zzVL_ht,'X292',241,3)
 call SaveInteger(zzVL_ht,'X292',242,4)
 call SaveInteger(zzVL_ht,'X292',243,35)
 call SaveInteger(zzVL_ht,'X292',244,20)
+endfunction
+function zzVL_Items5 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X292',246,0)
 call SaveInteger(zzVL_ht,'X292',247,5)
 call SaveInteger(zzVL_ht,'X292',248,0)
 call SaveInteger(zzVL_ht,'X292',249,0)
 call SaveInteger(zzVL_ht,'X292',252,0)
+call SaveInteger(zzVL_ht,'X292',294,1)
 call SaveStr(zzVL_ht,'X292',250,"war3mapImported\\NMK_kiemanhphatquang.mdx")
 call SaveInteger(zzVL_ht,'X292',257,900)
 call SaveInteger(zzVL_ht,'X292',258,15)
@@ -20722,6 +21193,7 @@ call SaveInteger(zzVL_ht,'X293',247,14)
 call SaveInteger(zzVL_ht,'X293',248,0)
 call SaveInteger(zzVL_ht,'X293',249,0)
 call SaveInteger(zzVL_ht,'X293',252,0)
+call SaveInteger(zzVL_ht,'X293',294,1)
 call SaveStr(zzVL_ht,'X293',250,"war3mapImported\\NMK_thoisongvongnguyet.mdx")
 call SaveInteger(zzVL_ht,'X293',201,1)
 call SaveInteger(zzVL_ht,'H021',208,'X294')
@@ -20736,6 +21208,7 @@ call SaveInteger(zzVL_ht,'X294',247,6)
 call SaveInteger(zzVL_ht,'X294',248,0)
 call SaveInteger(zzVL_ht,'X294',249,0)
 call SaveInteger(zzVL_ht,'X294',252,0)
+call SaveInteger(zzVL_ht,'X294',294,1)
 call SaveStr(zzVL_ht,'X294',250,"war3mapImported\\NMK_tuhang.mdx")
 call SaveInteger(zzVL_ht,'X294',201,1)
 call SaveInteger(zzVL_ht,'H021',209,'X295')
@@ -20753,6 +21226,9 @@ call SaveInteger(zzVL_ht,'X295',252,0)
 call SaveStr(zzVL_ht,'X295',250,"war3mapImported\\NMK_tuhang2.mdx")
 call SaveInteger(zzVL_ht,'X295',201,1)
 call SaveInteger(zzVL_ht,'H021',262,'X296')
+call SaveStr(zzVL_ht,'X296',281,"war3mapImported\\NMK_bangsuongtarget.mdx")
+call SaveStr(zzVL_ht,'X296',284,"war3mapImported\\NMK_thienphatbuff.mdx")
+call SaveStr(zzVL_ht,'X296',285,"war3mapImported\\NMK_bangsuongeffect.mdx")
 call SaveInteger(zzVL_ht,'H021',210,'X296')
 call SaveInteger(zzVL_ht,'H021',240,145)
 call SaveInteger(zzVL_ht,'X296',240,5)
@@ -20765,7 +21241,8 @@ call SaveInteger(zzVL_ht,'X296',247,5)
 call SaveInteger(zzVL_ht,'X296',248,0)
 call SaveInteger(zzVL_ht,'X296',249,0)
 call SaveInteger(zzVL_ht,'X296',252,0)
-call SaveStr(zzVL_ht,'X296',250,"war3mapImported\\NMK_bangsuongeffect.mdx")
+call SaveInteger(zzVL_ht,'X296',294,1)
+call SaveStr(zzVL_ht,'X296',250,"war3mapImported\\NMK_bangsuongkiem.mdx")
 call SaveInteger(zzVL_ht,'X296',257,1080)
 call SaveInteger(zzVL_ht,'X296',259,7)
 call SaveInteger(zzVL_ht,'X296',207,5)
@@ -20787,6 +21264,7 @@ call SaveInteger(zzVL_ht,'X297',247,7)
 call SaveInteger(zzVL_ht,'X297',248,0)
 call SaveInteger(zzVL_ht,'X297',249,0)
 call SaveInteger(zzVL_ht,'X297',252,0)
+call SaveInteger(zzVL_ht,'X297',294,1)
 call SaveStr(zzVL_ht,'X297',250,"war3mapImported\\NMK_thoisongvongnguyet.mdx")
 call SaveInteger(zzVL_ht,'X297',245,4)
 call SaveInteger(zzVL_ht,'X297',201,1)
@@ -20804,9 +21282,11 @@ call SaveInteger(zzVL_ht,'X298',247,4)
 call SaveInteger(zzVL_ht,'X298',248,3)
 call SaveInteger(zzVL_ht,'X298',249,0)
 call SaveInteger(zzVL_ht,'X298',252,0)
+call SaveInteger(zzVL_ht,'X298',294,1)
 call SaveStr(zzVL_ht,'X298',250,"war3mapImported\\NMK_thoisongvongnguyet.mdx")
 call SaveInteger(zzVL_ht,'X298',201,1)
 call SaveInteger(zzVL_ht,'H022',260,'X299')
+call SaveStr(zzVL_ht,'X299',280,"war3mapImported\\MGC_buffcast.mdx")
 call SaveInteger(zzVL_ht,'H022',200,'X299')
 call SaveInteger(zzVL_ht,'H022',230,1)
 call SaveInteger(zzVL_ht,'X299',240,16)
@@ -20840,7 +21320,11 @@ call SaveInteger(zzVL_ht,'X300',249,0)
 call SaveInteger(zzVL_ht,'X300',252,0)
 call SaveStr(zzVL_ht,'X300',250,"war3mapImported\\MGC_dongdat.mdx")
 call SaveInteger(zzVL_ht,'X300',201,1)
+call SaveInteger(zzVL_ht,'X301',288,1)
 call SaveInteger(zzVL_ht,'H022',263,'X301')
+call SaveStr(zzVL_ht,'X301',280,"war3mapImported\\MGC_buffcast.mdx")
+call SaveStr(zzVL_ht,'X301',281,"war3mapImported\\MGC_phachdiatarget.mdx")
+call SaveStr(zzVL_ht,'X301',285,"war3mapImported\\MGC_khaithienthuc.mdx")
 call SaveInteger(zzVL_ht,'H022',202,'X301')
 call SaveInteger(zzVL_ht,'H022',232,15)
 call SaveInteger(zzVL_ht,'X301',240,3)
@@ -20874,11 +21358,15 @@ call SaveInteger(zzVL_ht,'X302',249,0)
 call SaveInteger(zzVL_ht,'X302',252,0)
 call SaveInteger(zzVL_ht,'X302',253,16)
 call SaveInteger(zzVL_ht,'X302',254,8)
+call SaveInteger(zzVL_ht,'X302',294,1)
 call SaveStr(zzVL_ht,'X302',250,"war3mapImported\\MGC_kimquathietma.mdx")
 call SaveInteger(zzVL_ht,'X302',201,1)
 call SaveInteger(zzVL_ht,'X302',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X302',3,0)
 call SaveInteger(zzVL_ht,'H022',264,'X303')
+call SaveStr(zzVL_ht,'X303',280,"war3mapImported\\MGC_buffcast.mdx")
+call SaveStr(zzVL_ht,'X303',281,"war3mapImported\\MGC_phachdiatarget.mdx")
+call SaveStr(zzVL_ht,'X303',285,"war3mapImported\\MGC_dongdat.mdx")
 call SaveInteger(zzVL_ht,'H022',204,'X303')
 call SaveInteger(zzVL_ht,'H022',234,38)
 call SaveInteger(zzVL_ht,'X303',240,5)
@@ -20891,6 +21379,7 @@ call SaveInteger(zzVL_ht,'X303',247,5)
 call SaveInteger(zzVL_ht,'X303',248,0)
 call SaveInteger(zzVL_ht,'X303',249,0)
 call SaveInteger(zzVL_ht,'X303',252,8)
+call SaveInteger(zzVL_ht,'X303',294,1)
 call SaveStr(zzVL_ht,'X303',250,"war3mapImported\\MGC_phachdia.mdx")
 call SaveInteger(zzVL_ht,'X303',257,960)
 call SaveInteger(zzVL_ht,'X303',259,7)
@@ -20911,9 +21400,12 @@ call SaveInteger(zzVL_ht,'X304',247,5)
 call SaveInteger(zzVL_ht,'X304',248,6)
 call SaveInteger(zzVL_ht,'X304',249,0)
 call SaveInteger(zzVL_ht,'X304',252,0)
+call SaveInteger(zzVL_ht,'X304',294,1)
 call SaveStr(zzVL_ht,'X304',250,"war3mapImported\\MGC_khuhothuc.mdx")
 call SaveInteger(zzVL_ht,'X304',201,1)
 call SaveInteger(zzVL_ht,'H022',261,'X305')
+call SaveStr(zzVL_ht,'X305',280,"war3mapImported\\MGC_buffcast.mdx")
+call SaveStr(zzVL_ht,'X305',281,"war3mapImported\\MGC_longthontarget.mdx")
 call SaveInteger(zzVL_ht,'H022',206,'X305')
 call SaveInteger(zzVL_ht,'H022',236,68)
 call SaveInteger(zzVL_ht,'X305',240,4)
@@ -20934,6 +21426,7 @@ call SaveInteger(zzVL_ht,'X305',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X305',3,1)
 call SaveStr(zzVL_ht,'X305',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H022',265,'X306')
+call SaveStr(zzVL_ht,'X306',281,"war3mapImported\\MGC_xichtarget.mdx")
 call SaveInteger(zzVL_ht,'H022',207,'X306')
 call SaveInteger(zzVL_ht,'H022',237,85)
 call SaveInteger(zzVL_ht,'X306',240,6)
@@ -20967,6 +21460,7 @@ call SaveInteger(zzVL_ht,'X307',247,0)
 call SaveInteger(zzVL_ht,'X307',248,0)
 call SaveInteger(zzVL_ht,'X307',249,0)
 call SaveInteger(zzVL_ht,'X307',252,1024)
+call SaveInteger(zzVL_ht,'X307',294,1)
 call SaveStr(zzVL_ht,'X307',250,"war3mapImported\\MGC_cuuhihonduong.mdx")
 call SaveInteger(zzVL_ht,'X307',201,1)
 call SaveInteger(zzVL_ht,'X307',189,50)
@@ -20990,6 +21484,8 @@ call SaveInteger(zzVL_ht,'X308',252,0)
 call SaveStr(zzVL_ht,'X308',250,"war3mapImported\\MGC_khaithienthuc.mdx")
 call SaveInteger(zzVL_ht,'X308',201,1)
 call SaveInteger(zzVL_ht,'H022',262,'X309')
+call SaveStr(zzVL_ht,'X309',280,"war3mapImported\\MGC_buffcast.mdx")
+call SaveStr(zzVL_ht,'X309',281,"war3mapImported\\MGC_khuhothuctarget.mdx")
 call SaveInteger(zzVL_ht,'H022',210,'X309')
 call SaveInteger(zzVL_ht,'H022',240,145)
 call SaveInteger(zzVL_ht,'X309',240,4)
@@ -21002,6 +21498,7 @@ call SaveInteger(zzVL_ht,'X309',247,5)
 call SaveInteger(zzVL_ht,'X309',248,0)
 call SaveInteger(zzVL_ht,'X309',249,0)
 call SaveInteger(zzVL_ht,'X309',252,8)
+call SaveInteger(zzVL_ht,'X309',294,1)
 call SaveStr(zzVL_ht,'X309',250,"war3mapImported\\MGC_khuhothuc.mdx")
 call SaveInteger(zzVL_ht,'X309',257,280)
 call SaveInteger(zzVL_ht,'X309',258,25)
@@ -21010,6 +21507,7 @@ call SaveInteger(zzVL_ht,'X309',201,1)
 call SaveInteger(zzVL_ht,'X309',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X309',3,1)
 call SaveStr(zzVL_ht,'X309',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X310',285,"war3mapImported\\MGC_kimquathietma.mdx")
 call SaveInteger(zzVL_ht,'H022',211,'X310')
 call SaveInteger(zzVL_ht,'H022',241,165)
 call SaveInteger(zzVL_ht,'X310',240,0)
@@ -21036,9 +21534,14 @@ call SaveInteger(zzVL_ht,'X311',247,5)
 call SaveInteger(zzVL_ht,'X311',248,14)
 call SaveInteger(zzVL_ht,'X311',249,0)
 call SaveInteger(zzVL_ht,'X311',252,0)
+call SaveInteger(zzVL_ht,'X311',294,1)
 call SaveStr(zzVL_ht,'X311',250,"war3mapImported\\MGC_cuuhihonduong.mdx")
 call SaveInteger(zzVL_ht,'X311',201,1)
 call SaveInteger(zzVL_ht,'H023',260,'X312')
+call SaveStr(zzVL_ht,'X312',280,"war3mapImported\\MGK_thanhhoacast.mdx")
+call SaveStr(zzVL_ht,'X312',284,"war3mapImported\\MGK_thanhhoalenhbuff.mdx")
+call SaveStr(zzVL_ht,'X312',285,"war3mapImported\\MGK_thanhhoaeffect.mdx")
+call SaveStr(zzVL_ht,'X312',286,"war3mapImported\\MGK_thanhhoaln.mdx")
 call SaveInteger(zzVL_ht,'H023',200,'X312')
 call SaveInteger(zzVL_ht,'H023',230,1)
 call SaveInteger(zzVL_ht,'X312',240,13)
@@ -21051,7 +21554,8 @@ call SaveInteger(zzVL_ht,'X312',247,5)
 call SaveInteger(zzVL_ht,'X312',248,0)
 call SaveInteger(zzVL_ht,'X312',249,0)
 call SaveInteger(zzVL_ht,'X312',252,8)
-call SaveStr(zzVL_ht,'X312',250,"war3mapImported\\MGK_thanhhoapt.mdx")
+call SaveInteger(zzVL_ht,'X312',294,1)
+call SaveStr(zzVL_ht,'X312',250,"war3mapImported\\MDX\\ThanhHoaPhanTam.mdx")
 call SaveInteger(zzVL_ht,'X312',257,150)
 call SaveInteger(zzVL_ht,'X312',258,100)
 call SaveInteger(zzVL_ht,'X312',259,7)
@@ -21071,6 +21575,7 @@ call SaveInteger(zzVL_ht,'X313',247,3)
 call SaveInteger(zzVL_ht,'X313',248,4)
 call SaveInteger(zzVL_ht,'X313',249,0)
 call SaveInteger(zzVL_ht,'X313',252,0)
+call SaveInteger(zzVL_ht,'X313',294,1)
 call SaveStr(zzVL_ht,'X313',250,"war3mapImported\\MGK_kiemdangbathoang.mdx")
 call SaveInteger(zzVL_ht,'X313',201,1)
 call SaveInteger(zzVL_ht,'H023',202,'X314')
@@ -21100,7 +21605,8 @@ call SaveInteger(zzVL_ht,'X315',247,5)
 call SaveInteger(zzVL_ht,'X315',248,0)
 call SaveInteger(zzVL_ht,'X315',249,0)
 call SaveInteger(zzVL_ht,'X315',252,8)
-call SaveStr(zzVL_ht,'X315',250,"war3mapImported\\MGK_thanhhoaln.mdx")
+call SaveInteger(zzVL_ht,'X315',294,1)
+call SaveStr(zzVL_ht,'X315',250,"war3mapImported\\MDX\\VanVat.mdx")
 call SaveInteger(zzVL_ht,'X315',257,200)
 call SaveInteger(zzVL_ht,'X315',258,20)
 call SaveInteger(zzVL_ht,'X315',259,7)
@@ -21110,6 +21616,7 @@ call SaveInteger(zzVL_ht,'X315',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X315',3,1)
 call SaveStr(zzVL_ht,'X315',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H023',264,'X316')
+call SaveStr(zzVL_ht,'X316',280,"war3mapImported\\MGK_cankhoncaster.mdx")
 call SaveInteger(zzVL_ht,'H023',204,'X316')
 call SaveInteger(zzVL_ht,'H023',234,38)
 call SaveInteger(zzVL_ht,'X316',240,8)
@@ -21124,6 +21631,7 @@ call SaveInteger(zzVL_ht,'X316',249,0)
 call SaveInteger(zzVL_ht,'X316',252,0)
 call SaveInteger(zzVL_ht,'X316',253,8)
 call SaveInteger(zzVL_ht,'X316',254,2)
+call SaveInteger(zzVL_ht,'X316',294,1)
 call SaveStr(zzVL_ht,'X316',250,"war3mapImported\\MGK_cankhonbuff.mdx")
 call SaveInteger(zzVL_ht,'X316',201,1)
 call SaveInteger(zzVL_ht,'X316',2,OrderId("roar"))
@@ -21143,6 +21651,9 @@ call SaveInteger(zzVL_ht,'X317',252,0)
 call SaveStr(zzVL_ht,'X317',250,"war3mapImported\\MGK_effect1.mdx")
 call SaveInteger(zzVL_ht,'X317',201,1)
 call SaveInteger(zzVL_ht,'H023',262,'X318')
+call SaveStr(zzVL_ht,'X318',280,"war3mapImported\\MGK_thanhhoacast.mdx")
+call SaveStr(zzVL_ht,'X318',284,"war3mapImported\\MGK_thanhhoalenhbuff.mdx")
+call SaveStr(zzVL_ht,'X318',285,"war3mapImported\\MGK_thanhhoaeffect.mdx")
 call SaveInteger(zzVL_ht,'H023',206,'X318')
 call SaveInteger(zzVL_ht,'H023',236,68)
 call SaveInteger(zzVL_ht,'X318',240,13)
@@ -21155,8 +21666,7 @@ call SaveInteger(zzVL_ht,'X318',247,5)
 call SaveInteger(zzVL_ht,'X318',248,0)
 call SaveInteger(zzVL_ht,'X318',249,0)
 call SaveInteger(zzVL_ht,'X318',252,8)
-endfunction
-function zzVL_Items5 takes nothing returns nothing
+call SaveInteger(zzVL_ht,'X318',294,1)
 call SaveStr(zzVL_ht,'X318',250,"war3mapImported\\MGK_thanhhoaln.mdx")
 call SaveInteger(zzVL_ht,'X318',257,400)
 call SaveInteger(zzVL_ht,'X318',258,60)
@@ -21168,6 +21678,9 @@ call SaveInteger(zzVL_ht,'X318',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X318',3,1)
 call SaveStr(zzVL_ht,'X318',251,"coldarrowson")
 call SaveInteger(zzVL_ht,'H023',265,'X319')
+call SaveStr(zzVL_ht,'X319',280,"war3mapImported\\MGK_thanhhoacast.mdx")
+call SaveStr(zzVL_ht,'X319',285,"war3mapImported\\MGK_thanhhoaln.mdx")
+call SaveStr(zzVL_ht,'X319',286,"war3mapImported\\MGK_thanhhoaeffect.mdx")
 call SaveInteger(zzVL_ht,'H023',207,'X319')
 call SaveInteger(zzVL_ht,'H023',237,85)
 call SaveInteger(zzVL_ht,'X319',240,6)
@@ -21180,7 +21693,8 @@ call SaveInteger(zzVL_ht,'X319',247,0)
 call SaveInteger(zzVL_ht,'X319',248,0)
 call SaveInteger(zzVL_ht,'X319',249,0)
 call SaveInteger(zzVL_ht,'X319',252,0)
-call SaveStr(zzVL_ht,'X319',250,"war3mapImported\\MGK_thanhhoalenhbuff.mdx")
+call SaveInteger(zzVL_ht,'X319',294,1)
+call SaveStr(zzVL_ht,'X319',250,"war3mapImported\\MDX\\ThanhHoa.mdx")
 call SaveInteger(zzVL_ht,'X319',201,1)
 call SaveInteger(zzVL_ht,'X319',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X319',3,0)
@@ -21196,6 +21710,7 @@ call SaveInteger(zzVL_ht,'X320',247,5)
 call SaveInteger(zzVL_ht,'X320',248,0)
 call SaveInteger(zzVL_ht,'X320',249,0)
 call SaveInteger(zzVL_ht,'X320',252,0)
+call SaveInteger(zzVL_ht,'X320',294,1)
 call SaveStr(zzVL_ht,'X320',250,"war3mapImported\\MGK_thanhhoaln.mdx")
 call SaveInteger(zzVL_ht,'X320',201,1)
 call SaveInteger(zzVL_ht,'H023',209,'X321')
@@ -21210,6 +21725,7 @@ call SaveInteger(zzVL_ht,'X321',247,0)
 call SaveInteger(zzVL_ht,'X321',248,0)
 call SaveInteger(zzVL_ht,'X321',249,0)
 call SaveInteger(zzVL_ht,'X321',252,0)
+call SaveInteger(zzVL_ht,'X321',294,1)
 call SaveStr(zzVL_ht,'X321',250,"war3mapImported\\MGK_kiemdangbathoang.mdx")
 call SaveInteger(zzVL_ht,'X321',245,65536)
 call SaveInteger(zzVL_ht,'X321',201,1)
@@ -21231,6 +21747,7 @@ call SaveInteger(zzVL_ht,'X322',247,5)
 call SaveInteger(zzVL_ht,'X322',248,0)
 call SaveInteger(zzVL_ht,'X322',249,0)
 call SaveInteger(zzVL_ht,'X322',252,8)
+call SaveInteger(zzVL_ht,'X322',294,1)
 call SaveStr(zzVL_ht,'X322',250,"war3mapImported\\MGK_kiemdangbathoang.mdx")
 call SaveInteger(zzVL_ht,'X322',257,500)
 call SaveInteger(zzVL_ht,'X322',258,20)
@@ -21239,6 +21756,9 @@ call SaveInteger(zzVL_ht,'X322',201,1)
 call SaveInteger(zzVL_ht,'X322',194,740)
 call SaveInteger(zzVL_ht,'X322',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X322',3,2)
+call SaveStr(zzVL_ht,'X323',280,"war3mapImported\\MGK_thanhhoacast.mdx")
+call SaveStr(zzVL_ht,'X323',285,"war3mapImported\\MGK_thanhhoaeffect.mdx")
+call SaveStr(zzVL_ht,'X323',286,"war3mapImported\\MGK_thanhhoaln.mdx")
 call SaveInteger(zzVL_ht,'H023',211,'X323')
 call SaveInteger(zzVL_ht,'H023',241,165)
 call SaveInteger(zzVL_ht,'X323',240,0)
@@ -21251,7 +21771,8 @@ call SaveInteger(zzVL_ht,'X323',247,5)
 call SaveInteger(zzVL_ht,'X323',248,0)
 call SaveInteger(zzVL_ht,'X323',249,0)
 call SaveInteger(zzVL_ht,'X323',252,0)
-call SaveStr(zzVL_ht,'X323',250,"war3mapImported\\MGK_thanhhoalenhbuff.mdx")
+call SaveInteger(zzVL_ht,'X323',294,1)
+call SaveStr(zzVL_ht,'X323',250,"war3mapImported\\MDX\\ThanhHoa.mdx")
 call SaveInteger(zzVL_ht,'X323',201,1)
 call SaveInteger(zzVL_ht,'H023',212,'X324')
 call SaveInteger(zzVL_ht,'H023',242,185)
@@ -21280,7 +21801,8 @@ call SaveInteger(zzVL_ht,'X325',247,5)
 call SaveInteger(zzVL_ht,'X325',248,0)
 call SaveInteger(zzVL_ht,'X325',249,0)
 call SaveInteger(zzVL_ht,'X325',252,0)
-call SaveStr(zzVL_ht,'X325',250,"war3mapImported\\DTC_Img.mdx")
+call SaveInteger(zzVL_ht,'X325',294,1)
+call SaveStr(zzVL_ht,'X325',250,"war3mapImported\\MDX\\ThanChi.mdx")
 call SaveInteger(zzVL_ht,'X325',234,4)
 call SaveInteger(zzVL_ht,'X325',235,30)
 call SaveInteger(zzVL_ht,'X325',236,10)
@@ -21318,7 +21840,8 @@ call SaveInteger(zzVL_ht,'X327',247,5)
 call SaveInteger(zzVL_ht,'X327',248,0)
 call SaveInteger(zzVL_ht,'X327',249,0)
 call SaveInteger(zzVL_ht,'X327',252,0)
-call SaveStr(zzVL_ht,'X327',250,"war3mapImported\\DTC_canduongchi.mdx")
+call SaveInteger(zzVL_ht,'X327',294,1)
+call SaveStr(zzVL_ht,'X327',250,"war3mapImported\\DTK_kimngocmanduong.mdx")
 call SaveInteger(zzVL_ht,'X327',257,900)
 call SaveInteger(zzVL_ht,'X327',259,7)
 call SaveInteger(zzVL_ht,'X327',201,1)
@@ -21356,6 +21879,7 @@ call SaveInteger(zzVL_ht,'X329',247,0)
 call SaveInteger(zzVL_ht,'X329',248,0)
 call SaveInteger(zzVL_ht,'X329',249,0)
 call SaveInteger(zzVL_ht,'X329',252,0)
+call SaveInteger(zzVL_ht,'X329',294,1)
 call SaveStr(zzVL_ht,'X329',250,"war3mapImported\\DTC_thienlongchi1.mdx")
 call SaveInteger(zzVL_ht,'X329',201,1)
 call SaveInteger(zzVL_ht,'H024',205,'X330')
@@ -21373,6 +21897,8 @@ call SaveInteger(zzVL_ht,'X330',252,0)
 call SaveStr(zzVL_ht,'X330',250,"war3mapImported\\DTC_thienlongchi2.mdx")
 call SaveInteger(zzVL_ht,'X330',201,1)
 call SaveInteger(zzVL_ht,'H024',261,'X331')
+call SaveStr(zzVL_ht,'X331',285,"war3mapImported\\DTC_Img.mdx")
+call SaveStr(zzVL_ht,'X331',286,"war3mapImported\\DTC_canduongchi.mdx")
 call SaveInteger(zzVL_ht,'H024',206,'X331')
 call SaveInteger(zzVL_ht,'H024',236,68)
 call SaveInteger(zzVL_ht,'X331',240,4)
@@ -21385,7 +21911,7 @@ call SaveInteger(zzVL_ht,'X331',247,5)
 call SaveInteger(zzVL_ht,'X331',248,0)
 call SaveInteger(zzVL_ht,'X331',249,0)
 call SaveInteger(zzVL_ht,'X331',252,0)
-call SaveStr(zzVL_ht,'X331',250,"war3mapImported\\DTC_canduongchi.mdx")
+call SaveStr(zzVL_ht,'X331',250,"war3mapImported\\DTC_canduongeffect1.mdx")
 call SaveInteger(zzVL_ht,'X331',234,4)
 call SaveInteger(zzVL_ht,'X331',235,35)
 call SaveInteger(zzVL_ht,'X331',236,10)
@@ -21409,6 +21935,7 @@ call SaveInteger(zzVL_ht,'X332',247,5)
 call SaveInteger(zzVL_ht,'X332',248,0)
 call SaveInteger(zzVL_ht,'X332',249,0)
 call SaveInteger(zzVL_ht,'X332',252,0)
+call SaveInteger(zzVL_ht,'X332',294,1)
 call SaveStr(zzVL_ht,'X332',250,"war3mapImported\\DTC_Img.mdx")
 call SaveInteger(zzVL_ht,'X332',257,180)
 call SaveInteger(zzVL_ht,'X332',258,25)
@@ -21427,6 +21954,7 @@ call SaveInteger(zzVL_ht,'X333',247,3)
 call SaveInteger(zzVL_ht,'X333',248,0)
 call SaveInteger(zzVL_ht,'X333',249,0)
 call SaveInteger(zzVL_ht,'X333',252,0)
+call SaveInteger(zzVL_ht,'X333',294,1)
 call SaveStr(zzVL_ht,'X333',250,"war3mapImported\\DTC_dieudebuff.mdx")
 call SaveInteger(zzVL_ht,'X333',201,1)
 call SaveInteger(zzVL_ht,'H024',209,'X334')
@@ -21441,12 +21969,15 @@ call SaveInteger(zzVL_ht,'X334',247,5)
 call SaveInteger(zzVL_ht,'X334',248,6)
 call SaveInteger(zzVL_ht,'X334',249,0)
 call SaveInteger(zzVL_ht,'X334',252,0)
+call SaveInteger(zzVL_ht,'X334',294,1)
 call SaveStr(zzVL_ht,'X334',250,"war3mapImported\\DTC_thinguyenbuff.mdx")
 call SaveInteger(zzVL_ht,'X334',216,100)
 call SaveInteger(zzVL_ht,'X334',203,299)
 call SaveInteger(zzVL_ht,'X334',201,1)
 call SaveInteger(zzVL_ht,'X334',220,30)
 call SaveInteger(zzVL_ht,'H024',262,'X335')
+call SaveStr(zzVL_ht,'X335',285,"war3mapImported\\DTC_canduongeffect1.mdx")
+call SaveStr(zzVL_ht,'X335',286,"war3mapImported\\DTC_Img.mdx")
 call SaveInteger(zzVL_ht,'H024',210,'X335')
 call SaveInteger(zzVL_ht,'H024',240,145)
 call SaveInteger(zzVL_ht,'X335',240,16)
@@ -21459,6 +21990,7 @@ call SaveInteger(zzVL_ht,'X335',247,5)
 call SaveInteger(zzVL_ht,'X335',248,0)
 call SaveInteger(zzVL_ht,'X335',249,0)
 call SaveInteger(zzVL_ht,'X335',252,0)
+call SaveInteger(zzVL_ht,'X335',294,1)
 call SaveStr(zzVL_ht,'X335',250,"war3mapImported\\DTC_thienlongchi1.mdx")
 call SaveInteger(zzVL_ht,'X335',234,4)
 call SaveInteger(zzVL_ht,'X335',235,40)
@@ -21470,6 +22002,7 @@ call SaveInteger(zzVL_ht,'X335',201,1)
 call SaveInteger(zzVL_ht,'X335',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X335',3,1)
 call SaveStr(zzVL_ht,'X335',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X336',285,"war3mapImported\\DTC_thienlongchi2.mdx")
 call SaveInteger(zzVL_ht,'H024',211,'X336')
 call SaveInteger(zzVL_ht,'H024',241,165)
 call SaveInteger(zzVL_ht,'X336',240,0)
@@ -21482,6 +22015,7 @@ call SaveInteger(zzVL_ht,'X336',247,6)
 call SaveInteger(zzVL_ht,'X336',248,0)
 call SaveInteger(zzVL_ht,'X336',249,0)
 call SaveInteger(zzVL_ht,'X336',252,0)
+call SaveInteger(zzVL_ht,'X336',294,1)
 call SaveStr(zzVL_ht,'X336',250,"war3mapImported\\DTC_thienlongchi1.mdx")
 call SaveInteger(zzVL_ht,'X336',245,65536)
 call SaveInteger(zzVL_ht,'X336',201,1)
@@ -21489,6 +22023,8 @@ call SaveInteger(zzVL_ht,'X336',180,100)
 call SaveInteger(zzVL_ht,'X336',179,18)
 call SaveInteger(zzVL_ht,'X336',178,2)
 call SaveInteger(zzVL_ht,'X336',239,2)
+call SaveStr(zzVL_ht,'X337',285,"war3mapImported\\DTC_canduongchi.mdx")
+call SaveStr(zzVL_ht,'X337',286,"war3mapImported\\DTC_canduongeffect1.mdx")
 call SaveInteger(zzVL_ht,'H024',212,'X337')
 call SaveInteger(zzVL_ht,'H024',242,185)
 call SaveInteger(zzVL_ht,'X337',240,0)
@@ -21501,6 +22037,7 @@ call SaveInteger(zzVL_ht,'X337',247,5)
 call SaveInteger(zzVL_ht,'X337',248,0)
 call SaveInteger(zzVL_ht,'X337',249,0)
 call SaveInteger(zzVL_ht,'X337',252,0)
+call SaveInteger(zzVL_ht,'X337',294,1)
 call SaveStr(zzVL_ht,'X337',250,"war3mapImported\\DTC_bachbobuff.mdx")
 call SaveInteger(zzVL_ht,'X337',201,1)
 call SaveInteger(zzVL_ht,'H025',260,'X338')
@@ -21516,7 +22053,8 @@ call SaveInteger(zzVL_ht,'X338',247,5)
 call SaveInteger(zzVL_ht,'X338',248,0)
 call SaveInteger(zzVL_ht,'X338',249,0)
 call SaveInteger(zzVL_ht,'X338',252,0)
-call SaveStr(zzVL_ht,'X338',250,"war3mapImported\\CMC_Image.mdx")
+call SaveInteger(zzVL_ht,'X338',294,1)
+call SaveStr(zzVL_ht,'X338',250,"war3mapImported\\CMC_lyhan.mdx")
 call SaveInteger(zzVL_ht,'X338',257,250)
 call SaveInteger(zzVL_ht,'X338',258,20)
 call SaveInteger(zzVL_ht,'X338',259,7)
@@ -21537,6 +22075,7 @@ call SaveInteger(zzVL_ht,'X339',247,5)
 call SaveInteger(zzVL_ht,'X339',248,3)
 call SaveInteger(zzVL_ht,'X339',249,0)
 call SaveInteger(zzVL_ht,'X339',252,0)
+call SaveInteger(zzVL_ht,'X339',294,1)
 call SaveStr(zzVL_ht,'X339',250,"war3mapImported\\CMC_bisau.mdx")
 call SaveInteger(zzVL_ht,'X339',201,1)
 call SaveInteger(zzVL_ht,'H025',263,'X340')
@@ -21569,11 +22108,14 @@ call SaveInteger(zzVL_ht,'X341',247,5)
 call SaveInteger(zzVL_ht,'X341',248,6)
 call SaveInteger(zzVL_ht,'X341',249,0)
 call SaveInteger(zzVL_ht,'X341',252,0)
+call SaveInteger(zzVL_ht,'X341',294,1)
 call SaveStr(zzVL_ht,'X341',250,"war3mapImported\\CMC_sucthedaiphat.mdx")
 call SaveInteger(zzVL_ht,'X341',216,100)
 call SaveInteger(zzVL_ht,'X341',201,1)
 call SaveInteger(zzVL_ht,'X341',220,5)
 call SaveInteger(zzVL_ht,'H025',264,'X342')
+call SaveStr(zzVL_ht,'X342',281,"war3mapImported\\CMC_ngocphongtarget.mdx")
+call SaveStr(zzVL_ht,'X342',284,"war3mapImported\\CMC_ngocphongbuff.mdx")
 call SaveInteger(zzVL_ht,'H025',204,'X342')
 call SaveInteger(zzVL_ht,'H025',234,38)
 call SaveInteger(zzVL_ht,'X342',240,5)
@@ -21586,6 +22128,7 @@ call SaveInteger(zzVL_ht,'X342',247,5)
 call SaveInteger(zzVL_ht,'X342',248,0)
 call SaveInteger(zzVL_ht,'X342',249,0)
 call SaveInteger(zzVL_ht,'X342',252,0)
+call SaveInteger(zzVL_ht,'X342',294,1)
 call SaveStr(zzVL_ht,'X342',250,"war3mapImported\\CMC_ngocphongcham.mdx")
 call SaveInteger(zzVL_ht,'X342',257,600)
 call SaveInteger(zzVL_ht,'X342',259,7)
@@ -21622,6 +22165,7 @@ call SaveInteger(zzVL_ht,'X344',247,5)
 call SaveInteger(zzVL_ht,'X344',248,0)
 call SaveInteger(zzVL_ht,'X344',249,0)
 call SaveInteger(zzVL_ht,'X344',252,0)
+call SaveInteger(zzVL_ht,'X344',294,1)
 call SaveStr(zzVL_ht,'X344',250,"war3mapImported\\CMC_lyhan.mdx")
 call SaveInteger(zzVL_ht,'X344',257,384)
 call SaveInteger(zzVL_ht,'X344',258,20)
@@ -21631,7 +22175,9 @@ call SaveInteger(zzVL_ht,'X344',167,100)
 call SaveInteger(zzVL_ht,'X344',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X344',3,1)
 call SaveStr(zzVL_ht,'X344',251,"poisonarrowstargon")
+call SaveInteger(zzVL_ht,'X345',288,1)
 call SaveInteger(zzVL_ht,'H025',265,'X345')
+call SaveStr(zzVL_ht,'X345',281,"war3mapImported\\CMC_hoangtuyentarget.mdx")
 call SaveInteger(zzVL_ht,'H025',207,'X345')
 call SaveInteger(zzVL_ht,'H025',237,85)
 call SaveInteger(zzVL_ht,'X345',240,4)
@@ -21644,6 +22190,7 @@ call SaveInteger(zzVL_ht,'X345',247,5)
 call SaveInteger(zzVL_ht,'X345',248,0)
 call SaveInteger(zzVL_ht,'X345',249,0)
 call SaveInteger(zzVL_ht,'X345',252,0)
+call SaveInteger(zzVL_ht,'X345',294,1)
 call SaveStr(zzVL_ht,'X345',250,"war3mapImported\\CMC_hoangtuyencham.mdx")
 call SaveInteger(zzVL_ht,'X345',257,360)
 call SaveInteger(zzVL_ht,'X345',258,25)
@@ -21663,6 +22210,7 @@ call SaveInteger(zzVL_ht,'X346',247,5)
 call SaveInteger(zzVL_ht,'X346',248,0)
 call SaveInteger(zzVL_ht,'X346',249,0)
 call SaveInteger(zzVL_ht,'X346',252,0)
+call SaveInteger(zzVL_ht,'X346',294,1)
 call SaveStr(zzVL_ht,'X346',250,"war3mapImported\\CMC_minhchauamdau.mdx")
 call SaveInteger(zzVL_ht,'X346',201,1)
 call SaveInteger(zzVL_ht,'H025',266,'X347')
@@ -21680,11 +22228,16 @@ call SaveInteger(zzVL_ht,'X347',249,0)
 call SaveInteger(zzVL_ht,'X347',252,0)
 call SaveInteger(zzVL_ht,'X347',253,18)
 call SaveInteger(zzVL_ht,'X347',254,3)
+call SaveInteger(zzVL_ht,'X347',294,1)
 call SaveStr(zzVL_ht,'X347',250,"war3mapImported\\CMC_vutapvanhop.mdx")
 call SaveInteger(zzVL_ht,'X347',201,1)
 call SaveInteger(zzVL_ht,'X347',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X347',3,0)
+call SaveInteger(zzVL_ht,'X348',288,1)
 call SaveInteger(zzVL_ht,'H025',262,'X348')
+call SaveStr(zzVL_ht,'X348',281,"war3mapImported\\CMC_chamtarget.mdx")
+call SaveStr(zzVL_ht,'X348',285,"war3mapImported\\CMC_bisau.mdx")
+call SaveStr(zzVL_ht,'X348',286,"war3mapImported\\CMC_lyhan.mdx")
 call SaveInteger(zzVL_ht,'H025',210,'X348')
 call SaveInteger(zzVL_ht,'H025',240,145)
 call SaveInteger(zzVL_ht,'X348',240,5)
@@ -21697,7 +22250,8 @@ call SaveInteger(zzVL_ht,'X348',247,5)
 call SaveInteger(zzVL_ht,'X348',248,0)
 call SaveInteger(zzVL_ht,'X348',249,0)
 call SaveInteger(zzVL_ht,'X348',252,0)
-call SaveStr(zzVL_ht,'X348',250,"war3mapImported\\CMC_bisau.mdx")
+call SaveInteger(zzVL_ht,'X348',294,1)
+call SaveStr(zzVL_ht,'X348',250,"war3mapImported\\CMC_cham5_5.mdx")
 call SaveInteger(zzVL_ht,'X348',257,400)
 call SaveInteger(zzVL_ht,'X348',258,20)
 call SaveInteger(zzVL_ht,'X348',259,7)
@@ -21706,6 +22260,8 @@ call SaveInteger(zzVL_ht,'X348',167,100)
 call SaveInteger(zzVL_ht,'X348',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X348',3,1)
 call SaveStr(zzVL_ht,'X348',251,"coldarrowson")
+call SaveStr(zzVL_ht,'X349',281,"war3mapImported\\CMC_ngocphongtarget.mdx")
+call SaveStr(zzVL_ht,'X349',285,"war3mapImported\\CMC_ngocphongcham.mdx")
 call SaveInteger(zzVL_ht,'H025',211,'X349')
 call SaveInteger(zzVL_ht,'H025',241,165)
 call SaveInteger(zzVL_ht,'X349',240,0)
@@ -21718,6 +22274,7 @@ call SaveInteger(zzVL_ht,'X349',247,5)
 call SaveInteger(zzVL_ht,'X349',248,3)
 call SaveInteger(zzVL_ht,'X349',249,0)
 call SaveInteger(zzVL_ht,'X349',252,0)
+call SaveInteger(zzVL_ht,'X349',294,1)
 call SaveStr(zzVL_ht,'X349',250,"war3mapImported\\CMC_ngocphongbuff.mdx")
 call SaveInteger(zzVL_ht,'X349',201,1)
 call SaveInteger(zzVL_ht,'H025',212,'X350')
@@ -21732,9 +22289,13 @@ call SaveInteger(zzVL_ht,'X350',247,4)
 call SaveInteger(zzVL_ht,'X350',248,13)
 call SaveInteger(zzVL_ht,'X350',249,0)
 call SaveInteger(zzVL_ht,'X350',252,0)
+call SaveInteger(zzVL_ht,'X350',294,1)
 call SaveStr(zzVL_ht,'X350',250,"war3mapImported\\CMC_sucthedaiphat.mdx")
 call SaveInteger(zzVL_ht,'X350',201,1)
+call SaveInteger(zzVL_ht,'X351',288,1)
 call SaveInteger(zzVL_ht,'H026',260,'X351')
+call SaveStr(zzVL_ht,'X351',281,"war3mapImported\\CMK_target1.mdx")
+call SaveStr(zzVL_ht,'X351',285,"war3mapImported\\CMK_chungnam.mdx")
 call SaveInteger(zzVL_ht,'H026',200,'X351')
 call SaveInteger(zzVL_ht,'H026',230,1)
 call SaveInteger(zzVL_ht,'X351',240,5)
@@ -21747,6 +22308,7 @@ call SaveInteger(zzVL_ht,'X351',247,5)
 call SaveInteger(zzVL_ht,'X351',248,0)
 call SaveInteger(zzVL_ht,'X351',249,0)
 call SaveInteger(zzVL_ht,'X351',252,0)
+call SaveInteger(zzVL_ht,'X351',294,1)
 call SaveStr(zzVL_ht,'X351',250,"war3mapImported\\CMK_thunhan.mdx")
 call SaveInteger(zzVL_ht,'X351',257,832)
 call SaveInteger(zzVL_ht,'X351',258,81)
@@ -21770,6 +22332,7 @@ call SaveInteger(zzVL_ht,'X352',252,0)
 call SaveStr(zzVL_ht,'X352',250,"war3mapImported\\CMK_conguyet.mdx")
 call SaveInteger(zzVL_ht,'X352',201,1)
 call SaveInteger(zzVL_ht,'H026',263,'X353')
+call SaveStr(zzVL_ht,'X353',281,"war3mapImported\\CMK_target.mdx")
 call SaveInteger(zzVL_ht,'H026',202,'X353')
 call SaveInteger(zzVL_ht,'H026',232,15)
 call SaveInteger(zzVL_ht,'X353',240,13)
@@ -21782,6 +22345,7 @@ call SaveInteger(zzVL_ht,'X353',247,6)
 call SaveInteger(zzVL_ht,'X353',248,13)
 call SaveInteger(zzVL_ht,'X353',249,0)
 call SaveInteger(zzVL_ht,'X353',252,0)
+call SaveInteger(zzVL_ht,'X353',294,1)
 call SaveStr(zzVL_ht,'X353',250,"war3mapImported\\CMK_hongtutrien.mdx")
 call SaveInteger(zzVL_ht,'X353',257,250)
 call SaveInteger(zzVL_ht,'X353',258,200)
@@ -21802,7 +22366,10 @@ call SaveInteger(zzVL_ht,'X354',246,0)
 call SaveInteger(zzVL_ht,'X354',247,7)
 call SaveInteger(zzVL_ht,'X354',248,0)
 call SaveInteger(zzVL_ht,'X354',249,0)
+endfunction
+function zzVL_Items6 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X354',252,0)
+call SaveInteger(zzVL_ht,'X354',294,1)
 call SaveStr(zzVL_ht,'X354',250,"war3mapImported\\CMK_tinhanhtrambich.mdx")
 call SaveInteger(zzVL_ht,'X354',201,1)
 call SaveInteger(zzVL_ht,'H026',204,'X355')
@@ -21817,6 +22384,7 @@ call SaveInteger(zzVL_ht,'X355',247,5)
 call SaveInteger(zzVL_ht,'X355',248,0)
 call SaveInteger(zzVL_ht,'X355',249,0)
 call SaveInteger(zzVL_ht,'X355',252,1024)
+call SaveInteger(zzVL_ht,'X355',294,1)
 call SaveStr(zzVL_ht,'X355',250,"war3mapImported\\CMK_movanbuff.mdx")
 call SaveInteger(zzVL_ht,'X355',201,1)
 call SaveInteger(zzVL_ht,'X355',189,50)
@@ -21837,9 +22405,14 @@ call SaveInteger(zzVL_ht,'X356',247,5)
 call SaveInteger(zzVL_ht,'X356',248,14)
 call SaveInteger(zzVL_ht,'X356',249,0)
 call SaveInteger(zzVL_ht,'X356',252,0)
+call SaveInteger(zzVL_ht,'X356',294,1)
 call SaveStr(zzVL_ht,'X356',250,"war3mapImported\\CMK_hongtutrien.mdx")
 call SaveInteger(zzVL_ht,'X356',201,1)
+call SaveInteger(zzVL_ht,'X357',288,1)
 call SaveInteger(zzVL_ht,'H026',261,'X357')
+call SaveStr(zzVL_ht,'X357',281,"war3mapImported\\CMK_target1.mdx")
+call SaveStr(zzVL_ht,'X357',285,"war3mapImported\\CMK_conguyet2.mdx")
+call SaveStr(zzVL_ht,'X357',286,"war3mapImported\\CMK_chungnam.mdx")
 call SaveInteger(zzVL_ht,'H026',206,'X357')
 call SaveInteger(zzVL_ht,'H026',236,68)
 call SaveInteger(zzVL_ht,'X357',240,5)
@@ -21860,7 +22433,9 @@ call SaveInteger(zzVL_ht,'X357',167,180)
 call SaveInteger(zzVL_ht,'X357',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X357',3,1)
 call SaveStr(zzVL_ht,'X357',251,"poisonarrowstargon")
+call SaveInteger(zzVL_ht,'X358',288,1)
 call SaveInteger(zzVL_ht,'H026',264,'X358')
+call SaveStr(zzVL_ht,'X358',281,"war3mapImported\\CMK_target1.mdx")
 call SaveInteger(zzVL_ht,'H026',207,'X358')
 call SaveInteger(zzVL_ht,'H026',237,85)
 call SaveInteger(zzVL_ht,'X358',240,5)
@@ -21873,6 +22448,7 @@ call SaveInteger(zzVL_ht,'X358',247,3)
 call SaveInteger(zzVL_ht,'X358',248,5)
 call SaveInteger(zzVL_ht,'X358',249,0)
 call SaveInteger(zzVL_ht,'X358',252,0)
+call SaveInteger(zzVL_ht,'X358',294,1)
 call SaveStr(zzVL_ht,'X358',250,"war3mapImported\\CMK_chungnam.mdx")
 call SaveInteger(zzVL_ht,'X358',257,952)
 call SaveInteger(zzVL_ht,'X358',258,17)
@@ -21896,6 +22472,7 @@ call SaveInteger(zzVL_ht,'X359',252,8192)
 call SaveStr(zzVL_ht,'X359',250,"war3mapImported\\CMK_phithienvu2.mdx")
 call SaveInteger(zzVL_ht,'X359',201,1)
 call SaveInteger(zzVL_ht,'H026',265,'X360')
+call SaveStr(zzVL_ht,'X360',281,"war3mapImported\\CMK_phithienvu2.mdx")
 call SaveInteger(zzVL_ht,'H026',209,'X360')
 call SaveInteger(zzVL_ht,'H026',239,125)
 call SaveInteger(zzVL_ht,'X360',240,8)
@@ -21910,11 +22487,17 @@ call SaveInteger(zzVL_ht,'X360',249,0)
 call SaveInteger(zzVL_ht,'X360',252,0)
 call SaveInteger(zzVL_ht,'X360',253,25)
 call SaveInteger(zzVL_ht,'X360',254,5)
+call SaveInteger(zzVL_ht,'X360',294,1)
 call SaveStr(zzVL_ht,'X360',250,"war3mapImported\\CMK_phithienvu.mdx")
 call SaveInteger(zzVL_ht,'X360',201,1)
 call SaveInteger(zzVL_ht,'X360',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X360',3,0)
+call SaveInteger(zzVL_ht,'X361',288,1)
 call SaveInteger(zzVL_ht,'H026',262,'X361')
+call SaveStr(zzVL_ht,'X361',280,"war3mapImported\\CMK_castercothan.mdx")
+call SaveStr(zzVL_ht,'X361',281,"war3mapImported\\CMK_target1.mdx")
+call SaveStr(zzVL_ht,'X361',285,"war3mapImported\\CMK_phamonghanh3.mdx")
+call SaveStr(zzVL_ht,'X361',286,"war3mapImported\\CMK_cothanca.mdx")
 call SaveInteger(zzVL_ht,'H026',210,'X361')
 call SaveInteger(zzVL_ht,'H026',240,145)
 call SaveInteger(zzVL_ht,'X361',240,5)
@@ -21927,7 +22510,8 @@ call SaveInteger(zzVL_ht,'X361',247,5)
 call SaveInteger(zzVL_ht,'X361',248,0)
 call SaveInteger(zzVL_ht,'X361',249,0)
 call SaveInteger(zzVL_ht,'X361',252,0)
-call SaveStr(zzVL_ht,'X361',250,"war3mapImported\\CMK_cothanca.mdx")
+call SaveInteger(zzVL_ht,'X361',294,1)
+call SaveStr(zzVL_ht,'X361',250,"war3mapImported\\CMK_chungnam.mdx")
 call SaveInteger(zzVL_ht,'X361',257,900)
 call SaveInteger(zzVL_ht,'X361',258,94)
 call SaveInteger(zzVL_ht,'X361',201,1)
@@ -21967,6 +22551,7 @@ call SaveInteger(zzVL_ht,'X363',252,0)
 call SaveStr(zzVL_ht,'X363',250,"war3mapImported\\CMK_target3.mdx")
 call SaveInteger(zzVL_ht,'X363',201,1)
 call SaveInteger(zzVL_ht,'H027',260,'X364')
+call SaveStr(zzVL_ht,'X364',280,"war3mapImported\\HSQ_caster.mdx")
 call SaveInteger(zzVL_ht,'H027',200,'X364')
 call SaveInteger(zzVL_ht,'H027',230,1)
 call SaveInteger(zzVL_ht,'X364',240,16)
@@ -21999,6 +22584,7 @@ call SaveInteger(zzVL_ht,'X365',247,5)
 call SaveInteger(zzVL_ht,'X365',248,3)
 call SaveInteger(zzVL_ht,'X365',249,0)
 call SaveInteger(zzVL_ht,'X365',252,0)
+call SaveInteger(zzVL_ht,'X365',294,1)
 call SaveStr(zzVL_ht,'X365',250,"war3mapImported\\HSQ_hainapbachxuyen.mdx")
 call SaveInteger(zzVL_ht,'X365',201,1)
 call SaveInteger(zzVL_ht,'H027',202,'X366')
@@ -22016,6 +22602,7 @@ call SaveInteger(zzVL_ht,'X366',252,0)
 call SaveStr(zzVL_ht,'X366',250,"war3mapImported\\HSQ_mavankk2.mdx")
 call SaveInteger(zzVL_ht,'X366',201,1)
 call SaveInteger(zzVL_ht,'H027',263,'X367')
+call SaveStr(zzVL_ht,'X367',280,"war3mapImported\\HSQ_chankhihothecast.mdx")
 call SaveInteger(zzVL_ht,'H027',203,'X367')
 call SaveInteger(zzVL_ht,'H027',233,25)
 call SaveInteger(zzVL_ht,'X367',240,8)
@@ -22030,7 +22617,7 @@ call SaveInteger(zzVL_ht,'X367',249,0)
 call SaveInteger(zzVL_ht,'X367',252,0)
 call SaveInteger(zzVL_ht,'X367',253,35)
 call SaveInteger(zzVL_ht,'X367',254,5)
-call SaveStr(zzVL_ht,'X367',250,"war3mapImported\\HSQ_chankhihothe.mdx")
+call SaveStr(zzVL_ht,'X367',250,"war3mapImported\\HSQ_chankhihothecast.mdx")
 call SaveInteger(zzVL_ht,'X367',201,1)
 call SaveInteger(zzVL_ht,'X367',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X367',3,0)
@@ -22046,6 +22633,7 @@ call SaveInteger(zzVL_ht,'X368',247,5)
 call SaveInteger(zzVL_ht,'X368',248,14)
 call SaveInteger(zzVL_ht,'X368',249,0)
 call SaveInteger(zzVL_ht,'X368',252,0)
+call SaveInteger(zzVL_ht,'X368',294,1)
 call SaveStr(zzVL_ht,'X368',250,"war3mapImported\\HSQ_hainapbachxuyen.mdx")
 call SaveInteger(zzVL_ht,'X368',201,1)
 call SaveInteger(zzVL_ht,'H027',205,'X369')
@@ -22062,7 +22650,10 @@ call SaveInteger(zzVL_ht,'X369',249,0)
 call SaveInteger(zzVL_ht,'X369',252,0)
 call SaveStr(zzVL_ht,'X369',250,"war3mapImported\\HSQ_phangoc.mdx")
 call SaveInteger(zzVL_ht,'X369',201,1)
+call SaveInteger(zzVL_ht,'X370',289,1)
 call SaveInteger(zzVL_ht,'H027',261,'X370')
+call SaveStr(zzVL_ht,'X370',280,"war3mapImported\\HSQ_caster.mdx")
+call SaveStr(zzVL_ht,'X370',285,"war3mapImported\\HSQ_mavankk2.mdx")
 call SaveInteger(zzVL_ht,'H027',206,'X370')
 call SaveInteger(zzVL_ht,'H027',236,68)
 call SaveInteger(zzVL_ht,'X370',240,16)
@@ -22075,7 +22666,8 @@ call SaveInteger(zzVL_ht,'X370',247,5)
 call SaveInteger(zzVL_ht,'X370',248,0)
 call SaveInteger(zzVL_ht,'X370',249,0)
 call SaveInteger(zzVL_ht,'X370',252,0)
-call SaveStr(zzVL_ht,'X370',250,"war3mapImported\\HSQ_mavankk2.mdx")
+call SaveInteger(zzVL_ht,'X370',294,1)
+call SaveStr(zzVL_ht,'X370',250,"war3mapImported\\HSQ_mavansword.mdx")
 call SaveInteger(zzVL_ht,'X370',234,3)
 call SaveInteger(zzVL_ht,'X370',236,10)
 call SaveInteger(zzVL_ht,'X370',257,300)
@@ -22100,6 +22692,8 @@ call SaveInteger(zzVL_ht,'X371',252,0)
 call SaveStr(zzVL_ht,'X371',250,"war3mapImported\\HSQ_thanhvan.mdx")
 call SaveInteger(zzVL_ht,'X371',201,1)
 call SaveInteger(zzVL_ht,'H027',264,'X372')
+call SaveStr(zzVL_ht,'X372',280,"war3mapImported\\HSQ_chankhihothecast.mdx")
+call SaveStr(zzVL_ht,'X372',285,"war3mapImported\\HSQ_chankhihothe.mdx")
 call SaveInteger(zzVL_ht,'H027',208,'X372')
 call SaveInteger(zzVL_ht,'H027',238,105)
 call SaveInteger(zzVL_ht,'X372',240,8)
@@ -22114,6 +22708,7 @@ call SaveInteger(zzVL_ht,'X372',249,0)
 call SaveInteger(zzVL_ht,'X372',252,4096)
 call SaveInteger(zzVL_ht,'X372',253,50)
 call SaveInteger(zzVL_ht,'X372',254,10)
+call SaveInteger(zzVL_ht,'X372',294,1)
 call SaveStr(zzVL_ht,'X372',250,"war3mapImported\\HSQ_tuhachankhi.mdx")
 call SaveInteger(zzVL_ht,'X372',201,1)
 call SaveInteger(zzVL_ht,'X372',2,OrderId("roar"))
@@ -22130,9 +22725,14 @@ call SaveInteger(zzVL_ht,'X373',247,6)
 call SaveInteger(zzVL_ht,'X373',248,0)
 call SaveInteger(zzVL_ht,'X373',249,0)
 call SaveInteger(zzVL_ht,'X373',252,0)
+call SaveInteger(zzVL_ht,'X373',294,1)
 call SaveStr(zzVL_ht,'X373',250,"war3mapImported\\HSQ_tukhidl.mdx")
 call SaveInteger(zzVL_ht,'X373',201,1)
+call SaveInteger(zzVL_ht,'X374',289,1)
 call SaveInteger(zzVL_ht,'H027',262,'X374')
+call SaveStr(zzVL_ht,'X374',280,"war3mapImported\\HSQ_caster.mdx")
+call SaveStr(zzVL_ht,'X374',285,"war3mapImported\\HSQ_mavankk2.mdx")
+call SaveStr(zzVL_ht,'X374',286,"war3mapImported\\HSQ_phangoc2.mdx")
 call SaveInteger(zzVL_ht,'H027',210,'X374')
 call SaveInteger(zzVL_ht,'H027',240,145)
 call SaveInteger(zzVL_ht,'X374',240,16)
@@ -22165,6 +22765,7 @@ call SaveInteger(zzVL_ht,'X375',247,14)
 call SaveInteger(zzVL_ht,'X375',248,0)
 call SaveInteger(zzVL_ht,'X375',249,0)
 call SaveInteger(zzVL_ht,'X375',252,0)
+call SaveInteger(zzVL_ht,'X375',294,1)
 call SaveStr(zzVL_ht,'X375',250,"war3mapImported\\HSQ_hainapbachxuyen.mdx")
 call SaveInteger(zzVL_ht,'X375',201,1)
 call SaveInteger(zzVL_ht,'H027',212,'X376')
@@ -22179,6 +22780,7 @@ call SaveInteger(zzVL_ht,'X376',247,5)
 call SaveInteger(zzVL_ht,'X376',248,0)
 call SaveInteger(zzVL_ht,'X376',249,0)
 call SaveInteger(zzVL_ht,'X376',252,4096)
+call SaveInteger(zzVL_ht,'X376',294,1)
 call SaveStr(zzVL_ht,'X376',250,"war3mapImported\\HSQ_tukhidl.mdx")
 call SaveInteger(zzVL_ht,'X376',201,1)
 call SaveInteger(zzVL_ht,'H028',260,'X377')
@@ -22228,9 +22830,13 @@ call SaveInteger(zzVL_ht,'X379',247,13)
 call SaveInteger(zzVL_ht,'X379',248,14)
 call SaveInteger(zzVL_ht,'X379',249,0)
 call SaveInteger(zzVL_ht,'X379',252,0)
+call SaveInteger(zzVL_ht,'X379',294,1)
 call SaveStr(zzVL_ht,'X379',250,"war3mapImported\\HSK_kiemvu.mdx")
 call SaveInteger(zzVL_ht,'X379',201,1)
 call SaveInteger(zzVL_ht,'H028',262,'X380')
+call SaveStr(zzVL_ht,'X380',281,"war3mapImported\\HSK_thienthantarget.mdx")
+call SaveStr(zzVL_ht,'X380',284,"war3mapImported\\HSK_thienthanaura.mdx")
+call SaveStr(zzVL_ht,'X380',285,"war3mapImported\\HSK_thienthanaura2.mdx")
 call SaveInteger(zzVL_ht,'H028',203,'X380')
 call SaveInteger(zzVL_ht,'H028',233,25)
 call SaveInteger(zzVL_ht,'X380',240,13)
@@ -22243,6 +22849,7 @@ call SaveInteger(zzVL_ht,'X380',247,5)
 call SaveInteger(zzVL_ht,'X380',248,0)
 call SaveInteger(zzVL_ht,'X380',249,0)
 call SaveInteger(zzVL_ht,'X380',252,0)
+call SaveInteger(zzVL_ht,'X380',294,1)
 call SaveStr(zzVL_ht,'X380',250,"war3mapImported\\HSK_thienthandaohuyen.mdx")
 call SaveInteger(zzVL_ht,'X380',257,300)
 call SaveInteger(zzVL_ht,'X380',258,30)
@@ -22253,6 +22860,7 @@ call SaveInteger(zzVL_ht,'X380',2,OrderId("coldarrows"))
 call SaveInteger(zzVL_ht,'X380',3,1)
 call SaveStr(zzVL_ht,'X380',251,"coldarrowson")
 call SaveInteger(zzVL_ht,'H028',263,'X381')
+call SaveStr(zzVL_ht,'X381',280,"war3mapImported\\HSK_kimnhancast.mdx")
 call SaveInteger(zzVL_ht,'H028',204,'X381')
 call SaveInteger(zzVL_ht,'H028',234,38)
 call SaveInteger(zzVL_ht,'X381',240,6)
@@ -22267,7 +22875,8 @@ call SaveInteger(zzVL_ht,'X381',249,0)
 call SaveInteger(zzVL_ht,'X381',252,0)
 call SaveInteger(zzVL_ht,'X381',253,8)
 call SaveInteger(zzVL_ht,'X381',254,1)
-call SaveStr(zzVL_ht,'X381',250,"war3mapImported\\HSK_buffkimnhanHK.mdx")
+call SaveInteger(zzVL_ht,'X381',294,1)
+call SaveStr(zzVL_ht,'X381',250,"war3mapImported\\NMC_phongsuongtoaianh.mdx")
 call SaveInteger(zzVL_ht,'X381',201,1)
 call SaveInteger(zzVL_ht,'X381',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X381',3,0)
@@ -22286,6 +22895,7 @@ call SaveInteger(zzVL_ht,'X382',252,0)
 call SaveStr(zzVL_ht,'X382',250,"war3mapImported\\HSK_thienthantarget.mdx")
 call SaveInteger(zzVL_ht,'X382',201,1)
 call SaveInteger(zzVL_ht,'H028',261,'X383')
+call SaveStr(zzVL_ht,'X383',281,"war3mapImported\\HSK_thuongtungtarget.mdx")
 call SaveInteger(zzVL_ht,'H028',206,'X383')
 call SaveInteger(zzVL_ht,'H028',236,68)
 call SaveInteger(zzVL_ht,'X383',240,5)
@@ -22298,6 +22908,7 @@ call SaveInteger(zzVL_ht,'X383',247,5)
 call SaveInteger(zzVL_ht,'X383',248,0)
 call SaveInteger(zzVL_ht,'X383',249,0)
 call SaveInteger(zzVL_ht,'X383',252,0)
+call SaveInteger(zzVL_ht,'X383',294,1)
 call SaveStr(zzVL_ht,'X383',250,"war3mapImported\\HSK_thuongtungkiem.mdx")
 call SaveInteger(zzVL_ht,'X383',257,600)
 call SaveInteger(zzVL_ht,'X383',258,17)
@@ -22322,6 +22933,7 @@ call SaveInteger(zzVL_ht,'X384',252,0)
 call SaveStr(zzVL_ht,'X384',250,"war3mapImported\\HSK_thuongtungtarget.mdx")
 call SaveInteger(zzVL_ht,'X384',201,1)
 call SaveInteger(zzVL_ht,'H028',264,'X385')
+call SaveStr(zzVL_ht,'X385',280,"war3mapImported\\HSK_doatmenhcast.mdx")
 call SaveInteger(zzVL_ht,'H028',208,'X385')
 call SaveInteger(zzVL_ht,'H028',238,105)
 call SaveInteger(zzVL_ht,'X385',240,6)
@@ -22357,8 +22969,6 @@ call SaveInteger(zzVL_ht,'X386',240,4)
 call SaveInteger(zzVL_ht,'X386',257,350)
 call SaveInteger(zzVL_ht,'X386',258,50)
 call SaveInteger(zzVL_ht,'X386',259,7)
-endfunction
-function zzVL_Items6 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'X386',201,1)
 call SaveInteger(zzVL_ht,'X386',187,5)
 call SaveInteger(zzVL_ht,'H028',210,'X387')
@@ -22373,6 +22983,7 @@ call SaveInteger(zzVL_ht,'X387',247,5)
 call SaveInteger(zzVL_ht,'X387',248,0)
 call SaveInteger(zzVL_ht,'X387',249,1)
 call SaveInteger(zzVL_ht,'X387',252,0)
+call SaveInteger(zzVL_ht,'X387',294,1)
 call SaveStr(zzVL_ht,'X387',250,"war3mapImported\\HSK_cuukiem.mdx")
 call SaveInteger(zzVL_ht,'X387',240,5)
 call SaveInteger(zzVL_ht,'X387',257,800)
@@ -22406,9 +23017,13 @@ call SaveInteger(zzVL_ht,'X389',247,4)
 call SaveInteger(zzVL_ht,'X389',248,0)
 call SaveInteger(zzVL_ht,'X389',249,0)
 call SaveInteger(zzVL_ht,'X389',252,0)
+call SaveInteger(zzVL_ht,'X389',294,1)
 call SaveStr(zzVL_ht,'X389',250,"war3mapImported\\HSK_cuukiem.mdx")
 call SaveInteger(zzVL_ht,'X389',201,1)
 call SaveInteger(zzVL_ht,'H029',260,'X390')
+call SaveStr(zzVL_ht,'X390',280,"war3mapImported\\TDC_caster.mdx")
+call SaveStr(zzVL_ht,'X390',281,"war3mapImported\\TDC_target.mdx")
+call SaveStr(zzVL_ht,'X390',285,"war3mapImported\\TDC_wave1.mdx")
 call SaveInteger(zzVL_ht,'H029',200,'X390')
 call SaveInteger(zzVL_ht,'H029',230,1)
 call SaveInteger(zzVL_ht,'X390',240,16)
@@ -22444,6 +23059,8 @@ call SaveInteger(zzVL_ht,'X391',252,0)
 call SaveStr(zzVL_ht,'X391',250,"war3mapImported\\TDC_baivanchuong.mdx")
 call SaveInteger(zzVL_ht,'X391',201,1)
 call SaveInteger(zzVL_ht,'H029',263,'X392')
+call SaveStr(zzVL_ht,'X392',280,"war3mapImported\\TDC_caster2.mdx")
+call SaveStr(zzVL_ht,'X392',281,"war3mapImported\\TDC_target.mdx")
 call SaveInteger(zzVL_ht,'H029',202,'X392')
 call SaveInteger(zzVL_ht,'H029',232,15)
 call SaveInteger(zzVL_ht,'X392',240,17)
@@ -22456,6 +23073,7 @@ call SaveInteger(zzVL_ht,'X392',247,5)
 call SaveInteger(zzVL_ht,'X392',248,0)
 call SaveInteger(zzVL_ht,'X392',249,0)
 call SaveInteger(zzVL_ht,'X392',252,0)
+call SaveInteger(zzVL_ht,'X392',294,1)
 call SaveStr(zzVL_ht,'X392',250,"war3mapImported\\TDC_tuhuyet.mdx")
 call SaveInteger(zzVL_ht,'X392',257,1200)
 call SaveInteger(zzVL_ht,'X392',258,100)
@@ -22491,6 +23109,7 @@ call SaveInteger(zzVL_ht,'X394',249,0)
 call SaveInteger(zzVL_ht,'X394',252,0)
 call SaveInteger(zzVL_ht,'X394',253,35)
 call SaveInteger(zzVL_ht,'X394',254,5)
+call SaveInteger(zzVL_ht,'X394',294,1)
 call SaveStr(zzVL_ht,'X394',250,"war3mapImported\\TDC_diemnguyenbuff.mdx")
 call SaveInteger(zzVL_ht,'X394',216,100)
 call SaveInteger(zzVL_ht,'X394',201,1)
@@ -22507,9 +23126,15 @@ call SaveInteger(zzVL_ht,'X395',247,5)
 call SaveInteger(zzVL_ht,'X395',248,14)
 call SaveInteger(zzVL_ht,'X395',249,0)
 call SaveInteger(zzVL_ht,'X395',252,0)
+call SaveInteger(zzVL_ht,'X395',294,1)
 call SaveStr(zzVL_ht,'X395',250,"war3mapImported\\TDC_sinhtuphu11.mdx")
 call SaveInteger(zzVL_ht,'X395',201,1)
+call SaveInteger(zzVL_ht,'X396',289,1)
 call SaveInteger(zzVL_ht,'H029',261,'X396')
+call SaveStr(zzVL_ht,'X396',280,"war3mapImported\\TDC_caster.mdx")
+call SaveStr(zzVL_ht,'X396',281,"war3mapImported\\TDC_target.mdx")
+call SaveStr(zzVL_ht,'X396',285,"war3mapImported\\TDC_bachnhat2.mdx")
+call SaveStr(zzVL_ht,'X396',286,"war3mapImported\\TDC_wave1.mdx")
 call SaveInteger(zzVL_ht,'H029',206,'X396')
 call SaveInteger(zzVL_ht,'H029',236,68)
 call SaveInteger(zzVL_ht,'X396',240,16)
@@ -22522,6 +23147,7 @@ call SaveInteger(zzVL_ht,'X396',247,5)
 call SaveInteger(zzVL_ht,'X396',248,0)
 call SaveInteger(zzVL_ht,'X396',249,0)
 call SaveInteger(zzVL_ht,'X396',252,0)
+call SaveInteger(zzVL_ht,'X396',294,1)
 call SaveStr(zzVL_ht,'X396',250,"war3mapImported\\TDC_bachnhat1.mdx")
 call SaveInteger(zzVL_ht,'X396',257,250)
 call SaveInteger(zzVL_ht,'X396',258,20)
@@ -22531,6 +23157,9 @@ call SaveInteger(zzVL_ht,'X396',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X396',3,1)
 call SaveStr(zzVL_ht,'X396',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H029',264,'X397')
+call SaveStr(zzVL_ht,'X397',280,"war3mapImported\\TDC_sinhtuphucaster.MDX")
+call SaveStr(zzVL_ht,'X397',281,"war3mapImported\\TDC_target.mdx")
+call SaveStr(zzVL_ht,'X397',284,"war3mapImported\\TDC_sinhtubuff.mdx")
 call SaveInteger(zzVL_ht,'H029',207,'X397')
 call SaveInteger(zzVL_ht,'H029',237,85)
 call SaveInteger(zzVL_ht,'X397',240,13)
@@ -22543,7 +23172,8 @@ call SaveInteger(zzVL_ht,'X397',247,5)
 call SaveInteger(zzVL_ht,'X397',248,0)
 call SaveInteger(zzVL_ht,'X397',249,0)
 call SaveInteger(zzVL_ht,'X397',252,0)
-call SaveStr(zzVL_ht,'X397',250,"war3mapImported\\TDC_sinhtuphu11.mdx")
+call SaveInteger(zzVL_ht,'X397',294,1)
+call SaveStr(zzVL_ht,'X397',250,"war3mapImported\\TDC_sinhtuphueffect.mdx")
 call SaveInteger(zzVL_ht,'X397',257,450)
 call SaveInteger(zzVL_ht,'X397',258,20)
 call SaveInteger(zzVL_ht,'X397',259,7)
@@ -22563,6 +23193,7 @@ call SaveInteger(zzVL_ht,'X398',247,6)
 call SaveInteger(zzVL_ht,'X398',248,14)
 call SaveInteger(zzVL_ht,'X398',249,0)
 call SaveInteger(zzVL_ht,'X398',252,0)
+call SaveInteger(zzVL_ht,'X398',294,1)
 call SaveStr(zzVL_ht,'X398',250,"war3mapImported\\TDC_honnhatbuff.mdx")
 call SaveInteger(zzVL_ht,'X398',201,1)
 call SaveInteger(zzVL_ht,'H029',265,'X399')
@@ -22578,6 +23209,7 @@ call SaveInteger(zzVL_ht,'X399',247,5)
 call SaveInteger(zzVL_ht,'X399',248,7)
 call SaveInteger(zzVL_ht,'X399',249,0)
 call SaveInteger(zzVL_ht,'X399',252,4)
+call SaveInteger(zzVL_ht,'X399',294,1)
 call SaveStr(zzVL_ht,'X399',250,"war3mapImported\\TDC_thientamcb.mdx")
 call SaveInteger(zzVL_ht,'X399',257,800)
 call SaveInteger(zzVL_ht,'X399',258,50)
@@ -22587,6 +23219,9 @@ call SaveInteger(zzVL_ht,'X399',187,15)
 call SaveInteger(zzVL_ht,'X399',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X399',3,0)
 call SaveInteger(zzVL_ht,'H029',262,'X400')
+call SaveStr(zzVL_ht,'X400',280,"war3mapImported\\TDC_caster2.mdx")
+call SaveStr(zzVL_ht,'X400',281,"war3mapImported\\TDC_target.mdx")
+call SaveStr(zzVL_ht,'X400',285,"war3mapImported\\TDC_baisondh.mdx")
 call SaveInteger(zzVL_ht,'H029',210,'X400')
 call SaveInteger(zzVL_ht,'H029',240,145)
 call SaveInteger(zzVL_ht,'X400',240,5)
@@ -22599,7 +23234,8 @@ call SaveInteger(zzVL_ht,'X400',247,5)
 call SaveInteger(zzVL_ht,'X400',248,0)
 call SaveInteger(zzVL_ht,'X400',249,0)
 call SaveInteger(zzVL_ht,'X400',252,0)
-call SaveStr(zzVL_ht,'X400',250,"war3mapImported\\TDC_baisondh.mdx")
+call SaveInteger(zzVL_ht,'X400',294,1)
+call SaveStr(zzVL_ht,'X400',250,"war3mapImported\\TDC_wave1.mdx")
 call SaveInteger(zzVL_ht,'X400',257,1000)
 call SaveInteger(zzVL_ht,'X400',259,7)
 call SaveInteger(zzVL_ht,'X400',207,3)
@@ -22621,12 +23257,15 @@ call SaveInteger(zzVL_ht,'X401',247,5)
 call SaveInteger(zzVL_ht,'X401',248,0)
 call SaveInteger(zzVL_ht,'X401',249,0)
 call SaveInteger(zzVL_ht,'X401',252,0)
+call SaveInteger(zzVL_ht,'X401',294,1)
 call SaveStr(zzVL_ht,'X401',250,"war3mapImported\\TDC_thientamcb.mdx")
 call SaveInteger(zzVL_ht,'X401',209,1)
 call SaveInteger(zzVL_ht,'X401',208,75)
 call SaveInteger(zzVL_ht,'X401',201,1)
 call SaveInteger(zzVL_ht,'X401',239,2)
 call SaveInteger(zzVL_ht,'H029',266,'X402')
+call SaveStr(zzVL_ht,'X402',280,"war3mapImported\\TDC_caster.mdx")
+call SaveStr(zzVL_ht,'X402',281,"war3mapImported\\TDC_target.mdx")
 call SaveInteger(zzVL_ht,'H029',212,'X402')
 call SaveInteger(zzVL_ht,'H029',242,185)
 call SaveInteger(zzVL_ht,'X402',240,3)
@@ -22641,6 +23280,7 @@ call SaveInteger(zzVL_ht,'X402',249,0)
 call SaveInteger(zzVL_ht,'X402',252,0)
 call SaveInteger(zzVL_ht,'X402',253,26)
 call SaveInteger(zzVL_ht,'X402',254,4)
+call SaveInteger(zzVL_ht,'X402',294,1)
 call SaveStr(zzVL_ht,'X402',250,"war3mapImported\\TDC_tuhuyet.mdx")
 call SaveInteger(zzVL_ht,'X402',257,700)
 call SaveInteger(zzVL_ht,'X402',228,1)
@@ -22649,6 +23289,7 @@ call SaveInteger(zzVL_ht,'X402',195,1)
 call SaveInteger(zzVL_ht,'X402',2,OrderId("avatar"))
 call SaveInteger(zzVL_ht,'X402',3,2)
 call SaveInteger(zzVL_ht,'H02A',260,'X403')
+call SaveStr(zzVL_ht,'X403',281,"war3mapImported\\TDK_target.mdx")
 call SaveInteger(zzVL_ht,'H02A',200,'X403')
 call SaveInteger(zzVL_ht,'H02A',230,1)
 call SaveInteger(zzVL_ht,'X403',240,5)
@@ -22661,7 +23302,8 @@ call SaveInteger(zzVL_ht,'X403',247,5)
 call SaveInteger(zzVL_ht,'X403',248,0)
 call SaveInteger(zzVL_ht,'X403',249,0)
 call SaveInteger(zzVL_ht,'X403',252,0)
-call SaveStr(zzVL_ht,'X403',250,"war3mapImported\\TDK_tramvankiem.mdx")
+call SaveInteger(zzVL_ht,'X403',294,1)
+call SaveStr(zzVL_ht,'X403',250,"war3mapImported\\TDK_tramvankiem2.mdx")
 call SaveInteger(zzVL_ht,'X403',234,1)
 call SaveInteger(zzVL_ht,'X403',235,30)
 call SaveInteger(zzVL_ht,'X403',236,5)
@@ -22689,6 +23331,8 @@ call SaveInteger(zzVL_ht,'X404',252,0)
 call SaveStr(zzVL_ht,'X404',250,"war3mapImported\\TDK_danphuongcd.mdx")
 call SaveInteger(zzVL_ht,'X404',201,1)
 call SaveInteger(zzVL_ht,'H02A',263,'X405')
+call SaveStr(zzVL_ht,'X405',281,"war3mapImported\\TDK_targeteffect2.mdx")
+call SaveStr(zzVL_ht,'X405',285,"war3mapImported\\TDK_danphuongdan.mdx")
 call SaveInteger(zzVL_ht,'H02A',202,'X405')
 call SaveInteger(zzVL_ht,'H02A',232,15)
 call SaveInteger(zzVL_ht,'X405',240,13)
@@ -22701,7 +23345,8 @@ call SaveInteger(zzVL_ht,'X405',247,5)
 call SaveInteger(zzVL_ht,'X405',248,0)
 call SaveInteger(zzVL_ht,'X405',249,0)
 call SaveInteger(zzVL_ht,'X405',252,0)
-call SaveStr(zzVL_ht,'X405',250,"war3mapImported\\TDK_danphuongdan.mdx")
+call SaveInteger(zzVL_ht,'X405',294,1)
+call SaveStr(zzVL_ht,'X405',250,"war3mapImported\\TDK_danphuongdan5.mdx")
 call SaveInteger(zzVL_ht,'X405',234,5)
 call SaveInteger(zzVL_ht,'X405',235,50)
 call SaveInteger(zzVL_ht,'X405',236,25)
@@ -22712,6 +23357,7 @@ call SaveInteger(zzVL_ht,'X405',201,1)
 call SaveInteger(zzVL_ht,'X405',194,640)
 call SaveInteger(zzVL_ht,'X405',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X405',3,2)
+call SaveStr(zzVL_ht,'X406',284,"war3mapImported\\TDK_chanhoabuff2.mdx")
 call SaveInteger(zzVL_ht,'H02A',203,'X406')
 call SaveInteger(zzVL_ht,'H02A',233,25)
 call SaveInteger(zzVL_ht,'X406',240,0)
@@ -22724,6 +23370,7 @@ call SaveInteger(zzVL_ht,'X406',247,7)
 call SaveInteger(zzVL_ht,'X406',248,13)
 call SaveInteger(zzVL_ht,'X406',249,0)
 call SaveInteger(zzVL_ht,'X406',252,1024)
+call SaveInteger(zzVL_ht,'X406',294,1)
 call SaveStr(zzVL_ht,'X406',250,"war3mapImported\\TDK_chanhoabuff.mdx")
 call SaveInteger(zzVL_ht,'X406',201,1)
 call SaveInteger(zzVL_ht,'X406',189,50)
@@ -22745,6 +23392,7 @@ call SaveInteger(zzVL_ht,'X407',247,14)
 call SaveInteger(zzVL_ht,'X407',248,6)
 call SaveInteger(zzVL_ht,'X407',249,0)
 call SaveInteger(zzVL_ht,'X407',252,0)
+call SaveInteger(zzVL_ht,'X407',294,1)
 call SaveStr(zzVL_ht,'X407',250,"war3mapImported\\TDK_buffsohoa.mdx")
 call SaveInteger(zzVL_ht,'X407',201,1)
 call SaveInteger(zzVL_ht,'X407',2,OrderId("starfall"))
@@ -22761,9 +23409,11 @@ call SaveInteger(zzVL_ht,'X408',247,5)
 call SaveInteger(zzVL_ht,'X408',248,14)
 call SaveInteger(zzVL_ht,'X408',249,0)
 call SaveInteger(zzVL_ht,'X408',252,0)
+call SaveInteger(zzVL_ht,'X408',294,1)
 call SaveStr(zzVL_ht,'X408',250,"war3mapImported\\TDK_kiemchungdan4.mdx")
 call SaveInteger(zzVL_ht,'X408',201,1)
 call SaveInteger(zzVL_ht,'H02A',261,'X409')
+call SaveStr(zzVL_ht,'X409',281,"war3mapImported\\TDK_targeteffect2.mdx")
 call SaveInteger(zzVL_ht,'H02A',206,'X409')
 call SaveInteger(zzVL_ht,'H02A',236,68)
 call SaveInteger(zzVL_ht,'X409',240,5)
@@ -22776,6 +23426,7 @@ call SaveInteger(zzVL_ht,'X409',247,5)
 call SaveInteger(zzVL_ht,'X409',248,0)
 call SaveInteger(zzVL_ht,'X409',249,0)
 call SaveInteger(zzVL_ht,'X409',252,0)
+call SaveInteger(zzVL_ht,'X409',294,1)
 call SaveStr(zzVL_ht,'X409',250,"war3mapImported\\TDK_techieukiem.mdx")
 call SaveInteger(zzVL_ht,'X409',234,5)
 call SaveInteger(zzVL_ht,'X409',235,35)
@@ -22789,6 +23440,7 @@ call SaveInteger(zzVL_ht,'X409',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X409',3,1)
 call SaveStr(zzVL_ht,'X409',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H02A',264,'X410')
+call SaveStr(zzVL_ht,'X410',281,"war3mapImported\\TDK_targeteffect2.mdx")
 call SaveInteger(zzVL_ht,'H02A',207,'X410')
 call SaveInteger(zzVL_ht,'H02A',237,85)
 call SaveInteger(zzVL_ht,'X410',240,13)
@@ -22801,6 +23453,7 @@ call SaveInteger(zzVL_ht,'X410',247,5)
 call SaveInteger(zzVL_ht,'X410',248,0)
 call SaveInteger(zzVL_ht,'X410',249,0)
 call SaveInteger(zzVL_ht,'X410',252,0)
+call SaveInteger(zzVL_ht,'X410',294,1)
 call SaveStr(zzVL_ht,'X410',250,"war3mapImported\\TDK_kiemchungdan4.mdx")
 call SaveInteger(zzVL_ht,'X410',257,480)
 call SaveInteger(zzVL_ht,'X410',258,30)
@@ -22809,6 +23462,7 @@ call SaveInteger(zzVL_ht,'X410',201,1)
 call SaveInteger(zzVL_ht,'X410',194,640)
 call SaveInteger(zzVL_ht,'X410',2,OrderId("roar"))
 call SaveInteger(zzVL_ht,'X410',3,2)
+call SaveStr(zzVL_ht,'X411',284,"war3mapImported\\TDK_chanhoabuff2.mdx")
 call SaveInteger(zzVL_ht,'H02A',208,'X411')
 call SaveInteger(zzVL_ht,'H02A',238,105)
 call SaveInteger(zzVL_ht,'X411',240,0)
@@ -22821,6 +23475,7 @@ call SaveInteger(zzVL_ht,'X411',247,7)
 call SaveInteger(zzVL_ht,'X411',248,0)
 call SaveInteger(zzVL_ht,'X411',249,0)
 call SaveInteger(zzVL_ht,'X411',252,0)
+call SaveInteger(zzVL_ht,'X411',294,1)
 call SaveStr(zzVL_ht,'X411',250,"war3mapImported\\TDK_chanhoabuff.mdx")
 call SaveInteger(zzVL_ht,'X411',201,1)
 call SaveInteger(zzVL_ht,'H02A',209,'X412')
@@ -22835,9 +23490,12 @@ call SaveInteger(zzVL_ht,'X412',247,5)
 call SaveInteger(zzVL_ht,'X412',248,13)
 call SaveInteger(zzVL_ht,'X412',249,0)
 call SaveInteger(zzVL_ht,'X412',252,0)
+call SaveInteger(zzVL_ht,'X412',294,1)
 call SaveStr(zzVL_ht,'X412',250,"war3mapImported\\TDK_techieukiem.mdx")
 call SaveInteger(zzVL_ht,'X412',201,1)
 call SaveInteger(zzVL_ht,'H02A',262,'X413')
+call SaveStr(zzVL_ht,'X413',281,"war3mapImported\\TDK_targeteffect2.mdx")
+call SaveStr(zzVL_ht,'X413',285,"war3mapImported\\TDK_bachdieukiem.mdx")
 call SaveInteger(zzVL_ht,'H02A',210,'X413')
 call SaveInteger(zzVL_ht,'H02A',240,145)
 call SaveInteger(zzVL_ht,'X413',240,5)
@@ -22850,7 +23508,8 @@ call SaveInteger(zzVL_ht,'X413',247,5)
 call SaveInteger(zzVL_ht,'X413',248,0)
 call SaveInteger(zzVL_ht,'X413',249,0)
 call SaveInteger(zzVL_ht,'X413',252,0)
-call SaveStr(zzVL_ht,'X413',250,"war3mapImported\\TDK_bachdieukiem.mdx")
+call SaveInteger(zzVL_ht,'X413',294,1)
+call SaveStr(zzVL_ht,'X413',250,"war3mapImported\\TDK_kiemchungdan4.mdx")
 call SaveInteger(zzVL_ht,'X413',234,1)
 call SaveInteger(zzVL_ht,'X413',235,40)
 call SaveInteger(zzVL_ht,'X413',236,5)
@@ -22874,6 +23533,7 @@ call SaveInteger(zzVL_ht,'X414',247,3)
 call SaveInteger(zzVL_ht,'X414',248,0)
 call SaveInteger(zzVL_ht,'X414',249,0)
 call SaveInteger(zzVL_ht,'X414',252,0)
+call SaveInteger(zzVL_ht,'X414',294,1)
 call SaveStr(zzVL_ht,'X414',250,"war3mapImported\\TDK_tramvankiem2.mdx")
 call SaveInteger(zzVL_ht,'X414',209,3)
 call SaveInteger(zzVL_ht,'X414',208,75)
@@ -22891,9 +23551,11 @@ call SaveInteger(zzVL_ht,'X415',247,5)
 call SaveInteger(zzVL_ht,'X415',248,0)
 call SaveInteger(zzVL_ht,'X415',249,0)
 call SaveInteger(zzVL_ht,'X415',252,0)
+call SaveInteger(zzVL_ht,'X415',294,1)
 call SaveStr(zzVL_ht,'X415',250,"war3mapImported\\TDK_hoahai.mdx")
 call SaveInteger(zzVL_ht,'X415',201,1)
 call SaveInteger(zzVL_ht,'H02B',260,'X416')
+call SaveStr(zzVL_ht,'X416',280,"war3mapImported\\TYK_effectcast.mdx")
 call SaveInteger(zzVL_ht,'H02B',200,'X416')
 call SaveInteger(zzVL_ht,'H02B',230,1)
 call SaveInteger(zzVL_ht,'X416',240,5)
@@ -22906,6 +23568,8 @@ call SaveInteger(zzVL_ht,'X416',247,5)
 call SaveInteger(zzVL_ht,'X416',248,0)
 call SaveInteger(zzVL_ht,'X416',249,0)
 call SaveInteger(zzVL_ht,'X416',252,0)
+endfunction
+function zzVL_Items7 takes nothing returns nothing
 call SaveStr(zzVL_ht,'X416',250,"war3mapImported\\TYK_phongquyen.mdx")
 call SaveInteger(zzVL_ht,'X416',257,750)
 call SaveInteger(zzVL_ht,'X416',259,7)
@@ -22926,8 +23590,10 @@ call SaveInteger(zzVL_ht,'X417',247,5)
 call SaveInteger(zzVL_ht,'X417',248,3)
 call SaveInteger(zzVL_ht,'X417',249,0)
 call SaveInteger(zzVL_ht,'X417',252,0)
+call SaveInteger(zzVL_ht,'X417',294,1)
 call SaveStr(zzVL_ht,'X417',250,"war3mapImported\\TYK_bangtamtientu2.mdx")
 call SaveInteger(zzVL_ht,'X417',201,1)
+call SaveStr(zzVL_ht,'X418',287,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'H02B',202,'X418')
 call SaveInteger(zzVL_ht,'H02B',232,15)
 call SaveInteger(zzVL_ht,'X418',240,0)
@@ -22940,9 +23606,11 @@ call SaveInteger(zzVL_ht,'X418',247,13)
 call SaveInteger(zzVL_ht,'X418',248,0)
 call SaveInteger(zzVL_ht,'X418',249,0)
 call SaveInteger(zzVL_ht,'X418',252,0)
+call SaveInteger(zzVL_ht,'X418',294,1)
 call SaveStr(zzVL_ht,'X418',250,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'X418',201,1)
 call SaveInteger(zzVL_ht,'H02B',263,'X419')
+call SaveStr(zzVL_ht,'X419',280,"war3mapImported\\TYK_effectcast.mdx")
 call SaveInteger(zzVL_ht,'H02B',203,'X419')
 call SaveInteger(zzVL_ht,'H02B',233,25)
 call SaveInteger(zzVL_ht,'X419',240,5)
@@ -22966,6 +23634,7 @@ call SaveInteger(zzVL_ht,'X419',201,1)
 call SaveInteger(zzVL_ht,'X419',167,110)
 call SaveInteger(zzVL_ht,'X419',2,OrderId("carrionswarm"))
 call SaveInteger(zzVL_ht,'X419',3,2)
+call SaveStr(zzVL_ht,'X420',285,"war3mapImported\\TYK_huyenbang.mdx")
 call SaveInteger(zzVL_ht,'H02B',204,'X420')
 call SaveInteger(zzVL_ht,'H02B',234,38)
 call SaveInteger(zzVL_ht,'X420',240,0)
@@ -22978,6 +23647,7 @@ call SaveInteger(zzVL_ht,'X420',247,7)
 call SaveInteger(zzVL_ht,'X420',248,0)
 call SaveInteger(zzVL_ht,'X420',249,0)
 call SaveInteger(zzVL_ht,'X420',252,1024)
+call SaveInteger(zzVL_ht,'X420',294,1)
 call SaveStr(zzVL_ht,'X420',250,"war3mapImported\\TYK_hothehanbang.mdx")
 call SaveInteger(zzVL_ht,'X420',204,35)
 call SaveInteger(zzVL_ht,'X420',201,1)
@@ -22999,9 +23669,13 @@ call SaveInteger(zzVL_ht,'X421',247,5)
 call SaveInteger(zzVL_ht,'X421',248,14)
 call SaveInteger(zzVL_ht,'X421',249,0)
 call SaveInteger(zzVL_ht,'X421',252,0)
+call SaveInteger(zzVL_ht,'X421',294,1)
 call SaveStr(zzVL_ht,'X421',250,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'X421',201,1)
 call SaveInteger(zzVL_ht,'H02B',261,'X422')
+call SaveStr(zzVL_ht,'X422',280,"war3mapImported\\TYK_effectcast.mdx")
+call SaveStr(zzVL_ht,'X422',284,"war3mapImported\\TYK_Buffbangtam.mdx")
+call SaveStr(zzVL_ht,'X422',285,"war3mapImported\\TYK_bangtamtientu1.mdx")
 call SaveInteger(zzVL_ht,'H02B',206,'X422')
 call SaveInteger(zzVL_ht,'H02B',236,68)
 call SaveInteger(zzVL_ht,'X422',240,5)
@@ -23014,7 +23688,8 @@ call SaveInteger(zzVL_ht,'X422',247,5)
 call SaveInteger(zzVL_ht,'X422',248,0)
 call SaveInteger(zzVL_ht,'X422',249,0)
 call SaveInteger(zzVL_ht,'X422',252,0)
-call SaveStr(zzVL_ht,'X422',250,"war3mapImported\\TYK_bangtamtientu1.mdx")
+call SaveInteger(zzVL_ht,'X422',294,1)
+call SaveStr(zzVL_ht,'X422',250,"war3mapImported\\TYK_bangtamtientu2.mdx")
 call SaveInteger(zzVL_ht,'X422',257,912)
 call SaveInteger(zzVL_ht,'X422',258,30)
 call SaveInteger(zzVL_ht,'X422',259,7)
@@ -23024,6 +23699,8 @@ call SaveInteger(zzVL_ht,'X422',2,OrderId("poisonarrowstarg"))
 call SaveInteger(zzVL_ht,'X422',3,1)
 call SaveStr(zzVL_ht,'X422',251,"poisonarrowstargon")
 call SaveInteger(zzVL_ht,'H02B',264,'X423')
+call SaveStr(zzVL_ht,'X423',280,"war3mapImported\\TYK_effectcast.mdx")
+call SaveStr(zzVL_ht,'X423',281,"war3mapImported\\TYK_phituphieuhoaeffect.mdx")
 call SaveInteger(zzVL_ht,'H02B',207,'X423')
 call SaveInteger(zzVL_ht,'H02B',237,85)
 call SaveInteger(zzVL_ht,'X423',240,13)
@@ -23036,7 +23713,8 @@ call SaveInteger(zzVL_ht,'X423',247,5)
 call SaveInteger(zzVL_ht,'X423',248,0)
 call SaveInteger(zzVL_ht,'X423',249,0)
 call SaveInteger(zzVL_ht,'X423',252,0)
-call SaveStr(zzVL_ht,'X423',250,"war3mapImported\\TYK_phituphieuhoa.mdx")
+call SaveInteger(zzVL_ht,'X423',294,1)
+call SaveStr(zzVL_ht,'X423',250,"war3mapImported\\TYK_phituphieuhoaeffect.mdx")
 call SaveInteger(zzVL_ht,'X423',234,2)
 call SaveInteger(zzVL_ht,'X423',235,50)
 call SaveInteger(zzVL_ht,'X423',236,10)
@@ -23059,9 +23737,12 @@ call SaveInteger(zzVL_ht,'X424',247,5)
 call SaveInteger(zzVL_ht,'X424',248,13)
 call SaveInteger(zzVL_ht,'X424',249,0)
 call SaveInteger(zzVL_ht,'X424',252,0)
+call SaveInteger(zzVL_ht,'X424',294,1)
 call SaveStr(zzVL_ht,'X424',250,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'X424',201,1)
 call SaveInteger(zzVL_ht,'H02B',265,'X425')
+call SaveStr(zzVL_ht,'X425',285,"war3mapImported\\TYK_bangtamtientu1.mdx")
+call SaveStr(zzVL_ht,'X425',286,"war3mapImported\\TYK_bangtamtientu2.mdx")
 call SaveInteger(zzVL_ht,'H02B',209,'X425')
 call SaveInteger(zzVL_ht,'H02B',239,125)
 call SaveInteger(zzVL_ht,'X425',240,6)
@@ -23076,11 +23757,17 @@ call SaveInteger(zzVL_ht,'X425',249,0)
 call SaveInteger(zzVL_ht,'X425',252,0)
 call SaveInteger(zzVL_ht,'X425',253,40)
 call SaveInteger(zzVL_ht,'X425',254,5)
+call SaveInteger(zzVL_ht,'X425',294,1)
 call SaveStr(zzVL_ht,'X425',250,"war3mapImported\\TYK_Buffbangtam.mdx")
 call SaveInteger(zzVL_ht,'X425',201,1)
 call SaveInteger(zzVL_ht,'X425',2,OrderId("starfall"))
 call SaveInteger(zzVL_ht,'X425',3,0)
+call SaveInteger(zzVL_ht,'X426',288,1)
 call SaveInteger(zzVL_ht,'H02B',262,'X426')
+call SaveStr(zzVL_ht,'X426',280,"war3mapImported\\TYK_effectcast.mdx")
+call SaveStr(zzVL_ht,'X426',281,"war3mapImported\\TYK_phituphieuhoaeffect.mdx")
+call SaveStr(zzVL_ht,'X426',285,"war3mapImported\\TYK_thuyanhmantu.mdx")
+call SaveStr(zzVL_ht,'X426',286,"war3mapImported\\TYK_thuyanheffect2.mdx")
 call SaveInteger(zzVL_ht,'H02B',210,'X426')
 call SaveInteger(zzVL_ht,'H02B',240,145)
 call SaveInteger(zzVL_ht,'X426',240,5)
@@ -23093,7 +23780,8 @@ call SaveInteger(zzVL_ht,'X426',247,5)
 call SaveInteger(zzVL_ht,'X426',248,0)
 call SaveInteger(zzVL_ht,'X426',249,0)
 call SaveInteger(zzVL_ht,'X426',252,0)
-call SaveStr(zzVL_ht,'X426',250,"war3mapImported\\TYK_thuyanhmantu.mdx")
+call SaveInteger(zzVL_ht,'X426',294,1)
+call SaveStr(zzVL_ht,'X426',250,"war3mapImported\\TYK_thuyanh1.mdx")
 call SaveInteger(zzVL_ht,'X426',257,1100)
 call SaveInteger(zzVL_ht,'X426',258,25)
 call SaveInteger(zzVL_ht,'X426',259,7)
@@ -23114,6 +23802,7 @@ call SaveInteger(zzVL_ht,'X427',247,14)
 call SaveInteger(zzVL_ht,'X427',248,0)
 call SaveInteger(zzVL_ht,'X427',249,0)
 call SaveInteger(zzVL_ht,'X427',252,0)
+call SaveInteger(zzVL_ht,'X427',294,1)
 call SaveStr(zzVL_ht,'X427',250,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'X427',201,1)
 call SaveInteger(zzVL_ht,'H02B',212,'X428')
@@ -23128,6 +23817,7 @@ call SaveInteger(zzVL_ht,'X428',247,5)
 call SaveInteger(zzVL_ht,'X428',248,7)
 call SaveInteger(zzVL_ht,'X428',249,0)
 call SaveInteger(zzVL_ht,'X428',252,0)
+call SaveInteger(zzVL_ht,'X428',294,1)
 call SaveStr(zzVL_ht,'X428',250,"war3mapImported\\TYK_tuyetanh.mdx")
 call SaveInteger(zzVL_ht,'X428',201,1)
 call SaveStr(zzVL_ht,'E000',272,"war3mapImported\\Hero_ngudocdao.mdx")
@@ -23559,8 +24249,6 @@ call SaveInteger(zzVL_ht,'blba',41,425)
 call SaveInteger(zzVL_ht,'bfhr',41,1125)
 call SaveInteger(zzVL_ht,'brag',41,1400)
 call SaveInteger(zzVL_ht,'arsh',41,1400)
-endfunction
-function zzVL_Items7 takes nothing returns nothing
 call SaveInteger(zzVL_ht,'shen',41,1125)
 call SaveInteger(zzVL_ht,'frhg',41,1400)
 call SaveInteger(zzVL_ht,'ratf',41,444)
@@ -23794,6 +24482,18 @@ call SaveInteger(zzVL_ht,'I01F',41,500)
 call SaveInteger(zzVL_ht,'I01G',41,500)
 call SaveInteger(zzVL_ht,'I01H',41,6000)
 call SaveInteger(zzVL_ht,'I04N',41,5)
+call SaveInteger(zzVL_ht,'ITW0',95,20000)
+call SaveInteger(zzVL_ht,'ITW1',95,20000)
+call SaveInteger(zzVL_ht,'ITW2',95,20000)
+call SaveInteger(zzVL_ht,'ITW3',95,20000)
+call SaveInteger(zzVL_ht,'ITW4',95,20000)
+call SaveInteger(zzVL_ht,'ITW5',95,20000)
+call SaveInteger(zzVL_ht,'ITW6',95,20000)
+call SaveInteger(zzVL_ht,'ITW7',95,20000)
+call SaveInteger(zzVL_ht,'ITW8',95,20000)
+call SaveInteger(zzVL_ht,'ITW9',95,20000)
+call SaveInteger(zzVL_ht,'ITWA',95,20000)
+call SaveInteger(zzVL_ht,'n00K',95,1)
 call SaveInteger(zzVL_ht,'IJ51',0,51)
 call SaveInteger(zzVL_ht,'IJ51',41,60)
 set zzVL_jw[10]='IJ51'
@@ -24070,6 +24770,8 @@ set zzVL_gear[843]='IJA4'
 set zzVL_gearN[4]=44
 set zzVL_gear[1000]='hcun'
 set zzVL_gear[1001]='rhth'
+endfunction
+function zzVL_Items8 takes nothing returns nothing
 set zzVL_gear[1002]='kpin'
 set zzVL_gear[1003]='lgdh'
 set zzVL_gear[1004]='rin1'
@@ -24137,130 +24839,368 @@ set zzVL_gear[1065]='IJ85'
 set zzVL_gear[1066]='IJ95'
 set zzVL_gear[1067]='IJA5'
 set zzVL_gearN[5]=68
-set zzVL_start[1]='amrc'
-set zzVL_start[2]='afac'
-set zzVL_start[3]='ratf'
-set zzVL_start[4]='ram1'
-set zzVL_zName[1]="Rừng Trúc Lâm"
-set zzVL_zEx[1]=14448.
-set zzVL_zEy[1]=-4272.
-set zzVL_cX[0]=17328.
-set zzVL_cY[0]=-1392.
+set zzVL_zName[1]="Bãi Cấp 1 - Cổng phía trên"
+set zzVL_zEx[1]=9632.
+set zzVL_zEy[1]=-2848.
+set zzVL_zTele[1]=0
+set zzVL_cX[0]=9632.
+set zzVL_cY[0]=-3648.
 set zzVL_cZone[0]=1
-set zzVL_cType[0]='n005'
-set zzVL_cType[1]='n006'
-set zzVL_cType[2]='n009'
-set zzVL_cType[3]='n00D'
-set zzVL_cX[1]=19008.
-set zzVL_cY[1]=-3792.
+set zzVL_cLevel[0]=1
+set zzVL_cType[0]='Q011'
+set zzVL_cType[1]='Q001'
+set zzVL_cType[2]='Q001'
+set zzVL_cType[3]='Q001'
+set zzVL_cX[1]=9152.
+set zzVL_cY[1]=-4608.
 set zzVL_cZone[1]=1
-set zzVL_cType[4]='n006'
-set zzVL_cType[5]='n009'
-set zzVL_cType[6]='n00D'
-set zzVL_cType[7]='n00A'
-set zzVL_cX[2]=15888.
-set zzVL_cY[2]=-2112.
+set zzVL_cLevel[1]=1
+set zzVL_cType[4]='Q001'
+set zzVL_cType[5]='Q001'
+set zzVL_cType[6]='Q001'
+set zzVL_cType[7]='Q001'
+set zzVL_cX[2]=9152.
+set zzVL_cY[2]=-768.
 set zzVL_cZone[2]=1
-set zzVL_cType[8]='n006'
-set zzVL_cType[9]='n009'
-set zzVL_cType[10]='n00D'
-set zzVL_cType[11]='n00A'
-set zzVL_cX[3]=16128.
-set zzVL_cY[3]=-5232.
+set zzVL_cLevel[2]=1
+set zzVL_cType[8]='Q001'
+set zzVL_cType[9]='Q001'
+set zzVL_cType[10]='Q001'
+set zzVL_cType[11]='Q001'
+set zzVL_cX[3]=9792.
+set zzVL_cY[3]=-448.
 set zzVL_cZone[3]=1
-set zzVL_cType[12]='n005'
-set zzVL_cType[13]='n006'
-set zzVL_cType[14]='n009'
-set zzVL_cType[15]='n00D'
-set zzVL_cX[4]=17088.
-set zzVL_cY[4]=-3792.
-set zzVL_cZone[4]=1
-set zzVL_cType[16]='n006'
-set zzVL_cType[17]='n009'
-set zzVL_cType[18]='n00D'
-set zzVL_cType[19]='n00A'
-set zzVL_cX[5]=14928.
-set zzVL_cY[5]=-672.
-set zzVL_cZone[5]=1
-set zzVL_cType[20]='n006'
-set zzVL_cType[21]='n009'
-set zzVL_cType[22]='n00D'
-set zzVL_cType[23]='n00A'
-set zzVL_cX[6]=14448.
-set zzVL_cY[6]=-5472.
-set zzVL_cZone[6]=1
-set zzVL_cType[24]='n005'
-set zzVL_cType[25]='n006'
-set zzVL_cType[26]='n009'
-set zzVL_cType[27]='n00D'
-set zzVL_cX[7]=19248.
-set zzVL_cY[7]=-912.
-set zzVL_cZone[7]=1
-set zzVL_cType[28]='n006'
-set zzVL_cType[29]='n009'
-set zzVL_cType[30]='n00D'
-set zzVL_cType[31]='n00A'
-set zzVL_zName[2]="Thiên Kiếm Thành"
-set zzVL_zEx[2]=14208.
-set zzVL_zEy[2]=7440.
-set zzVL_cX[8]=17088.
-set zzVL_cY[8]=8400.
-set zzVL_cZone[8]=2
-set zzVL_cType[32]='n002'
-set zzVL_cType[33]='n00A'
-set zzVL_cType[34]='n00E'
-set zzVL_cType[35]='n00B'
-set zzVL_cX[9]=18288.
-set zzVL_cY[9]=6720.
-set zzVL_cZone[9]=2
-set zzVL_cType[36]='n00A'
-set zzVL_cType[37]='n00E'
-set zzVL_cType[38]='n00B'
-set zzVL_cType[39]='n00E'
-set zzVL_cX[10]=16848.
-set zzVL_cY[10]=6000.
-set zzVL_cZone[10]=2
-set zzVL_cType[40]='n00A'
-set zzVL_cType[41]='n00E'
-set zzVL_cType[42]='n00B'
-set zzVL_cType[43]='n00E'
-set zzVL_cX[11]=14688.
-set zzVL_cY[11]=9120.
-set zzVL_cZone[11]=2
-set zzVL_cType[44]='n002'
-set zzVL_cType[45]='n00A'
-set zzVL_cType[46]='n00E'
-set zzVL_cType[47]='n00B'
-set zzVL_cX[12]=19008.
-set zzVL_cY[12]=5760.
-set zzVL_cZone[12]=2
-set zzVL_cType[48]='n00A'
-set zzVL_cType[49]='n00E'
-set zzVL_cType[50]='n00B'
-set zzVL_cType[51]='n00E'
-set zzVL_cX[13]=15888.
-set zzVL_cY[13]=7440.
-set zzVL_cZone[13]=2
-set zzVL_cType[52]='n00A'
-set zzVL_cType[53]='n00E'
-set zzVL_cType[54]='n00B'
-set zzVL_cType[55]='n00E'
-set zzVL_cX[14]=17568.
-set zzVL_cY[14]=5040.
-set zzVL_cZone[14]=2
-set zzVL_cType[56]='n002'
-set zzVL_cType[57]='n00A'
-set zzVL_cType[58]='n00E'
-set zzVL_cType[59]='n00B'
-set zzVL_cX[15]=15648.
-set zzVL_cY[15]=5040.
-set zzVL_cZone[15]=2
-set zzVL_cType[60]='n00A'
-set zzVL_cType[61]='n00E'
-set zzVL_cType[62]='n00B'
-set zzVL_cType[63]='n00E'
-set zzVL_zN=2
-set zzVL_cN=16
+set zzVL_cLevel[3]=1
+set zzVL_cType[12]='Q001'
+set zzVL_cType[13]='Q001'
+set zzVL_cType[14]='Q001'
+set zzVL_cType[15]='Q001'
+set zzVL_zName[2]="Bãi Cấp 20 - Cổng phía trên"
+set zzVL_zEx[2]=10688.
+set zzVL_zEy[2]=-2368.
+set zzVL_zTele[2]=0
+set zzVL_cX[4]=11328.
+set zzVL_cY[4]=-1728.
+set zzVL_cZone[4]=2
+set zzVL_cLevel[4]=20
+set zzVL_cType[16]='Q031'
+set zzVL_cType[17]='Q021'
+set zzVL_cType[18]='Q021'
+set zzVL_cType[19]='Q021'
+set zzVL_cX[5]=11168.
+set zzVL_cY[5]=-3328.
+set zzVL_cZone[5]=2
+set zzVL_cLevel[5]=20
+set zzVL_cType[20]='Q021'
+set zzVL_cType[21]='Q021'
+set zzVL_cType[22]='Q021'
+set zzVL_cType[23]='Q021'
+set zzVL_cX[6]=10688.
+set zzVL_cY[6]=-768.
+set zzVL_cZone[6]=2
+set zzVL_cLevel[6]=20
+set zzVL_cType[24]='Q021'
+set zzVL_cType[25]='Q021'
+set zzVL_cType[26]='Q021'
+set zzVL_cType[27]='Q021'
+set zzVL_cX[7]=10368.
+set zzVL_cY[7]=-3648.
+set zzVL_cZone[7]=2
+set zzVL_cLevel[7]=20
+set zzVL_cType[28]='Q021'
+set zzVL_cType[29]='Q021'
+set zzVL_cType[30]='Q021'
+set zzVL_cType[31]='Q021'
+set zzVL_zName[3]="Bãi Cấp 40 - Cổng phía trên"
+set zzVL_zEx[3]=11904.
+set zzVL_zEy[3]=-2368.
+set zzVL_zTele[3]=0
+set zzVL_cX[8]=12864.
+set zzVL_cY[8]=-3168.
+set zzVL_cZone[8]=3
+set zzVL_cLevel[8]=40
+set zzVL_cType[32]='Q051'
+set zzVL_cType[33]='Q041'
+set zzVL_cType[34]='Q041'
+set zzVL_cType[35]='Q041'
+set zzVL_cX[9]=12384.
+set zzVL_cY[9]=-608.
+set zzVL_cZone[9]=3
+set zzVL_cLevel[9]=40
+set zzVL_cType[36]='Q041'
+set zzVL_cType[37]='Q041'
+set zzVL_cType[38]='Q041'
+set zzVL_cType[39]='Q041'
+set zzVL_cX[10]=11904.
+set zzVL_cY[10]=-1568.
+set zzVL_cZone[10]=3
+set zzVL_cLevel[10]=40
+set zzVL_cType[40]='Q041'
+set zzVL_cType[41]='Q041'
+set zzVL_cType[42]='Q041'
+set zzVL_cType[43]='Q041'
+set zzVL_cX[11]=12704.
+set zzVL_cY[11]=-2368.
+set zzVL_cZone[11]=3
+set zzVL_cLevel[11]=40
+set zzVL_cType[44]='Q041'
+set zzVL_cType[45]='Q041'
+set zzVL_cType[46]='Q041'
+set zzVL_cType[47]='Q041'
+set zzVL_zName[4]="Bãi Cấp 1 - Cổng phía dưới"
+set zzVL_zEx[4]=9632.
+set zzVL_zEy[4]=4320.
+set zzVL_zTele[4]=0
+set zzVL_cX[12]=9312.
+set zzVL_cY[12]=6720.
+set zzVL_cZone[12]=4
+set zzVL_cLevel[12]=1
+set zzVL_cType[48]='Q011'
+set zzVL_cType[49]='Q001'
+set zzVL_cType[50]='Q001'
+set zzVL_cType[51]='Q001'
+set zzVL_cX[13]=9632.
+set zzVL_cY[13]=2560.
+set zzVL_cZone[13]=4
+set zzVL_cLevel[13]=1
+set zzVL_cType[52]='Q001'
+set zzVL_cType[53]='Q001'
+set zzVL_cType[54]='Q001'
+set zzVL_cType[55]='Q001'
+set zzVL_cX[14]=9792.
+set zzVL_cY[14]=6240.
+set zzVL_cZone[14]=4
+set zzVL_cLevel[14]=1
+set zzVL_cType[56]='Q001'
+set zzVL_cType[57]='Q001'
+set zzVL_cType[58]='Q001'
+set zzVL_cType[59]='Q001'
+set zzVL_cX[15]=9472.
+set zzVL_cY[15]=3520.
+set zzVL_cZone[15]=4
+set zzVL_cLevel[15]=1
+set zzVL_cType[60]='Q001'
+set zzVL_cType[61]='Q001'
+set zzVL_cType[62]='Q001'
+set zzVL_cType[63]='Q001'
+set zzVL_zName[5]="Bãi Cấp 20 - Cổng phía dưới"
+set zzVL_zEx[5]=10688.
+set zzVL_zEy[5]=4800.
+set zzVL_zTele[5]=0
+set zzVL_cX[16]=10528.
+set zzVL_cY[16]=5760.
+set zzVL_cZone[16]=5
+set zzVL_cLevel[16]=20
+set zzVL_cType[64]='Q031'
+set zzVL_cType[65]='Q021'
+set zzVL_cType[66]='Q021'
+set zzVL_cType[67]='Q021'
+set zzVL_cX[17]=10688.
+set zzVL_cY[17]=3680.
+set zzVL_cZone[17]=5
+set zzVL_cLevel[17]=20
+set zzVL_cType[68]='Q021'
+set zzVL_cType[69]='Q021'
+set zzVL_cType[70]='Q021'
+set zzVL_cType[71]='Q021'
+set zzVL_cX[18]=11328.
+set zzVL_cY[18]=6560.
+set zzVL_cZone[18]=5
+set zzVL_cLevel[18]=20
+set zzVL_cType[72]='Q021'
+set zzVL_cType[73]='Q021'
+set zzVL_cType[74]='Q021'
+set zzVL_cType[75]='Q021'
+set zzVL_cX[19]=11328.
+set zzVL_cY[19]=5120.
+set zzVL_cZone[19]=5
+set zzVL_cLevel[19]=20
+set zzVL_cType[76]='Q021'
+set zzVL_cType[77]='Q021'
+set zzVL_cType[78]='Q021'
+set zzVL_cType[79]='Q021'
+set zzVL_zName[6]="Bãi Cấp 40 - Cổng phía dưới"
+set zzVL_zEx[6]=11904.
+set zzVL_zEy[6]=4800.
+set zzVL_zTele[6]=0
+set zzVL_cX[20]=12704.
+set zzVL_cY[20]=3360.
+set zzVL_cZone[20]=6
+set zzVL_cLevel[20]=40
+set zzVL_cType[80]='Q051'
+set zzVL_cType[81]='Q041'
+set zzVL_cType[82]='Q041'
+set zzVL_cType[83]='Q041'
+set zzVL_cX[21]=12224.
+set zzVL_cY[21]=5920.
+set zzVL_cZone[21]=6
+set zzVL_cLevel[21]=40
+set zzVL_cType[84]='Q041'
+set zzVL_cType[85]='Q041'
+set zzVL_cType[86]='Q041'
+set zzVL_cType[87]='Q041'
+set zzVL_cX[22]=12704.
+set zzVL_cY[22]=5280.
+set zzVL_cZone[22]=6
+set zzVL_cLevel[22]=40
+set zzVL_cType[88]='Q041'
+set zzVL_cType[89]='Q041'
+set zzVL_cType[90]='Q041'
+set zzVL_cType[91]='Q041'
+set zzVL_cX[23]=11904.
+set zzVL_cY[23]=6560.
+set zzVL_cZone[23]=6
+set zzVL_cLevel[23]=40
+set zzVL_cType[92]='Q041'
+set zzVL_cType[93]='Q041'
+set zzVL_cType[94]='Q041'
+set zzVL_cType[95]='Q041'
+set zzVL_zName[7]="Xa Phu - Bãi Cấp 60 phía Bắc"
+set zzVL_zEx[7]=20224.
+set zzVL_zEy[7]=-2208.
+set zzVL_zTele[7]=1
+set zzVL_cX[24]=21824.
+set zzVL_cY[24]=-3008.
+set zzVL_cZone[24]=7
+set zzVL_cLevel[24]=60
+set zzVL_cType[96]='Q071'
+set zzVL_cType[97]='Q061'
+set zzVL_cType[98]='Q061'
+set zzVL_cType[99]='Q061'
+set zzVL_cX[25]=23424.
+set zzVL_cY[25]=-1568.
+set zzVL_cZone[25]=7
+set zzVL_cLevel[25]=60
+set zzVL_cType[100]='Q061'
+set zzVL_cType[101]='Q061'
+set zzVL_cType[102]='Q061'
+set zzVL_cType[103]='Q061'
+set zzVL_cX[26]=23584.
+set zzVL_cY[26]=-3648.
+set zzVL_cZone[26]=7
+set zzVL_cLevel[26]=60
+set zzVL_cType[104]='Q061'
+set zzVL_cType[105]='Q061'
+set zzVL_cType[106]='Q061'
+set zzVL_cType[107]='Q061'
+set zzVL_cX[27]=20544.
+set zzVL_cY[27]=-3008.
+set zzVL_cZone[27]=7
+set zzVL_cLevel[27]=60
+set zzVL_cType[108]='Q061'
+set zzVL_cType[109]='Q061'
+set zzVL_cType[110]='Q061'
+set zzVL_cType[111]='Q061'
+set zzVL_zName[8]="Xa Phu - Bãi Cấp 60 phía Nam"
+set zzVL_zEx[8]=20224.
+set zzVL_zEy[8]=4960.
+set zzVL_zTele[8]=1
+set zzVL_cX[28]=22144.
+set zzVL_cY[28]=6560.
+set zzVL_cZone[28]=8
+set zzVL_cLevel[28]=60
+set zzVL_cType[112]='Q071'
+set zzVL_cType[113]='Q061'
+set zzVL_cType[114]='Q061'
+set zzVL_cType[115]='Q061'
+set zzVL_cX[29]=23264.
+set zzVL_cY[29]=4960.
+set zzVL_cZone[29]=8
+set zzVL_cLevel[29]=60
+set zzVL_cType[116]='Q061'
+set zzVL_cType[117]='Q061'
+set zzVL_cType[118]='Q061'
+set zzVL_cType[119]='Q061'
+set zzVL_cX[30]=21184.
+set zzVL_cY[30]=6080.
+set zzVL_cZone[30]=8
+set zzVL_cLevel[30]=60
+set zzVL_cType[120]='Q061'
+set zzVL_cType[121]='Q061'
+set zzVL_cType[122]='Q061'
+set zzVL_cType[123]='Q061'
+set zzVL_cX[31]=22304.
+set zzVL_cY[31]=4480.
+set zzVL_cZone[31]=8
+set zzVL_cLevel[31]=60
+set zzVL_cType[124]='Q061'
+set zzVL_cType[125]='Q061'
+set zzVL_cType[126]='Q061'
+set zzVL_cType[127]='Q061'
+set zzVL_zName[9]="Xa Phu - Bãi Cấp 80"
+set zzVL_zEx[9]=25600.
+set zzVL_zEy[9]=-2208.
+set zzVL_zTele[9]=1
+set zzVL_cX[32]=25600.
+set zzVL_cY[32]=-3968.
+set zzVL_cZone[32]=9
+set zzVL_cLevel[32]=80
+set zzVL_cType[128]='Q091'
+set zzVL_cType[129]='Q081'
+set zzVL_cType[130]='Q081'
+set zzVL_cType[131]='Q081'
+set zzVL_cX[33]=27200.
+set zzVL_cY[33]=-2528.
+set zzVL_cZone[33]=9
+set zzVL_cLevel[33]=80
+set zzVL_cType[132]='Q081'
+set zzVL_cType[133]='Q081'
+set zzVL_cType[134]='Q081'
+set zzVL_cType[135]='Q081'
+set zzVL_cX[34]=28800.
+set zzVL_cY[34]=-1088.
+set zzVL_cZone[34]=9
+set zzVL_cLevel[34]=80
+set zzVL_cType[136]='Q081'
+set zzVL_cType[137]='Q081'
+set zzVL_cType[138]='Q081'
+set zzVL_cType[139]='Q081'
+set zzVL_cX[35]=25760.
+set zzVL_cY[35]=-448.
+set zzVL_cZone[35]=9
+set zzVL_cLevel[35]=80
+set zzVL_cType[140]='Q081'
+set zzVL_cType[141]='Q081'
+set zzVL_cType[142]='Q081'
+set zzVL_cType[143]='Q081'
+set zzVL_zName[10]="Xa Phu - Bãi Cấp 100"
+set zzVL_zEx[10]=25600.
+set zzVL_zEy[10]=4960.
+set zzVL_zTele[10]=1
+set zzVL_cX[36]=28960.
+set zzVL_cY[36]=4960.
+set zzVL_cZone[36]=10
+set zzVL_cLevel[36]=100
+set zzVL_cType[144]='Q0B1'
+set zzVL_cType[145]='Q0A1'
+set zzVL_cType[146]='Q0A1'
+set zzVL_cType[147]='Q0A1'
+set zzVL_cX[37]=25920.
+set zzVL_cY[37]=5600.
+set zzVL_cZone[37]=10
+set zzVL_cLevel[37]=100
+set zzVL_cType[148]='Q0A1'
+set zzVL_cType[149]='Q0A1'
+set zzVL_cType[150]='Q0A1'
+set zzVL_cType[151]='Q0A1'
+set zzVL_cX[38]=26080.
+set zzVL_cY[38]=3520.
+set zzVL_cZone[38]=10
+set zzVL_cLevel[38]=100
+set zzVL_cType[152]='Q0A1'
+set zzVL_cType[153]='Q0A1'
+set zzVL_cType[154]='Q0A1'
+set zzVL_cType[155]='Q0A1'
+set zzVL_cX[39]=27680.
+set zzVL_cY[39]=4960.
+set zzVL_cZone[39]=10
+set zzVL_cLevel[39]=100
+set zzVL_cType[156]='Q0A1'
+set zzVL_cType[157]='Q0A1'
+set zzVL_cType[158]='Q0A1'
+set zzVL_cType[159]='Q0A1'
+set zzVL_zN=10
+set zzVL_cN=40
 call SaveInteger(zzVL_ht,'I06N',53,1)
 call SaveInteger(zzVL_ht,'I06O',53,1)
 call SaveInteger(zzVL_ht,'I06R',53,1)
@@ -24307,24 +25247,10 @@ call SaveInteger(zzVL_ht,'I018',59,'I018')
 call SaveInteger(zzVL_ht,'I019',59,'I019')
 call SaveInteger(zzVL_ht,'I01A',59,'I01A')
 call SaveInteger(zzVL_ht,'I01B',59,'I01B')
-call SaveInteger(zzVL_ht,'n00M',70,2)
-call SaveInteger(zzVL_ht,'n00M',100,12)
-call SaveInteger(zzVL_ht,'n00M',72,'I06M')
-call SaveInteger(zzVL_ht,'n00M',73,'I06L')
-call SaveInteger(zzVL_ht,'n00M',74,'I06K')
-call SaveInteger(zzVL_ht,'n00M',75,'I06J')
-call SaveInteger(zzVL_ht,'n00M',76,'I06W')
-call SaveInteger(zzVL_ht,'n00M',77,'I06S')
-call SaveInteger(zzVL_ht,'n00M',78,'I06Q')
-call SaveInteger(zzVL_ht,'n00M',79,'I017')
-call SaveInteger(zzVL_ht,'n00M',80,'I00R')
-call SaveInteger(zzVL_ht,'n00M',81,'I00P')
-call SaveInteger(zzVL_ht,'n00M',82,'I06P')
-call SaveInteger(zzVL_ht,'n00M',83,'I0PG')
-call SaveInteger(zzVL_ht,'n00M',101,3)
-call SaveInteger(zzVL_ht,'n00M',84,'I06U')
-call SaveInteger(zzVL_ht,'n00M',85,'I00S')
-call SaveInteger(zzVL_ht,'n00M',86,'I0PG')
+call SaveInteger(zzVL_ht,'zzGS',1,2)
+call SaveInteger(zzVL_ht,'zzGS',2,1)
+call SaveInteger(zzVL_ht,'zzGS',3,500)
+call SaveInteger(zzVL_ht,'zzGS',4,'n00M')
 call SaveInteger(zzVL_ht,'h0S0',80,'H002')
 call SaveInteger(zzVL_ht,'h0E1',81,'h0S0')
 call SaveInteger(zzVL_ht,'h0S1',80,'H01F')
@@ -24592,7 +25518,1356 @@ call SaveInteger(zzVL_ht,'I0Z5',1,1)
 set zzVL_cloak[5]='I0Z6'
 call SaveInteger(zzVL_ht,'I0Z6',1,1)
 endfunction
+function zzEQ_Items takes nothing returns nothing
+call SaveInteger(zzVL_ht,'ITV0',0,33)
+call SaveInteger(zzVL_ht,'ITV0',91,6)
+call SaveInteger(zzVL_ht,'ITV0',92,1)
+call SaveInteger(zzVL_ht,'ITV0',93,1)
+call SaveInteger(zzVL_ht,'ITV0',41,400)
+call SaveInteger(zzVL_ht,'ITV0',66,2)
+call SaveStr(zzVL_ht,'ITV0',100,"|cffffa500Đồng Kiếm")
+call SaveStr(zzVL_ht,'ITV0',120,"war3mapImported\\kvq\\w0_1.blp")
+call SaveStr(zzVL_ht,'ITV0',101,"|cffffa500Tùng Văn Kiếm")
+call SaveStr(zzVL_ht,'ITV0',121,"war3mapImported\\kvq\\w0_2.blp")
+call SaveStr(zzVL_ht,'ITV0',102,"|cffffa500Thất Xích Kiếm")
+call SaveStr(zzVL_ht,'ITV0',122,"war3mapImported\\kvq\\w0_3.blp")
+call SaveStr(zzVL_ht,'ITV0',103,"|cffffa500Thanh Phong Kiếm")
+call SaveStr(zzVL_ht,'ITV0',123,"war3mapImported\\kvq\\w0_4.blp")
+call SaveStr(zzVL_ht,'ITV0',104,"|cffffa500Long Tuyền Kiếm")
+call SaveStr(zzVL_ht,'ITV0',124,"war3mapImported\\kvq\\w0_5.blp")
+call SaveStr(zzVL_ht,'ITV0',105,"|cffffa500Xích Tiêu Kiếm")
+call SaveStr(zzVL_ht,'ITV0',125,"war3mapImported\\kvq\\w0_7.blp")
+call SaveStr(zzVL_ht,'ITV0',106,"|cffffa500Huyền Thiết Kiếm")
+call SaveStr(zzVL_ht,'ITV0',126,"war3mapImported\\kvq\\w0_9.blp")
+call SaveStr(zzVL_ht,'ITV0',107,"|cffffff00Băng Phách Hóa Kiếm")
+call SaveStr(zzVL_ht,'ITV0',127,"war3mapImported\\kvq\\w0_11.blp")
+call SaveStr(zzVL_ht,'ITV0',108,"|cffffff00Long Hình Bá Kiếm")
+call SaveStr(zzVL_ht,'ITV0',128,"war3mapImported\\kvq\\w0_12.blp")
+call SaveStr(zzVL_ht,'ITV0',109,"|cffffff00Kiếp Diệm Hoan Kiếm")
+call SaveStr(zzVL_ht,'ITV0',129,"war3mapImported\\kvq\\w0_13.blp")
+call SaveStr(zzVL_ht,'ITV0',110,"|cffffff00Khuynh Phong Đoạn Ảnh")
+call SaveStr(zzVL_ht,'ITV0',130,"war3mapImported\\kvq\\w0_14.blp")
+call SaveInteger(zzVL_ht,'ITV0',139,2)
+call SaveInteger(zzVL_ht,'ITV0',140,23)
+call SaveInteger(zzVL_ht,'ITV0',141,30)
+call SaveInteger(zzVL_ht,'ITV0',142,5)
+call SaveInteger(zzVL_ht,'ITV0',143,6)
+call SaveInteger(zzVL_ht,'ITV1',0,33)
+call SaveInteger(zzVL_ht,'ITV1',91,6)
+call SaveInteger(zzVL_ht,'ITV1',92,2)
+call SaveInteger(zzVL_ht,'ITV1',93,1)
+call SaveInteger(zzVL_ht,'ITV1',41,400)
+call SaveInteger(zzVL_ht,'ITV1',66,3)
+call SaveStr(zzVL_ht,'ITV1',100,"|cffffa500Đơn Đao")
+call SaveStr(zzVL_ht,'ITV1',120,"war3mapImported\\kvq\\w1_1.blp")
+call SaveStr(zzVL_ht,'ITV1',101,"|cffffa500Quỷ Đầu Đao")
+call SaveStr(zzVL_ht,'ITV1',121,"war3mapImported\\kvq\\w1_2.blp")
+call SaveStr(zzVL_ht,'ITV1',102,"|cffffa500Trảm Mã Đao")
+call SaveStr(zzVL_ht,'ITV1',122,"war3mapImported\\kvq\\w1_3.blp")
+call SaveStr(zzVL_ht,'ITV1',103,"|cffffa500Nhạn Linh Đao")
+call SaveStr(zzVL_ht,'ITV1',123,"war3mapImported\\kvq\\w1_4.blp")
+call SaveStr(zzVL_ht,'ITV1',104,"|cffffa500Nguyệt Nha Đao")
+call SaveStr(zzVL_ht,'ITV1',124,"war3mapImported\\kvq\\w1_5.blp")
+call SaveStr(zzVL_ht,'ITV1',105,"|cffffa500Phách Phong Đao")
+call SaveStr(zzVL_ht,'ITV1',125,"war3mapImported\\kvq\\w1_7.blp")
+call SaveStr(zzVL_ht,'ITV1',106,"|cffffa500Long Lân Đao")
+call SaveStr(zzVL_ht,'ITV1',126,"war3mapImported\\kvq\\w1_9.blp")
+call SaveStr(zzVL_ht,'ITV1',107,"|cffffff00Càn Khôn Hoài Đao")
+call SaveStr(zzVL_ht,'ITV1',127,"war3mapImported\\kvq\\w1_11.blp")
+call SaveStr(zzVL_ht,'ITV1',108,"|cffffff00Cửu Luyện Thần Đao")
+call SaveStr(zzVL_ht,'ITV1',128,"war3mapImported\\kvq\\w1_12.blp")
+call SaveStr(zzVL_ht,'ITV1',109,"|cffffff00Đoạn Quang Tà Nhẫn")
+call SaveStr(zzVL_ht,'ITV1',129,"war3mapImported\\kvq\\w1_13.blp")
+call SaveStr(zzVL_ht,'ITV1',110,"|cffffff00Áp Tuyết Đao")
+call SaveStr(zzVL_ht,'ITV1',130,"war3mapImported\\kvq\\w1_14.blp")
+call SaveInteger(zzVL_ht,'ITV1',139,2)
+call SaveInteger(zzVL_ht,'ITV1',140,23)
+call SaveInteger(zzVL_ht,'ITV1',141,30)
+call SaveInteger(zzVL_ht,'ITV1',142,5)
+call SaveInteger(zzVL_ht,'ITV1',143,6)
+call SaveInteger(zzVL_ht,'ITV2',0,33)
+call SaveInteger(zzVL_ht,'ITV2',91,6)
+call SaveInteger(zzVL_ht,'ITV2',92,3)
+call SaveInteger(zzVL_ht,'ITV2',93,1)
+call SaveInteger(zzVL_ht,'ITV2',41,400)
+call SaveInteger(zzVL_ht,'ITV2',66,4)
+call SaveStr(zzVL_ht,'ITV2',100,"|cffffa500Trường Thương")
+call SaveStr(zzVL_ht,'ITV2',120,"war3mapImported\\kvq\\w2_1.blp")
+call SaveStr(zzVL_ht,'ITV2',101,"|cffffa500Hồng Anh Thương")
+call SaveStr(zzVL_ht,'ITV2',121,"war3mapImported\\kvq\\w2_2.blp")
+call SaveStr(zzVL_ht,'ITV2',102,"|cffffa500Điểm Cang Thương")
+call SaveStr(zzVL_ht,'ITV2',122,"war3mapImported\\kvq\\w2_3.blp")
+call SaveStr(zzVL_ht,'ITV2',103,"|cffffa500Hoàn Tử Thương")
+call SaveStr(zzVL_ht,'ITV2',123,"war3mapImported\\kvq\\w2_4.blp")
+call SaveStr(zzVL_ht,'ITV2',104,"|cffffa500Kim Câu Thương")
+call SaveStr(zzVL_ht,'ITV2',124,"war3mapImported\\kvq\\w2_5.blp")
+call SaveStr(zzVL_ht,'ITV2',105,"|cffffa500Hỏa Tiêm Thương")
+call SaveStr(zzVL_ht,'ITV2',125,"war3mapImported\\kvq\\w2_7.blp")
+call SaveStr(zzVL_ht,'ITV2',106,"|cffffa500Kinh Lôi Thương")
+call SaveStr(zzVL_ht,'ITV2',126,"war3mapImported\\kvq\\w2_9.blp")
+call SaveStr(zzVL_ht,'ITV2',107,"|cffffff00Quỷ Liệt Thương")
+call SaveStr(zzVL_ht,'ITV2',127,"war3mapImported\\kvq\\w2_11.blp")
+call SaveStr(zzVL_ht,'ITV2',108,"|cffffff00Long Vương Thương")
+call SaveStr(zzVL_ht,'ITV2',128,"war3mapImported\\kvq\\w2_12.blp")
+call SaveStr(zzVL_ht,'ITV2',109,"|cffffff00Ngự Phượng Thương")
+call SaveStr(zzVL_ht,'ITV2',129,"war3mapImported\\kvq\\w2_13.blp")
+call SaveStr(zzVL_ht,'ITV2',110,"|cffffff00Ngự Phượng Thương")
+call SaveStr(zzVL_ht,'ITV2',130,"war3mapImported\\kvq\\w2_14.blp")
+call SaveInteger(zzVL_ht,'ITV2',139,2)
+call SaveInteger(zzVL_ht,'ITV2',140,23)
+call SaveInteger(zzVL_ht,'ITV2',141,30)
+call SaveInteger(zzVL_ht,'ITV2',142,5)
+call SaveInteger(zzVL_ht,'ITV2',143,6)
+call SaveInteger(zzVL_ht,'ITV3',0,33)
+call SaveInteger(zzVL_ht,'ITV3',91,6)
+call SaveInteger(zzVL_ht,'ITV3',92,4)
+call SaveInteger(zzVL_ht,'ITV3',93,1)
+call SaveInteger(zzVL_ht,'ITV3',41,400)
+call SaveInteger(zzVL_ht,'ITV3',66,5)
+call SaveStr(zzVL_ht,'ITV3',100,"|cffffa500Chiến Chùy")
+call SaveStr(zzVL_ht,'ITV3',120,"war3mapImported\\kvq\\w3_1.blp")
+call SaveStr(zzVL_ht,'ITV3',101,"|cffffa500Bát Lăng Chùy")
+call SaveStr(zzVL_ht,'ITV3',121,"war3mapImported\\kvq\\w3_2.blp")
+call SaveStr(zzVL_ht,'ITV3',102,"|cffffa500Ngũ Tinh Chùy")
+call SaveStr(zzVL_ht,'ITV3',122,"war3mapImported\\kvq\\w3_3.blp")
+call SaveStr(zzVL_ht,'ITV3',103,"|cffffa500Lượng Ngân Chùy")
+call SaveStr(zzVL_ht,'ITV3',123,"war3mapImported\\kvq\\w3_4.blp")
+call SaveStr(zzVL_ht,'ITV3',104,"|cffffa500Tích Lịch Chùy")
+call SaveStr(zzVL_ht,'ITV3',124,"war3mapImported\\kvq\\w3_5.blp")
+call SaveStr(zzVL_ht,'ITV3',105,"|cffffa500Liệt Tâm Chùy")
+call SaveStr(zzVL_ht,'ITV3',125,"war3mapImported\\kvq\\w3_7.blp")
+call SaveStr(zzVL_ht,'ITV3',106,"|cffffa500Nghiệt Long Chùy")
+call SaveStr(zzVL_ht,'ITV3',126,"war3mapImported\\kvq\\w3_9.blp")
+call SaveStr(zzVL_ht,'ITV3',107,"|cffffff00Chiến Chùy Bát Hoang")
+call SaveStr(zzVL_ht,'ITV3',127,"war3mapImported\\kvq\\w3_11.blp")
+call SaveStr(zzVL_ht,'ITV3',108,"|cffffff00Cổ Chùy Trấn Ma")
+call SaveStr(zzVL_ht,'ITV3',128,"war3mapImported\\kvq\\w3_12.blp")
+call SaveStr(zzVL_ht,'ITV3',109,"|cffffff00Thần Chùy Kinh Lôi")
+call SaveStr(zzVL_ht,'ITV3',129,"war3mapImported\\kvq\\w3_13.blp")
+call SaveStr(zzVL_ht,'ITV3',110,"|cffffff00Quyện Long Chùy")
+call SaveStr(zzVL_ht,'ITV3',130,"war3mapImported\\kvq\\w3_14.blp")
+call SaveInteger(zzVL_ht,'ITV3',139,2)
+call SaveInteger(zzVL_ht,'ITV3',140,23)
+call SaveInteger(zzVL_ht,'ITV3',141,30)
+call SaveInteger(zzVL_ht,'ITV3',142,5)
+call SaveInteger(zzVL_ht,'ITV3',143,6)
+call SaveInteger(zzVL_ht,'ITV4',0,33)
+call SaveInteger(zzVL_ht,'ITV4',91,6)
+call SaveInteger(zzVL_ht,'ITV4',92,5)
+call SaveInteger(zzVL_ht,'ITV4',93,1)
+call SaveInteger(zzVL_ht,'ITV4',41,400)
+call SaveInteger(zzVL_ht,'ITV4',66,1)
+call SaveStr(zzVL_ht,'ITV4',100,"|cffffa500Thô Bố Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',120,"war3mapImported\\kvq\\w4_1.blp")
+call SaveStr(zzVL_ht,'ITV4',101,"|cffffa500La Hán Triển Thủ")
+call SaveStr(zzVL_ht,'ITV4',121,"war3mapImported\\kvq\\w4_2.blp")
+call SaveStr(zzVL_ht,'ITV4',102,"|cffffa500Quyền Tông Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',122,"war3mapImported\\kvq\\w4_3.blp")
+call SaveStr(zzVL_ht,'ITV4',103,"|cffffa500Phi Ngư Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',123,"war3mapImported\\kvq\\w4_4.blp")
+call SaveStr(zzVL_ht,'ITV4',104,"|cffffa500Xuyên Vân Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',124,"war3mapImported\\kvq\\w4_5.blp")
+call SaveStr(zzVL_ht,'ITV4',105,"|cffffa500Huyền Vũ Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',125,"war3mapImported\\kvq\\w4_7.blp")
+call SaveStr(zzVL_ht,'ITV4',106,"|cffffa500Bạch Hổ Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',126,"war3mapImported\\kvq\\w4_9.blp")
+call SaveStr(zzVL_ht,'ITV4',107,"|cffffff00Ngưng Ngọc Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',127,"war3mapImported\\kvq\\w4_11.blp")
+call SaveStr(zzVL_ht,'ITV4',108,"|cffffff00Phọc Hồn Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',128,"war3mapImported\\kvq\\w4_12.blp")
+call SaveStr(zzVL_ht,'ITV4',109,"|cffffff00Viêm Phượng Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',129,"war3mapImported\\kvq\\w4_13.blp")
+call SaveStr(zzVL_ht,'ITV4',110,"|cffffff00Thiên Tuyệt Triền Thủ")
+call SaveStr(zzVL_ht,'ITV4',130,"war3mapImported\\kvq\\w4_14.blp")
+call SaveInteger(zzVL_ht,'ITV4',139,2)
+call SaveInteger(zzVL_ht,'ITV4',140,23)
+call SaveInteger(zzVL_ht,'ITV4',141,30)
+call SaveInteger(zzVL_ht,'ITV4',142,5)
+call SaveInteger(zzVL_ht,'ITV4',143,6)
+call SaveInteger(zzVL_ht,'ITV5',0,33)
+call SaveInteger(zzVL_ht,'ITV5',91,6)
+call SaveInteger(zzVL_ht,'ITV5',92,6)
+call SaveInteger(zzVL_ht,'ITV5',93,1)
+call SaveInteger(zzVL_ht,'ITV5',41,400)
+call SaveInteger(zzVL_ht,'ITV5',66,2)
+call SaveStr(zzVL_ht,'ITV5',100,"|cffffa500Trọng Mộc Côn")
+call SaveStr(zzVL_ht,'ITV5',120,"war3mapImported\\kvq\\w5_1.blp")
+call SaveStr(zzVL_ht,'ITV5',101,"|cffffa500Tề Mi Côn")
+call SaveStr(zzVL_ht,'ITV5',121,"war3mapImported\\kvq\\w5_2.blp")
+call SaveStr(zzVL_ht,'ITV5',102,"|cffffa500Tứ Bình Côn")
+call SaveStr(zzVL_ht,'ITV5',122,"war3mapImported\\kvq\\w5_3.blp")
+call SaveStr(zzVL_ht,'ITV5',103,"|cffffa500Bàn Hoa Côn")
+call SaveStr(zzVL_ht,'ITV5',123,"war3mapImported\\kvq\\w5_4.blp")
+call SaveStr(zzVL_ht,'ITV5',104,"|cffffa500Phân Thủy Côn")
+call SaveStr(zzVL_ht,'ITV5',124,"war3mapImported\\kvq\\w5_5.blp")
+call SaveStr(zzVL_ht,'ITV5',105,"|cffffa500Tử Kim Lương")
+call SaveStr(zzVL_ht,'ITV5',125,"war3mapImported\\kvq\\w5_7.blp")
+call SaveStr(zzVL_ht,'ITV5',106,"|cffffa500Giác Hải Bổng")
+call SaveStr(zzVL_ht,'ITV5',126,"war3mapImported\\kvq\\w5_9.blp")
+call SaveStr(zzVL_ht,'ITV5',107,"|cffffff00U Nhật Li Hỏa Côn")
+call SaveStr(zzVL_ht,'ITV5',127,"war3mapImported\\kvq\\w5_11.blp")
+call SaveStr(zzVL_ht,'ITV5',108,"|cffffff00Phong Lôi Long Bàn Côn")
+call SaveStr(zzVL_ht,'ITV5',128,"war3mapImported\\kvq\\w5_12.blp")
+call SaveStr(zzVL_ht,'ITV5',109,"|cffffff00Dao Quang Quân Thiên Côn")
+call SaveStr(zzVL_ht,'ITV5',129,"war3mapImported\\kvq\\w5_13.blp")
+call SaveStr(zzVL_ht,'ITV5',110,"|cffffff00Vô Nhẫn Trảm Nghiệp")
+call SaveStr(zzVL_ht,'ITV5',130,"war3mapImported\\kvq\\w5_14.blp")
+call SaveInteger(zzVL_ht,'ITV5',139,2)
+call SaveInteger(zzVL_ht,'ITV5',140,23)
+call SaveInteger(zzVL_ht,'ITV5',141,30)
+call SaveInteger(zzVL_ht,'ITV5',142,5)
+call SaveInteger(zzVL_ht,'ITV5',143,6)
+call SaveInteger(zzVL_ht,'ITV6',0,33)
+call SaveInteger(zzVL_ht,'ITV6',91,6)
+call SaveInteger(zzVL_ht,'ITV6',92,7)
+call SaveInteger(zzVL_ht,'ITV6',93,1)
+call SaveInteger(zzVL_ht,'ITV6',41,400)
+call SaveInteger(zzVL_ht,'ITV6',66,3)
+call SaveStr(zzVL_ht,'ITV6',100,"|cffffa500Tụ Lí Tiễn")
+call SaveStr(zzVL_ht,'ITV6',120,"war3mapImported\\kvq\\w6_1.blp")
+call SaveStr(zzVL_ht,'ITV6',101,"|cffffa500Phá Giáp Tiễn")
+call SaveStr(zzVL_ht,'ITV6',121,"war3mapImported\\kvq\\w6_2.blp")
+call SaveStr(zzVL_ht,'ITV6',102,"|cffffa500Phi Hồng Tiễn")
+call SaveStr(zzVL_ht,'ITV6',122,"war3mapImported\\kvq\\w6_3.blp")
+call SaveStr(zzVL_ht,'ITV6',103,"|cffffa500Ám Ảnh Tiễn")
+call SaveStr(zzVL_ht,'ITV6',123,"war3mapImported\\kvq\\w6_4.blp")
+call SaveStr(zzVL_ht,'ITV6',104,"|cffffa500Liên Châu Tiễn")
+call SaveStr(zzVL_ht,'ITV6',124,"war3mapImported\\kvq\\w6_5.blp")
+call SaveStr(zzVL_ht,'ITV6',105,"|cffffa500Chu Tâm Tiễn")
+call SaveStr(zzVL_ht,'ITV6',125,"war3mapImported\\kvq\\w6_7.blp")
+call SaveStr(zzVL_ht,'ITV6',106,"|cffffa500Thất Tinh Thấu Cốt")
+call SaveStr(zzVL_ht,'ITV6',126,"war3mapImported\\kvq\\w6_9.blp")
+call SaveStr(zzVL_ht,'ITV6',107,"|cffffff00Hắc Vũ Tiễn")
+call SaveStr(zzVL_ht,'ITV6',127,"war3mapImported\\kvq\\w6_11.blp")
+call SaveStr(zzVL_ht,'ITV6',108,"|cffffff00Hồng Liên Tiễn")
+call SaveStr(zzVL_ht,'ITV6',128,"war3mapImported\\kvq\\w6_12.blp")
+call SaveStr(zzVL_ht,'ITV6',109,"|cffffff00U Minh Tiễn")
+call SaveStr(zzVL_ht,'ITV6',129,"war3mapImported\\kvq\\w6_13.blp")
+call SaveStr(zzVL_ht,'ITV6',110,"|cffffff00Ẩn Hồn Tiễn")
+call SaveStr(zzVL_ht,'ITV6',130,"war3mapImported\\kvq\\w6_14.blp")
+call SaveInteger(zzVL_ht,'ITV6',139,2)
+call SaveInteger(zzVL_ht,'ITV6',140,23)
+call SaveInteger(zzVL_ht,'ITV6',141,30)
+call SaveInteger(zzVL_ht,'ITV6',142,5)
+call SaveInteger(zzVL_ht,'ITV6',143,6)
+call SaveInteger(zzVL_ht,'ITV7',0,33)
+call SaveInteger(zzVL_ht,'ITV7',91,6)
+call SaveInteger(zzVL_ht,'ITV7',92,8)
+call SaveInteger(zzVL_ht,'ITV7',93,1)
+call SaveInteger(zzVL_ht,'ITV7',41,400)
+call SaveInteger(zzVL_ht,'ITV7',66,4)
+call SaveStr(zzVL_ht,'ITV7',100,"|cffffa500Phi Đao")
+call SaveStr(zzVL_ht,'ITV7',120,"war3mapImported\\kvq\\w7_1.blp")
+call SaveStr(zzVL_ht,'ITV7',101,"|cffffa500Thiết Dực Đao")
+call SaveStr(zzVL_ht,'ITV7',121,"war3mapImported\\kvq\\w7_2.blp")
+call SaveStr(zzVL_ht,'ITV7',102,"|cffffa500Phá Phong Đao")
+call SaveStr(zzVL_ht,'ITV7',122,"war3mapImported\\kvq\\w7_3.blp")
+call SaveStr(zzVL_ht,'ITV7',103,"|cffffa500Phù Không Đao")
+call SaveStr(zzVL_ht,'ITV7',123,"war3mapImported\\kvq\\w7_4.blp")
+call SaveStr(zzVL_ht,'ITV7',104,"|cffffa500Định Quân Đao")
+call SaveStr(zzVL_ht,'ITV7',124,"war3mapImported\\kvq\\w7_5.blp")
+call SaveStr(zzVL_ht,'ITV7',105,"|cffffa500Mạt Hầu Đao")
+call SaveStr(zzVL_ht,'ITV7',125,"war3mapImported\\kvq\\w7_7.blp")
+call SaveStr(zzVL_ht,'ITV7',106,"|cffffa500Tuyệt Ảnh Đao")
+call SaveStr(zzVL_ht,'ITV7',126,"war3mapImported\\kvq\\w7_9.blp")
+call SaveStr(zzVL_ht,'ITV7',107,"|cffffff00Tam Sách Đoạn Hầu Đao")
+call SaveStr(zzVL_ht,'ITV7',127,"war3mapImported\\kvq\\w7_11.blp")
+call SaveStr(zzVL_ht,'ITV7',108,"|cffffff00Tử Mẫu Li Hồn Đao")
+call SaveStr(zzVL_ht,'ITV7',128,"war3mapImported\\kvq\\w7_12.blp")
+call SaveStr(zzVL_ht,'ITV7',109,"|cffffff00Âm Dương Băng Viêm Đao")
+call SaveStr(zzVL_ht,'ITV7',129,"war3mapImported\\kvq\\w7_13.blp")
+call SaveStr(zzVL_ht,'ITV7',110,"|cffffff00Thanh Tôn Đao")
+call SaveStr(zzVL_ht,'ITV7',130,"war3mapImported\\kvq\\w7_14.blp")
+call SaveInteger(zzVL_ht,'ITV7',139,2)
+call SaveInteger(zzVL_ht,'ITV7',140,23)
+call SaveInteger(zzVL_ht,'ITV7',141,30)
+call SaveInteger(zzVL_ht,'ITV7',142,5)
+call SaveInteger(zzVL_ht,'ITV7',143,6)
+call SaveInteger(zzVL_ht,'ITV8',0,33)
+call SaveInteger(zzVL_ht,'ITV8',91,6)
+call SaveInteger(zzVL_ht,'ITV8',92,9)
+call SaveInteger(zzVL_ht,'ITV8',93,1)
+call SaveInteger(zzVL_ht,'ITV8',41,400)
+call SaveInteger(zzVL_ht,'ITV8',66,5)
+call SaveStr(zzVL_ht,'ITV8',100,"|cffffa500Cảnh Ác Đao")
+call SaveStr(zzVL_ht,'ITV8',120,"war3mapImported\\kvq\\w8_1.blp")
+call SaveStr(zzVL_ht,'ITV8',101,"|cffffa500Phá Phong Đao")
+call SaveStr(zzVL_ht,'ITV8',121,"war3mapImported\\kvq\\w8_2.blp")
+call SaveStr(zzVL_ht,'ITV8',102,"|cffffa500Ngũ Sắc Đao")
+call SaveStr(zzVL_ht,'ITV8',122,"war3mapImported\\kvq\\w8_3.blp")
+call SaveStr(zzVL_ht,'ITV8',103,"|cffffa500Ôn Đồng Đao")
+call SaveStr(zzVL_ht,'ITV8',123,"war3mapImported\\kvq\\w8_4.blp")
+call SaveStr(zzVL_ht,'ITV8',104,"|cffffa500Thất Tinh Đao")
+call SaveStr(zzVL_ht,'ITV8',124,"war3mapImported\\kvq\\w8_5.blp")
+call SaveStr(zzVL_ht,'ITV8',105,"|cffffa500Bách Thắng Đao")
+call SaveStr(zzVL_ht,'ITV8',125,"war3mapImported\\kvq\\w8_7.blp")
+call SaveStr(zzVL_ht,'ITV8',106,"|cffffa500Hàn Nguyệt Đao")
+call SaveStr(zzVL_ht,'ITV8',126,"war3mapImported\\kvq\\w8_9.blp")
+call SaveStr(zzVL_ht,'ITV8',107,"|cffffff00Phí Huyết")
+call SaveStr(zzVL_ht,'ITV8',127,"war3mapImported\\kvq\\w8_11.blp")
+call SaveStr(zzVL_ht,'ITV8',108,"|cffffff00Hổ Dực")
+call SaveStr(zzVL_ht,'ITV8',128,"war3mapImported\\kvq\\w8_12.blp")
+call SaveStr(zzVL_ht,'ITV8',109,"|cffffff00Tuyệt Sát")
+call SaveStr(zzVL_ht,'ITV8',129,"war3mapImported\\kvq\\w8_13.blp")
+call SaveStr(zzVL_ht,'ITV8',110,"|cffffff00Trường Kinh Đao")
+call SaveStr(zzVL_ht,'ITV8',130,"war3mapImported\\kvq\\w8_14.blp")
+call SaveInteger(zzVL_ht,'ITV8',139,2)
+call SaveInteger(zzVL_ht,'ITV8',140,23)
+call SaveInteger(zzVL_ht,'ITV8',141,30)
+call SaveInteger(zzVL_ht,'ITV8',142,5)
+call SaveInteger(zzVL_ht,'ITV8',143,6)
+call SaveInteger(zzVL_ht,'ITV9',0,33)
+call SaveInteger(zzVL_ht,'ITV9',91,6)
+call SaveInteger(zzVL_ht,'ITV9',92,10)
+call SaveInteger(zzVL_ht,'ITV9',93,1)
+call SaveInteger(zzVL_ht,'ITV9',41,400)
+call SaveInteger(zzVL_ht,'ITV9',66,1)
+call SaveStr(zzVL_ht,'ITV9',100,"|cffffa500Ác Thù Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',120,"war3mapImported\\kvq\\w9_1.blp")
+call SaveStr(zzVL_ht,'ITV9',101,"|cffffa500Phong Đinh Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',121,"war3mapImported\\kvq\\w9_2.blp")
+call SaveStr(zzVL_ht,'ITV9',102,"|cffffa500Thất Kính Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',122,"war3mapImported\\kvq\\w9_3.blp")
+call SaveStr(zzVL_ht,'ITV9',103,"|cffffa500Băng Kinh Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',123,"war3mapImported\\kvq\\w9_4.blp")
+call SaveStr(zzVL_ht,'ITV9',104,"|cffffa500Lục Cổ Địa Đao")
+call SaveStr(zzVL_ht,'ITV9',124,"war3mapImported\\kvq\\w9_5.blp")
+call SaveStr(zzVL_ht,'ITV9',105,"|cffffa500Chiến Cuồng Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',125,"war3mapImported\\kvq\\w9_7.blp")
+call SaveStr(zzVL_ht,'ITV9',106,"|cffffa500Hàn Nguyệt Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',126,"war3mapImported\\kvq\\w9_9.blp")
+call SaveStr(zzVL_ht,'ITV9',107,"|cffffff00Tật Phong Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',127,"war3mapImported\\kvq\\w9_11.blp")
+call SaveStr(zzVL_ht,'ITV9',108,"|cffffff00Huyền Băng Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',128,"war3mapImported\\kvq\\w9_12.blp")
+call SaveStr(zzVL_ht,'ITV9',109,"|cffffff00Liệt Diệm Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',129,"war3mapImported\\kvq\\w9_13.blp")
+call SaveStr(zzVL_ht,'ITV9',110,"|cffffff00Đan Phượng Đại Đao")
+call SaveStr(zzVL_ht,'ITV9',130,"war3mapImported\\kvq\\w9_14.blp")
+call SaveInteger(zzVL_ht,'ITV9',139,2)
+call SaveInteger(zzVL_ht,'ITV9',140,23)
+call SaveInteger(zzVL_ht,'ITV9',141,30)
+call SaveInteger(zzVL_ht,'ITV9',142,5)
+call SaveInteger(zzVL_ht,'ITV9',143,6)
+call SaveInteger(zzVL_ht,'ITVA',0,33)
+call SaveInteger(zzVL_ht,'ITVA',91,6)
+call SaveInteger(zzVL_ht,'ITVA',92,11)
+call SaveInteger(zzVL_ht,'ITVA',93,1)
+call SaveInteger(zzVL_ht,'ITVA',41,400)
+call SaveInteger(zzVL_ht,'ITVA',66,4)
+call SaveStr(zzVL_ht,'ITVA',100,"|cffffa500Phi Tiêu")
+call SaveStr(zzVL_ht,'ITVA',120,"war3mapImported\\kvq\\w10_1.blp")
+call SaveStr(zzVL_ht,'ITVA',101,"|cffffa500Liễu Diệp Tiêu")
+call SaveStr(zzVL_ht,'ITVA',121,"war3mapImported\\kvq\\w10_2.blp")
+call SaveStr(zzVL_ht,'ITVA',102,"|cffffa500Lượng Ngân Tiêu")
+call SaveStr(zzVL_ht,'ITVA',122,"war3mapImported\\kvq\\w10_3.blp")
+call SaveStr(zzVL_ht,'ITVA',103,"|cffffa500Kim Tiền Tiêu")
+call SaveStr(zzVL_ht,'ITVA',123,"war3mapImported\\kvq\\w10_4.blp")
+call SaveStr(zzVL_ht,'ITVA',104,"|cffffa500Tuyệt Tình Tiêu")
+call SaveStr(zzVL_ht,'ITVA',124,"war3mapImported\\kvq\\w10_5.blp")
+call SaveStr(zzVL_ht,'ITVA',105,"|cffffa500Tán Hoa Tiêu")
+call SaveStr(zzVL_ht,'ITVA',125,"war3mapImported\\kvq\\w10_7.blp")
+call SaveStr(zzVL_ht,'ITVA',106,"|cffffa500Hoa Vũ Mãn Thiên")
+call SaveStr(zzVL_ht,'ITVA',126,"war3mapImported\\kvq\\w10_9.blp")
+call SaveStr(zzVL_ht,'ITVA',107,"|cffffff00Nhiếp Ảnh")
+call SaveStr(zzVL_ht,'ITVA',127,"war3mapImported\\kvq\\w10_11.blp")
+call SaveStr(zzVL_ht,'ITVA',108,"|cffffff00Tật Phong")
+call SaveStr(zzVL_ht,'ITVA',128,"war3mapImported\\kvq\\w10_12.blp")
+call SaveStr(zzVL_ht,'ITVA',109,"|cffffff00Trích Tinh")
+call SaveStr(zzVL_ht,'ITVA',129,"war3mapImported\\kvq\\w10_13.blp")
+call SaveStr(zzVL_ht,'ITVA',110,"|cffffff00Thất Sát Tiêu")
+call SaveStr(zzVL_ht,'ITVA',130,"war3mapImported\\kvq\\w10_14.blp")
+call SaveInteger(zzVL_ht,'ITVA',139,2)
+call SaveInteger(zzVL_ht,'ITVA',140,23)
+call SaveInteger(zzVL_ht,'ITVA',141,30)
+call SaveInteger(zzVL_ht,'ITVA',142,5)
+call SaveInteger(zzVL_ht,'ITVA',143,6)
+call SaveInteger(zzVL_ht,'ITS1',0,13)
+call SaveInteger(zzVL_ht,'ITS1',91,1)
+call SaveInteger(zzVL_ht,'ITS1',92,0)
+call SaveInteger(zzVL_ht,'ITS1',93,1)
+call SaveInteger(zzVL_ht,'ITS1',41,400)
+call SaveStr(zzVL_ht,'ITS1',100,"|cffffa500Thanh Đồng Thúc Phát")
+call SaveStr(zzVL_ht,'ITS1',120,"war3mapImported\\kvq\\s1_1.blp")
+call SaveStr(zzVL_ht,'ITS1',101,"|cffffa500Tinh Thiết Thúc Phát")
+call SaveStr(zzVL_ht,'ITS1',121,"war3mapImported\\kvq\\s1_2.blp")
+call SaveStr(zzVL_ht,'ITS1',102,"|cffffa500Song Diện Khôi")
+call SaveStr(zzVL_ht,'ITS1',122,"war3mapImported\\kvq\\s1_3.blp")
+call SaveStr(zzVL_ht,'ITS1',103,"|cffffa500Minh Quang Khôi")
+call SaveStr(zzVL_ht,'ITS1',123,"war3mapImported\\kvq\\s1_4.blp")
+call SaveStr(zzVL_ht,'ITS1',104,"|cffffa500Tế Lân Quán")
+call SaveStr(zzVL_ht,'ITS1',124,"war3mapImported\\kvq\\s1_5.blp")
+call SaveStr(zzVL_ht,'ITS1',105,"|cffffa500Lôi Tri Quán")
+call SaveStr(zzVL_ht,'ITS1',125,"war3mapImported\\kvq\\s1_6.blp")
+call SaveStr(zzVL_ht,'ITS1',106,"|cffffa500Thôn Long Khôi")
+call SaveStr(zzVL_ht,'ITS1',126,"war3mapImported\\kvq\\s1_8.blp")
+call SaveStr(zzVL_ht,'ITS1',107,"|cffffa500Yểm Nhật Khôi")
+call SaveStr(zzVL_ht,'ITS1',127,"war3mapImported\\kvq\\s1_10.blp")
+call SaveStr(zzVL_ht,'ITS1',108,"|cffffff00Thương Khung Quán")
+call SaveStr(zzVL_ht,'ITS1',128,"war3mapImported\\kvq\\s1_11.blp")
+call SaveStr(zzVL_ht,'ITS1',109,"|cffffff00Huyền Dương Khôi")
+call SaveStr(zzVL_ht,'ITS1',129,"war3mapImported\\kvq\\s1_12.blp")
+call SaveStr(zzVL_ht,'ITS1',110,"|cffffff00Trục Lộc Kinh Vân Khôi")
+call SaveStr(zzVL_ht,'ITS1',130,"war3mapImported\\kvq\\s1_13.blp")
+call SaveInteger(zzVL_ht,'ITS1',139,3)
+call SaveInteger(zzVL_ht,'ITS1',140,8)
+call SaveInteger(zzVL_ht,'ITS1',141,10)
+call SaveInteger(zzVL_ht,'ITS1',142,9)
+call SaveInteger(zzVL_ht,'ITS1',143,10)
+call SaveInteger(zzVL_ht,'ITS1',144,10)
+call SaveInteger(zzVL_ht,'ITS1',145,10)
+call SaveInteger(zzVL_ht,'ITS2',0,23)
+call SaveInteger(zzVL_ht,'ITS2',91,2)
+call SaveInteger(zzVL_ht,'ITS2',92,0)
+call SaveInteger(zzVL_ht,'ITS2',93,1)
+call SaveInteger(zzVL_ht,'ITS2',41,400)
+call SaveStr(zzVL_ht,'ITS2',100,"|cffffa500Khinh Giáp")
+call SaveStr(zzVL_ht,'ITS2',120,"war3mapImported\\kvq\\s2_1.blp")
+call SaveStr(zzVL_ht,'ITS2',101,"|cffffa500Tỏa Tử Giáp")
+call SaveStr(zzVL_ht,'ITS2',121,"war3mapImported\\kvq\\s2_2.blp")
+call SaveStr(zzVL_ht,'ITS2',102,"|cffffa500Lưỡng Đang Khải")
+call SaveStr(zzVL_ht,'ITS2',122,"war3mapImported\\kvq\\s2_3.blp")
+call SaveStr(zzVL_ht,'ITS2',103,"|cffffa500Minh Quang Khải")
+call SaveStr(zzVL_ht,'ITS2',123,"war3mapImported\\kvq\\s2_4.blp")
+call SaveStr(zzVL_ht,'ITS2',104,"|cffffa500Tế Lân Giáp")
+call SaveStr(zzVL_ht,'ITS2',124,"war3mapImported\\kvq\\s2_5.blp")
+call SaveStr(zzVL_ht,'ITS2',105,"|cffffa500Điểu Chùy Giáp")
+call SaveStr(zzVL_ht,'ITS2',125,"war3mapImported\\kvq\\s2_6.blp")
+call SaveStr(zzVL_ht,'ITS2',106,"|cffffa500Tỏa Tử Hoàng Kim Giáp")
+call SaveStr(zzVL_ht,'ITS2',126,"war3mapImported\\kvq\\s2_8.blp")
+call SaveStr(zzVL_ht,'ITS2',107,"|cffffa500Kính Hoa Khải")
+call SaveStr(zzVL_ht,'ITS2',127,"war3mapImported\\kvq\\s2_10.blp")
+call SaveStr(zzVL_ht,'ITS2',108,"|cffffff00Trục Nhật Y")
+call SaveStr(zzVL_ht,'ITS2',128,"war3mapImported\\kvq\\s2_11.blp")
+call SaveStr(zzVL_ht,'ITS2',109,"|cffffff00Thừa Ảnh Y")
+call SaveStr(zzVL_ht,'ITS2',129,"war3mapImported\\kvq\\s2_12.blp")
+call SaveStr(zzVL_ht,'ITS2',110,"|cffffff00Vũ Uy Trường Không Y")
+call SaveStr(zzVL_ht,'ITS2',130,"war3mapImported\\kvq\\s2_13.blp")
+call SaveInteger(zzVL_ht,'ITS2',139,2)
+call SaveInteger(zzVL_ht,'ITS2',140,24)
+call SaveInteger(zzVL_ht,'ITS2',141,3)
+call SaveInteger(zzVL_ht,'ITS2',142,6)
+call SaveInteger(zzVL_ht,'ITS2',143,2)
+call SaveInteger(zzVL_ht,'ITS3',0,53)
+call SaveInteger(zzVL_ht,'ITS3',91,3)
+call SaveInteger(zzVL_ht,'ITS3',92,0)
+call SaveInteger(zzVL_ht,'ITS3',93,1)
+call SaveInteger(zzVL_ht,'ITS3',41,400)
+call SaveStr(zzVL_ht,'ITS3',100,"|cffffa500Thô Ma Thúc Yêu")
+call SaveStr(zzVL_ht,'ITS3',120,"war3mapImported\\kvq\\s3_1.blp")
+call SaveStr(zzVL_ht,'ITS3',101,"|cffffa500Xuyết Giáp Yêu Đái")
+call SaveStr(zzVL_ht,'ITS3',121,"war3mapImported\\kvq\\s3_2.blp")
+call SaveStr(zzVL_ht,'ITS3',102,"|cffffa500Thanh Thú Yêu Đái")
+call SaveStr(zzVL_ht,'ITS3',122,"war3mapImported\\kvq\\s3_3.blp")
+call SaveStr(zzVL_ht,'ITS3',103,"|cffffa500Ngân Lang Yêu Đái")
+call SaveStr(zzVL_ht,'ITS3',123,"war3mapImported\\kvq\\s3_4.blp")
+call SaveStr(zzVL_ht,'ITS3',104,"|cffffa500Băng Trần Yêu Đái")
+call SaveStr(zzVL_ht,'ITS3',124,"war3mapImported\\kvq\\s3_5.blp")
+call SaveStr(zzVL_ht,'ITS3',105,"|cffffa500Giáp Lam Thúc Yêu")
+call SaveStr(zzVL_ht,'ITS3',125,"war3mapImported\\kvq\\s3_6.blp")
+call SaveStr(zzVL_ht,'ITS3',106,"|cffffa500Ngọa Hổ Thúc Yêu")
+call SaveStr(zzVL_ht,'ITS3',126,"war3mapImported\\kvq\\s3_8.blp")
+call SaveStr(zzVL_ht,'ITS3',107,"|cffffa500Võ Hầu Yêu Đái")
+call SaveStr(zzVL_ht,'ITS3',127,"war3mapImported\\kvq\\s3_10.blp")
+call SaveStr(zzVL_ht,'ITS3',108,"|cffffff00Hoàng Long Triền Yêu")
+call SaveStr(zzVL_ht,'ITS3',128,"war3mapImported\\kvq\\s3_11.blp")
+call SaveStr(zzVL_ht,'ITS3',109,"|cffffff00Hoa Hạ Đằng Long Thúc Yêu")
+call SaveStr(zzVL_ht,'ITS3',129,"war3mapImported\\kvq\\s3_12.blp")
+call SaveStr(zzVL_ht,'ITS3',110,"|cffffff00Thần Châu Viêm Đế Thúc Yêu")
+call SaveStr(zzVL_ht,'ITS3',130,"war3mapImported\\kvq\\s3_13.blp")
+call SaveInteger(zzVL_ht,'ITS3',139,3)
+call SaveInteger(zzVL_ht,'ITS3',140,7)
+call SaveInteger(zzVL_ht,'ITS3',141,160)
+call SaveInteger(zzVL_ht,'ITS3',142,12)
+call SaveInteger(zzVL_ht,'ITS3',143,4)
+call SaveInteger(zzVL_ht,'ITS3',144,13)
+call SaveInteger(zzVL_ht,'ITS3',145,4)
+call SaveInteger(zzVL_ht,'ITS4',0,63)
+call SaveInteger(zzVL_ht,'ITS4',91,4)
+call SaveInteger(zzVL_ht,'ITS4',92,0)
+call SaveInteger(zzVL_ht,'ITS4',93,1)
+call SaveInteger(zzVL_ht,'ITS4',41,400)
+call SaveStr(zzVL_ht,'ITS4',100,"|cffffa500Đồng Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',120,"war3mapImported\\kvq\\s4_1.blp")
+call SaveStr(zzVL_ht,'ITS4',101,"|cffffa500Bắc Sơn Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',121,"war3mapImported\\kvq\\s4_2.blp")
+call SaveStr(zzVL_ht,'ITS4',102,"|cffffa500Thích Tường Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',122,"war3mapImported\\kvq\\s4_3.blp")
+call SaveStr(zzVL_ht,'ITS4',103,"|cffffa500Thương Lang Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',123,"war3mapImported\\kvq\\s4_4.blp")
+call SaveStr(zzVL_ht,'ITS4',104,"|cffffa500Hắc Tê Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',124,"war3mapImported\\kvq\\s4_5.blp")
+call SaveStr(zzVL_ht,'ITS4',105,"|cffffa500Kim Lân Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',125,"war3mapImported\\kvq\\s4_6.blp")
+call SaveStr(zzVL_ht,'ITS4',106,"|cffffa500Võ Thần Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',126,"war3mapImported\\kvq\\s4_8.blp")
+call SaveStr(zzVL_ht,'ITS4',107,"|cffffa500Thiên Tàm Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',127,"war3mapImported\\kvq\\s4_10.blp")
+call SaveStr(zzVL_ht,'ITS4',108,"|cffffff00Nộ Long Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',128,"war3mapImported\\kvq\\s4_11.blp")
+call SaveStr(zzVL_ht,'ITS4',109,"|cffffff00Thánh Lân Hộ Uyển")
+call SaveStr(zzVL_ht,'ITS4',129,"war3mapImported\\kvq\\s4_12.blp")
+call SaveStr(zzVL_ht,'ITS4',110,"|cffffff00Thủy Hoàng Hồng Hoang Uyển")
+call SaveStr(zzVL_ht,'ITS4',130,"war3mapImported\\kvq\\s4_13.blp")
+call SaveInteger(zzVL_ht,'ITS4',139,3)
+call SaveInteger(zzVL_ht,'ITS4',140,4)
+call SaveInteger(zzVL_ht,'ITS4',141,4)
+call SaveInteger(zzVL_ht,'ITS4',142,14)
+call SaveInteger(zzVL_ht,'ITS4',143,4)
+call SaveInteger(zzVL_ht,'ITS4',144,15)
+call SaveInteger(zzVL_ht,'ITS4',145,4)
+call SaveInteger(zzVL_ht,'ITS5',0,43)
+call SaveInteger(zzVL_ht,'ITS5',91,5)
+call SaveInteger(zzVL_ht,'ITS5',92,0)
+call SaveInteger(zzVL_ht,'ITS5',93,1)
+call SaveInteger(zzVL_ht,'ITS5',41,400)
+call SaveStr(zzVL_ht,'ITS5',100,"|cffffa500Trường Ngoa")
+call SaveStr(zzVL_ht,'ITS5',120,"war3mapImported\\kvq\\s5_1.blp")
+call SaveStr(zzVL_ht,'ITS5',101,"|cffffa500Ô Cách Ngoa")
+call SaveStr(zzVL_ht,'ITS5',121,"war3mapImported\\kvq\\s5_2.blp")
+call SaveStr(zzVL_ht,'ITS5',102,"|cffffa500Thị Vệ Ngoa")
+call SaveStr(zzVL_ht,'ITS5',122,"war3mapImported\\kvq\\s5_3.blp")
+call SaveStr(zzVL_ht,'ITS5',103,"|cffffa500Khảm Giáp Ngoa")
+call SaveStr(zzVL_ht,'ITS5',123,"war3mapImported\\kvq\\s5_4.blp")
+call SaveStr(zzVL_ht,'ITS5',104,"|cffffa500Thần Hành Ngoa")
+call SaveStr(zzVL_ht,'ITS5',124,"war3mapImported\\kvq\\s5_5.blp")
+call SaveStr(zzVL_ht,'ITS5',105,"|cffffa500Phi Vũ Ngoa")
+call SaveStr(zzVL_ht,'ITS5',125,"war3mapImported\\kvq\\s5_6.blp")
+call SaveStr(zzVL_ht,'ITS5',106,"|cffffa500Tuyệt Hỏa Ngoa")
+call SaveStr(zzVL_ht,'ITS5',126,"war3mapImported\\kvq\\s5_8.blp")
+call SaveStr(zzVL_ht,'ITS5',107,"|cffffa500Thiên Tàm Ngoa")
+call SaveStr(zzVL_ht,'ITS5',127,"war3mapImported\\kvq\\s5_10.blp")
+call SaveStr(zzVL_ht,'ITS5',108,"|cffffff00Thừa Phong Ngoa")
+call SaveStr(zzVL_ht,'ITS5',128,"war3mapImported\\kvq\\s5_11.blp")
+call SaveStr(zzVL_ht,'ITS5',109,"|cffffff00Bá Vương Ngoa")
+call SaveStr(zzVL_ht,'ITS5',129,"war3mapImported\\kvq\\s5_12.blp")
+call SaveStr(zzVL_ht,'ITS5',110,"|cffffff00Tiêu Dao Hậu Nghệ Lữ")
+call SaveStr(zzVL_ht,'ITS5',130,"war3mapImported\\kvq\\s5_13.blp")
+call SaveInteger(zzVL_ht,'ITS5',139,2)
+call SaveInteger(zzVL_ht,'ITS5',140,7)
+call SaveInteger(zzVL_ht,'ITS5',141,300)
+call SaveInteger(zzVL_ht,'ITS5',142,21)
+call SaveInteger(zzVL_ht,'ITS5',143,5)
+call SaveInteger(zzVL_ht,'ITS7',0,73)
+call SaveInteger(zzVL_ht,'ITS7',91,7)
+call SaveInteger(zzVL_ht,'ITS7',92,0)
+call SaveInteger(zzVL_ht,'ITS7',93,1)
+call SaveInteger(zzVL_ht,'ITS7',41,400)
+call SaveStr(zzVL_ht,'ITS7',100,"|cffffa500Thủy Trích Hạng Liên")
+call SaveStr(zzVL_ht,'ITS7',120,"war3mapImported\\kvq\\s7_1.blp")
+call SaveStr(zzVL_ht,'ITS7',101,"|cffffa500Hổ Tinh Hạng Liên")
+call SaveStr(zzVL_ht,'ITS7',121,"war3mapImported\\kvq\\s7_2.blp")
+call SaveStr(zzVL_ht,'ITS7',102,"|cffffa500Băng Tinh Hạng Liên")
+call SaveStr(zzVL_ht,'ITS7',122,"war3mapImported\\kvq\\s7_3.blp")
+call SaveStr(zzVL_ht,'ITS7',103,"|cffffa500San Hô Hạng Liên")
+call SaveStr(zzVL_ht,'ITS7',123,"war3mapImported\\kvq\\s7_4.blp")
+call SaveStr(zzVL_ht,'ITS7',104,"|cffffa500Ngũ Sắc Hạng Liên")
+call SaveStr(zzVL_ht,'ITS7',124,"war3mapImported\\kvq\\s7_5.blp")
+call SaveStr(zzVL_ht,'ITS7',105,"|cffffa500Ôn Nhuận Liên")
+call SaveStr(zzVL_ht,'ITS7',125,"war3mapImported\\kvq\\s7_6.blp")
+call SaveStr(zzVL_ht,'ITS7',106,"|cffffa500Bắc Thần Liên")
+call SaveStr(zzVL_ht,'ITS7',126,"war3mapImported\\kvq\\s7_8.blp")
+call SaveStr(zzVL_ht,'ITS7',107,"|cffffa500Triều Lộ Liên")
+call SaveStr(zzVL_ht,'ITS7',127,"war3mapImported\\kvq\\s7_10.blp")
+call SaveStr(zzVL_ht,'ITS7',108,"|cffffff00Thiên Hựu Liên")
+call SaveStr(zzVL_ht,'ITS7',128,"war3mapImported\\kvq\\s7_11.blp")
+call SaveStr(zzVL_ht,'ITS7',109,"|cffffff00Cửu Long Quỳnh Quang Liên")
+call SaveStr(zzVL_ht,'ITS7',129,"war3mapImported\\kvq\\s7_12.blp")
+call SaveStr(zzVL_ht,'ITS7',110,"|cffffff00Thiên Điệp Lưu Vân Liên")
+call SaveStr(zzVL_ht,'ITS7',130,"war3mapImported\\kvq\\s7_13.blp")
+call SaveInteger(zzVL_ht,'ITS7',139,3)
+call SaveInteger(zzVL_ht,'ITS7',140,3)
+call SaveInteger(zzVL_ht,'ITS7',141,2)
+call SaveInteger(zzVL_ht,'ITS7',142,17)
+call SaveInteger(zzVL_ht,'ITS7',143,20)
+call SaveInteger(zzVL_ht,'ITS7',144,16)
+call SaveInteger(zzVL_ht,'ITS7',145,2)
+call SaveInteger(zzVL_ht,'ITS8',0,83)
+call SaveInteger(zzVL_ht,'ITS8',91,8)
+call SaveInteger(zzVL_ht,'ITS8',92,0)
+call SaveInteger(zzVL_ht,'ITS8',93,1)
+call SaveInteger(zzVL_ht,'ITS8',41,400)
+call SaveStr(zzVL_ht,'ITS8',100,"|cffffa500Đồng Chỉ Hoàn")
+call SaveStr(zzVL_ht,'ITS8',120,"war3mapImported\\kvq\\s8_1.blp")
+call SaveStr(zzVL_ht,'ITS8',101,"|cffffa500Hiệp Thiếu Giới")
+call SaveStr(zzVL_ht,'ITS8',121,"war3mapImported\\kvq\\s8_2.blp")
+call SaveStr(zzVL_ht,'ITS8',102,"|cffffa500Phân Thủy Giới")
+call SaveStr(zzVL_ht,'ITS8',122,"war3mapImported\\kvq\\s8_3.blp")
+call SaveStr(zzVL_ht,'ITS8',103,"|cffffa500Phục Đoạn Giới")
+call SaveStr(zzVL_ht,'ITS8',123,"war3mapImported\\kvq\\s8_4.blp")
+call SaveStr(zzVL_ht,'ITS8',104,"|cffffa500Phá Quân Giới")
+call SaveStr(zzVL_ht,'ITS8',124,"war3mapImported\\kvq\\s8_5.blp")
+call SaveStr(zzVL_ht,'ITS8',105,"|cffffa500Hoang Vu Giới")
+call SaveStr(zzVL_ht,'ITS8',125,"war3mapImported\\kvq\\s8_6.blp")
+call SaveStr(zzVL_ht,'ITS8',106,"|cffffa500Thương Khung Giới")
+call SaveStr(zzVL_ht,'ITS8',126,"war3mapImported\\kvq\\s8_8.blp")
+call SaveStr(zzVL_ht,'ITS8',107,"|cffffa500Ứng Long Giới")
+call SaveStr(zzVL_ht,'ITS8',127,"war3mapImported\\kvq\\s8_10.blp")
+call SaveStr(zzVL_ht,'ITS8',108,"|cffffff00Trích Tinh Giới")
+call SaveStr(zzVL_ht,'ITS8',128,"war3mapImported\\kvq\\s8_11.blp")
+call SaveStr(zzVL_ht,'ITS8',109,"|cffffff00Lăng Vân Giới")
+call SaveStr(zzVL_ht,'ITS8',129,"war3mapImported\\kvq\\s8_12.blp")
+call SaveStr(zzVL_ht,'ITS8',110,"|cffffff00Thiên Sát Cô Tinh Giới")
+call SaveStr(zzVL_ht,'ITS8',130,"war3mapImported\\kvq\\s8_13.blp")
+call SaveInteger(zzVL_ht,'ITS8',139,3)
+call SaveInteger(zzVL_ht,'ITS8',140,19)
+call SaveInteger(zzVL_ht,'ITS8',141,40)
+call SaveInteger(zzVL_ht,'ITS8',142,1)
+call SaveInteger(zzVL_ht,'ITS8',143,1)
+call SaveInteger(zzVL_ht,'ITS8',144,5)
+call SaveInteger(zzVL_ht,'ITS8',145,2)
+call SaveInteger(zzVL_ht,'ITS9',0,93)
+call SaveInteger(zzVL_ht,'ITS9',91,9)
+call SaveInteger(zzVL_ht,'ITS9',92,0)
+call SaveInteger(zzVL_ht,'ITS9',93,1)
+call SaveInteger(zzVL_ht,'ITS9',41,400)
+call SaveStr(zzVL_ht,'ITS9',100,"|cffffa500Lan Hoa Bội")
+call SaveStr(zzVL_ht,'ITS9',120,"war3mapImported\\kvq\\s9_1.blp")
+call SaveStr(zzVL_ht,'ITS9',101,"|cffffa500Hà Diệp Bội")
+call SaveStr(zzVL_ht,'ITS9',121,"war3mapImported\\kvq\\s9_2.blp")
+call SaveStr(zzVL_ht,'ITS9',102,"|cffffa500Lộc Văn Bội")
+call SaveStr(zzVL_ht,'ITS9',122,"war3mapImported\\kvq\\s9_3.blp")
+call SaveStr(zzVL_ht,'ITS9',103,"|cffffa500Ngọc Thiền Bội")
+call SaveStr(zzVL_ht,'ITS9',123,"war3mapImported\\kvq\\s9_4.blp")
+call SaveStr(zzVL_ht,'ITS9',104,"|cffffa500Long Ngư Bội")
+call SaveStr(zzVL_ht,'ITS9',124,"war3mapImported\\kvq\\s9_5.blp")
+call SaveStr(zzVL_ht,'ITS9',105,"|cffffa500Nhạn Hành Bội")
+call SaveStr(zzVL_ht,'ITS9',125,"war3mapImported\\kvq\\s9_6.blp")
+call SaveStr(zzVL_ht,'ITS9',106,"|cffffa500Long Thủ Bội")
+call SaveStr(zzVL_ht,'ITS9',126,"war3mapImported\\kvq\\s9_8.blp")
+call SaveStr(zzVL_ht,'ITS9',107,"|cffffa500Bắc Minh Bội")
+call SaveStr(zzVL_ht,'ITS9',127,"war3mapImported\\kvq\\s9_10.blp")
+call SaveStr(zzVL_ht,'ITS9',108,"|cffffff00Hỏa Vân Bội")
+call SaveStr(zzVL_ht,'ITS9',128,"war3mapImported\\kvq\\s9_11.blp")
+call SaveStr(zzVL_ht,'ITS9',109,"|cffffff00Hàn Ngọc Bội")
+call SaveStr(zzVL_ht,'ITS9',129,"war3mapImported\\kvq\\s9_12.blp")
+call SaveStr(zzVL_ht,'ITS9',110,"|cffffff00Chiến Thần Đằng Vân Bội")
+call SaveStr(zzVL_ht,'ITS9',130,"war3mapImported\\kvq\\s9_13.blp")
+call SaveInteger(zzVL_ht,'ITS9',139,6)
+call SaveInteger(zzVL_ht,'ITS9',140,2)
+call SaveInteger(zzVL_ht,'ITS9',141,1)
+call SaveInteger(zzVL_ht,'ITS9',142,11)
+call SaveInteger(zzVL_ht,'ITS9',143,2)
+call SaveInteger(zzVL_ht,'ITS9',144,12)
+call SaveInteger(zzVL_ht,'ITS9',145,2)
+call SaveInteger(zzVL_ht,'ITS9',146,13)
+call SaveInteger(zzVL_ht,'ITS9',147,2)
+call SaveInteger(zzVL_ht,'ITS9',148,14)
+call SaveInteger(zzVL_ht,'ITS9',149,2)
+call SaveInteger(zzVL_ht,'ITS9',150,15)
+call SaveInteger(zzVL_ht,'ITS9',151,2)
+call SaveInteger(zzVL_ht,'ITSA',0,103)
+call SaveInteger(zzVL_ht,'ITSA',91,10)
+call SaveInteger(zzVL_ht,'ITSA',92,0)
+call SaveInteger(zzVL_ht,'ITSA',93,1)
+call SaveInteger(zzVL_ht,'ITSA',41,400)
+call SaveStr(zzVL_ht,'ITSA',100,"|cffffa500Hộ Thân Phù")
+call SaveStr(zzVL_ht,'ITSA',120,"war3mapImported\\kvq\\s10_1.blp")
+call SaveStr(zzVL_ht,'ITSA',101,"|cffffa500Linh Lung Phù")
+call SaveStr(zzVL_ht,'ITSA',121,"war3mapImported\\kvq\\s10_2.blp")
+call SaveStr(zzVL_ht,'ITSA',102,"|cffffa500Bách Cẩm Phù")
+call SaveStr(zzVL_ht,'ITSA',122,"war3mapImported\\kvq\\s10_3.blp")
+call SaveStr(zzVL_ht,'ITSA',103,"|cffffa500Thích Ngư Phù")
+call SaveStr(zzVL_ht,'ITSA',123,"war3mapImported\\kvq\\s10_4.blp")
+call SaveStr(zzVL_ht,'ITSA',104,"|cffffa500Xuất Vân Phù")
+call SaveStr(zzVL_ht,'ITSA',124,"war3mapImported\\kvq\\s10_5.blp")
+call SaveStr(zzVL_ht,'ITSA',105,"|cffffa500Thiên Canh Phù")
+call SaveStr(zzVL_ht,'ITSA',125,"war3mapImported\\kvq\\s10_6.blp")
+call SaveStr(zzVL_ht,'ITSA',106,"|cffffa500Thiên Ma Phù")
+call SaveStr(zzVL_ht,'ITSA',126,"war3mapImported\\kvq\\s10_8.blp")
+call SaveStr(zzVL_ht,'ITSA',107,"|cffffa500Tiên Duyên Phù")
+call SaveStr(zzVL_ht,'ITSA',127,"war3mapImported\\kvq\\s10_10.blp")
+call SaveStr(zzVL_ht,'ITSA',108,"|cffffff00Truy Nguyệt Phù")
+call SaveStr(zzVL_ht,'ITSA',128,"war3mapImported\\kvq\\s10_11.blp")
+call SaveStr(zzVL_ht,'ITSA',109,"|cffffff00Hổ Phách Thiên Tinh Phù")
+call SaveStr(zzVL_ht,'ITSA',129,"war3mapImported\\kvq\\s10_12.blp")
+call SaveStr(zzVL_ht,'ITSA',110,"|cffffff00Lẫm Nhật Tinh Huyễn Phù")
+call SaveStr(zzVL_ht,'ITSA',130,"war3mapImported\\kvq\\s10_13.blp")
+call SaveInteger(zzVL_ht,'ITSA',139,2)
+call SaveInteger(zzVL_ht,'ITSA',140,7)
+call SaveInteger(zzVL_ht,'ITSA',141,200)
+call SaveInteger(zzVL_ht,'ITSA',142,6)
+call SaveInteger(zzVL_ht,'ITSA',143,1)
+call SaveInteger(zzVL_ht,'ITW0',0,35)
+call SaveInteger(zzVL_ht,'ITW0',91,6)
+call SaveInteger(zzVL_ht,'ITW0',92,1)
+call SaveInteger(zzVL_ht,'ITW0',93,2)
+call SaveInteger(zzVL_ht,'ITW0',41,10000)
+call SaveInteger(zzVL_ht,'ITW0',66,2)
+call SaveStr(zzVL_ht,'ITW0',111,"|cffff8000Tần Lăng Khuynh Phong Đoạn Ảnh")
+call SaveStr(zzVL_ht,'ITW0',131,"war3mapImported\\kvq\\w0_20.blp")
+call SaveInteger(zzVL_ht,'ITW0',139,2)
+call SaveInteger(zzVL_ht,'ITW0',140,23)
+call SaveInteger(zzVL_ht,'ITW0',141,30)
+call SaveInteger(zzVL_ht,'ITW0',142,5)
+call SaveInteger(zzVL_ht,'ITW0',143,6)
+call SaveInteger(zzVL_ht,'ITW1',0,35)
+call SaveInteger(zzVL_ht,'ITW1',91,6)
+call SaveInteger(zzVL_ht,'ITW1',92,2)
+call SaveInteger(zzVL_ht,'ITW1',93,2)
+call SaveInteger(zzVL_ht,'ITW1',41,10000)
+call SaveInteger(zzVL_ht,'ITW1',66,3)
+call SaveStr(zzVL_ht,'ITW1',111,"|cffff8000Tần Lăng Áp Tuyết Đao")
+call SaveStr(zzVL_ht,'ITW1',131,"war3mapImported\\kvq\\w1_20.blp")
+call SaveInteger(zzVL_ht,'ITW1',139,2)
+call SaveInteger(zzVL_ht,'ITW1',140,23)
+call SaveInteger(zzVL_ht,'ITW1',141,30)
+call SaveInteger(zzVL_ht,'ITW1',142,5)
+call SaveInteger(zzVL_ht,'ITW1',143,6)
+call SaveInteger(zzVL_ht,'ITW2',0,35)
+call SaveInteger(zzVL_ht,'ITW2',91,6)
+call SaveInteger(zzVL_ht,'ITW2',92,3)
+call SaveInteger(zzVL_ht,'ITW2',93,2)
+call SaveInteger(zzVL_ht,'ITW2',41,10000)
+call SaveInteger(zzVL_ht,'ITW2',66,4)
+call SaveStr(zzVL_ht,'ITW2',111,"|cffff8000Tần Lăng Ngự Phượng Thương")
+call SaveStr(zzVL_ht,'ITW2',131,"war3mapImported\\kvq\\w2_20.blp")
+call SaveInteger(zzVL_ht,'ITW2',139,2)
+call SaveInteger(zzVL_ht,'ITW2',140,23)
+call SaveInteger(zzVL_ht,'ITW2',141,30)
+call SaveInteger(zzVL_ht,'ITW2',142,5)
+call SaveInteger(zzVL_ht,'ITW2',143,6)
+call SaveInteger(zzVL_ht,'ITW3',0,35)
+call SaveInteger(zzVL_ht,'ITW3',91,6)
+call SaveInteger(zzVL_ht,'ITW3',92,4)
+call SaveInteger(zzVL_ht,'ITW3',93,2)
+call SaveInteger(zzVL_ht,'ITW3',41,10000)
+call SaveInteger(zzVL_ht,'ITW3',66,5)
+call SaveStr(zzVL_ht,'ITW3',111,"|cffff8000Tần Lăng Quyện Long Chùy")
+call SaveStr(zzVL_ht,'ITW3',131,"war3mapImported\\kvq\\w3_20.blp")
+call SaveInteger(zzVL_ht,'ITW3',139,2)
+call SaveInteger(zzVL_ht,'ITW3',140,23)
+call SaveInteger(zzVL_ht,'ITW3',141,30)
+call SaveInteger(zzVL_ht,'ITW3',142,5)
+call SaveInteger(zzVL_ht,'ITW3',143,6)
+call SaveInteger(zzVL_ht,'ITW4',0,35)
+call SaveInteger(zzVL_ht,'ITW4',91,6)
+call SaveInteger(zzVL_ht,'ITW4',92,5)
+call SaveInteger(zzVL_ht,'ITW4',93,2)
+call SaveInteger(zzVL_ht,'ITW4',41,10000)
+call SaveInteger(zzVL_ht,'ITW4',66,1)
+call SaveStr(zzVL_ht,'ITW4',111,"|cffff8000Tần Lăng Thiên Tuyệt Triền Thủ")
+call SaveStr(zzVL_ht,'ITW4',131,"war3mapImported\\kvq\\w4_20.blp")
+call SaveInteger(zzVL_ht,'ITW4',139,2)
+call SaveInteger(zzVL_ht,'ITW4',140,23)
+call SaveInteger(zzVL_ht,'ITW4',141,30)
+call SaveInteger(zzVL_ht,'ITW4',142,5)
+call SaveInteger(zzVL_ht,'ITW4',143,6)
+call SaveInteger(zzVL_ht,'ITW5',0,35)
+call SaveInteger(zzVL_ht,'ITW5',91,6)
+call SaveInteger(zzVL_ht,'ITW5',92,6)
+call SaveInteger(zzVL_ht,'ITW5',93,2)
+call SaveInteger(zzVL_ht,'ITW5',41,10000)
+call SaveInteger(zzVL_ht,'ITW5',66,2)
+call SaveStr(zzVL_ht,'ITW5',111,"|cffff8000Tần Lăng Vô Nhẫn Trảm Nghiệp")
+call SaveStr(zzVL_ht,'ITW5',131,"war3mapImported\\kvq\\w5_20.blp")
+call SaveInteger(zzVL_ht,'ITW5',139,2)
+call SaveInteger(zzVL_ht,'ITW5',140,23)
+call SaveInteger(zzVL_ht,'ITW5',141,30)
+call SaveInteger(zzVL_ht,'ITW5',142,5)
+call SaveInteger(zzVL_ht,'ITW5',143,6)
+call SaveInteger(zzVL_ht,'ITW6',0,35)
+call SaveInteger(zzVL_ht,'ITW6',91,6)
+call SaveInteger(zzVL_ht,'ITW6',92,7)
+call SaveInteger(zzVL_ht,'ITW6',93,2)
+call SaveInteger(zzVL_ht,'ITW6',41,10000)
+call SaveInteger(zzVL_ht,'ITW6',66,3)
+call SaveStr(zzVL_ht,'ITW6',111,"|cffff8000Tần Lăng Ẩn Hồn Tiễn")
+call SaveStr(zzVL_ht,'ITW6',131,"war3mapImported\\kvq\\w6_20.blp")
+call SaveInteger(zzVL_ht,'ITW6',139,2)
+call SaveInteger(zzVL_ht,'ITW6',140,23)
+call SaveInteger(zzVL_ht,'ITW6',141,30)
+call SaveInteger(zzVL_ht,'ITW6',142,5)
+call SaveInteger(zzVL_ht,'ITW6',143,6)
+call SaveInteger(zzVL_ht,'ITW7',0,35)
+call SaveInteger(zzVL_ht,'ITW7',91,6)
+call SaveInteger(zzVL_ht,'ITW7',92,8)
+call SaveInteger(zzVL_ht,'ITW7',93,2)
+call SaveInteger(zzVL_ht,'ITW7',41,10000)
+call SaveInteger(zzVL_ht,'ITW7',66,4)
+call SaveStr(zzVL_ht,'ITW7',111,"|cffff8000Tần Lăng Thanh Tôn Đao")
+call SaveStr(zzVL_ht,'ITW7',131,"war3mapImported\\kvq\\w7_20.blp")
+call SaveInteger(zzVL_ht,'ITW7',139,2)
+call SaveInteger(zzVL_ht,'ITW7',140,23)
+call SaveInteger(zzVL_ht,'ITW7',141,30)
+call SaveInteger(zzVL_ht,'ITW7',142,5)
+call SaveInteger(zzVL_ht,'ITW7',143,6)
+call SaveInteger(zzVL_ht,'ITW8',0,35)
+call SaveInteger(zzVL_ht,'ITW8',91,6)
+call SaveInteger(zzVL_ht,'ITW8',92,9)
+call SaveInteger(zzVL_ht,'ITW8',93,2)
+call SaveInteger(zzVL_ht,'ITW8',41,10000)
+call SaveInteger(zzVL_ht,'ITW8',66,5)
+call SaveStr(zzVL_ht,'ITW8',111,"|cffff8000Tần Lăng Trường Kinh Đao")
+call SaveStr(zzVL_ht,'ITW8',131,"war3mapImported\\kvq\\w8_20.blp")
+call SaveInteger(zzVL_ht,'ITW8',139,2)
+call SaveInteger(zzVL_ht,'ITW8',140,23)
+call SaveInteger(zzVL_ht,'ITW8',141,30)
+call SaveInteger(zzVL_ht,'ITW8',142,5)
+call SaveInteger(zzVL_ht,'ITW8',143,6)
+call SaveInteger(zzVL_ht,'ITW9',0,35)
+call SaveInteger(zzVL_ht,'ITW9',91,6)
+call SaveInteger(zzVL_ht,'ITW9',92,10)
+call SaveInteger(zzVL_ht,'ITW9',93,2)
+call SaveInteger(zzVL_ht,'ITW9',41,10000)
+call SaveInteger(zzVL_ht,'ITW9',66,1)
+call SaveStr(zzVL_ht,'ITW9',111,"|cffff8000Tần Lăng Đan Phượng Đại Đao")
+call SaveStr(zzVL_ht,'ITW9',131,"war3mapImported\\kvq\\w9_20.blp")
+call SaveInteger(zzVL_ht,'ITW9',139,2)
+call SaveInteger(zzVL_ht,'ITW9',140,23)
+call SaveInteger(zzVL_ht,'ITW9',141,30)
+call SaveInteger(zzVL_ht,'ITW9',142,5)
+call SaveInteger(zzVL_ht,'ITW9',143,6)
+call SaveInteger(zzVL_ht,'ITWA',0,35)
+call SaveInteger(zzVL_ht,'ITWA',91,6)
+call SaveInteger(zzVL_ht,'ITWA',92,11)
+call SaveInteger(zzVL_ht,'ITWA',93,2)
+call SaveInteger(zzVL_ht,'ITWA',41,10000)
+call SaveInteger(zzVL_ht,'ITWA',66,4)
+call SaveStr(zzVL_ht,'ITWA',111,"|cffff8000Tần Lăng Thất Sát Tiêu")
+call SaveStr(zzVL_ht,'ITWA',131,"war3mapImported\\kvq\\w10_20.blp")
+call SaveInteger(zzVL_ht,'ITWA',139,2)
+call SaveInteger(zzVL_ht,'ITWA',140,23)
+call SaveInteger(zzVL_ht,'ITWA',141,30)
+call SaveInteger(zzVL_ht,'ITWA',142,5)
+call SaveInteger(zzVL_ht,'ITWA',143,6)
+call SaveInteger(zzVL_ht,'ITHB',41,0)
+call SaveInteger(zzVL_ht,'zzGL',1,90)
+call SaveInteger(zzVL_ht,'zzGL',2,225)
+call SaveInteger(zzVL_ht,'zzGL',3,825)
+call SaveInteger(zzVL_ht,'zzGL',4,6)
+call SaveInteger(zzVL_ht,'zzGL',5,15)
+call SaveInteger(zzVL_ht,'zzGL',6,1)
+call SaveInteger(zzVL_ht,'zzGL',7,1)
+call SaveInteger(zzVL_ht,'zzGL',8,3)
+call SaveInteger(zzVL_ht,'zzGL',9,5)
+call SaveInteger(zzVL_ht,'zzGL',10,6)
+call SaveInteger(zzVL_ht,'zzGL',11,7)
+call SaveInteger(zzVL_ht,'zzGL',12,8)
+call SaveInteger(zzVL_ht,'zzGL',13,10)
+call SaveInteger(zzVL_ht,'zzGL',21,1)
+call SaveInteger(zzVL_ht,'zzGL',41,100)
+call SaveInteger(zzVL_ht,'zzGL',61,0)
+call SaveInteger(zzVL_ht,'zzGL',22,2)
+call SaveInteger(zzVL_ht,'zzGL',42,100)
+call SaveInteger(zzVL_ht,'zzGL',62,0)
+call SaveInteger(zzVL_ht,'zzGL',23,3)
+call SaveInteger(zzVL_ht,'zzGL',43,100)
+call SaveInteger(zzVL_ht,'zzGL',63,1)
+call SaveInteger(zzVL_ht,'zzGL',24,4)
+call SaveInteger(zzVL_ht,'zzGL',44,100)
+call SaveInteger(zzVL_ht,'zzGL',64,1)
+call SaveInteger(zzVL_ht,'zzGL',25,5)
+call SaveInteger(zzVL_ht,'zzGL',45,100)
+call SaveInteger(zzVL_ht,'zzGL',65,2)
+call SaveInteger(zzVL_ht,'zzGL',26,6)
+call SaveInteger(zzVL_ht,'zzGL',46,100)
+call SaveInteger(zzVL_ht,'zzGL',66,2)
+call SaveInteger(zzVL_ht,'zzGL',27,7)
+call SaveInteger(zzVL_ht,'zzGL',47,100)
+call SaveInteger(zzVL_ht,'zzGL',67,3)
+call SaveInteger(zzVL_ht,'zzGL',28,8)
+call SaveInteger(zzVL_ht,'zzGL',48,100)
+call SaveInteger(zzVL_ht,'zzGL',68,4)
+call SaveInteger(zzVL_ht,'zzGL',29,9)
+call SaveInteger(zzVL_ht,'zzGL',49,100)
+call SaveInteger(zzVL_ht,'zzGL',69,5)
+call SaveInteger(zzVL_ht,'zzGL',30,10)
+call SaveInteger(zzVL_ht,'zzGL',50,100)
+call SaveInteger(zzVL_ht,'zzGL',70,6)
+call SaveInteger(zzVL_ht,0,360,4)
+call SaveInteger(zzVL_ht,0,361,2)
+call SaveInteger(zzVL_ht,0,362,3)
+call SaveInteger(zzVL_ht,0,363,1)
+call SaveInteger(zzVL_ht,0,371,0)
+call SaveInteger(zzVL_ht,0,381,175)
+call SaveInteger(zzVL_ht,0,391,1)
+call SaveInteger(zzVL_ht,0,372,4)
+call SaveInteger(zzVL_ht,0,382,194)
+call SaveInteger(zzVL_ht,0,392,1)
+call SaveInteger(zzVL_ht,0,373,8)
+call SaveInteger(zzVL_ht,0,383,219)
+call SaveInteger(zzVL_ht,0,393,1)
+call SaveInteger(zzVL_ht,0,374,12)
+call SaveInteger(zzVL_ht,0,384,250)
+call SaveInteger(zzVL_ht,0,394,1)
+call SaveInteger(zzVL_ht,0,375,16)
+call SaveInteger(zzVL_ht,0,385,375)
+call SaveInteger(zzVL_ht,0,395,1)
+call SaveInteger(zzVL_ht,0,376,22)
+call SaveInteger(zzVL_ht,0,386,611)
+call SaveInteger(zzVL_ht,0,396,1)
+call SaveInteger(zzVL_ht,0,377,28)
+call SaveInteger(zzVL_ht,0,387,1083)
+call SaveInteger(zzVL_ht,0,397,1)
+call SaveInteger(zzVL_ht,0,378,33)
+call SaveInteger(zzVL_ht,0,388,3000)
+call SaveInteger(zzVL_ht,0,398,1)
+call SaveInteger(zzVL_ht,0,379,40)
+call SaveInteger(zzVL_ht,0,389,500)
+call SaveInteger(zzVL_ht,0,399,1)
+call SaveInteger(zzVL_ht,'E000',96,2)
+call SaveInteger(zzVL_ht,'E000',401,1)
+call SaveInteger(zzVL_ht,'E000',408,1)
+call SaveInteger(zzVL_ht,'E000',409,1)
+call SaveInteger(zzVL_ht,'E001',96,1)
+call SaveInteger(zzVL_ht,'E001',400,1)
+call SaveInteger(zzVL_ht,'E002',96,2)
+call SaveInteger(zzVL_ht,'E002',401,1)
+call SaveInteger(zzVL_ht,'E002',408,1)
+call SaveInteger(zzVL_ht,'E002',409,1)
+call SaveInteger(zzVL_ht,'E003',96,7)
+call SaveInteger(zzVL_ht,'E003',406,1)
+call SaveInteger(zzVL_ht,'E003',410,1)
+call SaveInteger(zzVL_ht,'E005',96,5)
+call SaveInteger(zzVL_ht,'E005',404,1)
+call SaveInteger(zzVL_ht,'E006',96,8)
+call SaveInteger(zzVL_ht,'E006',407,1)
+call SaveInteger(zzVL_ht,'H002',96,2)
+call SaveInteger(zzVL_ht,'H002',401,1)
+call SaveInteger(zzVL_ht,'H002',408,1)
+call SaveInteger(zzVL_ht,'H002',409,1)
+call SaveInteger(zzVL_ht,'H009',96,1)
+call SaveInteger(zzVL_ht,'H009',400,1)
+call SaveInteger(zzVL_ht,'H00A',96,5)
+call SaveInteger(zzVL_ht,'H00A',404,1)
+call SaveInteger(zzVL_ht,'H00L',96,6)
+call SaveInteger(zzVL_ht,'H00L',405,1)
+call SaveInteger(zzVL_ht,'H00U',96,1)
+call SaveInteger(zzVL_ht,'H00U',400,1)
+call SaveInteger(zzVL_ht,'H00V',96,4)
+call SaveInteger(zzVL_ht,'H00V',403,1)
+call SaveInteger(zzVL_ht,'H00Z',96,5)
+call SaveInteger(zzVL_ht,'H00Z',404,1)
+call SaveInteger(zzVL_ht,'H014',96,2)
+call SaveInteger(zzVL_ht,'H014',401,1)
+call SaveInteger(zzVL_ht,'H014',408,1)
+call SaveInteger(zzVL_ht,'H014',409,1)
+call SaveInteger(zzVL_ht,'H01E',96,2)
+call SaveInteger(zzVL_ht,'H01E',401,1)
+call SaveInteger(zzVL_ht,'H01E',408,1)
+call SaveInteger(zzVL_ht,'H01E',409,1)
+call SaveInteger(zzVL_ht,'H01F',96,3)
+call SaveInteger(zzVL_ht,'H01F',402,1)
+call SaveInteger(zzVL_ht,'H01L',96,5)
+call SaveInteger(zzVL_ht,'H01L',404,1)
+call SaveInteger(zzVL_ht,'H01M',96,7)
+call SaveInteger(zzVL_ht,'H01M',406,1)
+call SaveInteger(zzVL_ht,'H01P',96,3)
+call SaveInteger(zzVL_ht,'H01P',402,1)
+call SaveInteger(zzVL_ht,'H01S',96,1)
+call SaveInteger(zzVL_ht,'H01S',400,1)
+call SaveInteger(zzVL_ht,'H01U',96,2)
+call SaveInteger(zzVL_ht,'H01U',401,1)
+call SaveInteger(zzVL_ht,'H01U',408,1)
+call SaveInteger(zzVL_ht,'H01U',409,1)
+call SaveInteger(zzVL_ht,'H020',96,6)
+call SaveInteger(zzVL_ht,'H020',405,1)
+call SaveInteger(zzVL_ht,'H021',96,1)
+call SaveInteger(zzVL_ht,'H021',400,1)
+call SaveInteger(zzVL_ht,'H022',96,4)
+call SaveInteger(zzVL_ht,'H022',403,1)
+call SaveInteger(zzVL_ht,'H023',96,1)
+call SaveInteger(zzVL_ht,'H023',400,1)
+call SaveInteger(zzVL_ht,'H024',96,5)
+call SaveInteger(zzVL_ht,'H024',404,1)
+call SaveInteger(zzVL_ht,'H025',96,7)
+call SaveInteger(zzVL_ht,'H025',406,1)
+call SaveInteger(zzVL_ht,'H026',96,1)
+call SaveInteger(zzVL_ht,'H026',400,1)
+call SaveInteger(zzVL_ht,'H027',96,1)
+call SaveInteger(zzVL_ht,'H027',400,1)
+call SaveInteger(zzVL_ht,'H028',96,1)
+call SaveInteger(zzVL_ht,'H028',400,1)
+call SaveInteger(zzVL_ht,'H029',96,5)
+call SaveInteger(zzVL_ht,'H029',404,1)
+call SaveInteger(zzVL_ht,'H02A',96,1)
+call SaveInteger(zzVL_ht,'H02A',400,1)
+call SaveInteger(zzVL_ht,'H02B',96,1)
+call SaveInteger(zzVL_ht,'H02B',400,1)
+endfunction
+function zzGM_Items takes nothing returns nothing
+call SaveInteger(zzVL_ht,'IG11',110,1)
+call SaveInteger(zzVL_ht,'IG11',111,1)
+call SaveInteger(zzVL_ht,'IG11',112,3)
+call SaveInteger(zzVL_ht,'IG11',113,1)
+call SaveInteger(zzVL_ht,'IG11',44,3)
+call SaveInteger(zzVL_ht,'IG11',45,1)
+call SaveStr(zzVL_ht,'IG11',114,"war3mapImported\\kv_gem\\baothach1_1.blp")
+call SaveInteger(zzVL_ht,'IG12',110,1)
+call SaveInteger(zzVL_ht,'IG12',111,2)
+call SaveInteger(zzVL_ht,'IG12',112,3)
+call SaveInteger(zzVL_ht,'IG12',113,2)
+call SaveInteger(zzVL_ht,'IG12',44,3)
+call SaveInteger(zzVL_ht,'IG12',45,2)
+call SaveStr(zzVL_ht,'IG12',114,"war3mapImported\\kv_gem\\baothach1_2.blp")
+call SaveInteger(zzVL_ht,'IG13',110,1)
+call SaveInteger(zzVL_ht,'IG13',111,3)
+call SaveInteger(zzVL_ht,'IG13',112,3)
+call SaveInteger(zzVL_ht,'IG13',113,3)
+call SaveInteger(zzVL_ht,'IG13',44,3)
+call SaveInteger(zzVL_ht,'IG13',45,3)
+call SaveStr(zzVL_ht,'IG13',114,"war3mapImported\\kv_gem\\baothach1_3.blp")
+call SaveInteger(zzVL_ht,'IG14',110,1)
+call SaveInteger(zzVL_ht,'IG14',111,4)
+call SaveInteger(zzVL_ht,'IG14',112,3)
+call SaveInteger(zzVL_ht,'IG14',113,5)
+call SaveInteger(zzVL_ht,'IG14',44,3)
+call SaveInteger(zzVL_ht,'IG14',45,5)
+call SaveStr(zzVL_ht,'IG14',114,"war3mapImported\\kv_gem\\baothach1_4.blp")
+call SaveInteger(zzVL_ht,'IG15',110,1)
+call SaveInteger(zzVL_ht,'IG15',111,5)
+call SaveInteger(zzVL_ht,'IG15',112,3)
+call SaveInteger(zzVL_ht,'IG15',113,8)
+call SaveInteger(zzVL_ht,'IG15',44,3)
+call SaveInteger(zzVL_ht,'IG15',45,8)
+call SaveStr(zzVL_ht,'IG15',114,"war3mapImported\\kv_gem\\baothach1_5.blp")
+call SaveInteger(zzVL_ht,'IG16',110,1)
+call SaveInteger(zzVL_ht,'IG16',111,6)
+call SaveInteger(zzVL_ht,'IG16',112,3)
+call SaveInteger(zzVL_ht,'IG16',113,12)
+call SaveInteger(zzVL_ht,'IG16',44,3)
+call SaveInteger(zzVL_ht,'IG16',45,12)
+call SaveStr(zzVL_ht,'IG16',114,"war3mapImported\\kv_gem\\baothach1_6.blp")
+call SaveInteger(zzVL_ht,'IG17',110,1)
+call SaveInteger(zzVL_ht,'IG17',111,7)
+call SaveInteger(zzVL_ht,'IG17',112,3)
+call SaveInteger(zzVL_ht,'IG17',113,18)
+call SaveInteger(zzVL_ht,'IG17',44,3)
+call SaveInteger(zzVL_ht,'IG17',45,18)
+call SaveStr(zzVL_ht,'IG17',114,"war3mapImported\\kv_gem\\baothach1_7.blp")
+call SaveInteger(zzVL_ht,'IG18',110,1)
+call SaveInteger(zzVL_ht,'IG18',111,8)
+call SaveInteger(zzVL_ht,'IG18',112,3)
+call SaveInteger(zzVL_ht,'IG18',113,27)
+call SaveInteger(zzVL_ht,'IG18',44,3)
+call SaveInteger(zzVL_ht,'IG18',45,27)
+call SaveStr(zzVL_ht,'IG18',114,"war3mapImported\\kv_gem\\baothach1_8.blp")
+call SaveInteger(zzVL_ht,'IG19',110,1)
+call SaveInteger(zzVL_ht,'IG19',111,9)
+call SaveInteger(zzVL_ht,'IG19',112,3)
+call SaveInteger(zzVL_ht,'IG19',113,40)
+call SaveInteger(zzVL_ht,'IG19',44,3)
+call SaveInteger(zzVL_ht,'IG19',45,40)
+call SaveStr(zzVL_ht,'IG19',114,"war3mapImported\\kv_gem\\baothach1_9.blp")
+call SaveInteger(zzVL_ht,'IG21',110,2)
+call SaveInteger(zzVL_ht,'IG21',111,1)
+call SaveInteger(zzVL_ht,'IG21',112,4)
+call SaveInteger(zzVL_ht,'IG21',113,2)
+call SaveInteger(zzVL_ht,'IG21',44,4)
+call SaveInteger(zzVL_ht,'IG21',45,2)
+call SaveStr(zzVL_ht,'IG21',114,"war3mapImported\\kv_gem\\baothach2_1.blp")
+call SaveInteger(zzVL_ht,'IG22',110,2)
+call SaveInteger(zzVL_ht,'IG22',111,2)
+call SaveInteger(zzVL_ht,'IG22',112,4)
+call SaveInteger(zzVL_ht,'IG22',113,4)
+call SaveInteger(zzVL_ht,'IG22',44,4)
+call SaveInteger(zzVL_ht,'IG22',45,4)
+call SaveStr(zzVL_ht,'IG22',114,"war3mapImported\\kv_gem\\baothach2_2.blp")
+call SaveInteger(zzVL_ht,'IG23',110,2)
+call SaveInteger(zzVL_ht,'IG23',111,3)
+call SaveInteger(zzVL_ht,'IG23',112,4)
+call SaveInteger(zzVL_ht,'IG23',113,6)
+call SaveInteger(zzVL_ht,'IG23',44,4)
+call SaveInteger(zzVL_ht,'IG23',45,6)
+call SaveStr(zzVL_ht,'IG23',114,"war3mapImported\\kv_gem\\baothach2_3.blp")
+call SaveInteger(zzVL_ht,'IG24',110,2)
+call SaveInteger(zzVL_ht,'IG24',111,4)
+call SaveInteger(zzVL_ht,'IG24',112,4)
+call SaveInteger(zzVL_ht,'IG24',113,10)
+call SaveInteger(zzVL_ht,'IG24',44,4)
+call SaveInteger(zzVL_ht,'IG24',45,10)
+call SaveStr(zzVL_ht,'IG24',114,"war3mapImported\\kv_gem\\baothach2_4.blp")
+call SaveInteger(zzVL_ht,'IG25',110,2)
+call SaveInteger(zzVL_ht,'IG25',111,5)
+call SaveInteger(zzVL_ht,'IG25',112,4)
+call SaveInteger(zzVL_ht,'IG25',113,16)
+call SaveInteger(zzVL_ht,'IG25',44,4)
+call SaveInteger(zzVL_ht,'IG25',45,16)
+call SaveStr(zzVL_ht,'IG25',114,"war3mapImported\\kv_gem\\baothach2_5.blp")
+call SaveInteger(zzVL_ht,'IG26',110,2)
+call SaveInteger(zzVL_ht,'IG26',111,6)
+call SaveInteger(zzVL_ht,'IG26',112,4)
+call SaveInteger(zzVL_ht,'IG26',113,24)
+call SaveInteger(zzVL_ht,'IG26',44,4)
+call SaveInteger(zzVL_ht,'IG26',45,24)
+call SaveStr(zzVL_ht,'IG26',114,"war3mapImported\\kv_gem\\baothach2_6.blp")
+call SaveInteger(zzVL_ht,'IG27',110,2)
+call SaveInteger(zzVL_ht,'IG27',111,7)
+call SaveInteger(zzVL_ht,'IG27',112,4)
+call SaveInteger(zzVL_ht,'IG27',113,36)
+call SaveInteger(zzVL_ht,'IG27',44,4)
+call SaveInteger(zzVL_ht,'IG27',45,36)
+call SaveStr(zzVL_ht,'IG27',114,"war3mapImported\\kv_gem\\baothach2_7.blp")
+call SaveInteger(zzVL_ht,'IG28',110,2)
+call SaveInteger(zzVL_ht,'IG28',111,8)
+call SaveInteger(zzVL_ht,'IG28',112,4)
+call SaveInteger(zzVL_ht,'IG28',113,54)
+call SaveInteger(zzVL_ht,'IG28',44,4)
+call SaveInteger(zzVL_ht,'IG28',45,54)
+call SaveStr(zzVL_ht,'IG28',114,"war3mapImported\\kv_gem\\baothach2_8.blp")
+call SaveInteger(zzVL_ht,'IG29',110,2)
+call SaveInteger(zzVL_ht,'IG29',111,9)
+call SaveInteger(zzVL_ht,'IG29',112,4)
+call SaveInteger(zzVL_ht,'IG29',113,80)
+call SaveInteger(zzVL_ht,'IG29',44,4)
+call SaveInteger(zzVL_ht,'IG29',45,80)
+call SaveStr(zzVL_ht,'IG29',114,"war3mapImported\\kv_gem\\baothach2_9.blp")
+call SaveInteger(zzVL_ht,'IG31',110,3)
+call SaveInteger(zzVL_ht,'IG31',111,1)
+call SaveInteger(zzVL_ht,'IG31',112,5)
+call SaveInteger(zzVL_ht,'IG31',113,1)
+call SaveInteger(zzVL_ht,'IG31',44,5)
+call SaveInteger(zzVL_ht,'IG31',45,1)
+call SaveStr(zzVL_ht,'IG31',114,"war3mapImported\\kv_gem\\baothach3_1.blp")
+call SaveInteger(zzVL_ht,'IG32',110,3)
+call SaveInteger(zzVL_ht,'IG32',111,2)
+call SaveInteger(zzVL_ht,'IG32',112,5)
+call SaveInteger(zzVL_ht,'IG32',113,2)
+call SaveInteger(zzVL_ht,'IG32',44,5)
+call SaveInteger(zzVL_ht,'IG32',45,2)
+call SaveStr(zzVL_ht,'IG32',114,"war3mapImported\\kv_gem\\baothach3_2.blp")
+call SaveInteger(zzVL_ht,'IG33',110,3)
+call SaveInteger(zzVL_ht,'IG33',111,3)
+call SaveInteger(zzVL_ht,'IG33',112,5)
+call SaveInteger(zzVL_ht,'IG33',113,3)
+call SaveInteger(zzVL_ht,'IG33',44,5)
+call SaveInteger(zzVL_ht,'IG33',45,3)
+call SaveStr(zzVL_ht,'IG33',114,"war3mapImported\\kv_gem\\baothach3_3.blp")
+call SaveInteger(zzVL_ht,'IG34',110,3)
+call SaveInteger(zzVL_ht,'IG34',111,4)
+call SaveInteger(zzVL_ht,'IG34',112,5)
+call SaveInteger(zzVL_ht,'IG34',113,5)
+call SaveInteger(zzVL_ht,'IG34',44,5)
+call SaveInteger(zzVL_ht,'IG34',45,5)
+call SaveStr(zzVL_ht,'IG34',114,"war3mapImported\\kv_gem\\baothach3_4.blp")
+call SaveInteger(zzVL_ht,'IG35',110,3)
+call SaveInteger(zzVL_ht,'IG35',111,5)
+call SaveInteger(zzVL_ht,'IG35',112,5)
+call SaveInteger(zzVL_ht,'IG35',113,8)
+call SaveInteger(zzVL_ht,'IG35',44,5)
+call SaveInteger(zzVL_ht,'IG35',45,8)
+call SaveStr(zzVL_ht,'IG35',114,"war3mapImported\\kv_gem\\baothach3_5.blp")
+call SaveInteger(zzVL_ht,'IG36',110,3)
+call SaveInteger(zzVL_ht,'IG36',111,6)
+call SaveInteger(zzVL_ht,'IG36',112,5)
+call SaveInteger(zzVL_ht,'IG36',113,12)
+call SaveInteger(zzVL_ht,'IG36',44,5)
+call SaveInteger(zzVL_ht,'IG36',45,12)
+call SaveStr(zzVL_ht,'IG36',114,"war3mapImported\\kv_gem\\baothach3_6.blp")
+call SaveInteger(zzVL_ht,'IG37',110,3)
+call SaveInteger(zzVL_ht,'IG37',111,7)
+call SaveInteger(zzVL_ht,'IG37',112,5)
+call SaveInteger(zzVL_ht,'IG37',113,18)
+call SaveInteger(zzVL_ht,'IG37',44,5)
+call SaveInteger(zzVL_ht,'IG37',45,18)
+call SaveStr(zzVL_ht,'IG37',114,"war3mapImported\\kv_gem\\baothach3_7.blp")
+call SaveInteger(zzVL_ht,'IG38',110,3)
+call SaveInteger(zzVL_ht,'IG38',111,8)
+call SaveInteger(zzVL_ht,'IG38',112,5)
+call SaveInteger(zzVL_ht,'IG38',113,27)
+call SaveInteger(zzVL_ht,'IG38',44,5)
+call SaveInteger(zzVL_ht,'IG38',45,27)
+call SaveStr(zzVL_ht,'IG38',114,"war3mapImported\\kv_gem\\baothach3_8.blp")
+call SaveInteger(zzVL_ht,'IG39',110,3)
+call SaveInteger(zzVL_ht,'IG39',111,9)
+call SaveInteger(zzVL_ht,'IG39',112,5)
+call SaveInteger(zzVL_ht,'IG39',113,40)
+call SaveInteger(zzVL_ht,'IG39',44,5)
+call SaveInteger(zzVL_ht,'IG39',45,40)
+call SaveStr(zzVL_ht,'IG39',114,"war3mapImported\\kv_gem\\baothach3_9.blp")
+call SaveInteger(zzVL_ht,'IG41',110,4)
+call SaveInteger(zzVL_ht,'IG41',111,1)
+call SaveInteger(zzVL_ht,'IG41',112,7)
+call SaveInteger(zzVL_ht,'IG41',113,120)
+call SaveInteger(zzVL_ht,'IG41',44,7)
+call SaveInteger(zzVL_ht,'IG41',45,120)
+call SaveStr(zzVL_ht,'IG41',114,"war3mapImported\\kv_gem\\baothach4_1.blp")
+call SaveInteger(zzVL_ht,'IG42',110,4)
+call SaveInteger(zzVL_ht,'IG42',111,2)
+call SaveInteger(zzVL_ht,'IG42',112,7)
+call SaveInteger(zzVL_ht,'IG42',113,240)
+call SaveInteger(zzVL_ht,'IG42',44,7)
+call SaveInteger(zzVL_ht,'IG42',45,240)
+call SaveStr(zzVL_ht,'IG42',114,"war3mapImported\\kv_gem\\baothach4_2.blp")
+call SaveInteger(zzVL_ht,'IG43',110,4)
+call SaveInteger(zzVL_ht,'IG43',111,3)
+call SaveInteger(zzVL_ht,'IG43',112,7)
+call SaveInteger(zzVL_ht,'IG43',113,360)
+call SaveInteger(zzVL_ht,'IG43',44,7)
+call SaveInteger(zzVL_ht,'IG43',45,360)
+call SaveStr(zzVL_ht,'IG43',114,"war3mapImported\\kv_gem\\baothach4_3.blp")
+call SaveInteger(zzVL_ht,'IG44',110,4)
+call SaveInteger(zzVL_ht,'IG44',111,4)
+call SaveInteger(zzVL_ht,'IG44',112,7)
+call SaveInteger(zzVL_ht,'IG44',113,600)
+call SaveInteger(zzVL_ht,'IG44',44,7)
+call SaveInteger(zzVL_ht,'IG44',45,600)
+call SaveStr(zzVL_ht,'IG44',114,"war3mapImported\\kv_gem\\baothach4_4.blp")
+call SaveInteger(zzVL_ht,'IG45',110,4)
+call SaveInteger(zzVL_ht,'IG45',111,5)
+call SaveInteger(zzVL_ht,'IG45',112,7)
+call SaveInteger(zzVL_ht,'IG45',113,960)
+call SaveInteger(zzVL_ht,'IG45',44,7)
+call SaveInteger(zzVL_ht,'IG45',45,960)
+call SaveStr(zzVL_ht,'IG45',114,"war3mapImported\\kv_gem\\baothach4_5.blp")
+call SaveInteger(zzVL_ht,'IG46',110,4)
+call SaveInteger(zzVL_ht,'IG46',111,6)
+call SaveInteger(zzVL_ht,'IG46',112,7)
+call SaveInteger(zzVL_ht,'IG46',113,1440)
+call SaveInteger(zzVL_ht,'IG46',44,7)
+call SaveInteger(zzVL_ht,'IG46',45,1440)
+call SaveStr(zzVL_ht,'IG46',114,"war3mapImported\\kv_gem\\baothach4_6.blp")
+call SaveInteger(zzVL_ht,'IG47',110,4)
+call SaveInteger(zzVL_ht,'IG47',111,7)
+call SaveInteger(zzVL_ht,'IG47',112,7)
+call SaveInteger(zzVL_ht,'IG47',113,2160)
+call SaveInteger(zzVL_ht,'IG47',44,7)
+call SaveInteger(zzVL_ht,'IG47',45,2160)
+call SaveStr(zzVL_ht,'IG47',114,"war3mapImported\\kv_gem\\baothach4_7.blp")
+call SaveInteger(zzVL_ht,'IG48',110,4)
+call SaveInteger(zzVL_ht,'IG48',111,8)
+call SaveInteger(zzVL_ht,'IG48',112,7)
+call SaveInteger(zzVL_ht,'IG48',113,3240)
+call SaveInteger(zzVL_ht,'IG48',44,7)
+call SaveInteger(zzVL_ht,'IG48',45,3240)
+call SaveStr(zzVL_ht,'IG48',114,"war3mapImported\\kv_gem\\baothach4_8.blp")
+call SaveInteger(zzVL_ht,'IG49',110,4)
+call SaveInteger(zzVL_ht,'IG49',111,9)
+call SaveInteger(zzVL_ht,'IG49',112,7)
+call SaveInteger(zzVL_ht,'IG49',113,4800)
+call SaveInteger(zzVL_ht,'IG49',44,7)
+call SaveInteger(zzVL_ht,'IG49',45,4800)
+call SaveStr(zzVL_ht,'IG49',114,"war3mapImported\\kv_gem\\baothach4_9.blp")
+call SaveInteger(zzVL_ht,'IG51',110,5)
+call SaveInteger(zzVL_ht,'IG51',111,1)
+call SaveInteger(zzVL_ht,'IG51',112,6)
+call SaveInteger(zzVL_ht,'IG51',113,1)
+call SaveInteger(zzVL_ht,'IG51',44,6)
+call SaveInteger(zzVL_ht,'IG51',45,1)
+call SaveStr(zzVL_ht,'IG51',114,"war3mapImported\\kv_gem\\baothach5_1.blp")
+call SaveInteger(zzVL_ht,'IG52',110,5)
+call SaveInteger(zzVL_ht,'IG52',111,2)
+call SaveInteger(zzVL_ht,'IG52',112,6)
+call SaveInteger(zzVL_ht,'IG52',113,2)
+call SaveInteger(zzVL_ht,'IG52',44,6)
+call SaveInteger(zzVL_ht,'IG52',45,2)
+call SaveStr(zzVL_ht,'IG52',114,"war3mapImported\\kv_gem\\baothach5_2.blp")
+call SaveInteger(zzVL_ht,'IG53',110,5)
+call SaveInteger(zzVL_ht,'IG53',111,3)
+call SaveInteger(zzVL_ht,'IG53',112,6)
+call SaveInteger(zzVL_ht,'IG53',113,3)
+call SaveInteger(zzVL_ht,'IG53',44,6)
+call SaveInteger(zzVL_ht,'IG53',45,3)
+call SaveStr(zzVL_ht,'IG53',114,"war3mapImported\\kv_gem\\baothach5_3.blp")
+call SaveInteger(zzVL_ht,'IG54',110,5)
+call SaveInteger(zzVL_ht,'IG54',111,4)
+call SaveInteger(zzVL_ht,'IG54',112,6)
+call SaveInteger(zzVL_ht,'IG54',113,5)
+call SaveInteger(zzVL_ht,'IG54',44,6)
+call SaveInteger(zzVL_ht,'IG54',45,5)
+call SaveStr(zzVL_ht,'IG54',114,"war3mapImported\\kv_gem\\baothach5_4.blp")
+call SaveInteger(zzVL_ht,'IG55',110,5)
+call SaveInteger(zzVL_ht,'IG55',111,5)
+call SaveInteger(zzVL_ht,'IG55',112,6)
+call SaveInteger(zzVL_ht,'IG55',113,8)
+call SaveInteger(zzVL_ht,'IG55',44,6)
+call SaveInteger(zzVL_ht,'IG55',45,8)
+call SaveStr(zzVL_ht,'IG55',114,"war3mapImported\\kv_gem\\baothach5_5.blp")
+call SaveInteger(zzVL_ht,'IG56',110,5)
+call SaveInteger(zzVL_ht,'IG56',111,6)
+call SaveInteger(zzVL_ht,'IG56',112,6)
+call SaveInteger(zzVL_ht,'IG56',113,12)
+call SaveInteger(zzVL_ht,'IG56',44,6)
+call SaveInteger(zzVL_ht,'IG56',45,12)
+call SaveStr(zzVL_ht,'IG56',114,"war3mapImported\\kv_gem\\baothach5_6.blp")
+call SaveInteger(zzVL_ht,'IG57',110,5)
+call SaveInteger(zzVL_ht,'IG57',111,7)
+call SaveInteger(zzVL_ht,'IG57',112,6)
+call SaveInteger(zzVL_ht,'IG57',113,18)
+call SaveInteger(zzVL_ht,'IG57',44,6)
+call SaveInteger(zzVL_ht,'IG57',45,18)
+call SaveStr(zzVL_ht,'IG57',114,"war3mapImported\\kv_gem\\baothach5_7.blp")
+call SaveInteger(zzVL_ht,'IG58',110,5)
+call SaveInteger(zzVL_ht,'IG58',111,8)
+call SaveInteger(zzVL_ht,'IG58',112,6)
+call SaveInteger(zzVL_ht,'IG58',113,27)
+call SaveInteger(zzVL_ht,'IG58',44,6)
+call SaveInteger(zzVL_ht,'IG58',45,27)
+call SaveStr(zzVL_ht,'IG58',114,"war3mapImported\\kv_gem\\baothach5_8.blp")
+call SaveInteger(zzVL_ht,'IG59',110,5)
+call SaveInteger(zzVL_ht,'IG59',111,9)
+call SaveInteger(zzVL_ht,'IG59',112,6)
+call SaveInteger(zzVL_ht,'IG59',113,40)
+call SaveInteger(zzVL_ht,'IG59',44,6)
+call SaveInteger(zzVL_ht,'IG59',45,40)
+call SaveStr(zzVL_ht,'IG59',114,"war3mapImported\\kv_gem\\baothach5_9.blp")
+call SaveInteger(zzVL_ht,'IG61',110,6)
+call SaveInteger(zzVL_ht,'IG61',111,1)
+call SaveInteger(zzVL_ht,'IG61',112,16)
+call SaveInteger(zzVL_ht,'IG61',113,1)
+call SaveInteger(zzVL_ht,'IG61',44,16)
+call SaveInteger(zzVL_ht,'IG61',45,1)
+call SaveStr(zzVL_ht,'IG61',114,"war3mapImported\\kv_gem\\baothach6_1.blp")
+call SaveInteger(zzVL_ht,'IG62',110,6)
+call SaveInteger(zzVL_ht,'IG62',111,2)
+call SaveInteger(zzVL_ht,'IG62',112,16)
+call SaveInteger(zzVL_ht,'IG62',113,2)
+call SaveInteger(zzVL_ht,'IG62',44,16)
+call SaveInteger(zzVL_ht,'IG62',45,2)
+call SaveStr(zzVL_ht,'IG62',114,"war3mapImported\\kv_gem\\baothach6_2.blp")
+call SaveInteger(zzVL_ht,'IG63',110,6)
+call SaveInteger(zzVL_ht,'IG63',111,3)
+call SaveInteger(zzVL_ht,'IG63',112,16)
+call SaveInteger(zzVL_ht,'IG63',113,3)
+call SaveInteger(zzVL_ht,'IG63',44,16)
+call SaveInteger(zzVL_ht,'IG63',45,3)
+call SaveStr(zzVL_ht,'IG63',114,"war3mapImported\\kv_gem\\baothach6_3.blp")
+call SaveInteger(zzVL_ht,'IG64',110,6)
+call SaveInteger(zzVL_ht,'IG64',111,4)
+call SaveInteger(zzVL_ht,'IG64',112,16)
+call SaveInteger(zzVL_ht,'IG64',113,5)
+call SaveInteger(zzVL_ht,'IG64',44,16)
+call SaveInteger(zzVL_ht,'IG64',45,5)
+call SaveStr(zzVL_ht,'IG64',114,"war3mapImported\\kv_gem\\baothach6_4.blp")
+call SaveInteger(zzVL_ht,'IG65',110,6)
+call SaveInteger(zzVL_ht,'IG65',111,5)
+call SaveInteger(zzVL_ht,'IG65',112,16)
+call SaveInteger(zzVL_ht,'IG65',113,8)
+call SaveInteger(zzVL_ht,'IG65',44,16)
+call SaveInteger(zzVL_ht,'IG65',45,8)
+call SaveStr(zzVL_ht,'IG65',114,"war3mapImported\\kv_gem\\baothach6_5.blp")
+call SaveInteger(zzVL_ht,'IG66',110,6)
+call SaveInteger(zzVL_ht,'IG66',111,6)
+call SaveInteger(zzVL_ht,'IG66',112,16)
+call SaveInteger(zzVL_ht,'IG66',113,12)
+call SaveInteger(zzVL_ht,'IG66',44,16)
+call SaveInteger(zzVL_ht,'IG66',45,12)
+call SaveStr(zzVL_ht,'IG66',114,"war3mapImported\\kv_gem\\baothach6_6.blp")
+call SaveInteger(zzVL_ht,'IG67',110,6)
+call SaveInteger(zzVL_ht,'IG67',111,7)
+call SaveInteger(zzVL_ht,'IG67',112,16)
+call SaveInteger(zzVL_ht,'IG67',113,18)
+call SaveInteger(zzVL_ht,'IG67',44,16)
+call SaveInteger(zzVL_ht,'IG67',45,18)
+call SaveStr(zzVL_ht,'IG67',114,"war3mapImported\\kv_gem\\baothach6_7.blp")
+call SaveInteger(zzVL_ht,'IG68',110,6)
+call SaveInteger(zzVL_ht,'IG68',111,8)
+call SaveInteger(zzVL_ht,'IG68',112,16)
+call SaveInteger(zzVL_ht,'IG68',113,27)
+call SaveInteger(zzVL_ht,'IG68',44,16)
+call SaveInteger(zzVL_ht,'IG68',45,27)
+call SaveStr(zzVL_ht,'IG68',114,"war3mapImported\\kv_gem\\baothach6_8.blp")
+call SaveInteger(zzVL_ht,'IG69',110,6)
+call SaveInteger(zzVL_ht,'IG69',111,9)
+call SaveInteger(zzVL_ht,'IG69',112,16)
+call SaveInteger(zzVL_ht,'IG69',113,40)
+call SaveInteger(zzVL_ht,'IG69',44,16)
+call SaveInteger(zzVL_ht,'IG69',45,40)
+call SaveStr(zzVL_ht,'IG69',114,"war3mapImported\\kv_gem\\baothach6_9.blp")
+endfunction
 function zzVL_Items takes nothing returns nothing
+call ExecuteFunc("zzGM_Items")
 call SaveStr(zzVL_ht,'afac',47,"war3mapImported\\kv\\Icon_TBAH_ao1_1.blp")
 call SaveStr(zzVL_ht,'afac',48,"war3mapImported\\kv\\Icon_TBAH_ao1_3.blp")
 call SaveStr(zzVL_ht,'afac',49,"war3mapImported\\kv\\Icon_TBAH_ao1_5.blp")
@@ -25708,6 +27983,7 @@ call SaveStr(zzVL_ht,'I0Z5',48,"war3mapImported\\kv\\Icon_TBAH_ao1_3.blp")
 call SaveStr(zzVL_ht,'I0Z5',49,"war3mapImported\\kv\\Icon_TBAH_ao1_5.blp")
 call SaveStr(zzVL_ht,'I0Z5',50,"war3mapImported\\kv\\Icon_TBAH_ao1_7.blp")
 call SaveStr(zzVL_ht,'I0Z5',51,"war3mapImported\\kv\\Icon_TBAH_ao1_9.blp")
+call ExecuteFunc("zzEQ_Items")
 call ExecuteFunc("zzVL_Items0")
 call ExecuteFunc("zzVL_Items1")
 call ExecuteFunc("zzVL_Items2")
@@ -25716,6 +27992,7 @@ call ExecuteFunc("zzVL_Items4")
 call ExecuteFunc("zzVL_Items5")
 call ExecuteFunc("zzVL_Items6")
 call ExecuteFunc("zzVL_Items7")
+call ExecuteFunc("zzVL_Items8")
 endfunction
 function zzVL_Msg takes integer vl_playerId,string vl_string returns nothing
     call DisplayTimedTextToPlayer(Player(vl_playerId),0,0,10.,vl_string)
@@ -25837,6 +28114,767 @@ function zzVL_HasWeapon takes unit vl_hero returns boolean
     endloop
     return false
 endfunction
+function zzGL_Get takes integer vl_pid returns integer
+    return LoadInteger(zzVL_ht,6200+vl_pid,2)
+endfunction
+function zzGL_Give takes integer vl_pid,integer vl_points returns nothing
+    if vl_pid<0 or vl_pid>9 or vl_points<=0 then
+        return
+    endif
+    call SaveInteger(zzVL_ht,6200+vl_pid,2,zzGL_Get(vl_pid)+vl_points)
+endfunction
+function zzGL_Spend takes integer vl_pid,integer vl_points returns boolean
+    local integer vl_have=zzGL_Get(vl_pid)
+    if vl_points<0 or vl_have<vl_points then
+        return false
+    endif
+    call SaveInteger(zzVL_ht,6200+vl_pid,2,vl_have-vl_points)
+    return true
+endfunction
+function zzGL_Cost takes integer vl_level returns integer
+    return LoadInteger(zzVL_ht,'zzGL',20+vl_level)
+endfunction
+function zzGL_HasItemInBag takes integer vl_pid,item vl_find returns boolean
+    local integer vl_i=0
+    loop
+        exitwhen vl_i>=30
+        if zzVL_bag[vl_pid*30+vl_i]==vl_find then
+            return true
+        endif
+        set vl_i=vl_i+1
+    endloop
+    return false
+endfunction
+function zzGL_Count takes integer vl_pid returns integer
+    local integer vl_i=0
+    local integer vl_n=zzGL_Get(vl_pid)
+    local item vl_it
+    local unit vl_h=Jx[vl_pid+1]
+    local unit vl_tk=Er[vl_pid+1]
+    loop
+        exitwhen vl_i>=30
+        set vl_it=zzVL_bag[vl_pid*30+vl_i]
+        if vl_it!=null and GetItemTypeId(vl_it)=='I00W' then
+            set vl_n=vl_n+IMaxBJ(1,GetItemCharges(vl_it))
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>=6
+        set vl_it=UnitItemInSlot(vl_h,vl_i)
+        if vl_it!=null and GetItemTypeId(vl_it)=='I00W' and not zzGL_HasItemInBag(vl_pid,vl_it) then
+            set vl_n=vl_n+IMaxBJ(1,GetItemCharges(vl_it))
+        endif
+        set vl_it=UnitItemInSlot(vl_tk,vl_i)
+        if vl_it!=null and GetItemTypeId(vl_it)=='I00W' and not zzGL_HasItemInBag(vl_pid,vl_it) then
+            set vl_n=vl_n+IMaxBJ(1,GetItemCharges(vl_it))
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_it=null
+    set vl_h=null
+    set vl_tk=null
+    return vl_n
+endfunction
+function zzGL_Target takes real vl_min returns real
+    local real vl20=LoadInteger(zzVL_ht,'zzGL',1)
+    local real vl30=LoadInteger(zzVL_ht,'zzGL',2)
+    local real vl40=LoadInteger(zzVL_ht,'zzGL',3)
+    if vl_min<=20. then
+        return vl20*vl_min/20.
+    elseif vl_min<=30. then
+        return vl20+(vl30-vl20)*(vl_min-20.)/10.
+    elseif vl_min<=40. then
+        return vl30+(vl40-vl30)*(vl_min-30.)/10.
+    endif
+    return vl40+(vl40-vl30)*(vl_min-40.)/10.
+endfunction
+function zzGL_Drop takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
+    local integer vl_pid
+    local integer vl_minValue
+    local integer vl_n
+    local integer vl_cap=LoadInteger(zzVL_ht,'zzGL',5)
+    local real vl_min
+    local real vl_deficit
+    local real vl_want
+    local real vl_frac
+    local real vl_stamp
+    local item vl_crystal
+    if vl_hero==null or LoadInteger(zzVL_ht,'zzGL',6)<=0 or LoadInteger(zzVL_ht,'zzGL',4)<=0 then
+        return
+    endif
+    set vl_pid=GetPlayerId(GetOwningPlayer(vl_hero))
+    if vl_pid<0 or vl_pid>9 then
+        return
+    endif
+    set vl_min=TimerGetElapsed(zzVL_clock)/60.
+    set vl_deficit=zzGL_Target(vl_min)-LoadInteger(zzVL_ht,6200+vl_pid,1)
+    if vl_deficit<=0. then
+        return
+    endif
+    if vl_kind<=0 then
+        set vl_minValue=LoadInteger(zzVL_ht,'zzGL',7)
+    elseif vl_kind==1 then
+        set vl_minValue=LoadInteger(zzVL_ht,'zzGL',8)
+    elseif vl_kind==2 then
+        set vl_minValue=LoadInteger(zzVL_ht,'zzGL',9)
+    elseif vl_kind>=4 then
+        set vl_minValue=GetRandomInt(LoadInteger(zzVL_ht,'zzGL',12),LoadInteger(zzVL_ht,'zzGL',13))
+    else
+        set vl_minValue=GetRandomInt(LoadInteger(zzVL_ht,'zzGL',10),LoadInteger(zzVL_ht,'zzGL',11))
+    endif
+    set vl_want=vl_deficit/LoadInteger(zzVL_ht,'zzGL',4)
+    if vl_want<I2R(vl_minValue) then
+        if GetRandomReal(0.,1.)>=vl_want/I2R(vl_minValue) then
+            return
+        endif
+        set vl_n=vl_minValue
+    else
+        set vl_n=R2I(vl_want)
+        set vl_frac=vl_want-I2R(vl_n)
+        if GetRandomReal(0.,1.)<vl_frac then
+            set vl_n=vl_n+1
+        endif
+        if vl_n<vl_minValue then
+            set vl_n=vl_minValue
+        endif
+    endif
+    if vl_n>vl_cap then
+        set vl_n=vl_cap
+    endif
+    if vl_n<=0 then
+        return
+    endif
+    set vl_crystal=CreateItem('I00W',vl_x+GetRandomReal(-32.,32.),vl_y+GetRandomReal(-32.,32.))
+    if vl_crystal==null then
+        return
+    endif
+    call SetItemCharges(vl_crystal,vl_n)
+    call SaveInteger(zzVL_ht,6200+vl_pid,1,LoadInteger(zzVL_ht,6200+vl_pid,1)+vl_n)
+    set vl_stamp=TimerGetElapsed(zzVL_clock)
+    if vl_stamp-LoadReal(zzVL_ht,6200+vl_pid,3)>=2. then
+        call DisplayTimedTextToPlayer(Player(vl_pid),0.,0.,2.,"|cffffcc00Huyền Tinh x"+I2S(vl_n)+" rơi gần quái.|r")
+        call SaveReal(zzVL_ht,6200+vl_pid,3,vl_stamp)
+    endif
+    set vl_crystal=null
+endfunction
+function zzEQ_AffixSlots takes integer vl_k returns string
+    if vl_k==1 then
+        return "6"
+    elseif vl_k==2 then
+        return "6"
+    elseif vl_k==3 then
+        return "7"
+    elseif vl_k==4 then
+        return "6"
+    elseif vl_k==5 then
+        return "6"
+    elseif vl_k==6 then
+        return "12"
+    elseif vl_k==7 then
+        return "12"
+    elseif vl_k==8 then
+        return "7"
+    elseif vl_k==9 then
+        return "7"
+    elseif vl_k==10 then
+        return "7"
+    elseif vl_k>=11 and vl_k<=15 then
+        return "123459A"
+    elseif vl_k==16 then
+        return "6"
+    elseif vl_k==17 then
+        return "6"
+    elseif vl_k==18 then
+        return "6"
+    elseif vl_k==19 then
+        return "6"
+    elseif vl_k==20 then
+        return "25"
+    elseif vl_k==21 then
+        return "5"
+    elseif vl_k==22 then
+        return "8"
+    endif
+    return ""
+endfunction
+function zzEQ_AffixOk takes integer vl_slot,integer vl_k returns boolean
+    local string vl_s=zzEQ_AffixSlots(vl_k)
+    local string vl_c=SubString("123456789A",vl_slot-1,vl_slot)
+    local integer vl_i=0
+    local integer vl_n=StringLength(vl_s)
+    if vl_slot<1 or vl_slot>10 then
+        return false
+    endif
+    loop
+        exitwhen vl_i>=vl_n
+        if SubString(vl_s,vl_i,vl_i+1)==vl_c then
+            return true
+        endif
+        set vl_i=vl_i+1
+    endloop
+    return false
+endfunction
+function zzEQ_AffixMin takes integer vl_k returns integer
+    if vl_k==1 then
+        return 2
+    elseif vl_k==2 then
+        return 2
+    elseif vl_k==3 then
+        return 3
+    elseif vl_k==4 or vl_k==16 then
+        return 5
+    elseif vl_k>=11 and vl_k<=15 then
+        return 5
+    elseif vl_k==19 or vl_k==20 then
+        return 50
+    elseif vl_k==21 then
+        return 10
+    elseif vl_k==22 then
+        return 1
+    endif
+    return 10
+endfunction
+function zzEQ_AffixMax takes integer vl_k returns integer
+    if vl_k==1 then
+        return 6
+    elseif vl_k==2 then
+        return 5
+    elseif vl_k==3 then
+        return 8
+    elseif vl_k==4 or vl_k==16 then
+        return 15
+    elseif vl_k>=11 and vl_k<=15 then
+        return 20
+    elseif vl_k==19 or vl_k==20 then
+        return 200
+    elseif vl_k==21 then
+        return 30
+    elseif vl_k==22 then
+        return 1
+    endif
+    return 50
+endfunction
+function zzEQ_LineCount takes nothing returns integer
+    local integer vl_r=GetRandomInt(1,100)
+    if vl_r<=15 then
+        return 3
+    elseif vl_r<=50 then
+        return 2
+    endif
+    return 1
+endfunction
+function zzEQ_SkillLineChance takes nothing returns integer
+    return 15
+endfunction
+function zzEQ_PickAffix takes integer vl_slot returns integer
+    local integer vl_k=1
+    local integer vl_n=0
+    local integer vl_r
+    loop
+        exitwhen vl_k>22
+        if zzEQ_AffixOk(vl_slot,vl_k) then
+            set vl_n=vl_n+1
+        endif
+        set vl_k=vl_k+1
+    endloop
+    if vl_n==0 then
+        return 0
+    endif
+    set vl_r=GetRandomInt(1,vl_n)
+    set vl_k=1
+    loop
+        exitwhen vl_k>22
+        if zzEQ_AffixOk(vl_slot,vl_k) then
+            set vl_r=vl_r-1
+            if vl_r==0 then
+                if vl_k==22 and GetRandomInt(1,100)>zzEQ_SkillLineChance() then
+                    return 0
+                endif
+                return vl_k
+            endif
+        endif
+        set vl_k=vl_k+1
+    endloop
+    return 0
+endfunction
+function zzEQ_Slot takes integer vl_type returns integer
+    local integer vl_s=LoadInteger(zzVL_ht,vl_type,91)
+    local integer vl_k
+    if vl_s>0 then
+        return vl_s
+    endif
+    set vl_k=LoadInteger(zzVL_ht,vl_type,0)/10
+    if vl_k==1 or vl_k==2 then
+        return vl_k
+    elseif vl_k==3 then
+        return 6
+    elseif vl_k==4 then
+        return 5
+    elseif vl_k==5 then
+        return 3
+    elseif vl_k==6 then
+        return 4
+    elseif vl_k>=7 and vl_k<=10 then
+        return vl_k
+    endif
+    return 0
+endfunction
+function zzEQ_WeaponType takes integer vl_type returns integer
+    return LoadInteger(zzVL_ht,vl_type,92)-1
+endfunction
+function zzEQ_IsKv takes integer vl_type returns boolean
+    return LoadInteger(zzVL_ht,vl_type,93)>0
+endfunction
+function zzEQ_Tier takes item vl_it returns integer
+    if vl_it==null then
+        return 0
+    endif
+    if LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==2 then
+        return 11
+    endif
+    return LoadInteger(zzVL_ht,GetHandleId(vl_it),90)
+endfunction
+function zzEQ_Pct takes integer vl_t returns integer
+    if vl_t>=11 then
+        return 500
+    endif
+    if vl_t<=0 then
+        return 100
+    endif
+    return 100+30*vl_t
+endfunction
+function zzEQ_WName takes integer vl_w returns string
+    if vl_w==0 then
+        return "Kiếm"
+    elseif vl_w==1 then
+        return "Đao"
+    elseif vl_w==2 then
+        return "Thương"
+    elseif vl_w==3 then
+        return "Chùy"
+    elseif vl_w==4 then
+        return "Triền Thủ"
+    elseif vl_w==5 then
+        return "Côn"
+    elseif vl_w==6 then
+        return "Tụ Tiễn"
+    elseif vl_w==7 then
+        return "Phi Đao"
+    elseif vl_w==8 then
+        return "Trường Đao"
+    elseif vl_w==9 then
+        return "Đại Đao"
+    elseif vl_w==10 then
+        return "Phi Tiêu"
+    endif
+    return "?"
+endfunction
+function zzEQ_StatName takes integer vl_code returns string
+    if vl_code==1 then
+        return "Hút sinh lực"
+    elseif vl_code==2 then
+        return "Hút nội lực"
+    elseif vl_code==3 then
+        return "Bạo kích"
+    elseif vl_code==4 then
+        return "Tốc đánh"
+    elseif vl_code==5 then
+        return "Sát thương"
+    elseif vl_code==6 then
+        return "Giảm sát thương nhận"
+    elseif vl_code==7 then
+        return "Sinh lực"
+    elseif vl_code==8 then
+        return "Sức mạnh"
+    elseif vl_code==9 then
+        return "Thân pháp"
+    elseif vl_code==10 then
+        return "Nội công"
+    elseif vl_code==11 then
+        return "Kháng vật lý"
+    elseif vl_code==12 then
+        return "Kháng độc"
+    elseif vl_code==13 then
+        return "Kháng thủy"
+    elseif vl_code==14 then
+        return "Kháng hỏa"
+    elseif vl_code==15 then
+        return "Kháng lôi"
+    elseif vl_code==16 then
+        return "Tốc độ xuất chiêu"
+    elseif vl_code==17 then
+        return "STVL nội công"
+    elseif vl_code==18 then
+        return "STVL ngoại công"
+    elseif vl_code==19 then
+        return "Điểm đánh trúng"
+    elseif vl_code==20 then
+        return "Né tránh"
+    elseif vl_code==21 then
+        return "Tốc chạy"
+    elseif vl_code==23 then
+        return "Sát thương gốc"
+    elseif vl_code==24 then
+        return "Giáp"
+    endif
+    return ""
+endfunction
+function zzEQ_StatFmt takes integer vl_code,integer vl_v returns string
+    if (vl_code>=1 and vl_code<=6) or (vl_code>=11 and vl_code<=16) then
+        return "+"+I2S(vl_v)+"% "+zzEQ_StatName(vl_code)
+    endif
+    return "+"+I2S(vl_v)+" "+zzEQ_StatName(vl_code)
+endfunction
+function zzEQ_StatText takes integer vl_type,integer vl_p returns string
+    local integer vl_n=LoadInteger(zzVL_ht,vl_type,139)
+    local integer vl_j=0
+    local string vl_s=""
+    loop
+        exitwhen vl_j>=vl_n
+        if vl_j>0 then
+            set vl_s=vl_s+", "
+        endif
+        set vl_s=vl_s+zzEQ_StatFmt(LoadInteger(zzVL_ht,vl_type,140+2*vl_j),LoadInteger(zzVL_ht,vl_type,141+2*vl_j)*vl_p/100)
+        set vl_j=vl_j+1
+    endloop
+    return vl_s
+endfunction
+function zzEQ_Header takes integer vl_type,integer vl_t returns string
+    if vl_t<=0 then
+        return ""
+    endif
+    if vl_t>=11 then
+        return "|cffff8000[Trùng sinh 11 - Vũ khí Tần Lăng]|r Hệ số chỉ số |cffffcc00"+I2S(zzEQ_Pct(vl_t))+"%|r:|n"+zzEQ_StatText(vl_type,zzEQ_Pct(vl_t))+"|n"
+    endif
+    return "|cff00ffff[Cường hóa +"+I2S(vl_t)+"]|r Hệ số chỉ số |cffffcc00"+I2S(zzEQ_Pct(vl_t))+"%|r:|n"+zzEQ_StatText(vl_type,zzEQ_Pct(vl_t))+"|n"
+endfunction
+function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
+    local integer vl_type
+    local integer vl_id
+    local integer vl_len
+    local string vl_nm
+    local string vl_star=""
+    local string vl_prev
+    local string vl_hd
+    local string vl_d
+    if vl_it==null then
+        return
+    endif
+    set vl_type=GetItemTypeId(vl_it)
+    if not zzEQ_IsKv(vl_type) then
+        return
+    endif
+    set vl_id=GetHandleId(vl_it)
+    if LoadInteger(zzVL_ht,vl_type,93)==2 then
+        set vl_t=11
+    elseif vl_t>10 then
+        set vl_t=10
+    endif
+    if vl_t<0 then
+        set vl_t=0
+    endif
+    call SaveInteger(zzVL_ht,vl_id,90,vl_t)
+    call SaveInteger(zzVL_ht,vl_id,97,1)
+    set vl_nm=LoadStr(zzVL_ht,vl_type,120+vl_t)
+    if vl_nm!=null and vl_nm!="" then
+        call BlzSetItemIconPath(vl_it,vl_nm)
+    endif
+    set vl_nm=GetItemName(vl_it)
+    set vl_len=StringLength(vl_nm)
+    if vl_len>=14 and SubString(vl_nm,vl_len-14,vl_len)==" |cff00ff00*|r" then
+        set vl_star=" |cff00ff00*|r"
+    endif
+    set vl_nm=LoadStr(zzVL_ht,vl_type,100+vl_t)
+    if vl_nm!=null and vl_nm!="" then
+        if vl_t>0 and vl_t<11 then
+            set vl_nm=vl_nm+" +"+I2S(vl_t)
+        endif
+        call BlzSetItemName(vl_it,vl_nm+"|r"+vl_star)
+    endif
+    set vl_prev=LoadStr(zzVL_ht,vl_id,94)
+    set vl_hd=zzEQ_Header(vl_type,vl_t)
+    set vl_d=BlzGetItemDescription(vl_it)
+    if vl_prev!=null and vl_prev!="" and SubString(vl_d,0,StringLength(vl_prev))==vl_prev then
+        set vl_d=SubString(vl_d,StringLength(vl_prev),StringLength(vl_d))
+    endif
+    call BlzSetItemDescription(vl_it,vl_hd+vl_d)
+    set vl_d=BlzGetItemExtendedTooltip(vl_it)
+    if vl_prev!=null and vl_prev!="" and SubString(vl_d,0,StringLength(vl_prev))==vl_prev then
+        set vl_d=SubString(vl_d,StringLength(vl_prev),StringLength(vl_d))
+    endif
+    call BlzSetItemExtendedTooltip(vl_it,vl_hd+vl_d)
+    call SaveStr(zzVL_ht,vl_id,94,vl_hd)
+endfunction
+function zzEQ_Touch takes item vl_it returns nothing
+    if vl_it==null then
+        return
+    endif
+    if zzEQ_IsKv(GetItemTypeId(vl_it)) and LoadInteger(zzVL_ht,GetHandleId(vl_it),97)==0 then
+        call zzEQ_SetTier(vl_it,zzEQ_Tier(vl_it))
+    endif
+endfunction
+function zzEQ_CanUse takes unit vl_hero,item vl_it returns boolean
+    local integer vl_type
+    local integer vl_wt
+    local integer vl_hw
+    if vl_it==null then
+        return true
+    endif
+    set vl_type=GetItemTypeId(vl_it)
+    set vl_wt=zzEQ_WeaponType(vl_type)
+    if vl_wt<0 or not zzEQ_IsKv(vl_type) then
+        return true
+    endif
+    set vl_hw=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),96)-1
+    if vl_hw<0 then
+        return true
+    endif
+    return LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),400+vl_wt)>0
+endfunction
+function zzEQ_UseList takes unit vl_hero returns string
+    local integer vl_w=0
+    local string vl_s=""
+    loop
+        exitwhen vl_w>10
+        if LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),400+vl_w)>0 then
+            if vl_s!="" then
+                set vl_s=vl_s+", "
+            endif
+            set vl_s=vl_s+zzEQ_WName(vl_w)
+        endif
+        set vl_w=vl_w+1
+    endloop
+    return vl_s
+endfunction
+function zzEQ_CheckWear takes unit vl_hero,item vl_it returns boolean
+    if zzEQ_CanUse(vl_hero,vl_it) then
+        return true
+    endif
+    call zzVL_Msg(GetPlayerId(GetOwningPlayer(vl_hero)),"|cffff4040Không thể mặc:|r phái "+GetUnitName(vl_hero)+" chỉ dùng vũ khí loại |cffffcc00"+zzEQ_UseList(vl_hero)+"|r, "+GetItemName(vl_it)+" là vũ khí loại |cffffcc00"+zzEQ_WName(zzEQ_WeaponType(GetItemTypeId(vl_it)))+"|r.")
+    return false
+endfunction
+function zzEQ_StartWeapon takes unit vl_hero returns integer
+    local integer vl_w=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),96)-1
+    if vl_w<0 then
+        return 0
+    endif
+    if vl_w>9 then
+        return 'ITVA'
+    endif
+    return 'ITV0'+vl_w
+endfunction
+function zzEQ_IsPlus10Weapon takes item vl_it returns boolean
+    local integer vl_type
+    if vl_it==null then
+        return false
+    endif
+    set vl_type=GetItemTypeId(vl_it)
+    return LoadInteger(zzVL_ht,vl_type,93)==1 and zzEQ_Slot(vl_type)==6 and zzEQ_Tier(vl_it)>=10
+endfunction
+function zzEQ_Enhance takes integer vl_pid,item vl_it returns boolean
+    local integer vl_t
+    if vl_it==null then
+        return false
+    endif
+    if LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==2 then
+        call zzVL_Msg(vl_pid,"|cffff8000Vũ khí Tần Lăng|r đã ở cực phẩm (trùng sinh 11), không cường hóa thêm được.")
+        return false
+    endif
+    set vl_t=zzEQ_Tier(vl_it)
+    if vl_t>=10 then
+        call zzVL_Msg(vl_pid,"Món này đã cường hóa tối đa +10.")
+        return false
+    endif
+    call zzEQ_SetTier(vl_it,vl_t+1)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,0)
+    if Jx[vl_pid+1]!=null then
+        call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",Jx[vl_pid+1],"origin"))
+        call zzVL_Text(Jx[vl_pid+1],"|cffffcc00Cường hóa +"+I2S(vl_t+1)+"|r")
+    endif
+    call zzVL_Msg(vl_pid,"|cffffcc00Cường hóa|r "+GetItemName(vl_it)+": |cffffcc00+"+I2S(vl_t+1)+"|r (icon và chỉ số theo trùng sinh "+I2S(vl_t+1)+" của Kiếm Vũ Chí Tôn).")
+    return true
+endfunction
+function zzEQ_TryEnhance takes integer vl_pid,item vl_it returns boolean
+    local integer vl_t
+    local integer vl_level
+    local integer vl_cost
+    local integer vl_pity
+    local integer vl_required
+    local integer vl_rate
+    if vl_it==null or not zzEQ_IsKv(GetItemTypeId(vl_it)) then
+        return false
+    endif
+    set vl_t=zzEQ_Tier(vl_it)
+    if vl_t>=10 or LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==2 then
+        call zzVL_Msg(vl_pid,"Món này không thể cường hóa thêm.")
+        return false
+    endif
+    set vl_level=vl_t+1
+    set vl_cost=zzGL_Cost(vl_level)
+    if zzGL_Get(vl_pid)<vl_cost then
+        call zzVL_Msg(vl_pid,"Cần "+I2S(vl_cost)+" Huyền Tinh, hiện có "+I2S(zzGL_Get(vl_pid))+".")
+        return false
+    endif
+    call zzGL_Spend(vl_pid,vl_cost)
+    set vl_pity=LoadInteger(zzVL_ht,GetHandleId(vl_it),98)
+    set vl_required=LoadInteger(zzVL_ht,'zzGL',60+vl_level)
+    set vl_rate=LoadInteger(zzVL_ht,'zzGL',40+vl_level)
+    if vl_pity>=vl_required or GetRandomInt(1,100)<=vl_rate then
+        call zzEQ_Enhance(vl_pid,vl_it)
+        return true
+    endif
+    call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,vl_pity+1)
+    call zzVL_Msg(vl_pid,"|cffff8040Cường hóa thất bại.|r Trang bị giữ nguyên +"+I2S(vl_t)+"; đã mất "+I2S(vl_cost)+" Huyền Tinh. Bảo hiểm món này: "+I2S(vl_pity+1)+"/"+I2S(vl_required)+" lần.")
+    return true
+endfunction
+function zzEQ_TrySlotEnhance takes integer vl_pid,integer vl_slot,item vl_it returns boolean
+    local integer vl_t=zzVL_cuong[vl_pid*10+vl_slot]
+    local integer vl_level=vl_t+1
+    local integer vl_cost
+    local integer vl_pity
+    local integer vl_required
+    local integer vl_rate
+    local integer vl_index=vl_pid*10+vl_slot
+    if vl_it==null or vl_slot<0 or vl_slot>9 or zzEQ_IsKv(GetItemTypeId(vl_it)) then
+        return false
+    endif
+    if vl_t>=10 then
+        call zzVL_Msg(vl_pid,"Ô trang bị này đã đạt cường hóa +10.")
+        return false
+    endif
+    set vl_cost=zzGL_Cost(vl_level)
+    if zzGL_Get(vl_pid)<vl_cost then
+        call zzVL_Msg(vl_pid,"Cần "+I2S(vl_cost)+" Huyền Tinh; bạn có "+I2S(zzGL_Get(vl_pid))+" điểm đã quy đổi.")
+        return false
+    endif
+    call zzGL_Spend(vl_pid,vl_cost)
+    set vl_pity=LoadInteger(zzVL_ht,GetHandleId(vl_it),98)
+    set vl_required=LoadInteger(zzVL_ht,'zzGL',60+vl_level)
+    set vl_rate=LoadInteger(zzVL_ht,'zzGL',40+vl_level)
+    if vl_pity>=vl_required or GetRandomInt(1,100)<=vl_rate then
+        set zzVL_cuong[vl_index]=vl_level
+        call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,0)
+        call zzVL_Msg(vl_pid,"|cffffcc00Cường hóa +"+I2S(vl_level)+" thành công.|r")
+    else
+        call SaveInteger(zzVL_ht,GetHandleId(vl_it),98,vl_pity+1)
+        call zzVL_Msg(vl_pid,"|cffff8040Cường hóa thất bại.|r Không tụt cấp; bảo hiểm "+I2S(vl_pity+1)+"/"+I2S(vl_required)+".")
+    endif
+    return true
+endfunction
+function zzEQ_EnhanceSlot takes integer vl_pid,integer vl_slot returns boolean
+    local item vl_it=zzVL_equipItem[vl_pid*10+vl_slot]
+    local boolean vl_r=false
+    if vl_it!=null and zzEQ_IsKv(GetItemTypeId(vl_it)) then
+        call zzEQ_Enhance(vl_pid,vl_it)
+        set vl_r=true
+    endif
+    set vl_it=null
+    return vl_r
+endfunction
+function zzEQ_GmFull takes integer vl_pid returns nothing
+    local integer vl_i=0
+    local item vl_it
+    loop
+        exitwhen vl_i>9
+        set vl_it=zzVL_equipItem[vl_pid*10+vl_i]
+        if vl_it!=null and LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==1 then
+            call zzEQ_SetTier(vl_it,10)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_it=null
+endfunction
+function zzEQ_SlotLv takes integer vl_pid,integer vl_slot returns integer
+    local item vl_it=zzVL_equipItem[vl_pid*10+vl_slot]
+    local integer vl_r=zzVL_cuong[vl_pid*10+vl_slot]
+    if vl_it!=null and zzEQ_IsKv(GetItemTypeId(vl_it)) then
+        set vl_r=zzEQ_Tier(vl_it)
+    endif
+    set vl_it=null
+    return vl_r
+endfunction
+function zzEQ_InheritSlot takes integer vl_pid,integer vl_slot,item vl_new,item vl_old returns nothing
+    local integer vl_index=vl_pid*10+vl_slot
+    local integer vl_level=zzVL_cuong[vl_index]
+    local integer vl_oldType=0
+    local integer vl_newType=0
+    if vl_old!=null then
+        set vl_oldType=GetItemTypeId(vl_old)
+        if LoadInteger(zzVL_ht,vl_oldType,93)==1 then
+            set vl_level=IMaxBJ(vl_level,zzEQ_Tier(vl_old))
+        endif
+    endif
+    if vl_new!=null then
+        set vl_newType=GetItemTypeId(vl_new)
+        if zzEQ_IsKv(vl_newType) then
+            set vl_level=IMaxBJ(vl_level,zzEQ_Tier(vl_new))
+            if vl_level>10 then
+                set vl_level=10
+            endif
+            call zzEQ_SetTier(vl_new,vl_level)
+            if vl_old!=null and vl_old!=vl_new and LoadInteger(zzVL_ht,vl_oldType,93)==1 then
+                call zzEQ_SetTier(vl_old,0)
+            endif
+            set zzVL_cuong[vl_index]=vl_level
+        endif
+    endif
+endfunction
+function zzEQ_AddOne takes integer vl_pid,integer vl_code,integer vl_v returns nothing
+    local integer vl_b=vl_pid*16
+    if vl_code>=1 and vl_code<=10 then
+        set zzVL_af[vl_b+vl_code]=zzVL_af[vl_b+vl_code]+vl_v
+    elseif vl_code==21 then
+        set zzVL_af[vl_b+13]=zzVL_af[vl_b+13]+vl_v
+    elseif vl_code==23 then
+        set zzVL_af[vl_b+12]=zzVL_af[vl_b+12]+vl_v
+    elseif vl_code==24 then
+        set zzVL_af[vl_b+11]=zzVL_af[vl_b+11]+vl_v
+    elseif vl_code>=11 and vl_code<=20 then
+        call SaveInteger(zzVL_ht,1000+vl_pid,vl_code,LoadInteger(zzVL_ht,1000+vl_pid,vl_code)+vl_v)
+    endif
+endfunction
+function zzEQ_LineValue takes item vl_it,integer vl_k,integer vl_base returns integer
+    local integer vl_t=zzEQ_Tier(vl_it)
+    if vl_base<=0 then
+        return 0
+    endif
+    if vl_k==22 then
+        if vl_t>10 then
+            set vl_t=10
+        endif
+        return vl_base+vl_t*3/10
+    endif
+    return vl_base*zzEQ_Pct(vl_t)/100
+endfunction
+function zzEQ_AddStats takes integer vl_pid,item vl_it returns nothing
+    local integer vl_type=GetItemTypeId(vl_it)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_type,139)
+    local integer vl_p=zzEQ_Pct(zzEQ_Tier(vl_it))
+    local integer vl_j=0
+    call zzEQ_Touch(vl_it)
+    loop
+        exitwhen vl_j>=vl_n
+        call zzEQ_AddOne(vl_pid,LoadInteger(zzVL_ht,vl_type,140+2*vl_j),LoadInteger(zzVL_ht,vl_type,141+2*vl_j)*vl_p/100)
+        set vl_j=vl_j+1
+    endloop
+endfunction
+function zzGM_Type takes integer vl_itemType returns integer
+    return LoadInteger(zzVL_ht,vl_itemType,110)
+endfunction
+function zzGM_Tier takes integer vl_itemType returns integer
+    return LoadInteger(zzVL_ht,vl_itemType,111)
+endfunction
+function zzGM_Code takes integer vl_type,integer vl_tier returns integer
+    if vl_type<1 or vl_type>6 or vl_tier<1 or vl_tier>9 then
+        return 0
+    endif
+    return 73*16777216+71*65536+(48+vl_type)*256+48+vl_tier
+endfunction
+function zzGM_Stat takes integer vl_type,integer vl_tier returns integer
+    return LoadInteger(zzVL_ht,zzGM_Code(vl_type,vl_tier),113)
+endfunction
 function zzVL_AffixName takes integer vl_k returns string
     if vl_k==1 then
         return "Hút sinh lực"
@@ -25892,41 +28930,18 @@ function zzVL_RollAffix takes item vl_item returns nothing
     local integer vl_k
     local integer vl_v
     local string vl_string=""
+    local integer vl_slot=zzEQ_Slot(GetItemTypeId(vl_item))
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)/10<1 or LoadInteger(zzVL_ht,vl_id,29)>0 then
         return
     endif
     call SaveInteger(zzVL_ht,vl_id,29,1)
-    if vl_r<=10 then
-        set vl_n=2
-    elseif vl_r<=55 then
-        set vl_n=1
-    endif
+    set vl_n=zzEQ_LineCount()
     loop
         exitwhen vl_n<=0
-        set vl_k=GetRandomInt(1,16)
-        if vl_k >= 5 then
-            set vl_k=vl_k+6
-        endif
+        set vl_k=zzEQ_PickAffix(vl_slot)
+        exitwhen vl_k==0
         if LoadInteger(zzVL_ht,vl_id,30+vl_k)==0 then
-            if vl_k==1 then
-                set vl_v=GetRandomInt(2,6)
-            elseif vl_k==2 then
-                set vl_v=GetRandomInt(2,5)
-            elseif vl_k==3 then
-                set vl_v=GetRandomInt(3,8)
-            elseif vl_k==4 or vl_k==16 then
-                set vl_v=GetRandomInt(5,15)
-            elseif vl_k>=11 and vl_k<=15 then
-                set vl_v=GetRandomInt(5,20)
-            elseif vl_k==19 or vl_k==20 then
-                set vl_v=GetRandomInt(50,200)
-            elseif vl_k==21 then
-                set vl_v=GetRandomInt(10,30)
-            elseif vl_k==22 then
-                set vl_v=1
-            else
-                set vl_v=GetRandomInt(10,50)
-            endif
+            set vl_v=GetRandomInt(zzEQ_AffixMin(vl_k),zzEQ_AffixMax(vl_k))
             call SaveInteger(zzVL_ht,vl_id,30+vl_k,vl_v)
             if vl_k == 22 then
                 set vl_string=vl_string+"|n|cff00ff00"+zzVL_AffixName(vl_k)+" +"+I2S(vl_v)+" cấp|r"
@@ -25987,7 +29002,7 @@ function zzVL_GearScore takes item vl_item returns integer
         set vl_string=vl_string+LoadInteger(zzVL_ht,GetHandleId(vl_item),30+vl_k)
         set vl_k=vl_k+1
     endloop
-    return vl_string+40*LoadInteger(zzVL_ht,GetHandleId(vl_item),43)
+    return vl_string+40*LoadInteger(zzVL_ht,GetHandleId(vl_item),43)+100*zzEQ_Tier(vl_item)
 endfunction
 function zzVL_TaiPhu takes item vl_item returns nothing
     local integer vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)
@@ -26049,6 +29064,7 @@ function zzVL_AutoGear takes unit vl_hero,item vl_n returns nothing
     set vl_old=null
 endfunction
 function zzVL_OnAffixPickup takes nothing returns nothing
+    call zzEQ_Touch(GetManipulatedItem())
     call zzVL_AiGear(GetTriggerUnit(),GetManipulatedItem())
     call zzVL_RollAffix(GetManipulatedItem())
     call zzVL_TaiPhu(GetManipulatedItem())
@@ -26118,6 +29134,7 @@ endfunction
 function zzVL_AffixSum takes integer vl_playerId returns nothing
     local unit vl_hero=Jx[vl_playerId+1]
     local integer vl_t
+    local integer vl_v
     local integer vl_n
     local integer vl_i=0
     local integer vl_k
@@ -26148,12 +29165,13 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
             set vl_k=1
             loop
                 exitwhen vl_k>22
+                set vl_v=zzEQ_LineValue(zzVL_equipItem[vl_playerId*10+vl_i],vl_k,LoadInteger(zzVL_ht,vl_id,30+vl_k))
                 if vl_k <= 10 then
-                    set zzVL_af[vl_playerId*16+vl_k]=zzVL_af[vl_playerId*16+vl_k]+LoadInteger(zzVL_ht,vl_id,30+vl_k)
+                    set zzVL_af[vl_playerId*16+vl_k]=zzVL_af[vl_playerId*16+vl_k]+vl_v
                 elseif vl_k == 21 then
-                    set zzVL_af[vl_playerId*16+13]=zzVL_af[vl_playerId*16+13]+LoadInteger(zzVL_ht,vl_id,30+vl_k)
+                    set zzVL_af[vl_playerId*16+13]=zzVL_af[vl_playerId*16+13]+vl_v
                 else
-                    call SaveInteger(zzVL_ht, 1000+vl_playerId, vl_k, LoadInteger(zzVL_ht, 1000+vl_playerId, vl_k) + LoadInteger(zzVL_ht,vl_id,30+vl_k))
+                    call SaveInteger(zzVL_ht, 1000+vl_playerId, vl_k, LoadInteger(zzVL_ht, 1000+vl_playerId, vl_k) + vl_v)
                 endif
                 set vl_k=vl_k+1
             endloop
@@ -26168,7 +29186,15 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     set vl_i=0
     loop
         exitwhen vl_i>9
-        if zzVL_equipItem[vl_playerId*10+vl_i]!=null then
+        if zzVL_equipItem[vl_playerId*10+vl_i]!=null and zzEQ_IsKv(GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i])) then
+            call zzEQ_AddStats(vl_playerId,zzVL_equipItem[vl_playerId*10+vl_i])
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        if zzVL_equipItem[vl_playerId*10+vl_i]!=null and not zzEQ_IsKv(GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i])) then
             set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_i]),0)/10
             if vl_k>=1 and vl_k<=4 then
                 if vl_k==1 then
@@ -26212,53 +29238,53 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
         endif
         set vl_i=vl_i+1
     endloop
-    set vl_n=zzVL_cuong[vl_playerId*10+0]
+    set vl_n=zzEQ_SlotLv(vl_playerId,0)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+8]=zzVL_af[vl_playerId*16+8]+vl_n*2
         set zzVL_af[vl_playerId*16+9]=zzVL_af[vl_playerId*16+9]+vl_n*2
         set zzVL_af[vl_playerId*16+10]=zzVL_af[vl_playerId*16+10]+vl_n*2
         set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*100
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+1]
+    set vl_n=zzEQ_SlotLv(vl_playerId,1)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+vl_n*1
         call SaveInteger(zzVL_ht,1000+vl_playerId,11,LoadInteger(zzVL_ht,1000+vl_playerId,11)+vl_n*2)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+2]
+    set vl_n=zzEQ_SlotLv(vl_playerId,2)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*150
         call SaveInteger(zzVL_ht,1000+vl_playerId,12,LoadInteger(zzVL_ht,1000+vl_playerId,12)+vl_n*2)
         call SaveInteger(zzVL_ht,1000+vl_playerId,13,LoadInteger(zzVL_ht,1000+vl_playerId,13)+vl_n*2)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+3]
+    set vl_n=zzEQ_SlotLv(vl_playerId,3)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+4]=zzVL_af[vl_playerId*16+4]+vl_n*3
         call SaveInteger(zzVL_ht,1000+vl_playerId,14,LoadInteger(zzVL_ht,1000+vl_playerId,14)+vl_n*2)
         call SaveInteger(zzVL_ht,1000+vl_playerId,15,LoadInteger(zzVL_ht,1000+vl_playerId,15)+vl_n*2)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+4]
+    set vl_n=zzEQ_SlotLv(vl_playerId,4)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+13]=zzVL_af[vl_playerId*16+13]+vl_n*3
         call SaveInteger(zzVL_ht,1000+vl_playerId,20,LoadInteger(zzVL_ht,1000+vl_playerId,20)+vl_n*15)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+5]
+    set vl_n=zzEQ_SlotLv(vl_playerId,5)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+vl_n*3
         call SaveInteger(zzVL_ht,1000+vl_playerId,18,LoadInteger(zzVL_ht,1000+vl_playerId,18)+vl_n*20)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+6]
+    set vl_n=zzEQ_SlotLv(vl_playerId,6)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+3]=zzVL_af[vl_playerId*16+3]+vl_n*1
         call SaveInteger(zzVL_ht,1000+vl_playerId,17,LoadInteger(zzVL_ht,1000+vl_playerId,17)+vl_n*20)
         call SaveInteger(zzVL_ht,1000+vl_playerId,16,LoadInteger(zzVL_ht,1000+vl_playerId,16)+vl_n*2)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+7]
+    set vl_n=zzEQ_SlotLv(vl_playerId,7)
     if vl_n>0 then
         call SaveInteger(zzVL_ht,1000+vl_playerId,19,LoadInteger(zzVL_ht,1000+vl_playerId,19)+vl_n*15)
         set zzVL_af[vl_playerId*16+1]=zzVL_af[vl_playerId*16+1]+vl_n*1
         set zzVL_af[vl_playerId*16+5]=zzVL_af[vl_playerId*16+5]+vl_n*1
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+8]
+    set vl_n=zzEQ_SlotLv(vl_playerId,8)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+2]=zzVL_af[vl_playerId*16+2]+vl_n*1
         call SaveInteger(zzVL_ht,1000+vl_playerId,11,LoadInteger(zzVL_ht,1000+vl_playerId,11)+vl_n*1)
@@ -26267,7 +29293,7 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
         call SaveInteger(zzVL_ht,1000+vl_playerId,14,LoadInteger(zzVL_ht,1000+vl_playerId,14)+vl_n*1)
         call SaveInteger(zzVL_ht,1000+vl_playerId,15,LoadInteger(zzVL_ht,1000+vl_playerId,15)+vl_n*1)
     endif
-    set vl_n=zzVL_cuong[vl_playerId*10+9]
+    set vl_n=zzEQ_SlotLv(vl_playerId,9)
     if vl_n>0 then
         set zzVL_af[vl_playerId*16+7]=zzVL_af[vl_playerId*16+7]+vl_n*200
         set zzVL_af[vl_playerId*16+6]=zzVL_af[vl_playerId*16+6]+vl_n*1
@@ -26381,22 +29407,34 @@ function zzVL_DropGear takes integer vl_tier, integer vl_drops, real vl_x, real 
 endfunction
 function zzVL_CampSpawn takes integer vl_c,integer vl_type returns nothing
     local unit vl_unit=CreateUnit(Player(12),vl_type,zzVL_cX[vl_c]+GetRandomReal(-120,120),zzVL_cY[vl_c]+GetRandomReal(-120,120),GetRandomReal(0,360))
-    local real vl_mul=0.6+TimerGetElapsed(zzVL_clock)/600.
-    local integer vl_rand = GetRandomInt(1, 100)
+    local integer vl_level=zzVL_cLevel[vl_c]
+    local real vl_hpMul=1.
+    local real vl_dmgMul=1.
+    local real vl_hp=500.+I2R(vl_level)*110.
+    local real vl_dmg=10.+I2R(vl_level)*2.
+    local integer vl_specialKey=12000+vl_c
+    local integer vl_rand=100
     local integer vl_elite = 0
     local effect vl_eff
     call SaveInteger(zzVL_ht,GetHandleId(vl_unit),9,vl_c+1)
+    if LoadInteger(zzVL_ht,vl_specialKey,0)==0 then
+        set vl_rand=GetRandomInt(1,100)
+    endif
     if vl_rand <= 2 then
         set vl_elite = 2
-        set vl_mul = vl_mul * 8.0
-        call SetUnitScale(vl_unit, 1.6, 1.6, 1.6)
+        call SaveInteger(zzVL_ht,vl_specialKey,0,1)
+        set vl_hpMul=4.0
+        set vl_dmgMul=2.2
+        call SetUnitScale(vl_unit, 1.5, 1.5, 1.5)
         call SetUnitVertexColor(vl_unit, 255, 100, 100, 255)
         set vl_eff = AddSpecialEffectTarget("Abilities\\Spells\\Human\\InnerFire\\InnerFireTarget.mdl", vl_unit, "overhead")
         call SaveEffectHandle(zzVL_ht, GetHandleId(vl_unit), 11, vl_eff)
     elseif vl_rand <= 12 then
         set vl_elite = 1
-        set vl_mul = vl_mul * 3.0
-        call SetUnitScale(vl_unit, 1.3, 1.3, 1.3)
+        call SaveInteger(zzVL_ht,vl_specialKey,0,1)
+        set vl_hpMul=2.0
+        set vl_dmgMul=1.5
+        call SetUnitScale(vl_unit, 1.25, 1.25, 1.25)
         call SetUnitVertexColor(vl_unit, 100, 255, 100, 255)
         set vl_eff = AddSpecialEffectTarget("Abilities\\Spells\\Other\\GeneralAuraTarget\\GeneralAuraTarget.mdl", vl_unit, "origin")
         call SaveEffectHandle(zzVL_ht, GetHandleId(vl_unit), 11, vl_eff)
@@ -26404,9 +29442,12 @@ function zzVL_CampSpawn takes integer vl_c,integer vl_type returns nothing
     if vl_elite > 0 then
         call SaveInteger(zzVL_ht, GetHandleId(vl_unit), 10, vl_elite)
     endif
-    call BlzSetUnitMaxHP(vl_unit,R2I(GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE)*vl_mul))
+    call BlzSetUnitDiceNumber(vl_unit,0,0)
+    call BlzSetUnitDiceSides(vl_unit,0,0)
+    call BlzSetUnitMaxHP(vl_unit,R2I(vl_hp*vl_hpMul))
     call SetWidgetLife(vl_unit,GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE))
-    call BlzSetUnitBaseDamage(vl_unit,R2I(BlzGetUnitBaseDamage(vl_unit,0)*vl_mul),0)
+    call BlzSetUnitBaseDamage(vl_unit,R2I(vl_dmg*vl_dmgMul),0)
+    call BlzSetUnitArmor(vl_unit,2+vl_level/20)
     set vl_unit=null
     set vl_eff=null
 endfunction
@@ -26435,6 +29476,7 @@ function zzVL_CampInit takes nothing returns nothing
 endfunction
 function zzVL_CampDeath takes unit vl_d returns nothing
     local integer vl_c=LoadInteger(zzVL_ht,GetHandleId(vl_d),9)-1
+    local integer vl_specialKey=12000+vl_c
     local integer vl_elite=LoadInteger(zzVL_ht,GetHandleId(vl_d),10)
     local effect vl_eff=LoadEffectHandle(zzVL_ht,GetHandleId(vl_d),11)
     local unit vl_k=GetKillingUnit()
@@ -26453,6 +29495,9 @@ function zzVL_CampDeath takes unit vl_d returns nothing
     endif
     if vl_eff!=null then
         call DestroyEffect(vl_eff)
+    endif
+    if vl_elite>0 then
+        call SaveInteger(zzVL_ht,vl_specialKey,0,0)
     endif
     if vl_k!=null and GetPlayerId(GetOwningPlayer(vl_k))<10 then
         set vl_pk=GetPlayerId(GetOwningPlayer(vl_k))
@@ -26480,19 +29525,6 @@ function zzVL_CampDeath takes unit vl_d returns nothing
     elseif vl_elite == 2 then
         set vl_drops = 6
     endif
-    if zzVL_matN>0 and GetRandomInt(1,100)<=(18 * vl_drops) then
-        call CreateItem(zzVL_mat[GetRandomInt(0,zzVL_matN-1)],GetUnitX(vl_d)+GetRandomReal(-40,40),GetUnitY(vl_d)+GetRandomReal(-40,40))
-    endif
-    if vl_elite > 0 then
-        loop
-            exitwhen vl_drops <= 0
-            if GetRandomInt(1,100)<=40 then
-                set vl_tier=GetRandomInt(2,3)
-                call zzVL_DropGear(vl_tier, 1, GetUnitX(vl_d), GetUnitY(vl_d))
-            endif
-            set vl_drops = vl_drops - 1
-        endloop
-    endif
     set vl_eff=null
     set vl_k=null
 endfunction
@@ -26502,7 +29534,7 @@ function zzVL_OnCreepEnter takes nothing returns nothing
     if vl_f>1. then
         set vl_f=1.
     endif
-    if GetOwningPlayer(vl_unit)==Player(12) and not IsUnitType(vl_unit,UNIT_TYPE_HERO) and GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE)<5000. then
+    if GetOwningPlayer(vl_unit)==Player(12) and LoadInteger(zzVL_ht,GetHandleId(vl_unit),9)==0 and not IsUnitType(vl_unit,UNIT_TYPE_HERO) and GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE)<5000. then
         call BlzSetUnitMaxHP(vl_unit,R2I(GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE)*.75*(.7+.3*vl_f)))
         call BlzSetUnitBaseDamage(vl_unit,R2I(BlzGetUnitBaseDamage(vl_unit,0)*(.6+.4*vl_f)),0)
         call SetWidgetLife(vl_unit,GetUnitState(vl_unit,UNIT_STATE_MAX_LIFE))
@@ -26513,14 +29545,16 @@ function zzVL_XpBuild takes integer vl_playerId returns nothing
     local integer vl_z=1
     call DialogClear(zzVL_dlg[vl_playerId])
     call DialogSetMessage(zzVL_dlg[vl_playerId],"Xa Phu - đi đâu?")
-    set zzVL_dlgB[vl_playerId*5]=DialogAddButton(zzVL_dlg[vl_playerId],"Về căn cứ",0)
+    set zzVL_dlgB[vl_playerId*16]=DialogAddButton(zzVL_dlg[vl_playerId],"Về căn cứ",0)
     loop
         exitwhen vl_z>zzVL_zN
-        set zzVL_dlgB[vl_playerId*5+vl_z]=DialogAddButton(zzVL_dlg[vl_playerId],zzVL_zName[vl_z],0)
+        if zzVL_zTele[vl_z]>0 then
+            set zzVL_dlgB[vl_playerId*16+vl_z+5]=DialogAddButton(zzVL_dlg[vl_playerId],zzVL_zName[vl_z],0)
+        endif
         set vl_z=vl_z+1
     endloop
-    set zzVL_dlgB[vl_playerId*5+3]=DialogAddButton(zzVL_dlg[vl_playerId],"Lôi Đài (tỷ thí)",0)
-    set zzVL_dlgB[vl_playerId*5+4]=DialogAddButton(zzVL_dlg[vl_playerId],"Thôi",0)
+    set zzVL_dlgB[vl_playerId*16+3]=DialogAddButton(zzVL_dlg[vl_playerId],"Lôi Đài (tỷ thí)",0)
+    set zzVL_dlgB[vl_playerId*16+4]=DialogAddButton(zzVL_dlg[vl_playerId],"Thôi",0)
 endfunction
 function zzVL_XpSelect takes nothing returns nothing
     local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
@@ -26541,6 +29575,19 @@ function zzVL_XpSelect takes nothing returns nothing
     set vl_npc=null
     set vl_hero=null
 endfunction
+function zzVL_XpKey takes nothing returns nothing
+    local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
+    local unit vl_hero=Jx[vl_playerId+1]
+    if vl_playerId>9 or vl_hero==null or GetWidgetLife(vl_hero)<.405 then
+        if vl_playerId<=9 then
+            call zzVL_Msg(vl_playerId,"Chưa có tướng sống để truyền tống.")
+        endif
+    else
+        call zzVL_XpBuild(vl_playerId)
+        call DialogDisplay(Player(vl_playerId),zzVL_dlg[vl_playerId],true)
+    endif
+    set vl_hero=null
+endfunction
 function zzVL_XpGo takes nothing returns nothing
     local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
     local button vl_b=GetClickedButton()
@@ -26553,7 +29600,7 @@ function zzVL_XpGo takes nothing returns nothing
         set vl_b=null
         return
     endif
-    if vl_b==zzVL_dlgB[vl_playerId*5] then
+    if vl_b==zzVL_dlgB[vl_playerId*16] then
         if IsPlayerAlly(Player(vl_playerId),Player(0)) then
             set vl_x=zzVL_homeX[0]
             set vl_y=zzVL_homeY[0]
@@ -26567,18 +29614,18 @@ function zzVL_XpGo takes nothing returns nothing
         set vl_i=1
         loop
             exitwhen vl_i>zzVL_zN
-            if vl_b==zzVL_dlgB[vl_playerId*5+vl_i] then
+            if zzVL_zTele[vl_i]>0 and vl_b==zzVL_dlgB[vl_playerId*16+vl_i+5] then
                 set vl_x=zzVL_zEx[vl_i]
                 set vl_y=zzVL_zEy[vl_i]
             endif
             set vl_i=vl_i+1
         endloop
-        if vl_b==zzVL_dlgB[vl_playerId*5+3] then
-            set vl_x=-4272.
-            set vl_y=8424.
+        if vl_b==zzVL_dlgB[vl_playerId*16+3] then
+            set vl_x=-2848.
+            set vl_y=5616.
             call zzVL_All(zzVL_Name(vl_playerId)+" lên |cffff8000Lôi Đài|r tỷ thí!")
         endif
-        if vl_b==zzVL_dlgB[vl_playerId*5+4] then
+        if vl_b==zzVL_dlgB[vl_playerId*16+4] then
             set vl_b=null
             set vl_hero=null
             return
@@ -26665,7 +29712,7 @@ function zzVL_PickInit takes nothing returns nothing
     call ForGroup(Ge,function zzVL_HideHall)
     loop
         exitwhen vl_e>5
-        set vl_n=CreateUnit(Player(15),'h0E1'+vl_e-1,-3675.+200.*(vl_e-1),-4500.,270.)
+        set vl_n=CreateUnit(Player(15),'h0E1'+vl_e-1,-2450.+200.*(vl_e-1),-3000.,270.)
         call SetUnitInvulnerable(vl_n,true)
         call SaveUnitHandle(zzVL_ht,'h0E0',vl_e,vl_n)
         set vl_e=vl_e+1
@@ -26699,17 +29746,19 @@ function zzVL_FarmInit takes nothing returns nothing
     local unit vl_unit
     local region vl_r=CreateRegion()
     set zzVL_tXp=CreateTrigger()
-    set zzVL_homeX[0]=2820.
-    set zzVL_homeY[0]=-3150.
-    set zzVL_homeX[1]=3075.
-    set zzVL_homeY[1]=9300.
-    call CreateUnit(Player(15),zzVL_XAPHU,2820.,-2700.,270.)
-    call CreateUnit(Player(15),zzVL_XAPHU,3075.,9750.,270.)
-    call CreateUnit(Player(15),zzVL_XAPHU,-3840.,7500.,180.)
+    set zzVL_homeX[0]=1880.
+    set zzVL_homeY[0]=-2100.
+    set zzVL_homeX[1]=2050.
+    set zzVL_homeY[1]=6200.
+    call CreateUnit(Player(15),zzVL_XAPHU,1880.,-1800.,270.)
+    call CreateUnit(Player(15),zzVL_XAPHU,2050.,6500.,270.)
+    call CreateUnit(Player(15),zzVL_XAPHU,-2560.,5000.,180.)
     set vl_z=1
     loop
         exitwhen vl_z>zzVL_zN
-        call CreateUnit(Player(15),zzVL_XAPHU,zzVL_zEx[vl_z]-150.,zzVL_zEy[vl_z]+150.,0.)
+        if zzVL_zTele[vl_z]>0 then
+            call CreateUnit(Player(15),zzVL_XAPHU,zzVL_zEx[vl_z]-150.,zzVL_zEy[vl_z]+150.,0.)
+        endif
         set vl_z=vl_z+1
     endloop
     loop
@@ -26757,16 +29806,8 @@ function zzVL_TpTick takes integer vl_playerId,unit vl_hero returns nothing
     local integer vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),50)
     local integer vl_lv=GetHeroLevel(vl_hero)
     local integer vl_w
-    local integer vl_i=1
     if not zzVL_gotStart[vl_playerId] then
         set zzVL_gotStart[vl_playerId]=true
-        loop
-            exitwhen vl_i>4
-            if zzVL_start[vl_i]!=0 then
-                call UnitAddItem(vl_hero,CreateItem(zzVL_start[vl_i],GetUnitX(vl_hero),GetUnitY(vl_hero)))
-            endif
-            set vl_i=vl_i+1
-        endloop
         set zzVL_potion=CreateItem('phea',GetUnitX(vl_hero),GetUnitY(vl_hero))
         call SetItemCharges(zzVL_potion,10)
         call UnitAddItem(vl_hero,zzVL_potion)
@@ -26905,7 +29946,7 @@ function zzVL_CuongDo takes unit vl_hero,item vl_item returns boolean
 endfunction
 function zzVL_CuongHoa takes unit vl_hero,item vl_item returns nothing
     if not zzVL_CuongDo(vl_hero,vl_item) and vl_hero!=null then
-        call UnitAddItem(vl_hero,CreateItem('I00W',GetUnitX(vl_hero),GetUnitY(vl_hero)))
+        call zzGL_Give(GetPlayerId(GetOwningPlayer(vl_hero)),1)
     endif
 endfunction
 function zzVL_OnTpCast takes nothing returns nothing
@@ -27500,15 +30541,9 @@ function zzVL_QShow takes integer vl_playerId returns nothing
     endif
 endfunction
 function zzVL_QGiveTT takes unit vl_hero,integer vl_n returns nothing
-    local integer vl_i=0
-    local item vl_item
-    loop
-        exitwhen vl_i>=vl_n
-        set vl_item=CreateItem('I00W',GetUnitX(vl_hero),GetUnitY(vl_hero))
-        call UnitAddItem(vl_hero,vl_item)
-        set vl_i=vl_i+1
-    endloop
-    set vl_item=null
+    if vl_hero!=null then
+        call zzGL_Give(GetPlayerId(GetOwningPlayer(vl_hero)),vl_n)
+    endif
 endfunction
 function zzVL_QProgress takes integer vl_playerId,integer vl_t returns nothing
     local unit vl_hero=Jx[vl_playerId+1]
@@ -27531,10 +30566,10 @@ function zzVL_QProgress takes integer vl_playerId,integer vl_t returns nothing
     call AdjustPlayerStateBJ(vl_g,Player(vl_playerId),PLAYER_STATE_RESOURCE_GOLD)
     call zzVL_QGiveTT(vl_hero,1)
     call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Levelup\\LevelupCaster.mdl",vl_hero,"origin"))
-    call zzVL_Msg(vl_playerId,"|cff00ff00Hoàn thành nhiệm vụ "+zzVL_QName(vl_t)+"!|r Nhận 1 Thủy tinh, "+I2S(vl_g)+" ngân lượng, 8 công trạng. Quay lại Sứ Giả Võ Lâm để nhận nhiệm vụ mới.")
+    call zzVL_Msg(vl_playerId,"|cff00ff00Hoàn thành nhiệm vụ "+zzVL_QName(vl_t)+"!|r Nhận 1 Huyền tinh, "+I2S(vl_g)+" ngân lượng, 8 công trạng. Quay lại Sứ Giả Võ Lâm để nhận nhiệm vụ mới.")
     if ModuloInteger(zzVL_qDone[vl_playerId],5)==0 then
         call zzVL_QGiveTT(vl_hero,2)
-        call zzVL_All(zzVL_Name(vl_playerId)+" đã hoàn thành "+I2S(zzVL_qDone[vl_playerId])+" nhiệm vụ của Sứ Giả Võ Lâm, nhận thêm 2 Thủy tinh.")
+        call zzVL_All(zzVL_Name(vl_playerId)+" đã hoàn thành "+I2S(zzVL_qDone[vl_playerId])+" nhiệm vụ của Sứ Giả Võ Lâm, nhận thêm 2 Huyền tinh.")
     endif
     call zzVL_AddCT(vl_playerId,8)
     set vl_hero=null
@@ -27571,6 +30606,493 @@ function zzVL_OnSelect takes nothing returns nothing
 endfunction
 function zzVL_OnQuestChat takes nothing returns nothing
     call zzVL_QShow(GetPlayerId(GetTriggerPlayer()))
+endfunction
+function zzGS_Need takes integer vl_tier returns integer
+    return LoadInteger(zzVL_ht,'zzGS',1)+LoadInteger(zzVL_ht,'zzGS',2)*(vl_tier-1)
+endfunction
+function zzGS_Count takes integer vl_playerId,integer vl_code,item vl_skip returns integer
+    local unit vl_tk=Er[vl_playerId+1]
+    local unit vl_hero=Jx[vl_playerId+1]
+    local item vl_it
+    local integer vl_i=0
+    local integer vl_n=0
+    loop
+        exitwhen vl_i>29
+        set vl_it=zzVL_bag[vl_playerId*30+vl_i]
+        if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
+            if GetItemCharges(vl_it)>1 then
+                set vl_n=vl_n+GetItemCharges(vl_it)
+            else
+                set vl_n=vl_n+1
+            endif
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>5
+        if vl_tk!=null then
+            set vl_it=UnitItemInSlot(vl_tk,vl_i)
+            if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
+                if GetItemCharges(vl_it)>1 then
+                    set vl_n=vl_n+GetItemCharges(vl_it)
+                else
+                    set vl_n=vl_n+1
+                endif
+            endif
+        endif
+        if vl_hero!=null and vl_hero!=vl_tk then
+            set vl_it=UnitItemInSlot(vl_hero,vl_i)
+            if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
+                if GetItemCharges(vl_it)>1 then
+                    set vl_n=vl_n+GetItemCharges(vl_it)
+                else
+                    set vl_n=vl_n+1
+                endif
+            endif
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_it=null
+    set vl_tk=null
+    set vl_hero=null
+    return vl_n
+endfunction
+function zzGS_TakeFrom takes item vl_it,integer vl_n returns integer
+    local integer vl_c=GetItemCharges(vl_it)
+    if vl_c<1 then
+        set vl_c=1
+    endif
+    if vl_c>vl_n then
+        call SetItemCharges(vl_it,vl_c-vl_n)
+        return 0
+    endif
+    call RemoveItem(vl_it)
+    return vl_n-vl_c
+endfunction
+function zzGS_Take takes integer vl_playerId,integer vl_code,integer vl_n,item vl_skip returns nothing
+    local unit vl_tk=Er[vl_playerId+1]
+    local unit vl_hero=Jx[vl_playerId+1]
+    local item vl_it
+    local integer vl_i=0
+    local integer vl_c
+    local integer vl_old
+    loop
+        exitwhen vl_i>29 or vl_n<=0
+        set vl_it=zzVL_bag[vl_playerId*30+vl_i]
+        if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
+            set vl_c=GetItemCharges(vl_it)
+            if vl_c<1 then
+                set vl_c=1
+            endif
+            set vl_old=vl_n
+            set vl_n=zzGS_TakeFrom(vl_it,vl_n)
+            if vl_c<=vl_old then
+                set zzVL_bag[vl_playerId*30+vl_i]=null
+            endif
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>5 or vl_n<=0
+        if vl_tk!=null then
+            set vl_it=UnitItemInSlot(vl_tk,vl_i)
+            if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
+                set vl_n=zzGS_TakeFrom(vl_it,vl_n)
+            endif
+        endif
+        if vl_n>0 and vl_hero!=null and vl_hero!=vl_tk then
+            set vl_it=UnitItemInSlot(vl_hero,vl_i)
+            if vl_it!=null and vl_it!=vl_skip and GetItemTypeId(vl_it)==vl_code then
+                set vl_n=zzGS_TakeFrom(vl_it,vl_n)
+            endif
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_it=null
+    set vl_tk=null
+    set vl_hero=null
+endfunction
+function zzGS_BestTier takes integer vl_playerId,integer vl_kind returns integer
+    local integer vl_t=8
+    local integer vl_have=1
+    local integer vl_c
+    loop
+        exitwhen vl_t<1
+        set vl_c=zzGS_Count(vl_playerId,zzGM_Code(vl_kind,vl_t),null)
+        if vl_c>=zzGS_Need(vl_t) then
+            return vl_t
+        endif
+        if vl_c>0 and vl_have==1 then
+            set vl_have=vl_t
+        endif
+        set vl_t=vl_t-1
+    endloop
+    return vl_have
+endfunction
+function zzGS_OnSelect takes nothing returns nothing
+    local unit vl_shop=GetTriggerUnit()
+    local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
+    local integer vl_k=1
+    local integer vl_t
+    local integer vl_best
+    local string vl_msg
+    if vl_playerId>9 or vl_shop==null or LoadInteger(zzVL_ht,'zzGS',4)!=GetUnitTypeId(vl_shop) then
+        set vl_shop=null
+        return
+    endif
+    set vl_msg="|cffffcc00Nâng bảo thạch|r: nâng bậc t lên t+1 tốn "+I2S(zzGS_Need(1))+" viên bậc 1, rồi +"+I2S(LoadInteger(zzVL_ht,'zzGS',2))+" viên mỗi bậc (bậc 8 lên 9 tốn "+I2S(zzGS_Need(8))+" viên) cùng loại cùng bậc + "+I2S(LoadInteger(zzVL_ht,'zzGS',3))+" vàng. Mua viên nào = nâng loại đó."
+    loop
+        exitwhen vl_k>6
+        set vl_best=zzGS_BestTier(vl_playerId,vl_k)
+        set vl_t=2
+        loop
+            exitwhen vl_t>9
+            call RemoveItemFromStock(vl_shop,zzGM_Code(vl_k,vl_t))
+            set vl_t=vl_t+1
+        endloop
+        call AddItemToStock(vl_shop,zzGM_Code(vl_k,vl_best+1),10,10)
+        set vl_msg=vl_msg+"|n"+GetObjectName(zzGM_Code(vl_k,vl_best+1))+": có "+I2S(zzGS_Count(vl_playerId,zzGM_Code(vl_k,vl_best),null))+"/"+I2S(zzGS_Need(vl_best))+" viên bậc "+I2S(vl_best)
+        set vl_k=vl_k+1
+    endloop
+    call zzVL_Msg(vl_playerId,vl_msg)
+    set vl_shop=null
+endfunction
+function zzGS_Upgrade takes integer vl_playerId,item vl_item,unit vl_b returns boolean
+    local integer vl_code=GetItemTypeId(vl_item)
+    local integer vl_kind=zzGM_Type(vl_code)
+    local integer vl_tier=zzGM_Tier(vl_code)-1
+    local integer vl_gold=LoadInteger(zzVL_ht,'zzGS',3)
+    local integer vl_need
+    local integer vl_have
+    if vl_kind<1 or vl_tier<1 then
+        return false
+    endif
+    set vl_need=zzGS_Need(vl_tier)
+    set vl_have=zzGS_Count(vl_playerId,zzGM_Code(vl_kind,vl_tier),vl_item)
+    if vl_have<vl_need then
+        call RemoveItem(vl_item)
+        call AdjustPlayerStateBJ(vl_gold,Player(vl_playerId),PLAYER_STATE_RESOURCE_GOLD)
+        call zzVL_Msg(vl_playerId,"|cffff8000Chưa đủ để nâng lên "+GetObjectName(vl_code)+" (đã hoàn "+I2S(vl_gold)+" vàng). Cần "+I2S(vl_need)+" viên "+GetObjectName(zzGM_Code(vl_kind,vl_tier))+", hiện có "+I2S(vl_have)+".|r")
+        return false
+    endif
+    call zzGS_Take(vl_playerId,zzGM_Code(vl_kind,vl_tier),vl_need,vl_item)
+    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",vl_b,"origin"))
+    call zzVL_Msg(vl_playerId,"|cff00ff00Nâng thành công|r "+GetItemName(vl_item)+" (đã trừ "+I2S(vl_need)+" viên bậc "+I2S(vl_tier)+" và "+I2S(vl_gold)+" vàng).")
+    return true
+endfunction
+function zzGS_OnBuy takes nothing returns nothing
+    local item vl_item=GetSoldItem()
+    local unit vl_b=GetBuyingUnit()
+    local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_b))
+    if vl_playerId<=9 and LoadInteger(zzVL_ht,'zzGS',4)==GetUnitTypeId(GetSellingUnit()) then
+        call zzGS_Upgrade(vl_playerId,vl_item,vl_b)
+    endif
+    set vl_item=null
+    set vl_b=null
+endfunction
+function zzGS_Init takes nothing returns nothing
+    local trigger vl_t=CreateTrigger()
+    local integer vl_i=0
+    loop
+        exitwhen vl_i>9
+        call TriggerRegisterPlayerUnitEvent(vl_t,Player(vl_i),EVENT_PLAYER_UNIT_SELECTED,null)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzGS_OnSelect)
+    set vl_t=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_SELL_ITEM)
+    call TriggerAddAction(vl_t,function zzGS_OnBuy)
+    set vl_t=null
+endfunction
+function zzGD_Target takes integer vl_t,real vl_min returns real
+    local real vl_open=I2R(LoadInteger(zzVL_ht,0,370+vl_t))
+    if vl_min<vl_open then
+        return 0.
+    endif
+    return LoadInteger(zzVL_ht,0,390+vl_t)+LoadInteger(zzVL_ht,0,380+vl_t)/1000.*(vl_min-vl_open)
+endfunction
+function zzGD_Deficit takes integer vl_p,integer vl_t,real vl_min returns real
+    local real vl_d=zzGD_Target(vl_t,vl_min)-LoadInteger(zzVL_ht,6300+vl_p,vl_t)
+    if vl_d<0. then
+        return 0.
+    endif
+    return vl_d
+endfunction
+function zzGD_PickTier takes integer vl_p,real vl_min returns integer
+    local real vl_sum=0.
+    local real vl_r
+    local integer vl_t=1
+    loop
+        exitwhen vl_t>9
+        set vl_sum=vl_sum+zzGD_Deficit(vl_p,vl_t,vl_min)
+        set vl_t=vl_t+1
+    endloop
+    if vl_sum<=0. then
+        return 0
+    endif
+    set vl_r=GetRandomReal(0.,vl_sum)
+    set vl_t=1
+    loop
+        exitwhen vl_t>9
+        set vl_r=vl_r-zzGD_Deficit(vl_p,vl_t,vl_min)
+        if vl_r<=0. then
+            return vl_t
+        endif
+        set vl_t=vl_t+1
+    endloop
+    return 9
+endfunction
+function zzGD_Drop takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
+    local integer vl_p
+    local real vl_min
+    local real vl_sum=0.
+    local real vl_want
+    local integer vl_n
+    local integer vl_max
+    local integer vl_t
+    local integer vl_code
+    local item vl_it
+    if vl_hero==null or LoadInteger(zzVL_ht,0,363)<=0 or LoadInteger(zzVL_ht,0,360)<=0 then
+        return
+    endif
+    set vl_p=GetPlayerId(GetOwningPlayer(vl_hero))
+    if vl_p>9 then
+        return
+    endif
+    set vl_min=TimerGetElapsed(zzVL_clock)/60.
+    set vl_t=1
+    loop
+        exitwhen vl_t>9
+        set vl_sum=vl_sum+zzGD_Deficit(vl_p,vl_t,vl_min)
+        set vl_t=vl_t+1
+    endloop
+    if vl_sum<=0. then
+        return
+    endif
+    set vl_want=vl_sum/LoadInteger(zzVL_ht,0,360)
+    set vl_max=LoadInteger(zzVL_ht,0,361)
+    if vl_kind==1 then
+        set vl_want=vl_want*1.5
+    elseif vl_kind==2 then
+        set vl_want=vl_want*2.
+    elseif vl_kind>=3 then
+        set vl_want=vl_want*3.
+        set vl_max=LoadInteger(zzVL_ht,0,362)
+    endif
+    set vl_n=R2I(vl_want)
+    if GetRandomReal(0.,1.)<vl_want-I2R(vl_n) then
+        set vl_n=vl_n+1
+    endif
+    if vl_n>vl_max then
+        set vl_n=vl_max
+    endif
+    loop
+        exitwhen vl_n<=0
+        set vl_t=zzGD_PickTier(vl_p,vl_min)
+        exitwhen vl_t<=0
+        set vl_code=zzGM_Code(GetRandomInt(1,6),vl_t)
+        if vl_code!=0 then
+            set vl_it=CreateItem(vl_code,vl_x+GetRandomReal(-40.,40.),vl_y+GetRandomReal(-40.,40.))
+            set vl_it=null
+        endif
+        call SaveInteger(zzVL_ht,6300+vl_p,vl_t,LoadInteger(zzVL_ht,6300+vl_p,vl_t)+1)
+        set vl_n=vl_n-1
+    endloop
+endfunction
+constant function zzDR_ChanceNormal takes nothing returns integer
+return 3
+endfunction
+constant function zzDR_ChanceElite takes nothing returns integer
+return 40
+endfunction
+constant function zzDR_RollsElite takes nothing returns integer
+return 3
+endfunction
+constant function zzDR_RollsLeader takes nothing returns integer
+return 6
+endfunction
+constant function zzDR_DropsBoss takes nothing returns integer
+return 5
+endfunction
+constant function zzDR_ChanceWeapon takes nothing returns integer
+return 20
+endfunction
+function zzDR_WeaponCode takes integer vl_t returns integer
+    if vl_t==0 then
+        return 'ITV0'
+    elseif vl_t==1 then
+        return 'ITV1'
+    elseif vl_t==2 then
+        return 'ITV2'
+    elseif vl_t==3 then
+        return 'ITV3'
+    elseif vl_t==4 then
+        return 'ITV4'
+    elseif vl_t==5 then
+        return 'ITV5'
+    elseif vl_t==6 then
+        return 'ITV6'
+    elseif vl_t==7 then
+        return 'ITV7'
+    elseif vl_t==8 then
+        return 'ITV8'
+    elseif vl_t==9 then
+        return 'ITV9'
+    endif
+    return 'ITVA'
+endfunction
+function zzDR_SlotCode takes integer vl_i returns integer
+    if vl_i==0 then
+        return 'ITS1'
+    elseif vl_i==1 then
+        return 'ITS2'
+    elseif vl_i==2 then
+        return 'ITS3'
+    elseif vl_i==3 then
+        return 'ITS4'
+    elseif vl_i==4 then
+        return 'ITS5'
+    elseif vl_i==5 then
+        return 'ITS7'
+    elseif vl_i==6 then
+        return 'ITS8'
+    elseif vl_i==7 then
+        return 'ITS9'
+    endif
+    return 'ITSA'
+endfunction
+function zzDR_HeroWeapon takes unit vl_hero returns integer
+    local integer vl_pid
+    local integer vl_t=0
+    local integer vl_found=-1
+    local item vl_it
+    local boolean vl_ok
+    if vl_hero==null then
+        return -1
+    endif
+    set vl_pid=GetPlayerId(GetOwningPlayer(vl_hero))
+    if vl_pid<10 and LoadInteger(zzVL_ht,6100+vl_pid,0)==GetUnitTypeId(vl_hero) then
+        return LoadInteger(zzVL_ht,6100+vl_pid,1)-1
+    endif
+    loop
+        exitwhen vl_t>10 or vl_found>=0
+        set vl_it=CreateItem(zzDR_WeaponCode(vl_t),0.,0.)
+        if vl_it!=null then
+            set vl_ok=zzEQ_CanUse(vl_hero,vl_it)
+            call RemoveItem(vl_it)
+            set vl_it=null
+            if vl_ok then
+                set vl_found=vl_t
+            endif
+        endif
+        set vl_t=vl_t+1
+    endloop
+    if vl_pid<10 then
+        call SaveInteger(zzVL_ht,6100+vl_pid,0,GetUnitTypeId(vl_hero))
+        call SaveInteger(zzVL_ht,6100+vl_pid,1,vl_found+1)
+    endif
+    return vl_found
+endfunction
+function zzDR_KillerHero takes unit vl_killer returns unit
+    local integer vl_pid
+    if vl_killer==null then
+        return null
+    endif
+    set vl_pid=GetPlayerId(GetOwningPlayer(vl_killer))
+    if vl_pid<10 and Jx[vl_pid+1]!=null then
+        return Jx[vl_pid+1]
+    endif
+    return null
+endfunction
+function zzDR_PickCode takes unit vl_hero returns integer
+    local integer vl_w=-1
+    if GetRandomInt(1,100)<=zzDR_ChanceWeapon() then
+        set vl_w=zzDR_HeroWeapon(vl_hero)
+    endif
+    if vl_w>=0 then
+        return zzDR_WeaponCode(vl_w)
+    endif
+    return zzDR_SlotCode(GetRandomInt(0,8))
+endfunction
+function zzDR_CountAff takes item vl_it returns integer
+    local integer vl_id=GetHandleId(vl_it)
+    local integer vl_k=1
+    local integer vl_n=0
+    loop
+        exitwhen vl_k>22
+        if LoadInteger(zzVL_ht,vl_id,30+vl_k)!=0 then
+            set vl_n=vl_n+1
+        endif
+        set vl_k=vl_k+1
+    endloop
+    return vl_n
+endfunction
+function zzDR_RollAffixMin takes item vl_it,integer vl_min returns nothing
+    local integer vl_id=GetHandleId(vl_it)
+    local string vl_name=GetItemName(vl_it)
+    local string vl_desc=BlzGetItemDescription(vl_it)
+    local string vl_tip=BlzGetItemExtendedTooltip(vl_it)
+    local integer vl_tries=0
+    local integer vl_k
+    call zzVL_RollAffix(vl_it)
+    loop
+        exitwhen vl_min<=0 or vl_tries>=40 or zzDR_CountAff(vl_it)>=vl_min
+        call BlzSetItemName(vl_it,vl_name)
+        call BlzSetItemDescription(vl_it,vl_desc)
+        call BlzSetItemExtendedTooltip(vl_it,vl_tip)
+        set vl_k=1
+        loop
+            exitwhen vl_k>22
+            call RemoveSavedInteger(zzVL_ht,vl_id,30+vl_k)
+            set vl_k=vl_k+1
+        endloop
+        call RemoveSavedInteger(zzVL_ht,vl_id,75)
+        call RemoveSavedInteger(zzVL_ht,vl_id,29)
+        call zzVL_RollAffix(vl_it)
+        set vl_tries=vl_tries+1
+    endloop
+endfunction
+function zzDR_MakeOne takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
+    local integer vl_code=zzDR_PickCode(vl_hero)
+    local item vl_it=CreateItem(vl_code,vl_x+GetRandomReal(-40.,40.),vl_y+GetRandomReal(-40.,40.))
+    if vl_it==null then
+        return
+    endif
+    call zzEQ_SetTier(vl_it,0)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_it),73,1)
+    set vl_it=null
+endfunction
+function zzDR_Crystal takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
+    call zzGL_Drop(vl_kind,vl_x,vl_y,vl_hero)
+endfunction
+function zzDR_DropKind takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
+    local integer vl_roll=0
+    local integer vl_count=0
+    if vl_kind==1 then
+        set vl_count=zzDR_RollsElite()
+    elseif vl_kind==2 then
+        set vl_count=zzDR_RollsLeader()
+    elseif vl_kind>=3 then
+        set vl_count=zzDR_DropsBoss()
+    endif
+    loop
+        exitwhen vl_roll>=vl_count
+        if vl_roll==0 or vl_kind>=3 or GetRandomInt(1,100)<=zzDR_ChanceElite() then
+            call zzDR_MakeOne(vl_kind,vl_x,vl_y,vl_hero)
+        endif
+        set vl_roll=vl_roll+1
+    endloop
+    call zzDR_Crystal(vl_kind,vl_x,vl_y,vl_hero)
+    call zzGD_Drop(vl_kind,vl_x,vl_y,vl_hero)
+endfunction
+function zzDR_Drop takes unit vl_dead,unit vl_killer returns nothing
+    local integer vl_kind=LoadInteger(zzVL_ht,GetHandleId(vl_dead),10)
+    if vl_dead==zzVL_boss then
+        set vl_kind=3
+    endif
+    call zzDR_DropKind(vl_kind,GetUnitX(vl_dead),GetUnitY(vl_dead),zzDR_KillerHero(vl_killer))
 endfunction
 function zzVL_IsCreep takes unit vl_unit returns boolean
     local integer vl_t=GetUnitTypeId(vl_unit)
@@ -27677,7 +31199,7 @@ function zzVL_BossSpawn takes nothing returns nothing
     call BlzSetUnitArmor(zzVL_boss,50.+5.*vl_min)
     call SetUnitScale(zzVL_boss,5.0,5.0,5.0)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_boss),GetUnitY(zzVL_boss)))
-    call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Thủy tinh|r, 1000 ngân lượng, 25 công trạng.")
+    call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Huyền tinh|r, 1000 ngân lượng, 25 công trạng.")
     call PingMinimapEx(GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),5.,255,128,0,true)
     set vl_t = CreateTimer()
     call SaveUnitHandle(zzVL_ht, GetHandleId(vl_t), 1, zzVL_boss)
@@ -27695,9 +31217,7 @@ function zzVL_BossKilled takes integer vl_pk returns nothing
         endif
         set vl_i=vl_i+1
     endloop
-    call CreateItem('I00W',GetUnitX(zzVL_boss),GetUnitY(zzVL_boss))
-    call CreateItem('I00W',GetUnitX(zzVL_boss),GetUnitY(zzVL_boss))
-    call zzVL_DropGear(5, 5, GetUnitX(zzVL_boss), GetUnitY(zzVL_boss))
+    call zzDR_DropKind(4,GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),Jx[vl_pk+1])
     call zzVL_AddCT(vl_pk,25)
     set zzVL_boss=null
 endfunction
@@ -27765,7 +31285,7 @@ function zzVL_McKilled takes integer vl_pk returns nothing
         endif
         set vl_i=vl_i+1
     endloop
-    call zzVL_DropGear(5, 8, GetUnitX(zzVL_mc), GetUnitY(zzVL_mc))
+    call zzDR_DropKind(4,GetUnitX(zzVL_mc),GetUnitY(zzVL_mc),Jx[vl_pk+1])
     call zzVL_AddCT(vl_pk,30)
     set zzVL_mc=null
     call zzVL_AddUD(vl_pk,10)
@@ -27853,7 +31373,12 @@ function zzVL_OnDeath takes nothing returns nothing
     local integer vl_pk
     local integer vl_pd
     local integer vl_i=0
+    local integer vl_kind
     if vl_d!=null then
+        set vl_kind=LoadInteger(zzVL_ht,GetHandleId(vl_d),10)
+        if LoadInteger(zzVL_ht,GetHandleId(vl_d),9)>0 then
+            call zzDR_DropKind(vl_kind,GetUnitX(vl_d),GetUnitY(vl_d),zzDR_KillerHero(vl_k))
+        endif
         call zzVL_CampDeath(vl_d)
     endif
     if vl_d!=null and IsUnitType(vl_d,UNIT_TYPE_HERO) and GetPlayerId(GetOwningPlayer(vl_d))<10 and vl_d==Jx[GetPlayerId(GetOwningPlayer(vl_d))+1] then
@@ -28103,6 +31628,10 @@ function zzVL_EqSlot takes item vl_item returns integer
     if vl_item==null then
         return -1
     endif
+    set vl_v=zzEQ_Slot(GetItemTypeId(vl_item))
+    if vl_v>0 then
+        return vl_v-1
+    endif
     set vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)/10
     if vl_v==1 then
         return 0
@@ -28198,6 +31727,7 @@ function zzVL_Sort takes integer vl_playerId returns nothing
 endfunction
 function zzVL_ItemTip takes item vl_item returns string
     local string vl_string
+    local string vl_ext
     if vl_item==null then
         return "Ô trống"
     endif
@@ -28205,11 +31735,46 @@ function zzVL_ItemTip takes item vl_item returns string
     if GetItemCharges(vl_item)>0 then
         set vl_string=vl_string+" (x"+I2S(GetItemCharges(vl_item))+")"
     endif
-    set vl_string=vl_string+"|n"+BlzGetItemDescription(vl_item)
+    set vl_ext=BlzGetItemExtendedTooltip(vl_item)
+    if vl_ext==null or vl_ext=="" then
+        set vl_ext=BlzGetItemDescription(vl_item)
+    endif
+    if vl_ext!=null and vl_ext!="" then
+        set vl_string=vl_string+"|n"+vl_ext
+    endif
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)>=10 and LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)<50 then
         set vl_string=vl_string+"|n|cffffcc00Tài phú: "+I2S(zzVL_GearScore(vl_item))+"|r"
     endif
     return vl_string
+endfunction
+function zzVL_ItemHoverOn takes nothing returns nothing
+    local framehandle vl_frame=BlzGetTriggerFrame()
+    local player vl_player=GetTriggerPlayer()
+    local integer vl_kind=LoadInteger(zzVL_ht,GetHandleId(vl_frame),8)
+    local integer vl_index=LoadInteger(zzVL_ht,GetHandleId(vl_frame),9)
+    local integer vl_pid=GetPlayerId(vl_player)
+    local item vl_item=null
+    if vl_kind==1 and vl_index>=0 and vl_index<30 then
+        set vl_item=zzVL_bag[vl_pid*30+vl_index]
+    elseif vl_kind==2 and vl_index>=0 and vl_index<10 then
+        set vl_item=zzVL_equipItem[vl_pid*10+vl_index]
+    elseif vl_kind==3 and vl_index>=0 and vl_index<10 then
+        if Er[vl_pid+1]!=null then
+            set vl_item=UnitItemInSlot(Er[vl_pid+1],vl_index)
+        endif
+    endif
+    if GetLocalPlayer()==vl_player and vl_item!=null then
+        call BlzFrameSetText(zzVL_fItemHoverTxt,zzVL_ItemTip(vl_item))
+        call BlzFrameSetVisible(zzVL_fItemHover,true)
+    endif
+    set vl_item=null
+    set vl_player=null
+    set vl_frame=null
+endfunction
+function zzVL_ItemHoverOff takes nothing returns nothing
+    if GetLocalPlayer()==GetTriggerPlayer() then
+        call BlzFrameSetVisible(zzVL_fItemHover,false)
+    endif
 endfunction
 function zzVL_SetSlot takes integer vl_playerId,integer vl_code,item vl_item returns nothing
     local string vl_tex="UI\\Widgets\\Console\\Human\\human-inventory-slotfiller.blp"
@@ -28244,8 +31809,7 @@ function zzVL_Refresh takes integer vl_playerId returns nothing
     endloop
     set vl_i=0
     loop
-        exitwhen vl_i>5
-        call zzVL_SetSlot(vl_playerId,30+vl_i,zzVL_equipItem[vl_playerId*10+vl_i])
+        exitwhen vl_i>9
         if vl_tk!=null then
             call zzVL_SetSlot(vl_playerId,36+vl_i,UnitItemInSlot(vl_tk,vl_i))
         else
@@ -28555,7 +32119,7 @@ function zzVL_KhamInit takes nothing returns nothing
     call SaveInteger(zzVL_ht,'I101',44,11)
     call SaveInteger(zzVL_ht,'I101',45,15)
     call SaveInteger(zzVL_ht,'I102',44,12)
-    call SaveInteger(zzVL_ht,'I102',45,15) 
+    call SaveInteger(zzVL_ht,'I102',45,15)
     call SaveInteger(zzVL_ht,'I103',44,13)
     call SaveInteger(zzVL_ht,'I103',45,15)
     call SaveInteger(zzVL_ht,'I104',44,14)
@@ -28611,6 +32175,10 @@ function zzVL_Kham takes integer vl_playerId,item vl_g returns nothing
     endif
     set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(vl_m),44)
     set vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_m),45)
+    if zzGM_Type(GetItemTypeId(vl_m))>0 then
+        set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(vl_m),112)
+        set vl_v=zzGM_Stat(zzGM_Type(GetItemTypeId(vl_m)),zzGM_Tier(GetItemTypeId(vl_m)))
+    endif
     call SaveInteger(zzVL_ht,vl_id,43,LoadInteger(zzVL_ht,vl_id,43)+1)
     call SaveInteger(zzVL_ht,vl_id,30+vl_k,LoadInteger(zzVL_ht,vl_id,30+vl_k)+vl_v)
     set vl_string="|n|cff80c0ff[Khảm] "+GetItemName(vl_m)+": "+zzVL_KhamText(vl_k,vl_v)+"|r"
@@ -28643,24 +32211,37 @@ endfunction
 function zzVL_TtUse takes integer vl_playerId,item vl_g returns nothing
     local item vl_t=zzVL_tSel[vl_playerId]
     local integer vl_i=0
+    local integer vl_n
+    local boolean vl_ok
     set zzVL_tSel[vl_playerId]=null
     if vl_t==null or GetItemTypeId(vl_t)!='I00W' then
         set vl_t=null
         return
     endif
-    if zzVL_CuongDo(Jx[vl_playerId+1],vl_g) then
-        if GetItemCharges(vl_t)>1 then
-            call SetItemCharges(vl_t,GetItemCharges(vl_t)-1)
-        else
-            loop
-                exitwhen vl_i>29
-                if zzVL_bag[vl_playerId*30+vl_i]==vl_t then
-                    set zzVL_bag[vl_playerId*30+vl_i]=null
-                endif
-                set vl_i=vl_i+1
-            endloop
-            call RemoveItem(vl_t)
+    if vl_g==null or (not zzEQ_IsKv(GetItemTypeId(vl_g)) and zzVL_EqSlot(vl_g)<0) then
+        call zzVL_Msg(vl_playerId,"Hãy dùng Huyền Tinh lên một món trang bị hợp lệ.")
+        set vl_t=null
+        return
+    endif
+    set vl_n=IMaxBJ(1,GetItemCharges(vl_t))
+    call zzGL_Give(vl_playerId,vl_n)
+    loop
+        exitwhen vl_i>=30
+        if zzVL_bag[vl_playerId*30+vl_i]==vl_t then
+            set zzVL_bag[vl_playerId*30+vl_i]=null
         endif
+        set vl_i=vl_i+1
+    endloop
+    call RemoveItem(vl_t)
+    set vl_t=null
+    if zzEQ_IsKv(GetItemTypeId(vl_g)) then
+        set vl_ok=zzEQ_TryEnhance(vl_playerId,vl_g)
+    else
+        set vl_ok=zzEQ_TrySlotEnhance(vl_playerId,zzVL_EqSlot(vl_g),vl_g)
+    endif
+    if vl_ok then
+        call zzVL_AffixSum(vl_playerId)
+        call ExecuteFunc("zzVL_HeroTick")
     endif
     set vl_t=null
 endfunction
@@ -28830,7 +32411,7 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
                 call zzVL_TtUse(vl_playerId,vl_item)
             elseif GetItemTypeId(vl_item)=='I00W' and not zzVL_sendTK[vl_playerId] then
                 set zzVL_tSel[vl_playerId]=vl_item
-                call zzVL_Msg(vl_playerId,"Đã chọn |cffffff00Thủy tinh|r. Bấm vào mũ, áo, vũ khí hoặc giày để cường hóa ô đó.")
+                call zzVL_Msg(vl_playerId,"Đã chọn |cffffff00Huyền tinh|r. Bấm vào trang bị (mũ, áo, yêu đái, hộ uyển, hài, vũ khí, hạng liên, giới chỉ, ngọc bội, hộ thân phù) để cường hóa.")
             elseif zzVL_sendTK[vl_playerId] then
                 if vl_tk!=null and UnitInventoryCount(vl_tk)<6 then
                     set zzVL_bag[vl_playerId*30+vl_code]=null
@@ -28842,8 +32423,12 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
                 endif
             else
                 set vl_w=zzVL_EqSlot(vl_item)
+                if vl_w>=0 and vl_w<=9 and not zzEQ_CheckWear(vl_hero,vl_item) then
+                    set vl_w=-2
+                endif
                 if vl_w>=0 and vl_w<=9 then
                     set vl_old=zzVL_equipItem[vl_playerId*10+vl_w]
+                    call zzEQ_InheritSlot(vl_playerId,vl_w,vl_item,vl_old)
                     set zzVL_bag[vl_playerId*30+vl_code]=null
                     if vl_old!=null then
                         set zzVL_bag[vl_playerId*30+vl_code]=vl_old
@@ -28855,6 +32440,8 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
                     call SetItemVisible(vl_item,false)
                     call zzVL_AffixSum(vl_playerId)
                     call ExecuteFunc("zzVL_HeroTick")
+                elseif vl_w==-2 then
+                    set vl_old=null
                 else
                     if GetItemCharges(vl_item)>1 and (UnitItemInSlot(vl_hero,5)==null or GetItemTypeId(UnitItemInSlot(vl_hero,5))==GetItemTypeId(vl_item)) then
                         if UnitItemInSlot(vl_hero,5)!=null then
@@ -28955,11 +32542,11 @@ function zzVL_OnFrameClick takes nothing returns nothing
     local framehandle vl_f=BlzGetTriggerFrame()
     local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
     local integer vl_code=LoadInteger(zzVL_ht,GetHandleId(vl_f),7)-1
-    if GetLocalPlayer()==GetTriggerPlayer() then
-        call BlzFrameSetEnable(vl_f,false)
-        call BlzFrameSetEnable(vl_f,true)
-    endif
-    if vl_code>=0 and zzVL_IsBagUser(vl_playerId) then
+    if vl_code>=100 and vl_code<110 then
+        set zzVL_plusP=vl_playerId
+        set zzVL_plusS=vl_code-100
+        call ExecuteFunc("zzVL_PlusDo")
+    elseif vl_code>=0 and zzVL_IsBagUser(vl_playerId) then
         call zzVL_BagClick(vl_playerId,vl_code)
     endif
     set vl_f=null
@@ -29086,7 +32673,7 @@ function zzVL_MakeText takes framehandle vl_parent,real vl_x,real vl_y,real vl_w
     return vl_t
 endfunction
 function zzVL_MakeSlot takes integer vl_code,real vl_x,real vl_y returns nothing
-    local framehandle vl_b=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fMain,"ScoreScreenTabButtonTemplate",0)
+    local framehandle vl_b=BlzCreateFrameByType("BUTTON","",zzVL_fMain,"",0)
     local framehandle vl_i=BlzCreateFrameByType("BACKDROP","",vl_b,"",0)
     local framehandle vl_bg=BlzCreateFrame("EscMenuBackdrop",vl_b,0,0)
     local framehandle vl_t=BlzCreateFrameByType("TEXT","",vl_bg,"",0)
@@ -29098,9 +32685,18 @@ function zzVL_MakeSlot takes integer vl_code,real vl_x,real vl_y returns nothing
     call BlzFrameSetAbsPoint(vl_t,FRAMEPOINT_TOPRIGHT,.455,.55)
     call BlzFrameSetPoint(vl_bg,FRAMEPOINT_TOPLEFT,vl_t,FRAMEPOINT_TOPLEFT,-.012,.012)
     call BlzFrameSetPoint(vl_bg,FRAMEPOINT_BOTTOMRIGHT,vl_t,FRAMEPOINT_BOTTOMRIGHT,.012,-.012)
-    call BlzFrameSetTooltip(vl_b,vl_bg)
+    call BlzFrameSetVisible(vl_bg,false)
     call SaveInteger(zzVL_ht,GetHandleId(vl_b),7,vl_code+1)
+    if vl_code<30 then
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),8,1)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),9,vl_code)
+    elseif vl_code>=36 then
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),8,3)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),9,vl_code-36)
+    endif
     call BlzTriggerRegisterFrameEvent(zzVL_tClick,vl_b,FRAMEEVENT_CONTROL_CLICK)
+    call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOn,vl_b,FRAMEEVENT_MOUSE_ENTER)
+    call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOff,vl_b,FRAMEEVENT_MOUSE_LEAVE)
     set zzVL_fIco[vl_code]=vl_i
     set zzVL_fTip[vl_code]=vl_t
     set zzVL_fCnt[vl_code]=BlzCreateFrameByType("TEXT","",vl_b,"",0)
@@ -29167,16 +32763,26 @@ function zzVL_HeroText takes integer vl_playerId returns string
         endif
         set vl_i=vl_i+1
     endloop
-    set vl_string="|cffffcc00"+GetHeroProperName(vl_hero)+"|r  -  "+GetUnitName(vl_hero)+"|nCấp |cff00ff00"+I2S(GetHeroLevel(vl_hero))+"|r   Hệ "+zzVL_hn[zzVL_he[vl_playerId]]+"   Quân hàm "+zzVL_rn[zzVL_rank[vl_playerId]]
-    set vl_string=vl_string+"|n|n|cffffcc00Sinh lực|r "+I2S(R2I(GetWidgetLife(vl_hero)))+" / "+I2S(BlzGetUnitMaxHP(vl_hero))+"|n|cff6aa0ffNội lực|r "+I2S(R2I(GetUnitState(vl_hero,UNIT_STATE_MANA)))+" / "+I2S(BlzGetUnitMaxMana(vl_hero))
-    set vl_string=vl_string+"|n|cffffcc00Công kích|r "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0))+" - "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0)*BlzGetUnitDiceSides(vl_hero,0))+"   |cffffcc00Phòng thủ|r "+I2S(R2I(BlzGetUnitArmor(vl_hero)))
-    set vl_string=vl_string+"|n|cffff8080Sức mạnh|r "+I2S(GetHeroStr(vl_hero,true))+"   |cff80ff80Thân pháp|r "+I2S(GetHeroAgi(vl_hero,true))+"   |cff80c0ffNội công|r "+I2S(GetHeroInt(vl_hero,true))
-    set vl_string=vl_string+"|n|n|cffffcc00Thuộc tính trang bị|r|nHút sinh lực "+I2S(zzVL_af[vl_playerId*16+1])+"%   Hút nội lực "+I2S(zzVL_af[vl_playerId*16+2])+"%|nBạo kích "+I2S(zzVL_af[vl_playerId*16+3])+"%   Tốc đánh +"+I2S(zzVL_af[vl_playerId*16+4])+"%   Tốc độ xuất chiêu +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 16))+"%|nSát thương +"+I2S(zzVL_af[vl_playerId*16+5])+"%   Giảm sát thương "+I2S(zzVL_af[vl_playerId*16+6])+"%"
-    set vl_string=vl_string+"|nSTVL nội công +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 17))+"   STVL ngoại công +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 18))+"   Kỹ năng +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 22))+" cấp"
-    set vl_string=vl_string+"|nKháng: Vật "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 11))+"% Độc "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 12))+"% Thủy "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 13))+"% Hỏa "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 14))+"% Lôi "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 15))+"%"
-    set vl_string=vl_string+"|nĐiểm đánh trúng: "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 19))+"   Né tránh: "+I2S(R2I(GetHeroAgi(vl_hero,true)/2.0) + LoadInteger(zzVL_ht, 1000+vl_playerId, 20))+"   Tốc chạy +"+I2S(zzVL_af[vl_playerId*16+13])
-    set vl_string=vl_string+"|n|n|cffffcc00Trang bị (10 ô):|r Cường hóa theo ô (xem chi tiết rê chuột vào từng ô đồ)"
+    set vl_string="|cffffcc00"+GetHeroProperName(vl_hero)+"|r - "+GetUnitName(vl_hero)+"|nCấp "+I2S(GetHeroLevel(vl_hero))+"  |  "+zzVL_hn[zzVL_he[vl_playerId]]+"  |  "+zzVL_rn[zzVL_rank[vl_playerId]]
+    set vl_string=vl_string+"|n|n|cffffcc00SINH LỰC|r  "+I2S(R2I(GetWidgetLife(vl_hero)))+" / "+I2S(BlzGetUnitMaxHP(vl_hero))+"|n|cff6aa0ffNỘI LỰC|r  "+I2S(R2I(GetUnitState(vl_hero,UNIT_STATE_MANA)))+" / "+I2S(BlzGetUnitMaxMana(vl_hero))
+    set vl_string=vl_string+"|n|cffffcc00CÔNG KÍCH|r  "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0))+" - "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0)*BlzGetUnitDiceSides(vl_hero,0))+"|n|cffffcc00PHÒNG THỦ|r  "+I2S(R2I(BlzGetUnitArmor(vl_hero)))
+    set vl_string=vl_string+"|n|n|cffff8080SỨC MẠNH|r  "+I2S(GetHeroStr(vl_hero,true))+"|n|cff80ff80THÂN PHÁP|r  "+I2S(GetHeroAgi(vl_hero,true))+"|n|cff80c0ffNỘI CÔNG|r  "+I2S(GetHeroInt(vl_hero,true))
+    set vl_string=vl_string+"|n|n|cffffcc00THUỘC TÍNH CHIẾN ĐẤU|r"
+    set vl_string=vl_string+"|nHút sinh lực: "+I2S(zzVL_af[vl_playerId*16+1])+"%   Hút nội lực: "+I2S(zzVL_af[vl_playerId*16+2])+"%"
+    set vl_string=vl_string+"|nBạo kích: "+I2S(zzVL_af[vl_playerId*16+3])+"%"
+    set vl_string=vl_string+"|nTốc đánh: +"+I2S(zzVL_af[vl_playerId*16+4])+"%   Sát thương: +"+I2S(zzVL_af[vl_playerId*16+5])+"%"
+    set vl_string=vl_string+"|nGiảm sát thương nhận: "+I2S(zzVL_af[vl_playerId*16+6])+"%"
+    set vl_string=vl_string+"|nTốc xuất chiêu: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,16))+"%"
+    set vl_string=vl_string+"|nSát thương nội công: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,17))
+    set vl_string=vl_string+"|nSát thương ngoại công: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,18))
+    set vl_string=vl_string+"|nCấp kỹ năng: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,22))+"   Đánh trúng: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,19))
+    set vl_string=vl_string+"|nNé tránh: "+I2S(R2I(GetHeroAgi(vl_hero,true)/2.)+LoadInteger(zzVL_ht,1000+vl_playerId,20))+"   Tốc chạy: +"+I2S(zzVL_af[vl_playerId*16+13])
+    set vl_string=vl_string+"|nKháng vật lý: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,11))+"%"
+    set vl_string=vl_string+"|nKháng độc: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,12))+"%   Kháng thủy: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,13))+"%"
+    set vl_string=vl_string+"|nKháng hỏa: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,14))+"%   Kháng lôi: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,15))+"%"
+    set vl_string=vl_string+"|n|n|cffffcc00TRANG BỊ (10 Ô)|r  Cấp cường hóa hiển thị trên từng ô"
     set vl_string=vl_string+"|n|cffffcc00Tài phú|r "+I2S(vl_tp)+"|n|cffffcc00Hạ|r "+I2S(zzVL_kills[vl_playerId])+"   |cffffcc00Chết|r "+I2S(zzVL_deaths[vl_playerId])
+    set vl_string=vl_string+"|n|n|cffffcc00HUYỀN TINH|r  "+I2S(zzGL_Count(vl_playerId))+" viên"
     set vl_hero=null
     return vl_string
 endfunction
@@ -29211,63 +32817,63 @@ function zzVL_EquipSlotStat takes integer vl_slot,integer vl_ch returns string
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*2)+" mọi chỉ số, +"+I2S(vl_ch*100)+" Sinh lực"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==1 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Phòng thủ, Kháng vật lý\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r Giảm "+I2S(vl_ch)+"% sát thương nhận, +"+I2S(vl_ch*2)+"% Kháng vật lý"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==2 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Sinh lực, Kháng Độc, Kháng Thủy\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*150)+" Sinh lực, +"+I2S(vl_ch*2)+"% Kháng độc/thủy"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==3 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Tốc đánh, Kháng Hỏa, Kháng Lôi\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*3)+"% Tốc đánh, +"+I2S(vl_ch*2)+"% Kháng hỏa/lôi"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==4 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Tốc độ di chuyển, Né tránh\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*3)+" Tốc chạy, +"+I2S(vl_ch*15)+" Né tránh"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==5 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Công kích, Sát thương %, Ngũ hành vũ khí\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*3)+"% Sát thương, +"+I2S(vl_ch*20)+" STVL ngoại công"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==6 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Bạo kích, STVL nội công, Tốc độ xuất chiêu\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch)+"% Bạo kích, +"+I2S(vl_ch*20)+" STVL nội công, +"+I2S(vl_ch*2)+"% Tốc độ xuất chiêu"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==7 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Điểm đánh trúng, Hút sinh lực\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*15)+" Điểm đánh trúng, +"+I2S(vl_ch)+"% Hút sinh lực, +"+I2S(vl_ch)+"% Sát thương"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==8 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Hút nội lực, Kháng toàn bộ ngũ hành\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch)+"% Hút nội lực, +"+I2S(vl_ch)+"% Kháng tất cả 5 hệ"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==9 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Sinh lực, Kỹ năng môn phái\n"
@@ -29277,7 +32883,7 @@ function zzVL_EquipSlotStat takes integer vl_slot,integer vl_ch returns string
                 set s=s+", Tất cả kỹ năng +1 cấp"
             endif
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     endif
     return s
@@ -29295,10 +32901,11 @@ function zzVL_HeroShow takes integer vl_playerId,boolean vl_on returns nothing
         if vl_hero!=null and vl_on then
             loop
                 set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),200+vl_i)
-                exitwhen vl_ab==0 or vl_j>5
+                exitwhen vl_ab==0 or vl_i>=14 or vl_j>5
                 if LoadInteger(zzVL_ht,vl_ab,240)==0 and GetUnitAbilityLevel(vl_hero,vl_ab)>0 then
                     call BlzFrameSetTexture(zzVL_fPassIco[vl_j],BlzGetAbilityIcon(vl_ab),0,true)
                     call BlzFrameSetText(zzVL_fPassTTxt[vl_j],"|cffffcc00"+GetObjectName(vl_ab)+"|r|n"+BlzGetAbilityExtendedTooltip(vl_ab,GetUnitAbilityLevel(vl_hero,vl_ab)-1))
+                    call SaveInteger(zzVL_ht,GetHandleId(zzVL_fPassBtn[vl_j]),8,vl_ab)
                     call BlzFrameSetVisible(zzVL_fPassBtn[vl_j],true)
                     set vl_j=vl_j+1
                 endif
@@ -29313,7 +32920,7 @@ function zzVL_HeroShow takes integer vl_playerId,boolean vl_on returns nothing
         set vl_j=0
         loop
             exitwhen vl_j>9
-            set vl_ch=zzVL_cuong[vl_playerId*10+vl_j]
+            set vl_ch=zzEQ_SlotLv(vl_playerId,vl_j)
             if vl_ch>0 then
                 call BlzFrameSetText(zzVL_fEqTxt[vl_j],"|cffffcc00+"+I2S(vl_ch)+"|r")
             else
@@ -29361,51 +32968,143 @@ endfunction
 function zzVL_BannerArena takes nothing returns nothing
     call zzVL_Banner("|cffff8000LIÊN ĐẤU|r bắt đầu - các cao thủ vào đấu trường!")
 endfunction
+function zzVL_PassTipOn takes nothing returns nothing
+    local integer vl_ab=LoadInteger(zzVL_ht,GetHandleId(BlzGetTriggerFrame()),8)
+    local player vl_pl=GetTriggerPlayer()
+    local unit vl_hero=Jx[GetPlayerId(vl_pl)+1]
+    if vl_ab!=0 and vl_hero!=null and GetLocalPlayer()==vl_pl then
+        call BlzFrameSetText(zzVL_fPassTipTxt,"|cffffcc00"+GetObjectName(vl_ab)+"|r|n"+BlzGetAbilityExtendedTooltip(vl_ab,IMaxBJ(1,GetUnitAbilityLevel(vl_hero,vl_ab))-1))
+        call BlzFrameSetVisible(zzVL_fPassTip,true)
+    endif
+    set vl_pl=null
+    set vl_hero=null
+endfunction
+function zzVL_PassTipOff takes nothing returns nothing
+    if GetLocalPlayer()==GetTriggerPlayer() then
+        call BlzFrameSetVisible(zzVL_fPassTip,false)
+    endif
+endfunction
+function zzVL_PlusCount takes integer vl_playerId returns integer
+    return zzGL_Get(vl_playerId)
+endfunction
+function zzVL_PlusConvertLegacy takes integer vl_playerId returns nothing
+    local integer vl_i=0
+    local integer vl_n
+    local item vl_item
+    local unit vl_hero=Jx[vl_playerId+1]
+    local unit vl_tk=Er[vl_playerId+1]
+    loop
+        exitwhen vl_i>=30
+        set vl_item=zzVL_bag[vl_playerId*30+vl_i]
+        if vl_item!=null and GetItemTypeId(vl_item)=='I00W' then
+            set vl_n=IMaxBJ(1,GetItemCharges(vl_item))
+            call zzGL_Give(vl_playerId,vl_n)
+            set zzVL_bag[vl_playerId*30+vl_i]=null
+            call RemoveItem(vl_item)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>=6 or vl_hero==null
+        set vl_item=UnitItemInSlot(vl_hero,vl_i)
+        if vl_item!=null and GetItemTypeId(vl_item)=='I00W' then
+            set vl_n=IMaxBJ(1,GetItemCharges(vl_item))
+            call zzGL_Give(vl_playerId,vl_n)
+            call RemoveItem(vl_item)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>=6 or vl_tk==null
+        set vl_item=UnitItemInSlot(vl_tk,vl_i)
+        if vl_item!=null and GetItemTypeId(vl_item)=='I00W' then
+            set vl_n=IMaxBJ(1,GetItemCharges(vl_item))
+            call zzGL_Give(vl_playerId,vl_n)
+            call RemoveItem(vl_item)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_item=null
+    set vl_hero=null
+    set vl_tk=null
+    set zzVL_tSel[vl_playerId]=null
+endfunction
+function zzVL_PlusDo takes nothing returns nothing
+    local integer vl_p=zzVL_plusP
+    local integer vl_s=zzVL_plusS
+    local item vl_it=zzVL_equipItem[vl_p*10+vl_s]
+    local boolean vl_ok
+    if not zzVL_IsBagUser(vl_p) then
+        return
+    endif
+    if vl_it==null then
+        call zzVL_Msg(vl_p,"Ô này chưa có trang bị để cường hóa.")
+        return
+    endif
+    call zzVL_PlusConvertLegacy(vl_p)
+    if zzVL_bagOpen[vl_p] then
+        call zzVL_Refresh(vl_p)
+    endif
+    if zzEQ_IsKv(GetItemTypeId(vl_it)) then
+        set vl_ok=zzEQ_TryEnhance(vl_p,vl_it)
+    else
+        set vl_ok=zzEQ_TrySlotEnhance(vl_p,vl_s,vl_it)
+    endif
+    if vl_ok then
+        call zzVL_AffixSum(vl_p)
+        call ExecuteFunc("zzVL_HeroTick")
+        call zzVL_HeroShow(vl_p,true)
+    endif
+    set vl_it=null
+endfunction
 function zzVL_BagUI takes nothing returns nothing
     local framehandle vl_ui=BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0)
     local integer vl_i=0
     local real vl_x0=.495
+    local trigger vl_t
+    local framehandle vl_b
+    local framehandle vl_x
     call BlzLoadTOCFile("war3mapImported\\vltk.toc")
     set zzVL_tClick=CreateTrigger()
     call TriggerAddAction(zzVL_tClick,function zzVL_OnFrameClick)
+    set zzVL_tItemHoverOn=CreateTrigger()
+    call TriggerAddAction(zzVL_tItemHoverOn,function zzVL_ItemHoverOn)
+    set zzVL_tItemHoverOff=CreateTrigger()
+    call TriggerAddAction(zzVL_tItemHoverOff,function zzVL_ItemHoverOff)
     set zzVL_fMain=BlzCreateFrame("EscMenuBackdrop",vl_ui,0,0)
     call BlzFrameSetAbsPoint(zzVL_fMain,FRAMEPOINT_TOPLEFT,.475,.565)
-    call BlzFrameSetAbsPoint(zzVL_fMain,FRAMEPOINT_BOTTOMRIGHT,.785,.135)
-    call zzVL_Panel(zzVL_fMain,.478,.562,.782,.138,"war3mapImported\\vl_ui_panel.blp",245)
+    call BlzFrameSetAbsPoint(zzVL_fMain,FRAMEPOINT_BOTTOMRIGHT,.785,.185)
+    call zzVL_Panel(zzVL_fMain,.478,.562,.782,.188,"war3mapImported\\vl_ui_panel.blp",245)
     call zzVL_MakeText(zzVL_fMain,.495,.548,.27,"|cffffcc00HÀNH TRANG|r  (phím B)")
-    call zzVL_MakeText(zzVL_fMain,.495,.528,.27,"Trang bị - bấm để tháo ra")
-    loop
-        exitwhen vl_i>5
-        call zzVL_MakeSlot(30+vl_i,vl_x0+vl_i*.045,.512)
-        set vl_i=vl_i+1
-    endloop
-    call zzVL_MakeText(zzVL_fMain,.495,.47,.27,"Hành trang - bấm để mặc / dùng")
+    call zzVL_MakeText(zzVL_fMain,.495,.520,.27,"Hành trang - bấm để mặc / dùng")
     set vl_i=0
     loop
         exitwhen vl_i>29
-        call zzVL_MakeSlot(vl_i,vl_x0+ModuloInteger(vl_i,6)*.045,.455-(vl_i/6)*.038)
+        call zzVL_MakeSlot(vl_i,vl_x0+ModuloInteger(vl_i,6)*.045,.505-(vl_i/6)*.038)
         set vl_i=vl_i+1
     endloop
-    call zzVL_MakeText(zzVL_fMain,.495,.262,.27,"Thủ Khố (chế đồ) - bấm để lấy về")
+    call zzVL_MakeText(zzVL_fMain,.495,.312,.27,"Thủ Khố (chế đồ) - bấm để lấy về")
     set vl_i=0
     loop
         exitwhen vl_i>5
-        call zzVL_MakeSlot(36+vl_i,vl_x0+vl_i*.045,.246)
+        call zzVL_MakeSlot(36+vl_i,vl_x0+vl_i*.045,.296)
         set vl_i=vl_i+1
     endloop
-    set zzVL_fMode=zzVL_MakeButton(42,zzVL_fMain,.495,.205,.075,"Gửi đồ: TẮT")
-    set zzVL_fSell=zzVL_MakeButton(46,zzVL_fMain,.571,.205,.045,"Bán")
-    set zzVL_fSplit=zzVL_MakeButton(47,zzVL_fMain,.617,.205,.045,"Tách")
-    set zzVL_fKham=zzVL_MakeButton(48,zzVL_fMain,.663,.205,.05,"Khảm")
+    set zzVL_fMode=zzVL_MakeButton(42,zzVL_fMain,.495,.255,.075,"Gửi đồ: TẮT")
+    set zzVL_fSell=zzVL_MakeButton(46,zzVL_fMain,.571,.255,.045,"Bán")
+    set zzVL_fSplit=zzVL_MakeButton(47,zzVL_fMain,.617,.255,.045,"Tách")
+    set zzVL_fKham=zzVL_MakeButton(48,zzVL_fMain,.663,.255,.05,"Khảm")
     set zzVL_fHl[0]=zzVL_MakeHl(zzVL_fMode)
     set zzVL_fHl[1]=zzVL_MakeHl(zzVL_fSell)
     set zzVL_fHl[2]=zzVL_MakeHl(zzVL_fSplit)
     set zzVL_fHl[3]=zzVL_MakeHl(zzVL_fKham)
-    call zzVL_MakeButton(45,zzVL_fMain,.714,.205,.032,"|cff00ffffChế|r")
-    call zzVL_MakeButton(43,zzVL_fMain,.747,.205,.03,"X")
-    set zzVL_fAuto=zzVL_MakeButton(49,zzVL_fMain,.495,.18,.11,"Tự bán: TẮT")
+    call zzVL_MakeButton(45,zzVL_fMain,.714,.255,.032,"|cff00ffffChế|r")
+    call zzVL_MakeButton(43,zzVL_fMain,.747,.255,.03,"X")
+    set zzVL_fAuto=zzVL_MakeButton(49,zzVL_fMain,.495,.23,.11,"Tự bán: TẮT")
     set zzVL_fHl[4]=zzVL_MakeHl(zzVL_fAuto)
-    set zzVL_fInfo=zzVL_MakeText(zzVL_fMain,.495,.155,.28,"")
+    set zzVL_fInfo=zzVL_MakeText(zzVL_fMain,.495,.205,.28,"")
     call BlzFrameSetVisible(zzVL_fMain,false)
     set zzVL_fScore=zzVL_MakeText(vl_ui,.685,.52,.10,"")
     call BlzFrameSetSize(zzVL_fScore,.10,.03)
@@ -29418,13 +33117,16 @@ function zzVL_BagUI takes nothing returns nothing
     call BlzFrameSetAbsPoint(zzVL_fHero,FRAMEPOINT_BOTTOMRIGHT,.365,.155)
     call zzVL_Panel(zzVL_fHero,.018,.532,.362,.158,"war3mapImported\\vl_ui_panel.blp",245)
     call zzVL_MakeText(zzVL_fHero,.085,.520,.20,"|cffffcc00NHÂN VẬT & TRANG BỊ|r  (phím C)")
-    set zzVL_fHeroTxt=zzVL_MakeText(zzVL_fHero,.063,.502,.252,"")
-    call BlzFrameSetSize(zzVL_fHeroTxt,.252,.285)
+    set zzVL_fHeroTxt=zzVL_MakeText(zzVL_fHero,.083,.502,.211,"")
+    call BlzFrameSetSize(zzVL_fHeroTxt,.211,.33)
+    call BlzFrameSetScale(zzVL_fHeroTxt,.88)
     set vl_i=0
     loop
         exitwhen vl_i>4
-        set zzVL_fEqBtn[vl_i]=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        set zzVL_fEqBtn[vl_i]=BlzCreateFrameByType("BUTTON","",zzVL_fHero,"",0)
         call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[vl_i]),7,30+vl_i+1)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[vl_i]),8,2)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[vl_i]),9,vl_i)
         call BlzFrameSetSize(zzVL_fEqBtn[vl_i],.032,.032)
         call BlzFrameSetAbsPoint(zzVL_fEqBtn[vl_i],FRAMEPOINT_TOPLEFT,.025,.482-vl_i*.048)
         set zzVL_fEqIco[vl_i]=BlzCreateFrameByType("BACKDROP","",zzVL_fEqBtn[vl_i],"",0)
@@ -29435,14 +33137,17 @@ function zzVL_BagUI takes nothing returns nothing
         call BlzFrameSetTextAlignment(zzVL_fEqTxt[vl_i],TEXT_JUSTIFY_BOTTOM,TEXT_JUSTIFY_RIGHT)
         set zzVL_fEqTT[vl_i]=BlzCreateFrame("BoxedText",zzVL_fEqBtn[vl_i],0,vl_i+20)
         set zzVL_fEqTTxt[vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+20)
-        call BlzFrameSetTooltip(zzVL_fEqBtn[vl_i],zzVL_fEqTT[vl_i])
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOn,zzVL_fEqBtn[vl_i],FRAMEEVENT_MOUSE_ENTER)
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOff,zzVL_fEqBtn[vl_i],FRAMEEVENT_MOUSE_LEAVE)
         set vl_i=vl_i+1
     endloop
     set vl_i=0
     loop
         exitwhen vl_i>4
-        set zzVL_fEqBtn[5+vl_i]=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        set zzVL_fEqBtn[5+vl_i]=BlzCreateFrameByType("BUTTON","",zzVL_fHero,"",0)
         call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[5+vl_i]),7,35+vl_i+1)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[5+vl_i]),8,2)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[5+vl_i]),9,5+vl_i)
         call BlzFrameSetSize(zzVL_fEqBtn[5+vl_i],.032,.032)
         call BlzFrameSetAbsPoint(zzVL_fEqBtn[5+vl_i],FRAMEPOINT_TOPLEFT,.322,.482-vl_i*.048)
         set zzVL_fEqIco[5+vl_i]=BlzCreateFrameByType("BACKDROP","",zzVL_fEqBtn[5+vl_i],"",0)
@@ -29453,7 +33158,8 @@ function zzVL_BagUI takes nothing returns nothing
         call BlzFrameSetTextAlignment(zzVL_fEqTxt[5+vl_i],TEXT_JUSTIFY_BOTTOM,TEXT_JUSTIFY_RIGHT)
         set zzVL_fEqTT[5+vl_i]=BlzCreateFrame("BoxedText",zzVL_fEqBtn[5+vl_i],0,vl_i+25)
         set zzVL_fEqTTxt[5+vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+25)
-        call BlzFrameSetTooltip(zzVL_fEqBtn[5+vl_i],zzVL_fEqTT[5+vl_i])
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOn,zzVL_fEqBtn[5+vl_i],FRAMEEVENT_MOUSE_ENTER)
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOff,zzVL_fEqBtn[5+vl_i],FRAMEEVENT_MOUSE_LEAVE)
         set vl_i=vl_i+1
     endloop
     set vl_i=0
@@ -29466,8 +33172,57 @@ function zzVL_BagUI takes nothing returns nothing
         call BlzFrameSetAllPoints(zzVL_fPassIco[vl_i],zzVL_fPassBtn[vl_i])
         set zzVL_fPassTT[vl_i]=BlzCreateFrame("BoxedText",zzVL_fPassBtn[vl_i],0,vl_i+10)
         set zzVL_fPassTTxt[vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+10)
-        call BlzFrameSetTooltip(zzVL_fPassBtn[vl_i],zzVL_fPassTT[vl_i])
         call BlzFrameSetVisible(zzVL_fPassBtn[vl_i],false)
+        set vl_i=vl_i+1
+    endloop
+    set zzVL_fPassTip=BlzCreateFrame("EscMenuBackdrop",zzVL_fHero,0,61)
+    call BlzFrameSetAbsPoint(zzVL_fPassTip,FRAMEPOINT_BOTTOMLEFT,.06,.21)
+    call BlzFrameSetSize(zzVL_fPassTip,.34,.15)
+    set zzVL_fPassTipTxt=BlzCreateFrameByType("TEXT","",zzVL_fPassTip,"",0)
+    call BlzFrameSetPoint(zzVL_fPassTipTxt,FRAMEPOINT_TOPLEFT,zzVL_fPassTip,FRAMEPOINT_TOPLEFT,.012,-.012)
+    call BlzFrameSetSize(zzVL_fPassTipTxt,.316,.126)
+    call BlzFrameSetVisible(zzVL_fPassTip,false)
+    set zzVL_fItemHover=BlzCreateFrame("EscMenuBackdrop",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),0,62)
+    call BlzFrameSetAbsPoint(zzVL_fItemHover,FRAMEPOINT_TOPLEFT,.39,.57)
+    call BlzFrameSetSize(zzVL_fItemHover,.34,.235)
+    set zzVL_fItemHoverTxt=BlzCreateFrameByType("TEXT","",zzVL_fItemHover,"",0)
+    call BlzFrameSetPoint(zzVL_fItemHoverTxt,FRAMEPOINT_TOPLEFT,zzVL_fItemHover,FRAMEPOINT_TOPLEFT,.012,-.012)
+    call BlzFrameSetSize(zzVL_fItemHoverTxt,.316,.211)
+    call BlzFrameSetTextAlignment(zzVL_fItemHoverTxt,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_LEFT)
+    call BlzFrameSetScale(zzVL_fItemHoverTxt,.82)
+    call BlzFrameSetVisible(zzVL_fItemHover,false)
+    call BlzFrameSetEnable(zzVL_fItemHover,false)
+    call BlzFrameSetEnable(zzVL_fItemHoverTxt,false)
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        set vl_b=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),7,100+vl_i+1)
+        call BlzFrameSetSize(vl_b,.028,.028)
+        if vl_i<5 then
+            call BlzFrameSetAbsPoint(vl_b,FRAMEPOINT_TOPLEFT,.061,.484-vl_i*.048)
+        else
+            call BlzFrameSetAbsPoint(vl_b,FRAMEPOINT_TOPLEFT,.293,.484-(vl_i-5)*.048)
+        endif
+        call BlzFrameSetLevel(vl_b,8)
+        set vl_x=BlzCreateFrameByType("TEXT","",vl_b,"",0)
+        call BlzFrameSetAllPoints(vl_x,vl_b)
+        call BlzFrameSetTextAlignment(vl_x,TEXT_JUSTIFY_MIDDLE,TEXT_JUSTIFY_CENTER)
+        call BlzFrameSetScale(vl_x,1.8)
+        call BlzFrameSetEnable(vl_x,false)
+        call BlzFrameSetText(vl_x,"|cffffcc00+|r")
+        call BlzTriggerRegisterFrameEvent(zzVL_tClick,vl_b,FRAMEEVENT_CONTROL_CLICK)
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>5
+        set vl_t=CreateTrigger()
+        call BlzTriggerRegisterFrameEvent(vl_t,zzVL_fPassBtn[vl_i],FRAMEEVENT_MOUSE_ENTER)
+        call TriggerAddAction(vl_t,function zzVL_PassTipOn)
+        set vl_t=CreateTrigger()
+        call BlzTriggerRegisterFrameEvent(vl_t,zzVL_fPassBtn[vl_i],FRAMEEVENT_MOUSE_LEAVE)
+        call TriggerAddAction(vl_t,function zzVL_PassTipOff)
         set vl_i=vl_i+1
     endloop
     call BlzFrameSetVisible(zzVL_fHero,false)
@@ -29597,15 +33352,26 @@ function zzVL_OnGmCheat takes nothing returns nothing
             set zzVL_cuong[pid*10 + lvl] = 10
             set lvl = lvl + 1
         endloop
+        call zzEQ_GmFull(pid)
         call zzVL_AffixSum(pid)
         if zzVL_heroOpen[pid] then
             call zzVL_HeroShow(pid, true)
         endif
         call zzVL_Msg(pid, "|cff00ff00[GM]|r Đã cường hóa tối đa +10 cho toàn bộ 10 ô trang bị!")
+    elseif msg == "-fullht" then
+        call SaveInteger(zzVL_ht,6200+pid,2,1000000000)
+        if zzVL_heroOpen[pid] then
+            call zzVL_HeroShow(pid,true)
+        endif
+        call zzVL_Msg(pid,"|cff00ff00[GM]|r Đã đặt Huyền Tinh thành 1.000.000.000 điểm để kiểm thử.")
     elseif len >= 7 and SubString(msg, 0, 7) == "-cuong " then
         set lvl = S2I(SubString(msg, 7, len))
         if lvl >= 1 and lvl <= 10 then
-            call zzVL_CuongSlot(hero, lvl - 1)
+            if zzEQ_EnhanceSlot(pid, lvl - 1) then
+                call zzVL_AffixSum(pid)
+            else
+                call zzVL_CuongSlot(hero, lvl - 1)
+            endif
             if zzVL_heroOpen[pid] then
                 call zzVL_HeroShow(pid, true)
             endif
@@ -29624,12 +33390,12 @@ function zzVL_Quest takes nothing returns nothing
     call QuestSetTitle(vl_q,"Hành trang và nhiệm vụ")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNPackBeast.blp")
     call QuestSetRequired(vl_q,false)
-    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: bấm phím B (hoặc nút Hành Trang, gõ -hd). Túi tướng là 6 ô trang bị: mũ, áo, vũ khí, giày, phi phong, ô dùng nhanh (thuốc, Thủy tinh). Đồ khác nằm trong hành trang 30 ô, bấm để mặc. Chế đồ: bật Gửi Thủ Khố rồi bấm nguyên liệu.|n|cffffcc00Nhiệm vụ|r: đưa tướng tới gần Sứ Giả Võ Lâm (cạnh căn cứ) rồi bấm chọn ông ấy. Xong được Thủy tinh, ngân lượng, công trạng; cứ 5 nhiệm vụ thêm 2 Thủy tinh. Gõ -nv để xem.|n|cffffcc00Đánh quái|r: cả phe cùng nhận vàng, đồng đội ở xa cũng nhận kinh nghiệm, không cần đánh phát cuối.")
+    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: bấm phím B (hoặc nút Hành Trang, gõ -hd). Túi tướng là 6 ô trang bị: mũ, áo, vũ khí, giày, phi phong, ô dùng nhanh (thuốc, Huyền tinh). Đồ khác nằm trong hành trang 30 ô, bấm để mặc. Chế đồ: bật Gửi Thủ Khố rồi bấm nguyên liệu.|n|cffffcc00Nhiệm vụ|r: đưa tướng tới gần Sứ Giả Võ Lâm (cạnh căn cứ) rồi bấm chọn ông ấy. Xong được Huyền tinh, ngân lượng, công trạng; cứ 5 nhiệm vụ thêm 2 Huyền tinh. Gõ -nv để xem.|n|cffffcc00Đánh quái|r: cả phe cùng nhận vàng, đồng đội ở xa cũng nhận kinh nghiệm, không cần đánh phát cuối.")
     set vl_q=CreateQuest()
     call QuestSetTitle(vl_q,"Phi phong và cao thủ (1.31)")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNCloak.blp")
     call QuestSetRequired(vl_q,false)
-    call QuestSetDescription(vl_q,"|cffffcc00Phi phong|r: mỗi quân hàm tự động nâng cấp chỉ số phi phong ẩn (tăng sinh lực, giáp, thuộc tính) và nhận danh hiệu trên đầu: Hiệu Úy - Siêu Phàm, Thống Lĩnh - Xuất Trần, Phó Tướng - Kinh Thế, Đại Tướng - Ỷ Thiên, Nguyên Soái - |cffff6000Chí Tôn|r. Phi phong tự gắn vào nhân vật, không chiếm ô hành trang.|n|cffffcc00Tuyệt đại cao thủ|r: cứ 7 phút xuất hiện một lần ở khu quái (có chấm trên bản đồ nhỏ). Hạ được: 2 Thủy tinh, 1000 ngân lượng (đồng đội 300), 25 công trạng.|n|cffffcc00Võ Lâm Minh Chủ|r: cứ 18 phút xuất hiện một lần (nếu Minh Chủ trước đã bị hạ). Phe hạ được +10 uy danh, mỗi người 1000 ngân lượng.|n|cffffcc00Hạ tướng|r: mỗi lần +300 ngân lượng. |cffffcc00Nhất đao đoạt mạng|r: hạ tướng đầu tiên của trận thêm 500 ngân lượng, 10 công trạng.")
+    call QuestSetDescription(vl_q,"|cffffcc00Phi phong|r: mỗi quân hàm tự động nâng cấp chỉ số phi phong ẩn (tăng sinh lực, giáp, thuộc tính) và nhận danh hiệu trên đầu: Hiệu Úy - Siêu Phàm, Thống Lĩnh - Xuất Trần, Phó Tướng - Kinh Thế, Đại Tướng - Ỷ Thiên, Nguyên Soái - |cffff6000Chí Tôn|r. Phi phong tự gắn vào nhân vật, không chiếm ô hành trang.|n|cffffcc00Tuyệt đại cao thủ|r: cứ 7 phút xuất hiện một lần ở khu quái (có chấm trên bản đồ nhỏ). Hạ được: 2 Huyền tinh, 1000 ngân lượng (đồng đội 300), 25 công trạng.|n|cffffcc00Võ Lâm Minh Chủ|r: cứ 18 phút xuất hiện một lần (nếu Minh Chủ trước đã bị hạ). Phe hạ được +10 uy danh, mỗi người 1000 ngân lượng.|n|cffffcc00Hạ tướng|r: mỗi lần +300 ngân lượng. |cffffcc00Nhất đao đoạt mạng|r: hạ tướng đầu tiên của trận thêm 500 ngân lượng, 10 công trạng.")
     set vl_q=CreateQuest()
     call QuestSetTitle(vl_q,"Trấn phái, rơi đồ, hành trang")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNSpell_ThuanDuongVoCuc.blp")
@@ -29639,7 +33405,7 @@ function zzVL_Quest takes nothing returns nothing
     call QuestSetTitle(vl_q,"Cường hóa, khảm, hành trang")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNInventory.blp")
     call QuestSetRequired(vl_q,false)
-    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: nguyên liệu cùng loại tự cộng dồn. Bật Tách rồi bấm để chia đôi, bật Bán rồi bấm để bán ngay. |cffffcc00Cường hóa|r: dùng Thủy tinh lên mũ/áo/vũ khí/giày để tăng cấp cường hóa của ô đó (tối đa +10), thay món mới vẫn giữ. Bật Khảm, bấm nguyên liệu rồi bấm trang bị: mỗi trang bị 2 lỗ, mỗi loại nguyên liệu một thuộc tính (Bảo Thạch hút máu, bạo kích, tốc đánh..., Kim Cương sát thương, Nữ Oa sinh lực...).")
+    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: nguyên liệu cùng loại tự cộng dồn. Bật Tách rồi bấm để chia đôi, bật Bán rồi bấm để bán ngay. |cffffcc00Cường hóa|r: nhặt Huyền Tinh, mở Nhân Vật bằng C rồi bấm nút + cạnh ô đồ. Tối đa +10; thất bại không tụt cấp và bảo hiểm tính riêng từng món. Bật Khảm, bấm nguyên liệu rồi bấm trang bị: mỗi trang bị 2 lỗ.")
     set vl_q=null
 endfunction
 function zzVL_StartGold takes nothing returns nothing
@@ -29665,1883 +33431,2038 @@ function zzVL_OnTabKey takes nothing returns nothing
         call ClearTextMessages()
     endif
 endfunction
+function zzKS_Size takes effect vl_e,integer vl_ab returns nothing
+    local integer vl_pct=LoadInteger(zzVL_ht,vl_ab,290)
+    if vl_pct<=0 then
+        set vl_pct=100
+    endif
+    set vl_pct=vl_pct*LoadInteger(zzVL_ht,0,291)/100
+    if vl_pct!=100 then
+        call BlzSetSpecialEffectScale(vl_e,vl_pct/100.)
+    endif
+endfunction
+function zzKS_Layer takes integer vl_ab,integer vl_k,string vl_m,unit vl_u,string vl_pt,boolean vl_ground returns nothing
+    local effect vl_e
+    local integer vl_pct=LoadInteger(zzVL_ht,vl_ab,vl_k)
+    if vl_ground then
+        set vl_e=AddSpecialEffect(vl_m,GetUnitX(vl_u),GetUnitY(vl_u))
+    else
+        set vl_e=AddSpecialEffectTarget(vl_m,vl_u,vl_pt)
+    endif
+    if vl_pct<=0 then
+        set vl_pct=100
+    endif
+    set vl_pct=vl_pct*LoadInteger(zzVL_ht,0,291)/100
+    if vl_pct!=100 then
+        call BlzSetSpecialEffectScale(vl_e,vl_pct/100.)
+    endif
+    call DestroyEffect(vl_e)
+    set vl_e=null
+endfunction
+function zzKS_Pop takes integer vl_ab,real vl_x,real vl_y returns nothing
+    local effect vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y)
+    call zzKS_Size(vl_e,vl_ab)
+    call DestroyEffect(vl_e)
+    set vl_e=null
+endfunction
+function zzKS_PopT takes integer vl_ab,unit vl_u,string vl_pt returns nothing
+    local effect vl_e=AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,vl_pt)
+    call zzKS_Size(vl_e,vl_ab)
+    call DestroyEffect(vl_e)
+    set vl_e=null
+endfunction
 function zzKS_Atk takes unit vl_h returns real
-return I2R(BlzGetUnitBaseDamage(vl_h,0)+BlzGetUnitDiceNumber(vl_h,0)*(BlzGetUnitDiceSides(vl_h,0)+1)/2)+zzVL_MainStat(vl_h)
+    return I2R(BlzGetUnitBaseDamage(vl_h,0)+BlzGetUnitDiceNumber(vl_h,0)*(BlzGetUnitDiceSides(vl_h,0)+1)/2)+zzVL_MainStat(vl_h)
 endfunction
 function zzKS_Hit takes unit vl_h,integer vl_ab returns real
-local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
-local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241))
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-local real vl_base=zzKS_Atk(vl_h)*(.9+.17*vl_lv)*(1.+.3*(vl_n-1))/vl_n+20.*vl_lv
-if vl_p<10 and zzKS_chg[vl_p]>0 then
-set vl_base=vl_base*(1.+zzKS_chg[vl_p]*zzKS_chgPct[vl_p]/100.)
-endif
-if vl_p<10 and zzKS_stack[vl_p]>0 and TimerGetElapsed(zzVL_clock)<zzKS_stackEnd[vl_p] then
-set vl_base=vl_base*(1.+IMaxBJ(5,zzKS_stackPct[vl_p])/100.*I2R(zzKS_stack[vl_p]))
-endif
-return vl_base
+    local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
+    local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241))
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    local real vl_base=zzKS_Atk(vl_h)*(.9+.17*vl_lv)*(1.+.3*(vl_n-1))/vl_n+20.*vl_lv
+    if vl_p<10 and zzKS_chg[vl_p]>0 then
+        set vl_base=vl_base*(1.+zzKS_chg[vl_p]*zzKS_chgPct[vl_p]/100.)
+    endif
+    if vl_p<10 and zzKS_stack[vl_p]>0 and TimerGetElapsed(zzVL_clock)<zzKS_stackEnd[vl_p] then
+        set vl_base=vl_base*(1.+IMaxBJ(5,zzKS_stackPct[vl_p])/100.*I2R(zzKS_stack[vl_p]))
+    endif
+    return vl_base
 endfunction
 function zzKS_Immune takes unit vl_u returns boolean
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_u))
-return vl_p<10 and vl_u==Jx[vl_p+1] and TimerGetElapsed(zzVL_clock)<zzKS_imm[vl_p]
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_u))
+    return vl_p<10 and vl_u==Jx[vl_p+1] and TimerGetElapsed(zzVL_clock)<zzKS_imm[vl_p]
 endfunction
 function zzKS_RootEnd takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
-if vl_u!=null then
-call SetUnitPropWindow(vl_u,GetUnitDefaultPropWindow(vl_u)*bj_DEGTORAD)
-endif
-call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
-call DestroyTimer(vl_t)
-set vl_t=null
-set vl_u=null
+    local timer vl_t=GetExpiredTimer()
+    local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
+    if vl_u!=null then
+        call SetUnitPropWindow(vl_u,GetUnitDefaultPropWindow(vl_u)*bj_DEGTORAD)
+    endif
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+    call DestroyTimer(vl_t)
+    set vl_t=null
+    set vl_u=null
 endfunction
 function zzKS_SilenceEnd takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
-local integer vl_i=0
-local integer vl_ab
-if vl_u!=null and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_u),77)-.05 then
-loop
-set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
-exitwhen vl_ab==0
-call BlzUnitDisableAbility(vl_u,vl_ab,false,false)
-set vl_i=vl_i+1
-endloop
-endif
-call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
-call DestroyTimer(vl_t)
-set vl_t=null
-set vl_u=null
+    local timer vl_t=GetExpiredTimer()
+    local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
+    local integer vl_i=0
+    local integer vl_ab
+    if vl_u!=null and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_u),77)-.05 then
+        loop
+            set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
+            exitwhen vl_ab==0 or vl_i>=14
+            call BlzUnitDisableAbility(vl_u,vl_ab,false,false)
+            set vl_i=vl_i+1
+        endloop
+        call SaveReal(zzVL_ht,GetHandleId(vl_u),77,0.)
+    endif
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+    call DestroyTimer(vl_t)
+    set vl_t=null
+    set vl_u=null
 endfunction
 function zzKS_Silence takes unit vl_u,real vl_d returns nothing
-local integer vl_i=0
-local integer vl_ab
-local timer vl_t
-if LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200)==0 then
-return
-endif
-loop
-set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
-exitwhen vl_ab==0
-call BlzUnitDisableAbility(vl_u,vl_ab,true,false)
-set vl_i=vl_i+1
-endloop
-call SaveReal(zzVL_ht,GetHandleId(vl_u),77,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),77),TimerGetElapsed(zzVL_clock)+vl_d))
-call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Silence\\SilenceTarget.mdl",vl_u,"overhead"))
-set vl_t=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
-call TimerStart(vl_t,vl_d,false,function zzKS_SilenceEnd)
-set vl_t=null
+    local integer vl_i=0
+    local integer vl_ab
+    local timer vl_t
+    if LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200)==0 then
+        return
+    endif
+    loop
+        set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_u),200+vl_i)
+        exitwhen vl_ab==0 or vl_i>=14
+        call BlzUnitDisableAbility(vl_u,vl_ab,true,false)
+        set vl_i=vl_i+1
+    endloop
+    call SaveReal(zzVL_ht,GetHandleId(vl_u),77,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),77),TimerGetElapsed(zzVL_clock)+vl_d))
+    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Silence\\SilenceTarget.mdl",vl_u,"overhead"))
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
+    call TimerStart(vl_t,vl_d,false,function zzKS_SilenceEnd)
+    set vl_t=null
+endfunction
+function zzKS_StatusTick takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_u=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local string vl_m=LoadStr(zzVL_ht,vl_id,1)
+    call DestroyEffect(LoadEffectHandle(zzVL_ht,vl_id,9))
+    call RemoveSavedHandle(zzVL_ht,vl_id,9)
+    if LoadInteger(zzVL_ht,vl_id,2)>0 and vl_u!=null and GetWidgetLife(vl_u)>.405 and TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,vl_id,3) then
+        call SaveEffectHandle(zzVL_ht,vl_id,9,AddSpecialEffectTarget(vl_m,vl_u,"origin"))
+    else
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_u=null
+endfunction
+function zzKS_StatusFx takes unit vl_u,integer vl_st,real vl_s returns nothing
+    local string vl_m=LoadStr(zzVL_ht,0,300+vl_st)
+    local integer vl_per=LoadInteger(zzVL_ht,0,310+vl_st)
+    local timer vl_t
+    if vl_m==null or vl_m=="" or vl_u==null or TimerGetElapsed(zzVL_clock)<LoadReal(zzVL_ht,GetHandleId(vl_u),320+vl_st) then
+        return
+    endif
+    call SaveReal(zzVL_ht,GetHandleId(vl_u),320+vl_st,TimerGetElapsed(zzVL_clock)+vl_s)
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
+    call SaveStr(zzVL_ht,GetHandleId(vl_t),1,vl_m)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),2,vl_per)
+    call SaveReal(zzVL_ht,GetHandleId(vl_t),3,TimerGetElapsed(zzVL_clock)+vl_s)
+    call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),9,AddSpecialEffectTarget(vl_m,vl_u,"origin"))
+    if vl_per>0 then
+        call TimerStart(vl_t,vl_per/100.,true,function zzKS_StatusTick)
+    else
+        call TimerStart(vl_t,vl_s,false,function zzKS_StatusTick)
+    endif
+    set vl_t=null
+endfunction
+function zzKS_SelfFx takes integer vl_ab,unit vl_u,real vl_s returns nothing
+    local timer vl_t
+    local effect vl_e
+    if LoadInteger(zzVL_ht,vl_ab,294)<=0 then
+        call zzKS_PopT(vl_ab,vl_u,"origin")
+        return
+    endif
+    set vl_e=AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"origin")
+    call zzKS_Size(vl_e,vl_ab)
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
+    call SaveStr(zzVL_ht,GetHandleId(vl_t),1,LoadStr(zzVL_ht,vl_ab,250))
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),2,0)
+    call SaveReal(zzVL_ht,GetHandleId(vl_t),3,0.)
+    call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),9,vl_e)
+    call TimerStart(vl_t,vl_s,false,function zzKS_StatusTick)
+    set vl_t=null
+    set vl_e=null
+endfunction
+function zzKS_BurnEnd takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    call DestroyEffect(LoadEffectHandle(zzVL_ht,GetHandleId(vl_t),9))
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+    call DestroyTimer(vl_t)
+    set vl_t=null
 endfunction
 function zzKS_St takes unit vl_h,unit vl_u,integer vl_st,integer vl_ch,real vl_d returns nothing
-local timer vl_tm
-local integer vl_q=GetPlayerId(GetOwningPlayer(vl_u))
-if vl_q<10 and vl_u==Jx[vl_q+1] and zzKS_af[vl_q*16+14]>0 then
-set vl_d=vl_d*(1.-IMinBJ(80,zzKS_af[vl_q*16+14])/100.)
-endif
-if vl_st==0 or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) or zzKS_Immune(vl_u) or GetRandomInt(1,100)>vl_ch then
-return
-endif
-if vl_st==1 then
-call zzKS_Silence(vl_u,vl_d)
-return
-elseif vl_st==5 then
-call SaveReal(zzVL_ht,GetHandleId(vl_u),81,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),81),TimerGetElapsed(zzVL_clock)+vl_d))
-call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\TND_tathoafire.mdx",vl_u,"chest"))
-return
-endif
-set vl_tm=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_u)
-if vl_st==2 then
-call SetUnitPropWindow(vl_u,0)
-call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Orc\\Ensnare\\ensnareMissile.mdl",vl_u,"origin"))
-call TimerStart(vl_tm,vl_d,false,function zzKS_RootEnd)
-elseif vl_st==3 and not IsUnitPaused(vl_u) then
-call PauseUnit(vl_u,true)
-call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\Thunderclap\\ThunderclapTarget.mdl",vl_u,"overhead"))
-if zzKS_noCap then
-call TimerStart(vl_tm,vl_d,false,function zzVL_TpUnpause)
-else
-call TimerStart(vl_tm,RMinBJ(vl_d,2.),false,function zzVL_TpUnpause)
-endif
-elseif vl_st==4 and LoadInteger(zzVL_ht,GetHandleId(vl_u),68)==0 then
-call SaveInteger(zzVL_ht,GetHandleId(vl_u),68,1)
-call SaveReal(zzVL_ht,GetHandleId(vl_u),69,GetUnitMoveSpeed(vl_u))
-call SetUnitMoveSpeed(vl_u,GetUnitMoveSpeed(vl_u)*.6)
-call TimerStart(vl_tm,vl_d,false,function zzVL_SlowEnd)
-else
-call FlushChildHashtable(zzVL_ht,GetHandleId(vl_tm))
-call DestroyTimer(vl_tm)
-endif
-set vl_tm=null
+    local timer vl_tm
+    local integer vl_q=GetPlayerId(GetOwningPlayer(vl_u))
+    if vl_q<10 and vl_u==Jx[vl_q+1] and zzKS_af[vl_q*16+14]>0 then
+        set vl_d=vl_d*(1.-IMinBJ(80,zzKS_af[vl_q*16+14])/100.)
+    endif
+    if vl_st==0 or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) or zzKS_Immune(vl_u) or GetRandomInt(1,100)>vl_ch then
+        return
+    endif
+    if vl_st==1 then
+        call zzKS_Silence(vl_u,vl_d)
+        return
+    elseif vl_st==5 then
+        call SaveReal(zzVL_ht,GetHandleId(vl_u),81,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),81),TimerGetElapsed(zzVL_clock)+vl_d))
+        call zzKS_StatusFx(vl_u,5,RMinBJ(vl_d,6.))
+        return
+    endif
+    set vl_tm=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_u)
+    if vl_st==2 then
+        call SetUnitPropWindow(vl_u,0)
+        call zzKS_StatusFx(vl_u,2,vl_d)
+        call TimerStart(vl_tm,vl_d,false,function zzKS_RootEnd)
+    elseif vl_st==3 and not IsUnitPaused(vl_u) then
+        call PauseUnit(vl_u,true)
+        call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\Thunderclap\\ThunderclapTarget.mdl",vl_u,"overhead"))
+        if zzKS_noCap then
+            call TimerStart(vl_tm,vl_d,false,function zzVL_TpUnpause)
+        else
+            call TimerStart(vl_tm,RMinBJ(vl_d,2.),false,function zzVL_TpUnpause)
+        endif
+    elseif vl_st==4 and LoadInteger(zzVL_ht,GetHandleId(vl_u),68)==0 then
+        call SaveInteger(zzVL_ht,GetHandleId(vl_u),68,1)
+        call SaveReal(zzVL_ht,GetHandleId(vl_u),69,GetUnitMoveSpeed(vl_u))
+        call SetUnitMoveSpeed(vl_u,GetUnitMoveSpeed(vl_u)*.6)
+        call zzKS_StatusFx(vl_u,4,vl_d)
+        call TimerStart(vl_tm,vl_d,false,function zzVL_SlowEnd)
+    else
+        call FlushChildHashtable(zzVL_ht,GetHandleId(vl_tm))
+        call DestroyTimer(vl_tm)
+    endif
+    set vl_tm=null
 endfunction
 function zzKS_Status takes unit vl_h,unit vl_u,integer vl_ab returns nothing
-local integer vl_s2=LoadInteger(zzVL_ht,vl_ab,234)
-set zzKS_noCap=LoadInteger(zzVL_ht,vl_ab,201)>0
-if vl_s2==0 or LoadInteger(zzVL_ht,vl_ab,241)<=1 or zzKS_wave<=1 then
-call zzKS_St(vl_h,vl_u,LoadInteger(zzVL_ht,vl_ab,242),LoadInteger(zzVL_ht,vl_ab,243)+LoadInteger(zzVL_ht,vl_ab,225)*GetUnitAbilityLevel(vl_h,vl_ab),I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,244)+LoadInteger(zzVL_ht,vl_ab,200)*GetUnitAbilityLevel(vl_h,vl_ab)))/10.)
-endif
-if vl_s2>0 and (LoadInteger(zzVL_ht,vl_ab,241)<=1 or zzKS_wave>=2) then
-call zzKS_St(vl_h,vl_u,vl_s2,LoadInteger(zzVL_ht,vl_ab,235)+LoadInteger(zzVL_ht,vl_ab,224)*GetUnitAbilityLevel(vl_h,vl_ab),I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,236)))/10.)
-endif
-set zzKS_noCap=false
+    local integer vl_s2=LoadInteger(zzVL_ht,vl_ab,234)
+    local string vl_tm=LoadStr(zzVL_ht,vl_ab,281)
+    if vl_tm!=null and vl_tm!="" and vl_u!=null and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_u),86) then
+        call SaveReal(zzVL_ht,GetHandleId(vl_u),86,TimerGetElapsed(zzVL_clock)+.4)
+        call zzKS_Layer(vl_ab,293,vl_tm,vl_u,"chest",LoadInteger(zzVL_ht,vl_ab,288)>0)
+        if LoadStr(zzVL_ht,vl_ab,283)!=null and LoadStr(zzVL_ht,vl_ab,283)!="" then
+            call zzKS_Layer(vl_ab,293,LoadStr(zzVL_ht,vl_ab,283),vl_u,"origin",false)
+        endif
+    endif
+    set zzKS_noCap=LoadInteger(zzVL_ht,vl_ab,201)>0
+    if vl_s2==0 or LoadInteger(zzVL_ht,vl_ab,241)<=1 or zzKS_wave<=1 then
+        call zzKS_St(vl_h,vl_u,LoadInteger(zzVL_ht,vl_ab,242),LoadInteger(zzVL_ht,vl_ab,243)+LoadInteger(zzVL_ht,vl_ab,225)*GetUnitAbilityLevel(vl_h,vl_ab),I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,244)+LoadInteger(zzVL_ht,vl_ab,200)*GetUnitAbilityLevel(vl_h,vl_ab)))/10.)
+    endif
+    if vl_s2>0 and (LoadInteger(zzVL_ht,vl_ab,241)<=1 or zzKS_wave>=2) then
+        call zzKS_St(vl_h,vl_u,vl_s2,LoadInteger(zzVL_ht,vl_ab,235)+LoadInteger(zzVL_ht,vl_ab,224)*GetUnitAbilityLevel(vl_h,vl_ab),I2R(IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,236)))/10.)
+    endif
+    set zzKS_noCap=false
 endfunction
 function zzKS_WeakEnd takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
-if vl_u!=null and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_u),83)-.05 then
-if LoadReal(zzVL_ht,GetHandleId(vl_u),85)>0. then
-call BlzSetUnitAttackCooldown(vl_u,LoadReal(zzVL_ht,GetHandleId(vl_u),85),0)
-call RemoveSavedReal(zzVL_ht,GetHandleId(vl_u),85)
-endif
-endif
-call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
-call DestroyTimer(vl_t)
-set vl_t=null
-set vl_u=null
+    local timer vl_t=GetExpiredTimer()
+    local unit vl_u=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
+    if vl_u!=null and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_u),83)-.05 then
+        if LoadReal(zzVL_ht,GetHandleId(vl_u),85)>0. then
+            call BlzSetUnitAttackCooldown(vl_u,LoadReal(zzVL_ht,GetHandleId(vl_u),85),0)
+            call RemoveSavedReal(zzVL_ht,GetHandleId(vl_u),85)
+        endif
+    endif
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+    call DestroyTimer(vl_t)
+    set vl_t=null
+    set vl_u=null
 endfunction
 function zzKS_Weak takes unit vl_u,integer vl_pct,real vl_s returns nothing
-local timer vl_t
-local integer vl_id=GetHandleId(vl_u)
-if vl_u==null or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) then
-return
-endif
-call SaveReal(zzVL_ht,vl_id,83,RMaxBJ(LoadReal(zzVL_ht,vl_id,83),TimerGetElapsed(zzVL_clock)+vl_s))
-call SaveInteger(zzVL_ht,vl_id,84,IMinBJ(20,IMaxBJ(LoadInteger(zzVL_ht,vl_id,84),vl_pct)))
-if LoadReal(zzVL_ht,vl_id,85)<=0. then
-call SaveReal(zzVL_ht,vl_id,85,BlzGetUnitAttackCooldown(vl_u,0))
-call BlzSetUnitAttackCooldown(vl_u,BlzGetUnitAttackCooldown(vl_u,0)*1.25,0)
-endif
-call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\Curse\\CurseTarget.mdl",vl_u,"overhead"))
-set vl_t=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
-call TimerStart(vl_t,vl_s,false,function zzKS_WeakEnd)
-set vl_t=null
+    local timer vl_t
+    local integer vl_id=GetHandleId(vl_u)
+    if vl_u==null or GetWidgetLife(vl_u)<.405 or IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) then
+        return
+    endif
+    call SaveReal(zzVL_ht,vl_id,83,RMaxBJ(LoadReal(zzVL_ht,vl_id,83),TimerGetElapsed(zzVL_clock)+vl_s))
+    call SaveInteger(zzVL_ht,vl_id,84,IMinBJ(20,IMaxBJ(LoadInteger(zzVL_ht,vl_id,84),vl_pct)))
+    if LoadReal(zzVL_ht,vl_id,85)<=0. then
+        call SaveReal(zzVL_ht,vl_id,85,BlzGetUnitAttackCooldown(vl_u,0))
+        call BlzSetUnitAttackCooldown(vl_u,BlzGetUnitAttackCooldown(vl_u,0)*1.25,0)
+    endif
+    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\Curse\\CurseTarget.mdl",vl_u,"overhead"))
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
+    call TimerStart(vl_t,vl_s,false,function zzKS_WeakEnd)
+    set vl_t=null
 endfunction
 function zzKS_WeakArea takes unit vl_h,real vl_x,real vl_y,real vl_r,real vl_a,integer vl_pct,real vl_s returns nothing
-local group vl_g=CreateGroup()
-local unit vl_u
-local real vl_d
-call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_r,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-set vl_d=Atan2(GetUnitY(vl_u)-vl_y,GetUnitX(vl_u)-vl_x)*bj_RADTODEG-vl_a
-loop
-exitwhen vl_d<=180.
-set vl_d=vl_d-360.
-endloop
-loop
-exitwhen vl_d>=-180.
-set vl_d=vl_d+360.
-endloop
-if vl_a<0. or RAbsBJ(vl_d)<=20. then
-call zzKS_Weak(vl_u,vl_pct,vl_s)
-endif
-endif
-endloop
-call DestroyGroup(vl_g)
-set vl_g=null
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local real vl_d
+    call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_r,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            set vl_d=Atan2(GetUnitY(vl_u)-vl_y,GetUnitX(vl_u)-vl_x)*bj_RADTODEG-vl_a
+            loop
+                exitwhen vl_d<=180.
+                set vl_d=vl_d-360.
+            endloop
+            loop
+                exitwhen vl_d>=-180.
+                set vl_d=vl_d+360.
+            endloop
+            if vl_a<0. or RAbsBJ(vl_d)<=20. then
+                call zzKS_Weak(vl_u,vl_pct,vl_s)
+            endif
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
 endfunction
 function zzKS_StackAdd takes unit vl_h,integer vl_p,integer vl_ab,real vl_s returns nothing
-local integer vl_m=5
-if LoadInteger(zzVL_ht,vl_ab,173)>0 then
-set vl_m=LoadInteger(zzVL_ht,vl_ab,173)+LoadInteger(zzVL_ht,vl_ab,172)*GetUnitAbilityLevel(vl_h,vl_ab)
-endif
-if LoadInteger(zzVL_ht,vl_ab,171)>0 then
-set vl_s=I2R(LoadInteger(zzVL_ht,vl_ab,171))
-endif
-set zzKS_stackPct[vl_p]=LoadInteger(zzVL_ht,vl_ab,170)
-set zzKS_stack[vl_p]=IMinBJ(vl_m,zzKS_stack[vl_p]+1)
-set zzKS_stackEnd[vl_p]=TimerGetElapsed(zzVL_clock)+vl_s
-if zzKS_stack[vl_p]==vl_m then
-call zzVL_Text(vl_h,"|cffffcc00[Cực hạn "+I2S(vl_m)+" tầng]|r")
-endif
+    local integer vl_m=5
+    if LoadInteger(zzVL_ht,vl_ab,173)>0 then
+        set vl_m=LoadInteger(zzVL_ht,vl_ab,173)+LoadInteger(zzVL_ht,vl_ab,172)*GetUnitAbilityLevel(vl_h,vl_ab)
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,171)>0 then
+        set vl_s=I2R(LoadInteger(zzVL_ht,vl_ab,171))
+    endif
+    set zzKS_stackPct[vl_p]=LoadInteger(zzVL_ht,vl_ab,170)
+    set zzKS_stack[vl_p]=IMinBJ(vl_m,zzKS_stack[vl_p]+1)
+    set zzKS_stackEnd[vl_p]=TimerGetElapsed(zzVL_clock)+vl_s
+    if zzKS_stack[vl_p]==vl_m then
+        call zzVL_Text(vl_h,"|cffffcc00[Cực hạn "+I2S(vl_m)+" tầng]|r")
+    endif
 endfunction
 function zzKS_Fx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
-local integer vl_f=LoadInteger(zzVL_ht,vl_ab,252)
-local real vl_a=Atan2(GetUnitY(vl_u)-GetUnitY(vl_h),GetUnitX(vl_u)-GetUnitX(vl_h))
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-local integer vl_k=-1
-local integer vl_c
-local integer vl_m
-local timer vl_tm
-if vl_p<10 then
-if LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260)==vl_ab then
-set vl_k=0
-elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),261)==vl_ab then
-set vl_k=1
-elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),262)==vl_ab then
-set vl_k=2
-endif
-if vl_k>=0 then
-set vl_f=BlzBitOr(vl_f,BlzBitOr(zzKS_pfx[vl_p*4+vl_k],zzKS_pfx[vl_p*4+3]))
-if zzKS_steal[vl_p*4+vl_k]>0 and (zzKS_wave<=1 or LoadInteger(zzVL_ht,vl_ab,241)<=1) then
-call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*zzKS_steal[vl_p*4+vl_k]/100.)
-endif
-endif
-endif
-if vl_f==0 or GetWidgetLife(vl_u)<.405 then
-return
-endif
-set vl_c=30
-set vl_m=25
-if vl_k>=0 and zzKS_pch[vl_p*4+vl_k]>0 then
-set vl_c=zzKS_pch[vl_p*4+vl_k]
-set vl_m=zzKS_pmul[vl_p*4+vl_k]
-elseif LoadInteger(zzVL_ht,vl_ab,180)>0 then
-set vl_c=LoadInteger(zzVL_ht,vl_ab,180)+LoadInteger(zzVL_ht,vl_ab,177)*GetUnitAbilityLevel(vl_h,vl_ab)
-set vl_m=LoadInteger(zzVL_ht,vl_ab,179)+LoadInteger(zzVL_ht,vl_ab,178)*GetUnitAbilityLevel(vl_h,vl_ab)
-endif
-if BlzBitAnd(vl_f,65536)>0 and vl_d>0. and GetRandomInt(1,100)<=vl_c then
-call zzVL_TpHit(vl_h,vl_u,vl_d*vl_m/100.)
-call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\Effect_Slam.mdx",vl_u,"chest"))
-endif
-if BlzBitAnd(vl_f,131072)>0 and not IsUnitType(vl_u,UNIT_TYPE_HERO) and GetRandomInt(1,100)<=21 then
-call zzVL_TpHit(vl_h,vl_u,GetWidgetLife(vl_u)*.15)
-endif
-if BlzBitAnd(vl_f,16384)>0 then
-call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,LoadInteger(zzVL_ht,GetHandleId(vl_u),76)+1)
-if LoadInteger(zzVL_ht,GetHandleId(vl_u),76)>=3 then
-call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,0)
-call zzVL_TpHit(vl_h,vl_u,vl_d)
-call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl",vl_u,"chest"))
-endif
-endif
-if BlzBitAnd(vl_f,1)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) then
-call SetUnitPosition(vl_u,GetUnitX(vl_u)+140.*Cos(vl_a),GetUnitY(vl_u)+140.*Sin(vl_a))
-elseif BlzBitAnd(vl_f,2)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) and IsUnitInRange(vl_u,vl_h,160.)==false then
-call SetUnitPosition(vl_u,GetUnitX(vl_h)+110.*Cos(vl_a),GetUnitY(vl_h)+110.*Sin(vl_a))
-endif
-if BlzBitAnd(vl_f,4)>0 and HaveSavedInteger(zzVL_ht,vl_ab,187) then
-call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*LoadInteger(zzVL_ht,vl_ab,187)/100.)
-elseif BlzBitAnd(vl_f,4)>0 then
-call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*.2)
-endif
-if BlzBitAnd(vl_f,8)>0 and TimerGetElapsed(zzVL_clock)>LoadReal(zzVL_ht,GetHandleId(vl_u),75) then
-set vl_c=5
-if LoadInteger(zzVL_ht,vl_ab,166)>0 then
-set vl_c=LoadInteger(zzVL_ht,vl_ab,166)
-endif
-call SaveReal(zzVL_ht,GetHandleId(vl_u),75,TimerGetElapsed(zzVL_clock)+vl_c)
-set vl_tm=CreateTimer()
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),5,vl_c)
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_u)
-call SaveReal(zzVL_ht,GetHandleId(vl_tm),2,vl_d*.08)
-if BlzBitAnd(vl_f,2048)>0 then
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,1)
-endif
-call TimerStart(vl_tm,1.,true,function zzVL_TpPoison)
-set vl_tm=null
-endif
-if BlzBitAnd(vl_f,512)>0 then
-set vl_c=IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246))
-if LoadInteger(zzVL_ht,vl_ab,164)>0 then
-set vl_c=LoadInteger(zzVL_ht,vl_ab,164)
-elseif vl_k>=0 and IMaxBJ(zzKS_pdur[vl_p*4+vl_k],zzKS_pdur[vl_p*4+3])>0 then
-set vl_c=IMaxBJ(zzKS_pdur[vl_p*4+vl_k],zzKS_pdur[vl_p*4+3])
-endif
-call SaveReal(zzVL_ht,GetHandleId(vl_u),74,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),74),TimerGetElapsed(zzVL_clock)+vl_c))
-endif
-if BlzBitAnd(vl_f,4096)>0 then
-call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+vl_d*.04)
-endif
-if BlzBitAnd(vl_f,8192)>0 and vl_p<10 then
-if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
-set zzKS_stack[vl_p]=0
-endif
-call zzKS_StackAdd(vl_h,vl_p,vl_ab,6.)
-endif
+    local integer vl_f=LoadInteger(zzVL_ht,vl_ab,252)
+    local real vl_a=Atan2(GetUnitY(vl_u)-GetUnitY(vl_h),GetUnitX(vl_u)-GetUnitX(vl_h))
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    local integer vl_k=-1
+    local integer vl_c
+    local integer vl_m
+    local timer vl_tm
+    if vl_p<10 then
+        if LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260)==vl_ab then
+            set vl_k=0
+        elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),261)==vl_ab then
+            set vl_k=1
+        elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),262)==vl_ab then
+            set vl_k=2
+        endif
+        if vl_k>=0 then
+            set vl_f=BlzBitOr(vl_f,BlzBitOr(zzKS_pfx[vl_p*4+vl_k],zzKS_pfx[vl_p*4+3]))
+            if zzKS_steal[vl_p*4+vl_k]>0 and (zzKS_wave<=1 or LoadInteger(zzVL_ht,vl_ab,241)<=1) then
+                call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*zzKS_steal[vl_p*4+vl_k]/100.)
+            endif
+        endif
+    endif
+    if vl_f==0 or GetWidgetLife(vl_u)<.405 then
+        return
+    endif
+    set vl_c=30
+    set vl_m=25
+    if vl_k>=0 and zzKS_pch[vl_p*4+vl_k]>0 then
+        set vl_c=zzKS_pch[vl_p*4+vl_k]
+        set vl_m=zzKS_pmul[vl_p*4+vl_k]
+    elseif LoadInteger(zzVL_ht,vl_ab,180)>0 then
+        set vl_c=LoadInteger(zzVL_ht,vl_ab,180)+LoadInteger(zzVL_ht,vl_ab,177)*GetUnitAbilityLevel(vl_h,vl_ab)
+        set vl_m=LoadInteger(zzVL_ht,vl_ab,179)+LoadInteger(zzVL_ht,vl_ab,178)*GetUnitAbilityLevel(vl_h,vl_ab)
+    endif
+    if BlzBitAnd(vl_f,65536)>0 and vl_d>0. and GetRandomInt(1,100)<=vl_c then
+        call zzVL_TpHit(vl_h,vl_u,vl_d*vl_m/100.)
+        call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\Effect_Slam.mdx",vl_u,"chest"))
+    endif
+    if BlzBitAnd(vl_f,131072)>0 and not IsUnitType(vl_u,UNIT_TYPE_HERO) and GetRandomInt(1,100)<=21 then
+        call zzVL_TpHit(vl_h,vl_u,GetWidgetLife(vl_u)*.15)
+    endif
+    if BlzBitAnd(vl_f,16384)>0 then
+        call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,LoadInteger(zzVL_ht,GetHandleId(vl_u),76)+1)
+        if LoadInteger(zzVL_ht,GetHandleId(vl_u),76)>=3 then
+            call SaveInteger(zzVL_ht,GetHandleId(vl_u),76,0)
+            call zzVL_TpHit(vl_h,vl_u,vl_d)
+            call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl",vl_u,"chest"))
+        endif
+    endif
+    if BlzBitAnd(vl_f,1)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) then
+        call SetUnitPosition(vl_u,GetUnitX(vl_u)+140.*Cos(vl_a),GetUnitY(vl_u)+140.*Sin(vl_a))
+    elseif BlzBitAnd(vl_f,2)>0 and not IsUnitType(vl_u,UNIT_TYPE_STRUCTURE) and not zzKS_Immune(vl_u) and IsUnitInRange(vl_u,vl_h,160.)==false then
+        call SetUnitPosition(vl_u,GetUnitX(vl_h)+110.*Cos(vl_a),GetUnitY(vl_h)+110.*Sin(vl_a))
+    endif
+    if BlzBitAnd(vl_f,4)>0 and HaveSavedInteger(zzVL_ht,vl_ab,187) then
+        call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*LoadInteger(zzVL_ht,vl_ab,187)/100.)
+    elseif BlzBitAnd(vl_f,4)>0 then
+        call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+vl_d*.2)
+    endif
+    if BlzBitAnd(vl_f,8)>0 and TimerGetElapsed(zzVL_clock)>LoadReal(zzVL_ht,GetHandleId(vl_u),75) then
+        set vl_c=5
+        if LoadInteger(zzVL_ht,vl_ab,166)>0 then
+            set vl_c=LoadInteger(zzVL_ht,vl_ab,166)
+        endif
+        call SaveReal(zzVL_ht,GetHandleId(vl_u),75,TimerGetElapsed(zzVL_clock)+vl_c)
+        set vl_tm=CreateTimer()
+        call SaveInteger(zzVL_ht,GetHandleId(vl_tm),5,vl_c)
+        call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
+        call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_u)
+        call SaveReal(zzVL_ht,GetHandleId(vl_tm),2,vl_d*.08)
+        if BlzBitAnd(vl_f,2048)>0 then
+            call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,1)
+        endif
+        call TimerStart(vl_tm,1.,true,function zzVL_TpPoison)
+        set vl_tm=null
+    endif
+    if BlzBitAnd(vl_f,512)>0 then
+        set vl_c=IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246))
+        if LoadInteger(zzVL_ht,vl_ab,164)>0 then
+            set vl_c=LoadInteger(zzVL_ht,vl_ab,164)
+        elseif vl_k>=0 and IMaxBJ(zzKS_pdur[vl_p*4+vl_k],zzKS_pdur[vl_p*4+3])>0 then
+            set vl_c=IMaxBJ(zzKS_pdur[vl_p*4+vl_k],zzKS_pdur[vl_p*4+3])
+        endif
+        call SaveReal(zzVL_ht,GetHandleId(vl_u),74,RMaxBJ(LoadReal(zzVL_ht,GetHandleId(vl_u),74),TimerGetElapsed(zzVL_clock)+vl_c))
+    endif
+    if BlzBitAnd(vl_f,4096)>0 then
+        call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+vl_d*.04)
+    endif
+    if BlzBitAnd(vl_f,8192)>0 and vl_p<10 then
+        if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
+            set zzKS_stack[vl_p]=0
+        endif
+        call zzKS_StackAdd(vl_h,vl_p,vl_ab,6.)
+    endif
 endfunction
 function zzKS_StrikeFx takes unit vl_h,unit vl_u,integer vl_ab,real vl_d,boolean vl_fx returns nothing
-if vl_u!=null and zzVL_TpFoe(vl_h,vl_u) then
-if LoadInteger(zzVL_ht,vl_ab,228)==0 then
-call zzVL_TpHit(vl_h,vl_u,vl_d)
-endif
-if vl_fx then
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"chest"))
-endif
-call zzKS_Status(vl_h,vl_u,vl_ab)
-call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
-endif
+    if vl_u!=null and zzVL_TpFoe(vl_h,vl_u) then
+        if LoadInteger(zzVL_ht,vl_ab,228)==0 then
+            call zzVL_TpHit(vl_h,vl_u,vl_d)
+        endif
+        if vl_fx then
+            call zzKS_PopT(vl_ab,vl_u,"chest")
+        endif
+        call zzKS_Status(vl_h,vl_u,vl_ab)
+        call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
+    endif
 endfunction
 function zzKS_Strike takes unit vl_h,unit vl_u,integer vl_ab,real vl_d returns nothing
-call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,true)
+    call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,true)
 endfunction
 function zzKS_Area takes unit vl_h,real vl_x,real vl_y,real vl_r,real vl_a,real vl_cone,integer vl_ab,real vl_d returns nothing
-local group vl_g=CreateGroup()
-local unit vl_u
-local real vl_b
-local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
-local integer vl_n=0
-if vl_max==0 then
-set vl_max=12
-endif
-call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_r,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null or (vl_max>0 and vl_n>=vl_max)
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-if vl_cone<0. then
-call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,vl_n<4)
-set vl_n=vl_n+1
-else
-set vl_b=Atan2(GetUnitY(vl_u)-vl_y,GetUnitX(vl_u)-vl_x)*bj_RADTODEG-vl_a
-if Cos(vl_b*bj_DEGTORAD)>=Cos(vl_cone*bj_DEGTORAD) then
-call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,vl_n<4)
-set vl_n=vl_n+1
-endif
-endif
-endif
-endloop
-call DestroyGroup(vl_g)
-set vl_g=null
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local real vl_b
+    local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+    local integer vl_n=0
+    if vl_max==0 then
+        set vl_max=12
+    endif
+    call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_r,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null or (vl_max>0 and vl_n>=vl_max)
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            if vl_cone<0. then
+                call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,vl_n<4)
+                set vl_n=vl_n+1
+            else
+                set vl_b=Atan2(GetUnitY(vl_u)-vl_y,GetUnitX(vl_u)-vl_x)*bj_RADTODEG-vl_a
+                if Cos(vl_b*bj_DEGTORAD)>=Cos(vl_cone*bj_DEGTORAD) then
+                    call zzKS_StrikeFx(vl_h,vl_u,vl_ab,vl_d,vl_n<4)
+                    set vl_n=vl_n+1
+                endif
+            endif
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
 endfunction
 function zzKS_Rad takes integer vl_ab,real vl_r returns real
-if LoadInteger(zzVL_ht,vl_ab,257)>0 then
-return I2R(LoadInteger(zzVL_ht,vl_ab,257))
-endif
-return vl_r
+    if LoadInteger(zzVL_ht,vl_ab,257)>0 then
+        return I2R(LoadInteger(zzVL_ht,vl_ab,257))
+    endif
+    return vl_r
 endfunction
 function zzKS_FlyOne takes integer vl_id returns boolean
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local effect vl_e=LoadEffectHandle(zzVL_ht,vl_id,1)
-local group vl_hit=LoadGroupHandle(zzVL_ht,vl_id,2)
-local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
-local real vl_a=LoadReal(zzVL_ht,vl_id,5)
-local real vl_x=LoadReal(zzVL_ht,vl_id,6)+40.*Cos(vl_a)
-local real vl_y=LoadReal(zzVL_ht,vl_id,7)+40.*Sin(vl_a)
-local real vl_go=LoadReal(zzVL_ht,vl_id,8)+40.
-local unit vl_u
-local integer vl_cap=LoadInteger(zzVL_ht,vl_ab,259)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,11)
-local boolean vl_end=false
-if vl_cap==0 then
-set vl_cap=12
-endif
-call SaveReal(zzVL_ht,vl_id,6,vl_x)
-call SaveReal(zzVL_ht,vl_id,7,vl_y)
-call SaveReal(zzVL_ht,vl_id,8,vl_go)
-call BlzSetSpecialEffectX(vl_e,vl_x)
-call BlzSetSpecialEffectY(vl_e,vl_y)
-if vl_n<vl_cap and vl_h!=null then
-if zzKS_fg==null then
-set zzKS_fg=CreateGroup()
-endif
-if LoadInteger(zzVL_ht,vl_ab,167)>0 then
-call GroupEnumUnitsInRange(zzKS_fg,vl_x,vl_y,I2R(LoadInteger(zzVL_ht,vl_ab,167)),null)
-else
-call GroupEnumUnitsInRange(zzKS_fg,vl_x,vl_y,120.,null)
-endif
-loop
-set vl_u=FirstOfGroup(zzKS_fg)
-exitwhen vl_u==null
-call GroupRemoveUnit(zzKS_fg,vl_u)
-if vl_n<vl_cap and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) then
-set vl_n=vl_n+1
-call GroupAddUnit(vl_hit,vl_u)
-call zzVL_TpHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
-call zzKS_Status(vl_h,vl_u,vl_ab)
-call zzKS_Fx(vl_h,vl_u,vl_ab,LoadReal(zzVL_ht,vl_id,9))
-endif
-endloop
-call SaveInteger(zzVL_ht,vl_id,11,vl_n)
-endif
-if vl_go>=LoadReal(zzVL_ht,vl_id,10) or vl_h==null then
-call DestroyEffect(vl_e)
-call DestroyGroup(vl_hit)
-call FlushChildHashtable(zzVL_ht,vl_id)
-set vl_end=true
-endif
-set vl_h=null
-set vl_e=null
-set vl_hit=null
-set vl_u=null
-return vl_end
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local effect vl_e=LoadEffectHandle(zzVL_ht,vl_id,1)
+    local group vl_hit=LoadGroupHandle(zzVL_ht,vl_id,2)
+    local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
+    local real vl_a=LoadReal(zzVL_ht,vl_id,5)
+    local real vl_x=LoadReal(zzVL_ht,vl_id,6)+40.*Cos(vl_a)
+    local real vl_y=LoadReal(zzVL_ht,vl_id,7)+40.*Sin(vl_a)
+    local real vl_go=LoadReal(zzVL_ht,vl_id,8)+40.
+    local unit vl_u
+    local integer vl_cap=LoadInteger(zzVL_ht,vl_ab,259)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,11)
+    local boolean vl_end=false
+    if vl_cap==0 then
+        set vl_cap=12
+    endif
+    call SaveReal(zzVL_ht,vl_id,6,vl_x)
+    call SaveReal(zzVL_ht,vl_id,7,vl_y)
+    call SaveReal(zzVL_ht,vl_id,8,vl_go)
+    call BlzSetSpecialEffectX(vl_e,vl_x)
+    call BlzSetSpecialEffectY(vl_e,vl_y)
+    if vl_n<vl_cap and vl_h!=null then
+        if zzKS_fg==null then
+            set zzKS_fg=CreateGroup()
+        endif
+        if LoadInteger(zzVL_ht,vl_ab,167)>0 then
+            call GroupEnumUnitsInRange(zzKS_fg,vl_x,vl_y,I2R(LoadInteger(zzVL_ht,vl_ab,167)),null)
+        else
+            call GroupEnumUnitsInRange(zzKS_fg,vl_x,vl_y,120.,null)
+        endif
+        loop
+            set vl_u=FirstOfGroup(zzKS_fg)
+            exitwhen vl_u==null
+            call GroupRemoveUnit(zzKS_fg,vl_u)
+            if vl_n<vl_cap and not IsUnitInGroup(vl_u,vl_hit) and zzVL_TpFoe(vl_h,vl_u) then
+                set vl_n=vl_n+1
+                call GroupAddUnit(vl_hit,vl_u)
+                call zzVL_TpHit(vl_h,vl_u,LoadReal(zzVL_ht,vl_id,9))
+                call zzKS_Status(vl_h,vl_u,vl_ab)
+                call zzKS_Fx(vl_h,vl_u,vl_ab,LoadReal(zzVL_ht,vl_id,9))
+            endif
+        endloop
+        call SaveInteger(zzVL_ht,vl_id,11,vl_n)
+    endif
+    if vl_go>=LoadReal(zzVL_ht,vl_id,10) or vl_h==null then
+        call DestroyEffect(vl_e)
+        call DestroyGroup(vl_hit)
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        set vl_end=true
+    endif
+    set vl_h=null
+    set vl_e=null
+    set vl_hit=null
+    set vl_u=null
+    return vl_end
 endfunction
 function zzKS_Fly takes nothing returns nothing
-local integer vl_i=0
-loop
-exitwhen vl_i>=zzKS_misN
-if zzKS_FlyOne(zzKS_mis[vl_i]) then
-set zzKS_misN=zzKS_misN-1
-set zzKS_mis[vl_i]=zzKS_mis[zzKS_misN]
-else
-set vl_i=vl_i+1
-endif
-endloop
-if zzKS_misN<=0 then
-call PauseTimer(zzKS_misT)
-endif
+    local integer vl_i=0
+    loop
+        exitwhen vl_i>=zzKS_misN
+        if zzKS_FlyOne(zzKS_mis[vl_i]) then
+            set zzKS_misN=zzKS_misN-1
+            set zzKS_mis[vl_i]=zzKS_mis[zzKS_misN]
+        else
+            set vl_i=vl_i+1
+        endif
+    endloop
+    if zzKS_misN<=0 then
+        call PauseTimer(zzKS_misT)
+    endif
 endfunction
 function zzKS_Missile takes unit vl_h,integer vl_ab,real vl_a,real vl_d,real vl_sx,real vl_sy returns nothing
-local integer vl_id
-local effect vl_e
-if zzKS_misN>=399 then
-return
-endif
-set zzKS_misC=zzKS_misC-1
-set vl_id=zzKS_misC
-set vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_sx,vl_sy)
-call BlzSetSpecialEffectYaw(vl_e,vl_a)
-call BlzSetSpecialEffectHeight(vl_e,60.)
-call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
-call SaveEffectHandle(zzVL_ht,vl_id,1,vl_e)
-call SaveGroupHandle(zzVL_ht,vl_id,2,CreateGroup())
-call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
-call SaveReal(zzVL_ht,vl_id,5,vl_a)
-call SaveReal(zzVL_ht,vl_id,6,vl_sx)
-call SaveReal(zzVL_ht,vl_id,7,vl_sy)
-call SaveReal(zzVL_ht,vl_id,8,0.)
-call SaveReal(zzVL_ht,vl_id,9,vl_d)
-call SaveReal(zzVL_ht,vl_id,10,zzKS_Rad(vl_ab,900.))
-set zzKS_mis[zzKS_misN]=vl_id
-set zzKS_misN=zzKS_misN+1
-if zzKS_misT==null then
-set zzKS_misT=CreateTimer()
-endif
-if zzKS_misN==1 then
-call TimerStart(zzKS_misT,.03,true,function zzKS_Fly)
-endif
-set vl_e=null
+    local integer vl_id
+    local effect vl_e
+    if zzKS_misN>=399 then
+        return
+    endif
+    set zzKS_misC=zzKS_misC-1
+    set vl_id=zzKS_misC
+    set vl_e=AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_sx,vl_sy)
+    call zzKS_Size(vl_e,vl_ab)
+    call BlzSetSpecialEffectYaw(vl_e,vl_a)
+    call BlzSetSpecialEffectHeight(vl_e,60.)
+    call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
+    call SaveEffectHandle(zzVL_ht,vl_id,1,vl_e)
+    call SaveGroupHandle(zzVL_ht,vl_id,2,CreateGroup())
+    call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
+    call SaveReal(zzVL_ht,vl_id,5,vl_a)
+    call SaveReal(zzVL_ht,vl_id,6,vl_sx)
+    call SaveReal(zzVL_ht,vl_id,7,vl_sy)
+    call SaveReal(zzVL_ht,vl_id,8,0.)
+    call SaveReal(zzVL_ht,vl_id,9,vl_d)
+    call SaveReal(zzVL_ht,vl_id,10,zzKS_Rad(vl_ab,900.))
+    set zzKS_mis[zzKS_misN]=vl_id
+    set zzKS_misN=zzKS_misN+1
+    if zzKS_misT==null then
+        set zzKS_misT=CreateTimer()
+    endif
+    if zzKS_misN==1 then
+        call TimerStart(zzKS_misT,.03,true,function zzKS_Fly)
+    endif
+    set vl_e=null
 endfunction
 function zzKS_Fan takes unit vl_h,integer vl_ab,real vl_a,real vl_d,real vl_x,real vl_y returns nothing
-local integer vl_n=LoadInteger(zzVL_ht,vl_ab,207)
-local real vl_sp=I2R(LoadInteger(zzVL_ht,vl_ab,206))
-local integer vl_i=0
-local real vl_sx=GetUnitX(vl_h)
-local real vl_sy=GetUnitY(vl_h)
-if GetUnitAbilityLevel(vl_h,vl_ab)>=3 then
-set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
-endif
-if GetUnitAbilityLevel(vl_h,vl_ab)>=5 then
-set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
-endif
-if LoadInteger(zzVL_ht,vl_ab,186)>0 then
-set vl_n=IMaxBJ(vl_n,GetUnitAbilityLevel(vl_h,vl_ab)-LoadInteger(zzVL_ht,vl_ab,186))
-endif
-if LoadInteger(zzVL_ht,vl_ab,215)==1 then
-set vl_sx=vl_x
-set vl_sy=vl_y
-endif
-loop
-exitwhen vl_i>=vl_n
-call zzKS_Missile(vl_h,vl_ab,(vl_a+(vl_i-(vl_n-1)/2.)*vl_sp)*bj_DEGTORAD,vl_d,vl_sx,vl_sy)
-set vl_i=vl_i+1
-endloop
+    local integer vl_n=LoadInteger(zzVL_ht,vl_ab,207)
+    local real vl_sp=I2R(LoadInteger(zzVL_ht,vl_ab,206))
+    local integer vl_i=0
+    local real vl_sx=GetUnitX(vl_h)
+    local real vl_sy=GetUnitY(vl_h)
+    if GetUnitAbilityLevel(vl_h,vl_ab)>=3 then
+        set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
+    endif
+    if GetUnitAbilityLevel(vl_h,vl_ab)>=5 then
+        set vl_n=vl_n+LoadInteger(zzVL_ht,vl_ab,205)
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,186)>0 then
+        set vl_n=IMaxBJ(vl_n,GetUnitAbilityLevel(vl_h,vl_ab)-LoadInteger(zzVL_ht,vl_ab,186))
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,215)==1 then
+        set vl_sx=vl_x
+        set vl_sy=vl_y
+    endif
+    loop
+        exitwhen vl_i>=vl_n
+        call zzKS_Missile(vl_h,vl_ab,(vl_a+(vl_i-(vl_n-1)/2.)*vl_sp)*bj_DEGTORAD,vl_d,vl_sx,vl_sy)
+        set vl_i=vl_i+1
+    endloop
 endfunction
 function zzKS_Random takes unit vl_h,integer vl_ab,real vl_d returns nothing
-local group vl_g=CreateGroup()
-local group vl_f=CreateGroup()
-local unit vl_u
-local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,259))
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,800.),null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-call GroupAddUnit(vl_f,vl_u)
-endif
-endloop
-loop
-set vl_u=GroupPickRandomUnit(vl_f)
-exitwhen vl_u==null or vl_n<=0
-call GroupRemoveUnit(vl_f,vl_u)
-set vl_n=vl_n-1
-call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
-endloop
-call DestroyGroup(vl_g)
-call DestroyGroup(vl_f)
-set vl_g=null
-set vl_f=null
+    local group vl_g=CreateGroup()
+    local group vl_f=CreateGroup()
+    local unit vl_u
+    local integer vl_n=IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,259))
+    call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,800.),null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            call GroupAddUnit(vl_f,vl_u)
+        endif
+    endloop
+    loop
+        set vl_u=GroupPickRandomUnit(vl_f)
+        exitwhen vl_u==null or vl_n<=0
+        call GroupRemoveUnit(vl_f,vl_u)
+        set vl_n=vl_n-1
+        call zzKS_Strike(vl_h,vl_u,vl_ab,vl_d)
+    endloop
+    call DestroyGroup(vl_g)
+    call DestroyGroup(vl_f)
+    set vl_g=null
+    set vl_f=null
 endfunction
 function zzKS_Do takes unit vl_h,unit vl_t,integer vl_ab,real vl_x,real vl_y returns nothing
-local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
-local real vl_d=zzKS_Hit(vl_h,vl_ab)
-local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))*bj_RADTODEG
-if vl_k==1 or vl_k==3 then
-call zzKS_Strike(vl_h,vl_t,vl_ab,vl_d)
-elseif vl_k==2 then
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h)+150.*Cos(vl_a*bj_DEGTORAD),GetUnitY(vl_h)+150.*Sin(vl_a*bj_DEGTORAD)))
-call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,450.),vl_a,45.,vl_ab,vl_d)
-elseif vl_k==4 then
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h),GetUnitY(vl_h)))
-call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,380.),0.,-1.,vl_ab,vl_d)
-elseif vl_k==5 and LoadInteger(zzVL_ht,vl_ab,207)>1 then
-call zzKS_Fan(vl_h,vl_ab,vl_a,vl_d,vl_x,vl_y)
-elseif vl_k==5 and LoadInteger(zzVL_ht,vl_ab,215)==1 then
-call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,vl_x,vl_y)
-elseif vl_k==5 then
-call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,GetUnitX(vl_h),GetUnitY(vl_h))
-elseif vl_k==17 then
-call zzKS_Random(vl_h,vl_ab,vl_d)
-elseif vl_k==13 then
-set zzKS_fh=vl_h
-set zzKS_fab=vl_ab
-set zzKS_fx=vl_x
-set zzKS_fy=vl_y
-call ExecuteFunc("zzKS_FieldX")
-elseif vl_k==16 then
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
-call zzKS_Area(vl_h,vl_x,vl_y,zzKS_Rad(vl_ab,130.),0.,-1.,vl_ab,vl_d)
-endif
+    local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
+    local real vl_d=zzKS_Hit(vl_h,vl_ab)
+    local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))*bj_RADTODEG
+    if vl_k==1 or vl_k==3 then
+        call zzKS_Strike(vl_h,vl_t,vl_ab,vl_d)
+    elseif vl_k==2 then
+        call zzKS_Pop(vl_ab,GetUnitX(vl_h)+150.*Cos(vl_a*bj_DEGTORAD),GetUnitY(vl_h)+150.*Sin(vl_a*bj_DEGTORAD))
+        call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,450.),vl_a,45.,vl_ab,vl_d)
+    elseif vl_k==4 then
+        call zzKS_Pop(vl_ab,GetUnitX(vl_h),GetUnitY(vl_h))
+        call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,380.),0.,-1.,vl_ab,vl_d)
+    elseif vl_k==5 and LoadInteger(zzVL_ht,vl_ab,207)>1 then
+        call zzKS_Fan(vl_h,vl_ab,vl_a,vl_d,vl_x,vl_y)
+    elseif vl_k==5 and LoadInteger(zzVL_ht,vl_ab,215)==1 then
+        call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,vl_x,vl_y)
+    elseif vl_k==5 then
+        call zzKS_Missile(vl_h,vl_ab,vl_a*bj_DEGTORAD,vl_d,GetUnitX(vl_h),GetUnitY(vl_h))
+    elseif vl_k==17 then
+        call zzKS_Random(vl_h,vl_ab,vl_d)
+    elseif vl_k==13 then
+        set zzKS_fh=vl_h
+        set zzKS_fab=vl_ab
+        set zzKS_fx=vl_x
+        set zzKS_fy=vl_y
+        call ExecuteFunc("zzKS_FieldX")
+    elseif vl_k==16 then
+        call zzKS_Pop(vl_ab,vl_x,vl_y)
+        call zzKS_Area(vl_h,vl_x,vl_y,zzKS_Rad(vl_ab,130.),0.,-1.,vl_ab,vl_d)
+    endif
 endfunction
 function zzKS_Again takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local unit vl_u=LoadUnitHandle(zzVL_ht,vl_id,1)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
-if vl_h!=null and GetWidgetLife(vl_h)>.405 and not IsUnitPaused(vl_h) then
-set zzKS_wave=LoadInteger(zzVL_ht,vl_id,7)-vl_n
-if LoadInteger(zzVL_ht,LoadInteger(zzVL_ht,vl_id,4),215)==1 and vl_u!=null and GetWidgetLife(vl_u)>.405 then
-call SaveReal(zzVL_ht,vl_id,5,GetUnitX(vl_u)+GetRandomReal(-30.,30.))
-call SaveReal(zzVL_ht,vl_id,6,GetUnitY(vl_u)+GetRandomReal(-30.,30.))
-endif
-call zzKS_Do(vl_h,vl_u,LoadInteger(zzVL_ht,vl_id,4),LoadReal(zzVL_ht,vl_id,5),LoadReal(zzVL_ht,vl_id,6))
-set zzKS_wave=1
-else
-set vl_n=0
-endif
-call SaveInteger(zzVL_ht,vl_id,3,vl_n)
-if vl_n<=0 then
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-endif
-set vl_t=null
-set vl_h=null
-set vl_u=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local unit vl_u=LoadUnitHandle(zzVL_ht,vl_id,1)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
+    if vl_h!=null and GetWidgetLife(vl_h)>.405 and not IsUnitPaused(vl_h) then
+        set zzKS_wave=LoadInteger(zzVL_ht,vl_id,7)-vl_n
+        if LoadInteger(zzVL_ht,LoadInteger(zzVL_ht,vl_id,4),215)==1 and vl_u!=null and GetWidgetLife(vl_u)>.405 then
+            call SaveReal(zzVL_ht,vl_id,5,GetUnitX(vl_u)+GetRandomReal(-30.,30.))
+            call SaveReal(zzVL_ht,vl_id,6,GetUnitY(vl_u)+GetRandomReal(-30.,30.))
+        endif
+        call zzKS_Do(vl_h,vl_u,LoadInteger(zzVL_ht,vl_id,4),LoadReal(zzVL_ht,vl_id,5),LoadReal(zzVL_ht,vl_id,6))
+        set zzKS_wave=1
+    else
+        set vl_n=0
+    endif
+    call SaveInteger(zzVL_ht,vl_id,3,vl_n)
+    if vl_n<=0 then
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_h=null
+    set vl_u=null
 endfunction
 function zzKS_Run takes unit vl_h,unit vl_t,integer vl_ab,real vl_x,real vl_y returns nothing
-local integer vl_n=LoadInteger(zzVL_ht,vl_ab,241)
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-local integer vl_k=-1
-local timer vl_tm
-if vl_p<10 then
-if LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260)==vl_ab then
-set vl_k=0
-elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),261)==vl_ab then
-set vl_k=1
-elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),262)==vl_ab then
-set vl_k=2
-endif
-if vl_k>=0 and zzKS_xw[vl_p*4+vl_k]>0 and GetRandomInt(1,100)<=zzKS_xc[vl_p*4+vl_k] then
-set vl_n=vl_n+zzKS_xw[vl_p*4+vl_k]
-endif
-endif
-set zzKS_wave=1
-call zzKS_Do(vl_h,vl_t,vl_ab,vl_x,vl_y)
-if vl_k>=0 then
-set zzKS_chg[vl_p]=0
-endif
-if vl_n>1 and LoadInteger(zzVL_ht,vl_ab,240)!=13 then
-set vl_tm=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_t)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,vl_n-1)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,vl_ab)
-call SaveReal(zzVL_ht,GetHandleId(vl_tm),5,vl_x)
-call SaveReal(zzVL_ht,GetHandleId(vl_tm),6,vl_y)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),7,vl_n)
-if LoadInteger(zzVL_ht,vl_ab,258)>0 then
-call TimerStart(vl_tm,LoadInteger(zzVL_ht,vl_ab,258)/100.,true,function zzKS_Again)
-else
-call TimerStart(vl_tm,.22,true,function zzKS_Again)
-endif
-set vl_tm=null
-endif
-if LoadInteger(zzVL_ht,vl_ab,183)>0 then
-set zzKS_fh=vl_h
-set zzKS_fab=vl_ab
-set zzKS_fx=vl_x
-set zzKS_fy=vl_y
-call ExecuteFunc("zzKS_SlotX")
-endif
+    local integer vl_n=LoadInteger(zzVL_ht,vl_ab,241)
+    local string vl_cm=LoadStr(zzVL_ht,vl_ab,280)
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    local integer vl_k=-1
+    local timer vl_tm
+    if vl_cm!=null and vl_cm!="" then
+        call zzKS_Layer(vl_ab,292,vl_cm,vl_h,"origin",LoadInteger(zzVL_ht,vl_ab,289)>0)
+    endif
+    if LoadStr(zzVL_ht,vl_ab,282)!=null and LoadStr(zzVL_ht,vl_ab,282)!="" then
+        call zzKS_Layer(vl_ab,292,LoadStr(zzVL_ht,vl_ab,282),vl_h,"origin",false)
+    endif
+    if LoadStr(zzVL_ht,vl_ab,284)!=null and LoadStr(zzVL_ht,vl_ab,284)!="" then
+        call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,284),vl_h,"chest"))
+    endif
+    if LoadStr(zzVL_ht,vl_ab,285)!=null and LoadStr(zzVL_ht,vl_ab,285)!="" then
+        call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,285),vl_x,vl_y))
+    endif
+    if LoadStr(zzVL_ht,vl_ab,286)!=null and LoadStr(zzVL_ht,vl_ab,286)!="" then
+        call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,286),vl_x,vl_y))
+    endif
+    if vl_p<10 then
+        if LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260)==vl_ab then
+            set vl_k=0
+        elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),261)==vl_ab then
+            set vl_k=1
+        elseif LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),262)==vl_ab then
+            set vl_k=2
+        endif
+        if vl_k>=0 and zzKS_xw[vl_p*4+vl_k]>0 and GetRandomInt(1,100)<=zzKS_xc[vl_p*4+vl_k] then
+            set vl_n=vl_n+zzKS_xw[vl_p*4+vl_k]
+        endif
+    endif
+    set zzKS_wave=1
+    call zzKS_Do(vl_h,vl_t,vl_ab,vl_x,vl_y)
+    if vl_k>=0 then
+        set zzKS_chg[vl_p]=0
+    endif
+    if vl_n>1 and LoadInteger(zzVL_ht,vl_ab,240)!=13 then
+        set vl_tm=CreateTimer()
+        call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
+        call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),1,vl_t)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,vl_n-1)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,vl_ab)
+        call SaveReal(zzVL_ht,GetHandleId(vl_tm),5,vl_x)
+        call SaveReal(zzVL_ht,GetHandleId(vl_tm),6,vl_y)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_tm),7,vl_n)
+        if LoadInteger(zzVL_ht,vl_ab,258)>0 then
+            call TimerStart(vl_tm,LoadInteger(zzVL_ht,vl_ab,258)/100.,true,function zzKS_Again)
+        else
+            call TimerStart(vl_tm,.22,true,function zzKS_Again)
+        endif
+        set vl_tm=null
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,183)>0 then
+        set zzKS_fh=vl_h
+        set zzKS_fab=vl_ab
+        set zzKS_fx=vl_x
+        set zzKS_fy=vl_y
+        call ExecuteFunc("zzKS_SlotX")
+    endif
 endfunction
 function zzKS_Slot takes unit vl_h,integer vl_ab,real vl_x,real vl_y returns nothing
-local integer vl_s=LoadInteger(zzVL_ht,vl_ab,183)
-local integer vl_a=0
-if vl_s>0 then
-set vl_a=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),259+vl_s)
-endif
-if vl_a!=0 and vl_a!=vl_ab and GetUnitAbilityLevel(vl_h,vl_a)>0 then
-call zzKS_Run(vl_h,null,vl_a,vl_x,vl_y)
-endif
+    local integer vl_s=LoadInteger(zzVL_ht,vl_ab,183)
+    local integer vl_a=0
+    if vl_s>0 then
+        set vl_a=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),259+vl_s)
+    endif
+    if vl_a!=0 and vl_a!=vl_ab and GetUnitAbilityLevel(vl_h,vl_a)>0 then
+        call zzKS_Run(vl_h,null,vl_a,vl_x,vl_y)
+    endif
 endfunction
 function zzKS_SlotX takes nothing returns nothing
-call zzKS_Slot(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
+    call zzKS_Slot(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
 endfunction
 function zzKS_Near takes unit vl_h returns unit
-local group vl_g=CreateGroup()
-local unit vl_u
-local unit vl_b=null
-local real vl_d=0.
-local real vl_m=1000000.
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),900.,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-set vl_d=(GetUnitX(vl_u)-GetUnitX(vl_h))*(GetUnitX(vl_u)-GetUnitX(vl_h))+(GetUnitY(vl_u)-GetUnitY(vl_h))*(GetUnitY(vl_u)-GetUnitY(vl_h))
-if vl_d<vl_m then
-set vl_m=vl_d
-set vl_b=vl_u
-endif
-endif
-endloop
-call DestroyGroup(vl_g)
-set vl_g=null
-set vl_u=null
-return vl_b
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local unit vl_b=null
+    local real vl_d=0.
+    local real vl_m=1000000.
+    call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),900.,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            set vl_d=(GetUnitX(vl_u)-GetUnitX(vl_h))*(GetUnitX(vl_u)-GetUnitX(vl_h))+(GetUnitY(vl_u)-GetUnitY(vl_h))*(GetUnitY(vl_u)-GetUnitY(vl_h))
+            if vl_d<vl_m then
+                set vl_m=vl_d
+                set vl_b=vl_u
+            endif
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
+    set vl_u=null
+    return vl_b
 endfunction
 function zzKS_PullTick takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_u=LoadUnitHandle(zzVL_ht,vl_id,0)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,1)-1
-local real vl_x=GetUnitX(vl_u)+LoadReal(zzVL_ht,vl_id,2)
-local real vl_y=GetUnitY(vl_u)+LoadReal(zzVL_ht,vl_id,3)
-if GetWidgetLife(vl_u)>.405 and IsTerrainPathable(vl_x,vl_y,PATHING_TYPE_WALKABILITY)==false then
-call SetUnitX(vl_u,vl_x)
-call SetUnitY(vl_u,vl_y)
-else
-set vl_n=0
-endif
-call SaveInteger(zzVL_ht,vl_id,1,vl_n)
-if vl_n<=0 then
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-endif
-set vl_t=null
-set vl_u=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_u=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,1)-1
+    local real vl_x=GetUnitX(vl_u)+LoadReal(zzVL_ht,vl_id,2)
+    local real vl_y=GetUnitY(vl_u)+LoadReal(zzVL_ht,vl_id,3)
+    if GetWidgetLife(vl_u)>.405 and IsTerrainPathable(vl_x,vl_y,PATHING_TYPE_WALKABILITY)==false then
+        call SetUnitX(vl_u,vl_x)
+        call SetUnitY(vl_u,vl_y)
+    else
+        set vl_n=0
+    endif
+    call SaveInteger(zzVL_ht,vl_id,1,vl_n)
+    if vl_n<=0 then
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_u=null
 endfunction
 function zzKS_Pull takes unit vl_u,real vl_x,real vl_y returns nothing
-local timer vl_t
-local real vl_a=Atan2(vl_y-GetUnitY(vl_u),vl_x-GetUnitX(vl_u))
-local real vl_r=SquareRoot((vl_x-GetUnitX(vl_u))*(vl_x-GetUnitX(vl_u))+(vl_y-GetUnitY(vl_u))*(vl_y-GetUnitY(vl_u)))-80.
-if vl_r<=0. then
-return
-endif
-set vl_t=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
-call SaveInteger(zzVL_ht,GetHandleId(vl_t),1,10)
-call SaveReal(zzVL_ht,GetHandleId(vl_t),2,vl_r/10.*Cos(vl_a))
-call SaveReal(zzVL_ht,GetHandleId(vl_t),3,vl_r/10.*Sin(vl_a))
-call TimerStart(vl_t,.03,true,function zzKS_PullTick)
-set vl_t=null
+    local timer vl_t
+    local real vl_a=Atan2(vl_y-GetUnitY(vl_u),vl_x-GetUnitX(vl_u))
+    local real vl_r=SquareRoot((vl_x-GetUnitX(vl_u))*(vl_x-GetUnitX(vl_u))+(vl_y-GetUnitY(vl_u))*(vl_y-GetUnitY(vl_u)))-80.
+    if vl_r<=0. then
+        return
+    endif
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_u)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),1,10)
+    call SaveReal(zzVL_ht,GetHandleId(vl_t),2,vl_r/10.*Cos(vl_a))
+    call SaveReal(zzVL_ht,GetHandleId(vl_t),3,vl_r/10.*Sin(vl_a))
+    call TimerStart(vl_t,.03,true,function zzKS_PullTick)
+    set vl_t=null
 endfunction
 function zzKS_FieldTick takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
-local real vl_x=LoadReal(zzVL_ht,vl_id,5)
-local real vl_y=LoadReal(zzVL_ht,vl_id,6)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
-local integer vl_c=0
-local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
-local group vl_g=CreateGroup()
-local unit vl_u
-local real vl_a
-local real vl_d
-if vl_max==0 then
-set vl_max=12
-endif
-if vl_h!=null and GetWidgetLife(vl_h)>.405 then
-set vl_d=zzKS_Hit(vl_h,vl_ab)
-if LoadBoolean(zzVL_ht,vl_id,11) then
-set vl_x=GetUnitX(vl_h)
-set vl_y=GetUnitY(vl_h)
-endif
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
-call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,350.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-set vl_c=vl_c+1
-if BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),2)>0 and not zzKS_Immune(vl_u) and not IsUnitInRangeXY(vl_u,vl_x,vl_y,110.) then
-if LoadInteger(zzVL_ht,vl_ab,181)>0 then
-call zzKS_Pull(vl_u,vl_x,vl_y)
-else
-set vl_a=Atan2(vl_y-GetUnitY(vl_u),vl_x-GetUnitX(vl_u))
-call SetUnitPosition(vl_u,GetUnitX(vl_u)+100.*Cos(vl_a),GetUnitY(vl_u)+100.*Sin(vl_a))
-endif
-endif
-if LoadInteger(zzVL_ht,vl_ab,228)==0 then
-call zzVL_TpHit(vl_h,vl_u,vl_d)
-endif
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"origin"))
-call zzKS_Status(vl_h,vl_u,vl_ab)
-call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
-endif
-endloop
-else
-set vl_n=0
-endif
-call DestroyGroup(vl_g)
-call SaveInteger(zzVL_ht,vl_id,3,vl_n)
-if vl_n<=0 then
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-endif
-set vl_t=null
-set vl_h=null
-set vl_g=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
+    local real vl_x=LoadReal(zzVL_ht,vl_id,5)
+    local real vl_y=LoadReal(zzVL_ht,vl_id,6)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
+    local integer vl_c=0
+    local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local real vl_a
+    local real vl_d
+    if vl_max==0 then
+        set vl_max=12
+    endif
+    if vl_h!=null and GetWidgetLife(vl_h)>.405 then
+        set vl_d=zzKS_Hit(vl_h,vl_ab)
+        if LoadBoolean(zzVL_ht,vl_id,11) then
+            set vl_x=GetUnitX(vl_h)
+            set vl_y=GetUnitY(vl_h)
+        endif
+        call zzKS_Pop(vl_ab,vl_x,vl_y)
+        call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,350.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),null)
+        loop
+            set vl_u=FirstOfGroup(vl_g)
+            exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
+            call GroupRemoveUnit(vl_g,vl_u)
+            if zzVL_TpFoe(vl_h,vl_u) then
+                set vl_c=vl_c+1
+                if BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),2)>0 and not zzKS_Immune(vl_u) and not IsUnitInRangeXY(vl_u,vl_x,vl_y,110.) then
+                    if LoadInteger(zzVL_ht,vl_ab,181)>0 then
+                        call zzKS_Pull(vl_u,vl_x,vl_y)
+                    else
+                        set vl_a=Atan2(vl_y-GetUnitY(vl_u),vl_x-GetUnitX(vl_u))
+                        call SetUnitPosition(vl_u,GetUnitX(vl_u)+100.*Cos(vl_a),GetUnitY(vl_u)+100.*Sin(vl_a))
+                    endif
+                endif
+                if LoadInteger(zzVL_ht,vl_ab,228)==0 then
+                    call zzVL_TpHit(vl_h,vl_u,vl_d)
+                endif
+                call zzKS_PopT(vl_ab,vl_u,"origin")
+                call zzKS_Status(vl_h,vl_u,vl_ab)
+                call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
+            endif
+        endloop
+    else
+        set vl_n=0
+    endif
+    call DestroyGroup(vl_g)
+    call SaveInteger(zzVL_ht,vl_id,3,vl_n)
+    if vl_n<=0 then
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_h=null
+    set vl_g=null
 endfunction
 function zzKS_Field takes unit vl_h,integer vl_ab,real vl_x,real vl_y returns nothing
-local timer vl_t=CreateTimer()
-local integer vl_id=GetHandleId(vl_t)
-local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
-local real vl_r=SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h)))
-call SaveBoolean(zzVL_ht,vl_id,11,LoadInteger(zzVL_ht,vl_ab,240)==18)
-if LoadInteger(zzVL_ht,vl_ab,194)>0 and vl_r>LoadInteger(zzVL_ht,vl_ab,194) then
-set vl_x=GetUnitX(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Cos(vl_a)
-set vl_y=GetUnitY(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Sin(vl_a)
-elseif LoadInteger(zzVL_ht,vl_ab,194)==0 and vl_r>640. then
-set vl_x=GetUnitX(vl_h)+640.*Cos(vl_a)
-set vl_y=GetUnitY(vl_h)+640.*Sin(vl_a)
-endif
-call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
-call SaveInteger(zzVL_ht,vl_id,3,IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241)))
-call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
-call SaveReal(zzVL_ht,vl_id,5,vl_x)
-call SaveReal(zzVL_ht,vl_id,6,vl_y)
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
-if LoadInteger(zzVL_ht,vl_ab,258)>0 then
-call TimerStart(vl_t,LoadInteger(zzVL_ht,vl_ab,258)/100.,true,function zzKS_FieldTick)
-else
-call TimerStart(vl_t,2.,true,function zzKS_FieldTick)
-endif
-set vl_t=null
+    local timer vl_t=CreateTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local real vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
+    local real vl_r=SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h)))
+    call SaveBoolean(zzVL_ht,vl_id,11,LoadInteger(zzVL_ht,vl_ab,240)==18)
+    if LoadInteger(zzVL_ht,vl_ab,194)>0 and vl_r>LoadInteger(zzVL_ht,vl_ab,194) then
+        set vl_x=GetUnitX(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Cos(vl_a)
+        set vl_y=GetUnitY(vl_h)+LoadInteger(zzVL_ht,vl_ab,194)*Sin(vl_a)
+    elseif LoadInteger(zzVL_ht,vl_ab,194)==0 and vl_r>640. then
+        set vl_x=GetUnitX(vl_h)+640.*Cos(vl_a)
+        set vl_y=GetUnitY(vl_h)+640.*Sin(vl_a)
+    endif
+    call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
+    call SaveInteger(zzVL_ht,vl_id,3,IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,241)))
+    call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
+    call SaveReal(zzVL_ht,vl_id,5,vl_x)
+    call SaveReal(zzVL_ht,vl_id,6,vl_y)
+    call zzKS_Pop(vl_ab,vl_x,vl_y)
+    if LoadInteger(zzVL_ht,vl_ab,258)>0 then
+        call TimerStart(vl_t,LoadInteger(zzVL_ht,vl_ab,258)/100.,true,function zzKS_FieldTick)
+    else
+        call TimerStart(vl_t,2.,true,function zzKS_FieldTick)
+    endif
+    set vl_t=null
 endfunction
 function zzKS_FieldX takes nothing returns nothing
-call zzKS_Field(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
+    call zzKS_Field(zzKS_fh,zzKS_fab,zzKS_fx,zzKS_fy)
 endfunction
 function zzKS_Auto takes unit vl_h,integer vl_ab returns nothing
-local group vl_g=CreateGroup()
-local unit vl_u
-local unit vl_best=null
-local real vl_r=zzKS_Rad(vl_ab,600.)
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) and (vl_best==null or IsUnitInRange(vl_u,vl_h,SquareRoot((GetUnitX(vl_best)-GetUnitX(vl_h))*(GetUnitX(vl_best)-GetUnitX(vl_h))+(GetUnitY(vl_best)-GetUnitY(vl_h))*(GetUnitY(vl_best)-GetUnitY(vl_h))))) then
-set vl_best=vl_u
-endif
-endloop
-call DestroyGroup(vl_g)
-if vl_best!=null then
-call zzKS_Fan(vl_h,vl_ab,Atan2(GetUnitY(vl_best)-GetUnitY(vl_h),GetUnitX(vl_best)-GetUnitX(vl_h))*bj_RADTODEG,zzKS_Hit(vl_h,vl_ab),GetUnitX(vl_best),GetUnitY(vl_best))
-endif
-set vl_g=null
-set vl_best=null
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local unit vl_best=null
+    local real vl_r=zzKS_Rad(vl_ab,600.)
+    call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) and (vl_best==null or IsUnitInRange(vl_u,vl_h,SquareRoot((GetUnitX(vl_best)-GetUnitX(vl_h))*(GetUnitX(vl_best)-GetUnitX(vl_h))+(GetUnitY(vl_best)-GetUnitY(vl_h))*(GetUnitY(vl_best)-GetUnitY(vl_h))))) then
+            set vl_best=vl_u
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    if vl_best!=null then
+        call zzKS_Fan(vl_h,vl_ab,Atan2(GetUnitY(vl_best)-GetUnitY(vl_h),GetUnitX(vl_best)-GetUnitX(vl_h))*bj_RADTODEG,zzKS_Hit(vl_h,vl_ab),GetUnitX(vl_best),GetUnitY(vl_best))
+    endif
+    set vl_g=null
+    set vl_best=null
 endfunction
 function zzKS_ToggleTick takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
-local real vl_cost=0.
-local boolean vl_end=LoadBoolean(zzVL_ht,vl_id,8) or vl_h==null
-local group vl_g
-local unit vl_u
-local integer vl_c=0
-local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
-local real vl_d
-if vl_max==0 then
-set vl_max=12
-endif
-if not vl_end then
-set vl_end=GetWidgetLife(vl_h)<.405 or GetUnitAbilityLevel(vl_h,vl_ab)==0
-set vl_cost=I2R(LoadInteger(zzVL_ht,vl_ab,232)*IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab)))
-endif
-if not vl_end and LoadInteger(zzVL_ht,vl_ab,240)==21 then
-call SaveInteger(zzVL_ht,vl_id,12,LoadInteger(zzVL_ht,vl_id,12)+1)
-if LoadInteger(zzVL_ht,vl_id,12)*100>=LoadInteger(zzVL_ht,vl_ab,258) then
-call SaveInteger(zzVL_ht,vl_id,12,0)
-call zzKS_Auto(vl_h,vl_ab)
-endif
-set vl_t=null
-set vl_h=null
-return
-endif
-if not vl_end and GetUnitState(vl_h,UNIT_STATE_MANA)<vl_cost then
-set vl_end=true
-call zzVL_Text(vl_h,"|cff8080ffHết nội lực|r")
-endif
-if vl_end then
-call DestroyEffect(LoadEffectHandle(zzVL_ht,vl_id,9))
-if vl_h!=null and LoadTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)==vl_t then
-call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
-endif
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-else
-call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)-vl_cost)
-set vl_d=zzKS_Atk(vl_h)*.35
-set vl_g=CreateGroup()
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,350.),null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-set vl_c=vl_c+1
-call zzVL_TpHit(vl_h,vl_u,vl_d)
-call DestroyEffect(AddSpecialEffectTarget("Abilities\\Weapons\\PoisonArrow\\PoisonArrowMissile.mdl",vl_u,"chest"))
-endif
-endloop
-call DestroyGroup(vl_g)
-endif
-set vl_t=null
-set vl_h=null
-set vl_g=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local integer vl_ab=LoadInteger(zzVL_ht,vl_id,4)
+    local real vl_cost=0.
+    local boolean vl_end=LoadBoolean(zzVL_ht,vl_id,8) or vl_h==null
+    local group vl_g
+    local unit vl_u
+    local integer vl_c=0
+    local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+    local real vl_d
+    if vl_max==0 then
+        set vl_max=12
+    endif
+    if not vl_end then
+        set vl_end=GetWidgetLife(vl_h)<.405 or GetUnitAbilityLevel(vl_h,vl_ab)==0
+        set vl_cost=I2R(LoadInteger(zzVL_ht,vl_ab,232)*IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab)))
+    endif
+    if not vl_end and LoadInteger(zzVL_ht,vl_ab,240)==21 then
+        call SaveInteger(zzVL_ht,vl_id,12,LoadInteger(zzVL_ht,vl_id,12)+1)
+        if LoadInteger(zzVL_ht,vl_id,12)*100>=LoadInteger(zzVL_ht,vl_ab,258) then
+            call SaveInteger(zzVL_ht,vl_id,12,0)
+            call zzKS_Auto(vl_h,vl_ab)
+        endif
+        set vl_t=null
+        set vl_h=null
+        return
+    endif
+    if not vl_end and GetUnitState(vl_h,UNIT_STATE_MANA)<vl_cost then
+        set vl_end=true
+        call zzVL_Text(vl_h,"|cff8080ffHết nội lực|r")
+    endif
+    if vl_end then
+        call DestroyEffect(LoadEffectHandle(zzVL_ht,vl_id,9))
+        if vl_h!=null and LoadTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)==vl_t then
+            call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
+        endif
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    else
+        call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)-vl_cost)
+        set vl_d=zzKS_Atk(vl_h)*.35
+        set vl_g=CreateGroup()
+        call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),zzKS_Rad(vl_ab,350.),null)
+        loop
+            set vl_u=FirstOfGroup(vl_g)
+            exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
+            call GroupRemoveUnit(vl_g,vl_u)
+            if zzVL_TpFoe(vl_h,vl_u) then
+                set vl_c=vl_c+1
+                call zzVL_TpHit(vl_h,vl_u,vl_d)
+                call DestroyEffect(AddSpecialEffectTarget("Abilities\\Weapons\\PoisonArrow\\PoisonArrowMissile.mdl",vl_u,"chest"))
+            endif
+        endloop
+        call DestroyGroup(vl_g)
+    endif
+    set vl_t=null
+    set vl_h=null
+    set vl_g=null
 endfunction
 function zzKS_Toggle takes unit vl_h,integer vl_ab returns nothing
-local timer vl_t
-if HaveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab) then
-call SaveBoolean(zzVL_ht,GetHandleId(LoadTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)),8,true)
-call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
-call zzVL_Text(vl_h,"|cffc0c0c0"+GetObjectName(vl_ab)+": tắt|r")
-return
-endif
-set vl_t=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
-call SaveInteger(zzVL_ht,GetHandleId(vl_t),4,vl_ab)
-call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),9,AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-call SaveTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab,vl_t)
-call zzVL_Text(vl_h,"|cff80ff80"+GetObjectName(vl_ab)+": bật|r")
-call TimerStart(vl_t,1.,true,function zzKS_ToggleTick)
-set vl_t=null
+    local timer vl_t
+    if HaveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab) then
+        call SaveBoolean(zzVL_ht,GetHandleId(LoadTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)),8,true)
+        call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
+        call zzVL_Text(vl_h,"|cffc0c0c0"+GetObjectName(vl_ab)+": tắt|r")
+        return
+    endif
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),4,vl_ab)
+    call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),9,AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
+    call SaveTimerHandle(zzVL_ht,GetHandleId(vl_h),vl_ab,vl_t)
+    call zzVL_Text(vl_h,"|cff80ff80"+GetObjectName(vl_ab)+": bật|r")
+    call TimerStart(vl_t,1.,true,function zzKS_ToggleTick)
+    set vl_t=null
 endfunction
 function zzKS_Curse takes unit vl_h,integer vl_ab,real vl_x,real vl_y returns nothing
-local group vl_g=CreateGroup()
-local unit vl_u
-local integer vl_c=0
-local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
-if vl_max==0 then
-set vl_max=12
-endif
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),vl_x,vl_y))
-call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,200.),null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-set vl_c=vl_c+1
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"chest"))
-call zzKS_Status(vl_h,vl_u,vl_ab)
-call zzKS_Fx(vl_h,vl_u,vl_ab,0.)
-endif
-endloop
-call DestroyGroup(vl_g)
-set vl_g=null
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local integer vl_c=0
+    local integer vl_max=LoadInteger(zzVL_ht,vl_ab,259)
+    if vl_max==0 then
+        set vl_max=12
+    endif
+    call zzKS_Pop(vl_ab,vl_x,vl_y)
+    call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,zzKS_Rad(vl_ab,200.),null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null or (vl_max>0 and vl_c>=vl_max)
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            set vl_c=vl_c+1
+            call zzKS_PopT(vl_ab,vl_u,"chest")
+            call zzKS_Status(vl_h,vl_u,vl_ab)
+            call zzKS_Fx(vl_h,vl_u,vl_ab,0.)
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
 endfunction
 function zzKS_GhostEnd takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-call DestroyEffect(LoadEffectHandle(zzVL_ht,GetHandleId(vl_t),0))
-call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
-call DestroyTimer(vl_t)
-set vl_t=null
+    local timer vl_t=GetExpiredTimer()
+    call DestroyEffect(LoadEffectHandle(zzVL_ht,GetHandleId(vl_t),0))
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+    call DestroyTimer(vl_t)
+    set vl_t=null
 endfunction
 function zzKS_Ghost takes unit vl_h,real vl_a returns nothing
-local effect vl_e
-local timer vl_t
-if LoadStr(zzVL_ht,GetUnitTypeId(vl_h),272)==null then
-return
-endif
-set vl_e=AddSpecialEffect(LoadStr(zzVL_ht,GetUnitTypeId(vl_h),272),GetUnitX(vl_h),GetUnitY(vl_h))
-call BlzSetSpecialEffectScale(vl_e,BlzGetUnitRealField(vl_h,UNIT_RF_SCALING_VALUE))
-call BlzSetSpecialEffectAlpha(vl_e,51)
-call BlzSetSpecialEffectYaw(vl_e,vl_a)
-call BlzPlaySpecialEffect(vl_e,ANIM_TYPE_WALK)
-set vl_t=CreateTimer()
-call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),0,vl_e)
-call TimerStart(vl_t,.2,false,function zzKS_GhostEnd)
-set vl_e=null
-set vl_t=null
+    local effect vl_e
+    local timer vl_t
+    if LoadStr(zzVL_ht,GetUnitTypeId(vl_h),272)==null then
+        return
+    endif
+    set vl_e=AddSpecialEffect(LoadStr(zzVL_ht,GetUnitTypeId(vl_h),272),GetUnitX(vl_h),GetUnitY(vl_h))
+    call BlzSetSpecialEffectScale(vl_e,BlzGetUnitRealField(vl_h,UNIT_RF_SCALING_VALUE))
+    call BlzSetSpecialEffectAlpha(vl_e,51)
+    call BlzSetSpecialEffectYaw(vl_e,vl_a)
+    call BlzPlaySpecialEffect(vl_e,ANIM_TYPE_WALK)
+    set vl_t=CreateTimer()
+    call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),0,vl_e)
+    call TimerStart(vl_t,.2,false,function zzKS_GhostEnd)
+    set vl_e=null
+    set vl_t=null
 endfunction
 function zzKS_QWE takes unit vl_h,unit vl_u returns nothing
-local integer vl_i=0
-local integer vl_ab
-loop
-exitwhen vl_i>2
-set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260+vl_i)
-if vl_ab!=0 and GetUnitAbilityLevel(vl_h,vl_ab)>0 then
-call zzKS_Run(vl_h,vl_u,vl_ab,GetUnitX(vl_u),GetUnitY(vl_u))
-endif
-set vl_i=vl_i+1
-endloop
+    local integer vl_i=0
+    local integer vl_ab
+    loop
+        exitwhen vl_i>2
+        set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260+vl_i)
+        if vl_ab!=0 and GetUnitAbilityLevel(vl_h,vl_ab)>0 then
+            call zzKS_Run(vl_h,vl_u,vl_ab,GetUnitX(vl_u),GetUnitY(vl_u))
+        endif
+        set vl_i=vl_i+1
+    endloop
 endfunction
 function zzKS_DashHit takes unit vl_h,integer vl_ab,real vl_r,boolean vl_attach returns nothing
-local group vl_g=CreateGroup()
-local unit vl_u
-local integer vl_n=0
-local real vl_d=zzKS_Hit(vl_h,vl_ab)
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null or vl_n>=7
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-set vl_n=vl_n+1
-if LoadInteger(zzVL_ht,vl_ab,228)==0 then
-call zzVL_TpHit(vl_h,vl_u,vl_d)
-endif
-if LoadInteger(zzVL_ht,vl_ab,214)>0 and vl_n<=3 then
-call zzKS_QWE(vl_h,vl_u)
-endif
-if vl_attach then
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_u,"origin"))
-else
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_u),GetUnitY(vl_u)))
-endif
-call zzKS_Status(vl_h,vl_u,vl_ab)
-call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
-endif
-endloop
-call DestroyGroup(vl_g)
-set vl_g=null
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local integer vl_n=0
+    local real vl_d=zzKS_Hit(vl_h,vl_ab)
+    call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null or vl_n>=7
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            set vl_n=vl_n+1
+            if LoadInteger(zzVL_ht,vl_ab,228)==0 then
+                call zzVL_TpHit(vl_h,vl_u,vl_d)
+            endif
+            if LoadInteger(zzVL_ht,vl_ab,214)>0 and vl_n<=3 then
+                call zzKS_QWE(vl_h,vl_u)
+            endif
+            if vl_attach then
+                call zzKS_PopT(vl_ab,vl_u,"origin")
+            else
+                call zzKS_Pop(vl_ab,GetUnitX(vl_u),GetUnitY(vl_u))
+            endif
+            call zzKS_Status(vl_h,vl_u,vl_ab)
+            call zzKS_Fx(vl_h,vl_u,vl_ab,vl_d)
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
 endfunction
 function zzKS_DashTick takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local real vl_a=LoadReal(zzVL_ht,vl_id,5)
-local real vl_s=LoadReal(zzVL_ht,vl_id,10)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,6)-1
-local real vl_x
-local real vl_y
-if vl_h==null or GetWidgetLife(vl_h)<.405 then
-set vl_n=-1
-else
-set vl_x=GetUnitX(vl_h)+vl_s*Cos(vl_a)
-set vl_y=GetUnitY(vl_h)+vl_s*Sin(vl_a)
-if not IsTerrainPathable(vl_x,vl_y,PATHING_TYPE_WALKABILITY) then
-if ModuloInteger(vl_n,3)==0 then
-call zzKS_Ghost(vl_h,vl_a)
-endif
-call SetUnitX(vl_h,vl_x)
-call SetUnitY(vl_h,vl_y)
-else
-set vl_n=0
-endif
-endif
-call SaveInteger(zzVL_ht,vl_id,6,vl_n)
-if vl_n<=0 then
-if vl_n==0 then
-call zzKS_DashHit(vl_h,LoadInteger(zzVL_ht,vl_id,4),LoadReal(zzVL_ht,vl_id,9),LoadBoolean(zzVL_ht,vl_id,11))
-endif
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-endif
-set vl_t=null
-set vl_h=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local real vl_a=LoadReal(zzVL_ht,vl_id,5)
+    local real vl_s=LoadReal(zzVL_ht,vl_id,10)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,6)-1
+    local real vl_x
+    local real vl_y
+    if vl_h==null or GetWidgetLife(vl_h)<.405 then
+        set vl_n=-1
+    else
+        set vl_x=GetUnitX(vl_h)+vl_s*Cos(vl_a)
+        set vl_y=GetUnitY(vl_h)+vl_s*Sin(vl_a)
+        if not IsTerrainPathable(vl_x,vl_y,PATHING_TYPE_WALKABILITY) then
+            if ModuloInteger(vl_n,3)==0 then
+                call zzKS_Ghost(vl_h,vl_a)
+            endif
+            call SetUnitX(vl_h,vl_x)
+            call SetUnitY(vl_h,vl_y)
+        else
+            set vl_n=0
+        endif
+    endif
+    call SaveInteger(zzVL_ht,vl_id,6,vl_n)
+    if vl_n<=0 then
+        if vl_n==0 then
+            call zzKS_DashHit(vl_h,LoadInteger(zzVL_ht,vl_id,4),LoadReal(zzVL_ht,vl_id,9),LoadBoolean(zzVL_ht,vl_id,11))
+        endif
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_h=null
 endfunction
 function zzKS_Dash takes unit vl_h,integer vl_ab,real vl_x,real vl_y,real vl_r,integer vl_steps,boolean vl_attach returns nothing
-local timer vl_t=CreateTimer()
-local integer vl_id=GetHandleId(vl_t)
-local real vl_dist=SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h)))
-call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
-call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
-call SaveReal(zzVL_ht,vl_id,5,Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h)))
-call SaveReal(zzVL_ht,vl_id,9,vl_r)
-call SaveBoolean(zzVL_ht,vl_id,11,vl_attach)
-if vl_steps>0 then
-call SaveInteger(zzVL_ht,vl_id,6,vl_steps)
-call SaveReal(zzVL_ht,vl_id,10,vl_dist/vl_steps)
-else
-call SaveInteger(zzVL_ht,vl_id,6,IMaxBJ(1,R2I(vl_dist/48.)))
-call SaveReal(zzVL_ht,vl_id,10,48.)
-endif
-call SetUnitFacing(vl_h,Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))*bj_RADTODEG)
-call TimerStart(vl_t,.03125,true,function zzKS_DashTick)
-set vl_t=null
+    local timer vl_t=CreateTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local real vl_dist=SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h)))
+    call SaveUnitHandle(zzVL_ht,vl_id,0,vl_h)
+    call SaveInteger(zzVL_ht,vl_id,4,vl_ab)
+    call SaveReal(zzVL_ht,vl_id,5,Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h)))
+    call SaveReal(zzVL_ht,vl_id,9,vl_r)
+    call SaveBoolean(zzVL_ht,vl_id,11,vl_attach)
+    if vl_steps>0 then
+        call SaveInteger(zzVL_ht,vl_id,6,vl_steps)
+        call SaveReal(zzVL_ht,vl_id,10,vl_dist/vl_steps)
+    else
+        call SaveInteger(zzVL_ht,vl_id,6,IMaxBJ(1,R2I(vl_dist/48.)))
+        call SaveReal(zzVL_ht,vl_id,10,48.)
+    endif
+    call SetUnitFacing(vl_h,Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))*bj_RADTODEG)
+    call TimerStart(vl_t,.03125,true,function zzKS_DashTick)
+    set vl_t=null
 endfunction
 function zzKS_ChainTick takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local group vl_done=LoadGroupHandle(zzVL_ht,vl_id,2)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
-local group vl_g=CreateGroup()
-local unit vl_u
-local unit vl_pick=null
-local integer vl_p
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),1000.,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if vl_pick==null and zzVL_TpFoe(vl_h,vl_u) and not IsUnitInGroup(vl_u,vl_done) then
-set vl_pick=vl_u
-endif
-endloop
-call DestroyGroup(vl_g)
-if vl_pick!=null and GetWidgetLife(vl_h)>.405 then
-call GroupAddUnit(vl_done,vl_pick)
-call zzKS_Dash(vl_h,LoadInteger(zzVL_ht,vl_id,4),GetUnitX(vl_pick),GetUnitY(vl_pick),350.,10,true)
-set vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-if vl_p<10 then
-set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+.4
-set zzKS_imm[vl_p]=TimerGetElapsed(zzVL_clock)+.4
-endif
-else
-set vl_n=0
-endif
-call SaveInteger(zzVL_ht,vl_id,3,vl_n)
-if vl_n<=0 then
-call DestroyGroup(vl_done)
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-endif
-set vl_t=null
-set vl_h=null
-set vl_done=null
-set vl_g=null
-set vl_pick=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local group vl_done=LoadGroupHandle(zzVL_ht,vl_id,2)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    local unit vl_pick=null
+    local integer vl_p
+    call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),1000.,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if vl_pick==null and zzVL_TpFoe(vl_h,vl_u) and not IsUnitInGroup(vl_u,vl_done) then
+            set vl_pick=vl_u
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    if vl_pick!=null and GetWidgetLife(vl_h)>.405 then
+        call GroupAddUnit(vl_done,vl_pick)
+        call zzKS_Dash(vl_h,LoadInteger(zzVL_ht,vl_id,4),GetUnitX(vl_pick),GetUnitY(vl_pick),350.,10,true)
+        set vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+        if vl_p<10 then
+            set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+.4
+            set zzKS_imm[vl_p]=TimerGetElapsed(zzVL_clock)+.4
+        endif
+    else
+        set vl_n=0
+    endif
+    call SaveInteger(zzVL_ht,vl_id,3,vl_n)
+    if vl_n<=0 then
+        call DestroyGroup(vl_done)
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_h=null
+    set vl_done=null
+    set vl_g=null
+    set vl_pick=null
 endfunction
 function zzKS_Chain takes unit vl_h,integer vl_ab returns nothing
-local timer vl_t=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
-call SaveGroupHandle(zzVL_ht,GetHandleId(vl_t),2,CreateGroup())
-call SaveInteger(zzVL_ht,GetHandleId(vl_t),3,8)
-call SaveInteger(zzVL_ht,GetHandleId(vl_t),4,vl_ab)
-call TimerStart(vl_t,.3125,true,function zzKS_ChainTick)
-set vl_t=null
+    local timer vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
+    call SaveGroupHandle(zzVL_ht,GetHandleId(vl_t),2,CreateGroup())
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),3,8)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),4,vl_ab)
+    call TimerStart(vl_t,.3125,true,function zzKS_ChainTick)
+    set vl_t=null
 endfunction
 function zzKS_Aura takes nothing returns nothing
-local timer vl_t=GetExpiredTimer()
-local integer vl_id=GetHandleId(vl_t)
-local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
-local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
-if vl_h!=null and GetWidgetLife(vl_h)>.405 then
-call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),350.,0.,-1.,LoadInteger(zzVL_ht,vl_id,4),zzKS_Atk(vl_h)*.35)
-else
-set vl_n=0
-endif
-call SaveInteger(zzVL_ht,vl_id,3,vl_n)
-if vl_n<=0 then
-call FlushChildHashtable(zzVL_ht,vl_id)
-call DestroyTimer(vl_t)
-endif
-set vl_t=null
-set vl_h=null
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local unit vl_h=LoadUnitHandle(zzVL_ht,vl_id,0)
+    local integer vl_n=LoadInteger(zzVL_ht,vl_id,3)-1
+    if vl_h!=null and GetWidgetLife(vl_h)>.405 then
+        call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),350.,0.,-1.,LoadInteger(zzVL_ht,vl_id,4),zzKS_Atk(vl_h)*.35)
+    else
+        set vl_n=0
+    endif
+    call SaveInteger(zzVL_ht,vl_id,3,vl_n)
+    if vl_n<=0 then
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_h=null
 endfunction
 function zzKS_BuffFx takes integer vl_p,integer vl_ab returns nothing
-local integer vl_f=LoadInteger(zzVL_ht,vl_ab,252)
-local unit vl_h=Jx[vl_p+1]
-local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
-local timer vl_tm
-if BlzBitAnd(vl_f,16)>0 then
-call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*(.1+.02*vl_lv))
-endif
-if BlzBitAnd(vl_f,64)>0 then
-set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+3.
-endif
-if BlzBitAnd(vl_f,4096)>0 then
-call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+BlzGetUnitMaxMana(vl_h)*(.15+.02*vl_lv))
-endif
-if BlzBitAnd(vl_f,8192)>0 and vl_p<10 then
-if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
-set zzKS_stack[vl_p]=0
-endif
-call zzKS_StackAdd(vl_h,vl_p,vl_ab,I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246))))
-endif
-if BlzBitAnd(vl_f,32)>0 then
-set vl_tm=CreateTimer()
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,IMaxBJ(5,LoadInteger(zzVL_ht,vl_ab,246)))
-call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,vl_ab)
-call TimerStart(vl_tm,1.,true,function zzKS_Aura)
-set vl_tm=null
-endif
-set vl_h=null
+    local integer vl_f=LoadInteger(zzVL_ht,vl_ab,252)
+    local unit vl_h=Jx[vl_p+1]
+    local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(vl_h,vl_ab))
+    local timer vl_tm
+    if BlzBitAnd(vl_f,16)>0 then
+        call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*(.1+.02*vl_lv))
+    endif
+    if BlzBitAnd(vl_f,64)>0 then
+        set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+3.
+    endif
+    if BlzBitAnd(vl_f,4096)>0 then
+        call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+BlzGetUnitMaxMana(vl_h)*(.15+.02*vl_lv))
+    endif
+    if BlzBitAnd(vl_f,8192)>0 and vl_p<10 then
+        if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
+            set zzKS_stack[vl_p]=0
+        endif
+        call zzKS_StackAdd(vl_h,vl_p,vl_ab,I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246))))
+    endif
+    if BlzBitAnd(vl_f,32)>0 then
+        set vl_tm=CreateTimer()
+        call SaveUnitHandle(zzVL_ht,GetHandleId(vl_tm),0,vl_h)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_tm),3,IMaxBJ(5,LoadInteger(zzVL_ht,vl_ab,246)))
+        call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,vl_ab)
+        call TimerStart(vl_tm,1.,true,function zzKS_Aura)
+        set vl_tm=null
+    endif
+    set vl_h=null
 endfunction
 function zzKS_Buff takes integer vl_p,integer vl_ab,real vl_f returns nothing
-local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(Jx[vl_p+1],vl_ab))
-local real vl_end=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*vl_lv))
-local integer vl_s=LoadInteger(zzVL_ht,vl_ab,247)
-if vl_s>0 then
-set zzKS_buf[vl_p*16+vl_s]=R2I(zzKS_per[vl_s]*vl_lv*1.5*vl_f)
-if HaveSavedInteger(zzVL_ht,vl_ab,253) then
-set zzKS_buf[vl_p*16+vl_s]=R2I((LoadInteger(zzVL_ht,vl_ab,253)+LoadInteger(zzVL_ht,vl_ab,254)*vl_lv)*vl_f)
-endif
-set zzKS_bufEnd[vl_p*16+vl_s]=vl_end
-endif
-set vl_s=LoadInteger(zzVL_ht,vl_ab,248)
-if vl_s>0 then
-set zzKS_buf[vl_p*16+vl_s]=R2I(zzKS_per[vl_s]*vl_lv*1.5*vl_f)
-if HaveSavedInteger(zzVL_ht,vl_ab,255) then
-set zzKS_buf[vl_p*16+vl_s]=R2I((LoadInteger(zzVL_ht,vl_ab,255)+LoadInteger(zzVL_ht,vl_ab,256)*vl_lv)*vl_f)
-endif
-set zzKS_bufEnd[vl_p*16+vl_s]=vl_end
-endif
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),Jx[vl_p+1],"origin"))
-if vl_f>=1. then
-call zzKS_BuffFx(vl_p,vl_ab)
-endif
-if vl_f>=1. and LoadInteger(zzVL_ht,vl_ab,182)>0 then
-set zzKS_bhN[vl_p]=LoadInteger(zzVL_ht,vl_ab,182)
-set zzKS_bhAb[vl_p]=vl_ab
-endif
+    local integer vl_lv=IMaxBJ(1,GetUnitAbilityLevel(Jx[vl_p+1],vl_ab))
+    local real vl_end=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*vl_lv))
+    local integer vl_s=LoadInteger(zzVL_ht,vl_ab,247)
+    if vl_s>0 then
+        set zzKS_buf[vl_p*16+vl_s]=R2I(zzKS_per[vl_s]*vl_lv*1.5*vl_f)
+        if HaveSavedInteger(zzVL_ht,vl_ab,253) then
+            set zzKS_buf[vl_p*16+vl_s]=R2I((LoadInteger(zzVL_ht,vl_ab,253)+LoadInteger(zzVL_ht,vl_ab,254)*vl_lv)*vl_f)
+        endif
+        set zzKS_bufEnd[vl_p*16+vl_s]=vl_end
+    endif
+    set vl_s=LoadInteger(zzVL_ht,vl_ab,248)
+    if vl_s>0 then
+        set zzKS_buf[vl_p*16+vl_s]=R2I(zzKS_per[vl_s]*vl_lv*1.5*vl_f)
+        if HaveSavedInteger(zzVL_ht,vl_ab,255) then
+            set zzKS_buf[vl_p*16+vl_s]=R2I((LoadInteger(zzVL_ht,vl_ab,255)+LoadInteger(zzVL_ht,vl_ab,256)*vl_lv)*vl_f)
+        endif
+        set zzKS_bufEnd[vl_p*16+vl_s]=vl_end
+    endif
+    call zzKS_SelfFx(vl_ab,Jx[vl_p+1],I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*vl_lv)))
+    if LoadStr(zzVL_ht,vl_ab,280)!=null and LoadStr(zzVL_ht,vl_ab,280)!="" then
+        call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,280),Jx[vl_p+1],"origin"))
+    endif
+    if LoadStr(zzVL_ht,vl_ab,284)!=null and LoadStr(zzVL_ht,vl_ab,284)!="" then
+        call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,284),Jx[vl_p+1],"chest"))
+    endif
+    if vl_f>=1. then
+        call zzKS_BuffFx(vl_p,vl_ab)
+    endif
+    if vl_f>=1. and LoadInteger(zzVL_ht,vl_ab,182)>0 then
+        set zzKS_bhN[vl_p]=LoadInteger(zzVL_ht,vl_ab,182)
+        set zzKS_bhAb[vl_p]=vl_ab
+    endif
 endfunction
 function zzKS_BhUse takes integer vl_p,integer vl_ab returns nothing
-local integer vl_b=zzKS_bhAb[vl_p]
-if zzKS_bhN[vl_p]<=0 or vl_ab==vl_b then
-return
-endif
-if TimerGetElapsed(zzVL_clock)>=zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_b,247)] then
-set zzKS_bhN[vl_p]=0
-return
-endif
-set zzKS_bhN[vl_p]=zzKS_bhN[vl_p]-1
-if zzKS_bhN[vl_p]==0 then
-if LoadInteger(zzVL_ht,vl_b,247)>0 then
-set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_b,247)]=0.
-endif
-if LoadInteger(zzVL_ht,vl_b,248)>0 then
-set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_b,248)]=0.
-endif
-call zzVL_Text(Jx[vl_p+1],"|cff808080"+GetObjectName(vl_b)+" hết|r")
-endif
+    local integer vl_b=zzKS_bhAb[vl_p]
+    if zzKS_bhN[vl_p]<=0 or vl_ab==vl_b then
+        return
+    endif
+    if TimerGetElapsed(zzVL_clock)>=zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_b,247)] then
+        set zzKS_bhN[vl_p]=0
+        return
+    endif
+    set zzKS_bhN[vl_p]=zzKS_bhN[vl_p]-1
+    if zzKS_bhN[vl_p]==0 then
+        if LoadInteger(zzVL_ht,vl_b,247)>0 then
+            set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_b,247)]=0.
+        endif
+        if LoadInteger(zzVL_ht,vl_b,248)>0 then
+            set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_b,248)]=0.
+        endif
+        call zzVL_Text(Jx[vl_p+1],"|cff808080"+GetObjectName(vl_b)+" hết|r")
+    endif
 endfunction
 function zzKS_OnCast takes nothing returns nothing
-local unit vl_h=GetTriggerUnit()
-local integer vl_ab=GetSpellAbilityId()
-local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-local unit vl_t=GetSpellTargetUnit()
-local real vl_x=GetSpellTargetX()
-local real vl_y=GetSpellTargetY()
-local real vl_a
-local real vl_r
-local integer vl_i
-if vl_k==0 or vl_p>9 then
-set vl_h=null
-set vl_t=null
-return
-endif
-if LoadInteger(zzVL_ht,vl_ab,223)>0 then
-set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,223))
-endif
-call zzKS_BhUse(vl_p,vl_ab)
-if LoadInteger(zzVL_ht,vl_ab,162)>0 and LoadInteger(zzVL_ht,vl_ab,165)!=3 then
-call zzKS_WeakArea(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),IMaxBJ(300,LoadInteger(zzVL_ht,vl_ab,160)),GetUnitFacing(vl_h),LoadInteger(zzVL_ht,vl_ab,162),LoadInteger(zzVL_ht,vl_ab,161))
-endif
-if LoadInteger(zzVL_ht,vl_ab,195)>0 then
-call zzKS_Buff(vl_p,vl_ab,1.)
-endif
-if LoadInteger(zzVL_ht,vl_ab,185)>0 then
-set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,185)
-set zzKS_dimmN[vl_p]=LoadInteger(zzVL_ht,vl_ab,184)
-endif
-if vl_t!=null then
-set vl_x=GetUnitX(vl_t)
-set vl_y=GetUnitY(vl_t)
-elseif vl_x==0. and vl_y==0. then
-set vl_x=GetUnitX(vl_h)+100.*Cos(GetUnitFacing(vl_h)*bj_DEGTORAD)
-set vl_y=GetUnitY(vl_h)+100.*Sin(GetUnitFacing(vl_h)*bj_DEGTORAD)
-endif
-if vl_k==3 then
-set vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
-set vl_r=RMinBJ(zzKS_Rad(vl_ab,700.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h))))
-call zzKS_Dash(vl_h,vl_ab,GetUnitX(vl_h)+vl_r*Cos(vl_a),GetUnitY(vl_h)+vl_r*Sin(vl_a),200.,0,false)
-elseif vl_k==11 then
-call zzKS_Chain(vl_h,vl_ab)
-elseif vl_k==12 then
-call DestroyEffect(AddSpecialEffect(LoadStr(zzVL_ht,vl_ab,250),GetUnitX(vl_h),GetUnitY(vl_h)))
-call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),1000.,0.,-1.,vl_ab,zzKS_Hit(vl_h,vl_ab))
-elseif vl_k==13 then
-call zzKS_Field(vl_h,vl_ab,vl_x,vl_y)
-elseif vl_k==18 then
-call zzKS_Field(vl_h,vl_ab,GetUnitX(vl_h),GetUnitY(vl_h))
-elseif vl_k==14 or vl_k==21 then
-call zzKS_Toggle(vl_h,vl_ab)
-elseif vl_k==19 then
-call UnitAddAbility(vl_h,'Apiv')
-set zzKS_hideAb[vl_p]=vl_ab
-set zzKS_hideEnd[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,246)
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-elseif vl_k==20 then
-if zzKS_chgOn[vl_p] then
-set zzKS_chgOn[vl_p]=false
-set zzKS_chg[vl_p]=0
-call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
-call zzVL_Text(vl_h,"|cffc0c0c0"+GetObjectName(vl_ab)+": tắt|r")
-else
-set zzKS_chgOn[vl_p]=true
-set zzKS_chgPct[vl_p]=LoadInteger(zzVL_ht,vl_ab,198)+LoadInteger(zzVL_ht,vl_ab,197)*GetUnitAbilityLevel(vl_h,vl_ab)
-set zzKS_chgNext[vl_p]=TimerGetElapsed(zzVL_clock)+2.
-call SaveUnitHandle(zzVL_ht,GetHandleId(vl_h),vl_ab,vl_h)
-call zzVL_Text(vl_h,"|cff80ff80"+GetObjectName(vl_ab)+": bật|r")
-endif
-elseif vl_k==15 then
-call zzKS_Curse(vl_h,vl_ab,vl_x,vl_y)
-elseif vl_k==6 then
-call zzKS_Buff(vl_p,vl_ab,1.)
-elseif vl_k==7 then
-set vl_i=0
-loop
-exitwhen vl_i>9
-if Jx[vl_i+1]!=null and GetWidgetLife(Jx[vl_i+1])>.405 and IsPlayerAlly(Player(vl_i),Player(vl_p)) and IsUnitInRange(Jx[vl_i+1],vl_h,1000.) then
-if vl_i==vl_p then
-call zzKS_Buff(vl_i,vl_ab,1.)
-else
-call zzKS_Buff(vl_i,vl_ab,.6)
-endif
-endif
-set vl_i=vl_i+1
-endloop
-elseif vl_k==9 then
-call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)*.15)
-set zzVL_shield[vl_p]=BlzGetUnitMaxMana(vl_h)*(.2+.05*GetUnitAbilityLevel(vl_h,vl_ab))
-set zzVL_tpEnd[vl_p*12]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)))
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-call zzVL_Text(vl_h,"|cff80c0ffHộ thuẫn "+I2S(R2I(zzVL_shield[vl_p]))+"|r")
-elseif vl_k==8 then
-if LoadInteger(zzVL_ht,vl_ab,247)>0 then
-call zzKS_Buff(vl_p,vl_ab,1.)
-else
-call zzKS_BuffFx(vl_p,vl_ab)
-endif
-set zzKS_imm[vl_p]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*GetUnitAbilityLevel(vl_h,vl_ab)))
-call PauseUnit(vl_h,false)
-call SetUnitPropWindow(vl_h,GetUnitDefaultPropWindow(vl_h)*bj_DEGTORAD)
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-else
-call zzKS_Run(vl_h,vl_t,vl_ab,vl_x,vl_y)
-endif
-set vl_h=null
-set vl_t=null
+    local unit vl_h=GetTriggerUnit()
+    local integer vl_ab=GetSpellAbilityId()
+    local integer vl_k=LoadInteger(zzVL_ht,vl_ab,240)
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    local unit vl_t=GetSpellTargetUnit()
+    local real vl_x=GetSpellTargetX()
+    local real vl_y=GetSpellTargetY()
+    local real vl_a
+    local real vl_r
+    local integer vl_i
+    if vl_k==0 or vl_p>9 then
+        set vl_h=null
+        set vl_t=null
+        return
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,223)>0 then
+        set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,223))
+    endif
+    call zzKS_BhUse(vl_p,vl_ab)
+    if LoadInteger(zzVL_ht,vl_ab,162)>0 and LoadInteger(zzVL_ht,vl_ab,165)!=3 then
+        call zzKS_WeakArea(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),IMaxBJ(300,LoadInteger(zzVL_ht,vl_ab,160)),GetUnitFacing(vl_h),LoadInteger(zzVL_ht,vl_ab,162),LoadInteger(zzVL_ht,vl_ab,161))
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,195)>0 then
+        call zzKS_Buff(vl_p,vl_ab,1.)
+    endif
+    if LoadInteger(zzVL_ht,vl_ab,185)>0 then
+        set zzKS_dimm[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,185)
+        set zzKS_dimmN[vl_p]=LoadInteger(zzVL_ht,vl_ab,184)
+    endif
+    if vl_t!=null then
+        set vl_x=GetUnitX(vl_t)
+        set vl_y=GetUnitY(vl_t)
+    elseif vl_x==0. and vl_y==0. then
+        set vl_x=GetUnitX(vl_h)+100.*Cos(GetUnitFacing(vl_h)*bj_DEGTORAD)
+        set vl_y=GetUnitY(vl_h)+100.*Sin(GetUnitFacing(vl_h)*bj_DEGTORAD)
+    endif
+    if vl_k==3 then
+        set vl_a=Atan2(vl_y-GetUnitY(vl_h),vl_x-GetUnitX(vl_h))
+        set vl_r=RMinBJ(zzKS_Rad(vl_ab,700.)+LoadInteger(zzVL_ht,vl_ab,196)*GetUnitAbilityLevel(vl_h,vl_ab),SquareRoot((vl_x-GetUnitX(vl_h))*(vl_x-GetUnitX(vl_h))+(vl_y-GetUnitY(vl_h))*(vl_y-GetUnitY(vl_h))))
+        call zzKS_Dash(vl_h,vl_ab,GetUnitX(vl_h)+vl_r*Cos(vl_a),GetUnitY(vl_h)+vl_r*Sin(vl_a),200.,0,false)
+    elseif vl_k==11 then
+        call zzKS_Chain(vl_h,vl_ab)
+    elseif vl_k==12 then
+        call zzKS_Pop(vl_ab,GetUnitX(vl_h),GetUnitY(vl_h))
+        call zzKS_Area(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),1000.,0.,-1.,vl_ab,zzKS_Hit(vl_h,vl_ab))
+    elseif vl_k==13 then
+        call zzKS_Field(vl_h,vl_ab,vl_x,vl_y)
+    elseif vl_k==18 then
+        call zzKS_Field(vl_h,vl_ab,GetUnitX(vl_h),GetUnitY(vl_h))
+    elseif vl_k==14 or vl_k==21 then
+        call zzKS_Toggle(vl_h,vl_ab)
+    elseif vl_k==19 then
+        call UnitAddAbility(vl_h,'Apiv')
+        set zzKS_hideAb[vl_p]=vl_ab
+        set zzKS_hideEnd[vl_p]=TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,246)
+        call zzKS_SelfFx(vl_ab,vl_h,I2R(LoadInteger(zzVL_ht,vl_ab,246)))
+    elseif vl_k==20 then
+        if zzKS_chgOn[vl_p] then
+            set zzKS_chgOn[vl_p]=false
+            set zzKS_chg[vl_p]=0
+            call RemoveSavedHandle(zzVL_ht,GetHandleId(vl_h),vl_ab)
+            call zzVL_Text(vl_h,"|cffc0c0c0"+GetObjectName(vl_ab)+": tắt|r")
+        else
+            set zzKS_chgOn[vl_p]=true
+            set zzKS_chgPct[vl_p]=LoadInteger(zzVL_ht,vl_ab,198)+LoadInteger(zzVL_ht,vl_ab,197)*GetUnitAbilityLevel(vl_h,vl_ab)
+            set zzKS_chgNext[vl_p]=TimerGetElapsed(zzVL_clock)+2.
+            call SaveUnitHandle(zzVL_ht,GetHandleId(vl_h),vl_ab,vl_h)
+            call zzVL_Text(vl_h,"|cff80ff80"+GetObjectName(vl_ab)+": bật|r")
+        endif
+    elseif vl_k==15 then
+        call zzKS_Curse(vl_h,vl_ab,vl_x,vl_y)
+    elseif vl_k==6 then
+        call zzKS_Buff(vl_p,vl_ab,1.)
+    elseif vl_k==7 then
+        set vl_i=0
+        loop
+            exitwhen vl_i>9
+            if Jx[vl_i+1]!=null and GetWidgetLife(Jx[vl_i+1])>.405 and IsPlayerAlly(Player(vl_i),Player(vl_p)) and IsUnitInRange(Jx[vl_i+1],vl_h,1000.) then
+                if vl_i==vl_p then
+                    call zzKS_Buff(vl_i,vl_ab,1.)
+                else
+                    call zzKS_Buff(vl_i,vl_ab,.6)
+                endif
+            endif
+            set vl_i=vl_i+1
+        endloop
+    elseif vl_k==9 then
+        call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)*.15)
+        set zzVL_shield[vl_p]=BlzGetUnitMaxMana(vl_h)*(.2+.05*GetUnitAbilityLevel(vl_h,vl_ab))
+        set zzVL_tpEnd[vl_p*12]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246)))
+        call zzKS_SelfFx(vl_ab,vl_h,I2R(IMaxBJ(8,LoadInteger(zzVL_ht,vl_ab,246))))
+        call zzVL_Text(vl_h,"|cff80c0ffHộ thuẫn "+I2S(R2I(zzVL_shield[vl_p]))+"|r")
+    elseif vl_k==8 then
+        if LoadInteger(zzVL_ht,vl_ab,247)>0 then
+            call zzKS_Buff(vl_p,vl_ab,1.)
+        else
+            call zzKS_BuffFx(vl_p,vl_ab)
+        endif
+        set zzKS_imm[vl_p]=TimerGetElapsed(zzVL_clock)+I2R(IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*GetUnitAbilityLevel(vl_h,vl_ab)))
+        call PauseUnit(vl_h,false)
+        call SetUnitPropWindow(vl_h,GetUnitDefaultPropWindow(vl_h)*bj_DEGTORAD)
+        call zzKS_SelfFx(vl_ab,vl_h,I2R(IMaxBJ(4,LoadInteger(zzVL_ht,vl_ab,246)+LoadInteger(zzVL_ht,vl_ab,222)*GetUnitAbilityLevel(vl_h,vl_ab))))
+    else
+        call zzKS_Run(vl_h,vl_t,vl_ab,vl_x,vl_y)
+    endif
+    set vl_h=null
+    set vl_t=null
 endfunction
 function zzKS_OnHurt takes nothing returns nothing
-local unit vl_h=zzKS_tgt
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-local integer vl_i=0
-local integer vl_ab
-loop
-set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
-exitwhen vl_ab==0 or vl_i>15
-if LoadInteger(zzVL_ht,vl_ab,165)==2 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),8192)>0 and GetUnitAbilityLevel(vl_h,vl_ab)>0 then
-call zzKS_StackAdd(vl_h,vl_p,vl_ab,6.)
-endif
-if LoadInteger(zzVL_ht,vl_ab,165)==3 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) then
-call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,TimerGetElapsed(zzVL_clock)+IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,220)))
-call zzKS_WeakArea(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),IMaxBJ(300,LoadInteger(zzVL_ht,vl_ab,160)),-1.,LoadInteger(zzVL_ht,vl_ab,162),LoadInteger(zzVL_ht,vl_ab,161))
-call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
-endif
-set vl_i=vl_i+1
-endloop
-set vl_h=null
+    local unit vl_h=zzKS_tgt
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    local integer vl_i=0
+    local integer vl_ab
+    loop
+        set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
+        exitwhen vl_ab==0 or vl_i>=14
+        if LoadInteger(zzVL_ht,vl_ab,165)==2 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),8192)>0 and GetUnitAbilityLevel(vl_h,vl_ab)>0 then
+            call zzKS_StackAdd(vl_h,vl_p,vl_ab,6.)
+        endif
+        if LoadInteger(zzVL_ht,vl_ab,165)==3 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) then
+            call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,TimerGetElapsed(zzVL_clock)+IMaxBJ(1,LoadInteger(zzVL_ht,vl_ab,220)))
+            call zzKS_WeakArea(vl_h,GetUnitX(vl_h),GetUnitY(vl_h),IMaxBJ(300,LoadInteger(zzVL_ht,vl_ab,160)),-1.,LoadInteger(zzVL_ht,vl_ab,162),LoadInteger(zzVL_ht,vl_ab,161))
+            call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_h=null
 endfunction
 function zzKS_OnHit takes nothing returns nothing
-local unit vl_h=zzKS_src
-local unit vl_t=zzKS_tgt
-local integer vl_i=0
-local integer vl_ab
-local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
-if vl_p<10 then
-call zzKS_BhUse(vl_p,0)
-endif
-if vl_p<10 and zzKS_hideAb[vl_p]!=0 then
-set vl_ab=zzKS_hideAb[vl_p]
-set zzKS_hideAb[vl_p]=0
-call UnitRemoveAbility(vl_h,'Apiv')
-call zzKS_Buff(vl_p,vl_ab,1.)
-set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_ab,247)]=TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,199)+LoadInteger(zzVL_ht,vl_ab,174)*GetUnitAbilityLevel(vl_h,vl_ab))/10.
-set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_ab,248)]=TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,199)+LoadInteger(zzVL_ht,vl_ab,174)*GetUnitAbilityLevel(vl_h,vl_ab))/10.
-call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
-endif
-if GetUnitAbilityLevel(vl_t, 'Bdba') > 0 then
-    call UnitRemoveAbility(vl_t, 'Bdba')
-    set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 260)
-    if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-        set zzKS_repl = true
-        call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+    local unit vl_h=zzKS_src
+    local unit vl_t=zzKS_tgt
+    local integer vl_i=0
+    local integer vl_ab
+    local integer vl_p=GetPlayerId(GetOwningPlayer(vl_h))
+    if vl_p<10 then
+        call zzKS_BhUse(vl_p,0)
     endif
-endif
-if GetUnitAbilityLevel(vl_t, 'Bpoa') > 0 then
-    call UnitRemoveAbility(vl_t, 'Bpoa')
-    set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 261)
-    if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-        set zzKS_repl = true
-        call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+    if vl_p<10 and zzKS_hideAb[vl_p]!=0 then
+        set vl_ab=zzKS_hideAb[vl_p]
+        set zzKS_hideAb[vl_p]=0
+        call UnitRemoveAbility(vl_h,'Apiv')
+        call zzKS_Buff(vl_p,vl_ab,1.)
+        set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_ab,247)]=TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,199)+LoadInteger(zzVL_ht,vl_ab,174)*GetUnitAbilityLevel(vl_h,vl_ab))/10.
+        set zzKS_bufEnd[vl_p*16+LoadInteger(zzVL_ht,vl_ab,248)]=TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,199)+LoadInteger(zzVL_ht,vl_ab,174)*GetUnitAbilityLevel(vl_h,vl_ab))/10.
+        call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
     endif
-endif
-if GetUnitAbilityLevel(vl_t, 'Bhea') > 0 then
-    call UnitRemoveAbility(vl_t, 'Bhea')
-    set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 262)
-    if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
-        set zzKS_repl = true
-        call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+    if GetUnitAbilityLevel(vl_t, 'Bdba') > 0 then
+        call UnitRemoveAbility(vl_t, 'Bdba')
+        set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 260)
+        if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
+            set zzKS_repl = true
+            call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+        endif
     endif
-endif
-loop
-set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
-exitwhen vl_ab==0
-if BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),8192)>0 and vl_p<10 and LoadInteger(zzVL_ht,vl_ab,165)!=2 then
-if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
-set zzKS_stack[vl_p]=0
-endif
-call zzKS_StackAdd(vl_h,vl_p,vl_ab,6.)
-endif
-if LoadInteger(zzVL_ht,vl_ab,216)>0 and vl_p<10 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) and GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,216)+LoadInteger(zzVL_ht,vl_ab,202)*GetUnitAbilityLevel(vl_h,vl_ab) then
-call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,220))
-if LoadInteger(zzVL_ht,vl_ab,203)>0 then
-set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,203)+GetUnitAbilityLevel(vl_h,vl_ab))/10.)
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-endif
-if LoadInteger(zzVL_ht,vl_ab,247)>0 or LoadInteger(zzVL_ht,vl_ab,203)==0 then
-call zzKS_Buff(vl_p,vl_ab,1.)
-endif
-call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
-if LoadInteger(zzVL_ht,vl_ab,183)>0 then
-call zzKS_Slot(vl_h,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
-endif
-endif
-if LoadInteger(zzVL_ht,vl_ab,249)==1 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and GetRandomInt(1,100)<=10 then
-call zzKS_Run(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
-set vl_ab=0
-set vl_i=99
-endif
-set vl_i=vl_i+1
-endloop
-set vl_h=null
-set vl_t=null
+    if GetUnitAbilityLevel(vl_t, 'Bpoa') > 0 then
+        call UnitRemoveAbility(vl_t, 'Bpoa')
+        set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 261)
+        if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
+            set zzKS_repl = true
+            call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+        endif
+    endif
+    if GetUnitAbilityLevel(vl_t, 'Bhea') > 0 then
+        call UnitRemoveAbility(vl_t, 'Bhea')
+        set vl_ab = LoadInteger(zzVL_ht, GetUnitTypeId(vl_h), 262)
+        if vl_ab != 0 and GetUnitAbilityLevel(vl_h, vl_ab) > 0 then
+            set zzKS_repl = true
+            call zzKS_Run(vl_h, vl_t, vl_ab, GetUnitX(vl_t), GetUnitY(vl_t))
+        endif
+    endif
+    loop
+        set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
+        exitwhen vl_ab==0 or vl_i>=14
+        if BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),8192)>0 and vl_p<10 and LoadInteger(zzVL_ht,vl_ab,165)!=2 then
+            if TimerGetElapsed(zzVL_clock)>zzKS_stackEnd[vl_p] then
+                set zzKS_stack[vl_p]=0
+            endif
+            call zzKS_StackAdd(vl_h,vl_p,vl_ab,6.)
+        endif
+        if LoadInteger(zzVL_ht,vl_ab,216)>0 and vl_p<10 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and TimerGetElapsed(zzVL_clock)>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) and GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,216)+LoadInteger(zzVL_ht,vl_ab,202)*GetUnitAbilityLevel(vl_h,vl_ab) then
+            call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,TimerGetElapsed(zzVL_clock)+LoadInteger(zzVL_ht,vl_ab,220))
+            if LoadInteger(zzVL_ht,vl_ab,203)>0 then
+                set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],TimerGetElapsed(zzVL_clock)+(LoadInteger(zzVL_ht,vl_ab,203)+GetUnitAbilityLevel(vl_h,vl_ab))/10.)
+                call zzKS_PopT(vl_ab,vl_h,"origin")
+            endif
+            if LoadInteger(zzVL_ht,vl_ab,247)>0 or LoadInteger(zzVL_ht,vl_ab,203)==0 then
+                call zzKS_Buff(vl_p,vl_ab,1.)
+            endif
+            call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+            if LoadInteger(zzVL_ht,vl_ab,183)>0 then
+                call zzKS_Slot(vl_h,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
+            endif
+        endif
+        if LoadInteger(zzVL_ht,vl_ab,249)==1 and GetUnitAbilityLevel(vl_h,vl_ab)>0 and GetRandomInt(1,100)<=10 then
+            call zzKS_Run(vl_h,vl_t,vl_ab,GetUnitX(vl_t),GetUnitY(vl_t))
+            set vl_ab=0
+            set vl_i=99
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_h=null
+    set vl_t=null
 endfunction
 function zzKS_Low takes integer vl_ab returns real
-if LoadInteger(zzVL_ht,vl_ab,189)>0 then
-return LoadInteger(zzVL_ht,vl_ab,189)/100.
-endif
-return .4
+    if LoadInteger(zzVL_ht,vl_ab,189)>0 then
+        return LoadInteger(zzVL_ht,vl_ab,189)/100.
+    endif
+    return .4
 endfunction
 function zzKS_Freeze takes unit vl_h,real vl_r,real vl_d returns nothing
-local group vl_g=CreateGroup()
-local unit vl_u
-call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
-loop
-set vl_u=FirstOfGroup(vl_g)
-exitwhen vl_u==null
-call GroupRemoveUnit(vl_g,vl_u)
-if zzVL_TpFoe(vl_h,vl_u) then
-call zzKS_St(vl_h,vl_u,3,100,vl_d)
-call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\Effect_dongbang.mdx",vl_u,"origin"))
-endif
-endloop
-call DestroyGroup(vl_g)
-set vl_g=null
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    call GroupEnumUnitsInRange(vl_g,GetUnitX(vl_h),GetUnitY(vl_h),vl_r,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if zzVL_TpFoe(vl_h,vl_u) then
+            call zzKS_St(vl_h,vl_u,3,100,vl_d)
+            call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\Effect_dongbang.mdx",vl_u,"origin"))
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
 endfunction
 function zzKS_Tick takes nothing returns nothing
-local integer vl_p=0
-local integer vl_i
-local integer vl_ab
-local integer vl_u
-local integer vl_lv
-local integer vl_w
-local integer vl_s
-local unit vl_h
-local unit vl_f=null
-local real vl_now=TimerGetElapsed(zzVL_clock)
-loop
-exitwhen vl_p>9
-set vl_h=Jx[vl_p+1]
-set vl_i=1
-loop
-exitwhen vl_i>14
-set zzKS_af[vl_p*16+vl_i]=0
-if vl_now<zzKS_bufEnd[vl_p*16+vl_i] then
-set zzKS_af[vl_p*16+vl_i]=zzKS_buf[vl_p*16+vl_i]
-endif
-set vl_i=vl_i+1
-endloop
-if vl_now<zzKS_stackEnd[vl_p] and zzKS_stack[vl_p]>0 then
-set zzKS_af[vl_p*16+5]=zzKS_af[vl_p*16+5]+zzKS_stack[vl_p]*4
-set zzKS_af[vl_p*16+3]=zzKS_af[vl_p*16+3]+zzKS_stack[vl_p]*2
-else
-set zzKS_stack[vl_p]=0
-endif
-set zzKS_refl[vl_p]=0
-if zzKS_hideAb[vl_p]!=0 and (vl_now>=zzKS_hideEnd[vl_p] or vl_h==null or GetWidgetLife(vl_h)<.405) then
-set zzKS_hideAb[vl_p]=0
-call UnitRemoveAbility(vl_h,'Apiv')
-endif
-if zzKS_chgOn[vl_p] and (vl_h==null or GetWidgetLife(vl_h)<.405) then
-set zzKS_chgOn[vl_p]=false
-set zzKS_chg[vl_p]=0
-endif
-if zzKS_chgOn[vl_p] and vl_now>=zzKS_chgNext[vl_p] then
-set zzKS_chgNext[vl_p]=vl_now+2.
-set zzKS_chg[vl_p]=IMinBJ(20,zzKS_chg[vl_p]+1)
-call zzVL_Text(vl_h,"|cffff80c0+"+I2S(zzKS_chg[vl_p])+"|r")
-endif
-set vl_i=0
-loop
-exitwhen vl_i>3
-set zzKS_pfx[vl_p*4+vl_i]=0
-set zzKS_pch[vl_p*4+vl_i]=0
-set zzKS_pdur[vl_p*4+vl_i]=0
-set zzKS_pmul[vl_p*4+vl_i]=0
-set zzKS_steal[vl_p*4+vl_i]=0
-set zzKS_xw[vl_p*4+vl_i]=0
-set zzKS_xc[vl_p*4+vl_i]=0
-set vl_i=vl_i+1
-endloop
-if vl_h!=null then
-call BlzUnitDisableAbility(vl_h,'Apat',true,true)
-if LoadInteger(zzVL_ht,GetHandleId(vl_h),271)==0 and LoadStr(zzVL_ht,GetUnitTypeId(vl_h),270)!=null then
-call SaveInteger(zzVL_ht,GetHandleId(vl_h),271,1)
-call AddSpecialEffectTarget(LoadStr(zzVL_ht,GetUnitTypeId(vl_h),270),vl_h,"weapon")
-endif
-set vl_lv=GetHeroLevel(vl_h)
-set vl_i=0
-loop
-set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
-exitwhen vl_ab==0
-set vl_u=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),230+vl_i)
-if vl_lv>=vl_u then
-set vl_w=IMinBJ(10,1+(vl_lv-vl_u)*10/IMaxBJ(1,201-vl_u))
-if GetUnitAbilityLevel(vl_h,vl_ab)==0 then
-call UnitAddAbility(vl_h,vl_ab)
-call UnitMakeAbilityPermanent(vl_h,true,vl_ab)
-if LoadStr(zzVL_ht,vl_ab,251)!=null and LoadStr(zzVL_ht,vl_ab,251)!="" then
-call IssueImmediateOrder(vl_h,LoadStr(zzVL_ht,vl_ab,251))
-endif
-if GetPlayerController(Player(vl_p))==MAP_CONTROL_USER then
-call zzVL_Msg(vl_p,"|cffff8000Lĩnh ngộ võ công:|r "+GetObjectName(vl_ab))
-endif
-endif
-if GetUnitAbilityLevel(vl_h,vl_ab)!=vl_w then
-call SetUnitAbilityLevel(vl_h,vl_ab,vl_w)
-endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),1024)>0 and GetWidgetLife(vl_h)>.405 and GetWidgetLife(vl_h)<BlzGetUnitMaxHP(vl_h)*zzKS_Low(vl_ab) and vl_now>zzKS_lowCd[vl_p] and (LoadInteger(zzVL_ht,vl_ab,165)!=1 or vl_now-zzKS_hurt[vl_p]<=1.1) and (not HaveSavedInteger(zzVL_ht,vl_ab,217) or GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,217)+LoadInteger(zzVL_ht,vl_ab,169)*vl_w) then
-if HaveSavedInteger(zzVL_ht,vl_ab,220) then
-set zzKS_lowCd[vl_p]=vl_now+RMaxBJ(1.,LoadInteger(zzVL_ht,vl_ab,220)+LoadInteger(zzVL_ht,vl_ab,168)*(vl_w-1)/10.)
-set zzKS_dimm[vl_p]=vl_now+LoadInteger(zzVL_ht,vl_ab,221)
-if LoadInteger(zzVL_ht,vl_ab,218)>0 then
-set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+LoadInteger(zzVL_ht,vl_ab,218))
-endif
-call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*LoadInteger(zzVL_ht,vl_ab,219)/100.)
-else
-set zzKS_lowCd[vl_p]=vl_now+30.
-set zzKS_dimm[vl_p]=vl_now+4.
-call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*.1)
-endif
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
-if LoadInteger(zzVL_ht,vl_ab,204)>0 then
-call zzKS_Freeze(vl_h,400.,LoadInteger(zzVL_ht,vl_ab,204)/10.)
-endif
-if LoadInteger(zzVL_ht,vl_ab,183)>0 then
-set vl_f=zzKS_Near(vl_h)
-if vl_f!=null then
-call zzKS_Slot(vl_h,vl_ab,GetUnitX(vl_f),GetUnitY(vl_f))
-endif
-endif
-endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,212)>0 and GetWidgetLife(vl_h)>.405 and vl_now>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) then
-call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,vl_now+(LoadInteger(zzVL_ht,vl_ab,212)-LoadInteger(zzVL_ht,vl_ab,211)*vl_w)/10.)
-set zzKS_dimm[vl_p]=RMaxBJ(zzKS_dimm[vl_p],vl_now+1.)
-set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+1.)
-call DestroyEffect(AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,250),vl_h,"origin"))
-endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),128)>0 then
-set zzKS_refl[vl_p]=zzKS_refl[vl_p]+2*vl_w
-endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),4096)>0 then
-call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+12.*vl_w)
-endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and HaveSavedInteger(zzVL_ht,vl_ab,239) then
-set vl_s=LoadInteger(zzVL_ht,vl_ab,239)
-set zzKS_pfx[vl_p*4+vl_s]=BlzBitOr(zzKS_pfx[vl_p*4+vl_s],LoadInteger(zzVL_ht,vl_ab,245))
-if LoadInteger(zzVL_ht,vl_ab,164)>0 then
-set zzKS_pdur[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,164)
-endif
-if LoadInteger(zzVL_ht,vl_ab,180)>0 then
-set zzKS_pch[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,180)+LoadInteger(zzVL_ht,vl_ab,177)*vl_w
-set zzKS_pmul[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,179)+LoadInteger(zzVL_ht,vl_ab,178)*vl_w
-endif
-if vl_s<3 and LoadInteger(zzVL_ht,vl_ab,209)>0 then
-set zzKS_xw[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,209)
-set zzKS_xc[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,208)
-endif
-if vl_s<3 then
-set zzKS_steal[vl_p*4+vl_s]=zzKS_steal[vl_p*4+vl_s]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
-else
-set zzKS_steal[vl_p*4]=zzKS_steal[vl_p*4]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
-set zzKS_steal[vl_p*4+1]=zzKS_steal[vl_p*4+1]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
-set zzKS_steal[vl_p*4+2]=zzKS_steal[vl_p*4+2]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
-endif
-endif
-if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,216)==0 then
-set vl_s=LoadInteger(zzVL_ht,vl_ab,247)
-if vl_s>0 then
-set zzKS_af[vl_p*16+vl_s]=zzKS_af[vl_p*16+vl_s]+R2I(zzKS_per[vl_s]*vl_w)
-endif
-set vl_s=LoadInteger(zzVL_ht,vl_ab,248)
-if vl_s>0 then
-set zzKS_af[vl_p*16+vl_s]=zzKS_af[vl_p*16+vl_s]+R2I(zzKS_per[vl_s]*vl_w)
-endif
-endif
-endif
-set vl_i=vl_i+1
-endloop
-endif
-set vl_p=vl_p+1
-endloop
-set vl_h=null
+    local integer vl_p=0
+    local integer vl_i
+    local integer vl_ab
+    local integer vl_u
+    local integer vl_lv
+    local integer vl_w
+    local integer vl_s
+    local unit vl_h
+    local unit vl_f=null
+    local real vl_now=TimerGetElapsed(zzVL_clock)
+    loop
+        exitwhen vl_p>9
+        set vl_h=Jx[vl_p+1]
+        if vl_h!=null and LoadReal(zzVL_ht,GetHandleId(vl_h),77)>0. and vl_now>=LoadReal(zzVL_ht,GetHandleId(vl_h),77) then
+            set vl_i=0
+            loop
+                set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
+                exitwhen vl_ab==0 or vl_i>=14
+                call BlzUnitDisableAbility(vl_h,vl_ab,false,false)
+                set vl_i=vl_i+1
+            endloop
+            call SaveReal(zzVL_ht,GetHandleId(vl_h),77,0.)
+        endif
+        set vl_i=1
+        loop
+            exitwhen vl_i>14
+            set zzKS_af[vl_p*16+vl_i]=0
+            if vl_now<zzKS_bufEnd[vl_p*16+vl_i] then
+                set zzKS_af[vl_p*16+vl_i]=zzKS_buf[vl_p*16+vl_i]
+            endif
+            set vl_i=vl_i+1
+        endloop
+        if vl_now<zzKS_stackEnd[vl_p] and zzKS_stack[vl_p]>0 then
+            set zzKS_af[vl_p*16+5]=zzKS_af[vl_p*16+5]+zzKS_stack[vl_p]*4
+            set zzKS_af[vl_p*16+3]=zzKS_af[vl_p*16+3]+zzKS_stack[vl_p]*2
+        else
+            set zzKS_stack[vl_p]=0
+        endif
+        set zzKS_refl[vl_p]=0
+        if zzKS_hideAb[vl_p]!=0 and (vl_now>=zzKS_hideEnd[vl_p] or vl_h==null or GetWidgetLife(vl_h)<.405) then
+            set zzKS_hideAb[vl_p]=0
+            call UnitRemoveAbility(vl_h,'Apiv')
+        endif
+        if zzKS_chgOn[vl_p] and (vl_h==null or GetWidgetLife(vl_h)<.405) then
+            set zzKS_chgOn[vl_p]=false
+            set zzKS_chg[vl_p]=0
+        endif
+        if zzKS_chgOn[vl_p] and vl_now>=zzKS_chgNext[vl_p] then
+            set zzKS_chgNext[vl_p]=vl_now+2.
+            set zzKS_chg[vl_p]=IMinBJ(20,zzKS_chg[vl_p]+1)
+            call zzVL_Text(vl_h,"|cffff80c0+"+I2S(zzKS_chg[vl_p])+"|r")
+        endif
+        set vl_i=0
+        loop
+            exitwhen vl_i>3
+            set zzKS_pfx[vl_p*4+vl_i]=0
+            set zzKS_pch[vl_p*4+vl_i]=0
+            set zzKS_pdur[vl_p*4+vl_i]=0
+            set zzKS_pmul[vl_p*4+vl_i]=0
+            set zzKS_steal[vl_p*4+vl_i]=0
+            set zzKS_xw[vl_p*4+vl_i]=0
+            set zzKS_xc[vl_p*4+vl_i]=0
+            set vl_i=vl_i+1
+        endloop
+        if vl_h!=null then
+            call BlzUnitDisableAbility(vl_h,'Apat',true,true)
+            if LoadInteger(zzVL_ht,GetHandleId(vl_h),271)==0 and LoadStr(zzVL_ht,GetUnitTypeId(vl_h),270)!=null then
+                call SaveInteger(zzVL_ht,GetHandleId(vl_h),271,1)
+                call AddSpecialEffectTarget(LoadStr(zzVL_ht,GetUnitTypeId(vl_h),270),vl_h,"weapon")
+            endif
+            set vl_lv=GetHeroLevel(vl_h)
+            set vl_i=0
+            loop
+                set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),200+vl_i)
+                exitwhen vl_ab==0 or vl_i>=14
+                set vl_u=LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),230+vl_i)
+                if vl_lv>=vl_u then
+                    set vl_w=IMinBJ(10,1+(vl_lv-vl_u)*10/IMaxBJ(1,201-vl_u))
+                    if LoadStr(zzVL_ht,vl_ab,287)!=null and LoadStr(zzVL_ht,vl_ab,287)!="" and LoadInteger(zzVL_ht,GetHandleId(vl_h),300000+vl_ab)==0 then
+                        call SaveInteger(zzVL_ht,GetHandleId(vl_h),300000+vl_ab,1)
+                        call AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_ab,287),vl_h,"origin")
+                    endif
+                    if GetUnitAbilityLevel(vl_h,vl_ab)==0 then
+                        call UnitAddAbility(vl_h,vl_ab)
+                        call UnitMakeAbilityPermanent(vl_h,true,vl_ab)
+                        if LoadStr(zzVL_ht,vl_ab,251)!=null and LoadStr(zzVL_ht,vl_ab,251)!="" then
+                            call IssueImmediateOrder(vl_h,LoadStr(zzVL_ht,vl_ab,251))
+                        endif
+                        if GetPlayerController(Player(vl_p))==MAP_CONTROL_USER then
+                            call zzVL_Msg(vl_p,"|cffff8000Lĩnh ngộ võ công:|r "+GetObjectName(vl_ab))
+                        endif
+                    endif
+                    if GetUnitAbilityLevel(vl_h,vl_ab)!=vl_w then
+                        call SetUnitAbilityLevel(vl_h,vl_ab,vl_w)
+                    endif
+                    if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),1024)>0 and GetWidgetLife(vl_h)>.405 and GetWidgetLife(vl_h)<BlzGetUnitMaxHP(vl_h)*zzKS_Low(vl_ab) and vl_now>zzKS_lowCd[vl_p] and (LoadInteger(zzVL_ht,vl_ab,165)!=1 or vl_now-zzKS_hurt[vl_p]<=1.1) and (not HaveSavedInteger(zzVL_ht,vl_ab,217) or GetRandomInt(1,100)<=LoadInteger(zzVL_ht,vl_ab,217)+LoadInteger(zzVL_ht,vl_ab,169)*vl_w) then
+                        if HaveSavedInteger(zzVL_ht,vl_ab,220) then
+                            set zzKS_lowCd[vl_p]=vl_now+RMaxBJ(1.,LoadInteger(zzVL_ht,vl_ab,220)+LoadInteger(zzVL_ht,vl_ab,168)*(vl_w-1)/10.)
+                            set zzKS_dimm[vl_p]=vl_now+LoadInteger(zzVL_ht,vl_ab,221)
+                            if LoadInteger(zzVL_ht,vl_ab,218)>0 then
+                                set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+LoadInteger(zzVL_ht,vl_ab,218))
+                            endif
+                            call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*LoadInteger(zzVL_ht,vl_ab,219)/100.)
+                        else
+                            set zzKS_lowCd[vl_p]=vl_now+30.
+                            set zzKS_dimm[vl_p]=vl_now+4.
+                            call SetWidgetLife(vl_h,GetWidgetLife(vl_h)+BlzGetUnitMaxHP(vl_h)*.1)
+                        endif
+                        call zzKS_PopT(vl_ab,vl_h,"origin")
+                        call zzVL_Text(vl_h,"|cffffcc00"+GetObjectName(vl_ab)+"|r")
+                        if LoadInteger(zzVL_ht,vl_ab,204)>0 then
+                            call zzKS_Freeze(vl_h,400.,LoadInteger(zzVL_ht,vl_ab,204)/10.)
+                        endif
+                        if LoadInteger(zzVL_ht,vl_ab,183)>0 then
+                            set vl_f=zzKS_Near(vl_h)
+                            if vl_f!=null then
+                                call zzKS_Slot(vl_h,vl_ab,GetUnitX(vl_f),GetUnitY(vl_f))
+                            endif
+                        endif
+                    endif
+                    if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,212)>0 and GetWidgetLife(vl_h)>.405 and vl_now>=LoadReal(zzVL_ht,GetHandleId(vl_h),-vl_ab) then
+                        call SaveReal(zzVL_ht,GetHandleId(vl_h),-vl_ab,vl_now+(LoadInteger(zzVL_ht,vl_ab,212)-LoadInteger(zzVL_ht,vl_ab,211)*vl_w)/10.)
+                        set zzKS_dimm[vl_p]=RMaxBJ(zzKS_dimm[vl_p],vl_now+1.)
+                        set zzKS_imm[vl_p]=RMaxBJ(zzKS_imm[vl_p],vl_now+1.)
+                        call zzKS_PopT(vl_ab,vl_h,"origin")
+                    endif
+                    if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),128)>0 then
+                        set zzKS_refl[vl_p]=zzKS_refl[vl_p]+2*vl_w
+                    endif
+                    if LoadInteger(zzVL_ht,vl_ab,240)==0 and BlzBitAnd(LoadInteger(zzVL_ht,vl_ab,252),4096)>0 then
+                        call SetUnitState(vl_h,UNIT_STATE_MANA,GetUnitState(vl_h,UNIT_STATE_MANA)+12.*vl_w)
+                    endif
+                    if LoadInteger(zzVL_ht,vl_ab,240)==0 and HaveSavedInteger(zzVL_ht,vl_ab,239) then
+                        set vl_s=LoadInteger(zzVL_ht,vl_ab,239)
+                        set zzKS_pfx[vl_p*4+vl_s]=BlzBitOr(zzKS_pfx[vl_p*4+vl_s],LoadInteger(zzVL_ht,vl_ab,245))
+                        if LoadInteger(zzVL_ht,vl_ab,164)>0 then
+                            set zzKS_pdur[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,164)
+                        endif
+                        if LoadInteger(zzVL_ht,vl_ab,180)>0 then
+                            set zzKS_pch[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,180)+LoadInteger(zzVL_ht,vl_ab,177)*vl_w
+                            set zzKS_pmul[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,179)+LoadInteger(zzVL_ht,vl_ab,178)*vl_w
+                        endif
+                        if vl_s<3 and LoadInteger(zzVL_ht,vl_ab,209)>0 then
+                            set zzKS_xw[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,209)
+                            set zzKS_xc[vl_p*4+vl_s]=LoadInteger(zzVL_ht,vl_ab,208)
+                        endif
+                        if vl_s<3 then
+                            set zzKS_steal[vl_p*4+vl_s]=zzKS_steal[vl_p*4+vl_s]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+                        else
+                            set zzKS_steal[vl_p*4]=zzKS_steal[vl_p*4]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+                            set zzKS_steal[vl_p*4+1]=zzKS_steal[vl_p*4+1]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+                            set zzKS_steal[vl_p*4+2]=zzKS_steal[vl_p*4+2]+LoadInteger(zzVL_ht,vl_ab,231)*vl_w
+                        endif
+                    endif
+                    if LoadInteger(zzVL_ht,vl_ab,240)==0 and LoadInteger(zzVL_ht,vl_ab,216)==0 then
+                        set vl_s=LoadInteger(zzVL_ht,vl_ab,247)
+                        if vl_s>0 then
+                            set zzKS_af[vl_p*16+vl_s]=zzKS_af[vl_p*16+vl_s]+R2I(zzKS_per[vl_s]*vl_w)
+                        endif
+                        set vl_s=LoadInteger(zzVL_ht,vl_ab,248)
+                        if vl_s>0 then
+                            set zzKS_af[vl_p*16+vl_s]=zzKS_af[vl_p*16+vl_s]+R2I(zzKS_per[vl_s]*vl_w)
+                        endif
+                    endif
+                endif
+                set vl_i=vl_i+1
+            endloop
+        endif
+        set vl_p=vl_p+1
+    endloop
+    set vl_h=null
 endfunction
 function zzKS_BarAb takes unit vl_h,integer vl_k returns integer
-if vl_h==null then
-return 0
-elseif vl_k<7 then
-return LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260+vl_k)
-elseif vl_k==7 then
-return LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),50)
-endif
-return 0
+    if vl_h==null then
+        return 0
+    elseif vl_k<7 then
+        return LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),260+vl_k)
+    elseif vl_k==7 then
+        return LoadInteger(zzVL_ht,GetUnitTypeId(vl_h),50)
+    endif
+    return 0
 endfunction
 function zzKS_BarTick takes nothing returns nothing
-local integer vl_p=GetPlayerId(GetLocalPlayer())
-local unit vl_h=null
-local integer vl_k=0
-local integer vl_ab
-local integer vl_lv
-local real vl_cd
-local integer vl_n
-if vl_p<10 then
-set vl_h=Jx[vl_p+1]
-endif
-loop
-exitwhen vl_k>8
-if vl_k==8 then
-set vl_n=0
-if vl_h!=null then
-set vl_ab=0
-loop
-exitwhen vl_ab>5
-if UnitItemInSlot(vl_h,vl_ab)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_ab)),57)>0 then
-set vl_n=vl_n+GetItemCharges(UnitItemInSlot(vl_h,vl_ab))
-endif
-set vl_ab=vl_ab+1
-endloop
-endif
-call BlzFrameSetText(zzKS_bCd[8],"")
-call BlzFrameSetText(zzKS_bLv[8],I2S(vl_n))
-call BlzFrameSetVisible(zzKS_bBtn[8],vl_h!=null)
-else
-set vl_ab=zzKS_BarAb(vl_h,vl_k)
-set vl_lv=0
-if vl_ab!=0 then
-set vl_lv=GetUnitAbilityLevel(vl_h,vl_ab)
-endif
-call BlzFrameSetVisible(zzKS_bBtn[vl_k],vl_lv>0)
-if vl_lv>0 then
-call BlzFrameSetTexture(zzKS_bIco[vl_k],BlzGetAbilityIcon(vl_ab),0,true)
-set vl_cd=BlzGetUnitAbilityCooldownRemaining(vl_h,vl_ab)
-call BlzFrameSetText(zzKS_bLv[vl_k],I2S(vl_lv))
-if vl_cd>.05 then
-call BlzFrameSetText(zzKS_bCd[vl_k],"|cffffffff"+I2S(R2I(vl_cd+.99))+"|r")
-call BlzFrameSetVisible(zzKS_bDim[vl_k],true)
-else
-call BlzFrameSetText(zzKS_bCd[vl_k],"")
-call BlzFrameSetVisible(zzKS_bDim[vl_k],false)
-endif
-endif
-endif
-set vl_k=vl_k+1
-endloop
-set vl_h=null
+    local integer vl_p=GetPlayerId(GetLocalPlayer())
+    local unit vl_h=null
+    local integer vl_k=0
+    local integer vl_ab
+    local integer vl_lv
+    local real vl_cd
+    local integer vl_n
+    if vl_p<10 then
+        set vl_h=Jx[vl_p+1]
+    endif
+    loop
+        exitwhen vl_k>8
+        if vl_k==8 then
+            set vl_n=0
+            if vl_h!=null then
+                set vl_ab=0
+                loop
+                    exitwhen vl_ab>5
+                    if UnitItemInSlot(vl_h,vl_ab)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_ab)),57)>0 then
+                        set vl_n=vl_n+GetItemCharges(UnitItemInSlot(vl_h,vl_ab))
+                    endif
+                    set vl_ab=vl_ab+1
+                endloop
+            endif
+            call BlzFrameSetText(zzKS_bCd[8],"")
+            call BlzFrameSetText(zzKS_bLv[8],I2S(vl_n))
+            call BlzFrameSetVisible(zzKS_bBtn[8],vl_h!=null)
+        else
+            set vl_ab=zzKS_BarAb(vl_h,vl_k)
+            set vl_lv=0
+            if vl_ab!=0 then
+                set vl_lv=GetUnitAbilityLevel(vl_h,vl_ab)
+            endif
+            call BlzFrameSetVisible(zzKS_bBtn[vl_k],vl_lv>0)
+            if vl_lv>0 then
+                call BlzFrameSetTexture(zzKS_bIco[vl_k],BlzGetAbilityIcon(vl_ab),0,true)
+                set vl_cd=BlzGetUnitAbilityCooldownRemaining(vl_h,vl_ab)
+                call BlzFrameSetText(zzKS_bLv[vl_k],I2S(vl_lv))
+                if vl_cd>.05 then
+                    call BlzFrameSetText(zzKS_bCd[vl_k],"|cffffffff"+I2S(R2I(vl_cd+.99))+"|r")
+                    call BlzFrameSetVisible(zzKS_bDim[vl_k],true)
+                else
+                    call BlzFrameSetText(zzKS_bCd[vl_k],"")
+                    call BlzFrameSetVisible(zzKS_bDim[vl_k],false)
+                endif
+            endif
+        endif
+        set vl_k=vl_k+1
+    endloop
+    set vl_h=null
 endfunction
 function zzKS_BarClick takes nothing returns nothing
-local integer vl_k=LoadInteger(zzVL_ht,GetHandleId(BlzGetTriggerFrame()),7)
-local player vl_pl=GetTriggerPlayer()
-local unit vl_h=Jx[GetPlayerId(vl_pl)+1]
-local integer vl_i=0
-local item vl_best=null
-if GetLocalPlayer()==vl_pl then
-call BlzFrameSetEnable(BlzGetTriggerFrame(),false)
-call BlzFrameSetEnable(BlzGetTriggerFrame(),true)
-endif
-if vl_k==8 then
-loop
-exitwhen vl_i>5
-if UnitItemInSlot(vl_h,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),57)>0 and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),57)<=GetHeroLevel(vl_h) then
-if vl_best==null or LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),57)>LoadInteger(zzVL_ht,GetItemTypeId(vl_best),57) then
-set vl_best=UnitItemInSlot(vl_h,vl_i)
-endif
-endif
-set vl_i=vl_i+1
-endloop
-if vl_best!=null then
-call UnitUseItem(vl_h,vl_best)
-endif
-elseif GetLocalPlayer()==vl_pl then
-call ForceUIKey(zzKS_bKey[vl_k])
-endif
-set vl_pl=null
-set vl_h=null
-set vl_best=null
+    local integer vl_k=LoadInteger(zzVL_ht,GetHandleId(BlzGetTriggerFrame()),7)
+    local player vl_pl=GetTriggerPlayer()
+    local unit vl_h=Jx[GetPlayerId(vl_pl)+1]
+    local integer vl_i=0
+    local item vl_best=null
+    if GetLocalPlayer()==vl_pl then
+        call BlzFrameSetEnable(BlzGetTriggerFrame(),false)
+        call BlzFrameSetEnable(BlzGetTriggerFrame(),true)
+    endif
+    if vl_k==8 then
+        loop
+            exitwhen vl_i>5
+            if UnitItemInSlot(vl_h,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),57)>0 and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),57)<=GetHeroLevel(vl_h) then
+                if vl_best==null or LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),57)>LoadInteger(zzVL_ht,GetItemTypeId(vl_best),57) then
+                    set vl_best=UnitItemInSlot(vl_h,vl_i)
+                endif
+            endif
+            set vl_i=vl_i+1
+        endloop
+        if vl_best!=null then
+            call UnitUseItem(vl_h,vl_best)
+        endif
+    elseif GetLocalPlayer()==vl_pl then
+        call ForceUIKey(zzKS_bKey[vl_k])
+    endif
+    set vl_pl=null
+    set vl_h=null
+    set vl_best=null
 endfunction
 function zzKS_BarInit takes nothing returns nothing
-local framehandle vl_ui=BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0)
-local trigger vl_t=CreateTrigger()
-local integer vl_k=0
-local real vl_x
-local framehandle vl_f
-call TriggerAddAction(vl_t,function zzKS_BarClick)
-set zzKS_bKey[0]="Q"
-set zzKS_bKey[1]="W"
-set zzKS_bKey[2]="E"
-set zzKS_bKey[3]="R"
-set zzKS_bKey[4]="D"
-set zzKS_bKey[5]="F"
-set zzKS_bKey[6]="T"
-set zzKS_bKey[7]="G"
-set zzKS_bKey[8]="Thuốc"
-call zzVL_Panel(vl_ui,.226,.183,.574,.137,"war3mapImported\\vl_ui_tile.blp",215)
-loop
-exitwhen vl_k>8
-set vl_x=.232+vl_k*.038
-set zzKS_bBtn[vl_k]=BlzCreateFrameByType("GLUEBUTTON","",vl_ui,"ScoreScreenTabButtonTemplate",0)
-call BlzFrameSetAbsPoint(zzKS_bBtn[vl_k],FRAMEPOINT_TOPLEFT,vl_x,.179)
-call BlzFrameSetSize(zzKS_bBtn[vl_k],.034,.034)
-set zzKS_bIco[vl_k]=BlzCreateFrameByType("BACKDROP","",zzKS_bBtn[vl_k],"",0)
-call BlzFrameSetAllPoints(zzKS_bIco[vl_k],zzKS_bBtn[vl_k])
-if vl_k==8 then
-call BlzFrameSetTexture(zzKS_bIco[vl_k],"ReplaceableTextures\\CommandButtons\\BTNPotionGreenSmall.blp",0,true)
-endif
-set zzKS_bDim[vl_k]=BlzCreateFrameByType("BACKDROP","",zzKS_bIco[vl_k],"",0)
-call BlzFrameSetAllPoints(zzKS_bDim[vl_k],zzKS_bBtn[vl_k])
-call BlzFrameSetTexture(zzKS_bDim[vl_k],"UI\\Widgets\\EscMenu\\Human\\blank-background.blp",0,true)
-call BlzFrameSetAlpha(zzKS_bDim[vl_k],170)
-call BlzFrameSetVisible(zzKS_bDim[vl_k],false)
-set zzKS_bCd[vl_k]=BlzCreateFrameByType("TEXT","",zzKS_bIco[vl_k],"",0)
-call BlzFrameSetAllPoints(zzKS_bCd[vl_k],zzKS_bBtn[vl_k])
-call BlzFrameSetTextAlignment(zzKS_bCd[vl_k],TEXT_JUSTIFY_MIDDLE,TEXT_JUSTIFY_CENTER)
-call BlzFrameSetScale(zzKS_bCd[vl_k],1.3)
-set vl_f=BlzCreateFrameByType("TEXT","",zzKS_bIco[vl_k],"",0)
-call BlzFrameSetPoint(vl_f,FRAMEPOINT_TOPLEFT,zzKS_bBtn[vl_k],FRAMEPOINT_TOPLEFT,.002,-.001)
-call BlzFrameSetSize(vl_f,.032,.012)
-call BlzFrameSetText(vl_f,"|cffffcc00"+zzKS_bKey[vl_k]+"|r")
-call BlzFrameSetScale(vl_f,.8)
-set zzKS_bLv[vl_k]=BlzCreateFrameByType("TEXT","",zzKS_bIco[vl_k],"",0)
-call BlzFrameSetPoint(zzKS_bLv[vl_k],FRAMEPOINT_BOTTOMRIGHT,zzKS_bBtn[vl_k],FRAMEPOINT_BOTTOMRIGHT,-.002,.002)
-call BlzFrameSetSize(zzKS_bLv[vl_k],.02,.012)
-call BlzFrameSetTextAlignment(zzKS_bLv[vl_k],TEXT_JUSTIFY_BOTTOM,TEXT_JUSTIFY_RIGHT)
-call SaveInteger(zzVL_ht,GetHandleId(zzKS_bBtn[vl_k]),7,vl_k)
-call BlzTriggerRegisterFrameEvent(vl_t,zzKS_bBtn[vl_k],FRAMEEVENT_CONTROL_CLICK)
-call BlzFrameSetVisible(zzKS_bBtn[vl_k],false)
-set vl_k=vl_k+1
-endloop
-set vl_k=0
-loop
-exitwhen vl_k>5
-call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_ITEM_BUTTON,vl_k),false)
-set vl_k=vl_k+1
-endloop
-call TimerStart(CreateTimer(),.1,true,function zzKS_BarTick)
-call DestroyTimer(GetExpiredTimer())
-set vl_ui=null
-set vl_t=null
-set vl_f=null
+    local framehandle vl_ui=BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0)
+    local trigger vl_t=CreateTrigger()
+    local integer vl_k=0
+    local real vl_x
+    local framehandle vl_f
+    call TriggerAddAction(vl_t,function zzKS_BarClick)
+    set zzKS_bKey[0]="Q"
+    set zzKS_bKey[1]="W"
+    set zzKS_bKey[2]="E"
+    set zzKS_bKey[3]="R"
+    set zzKS_bKey[4]="D"
+    set zzKS_bKey[5]="F"
+    set zzKS_bKey[6]="T"
+    set zzKS_bKey[7]="G"
+    set zzKS_bKey[8]="Thuốc"
+    call zzVL_Panel(vl_ui,.226,.183,.574,.137,"war3mapImported\\vl_ui_tile.blp",215)
+    loop
+        exitwhen vl_k>8
+        set vl_x=.232+vl_k*.038
+        set zzKS_bBtn[vl_k]=BlzCreateFrameByType("GLUEBUTTON","",vl_ui,"ScoreScreenTabButtonTemplate",0)
+        call BlzFrameSetAbsPoint(zzKS_bBtn[vl_k],FRAMEPOINT_TOPLEFT,vl_x,.179)
+        call BlzFrameSetSize(zzKS_bBtn[vl_k],.034,.034)
+        set zzKS_bIco[vl_k]=BlzCreateFrameByType("BACKDROP","",zzKS_bBtn[vl_k],"",0)
+        call BlzFrameSetAllPoints(zzKS_bIco[vl_k],zzKS_bBtn[vl_k])
+        if vl_k==8 then
+            call BlzFrameSetTexture(zzKS_bIco[vl_k],"ReplaceableTextures\\CommandButtons\\BTNPotionGreenSmall.blp",0,true)
+        endif
+        set zzKS_bDim[vl_k]=BlzCreateFrameByType("BACKDROP","",zzKS_bIco[vl_k],"",0)
+        call BlzFrameSetAllPoints(zzKS_bDim[vl_k],zzKS_bBtn[vl_k])
+        call BlzFrameSetTexture(zzKS_bDim[vl_k],"UI\\Widgets\\EscMenu\\Human\\blank-background.blp",0,true)
+        call BlzFrameSetAlpha(zzKS_bDim[vl_k],170)
+        call BlzFrameSetVisible(zzKS_bDim[vl_k],false)
+        set zzKS_bCd[vl_k]=BlzCreateFrameByType("TEXT","",zzKS_bIco[vl_k],"",0)
+        call BlzFrameSetAllPoints(zzKS_bCd[vl_k],zzKS_bBtn[vl_k])
+        call BlzFrameSetTextAlignment(zzKS_bCd[vl_k],TEXT_JUSTIFY_MIDDLE,TEXT_JUSTIFY_CENTER)
+        call BlzFrameSetScale(zzKS_bCd[vl_k],1.3)
+        set vl_f=BlzCreateFrameByType("TEXT","",zzKS_bIco[vl_k],"",0)
+        call BlzFrameSetPoint(vl_f,FRAMEPOINT_TOPLEFT,zzKS_bBtn[vl_k],FRAMEPOINT_TOPLEFT,.002,-.001)
+        call BlzFrameSetSize(vl_f,.032,.012)
+        call BlzFrameSetText(vl_f,"|cffffcc00"+zzKS_bKey[vl_k]+"|r")
+        call BlzFrameSetScale(vl_f,.8)
+        set zzKS_bLv[vl_k]=BlzCreateFrameByType("TEXT","",zzKS_bIco[vl_k],"",0)
+        call BlzFrameSetPoint(zzKS_bLv[vl_k],FRAMEPOINT_BOTTOMRIGHT,zzKS_bBtn[vl_k],FRAMEPOINT_BOTTOMRIGHT,-.002,.002)
+        call BlzFrameSetSize(zzKS_bLv[vl_k],.02,.012)
+        call BlzFrameSetTextAlignment(zzKS_bLv[vl_k],TEXT_JUSTIFY_BOTTOM,TEXT_JUSTIFY_RIGHT)
+        call SaveInteger(zzVL_ht,GetHandleId(zzKS_bBtn[vl_k]),7,vl_k)
+        call BlzTriggerRegisterFrameEvent(vl_t,zzKS_bBtn[vl_k],FRAMEEVENT_CONTROL_CLICK)
+        call BlzFrameSetVisible(zzKS_bBtn[vl_k],false)
+        set vl_k=vl_k+1
+    endloop
+    set vl_k=0
+    loop
+        exitwhen vl_k>5
+        call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_ITEM_BUTTON,vl_k),false)
+        set vl_k=vl_k+1
+    endloop
+    call TimerStart(CreateTimer(),.1,true,function zzKS_BarTick)
+    call DestroyTimer(GetExpiredTimer())
+    set vl_ui=null
+    set vl_t=null
+    set vl_f=null
 endfunction
 function zzKS_Init takes nothing returns nothing
-local trigger vl_t=CreateTrigger()
-call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
-call TriggerAddAction(vl_t,function zzKS_OnCast)
-set zzKS_per[1]=1.
-set zzKS_per[2]=1.
-set zzKS_per[3]=1.
-set zzKS_per[4]=3.
-set zzKS_per[5]=2.
-set zzKS_per[6]=1.
-set zzKS_per[7]=80.
-set zzKS_per[11]=1.
-set zzKS_per[13]=4.
-set zzKS_per[14]=2.
-call TimerStart(CreateTimer(),1.,true,function zzKS_Tick)
-set vl_t=null
+    local trigger vl_t=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+    call TriggerAddAction(vl_t,function zzKS_OnCast)
+    set zzKS_per[1]=1.
+    set zzKS_per[2]=1.
+    set zzKS_per[3]=1.
+    set zzKS_per[4]=3.
+    set zzKS_per[5]=2.
+    set zzKS_per[6]=1.
+    set zzKS_per[7]=80.
+    set zzKS_per[11]=1.
+    set zzKS_per[13]=4.
+    set zzKS_per[14]=2.
+    call TimerStart(CreateTimer(),1.,true,function zzKS_Tick)
+    set vl_t=null
 endfunction
 function zzUI_B2S takes boolean vl_b returns string
-if vl_b then
-return "co"
-endif
-return "khong"
+    if vl_b then
+        return "co"
+    endif
+    return "khong"
 endfunction
 function zzUI_Tex takes string vl_f,integer vl_lv returns framehandle
-local framehandle vl_p=BlzCreateSimpleFrame("TestTexture",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),0)
-call BlzFrameSetTexture(BlzGetFrameByName("TestTextureValue",0),vl_f,0,true)
-call BlzFrameSetLevel(vl_p,vl_lv)
-call BlzFrameClearAllPoints(vl_p)
-return vl_p
+    local framehandle vl_p=BlzCreateSimpleFrame("TestTexture",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),0)
+    call BlzFrameSetTexture(BlzGetFrameByName("TestTextureValue",0),vl_f,0,true)
+    call BlzFrameSetLevel(vl_p,vl_lv)
+    call BlzFrameClearAllPoints(vl_p)
+    return vl_p
 endfunction
 function zzUI_At takes framehandle vl_f,real vl_w,real vl_h,real vl_x,real vl_y returns nothing
-call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_TOPRIGHT,vl_x+vl_w,vl_y+vl_h)
-call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_BOTTOMLEFT,vl_x,vl_y)
+    call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_TOPRIGHT,vl_x+vl_w,vl_y+vl_h)
+    call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_BOTTOMLEFT,vl_x,vl_y)
 endfunction
 function zzUI_Text takes string vl_s,real vl_x0,real vl_y0,real vl_x1,real vl_y1,real vl_sc,textaligntype vl_v,textaligntype vl_h returns framehandle
-local framehandle vl_f=BlzCreateSimpleFrame("TextUnitLevel",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),0)
-call BlzFrameSetLevel(vl_f,6)
-set vl_f=BlzGetFrameByName("TextUnitLevelValue",0)
-call BlzFrameSetText(vl_f,vl_s)
-call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_TOPLEFT,vl_x0,vl_y0)
-call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_BOTTOMRIGHT,vl_x1,vl_y1)
-call BlzFrameSetScale(vl_f,vl_sc)
-call BlzFrameSetTextAlignment(vl_f,vl_v,vl_h)
-return vl_f
+    local framehandle vl_f=BlzCreateSimpleFrame("TextUnitLevel",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),0)
+    call BlzFrameSetLevel(vl_f,6)
+    set vl_f=BlzGetFrameByName("TextUnitLevelValue",0)
+    call BlzFrameSetText(vl_f,vl_s)
+    call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_TOPLEFT,vl_x0,vl_y0)
+    call BlzFrameSetAbsPoint(vl_f,FRAMEPOINT_BOTTOMRIGHT,vl_x1,vl_y1)
+    call BlzFrameSetScale(vl_f,vl_sc)
+    call BlzFrameSetTextAlignment(vl_f,vl_v,vl_h)
+    return vl_f
 endfunction
 function zzUI_Tick takes nothing returns nothing
-local integer vl_p=GetPlayerId(GetLocalPlayer())
-local unit vl_h=null
-local integer vl_hp=0
-local integer vl_mp=0
-local integer vl_i=0
-local integer vl_tp=0
-if vl_p<10 then
-set vl_h=Jx[vl_p+1]
-endif
-if vl_h!=null then
-set vl_hp=IMinBJ(100,IMaxBJ(0,R2I(100.*GetWidgetLife(vl_h)/RMaxBJ(1.,BlzGetUnitMaxHP(vl_h)))))
-set vl_mp=IMinBJ(100,IMaxBJ(0,R2I(100.*GetUnitState(vl_h,UNIT_STATE_MANA)/RMaxBJ(1.,BlzGetUnitMaxMana(vl_h)))))
-call BlzFrameSetText(zzUI_hpT,I2S(R2I(GetWidgetLife(vl_h)))+"/"+I2S(BlzGetUnitMaxHP(vl_h)))
-call BlzFrameSetText(zzUI_mpT,I2S(R2I(GetUnitState(vl_h,UNIT_STATE_MANA)))+"/"+I2S(BlzGetUnitMaxMana(vl_h)))
-call BlzFrameSetText(zzUI_name,"|cffffcc00"+GetHeroProperName(vl_h)+"|r")
-call BlzFrameSetText(zzUI_cls,"|cffffcc00"+GetUnitName(vl_h)+"|r")
-call BlzFrameSetText(zzUI_lv,"|cffFFCC00Cấp: "+I2S(GetHeroLevel(vl_h))+"|r")
-call BlzFrameSetTexture(zzUI_icon,BlzGetAbilityIcon(GetUnitTypeId(vl_h)),0,true)
-call BlzFrameSetText(zzUI_info,"|cffffcc00"+GetHeroProperName(vl_h)+"|r - "+GetUnitName(vl_h)+"|n|cff00ff00Sinh lực: "+I2S(R2I(GetWidgetLife(vl_h)))+" ("+I2S(vl_hp)+"%)|r|n|cffff8040Ngoại công: "+I2S(BlzGetUnitBaseDamage(vl_h,0))+"|r|n|cff8080ffNội công: "+I2S(GetHeroInt(vl_h,true))+"|r|n|cffffcc00Phòng thủ: "+I2S(R2I(BlzGetUnitArmor(vl_h)))+"|r")
-loop
-exitwhen vl_i>5
-if UnitItemInSlot(vl_h,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),0)>=10 and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),0)<50 then
-set vl_tp=vl_tp+zzVL_GearScore(UnitItemInSlot(vl_h,vl_i))
-endif
-set vl_i=vl_i+1
-endloop
-call BlzFrameSetText(zzUI_power,"|cffffcc00"+I2S(vl_tp)+"|r")
-endif
-call BlzFrameSetText(zzUI_gold,"|cffffffff"+I2S(GetPlayerState(GetLocalPlayer(),PLAYER_STATE_RESOURCE_GOLD))+"|r")
-call BlzFrameSetText(zzUI_knb,"|cffffff00"+I2S(GetPlayerState(GetLocalPlayer(),PLAYER_STATE_RESOURCE_LUMBER))+"|r")
-if vl_hp!=zzUI_lastHp then
-call BlzFrameSetVisible(zzUI_hp[zzUI_lastHp],false)
-call BlzFrameSetVisible(zzUI_hp[vl_hp],vl_h!=null)
-set zzUI_lastHp=vl_hp
-endif
-if vl_mp!=zzUI_lastMp then
-call BlzFrameSetVisible(zzUI_mp[zzUI_lastMp],false)
-call BlzFrameSetVisible(zzUI_mp[vl_mp],vl_h!=null)
-set zzUI_lastMp=vl_mp
-endif
-set vl_h=null
+    local integer vl_p=GetPlayerId(GetLocalPlayer())
+    local unit vl_h=null
+    local integer vl_hp=0
+    local integer vl_mp=0
+    local integer vl_i=0
+    local integer vl_tp=0
+    local framehandle vl_f
+    if vl_p<10 then
+        set vl_h=Jx[vl_p+1]
+    endif
+    if vl_h!=null then
+        set vl_hp=IMinBJ(100,IMaxBJ(0,R2I(100.*GetWidgetLife(vl_h)/RMaxBJ(1.,BlzGetUnitMaxHP(vl_h)))))
+        set vl_mp=IMinBJ(100,IMaxBJ(0,R2I(100.*GetUnitState(vl_h,UNIT_STATE_MANA)/RMaxBJ(1.,BlzGetUnitMaxMana(vl_h)))))
+        call BlzFrameSetText(zzUI_hpT,I2S(R2I(GetWidgetLife(vl_h)))+"/"+I2S(BlzGetUnitMaxHP(vl_h)))
+        call BlzFrameSetText(zzUI_mpT,I2S(R2I(GetUnitState(vl_h,UNIT_STATE_MANA)))+"/"+I2S(BlzGetUnitMaxMana(vl_h)))
+        call BlzFrameSetText(zzUI_name,"|cffffcc00"+GetHeroProperName(vl_h)+"|r")
+        call BlzFrameSetText(zzUI_cls,"|cffffcc00"+GetUnitName(vl_h)+"|r")
+        call BlzFrameSetText(zzUI_lv,"|cffFFCC00Cấp: "+I2S(GetHeroLevel(vl_h))+"|r")
+        call BlzFrameSetTexture(zzUI_icon,BlzGetAbilityIcon(GetUnitTypeId(vl_h)),0,true)
+        call BlzFrameSetText(zzUI_info,"|cffffcc00"+GetHeroProperName(vl_h)+"|r - "+GetUnitName(vl_h)+"|n|cff00ff00Sinh lực: "+I2S(R2I(GetWidgetLife(vl_h)))+" ("+I2S(vl_hp)+"%)|r|n|cffff8040Ngoại công: "+I2S(BlzGetUnitBaseDamage(vl_h,0))+"|r|n|cff8080ffNội công: "+I2S(GetHeroInt(vl_h,true))+"|r|n|cffffcc00Phòng thủ: "+I2S(R2I(BlzGetUnitArmor(vl_h)))+"|r")
+        loop
+            exitwhen vl_i>5
+            if UnitItemInSlot(vl_h,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),0)>=10 and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),0)<50 then
+                set vl_tp=vl_tp+zzVL_GearScore(UnitItemInSlot(vl_h,vl_i))
+            endif
+            set vl_i=vl_i+1
+        endloop
+        call BlzFrameSetText(zzUI_power,"|cffffcc00"+I2S(vl_tp)+"|r")
+    endif
+    call BlzFrameSetText(zzUI_gold,"|cffffffff"+I2S(GetPlayerState(GetLocalPlayer(),PLAYER_STATE_RESOURCE_GOLD))+"|r")
+    call BlzFrameSetText(zzUI_knb,"|cffffff00"+I2S(GetPlayerState(GetLocalPlayer(),PLAYER_STATE_RESOURCE_LUMBER))+"|r")
+    if vl_hp!=zzUI_lastHp then
+        call BlzFrameSetVisible(zzUI_hp[zzUI_lastHp],false)
+        call BlzFrameSetVisible(zzUI_hp[vl_hp],vl_h!=null)
+        set zzUI_lastHp=vl_hp
+    endif
+    if vl_mp!=zzUI_lastMp then
+        call BlzFrameSetVisible(zzUI_mp[zzUI_lastMp],false)
+        call BlzFrameSetVisible(zzUI_mp[vl_mp],vl_h!=null)
+        set zzUI_lastMp=vl_mp
+    endif
+    set vl_i=0
+    loop
+        exitwhen vl_i>11
+        set vl_f=BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,vl_i)
+        call BlzFrameClearAllPoints(vl_f)
+        if vl_i <= 4 then
+            call zzUI_At(vl_f,.03556,.03556,99.,99.)
+        else
+            call zzUI_At(vl_f,.03556,.03556,.37+.035*(vl_i-5),.012)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_h=null
 endfunction
 function zzUI_Hide takes nothing returns nothing
-local integer vl_p=0
-loop
-exitwhen vl_p>9
-if Jx[vl_p+1]!=null then
-call BlzUnitDisableAbility(Jx[vl_p+1],'Apat',true,true)
-endif
-set vl_p=vl_p+1
-endloop
+    local integer vl_p=0
+    loop
+        exitwhen vl_p>9
+        set vl_p=vl_p+1
+    endloop
 endfunction
 function zzUI_Init takes nothing returns nothing
-local integer vl_i=0
-local framehandle vl_f
-if BlzLoadTOCFile("dl\\ek_frame.toc") then
-call zzVL_Log("giao dien: nap ek_frame.toc ok")
-else
-call zzVL_Log("giao dien: KHONG nap duoc ek_frame.toc")
-endif
-call BlzEnableUIAutoPosition(false)
-call BlzFrameSetAbsPoint(BlzGetFrameByName("ConsoleUI",0),FRAMEPOINT_BOTTOM,.4,-.38)
-call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_PORTRAIT,0),false)
-call BlzFrameSetAllPoints(BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME,0),BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0))
-call BlzFrameSetVisible(BlzGetFrameByName("ResourceBarFrame",0),true)
-call zzUI_At(BlzGetFrameByName("ResourceBarGoldText",0),.001,.001,99,99)
-call zzUI_At(BlzGetFrameByName("ResourceBarLumberText",0),.001,.001,99,99)
-call zzUI_At(BlzGetFrameByName("ResourceBarSupplyText",0),.001,.001,99,99)
-call zzUI_At(BlzGetFrameByName("ResourceBarUpkeepText",0),.001,.001,99,99)
-call zzUI_At(zzUI_Tex("VLKT_Data\\VLKT_FrameUI_Bottom3.blp",5),.8,.195555556,.00045,0)
-call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UNIT_MSG,0),FRAMEPOINT_BOTTOMLEFT,0.,.2)
-call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UNIT_MSG,0),FRAMEPOINT_BOTTOMRIGHT,.8,.2)
-call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG,0),FRAMEPOINT_BOTTOMLEFT,0.,.18)
-call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG,0),FRAMEPOINT_BOTTOMRIGHT,.8,.18)
-call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UBERTOOLTIP,0),FRAMEPOINT_BOTTOMLEFT,.48,.158)
-call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UBERTOOLTIP,0),FRAMEPOINT_BOTTOMRIGHT,.7645,.158)
-call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_MINIMAP,0),true)
-call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_HERO_BAR,0),false)
-loop
-exitwhen vl_i>100
-set zzUI_hp[vl_i]=zzUI_Tex("war3mapImported\\HPBar"+I2S(vl_i)+".blp",6)
-call zzUI_At(zzUI_hp[vl_i],.101,.012,.25583,.05799)
-call BlzFrameSetVisible(zzUI_hp[vl_i],false)
-set zzUI_mp[vl_i]=zzUI_Tex("war3mapImported\\MPBar"+I2S(vl_i)+".blp",6)
-call zzUI_At(zzUI_mp[vl_i],.101,.012,.25583,.04261)
-call BlzFrameSetVisible(zzUI_mp[vl_i],false)
-set vl_i=vl_i+1
-endloop
-set zzUI_lastHp=0
-set zzUI_lastMp=0
-set vl_i=0
-loop
-exitwhen vl_i>11
-set vl_f=BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,vl_i)
-call BlzFrameSetVisible(BlzFrameGetParent(vl_f),true)
-call BlzFrameClearAllPoints(vl_f)
-call BlzFrameSetLevel(vl_f,7)
-call zzUI_At(vl_f,.03556,.03556,.37+.035*vl_i,.012)
-set vl_i=vl_i+1
-endloop
-set vl_f=zzUI_Tex("war3mapImported\\UIButton_trong.blp",6)
-call zzUI_At(vl_f,.06,.06,.17,.02)
-set zzUI_icon=BlzCreateFrameByType("BACKDROP","",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),"",0)
-call BlzFrameSetAbsPoint(zzUI_icon,FRAMEPOINT_BOTTOMLEFT,.179,.029)
-call BlzFrameSetAbsPoint(zzUI_icon,FRAMEPOINT_TOPRIGHT,.221,.071)
-set zzUI_name=zzUI_Text(" ",.25783,.0868,.38208,.0723,1.6,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
-set zzUI_cls=zzUI_Text(" ",.24783,.0368,.37208,.0223,1.3,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
-set zzUI_lv=zzUI_Text(" ",.14697,.03827,.23137,.0115,1.3,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_MIDDLE)
-set zzUI_hpT=zzUI_Text(" ",.262,.0685,.34464,.0585,1.1,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
-set zzUI_mpT=zzUI_Text(" ",.262,.053,.34464,.043,1.1,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
-call zzUI_At(zzUI_Tex("VLKT_Data\\FrameUI_infopanel1.blp",6),.07444,.0223,.4871,.57993)
-set zzUI_gold=zzUI_Text(" ",.51377,.59937,.55821,.5827,1.25,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
-call zzUI_At(zzUI_Tex("VLKT_Data\\FrameUI_infopanel2.blp",6),.07444,.0223,.57644,.57993)
-set zzUI_knb=zzUI_Text(" ",.6031,.59937,.64755,.5827,1.25,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
-call zzUI_At(zzUI_Tex("war3mapImported\\lucchien.blp",5),.13167,.04111,.31401,.56097)
-set zzUI_power=zzUI_Text(" ",.36985,.59358,.43985,.57016,2.0,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
-set zzUI_info=zzUI_Text(" ",-.085,.59,.12,.49,1.25,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_LEFT)
-call zzVL_Log("giao dien: o lenh 0 hien="+zzUI_B2S(BlzFrameIsVisible(BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,0)))+" cha hien="+zzUI_B2S(BlzFrameIsVisible(BlzFrameGetParent(BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,0))))+" TestTexture="+zzUI_B2S(BlzGetFrameByName("TestTextureValue",0)!=null))
-call TimerStart(CreateTimer(),.1,true,function zzUI_Tick)
-call TimerStart(CreateTimer(),1.,true,function zzUI_Hide)
-set vl_f=null
+    local integer vl_i=0
+    local framehandle vl_f
+    if BlzLoadTOCFile("dl\\ek_frame.toc") then
+        call zzVL_Log("giao dien: nap ek_frame.toc ok")
+    else
+        call zzVL_Log("giao dien: KHONG nap duoc ek_frame.toc")
+    endif
+    call BlzEnableUIAutoPosition(false)
+    call BlzFrameSetAbsPoint(BlzGetFrameByName("ConsoleUI",0),FRAMEPOINT_BOTTOM,.4,-.38)
+    call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_PORTRAIT,0),false)
+    call BlzFrameSetAllPoints(BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME,0),BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0))
+    call BlzFrameSetVisible(BlzGetFrameByName("ResourceBarFrame",0),true)
+    call zzUI_At(BlzGetFrameByName("ResourceBarGoldText",0),.001,.001,99,99)
+    call zzUI_At(BlzGetFrameByName("ResourceBarLumberText",0),.001,.001,99,99)
+    call zzUI_At(BlzGetFrameByName("ResourceBarSupplyText",0),.001,.001,99,99)
+    call zzUI_At(BlzGetFrameByName("ResourceBarUpkeepText",0),.001,.001,99,99)
+    call zzUI_At(zzUI_Tex("VLKT_Data\\VLKT_FrameUI_Bottom3.blp",5),.8,.195555556,.00045,0)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UNIT_MSG,0),FRAMEPOINT_BOTTOMLEFT,0.,.2)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UNIT_MSG,0),FRAMEPOINT_BOTTOMRIGHT,.8,.2)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG,0),FRAMEPOINT_BOTTOMLEFT,0.,.18)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG,0),FRAMEPOINT_BOTTOMRIGHT,.8,.18)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UBERTOOLTIP,0),FRAMEPOINT_BOTTOMLEFT,.48,.158)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_UBERTOOLTIP,0),FRAMEPOINT_BOTTOMRIGHT,.7645,.158)
+    call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_MINIMAP,0),true)
+    call BlzFrameSetAbsPoint(BlzGetOriginFrame(ORIGIN_FRAME_HERO_BAR,0),FRAMEPOINT_TOPRIGHT,99.,99.)
+    loop
+        exitwhen vl_i>100
+        set zzUI_hp[vl_i]=zzUI_Tex("war3mapImported\\HPBar"+I2S(vl_i)+".blp",6)
+        call zzUI_At(zzUI_hp[vl_i],.101,.012,.25583,.05799)
+        call BlzFrameSetVisible(zzUI_hp[vl_i],false)
+        set zzUI_mp[vl_i]=zzUI_Tex("war3mapImported\\MPBar"+I2S(vl_i)+".blp",6)
+        call zzUI_At(zzUI_mp[vl_i],.101,.012,.25583,.04261)
+        call BlzFrameSetVisible(zzUI_mp[vl_i],false)
+        set vl_i=vl_i+1
+    endloop
+    set zzUI_lastHp=0
+    set zzUI_lastMp=0
+    set vl_i=0
+    loop
+        exitwhen vl_i>11
+        set vl_f=BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,vl_i)
+        call BlzFrameSetVisible(BlzFrameGetParent(vl_f),true)
+        call BlzFrameClearAllPoints(vl_f)
+        call BlzFrameSetLevel(vl_f,7)
+        call zzUI_At(vl_f,.03556,.03556,.37+.035*vl_i,.012)
+        set vl_i=vl_i+1
+    endloop
+    set vl_f=zzUI_Tex("war3mapImported\\UIButton_trong.blp",6)
+    call zzUI_At(vl_f,.06,.06,.17,.02)
+    set zzUI_icon=BlzCreateFrameByType("BACKDROP","",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),"",0)
+    call BlzFrameSetAbsPoint(zzUI_icon,FRAMEPOINT_BOTTOMLEFT,.179,.029)
+    call BlzFrameSetAbsPoint(zzUI_icon,FRAMEPOINT_TOPRIGHT,.221,.071)
+    set zzUI_name=zzUI_Text(" ",.25783,.0868,.38208,.0723,1.6,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
+    set zzUI_cls=zzUI_Text(" ",.24783,.0368,.37208,.0223,1.3,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
+    set zzUI_lv=zzUI_Text(" ",.14697,.03827,.23137,.0115,1.3,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_MIDDLE)
+    set zzUI_hpT=zzUI_Text(" ",.262,.0685,.34464,.0585,1.1,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
+    set zzUI_mpT=zzUI_Text(" ",.262,.053,.34464,.043,1.1,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
+    call zzUI_At(zzUI_Tex("VLKT_Data\\FrameUI_infopanel1.blp",6),.07444,.0223,.4871,.57993)
+    set zzUI_gold=zzUI_Text(" ",.51377,.59937,.55821,.5827,1.25,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
+    call zzUI_At(zzUI_Tex("VLKT_Data\\FrameUI_infopanel2.blp",6),.07444,.0223,.57644,.57993)
+    set zzUI_knb=zzUI_Text(" ",.6031,.59937,.64755,.5827,1.25,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
+    call zzUI_At(zzUI_Tex("war3mapImported\\lucchien.blp",5),.13167,.04111,.31401,.56097)
+    set zzUI_power=zzUI_Text(" ",.36985,.59358,.43985,.57016,2.0,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
+    set zzUI_info=zzUI_Text(" ",-.085,.59,.12,.49,1.25,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_LEFT)
+    call zzVL_Log("giao dien: o lenh 0 hien="+zzUI_B2S(BlzFrameIsVisible(BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,0)))+" cha hien="+zzUI_B2S(BlzFrameIsVisible(BlzFrameGetParent(BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,0))))+" TestTexture="+zzUI_B2S(BlzGetFrameByName("TestTextureValue",0)!=null))
+    call TimerStart(CreateTimer(),.1,true,function zzUI_Tick)
+    call TimerStart(CreateTimer(),1.,true,function zzUI_Hide)
+    set vl_f=null
 endfunction
 function zzUI_OnChat takes nothing returns nothing
-if not zzUI_on then
-set zzUI_on=true
-call zzUI_Init()
-endif
+    if not zzUI_on then
+        set zzUI_on=true
+        call zzUI_Init()
+    endif
 endfunction
 function zzUI_Setup takes nothing returns nothing
-local trigger vl_t=CreateTrigger()
-local integer vl_i=0
-loop
-exitwhen vl_i>9
-call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-vlkt",true)
-set vl_i=vl_i+1
-endloop
-call TriggerAddAction(vl_t,function zzUI_OnChat)
-set vl_t=null
+    if not zzUI_on then
+        set zzUI_on=true
+        call zzUI_Init()
+    endif
 endfunction
 function zzVL_Init takes nothing returns nothing
     local trigger vl_t
@@ -31552,6 +35473,9 @@ function zzVL_Init takes nothing returns nothing
     call ExecuteFunc("zzKS_Init")
     call ExecuteFunc("zzUI_Setup")
     call zzVL_KhamInit()
+    call ExecuteFunc("zzGS_Init")
+    call ExecuteFunc("zzSH_Init")
+    call ExecuteFunc("zzTL_Init")
     set zzVL_hn[0]="Chưa có"
     set zzVL_hn[1]="|cffffd700Kim|r"
     set zzVL_hn[2]="|cff40c040Mộc|r"
@@ -31623,9 +35547,18 @@ function zzVL_Init takes nothing returns nothing
         call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-knb",false)
         call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-cuong",false)
         call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-fullcuong",true)
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-fullht",true)
         set vl_i=vl_i+1
     endloop
     call TriggerAddAction(vl_t,function zzVL_OnGmCheat)
+    set vl_t=CreateTrigger()
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        call BlzTriggerRegisterPlayerKeyEvent(vl_t,Player(vl_i),OSKEY_M,0,true)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzVL_XpKey)
     set vl_t=CreateTrigger()
     set vl_i=0
     loop
@@ -31730,6 +35663,393 @@ function zzVL_Init takes nothing returns nothing
     call zzVL_Quest()
     set vl_t=null
 endfunction
+function zzSH_Id takes integer vl_k returns integer
+    if vl_k<10 then
+        return 'ITW0'+vl_k
+    endif
+    return 'ITWA'
+endfunction
+function zzSH_CanUseType takes unit vl_hero,integer vl_t returns boolean
+    local item vl_it
+    local boolean vl_ok=false
+    if vl_hero==null then
+        return false
+    endif
+    set vl_it=CreateItem(vl_t,GetUnitX(vl_hero),GetUnitY(vl_hero))
+    if vl_it!=null then
+        set vl_ok=zzEQ_CanUse(vl_hero,vl_it)
+        call RemoveItem(vl_it)
+    endif
+    set vl_it=null
+    return vl_ok
+endfunction
+function zzSH_FindPlus10 takes integer vl_playerId,integer vl_wt,boolean vl_take,item vl_skip returns boolean
+    local unit vl_tk=Er[vl_playerId+1]
+    local item vl_it
+    local integer vl_i=0
+    loop
+        exitwhen vl_i>29
+        set vl_it=zzVL_bag[vl_playerId*30+vl_i]
+        if vl_it!=null and vl_it!=vl_skip and zzEQ_IsPlus10Weapon(vl_it) and zzEQ_WeaponType(GetItemTypeId(vl_it))==vl_wt then
+            if vl_take then
+                set zzVL_bag[vl_playerId*30+vl_i]=null
+                call RemoveItem(vl_it)
+            endif
+            set vl_it=null
+            set vl_tk=null
+            return true
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        set vl_it=zzVL_equipItem[vl_playerId*10+vl_i]
+        if (vl_it==null or vl_it==vl_skip) and vl_tk!=null and vl_i<6 then
+            set vl_it=UnitItemInSlot(vl_tk,vl_i)
+        endif
+        if vl_it!=null and vl_it!=vl_skip and zzEQ_IsPlus10Weapon(vl_it) and zzEQ_WeaponType(GetItemTypeId(vl_it))==vl_wt then
+            if vl_take then
+                if zzVL_equipItem[vl_playerId*10+vl_i]==vl_it then
+                    set zzVL_equipItem[vl_playerId*10+vl_i]=null
+                endif
+                call RemoveItem(vl_it)
+            endif
+            set vl_it=null
+            set vl_tk=null
+            return true
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_it=null
+    set vl_tk=null
+    return false
+endfunction
+function zzSH_OnSelect takes nothing returns nothing
+    local unit vl_shop=GetTriggerUnit()
+    local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
+    local unit vl_hero
+    local integer vl_k=0
+    local integer vl_t
+    if vl_playerId>9 or LoadInteger(zzVL_ht,GetUnitTypeId(vl_shop),95)!=1 then
+        set vl_shop=null
+        return
+    endif
+    set vl_hero=Jx[vl_playerId+1]
+    loop
+        exitwhen vl_k>10
+        set vl_t=zzSH_Id(vl_k)
+        call RemoveItemFromStock(vl_shop,vl_t)
+        if zzSH_CanUseType(vl_hero,vl_t) then
+            call AddItemToStock(vl_shop,vl_t,10,10)
+        endif
+        set vl_k=vl_k+1
+    endloop
+    set vl_shop=null
+    set vl_hero=null
+endfunction
+function zzSH_OnBuy takes nothing returns nothing
+    local item vl_item=GetSoldItem()
+    local unit vl_b=GetBuyingUnit()
+    local integer vl_t=GetItemTypeId(vl_item)
+    local integer vl_gold=LoadInteger(zzVL_ht,vl_t,95)
+    local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_b))
+    local integer vl_wt
+    local unit vl_hero
+    local string vl_miss=""
+    if vl_gold<=0 or vl_playerId>9 then
+        set vl_item=null
+        set vl_b=null
+        return
+    endif
+    set vl_hero=Jx[vl_playerId+1]
+    set vl_wt=zzEQ_WeaponType(vl_t)
+    if not zzSH_CanUseType(vl_hero,vl_t) then
+        set vl_miss=" phái của bạn không dùng được loại vũ khí này;"
+    else
+        if not zzSH_FindPlus10(vl_playerId,vl_wt,false,vl_item) then
+            set vl_miss=vl_miss+" 1 vũ khí +10 cùng loại (trong hành trang hoặc đang mặc);"
+        endif
+        if not zzVL_FindMat(vl_playerId,'ITHB',false) then
+            set vl_miss=vl_miss+" 1 Tần Lăng Hòa Thị Bích;"
+        endif
+    endif
+    if vl_miss!="" then
+        call RemoveItem(vl_item)
+        call AdjustPlayerStateBJ(vl_gold,Player(vl_playerId),PLAYER_STATE_RESOURCE_GOLD)
+        call zzVL_Msg(vl_playerId,"|cffff8000Không thể mua "+GetObjectName(vl_t)+" (đã hoàn "+I2S(vl_gold)+" vàng). Còn thiếu:|r"+vl_miss)
+    else
+        call zzSH_FindPlus10(vl_playerId,vl_wt,true,vl_item)
+        call zzVL_FindMat(vl_playerId,'ITHB',true)
+        call zzEQ_SetTier(vl_item,11)
+        call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",vl_b,"origin"))
+        call zzVL_Msg(vl_playerId,"|cff00ff00Mua thành công|r "+GetItemName(vl_item)+" (đã trừ "+I2S(vl_gold)+" vàng, 1 vũ khí +10 và 1 Tần Lăng Hòa Thị Bích).")
+    endif
+    set vl_item=null
+    set vl_b=null
+    set vl_hero=null
+endfunction
+function zzSH_Init takes nothing returns nothing
+    local trigger vl_t=CreateTrigger()
+    local integer vl_i=0
+    loop
+        exitwhen vl_i>9
+        call TriggerRegisterPlayerUnitEvent(vl_t,Player(vl_i),EVENT_PLAYER_UNIT_SELECTED,null)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzSH_OnSelect)
+    set vl_t=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(vl_t,EVENT_PLAYER_UNIT_SELL_ITEM)
+    call TriggerAddAction(vl_t,function zzSH_OnBuy)
+    set vl_t=null
+endfunction
+function zzTL_FirstMinute takes nothing returns integer
+    return 20
+endfunction
+function zzTL_Interval takes nothing returns integer
+    return 5
+endfunction
+function zzTL_Hp takes integer vl_min returns integer
+    return 1500000+40000*vl_min
+endfunction
+function zzTL_Damage takes integer vl_min returns integer
+    return 2500+100*vl_min
+endfunction
+function zzTL_Armor takes integer vl_min returns real
+    return 150.+4.*vl_min
+endfunction
+function zzTL_Alive takes nothing returns boolean
+    local unit vl_b=LoadUnitHandle(zzVL_ht,'n0TL',1)
+    local boolean vl_r=(vl_b!=null and GetWidgetLife(vl_b)>.405)
+    set vl_b=null
+    return vl_r
+endfunction
+function zzTL_Blast takes unit vl_boss,real vl_radius,real vl_mult,string vl_fx returns nothing
+    local real vl_x=GetUnitX(vl_boss)
+    local real vl_y=GetUnitY(vl_boss)
+    local real vl_dmg=I2R(BlzGetUnitBaseDamage(vl_boss,0))*vl_mult
+    local group vl_g=CreateGroup()
+    local unit vl_u
+    call SetUnitAnimation(vl_boss,"spell")
+    call DestroyEffect(AddSpecialEffect(vl_fx,vl_x,vl_y))
+    call GroupEnumUnitsInRange(vl_g,vl_x,vl_y,vl_radius,null)
+    loop
+        set vl_u=FirstOfGroup(vl_g)
+        exitwhen vl_u==null
+        call GroupRemoveUnit(vl_g,vl_u)
+        if IsUnitEnemy(vl_u,GetOwningPlayer(vl_boss)) and GetWidgetLife(vl_u)>.405 and not IsUnitType(vl_u,UNIT_TYPE_MAGIC_IMMUNE) then
+            call UnitDamageTarget(vl_boss,vl_u,vl_dmg,true,false,ATTACK_TYPE_MAGIC,DAMAGE_TYPE_MAGIC,null)
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
+    set vl_u=null
+endfunction
+function zzTL_Cast takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    local unit vl_b=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),1)
+    local integer vl_n
+    local integer vl_m
+    if vl_b==null or GetWidgetLife(vl_b)<.405 then
+        call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+        call DestroyTimer(vl_t)
+        set vl_t=null
+        set vl_b=null
+        return
+    endif
+    set vl_n=LoadInteger(zzVL_ht,GetHandleId(vl_t),2)+1
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),2,vl_n)
+    if LoadInteger(zzVL_ht,'n0TL',3)==0 and GetWidgetLife(vl_b)<GetUnitState(vl_b,UNIT_STATE_MAX_LIFE)*.5 then
+        call SaveInteger(zzVL_ht,'n0TL',3,1)
+        call BlzSetUnitBaseDamage(vl_b,R2I(I2R(BlzGetUnitBaseDamage(vl_b,0))*1.3),0)
+        call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\BienThan_tanthuyhoang.mdx",vl_b,"origin"))
+        call zzVL_All("|cffffcc07Tần Thủy Hoàng|r nổi giận, hóa thân Chân Long! Sát thương tăng 30%.")
+        call TimerStart(vl_t,3.5,true,function zzTL_Cast)
+    endif
+    set vl_m=ModuloInteger(vl_n,3)
+    if vl_m==0 then
+        call zzTL_Blast(vl_b,550.,2.,"Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl")
+    elseif vl_m==1 then
+        call zzTL_Blast(vl_b,800.,1.5,"Abilities\\Spells\\Human\\FlameStrike\\FlameStrike1.mdl")
+    else
+        call zzTL_Blast(vl_b,1100.,1.,"Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl")
+    endif
+    set vl_t=null
+    set vl_b=null
+endfunction
+function zzTL_Spawn takes nothing returns nothing
+    local group vl_g=CreateGroup()
+    local unit vl_unit
+    local unit vl_pick=null
+    local unit vl_b
+    local timer vl_t
+    local integer vl_n=0
+    local integer vl_min=R2I(TimerGetElapsed(zzVL_clock)/60.)
+    local real vl_x=GetRectCenterX(bj_mapInitialPlayableArea)
+    local real vl_y=GetRectCenterY(bj_mapInitialPlayableArea)
+    call GroupEnumUnitsOfPlayer(vl_g,Player(12),null)
+    loop
+        set vl_unit=FirstOfGroup(vl_g)
+        exitwhen vl_unit==null
+        call GroupRemoveUnit(vl_g,vl_unit)
+        if zzVL_IsCreep(vl_unit) then
+            set vl_n=vl_n+1
+            if GetRandomInt(1,vl_n)==1 then
+                set vl_pick=vl_unit
+            endif
+        endif
+    endloop
+    call DestroyGroup(vl_g)
+    set vl_g=null
+    if vl_pick!=null then
+        set vl_x=GetUnitX(vl_pick)
+        set vl_y=GetUnitY(vl_pick)
+    endif
+    set vl_b=CreateUnit(Player(12),'n0TL',vl_x,vl_y,GetRandomReal(0.,360.))
+    if vl_b==null then
+        set vl_pick=null
+        return
+    endif
+    call SaveUnitHandle(zzVL_ht,'n0TL',1,vl_b)
+    call SaveInteger(zzVL_ht,'n0TL',3,0)
+    call BlzSetUnitName(vl_b,"|cffffcc07Tần Thủy Hoàng|r")
+    call BlzSetUnitMaxHP(vl_b,zzTL_Hp(vl_min))
+    call SetWidgetLife(vl_b,I2R(zzTL_Hp(vl_min)))
+    call BlzSetUnitBaseDamage(vl_b,zzTL_Damage(vl_min),0)
+    call BlzSetUnitArmor(vl_b,zzTL_Armor(vl_min))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",vl_x,vl_y))
+    call PingMinimapEx(vl_x,vl_y,8.,255,200,0,true)
+    set zzVL_logMsg="|cffffcc07TẦN THỦY HOÀNG|r xuất hiện ở khu quái!"
+    call ExecuteFunc("zzVL_BannerMsg")
+    call zzVL_All("|cffffcc07Tần Thủy Hoàng|r đã xuất hiện! Kẻ hạ được hắn sẽ nhận |cffffcc00Tần Lăng Hòa Thị Bích|r.")
+    call zzVL_Log("tan thuy hoang xuat hien")
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),1,vl_b)
+    call TimerStart(vl_t,5.,true,function zzTL_Cast)
+    set vl_t=null
+    set vl_b=null
+    set vl_pick=null
+endfunction
+function zzTL_Tick takes nothing returns nothing
+    local integer vl_m=R2I(TimerGetElapsed(zzVL_clock)/60.)
+    if vl_m>=LoadInteger(zzVL_ht,'n0TL',2) then
+        call SaveInteger(zzVL_ht,'n0TL',2,vl_m+zzTL_Interval())
+        if not zzTL_Alive() then
+            call zzTL_Spawn()
+        endif
+    endif
+endfunction
+function zzTL_BuffPercent takes nothing returns integer
+    return 20
+endfunction
+function zzTL_BuffSeconds takes nothing returns integer
+    return 180
+endfunction
+function zzTL_BuffRemove takes unit vl_h returns nothing
+    local integer vl_amount=LoadInteger(zzVL_ht,GetHandleId(vl_h),43)
+    if vl_amount>0 then
+        call ModifyHeroStat(LoadInteger(zzVL_ht,GetHandleId(vl_h),42),vl_h,bj_MODIFYMETHOD_SUB,vl_amount)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_h),43,0)
+    endif
+endfunction
+function zzTL_BuffEnd takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    local unit vl_h=LoadUnitHandle(zzVL_ht,GetHandleId(vl_t),0)
+    if vl_h!=null and LoadInteger(zzVL_ht,GetHandleId(vl_h),41)==LoadInteger(zzVL_ht,GetHandleId(vl_t),1) then
+        call zzTL_BuffRemove(vl_h)
+        call zzVL_Text(vl_h,"|cff808080Hết buff Tần Thủy Hoàng|r")
+    endif
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_t))
+    call DestroyTimer(vl_t)
+    set vl_t=null
+    set vl_h=null
+endfunction
+function zzTL_Buff takes unit vl_h returns nothing
+    local integer vl_str
+    local integer vl_agi
+    local integer vl_int
+    local integer vl_stat
+    local integer vl_amount
+    local integer vl_token
+    local timer vl_t
+    if vl_h==null or GetWidgetLife(vl_h)<.405 then
+        return
+    endif
+    call zzTL_BuffRemove(vl_h)
+    set vl_str=GetHeroStr(vl_h,true)
+    set vl_agi=GetHeroAgi(vl_h,true)
+    set vl_int=GetHeroInt(vl_h,true)
+    set vl_stat=bj_HEROSTAT_STR
+    set vl_amount=vl_str
+    if vl_agi>vl_amount then
+        set vl_stat=bj_HEROSTAT_AGI
+        set vl_amount=vl_agi
+    endif
+    if vl_int>vl_amount then
+        set vl_stat=bj_HEROSTAT_INT
+        set vl_amount=vl_int
+    endif
+    set vl_amount=vl_amount*zzTL_BuffPercent()/100
+    call ModifyHeroStat(vl_stat,vl_h,bj_MODIFYMETHOD_ADD,vl_amount)
+    set vl_token=LoadInteger(zzVL_ht,GetHandleId(vl_h),41)+1
+    call SaveInteger(zzVL_ht,GetHandleId(vl_h),41,vl_token)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_h),42,vl_stat)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_h),43,vl_amount)
+    set vl_t=CreateTimer()
+    call SaveUnitHandle(zzVL_ht,GetHandleId(vl_t),0,vl_h)
+    call SaveInteger(zzVL_ht,GetHandleId(vl_t),1,vl_token)
+    call TimerStart(vl_t,I2R(zzTL_BuffSeconds()),false,function zzTL_BuffEnd)
+    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\InnerFire\\InnerFireTarget.mdl",vl_h,"overhead"))
+    call zzVL_Text(vl_h,"|cffffcc00Buff Tần Thủy Hoàng: +"+I2S(zzTL_BuffPercent())+"% chỉ số chính|r")
+    set vl_t=null
+endfunction
+function zzTL_OnDeath takes nothing returns nothing
+    local unit vl_d=GetTriggerUnit()
+    local unit vl_k=GetKillingUnit()
+    local real vl_x
+    local real vl_y
+    local integer vl_pk=-1
+    local integer vl_i=0
+    if GetUnitTypeId(vl_d)!='n0TL' then
+        set vl_d=null
+        set vl_k=null
+        return
+    endif
+    set vl_x=GetUnitX(vl_d)
+    set vl_y=GetUnitY(vl_d)
+    if vl_k!=null then
+        set vl_pk=GetPlayerId(GetOwningPlayer(vl_k))
+    endif
+    call FlushChildHashtable(zzVL_ht,'n0TL')
+    call SaveInteger(zzVL_ht,'n0TL',2,R2I(TimerGetElapsed(zzVL_clock)/60.)+zzTL_Interval())
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",vl_x,vl_y))
+    call PingMinimapEx(vl_x,vl_y,5.,255,200,0,true)
+    if vl_pk>=0 and vl_pk<=9 then
+        call zzDR_DropKind(4,vl_x,vl_y,Jx[vl_pk+1])
+        call zzVL_All(zzVL_Name(vl_pk)+" đã hạ |cffffcc07Tần Thủy Hoàng|r! Bảo thạch và Huyền Tinh đã rơi.")
+        loop
+            exitwhen vl_i>9
+            if IsPlayerAlly(Player(vl_i),Player(vl_pk)) then
+                call AdjustPlayerStateBJ(1500,Player(vl_i),PLAYER_STATE_RESOURCE_GOLD)
+                call zzTL_Buff(Jx[vl_i+1])
+            endif
+            set vl_i=vl_i+1
+        endloop
+        call zzVL_AddCT(vl_pk,40)
+    else
+        call zzVL_All("|cffffcc07Tần Thủy Hoàng|r đã bị hạ! |cffffcc00Tần Lăng Hòa Thị Bích|r rơi xuống đất.")
+    endif
+    set vl_d=null
+    set vl_k=null
+endfunction
+function zzTL_Init takes nothing returns nothing
+    local trigger vl_trg=CreateTrigger()
+    call SaveInteger(zzVL_ht,'n0TL',2,zzTL_FirstMinute())
+    call TriggerRegisterAnyUnitEventBJ(vl_trg,EVENT_PLAYER_UNIT_DEATH)
+    call TriggerAddAction(vl_trg,function zzTL_OnDeath)
+    call TimerStart(CreateTimer(),1.,true,function zzTL_Tick)
+    set vl_trg=null
+endfunction
 function main takes nothing returns nothing
 local weathereffect we
 local destructable d
@@ -31743,7 +36063,7 @@ local version v
 local integer aF
 local trigger xk
 local trigger bh
-call SetCameraBounds(-5376.+GetCameraMargin(CAMERA_MARGIN_LEFT),-8448.+GetCameraMargin(CAMERA_MARGIN_BOTTOM),24960.-GetCameraMargin(CAMERA_MARGIN_RIGHT),13824.-GetCameraMargin(CAMERA_MARGIN_TOP),-5376.+GetCameraMargin(CAMERA_MARGIN_LEFT),13824.-GetCameraMargin(CAMERA_MARGIN_TOP),24960.-GetCameraMargin(CAMERA_MARGIN_RIGHT),-8448.+GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+call SetCameraBounds(-3584.+GetCameraMargin(CAMERA_MARGIN_LEFT),-5632.+GetCameraMargin(CAMERA_MARGIN_BOTTOM),28928.-GetCameraMargin(CAMERA_MARGIN_RIGHT),9216.-GetCameraMargin(CAMERA_MARGIN_TOP),-3584.+GetCameraMargin(CAMERA_MARGIN_LEFT),9216.-GetCameraMargin(CAMERA_MARGIN_TOP),28928.-GetCameraMargin(CAMERA_MARGIN_RIGHT),-5632.+GetCameraMargin(CAMERA_MARGIN_BOTTOM))
 call SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl","Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
 call SetWaterBaseColor($80,$80,$80,$FF)
 call NewSoundEnvironment("lake")
@@ -31889,117 +36209,117 @@ call SetSoundDuration(qn,$759)
 call SetSoundChannel(qn,0)
 call SetSoundVolume(qn,$7F)
 call SetSoundPitch(qn,1.)
-set Pr=Rect(-4320.,-5904.,-1824.,-3216.)
-set qr=Rect(1776.,-4608.,4464.,-2496.)
-set Qr=Rect(1680.,8064.,4320.,10176.)
-set sr=Rect(2160.,1872.,3984.,3696.)
-set Sr=Rect(3600.,-3696.,3936.,-3120.)
-set tr=Rect(2112.,8640.,2448.,9216.)
-set Tr=Rect(2784.,9120.,3408.,9456.)
-set ur=Rect(2736.,-3888.,3360.,-3552.)
-set Ur=Rect(1584.,-2256.,4320.,-1392.)
-set wr=Rect(1776.,6912.,4704.,7728.)
-set Wr=Rect(-2544.,1776.,-1680.,2592.)
-set yr=Rect(7824.,2928.,8640.,3744.)
-set Yr=Rect(-4320.,1488.,-3600.,2784.)
-set zr=Rect(-480.,48.,528.,720.)
-set Zr=Rect(9648.,2784.,10368.,4080.)
-set vi=Rect(5616.,4704.,6624.,5376.)
-set ei=Rect(2016.,-2256.,4176.,7536.)
-set oi=Rect(2736.,-528.,3408.,96.)
-set ri=Rect(2736.,1008.,3408.,1680.)
-set ii=Rect(2736.,3888.,3408.,4560.)
-set ai=Rect(2736.,5424.,3408.,6096.)
-set Vi=Rect(240.,-2544.,1296.,-1536.)
-set Ei=Rect(4848.,7248.,5904.,8256.)
-set Xi=Rect(2880.,2640.,3216.,2928.)
-set Oi=Rect(-2496.,-2448.,-1440.,-1296.)
-set Ri=Rect(7440.,6864.,8496.,8112.)
-set Ii=Rect(9840.,-3168.,10032.,-2976.)
-set Ai=Rect(9840.,-3408.,10032.,-3216.)
-set Ni=Rect(9840.,-3648.,10032.,-3456.)
-set bi=Rect(9840.,-3888.,10032.,-3696.)
-set Bi=Rect(9840.,-4128.,10032.,-3936.)
-set ci=Rect(10032.,-3168.,10224.,-2976.)
-set Ci=Rect(10032.,-3408.,10224.,-3216.)
-set di=Rect(10032.,-3648.,10224.,-3456.)
-set Di=Rect(10032.,-3888.,10224.,-3696.)
-set fi=Rect(10032.,-4128.,10224.,-3936.)
-set Fi=Rect(9504.,-4560.,11232.,-2064.)
-set gi=Rect(-2592.,144.,528.,3168.)
-set Gi=Rect(5088.,2208.,8736.,5424.)
-set hi=Rect(6624.,-288.,6816.,-96.)
-set Hi=Rect(-624.,5712.,-432.,5904.)
-set ji=Rect(-5136.,5328.,-3168.,12048.)
-set Ji=Rect(-4704.,5712.,-3696.,6720.)
-set ki=Rect(-576.,13104.,144.,13776.)
-set Ki=Rect(576.,13104.,1296.,13776.)
-set li=Rect(1728.,13104.,2448.,13776.)
-set Li=Rect(2880.,13104.,3600.,13776.)
-set mi=Rect(4032.,13104.,4752.,13776.)
-set Mi=Rect(-576.,11712.,144.,12384.)
-set pi=Rect(624.,11712.,1344.,12384.)
-set Pi=Rect(1728.,11712.,2448.,12384.)
-set qi=Rect(2880.,11712.,3600.,12384.)
-set Qi=Rect(4032.,11712.,4752.,12384.)
-set si=Rect(-816.,11568.,4944.,14400.)
-set Si=Rect(10368.,3216.,10704.,3648.)
-set ti=Rect(-4512.,1872.,-4176.,2304.)
-set Ti=Rect(1488.,11280.,5328.,14736.)
-set ui=Rect(2208.,4608.,3936.,6288.)
-set Ui=Rect(2160.,-768.,3888.,912.)
-set wi=Rect(1680.,960.,4368.,4560.)
-set Wi=Rect(-5136.,-2496.,11664.,7776.)
-set Yi=Rect(2304.,-624.,3744.,192.)
-set zi=Rect(2496.,960.,3936.,1728.)
-set Zi=Rect(2256.,1824.,3696.,2544.)
-set va=Rect(2592.,3120.,4032.,3744.)
-set ea=Rect(2160.,3840.,3600.,4656.)
-set xa=Rect(2352.,5328.,3792.,6144.)
-set oa=Rect(384.,-1296.,1104.,-480.)
-set ra=Rect(-3072.,-2304.,-2304.,-1488.)
-set ia=Rect(-3408.,-960.,-2640.,-144.)
-set aa=Rect(-1824.,144.,-960.,960.)
-set Va=Rect(-432.,96.,384.,912.)
-set Ea=Rect(-432.,1728.,336.,2544.)
-set Xa=Rect(-2544.,1776.,-1680.,2592.)
-set Oa=Rect(-4512.,1440.,-3408.,2976.)
-set Ra=Rect(528.,3648.,1488.,4464.)
-set Ia=Rect(-720.,3984.,-240.,4800.)
-set Aa=Rect(720.,5040.,1392.,5664.)
-set Na=Rect(720.,5856.,1392.,6528.)
-set ba=Rect(-768.,7008.,96.,7824.)
-set Ba=Rect(5040.,5952.,5712.,6768.)
-set ca=Rect(8352.,7200.,9360.,8064.)
-set Ca=Rect(8496.,5328.,9504.,6144.)
-set da=Rect(7104.,4608.,7872.,5424.)
-set Da=Rect(5712.,4800.,6528.,5616.)
-set fa=Rect(5664.,3072.,6528.,3888.)
-set Fa=Rect(4704.,1152.,5568.,1968.)
-set Ga=Rect(6480.,816.,7200.,1632.)
-set ha=Rect(4704.,-144.,5472.,672.)
-set Ha=Rect(4704.,-1104.,5424.,-288.)
-set ja=Rect(6240.,-2256.,7104.,-1344.)
-set Ja=Rect(7824.,2928.,8784.,3744.)
-set ka=Rect(9552.,2640.,10704.,4320.)
-set Ka=Rect(22560.,-1200.,23136.,-672.)
-set la=Rect(21744.,-1584.,23856.,48.)
-set La=Rect(22464.,1008.,23232.,1536.)
-set ma=Rect(22464.,3552.,23232.,4080.)
-set Ma=Rect(22680.,2328.,23064.,2712.)
-set pa=Rect(22560.,5808.,23136.,6336.)
-set Pa=Rect(21792.,5280.,23856.,6768.)
-set qa=Rect(21360.,624.,24384.,4416.)
-set Qa=Rect(1920.,-4512.,2112.,-4320.)
-set sa=Rect(2208.,-4512.,2400.,-4320.)
-set Sa=Rect(2496.,-4512.,2688.,-4320.)
-set Ta=Rect(3456.,-4512.,3648.,-4320.)
-set ua=Rect(3744.,-4512.,3936.,-4320.)
-set Ua=Rect(4032.,9792.,4224.,9984.)
-set Wa=Rect(3744.,9792.,3936.,9984.)
-set ya=Rect(3456.,9792.,3648.,9984.)
-set Ya=Rect(2496.,9792.,2688.,9984.)
-set Za=Rect(2208.,9792.,2400.,9984.)
+set Pr=Rect(-2880.,-3936.,-1216.,-2144.)
+set qr=Rect(1184.,-3072.,2976.,-1664.)
+set Qr=Rect(1120.,5376.,2880.,6784.)
+set sr=Rect(1440.,1248.,2656.,2464.)
+set Sr=Rect(2400.,-2464.,2624.,-2080.)
+set tr=Rect(1408.,5760.,1632.,6144.)
+set Tr=Rect(1856.,6080.,2272.,6304.)
+set ur=Rect(1824.,-2592.,2240.,-2368.)
+set Ur=Rect(1056.,-1504.,2880.,-928.)
+set wr=Rect(1184.,4608.,3136.,5152.)
+set Wr=Rect(-1696.,1184.,-1120.,1728.)
+set yr=Rect(5216.,1952.,5760.,2496.)
+set Yr=Rect(-2880.,992.,-2400.,1856.)
+set zr=Rect(-320.,32.,352.,480.)
+set Zr=Rect(6432.,1856.,6912.,2720.)
+set vi=Rect(3744.,3136.,4416.,3584.)
+set ei=Rect(1344.,-1504.,2784.,5024.)
+set oi=Rect(1824.,-352.,2272.,64.)
+set ri=Rect(1824.,672.,2272.,1120.)
+set ii=Rect(1824.,2592.,2272.,3040.)
+set ai=Rect(1824.,3616.,2272.,4064.)
+set Vi=Rect(160.,-1696.,864.,-1024.)
+set Ei=Rect(3232.,4832.,3936.,5504.)
+set Xi=Rect(1920.,1760.,2144.,1952.)
+set Oi=Rect(-1664.,-1632.,-960.,-864.)
+set Ri=Rect(4960.,4576.,5664.,5408.)
+set Ii=Rect(6560.,-2112.,6688.,-1984.)
+set Ai=Rect(6560.,-2272.,6688.,-2144.)
+set Ni=Rect(6560.,-2432.,6688.,-2304.)
+set bi=Rect(6560.,-2592.,6688.,-2464.)
+set Bi=Rect(6560.,-2752.,6688.,-2624.)
+set ci=Rect(6688.,-2112.,6816.,-1984.)
+set Ci=Rect(6688.,-2272.,6816.,-2144.)
+set di=Rect(6688.,-2432.,6816.,-2304.)
+set Di=Rect(6688.,-2592.,6816.,-2464.)
+set fi=Rect(6688.,-2752.,6816.,-2624.)
+set Fi=Rect(6336.,-3040.,7488.,-1376.)
+set gi=Rect(-1728.,96.,352.,2112.)
+set Gi=Rect(3392.,1472.,5824.,3616.)
+set hi=Rect(4416.,-192.,4544.,-64.)
+set Hi=Rect(-416.,3808.,-288.,3936.)
+set ji=Rect(-3424.,3552.,-2112.,8032.)
+set Ji=Rect(-3136.,3808.,-2464.,4480.)
+set ki=Rect(-384.,8736.,96.,9184.)
+set Ki=Rect(384.,8736.,864.,9184.)
+set li=Rect(1152.,8736.,1632.,9184.)
+set Li=Rect(1920.,8736.,2400.,9184.)
+set mi=Rect(2688.,8736.,3168.,9184.)
+set Mi=Rect(-384.,7808.,96.,8256.)
+set pi=Rect(416.,7808.,896.,8256.)
+set Pi=Rect(1152.,7808.,1632.,8256.)
+set qi=Rect(1920.,7808.,2400.,8256.)
+set Qi=Rect(2688.,7808.,3168.,8256.)
+set si=Rect(-544.,7712.,3296.,9600.)
+set Si=Rect(6912.,2144.,7136.,2432.)
+set ti=Rect(-3008.,1248.,-2784.,1536.)
+set Ti=Rect(992.,7520.,3552.,9824.)
+set ui=Rect(1472.,3072.,2624.,4192.)
+set Ui=Rect(1440.,-512.,2592.,608.)
+set wi=Rect(1120.,640.,2912.,3040.)
+set Wi=Rect(-3424.,-1664.,7776.,5184.)
+set Yi=Rect(1536.,-416.,2496.,128.)
+set zi=Rect(1664.,640.,2624.,1152.)
+set Zi=Rect(1504.,1216.,2464.,1696.)
+set va=Rect(1728.,2080.,2688.,2496.)
+set ea=Rect(1440.,2560.,2400.,3104.)
+set xa=Rect(1568.,3552.,2528.,4096.)
+set oa=Rect(256.,-864.,736.,-320.)
+set ra=Rect(-2048.,-1536.,-1536.,-992.)
+set ia=Rect(-2272.,-640.,-1760.,-96.)
+set aa=Rect(-1216.,96.,-640.,640.)
+set Va=Rect(-288.,64.,256.,608.)
+set Ea=Rect(-288.,1152.,224.,1696.)
+set Xa=Rect(-1696.,1184.,-1120.,1728.)
+set Oa=Rect(-3008.,960.,-2272.,1984.)
+set Ra=Rect(352.,2432.,992.,2976.)
+set Ia=Rect(-480.,2656.,-160.,3200.)
+set Aa=Rect(480.,3360.,928.,3776.)
+set Na=Rect(480.,3904.,928.,4352.)
+set ba=Rect(-512.,4672.,64.,5216.)
+set Ba=Rect(3360.,3968.,3808.,4512.)
+set ca=Rect(5568.,4800.,6240.,5376.)
+set Ca=Rect(5664.,3552.,6336.,4096.)
+set da=Rect(4736.,3072.,5248.,3616.)
+set Da=Rect(3808.,3200.,4352.,3744.)
+set fa=Rect(3776.,2048.,4352.,2592.)
+set Fa=Rect(3136.,768.,3712.,1312.)
+set Ga=Rect(4320.,544.,4800.,1088.)
+set ha=Rect(3136.,-96.,3648.,448.)
+set Ha=Rect(3136.,-736.,3616.,-192.)
+set ja=Rect(4160.,-1504.,4736.,-896.)
+set Ja=Rect(5216.,1952.,5856.,2496.)
+set ka=Rect(6368.,1760.,7136.,2880.)
+set Ka=Rect(15040.,-800.,15424.,-448.)
+set la=Rect(14496.,-1056.,15904.,32.)
+set La=Rect(14976.,672.,15488.,1024.)
+set ma=Rect(14976.,2368.,15488.,2720.)
+set Ma=Rect(15120.,1552.,15376.,1808.)
+set pa=Rect(15040.,3872.,15424.,4224.)
+set Pa=Rect(14528.,3520.,15904.,4512.)
+set qa=Rect(14240.,416.,16256.,2944.)
+set Qa=Rect(1280.,-3008.,1408.,-2880.)
+set sa=Rect(1472.,-3008.,1600.,-2880.)
+set Sa=Rect(1664.,-3008.,1792.,-2880.)
+set Ta=Rect(2304.,-3008.,2432.,-2880.)
+set ua=Rect(2496.,-3008.,2624.,-2880.)
+set Ua=Rect(2688.,6528.,2816.,6656.)
+set Wa=Rect(2496.,6528.,2624.,6656.)
+set ya=Rect(2304.,6528.,2432.,6656.)
+set Ya=Rect(1664.,6528.,1792.,6656.)
+set Za=Rect(1472.,6528.,1600.,6656.)
 set vn=CreateCameraSetup()
 call CameraSetupSetField(vn,CAMERA_FIELD_ZOFFSET,.0,.0)
 call CameraSetupSetField(vn,CAMERA_FIELD_ROTATION,.0,.0)
@@ -32008,7 +36328,7 @@ call CameraSetupSetField(vn,CAMERA_FIELD_TARGET_DISTANCE,1576.,.0)
 call CameraSetupSetField(vn,CAMERA_FIELD_ROLL,.0,.0)
 call CameraSetupSetField(vn,CAMERA_FIELD_FIELD_OF_VIEW,70.,.0)
 call CameraSetupSetField(vn,CAMERA_FIELD_FARZ,5000.,.0)
-call CameraSetupSetDestPosition(vn,10282.,-3560.,.0)
+call CameraSetupSetDestPosition(vn,6855.,-2373.,.0)
 set en=CreateCameraSetup()
 call CameraSetupSetField(en,CAMERA_FIELD_ZOFFSET,.0,.0)
 call CameraSetupSetField(en,CAMERA_FIELD_ROTATION,.0,.0)
@@ -32017,11 +36337,11 @@ call CameraSetupSetField(en,CAMERA_FIELD_TARGET_DISTANCE,1777.,.0)
 call CameraSetupSetField(en,CAMERA_FIELD_ROLL,.0,.0)
 call CameraSetupSetField(en,CAMERA_FIELD_FIELD_OF_VIEW,70.,.0)
 call CameraSetupSetField(en,CAMERA_FIELD_FARZ,5000.,.0)
-call CameraSetupSetDestPosition(en,10304.,-3536.,.0)
-set zE=CreateDestructable('ZTd7',-768.,-6720.,90.,.9,0)
-set yE=CreateDestructable('ZTd7',7008.,12288.,90.,.9,0)
-set ZE=CreateDestructable('ZTsx',3072.,-2304.,270.,1.,0)
-set YE=CreateDestructable('ZTsx',3072.,7872.,270.,1.,0)
+call CameraSetupSetDestPosition(en,6870.,-2358.,.0)
+set zE=CreateDestructable('ZTd7',-512.,-4480.,90.,.9,0)
+set yE=CreateDestructable('ZTd7',4672.,8192.,90.,.9,0)
+set ZE=CreateDestructable('ZTsx',2048.,-1536.,270.,1.,0)
+set YE=CreateDestructable('ZTsx',2048.,5248.,270.,1.,0)
 call MJ()
 call PJ()
 call mJ()
@@ -33557,17 +37877,17 @@ call SetMapDescription("TRIGSTR_003")
 call SetPlayers($B)
 call SetTeams($B)
 call SetGamePlacement(MAP_PLACEMENT_TEAMS_TOGETHER)
-call DefineStartLocation(0,3072.,-3360.)
-call DefineStartLocation(1,3072.,-3360.)
-call DefineStartLocation(2,3072.,-3360.)
-call DefineStartLocation(3,3072.,-3360.)
-call DefineStartLocation(4,3072.,-3360.)
-call DefineStartLocation(5,3072.,8736.)
-call DefineStartLocation(6,3072.,8736.)
-call DefineStartLocation(7,3072.,8736.)
-call DefineStartLocation(8,3072.,8736.)
-call DefineStartLocation(9,3072.,8736.)
-call DefineStartLocation($A,3072.,2784.)
+call DefineStartLocation(0,2048.,-2240.)
+call DefineStartLocation(1,2048.,-2240.)
+call DefineStartLocation(2,2048.,-2240.)
+call DefineStartLocation(3,2048.,-2240.)
+call DefineStartLocation(4,2048.,-2240.)
+call DefineStartLocation(5,2048.,5824.)
+call DefineStartLocation(6,2048.,5824.)
+call DefineStartLocation(7,2048.,5824.)
+call DefineStartLocation(8,2048.,5824.)
+call DefineStartLocation(9,2048.,5824.)
+call DefineStartLocation($A,2048.,1856.)
 call SetPlayerStartLocation(Player(0),0)
 call ForcePlayerStartLocation(Player(0),0)
 call SetPlayerColor(Player(0),ConvertPlayerColor(0))

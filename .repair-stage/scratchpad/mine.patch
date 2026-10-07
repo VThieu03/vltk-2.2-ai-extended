@@ -1,0 +1,11 @@
+diff --git a/tools/gameplay.py b/tools/gameplay.py
+index f98c958..6fba4c0 100644
+--- a/tools/gameplay.py
++++ b/tools/gameplay.py
+@@ -125,0 +126,6 @@ unit zzKS_fh=null
++integer array zzKS_mis
++integer zzKS_misN=0
++integer zzKS_misC=0
++timer zzKS_misT=null
++group zzKS_fg=null
++real zzVL_logT=0.

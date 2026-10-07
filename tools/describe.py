@@ -5,6 +5,7 @@
 # Also gives Vietnamese text to the few items still named / described in English or without accents.
 # Run after gameplay.py (it also describes the phi phong items, which gameplay.py adds).
 import os, re, sys, unicodedata
+
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 from gameplay_items import plain, SLOTS
@@ -31,8 +32,14 @@ FIX = {
     "gold": ("|c00ffff00Tiền xu|r", "Có thể đổi lấy ngân lượng ở các cửa hàng."),
     "I00F": (None, "Tạo ảo ảnh, gây 50% sát thương của bản thân."),
     "I00G": (None, "Tăng mạnh tốc độ di chuyển trong thời gian ngắn."),
-    "I00M": ("|c008080ffKim Nguyệt Đơn|r", "|c0087ceebDùng các dược liệu quý trải qua 49 ngày luyện trong lò tiên đơn mới có thể luyện thành.|r|n|nLập tức hồi phục 800 sinh lực."),
-    "I06G": ("|c004eee94Sách Sinh Lực|r", "|c0087ceebNâng sinh lực lên 20 điểm mỗi khi dùng.|r|n|n|c00ffcc00Dùng được 10 lần.|r"),
+    "I00M": (
+        "|c008080ffKim Nguyệt Đơn|r",
+        "|c0087ceebDùng các dược liệu quý trải qua 49 ngày luyện trong lò tiên đơn mới có thể luyện thành.|r|n|nLập tức hồi phục 800 sinh lực.",
+    ),
+    "I06G": (
+        "|c004eee94Sách Sinh Lực|r",
+        "|c0087ceebNâng sinh lực lên 20 điểm mỗi khi dùng.|r|n|n|c00ffcc00Dùng được 10 lần.|r",
+    ),
 }
 
 # flavour by family (plain lowercase name without +n / colour) then by slot
@@ -111,11 +118,16 @@ LORE = {
     "bo de moc": "Gỗ cây Bồ Đề, mang Phật tính.",
     "nu oa tinh thach": "Đá Nữ Oa vá trời còn sót lại.",
     "bi pho": "Công thức thần bí ghi cách chế tạo binh khí, giáp trụ hoàng kim.",
-    "thuy tinh": "Rơi khi đánh quái và cao thủ, nên giữ lại để nâng cấp đồ.",
+    "thuy tinh": "Rơi khi đánh quái và cao thủ, nên giữ lại để cường hóa trang bị.",
+    "huyen tinh": "Rơi khi đánh quái và cao thủ, nên giữ lại để cường hóa trang bị.",
     "tien xu": "Bán lại cho cửa hàng để lấy ngân lượng.",
 }
-SLOT_LORE = {1: "Mũ hộ thân của người giang hồ.", 2: "Giáp trụ hộ thân.",
-             3: "Binh khí giang hồ.", 4: "Giày đi đường của hiệp khách."}
+SLOT_LORE = {
+    1: "Mũ hộ thân của người giang hồ.",
+    2: "Giáp trụ hộ thân.",
+    3: "Binh khí giang hồ.",
+    4: "Giày đi đường của hiệp khách.",
+}
 GOLD_LINE = "Trang bị hoàng kim, cả giang hồ ít người sở hữu."
 
 
@@ -144,21 +156,37 @@ def recipes():
 
 
 # kham attributes (gameplay.j zzVL_KhamInit)
-KHAM = {"I06M": "Hút sinh lực +3%", "I06L": "Hút nội lực +3%", "I06K": "Bạo kích +4%", "I06J": "Tốc đánh +8%",
-        "I06W": "Sát thương +5%", "I06S": "Sát thương +6%", "I06Q": "Giảm sát thương nhận 4%",
-        "I00S": "Giảm sát thương nhận 3%", "I017": "Sinh lực +400", "I00R": "Sinh lực +250",
-        "I00P": "Sức mạnh +8", "I06P": "Thân pháp +8", "I06U": "Nội công +8"}
+KHAM = {
+    "I06M": "Hút sinh lực +3%",
+    "I06L": "Hút nội lực +3%",
+    "I06K": "Bạo kích +4%",
+    "I06J": "Tốc đánh +8%",
+    "I06W": "Sát thương +5%",
+    "I06S": "Sát thương +6%",
+    "I06Q": "Giảm sát thương nhận 4%",
+    "I00S": "Giảm sát thương nhận 3%",
+    "I017": "Sinh lực +400",
+    "I00R": "Sinh lực +250",
+    "I00P": "Sức mạnh +8",
+    "I06P": "Thân pháp +8",
+    "I06U": "Nội công +8",
+}
 
 
 # stats of a piece of gear, read from its item abilities (for the pieces whose text has none)
-STOCK = {b"AId4": {b"Idef": 4}, b"AId8": {b"Idef": 8}, b"AIx1": {b"Istr": 1, b"Iagi": 1, b"Iint": 1},
-         b"AIx2": {b"Istr": 2, b"Iagi": 2, b"Iint": 2}}
+STOCK = {
+    b"AId4": {b"Idef": 4},
+    b"AId8": {b"Idef": 8},
+    b"AIx1": {b"Istr": 1, b"Iagi": 1, b"Iint": 1},
+    b"AIx2": {b"Istr": 2, b"Iagi": 2, b"Iint": 2},
+}
 SLOT_NAME = {1: "Mũ", 2: "Áo", 3: "Vũ khí", 4: "Giày"}
 Y = "|c00ffff00"
 
 
 def ability_values():
     import struct as st
+
     ver, tabs = objdata.parse(open(os.path.join(SRC, "war3map.w3a"), "rb").read(), ".w3a")
     out = {}
     for ti, tab in enumerate(tabs):
@@ -193,13 +221,22 @@ def stat_lines(iabi, abil):
         for v, nm in ((s_, "Sức mạnh"), (a_, "Thân pháp"), (i_, "Nội công")):
             if v:
                 lines.append("%s: %s+%d|r" % (nm, Y, v))
-    for keys, nm, fmt in (((b"AId4", b"Idef"), "Phòng thủ", "+%d"), ((b"AIl1", b"Ilif"), "Sinh lực", "+%d"),
-                          ((b"AI2m", b"Iman"), "Nội lực", "+%d"), ((b"AIth", b"Iatt"), "Công kích", "+%d"),
-                          ((b"AIsx", b"Isx1"), "Tốc đánh", "+%d%%"), ((b"AIms", b"Imvb"), "Tốc chạy", "+%d"),
-                          ((b"Arel", b"Ihpr"), "Hồi sinh lực", "+%g/giây"), ((b"ACev", b"Eev1"), "Né tránh", "%d%%"),
-                          ((b"ACbh", b"Hbh1"), "Choáng khi đánh", "%d%%"), ((b"Aakb", b"Akb1"), "Hào quang công kích", "+%d%%"),
-                          ((b"ACav", b"Had1"), "Hào quang phòng thủ", "+%d"), ((b"ACua", b"Uau1"), "Hào quang tốc chạy", "+%d%%"),
-                          ((b"AIba", b"Hab1"), "Hào quang hồi nội lực", "+%g/giây"), ((b"ACah", b"Eah1"), "Phản sát thương", "%d%%")):
+    for keys, nm, fmt in (
+        ((b"AId4", b"Idef"), "Phòng thủ", "+%d"),
+        ((b"AIl1", b"Ilif"), "Sinh lực", "+%d"),
+        ((b"AI2m", b"Iman"), "Nội lực", "+%d"),
+        ((b"AIth", b"Iatt"), "Công kích", "+%d"),
+        ((b"AIsx", b"Isx1"), "Tốc đánh", "+%d%%"),
+        ((b"AIms", b"Imvb"), "Tốc chạy", "+%d"),
+        ((b"Arel", b"Ihpr"), "Hồi sinh lực", "+%g/giây"),
+        ((b"ACev", b"Eev1"), "Né tránh", "%d%%"),
+        ((b"ACbh", b"Hbh1"), "Choáng khi đánh", "%d%%"),
+        ((b"Aakb", b"Akb1"), "Hào quang công kích", "+%d%%"),
+        ((b"ACav", b"Had1"), "Hào quang phòng thủ", "+%d"),
+        ((b"ACua", b"Uau1"), "Hào quang tốc chạy", "+%d%%"),
+        ((b"AIba", b"Hab1"), "Hào quang hồi nội lực", "+%g/giây"),
+        ((b"ACah", b"Eah1"), "Phản sát thương", "%d%%"),
+    ):
         v = g(*keys)
         if v:
             if "%%" in fmt and keys[1] in (b"Isx1", b"Eev1", b"Hbh1", b"Akb1", b"Uau1", b"Eah1") and abs(v) < 5:
@@ -210,15 +247,45 @@ def stat_lines(iabi, abil):
 
 # tien cu: heroes whose main stat (or weapon / poison style) fits the piece; advice only
 HEROES = {
-    "str": ["Thiên Vương Đao", "Thiên Vương Thương", "Thiên Vương Chùy", "Thiếu Lâm Quyền", "Thiếu Lâm Trượng",
-            "Cái Bang Chưởng", "Thiên Nhẫn Thương"],
-    "agi": ["Ngũ Độc Đao", "Võ Đang Kiếm", "Thúy Yên Song Đao", "Đường Môn Phi Tiêu", "Đường Môn Bẫy", "Đường Môn Bạch Phong"],
-    "int": ["Nga My Chưởng", "Côn Luân Kiếm", "Côn Luân Đao", "Võ Đang Khí", "Ngũ Độc Chưởng", "Thiên Nhẫn Đao",
-            "Thiếu Lâm Đao", "Đại Lý Đoàn Thị"],
+    "str": [
+        "Thiên Vương Đao",
+        "Thiên Vương Thương",
+        "Thiên Vương Chùy",
+        "Thiếu Lâm Quyền",
+        "Thiếu Lâm Trượng",
+        "Cái Bang Chưởng",
+        "Thiên Nhẫn Thương",
+    ],
+    "agi": [
+        "Ngũ Độc Đao",
+        "Võ Đang Kiếm",
+        "Thúy Yên Song Đao",
+        "Đường Môn Phi Tiêu",
+        "Đường Môn Bẫy",
+        "Đường Môn Bạch Phong",
+    ],
+    "int": [
+        "Nga My Chưởng",
+        "Côn Luân Kiếm",
+        "Côn Luân Đao",
+        "Võ Đang Khí",
+        "Ngũ Độc Chưởng",
+        "Thiên Nhẫn Đao",
+        "Thiếu Lâm Đao",
+        "Đại Lý Đoàn Thị",
+    ],
 }
 POISON = ["Ngũ Độc Đao", "Ngũ Độc Chưởng", "Đường Môn Phi Tiêu", "Đường Môn Bẫy"]
-WEAPON_KIND = [("song dao", "Song Đao"), ("kiem", "Kiếm"), ("thuong", "Thương"), ("mau", "Thương"), ("chuy", "Chùy"),
-               ("truong", "Trượng"), ("con", "Trượng"), ("dao", "Đao")]
+WEAPON_KIND = [
+    ("song dao", "Song Đao"),
+    ("kiem", "Kiếm"),
+    ("thuong", "Thương"),
+    ("mau", "Thương"),
+    ("chuy", "Chùy"),
+    ("truong", "Trượng"),
+    ("con", "Trượng"),
+    ("dao", "Đao"),
+]
 
 
 def recommend(iabi, abil, slot, name):
@@ -235,10 +302,16 @@ def recommend(iabi, abil, slot, name):
         for k, v in vals.items():
             tot[k] = tot.get(k, 0) + v
     g = lambda k: tot.get(k, 0)
-    sc = {"str": g(b"Istr") + g(b"Ilif") / 40. + g(b"Idef") * 1.5 + g(b"Eah1") * 50,
-          "agi": g(b"Iagi") + g(b"Iatt") / 4. + g(b"Isx1") * (60 if g(b"Isx1") < 5 else .6) + g(b"Eev1") * 60
-                 + g(b"Akb1") * 30 + g(b"Hbh1") * 40,
-          "int": g(b"Iint") + g(b"Iman") / 25. + g(b"Hab1") * 3}
+    sc = {
+        "str": g(b"Istr") + g(b"Ilif") / 40.0 + g(b"Idef") * 1.5 + g(b"Eah1") * 50,
+        "agi": g(b"Iagi")
+        + g(b"Iatt") / 4.0
+        + g(b"Isx1") * (60 if g(b"Isx1") < 5 else 0.6)
+        + g(b"Eev1") * 60
+        + g(b"Akb1") * 30
+        + g(b"Hbh1") * 40,
+        "int": g(b"Iint") + g(b"Iman") / 25.0 + g(b"Hab1") * 3,
+    }
     common = min(sc.values())
     best = max(sc, key=sc.get)
     poison = b"Aspo" in bases
@@ -253,7 +326,7 @@ def recommend(iabi, abil, slot, name):
         if kind:
             same = [h for h in HEROES["str"] + HEROES["agi"] + HEROES["int"] if h.endswith(kind)]
             heroes = [h for h in heroes if h in same] + [h for h in same if h not in heroes][:2] if same else heroes
-    if slot != 3:                                   # armor, hat, boots: by sect
+    if slot != 3:  # armor, hat, boots: by sect
         heroes = [" ".join(h.split()[:2]) for h in heroes]
     return list(dict.fromkeys(heroes))[:4], poison
 
@@ -268,9 +341,11 @@ def main():
     uses = recipes()
     abil = ability_values()
     from gameplay_items import items
+
     slot_of = {iid: (slot, tier) for iid, slot, tier, _ in items()}
     REQ.clear()
     import gameplay
+
     nm_of = {}
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
@@ -290,7 +365,7 @@ def main():
         for old, new, sets in tab:
             iid = (old if ti == 0 else new).decode("latin1")
             mods = sets[0]
-            if iid in ("phea", "pghe", "pman", "pgma", "pres"):      # potions: text by gameplay.py
+            if iid in ("phea", "pghe", "pman", "pgma", "pres"):  # potions: text by gameplay.py
                 continue
             get = lambda k: next((m for m in mods if m[0] == k), None)
 
@@ -308,39 +383,74 @@ def main():
                     setv(b"utip", nm)
                 setv(b"utub", tip)
             name = get(b"unam")[4].decode("utf-8") if get(b"unam") else ""
-            if not name or iid.startswith("I0Z") or iid.startswith("IJ"):   # phi phong, 10-slot jewels: done by gameplay.py
+            if (
+                not name or iid.startswith("I0Z") or iid.startswith("IJ") or iid.startswith("IT")
+            ):  # phi phong, 10-slot jewels: done by gameplay.py; ITV ITS ITW ITHB (KVCT equipment): text by kvequip.py
                 continue
             tub = get(b"utub")[4].decode("utf-8") if get(b"utub") else ""
             fam = family(name)
             lore = LORE.get(fam) if fam else None
             st = slot_of.get(iid)
-            if st is None and iid in FIX:                 # names fixed here: the slot from the new name
+            if st is None and iid in FIX:  # names fixed here: the slot from the new name
                 words = set(re.findall(r"[a-z]+", plain(name)))
                 slot = next((sl for sl, keys in SLOTS if words & keys), 0)
                 if slot:
                     st = (slot, 1)
             if iid in REQ and "Yêu cầu:" not in tub:
-                req = "|cffff8000Yêu cầu:|r " + ", ".join(REQ[iid]) + " + |cffffcc005000 vàng|r" + NL + \
-                      "|cff9a9a9aMua ở cửa hàng: đủ nguyên liệu (túi, hành trang hoặc Thủ Khố) thì nhận ngay, thiếu thì hoàn tiền.|r"
+                req = (
+                    "|cffff8000Yêu cầu:|r "
+                    + ", ".join(REQ[iid])
+                    + " + |cffffcc005000 vàng|r"
+                    + NL
+                    + "|cff9a9a9aMua ở cửa hàng: đủ nguyên liệu (túi, hành trang hoặc Thủ Khố) thì nhận ngay, thiếu thì hoàn tiền.|r"
+                )
                 tub = req + (NL + tub if tub else "")
-                
+
                 if "Tiến cử:" in tub or "Tiến Cử:" in tub:
-                    tub = tub.replace("Võ Đang Kiếm, Côn Luân Kiếm", "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao")
-                    tub = tub.replace("Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền", "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy")
-                    tub = tub.replace("Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu", "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ")
+                    tub = tub.replace(
+                        "Võ Đang Kiếm, Côn Luân Kiếm",
+                        "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao",
+                    )
+                    tub = tub.replace(
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền",
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy",
+                    )
+                    tub = tub.replace(
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu",
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ",
+                    )
                 setv(b"utub", tub)
             if "Bí Phổ" in name and " - " in name and "Nguyên liệu" not in tub:
                 parts = [plain(x).strip() for x in re.sub(r"\|c\w{8}|\|r", "", name).split(" - ")[1:]]
-                mats = [m for m, prods in uses.items() if any(plain(x).startswith(pr) or pr.startswith(plain(x)) for x in prods for pr in parts if pr)]
+                mats = [
+                    m
+                    for m, prods in uses.items()
+                    if any(plain(x).startswith(pr) or pr.startswith(plain(x)) for x in prods for pr in parts if pr)
+                ]
                 mats = [m for m in mats if m != "bi pho"]
                 if mats:
                     names = sorted(set(MAT_NAME.get(m, m) for m in mats))
-                    tub = (tub + NL if tub else "") + "|cffffcc00Nguyên liệu:|r " + ", ".join(names) + NL + "Bỏ sách và nguyên liệu vào Thủ Khố rồi bấm Chế Đồ."
-                    
+                    tub = (
+                        (tub + NL if tub else "")
+                        + "|cffffcc00Nguyên liệu:|r "
+                        + ", ".join(names)
+                        + NL
+                        + "Bỏ sách và nguyên liệu vào Thủ Khố rồi bấm Chế Đồ."
+                    )
+
                 if "Tiến cử:" in tub or "Tiến Cử:" in tub:
-                    tub = tub.replace("Võ Đang Kiếm, Côn Luân Kiếm", "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao")
-                    tub = tub.replace("Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền", "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy")
-                    tub = tub.replace("Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu", "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ")
+                    tub = tub.replace(
+                        "Võ Đang Kiếm, Côn Luân Kiếm",
+                        "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao",
+                    )
+                    tub = tub.replace(
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền",
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy",
+                    )
+                    tub = tub.replace(
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu",
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ",
+                    )
                 setv(b"utub", tub)
             if st:
                 slot, tier = st
@@ -349,7 +459,18 @@ def main():
                     if slot == 3:
                         prefix = 'Tần Lăng'
                     else:
-                        prefixes = ['Phá Quân', 'Sương Tinh', 'U Lung', 'Sát Quỷ', 'Vô Ma', 'Băng Hư', 'Đồng Cừu', 'Ma Hoàng', 'Lăng Nhạc', 'Vô Vọng']
+                        prefixes = [
+                            'Phá Quân',
+                            'Sương Tinh',
+                            'U Lung',
+                            'Sát Quỷ',
+                            'Vô Ma',
+                            'Băng Hư',
+                            'Đồng Cừu',
+                            'Ma Hoàng',
+                            'Lăng Nhạc',
+                            'Vô Vọng',
+                        ]
                         prefix = prefixes[h % len(prefixes)]
                 else:
                     if tier == 4 and slot == 3:
@@ -369,38 +490,54 @@ def main():
                 orig_plain = plain(name).lower()
                 suffix = ''
                 if slot == 3:
-                    w_words = [('kiem', 'Kiếm'), ('song dao', 'Song Đao'), ('dao', 'Đao'), ('mau', 'Mâu'), ('kich', 'Kích'), ('con', 'Côn'), ('bong', 'Bổng'), ('truong', 'Trượng'), ('phien', 'Phiến'), ('phu', 'Phủ')]
+                    w_words = [
+                        ('kiem', 'Kiếm'),
+                        ('song dao', 'Song Đao'),
+                        ('dao', 'Đao'),
+                        ('mau', 'Mâu'),
+                        ('kich', 'Kích'),
+                        ('con', 'Côn'),
+                        ('bong', 'Bổng'),
+                        ('truong', 'Trượng'),
+                        ('phien', 'Phiến'),
+                        ('phu', 'Phủ'),
+                    ]
                     for k, v in w_words:
                         if k in orig_plain:
                             suffix = v
                             break
-                    if not suffix: suffix = 'Khí'
+                    if not suffix:
+                        suffix = 'Khí'
                 elif slot == 1:
                     w_words = [('quan', 'Quán'), ('khoi', 'Khôi'), ('mao', 'Mão'), ('mu', 'Mũ'), ('can', 'Cân')]
                     for k, v in w_words:
                         if k in orig_plain:
                             suffix = v
                             break
-                    if not suffix: suffix = ['Quán', 'Khôi', 'Mão'][h % 3]
+                    if not suffix:
+                        suffix = ['Quán', 'Khôi', 'Mão'][h % 3]
                 elif slot == 2:
                     w_words = [('giap', 'Giáp'), ('y', 'Y'), ('bao', 'Bào'), ('thuong', 'Thường'), ('sam', 'Sam')]
                     for k, v in w_words:
                         if k in orig_plain:
                             suffix = v
                             break
-                    if not suffix: suffix = ['Giáp', 'Y', 'Bào', 'Thường', 'Sam'][h % 5]
+                    if not suffix:
+                        suffix = ['Giáp', 'Y', 'Bào', 'Thường', 'Sam'][h % 5]
                 elif slot == 4:
                     w_words = [('hai', 'Hài'), ('ngoa', 'Ngoa'), ('ly', 'Lý'), ('giay', 'Giày')]
                     for k, v in w_words:
                         if k in orig_plain:
                             suffix = v
                             break
-                    if not suffix: suffix = ['Hài', 'Ngoa', 'Lý'][h % 3]
+                    if not suffix:
+                        suffix = ['Hài', 'Ngoa', 'Lý'][h % 3]
                 new_name = prefix + ' ' + suffix + plus
                 name = color_prefix + new_name + color_suffix
                 setv(b'unam', name)
                 setv(b'utip', name)
-                if iid == 'belv': print('belv name:', repr(name), 'st:', st)
+                if iid == 'belv':
+                    print('belv name:', repr(name), 'st:', st)
             if not lore and st:
                 lore = SLOT_LORE[st[0]]
             if st and st[1] == 5 and "hoàng kim" not in tub.lower():
@@ -410,11 +547,20 @@ def main():
                 use_txt = "|cffffcc00Dùng để chế:|r " + ", ".join(dict.fromkeys(use))
                 if "Dùng để chế" not in tub:
                     tub = tub + NL + use_txt if tub else use_txt
-                    
+
                 if "Tiến cử:" in tub or "Tiến Cử:" in tub:
-                    tub = tub.replace("Võ Đang Kiếm, Côn Luân Kiếm", "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao")
-                    tub = tub.replace("Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền", "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy")
-                    tub = tub.replace("Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu", "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ")
+                    tub = tub.replace(
+                        "Võ Đang Kiếm, Côn Luân Kiếm",
+                        "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao",
+                    )
+                    tub = tub.replace(
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền",
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy",
+                    )
+                    tub = tub.replace(
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu",
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ",
+                    )
                 setv(b"utub", tub)
             if st and st[0] in SLOT_NAME:
                 plain_tub = re.sub(r"\|c\w{8}|\|r", "", tub)
@@ -425,36 +571,90 @@ def main():
                 if "Tiến cử" not in tub:
                     rc, poison = recommend(get(b"iabi")[4] if get(b"iabi") else b"", abil, st[0], name)
                     if rc:
-                        tub += NL + "|cff00ff80Tiến cử:|r " + ", ".join(rc) + (" |cff9a9a9a(hệ độc)|r" if poison else "")
+                        tub += (
+                            NL + "|cff00ff80Tiến cử:|r " + ", ".join(rc) + (" |cff9a9a9a(hệ độc)|r" if poison else "")
+                        )
                 if st[0] == 3 and "Ngũ hành vũ khí" not in tub:
                     import gameplay as gp
+
                     e = gp.weapon_element(iid) - 1
-                    tub += NL + "|cffffcc00Ngũ hành vũ khí:|r %s%s|r - %s" % (gp.ELEMENT_COLOR[e], gp.ELEMENTS[e], gp.ELEMENT_TEXT[e])
+                    tub += NL + "|cffffcc00Ngũ hành vũ khí:|r %s%s|r - %s" % (
+                        gp.ELEMENT_COLOR[e],
+                        gp.ELEMENTS[e],
+                        gp.ELEMENT_TEXT[e],
+                    )
                 if "Lỗ khảm" not in tub:
                     tub += NL + "|cff80c0ff%s bậc %d - Lỗ khảm: 2 - Cường hóa theo ô|r" % (SLOT_NAME[st[0]], st[1])
-                
+
                 if "Tiến cử:" in tub or "Tiến Cử:" in tub:
-                    tub = tub.replace("Võ Đang Kiếm, Côn Luân Kiếm", "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao")
-                    tub = tub.replace("Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền", "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy")
-                    tub = tub.replace("Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu", "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ")
+                    tub = tub.replace(
+                        "Võ Đang Kiếm, Côn Luân Kiếm",
+                        "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao",
+                    )
+                    tub = tub.replace(
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền",
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy",
+                    )
+                    tub = tub.replace(
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu",
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ",
+                    )
                 setv(b"utub", tub)
             if iid in KHAM and "[Khảm]" not in tub:
                 tub = (tub + NL if tub else "") + "|cff80c0ff[Khảm] " + KHAM[iid] + " (mỗi trang bị 2 lỗ)|r"
-                
+
                 if "Tiến cử:" in tub or "Tiến Cử:" in tub:
-                    tub = tub.replace("Võ Đang Kiếm, Côn Luân Kiếm", "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao")
-                    tub = tub.replace("Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền", "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy")
-                    tub = tub.replace("Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu", "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ")
+                    tub = tub.replace(
+                        "Võ Đang Kiếm, Côn Luân Kiếm",
+                        "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao",
+                    )
+                    tub = tub.replace(
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền",
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy",
+                    )
+                    tub = tub.replace(
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu",
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ",
+                    )
                 setv(b"utub", tub)
             if iid == "I00W":
-                tub = ("|c008080ffCường hóa trang bị|r" + NL + "Dùng lên mũ, áo, vũ khí hoặc giày: ô đó của bạn +1 cấp cường hóa "
-                       "(tối đa +10). Cấp cường hóa đi theo người, thay món mới vẫn giữ." + NL +
-                       "Mũ +3 mọi chỉ số, áo -2% sát thương nhận, vũ khí +4% sát thương, giày +150 sinh lực mỗi cấp.")
-                
+                import config
+
+                cost, rate, pity = config.GLASS_ENHANCE_COST, config.GLASS_SUCCESS_RATE, config.GLASS_PITY_REQUIRED
+                lines = [
+                    "|c008080ffCường hóa trang bị|r",
+                    "Huyền tinh được cộng thẳng cho người hạ quái (hoặc nhặt vào hành trang), cộng dồn, không rơi từng viên.",
+                    "Bấm nút + cạnh ô trang bị trong bảng Nhân Vật (C) để cường hóa +1, tối đa +10; mỗi bậc đổi icon, tên và chỉ số.",
+                    "Huyền tinh cần cho mỗi bậc: " + ", ".join("+%d: %d" % (i + 1, c) for i, c in enumerate(cost)) + ".",
+                ]
+                if any(r < 100 for r in rate):
+                    lines.append(
+                        "Tỉ lệ thành công: " + ", ".join("+%d: %d%%" % (i + 1, r) for i, r in enumerate(rate)) + "."
+                    )
+                    lines.append(
+                        "Thất bại không tụt cấp, mất huyền tinh và tích lũy bảo hiểm riêng từng món (số lần thất bại để chắc chắn thành công: "
+                        + ", ".join("+%d: %d" % (i + 1, p_) for i, p_ in enumerate(pity))
+                        + ")."
+                    )
+                else:
+                    lines.append("Cường hóa luôn thành công, không tụt cấp.")
+                tub = NL.join(lines)
+                setv(b"unam", "|cffffff00Huyền tinh|r")
+                setv(b"utip", "|cffffff00Huyền tinh|r")
+
                 if "Tiến cử:" in tub or "Tiến Cử:" in tub:
-                    tub = tub.replace("Võ Đang Kiếm, Côn Luân Kiếm", "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao")
-                    tub = tub.replace("Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền", "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy")
-                    tub = tub.replace("Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu", "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ")
+                    tub = tub.replace(
+                        "Võ Đang Kiếm, Côn Luân Kiếm",
+                        "Võ Đang Kiếm, Côn Luân Kiếm, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Thúy Yên Song Đao",
+                    )
+                    tub = tub.replace(
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền",
+                        "Thiên Vương Đao, Thiên Vương Thương, Thiên Vương Chùy, Thiếu Lâm Quyền, Cái Bang Bổng, Minh Giáo Chùy",
+                    )
+                    tub = tub.replace(
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu",
+                        "Ngũ Độc Đao, Võ Đang Kiếm, Thúy Yên Song Đao, Đường Môn Phi Tiêu, Nga My Kiếm, Minh Giáo Kiếm, Cổ Mộ Kiếm, Cổ Mộ Châm, Hoa Sơn Kiếm, Tiêu Dao Kiếm, Đoàn Thị Chỉ",
+                    )
                 setv(b"utub", tub)
             parts = [tub] if tub else []
             if lore:
@@ -465,15 +665,10 @@ def main():
     data = objdata.write(ver, tabs, ".w3t")
     open(p, "wb").write(data)
     import hashlib
+
     print('MD5 written:', hashlib.md5(data).hexdigest(), 'to', p)
     print("described items:", n, "| materials with recipes:", len(uses))
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-

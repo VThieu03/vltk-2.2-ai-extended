@@ -54,16 +54,8 @@ function zzVL_TpTick takes integer vl_playerId,unit vl_hero returns nothing
     local integer vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),50)
     local integer vl_lv=GetHeroLevel(vl_hero)
     local integer vl_w
-    local integer vl_i=1
     if not zzVL_gotStart[vl_playerId] then
         set zzVL_gotStart[vl_playerId]=true
-        loop
-            exitwhen vl_i>4
-            if zzVL_start[vl_i]!=0 then
-                call UnitAddItem(vl_hero,CreateItem(zzVL_start[vl_i],GetUnitX(vl_hero),GetUnitY(vl_hero)))
-            endif
-            set vl_i=vl_i+1
-        endloop
         set zzVL_potion=CreateItem('phea',GetUnitX(vl_hero),GetUnitY(vl_hero))
         call SetItemCharges(zzVL_potion,10)
         call UnitAddItem(vl_hero,zzVL_potion)
@@ -245,7 +237,7 @@ endfunction
 // Không trả về giá trị (thực thi hành động).
 function zzVL_CuongHoa takes unit vl_hero,item vl_item returns nothing
     if not zzVL_CuongDo(vl_hero,vl_item) and vl_hero!=null then
-        call UnitAddItem(vl_hero,CreateItem('I00W',GetUnitX(vl_hero),GetUnitY(vl_hero)))
+        call zzGL_Give(GetPlayerId(GetOwningPlayer(vl_hero)),1)
     endif
 endfunction
 

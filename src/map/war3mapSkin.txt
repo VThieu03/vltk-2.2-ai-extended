@@ -1,20 +1,10 @@
 [CustomSkin]
-InfoPanelIconHeroIconINT=war3mapImported\vl_ui_attr.blp
-InfoPanelIconHeroIconAGI=war3mapImported\vl_ui_attr.blp
-InfoPanelIconHeroIconSTR=war3mapImported\vl_ui_attr.blp
-InfoPanelIconArmorNormalNeutral=war3mapImported\vl_ui_def.blp
-InfoPanelIconArmorNormal=war3mapImported\vl_ui_def.blp
-InfoPanelIconDamageHeroNeutral=war3mapImported\vl_ui_atk.blp
-InfoPanelIconDamageHero=war3mapImported\vl_ui_atk.blp
-InfoPanelIconDamageNormalNeutral=war3mapImported\vl_ui_atk.blp
-InfoPanelIconDamageNormal=war3mapImported\vl_ui_atk.blp
-GoldIcon=war3mapImported\vl_ui_gold.blp
-LumberIcon=war3mapImported\vl_ui_knb.blp
+LumberIcon=ReplaceableTextures\WorldEditUI\Editor-ItemSet.blp
 NoLumberSound=Warning
 NoManaSound=Warning
 InventoryFullSound=ItemDrop
-InfoPanelIconArmorHeroNeutral=war3mapImported\vl_ui_def.blp
-InfoPanelIconArmorHero=war3mapImported\vl_ui_def.blp
+InfoPanelIconArmorHeroNeutral=ReplaceableTextures\CommandButtons\BTNHeroStat.blp
+InfoPanelIconArmorHero=ReplaceableTextures\CommandButtons\BTNHeroStat.blp
 
 [FrameDef]
 BONUS_MANA= - Mỗi điểm nâng nội lực lên %d

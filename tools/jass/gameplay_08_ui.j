@@ -17,6 +17,11 @@ function zzVL_EqSlot takes item vl_item returns integer
     if vl_item==null then
         return -1
     endif
+    // Share the canonical KVCT/legacy slot mapping used by enhancement and inheritance.
+    set vl_v=zzEQ_Slot(GetItemTypeId(vl_item))
+    if vl_v>0 then
+        return vl_v-1
+    endif
     set vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)/10
     if vl_v==1 then
         return 0
@@ -40,6 +45,66 @@ function zzVL_EqSlot takes item vl_item returns integer
         return 9
     endif
     return -1
+endfunction
+
+// Give every selected hero the new KVCT 10-slot starter set at +0; the weapon follows the hero's class.
+// The original map's selection trigger stores the hero in zzEQ_starterHero then calls this through ExecuteFunc,
+// since that trigger appears before generated gameplay modules in the compiled script.
+function zzEQ_GiveStarter takes nothing returns nothing
+    local integer vl_pid=0
+    local integer vl_slot
+    local integer vl_type
+    local unit vl_hero
+    local item vl_it
+    loop
+        exitwhen vl_pid>9
+        set vl_hero=zzEQ_starterHero[vl_pid]
+        if vl_hero!=null and not zzEQ_starterGiven[vl_pid] then
+            set vl_slot=0
+            loop
+                exitwhen vl_slot>9
+                if vl_slot==0 then
+                    set vl_type='ITS1'
+                elseif vl_slot==1 then
+                    set vl_type='ITS2'
+                elseif vl_slot==2 then
+                    set vl_type='ITS3'
+                elseif vl_slot==3 then
+                    set vl_type='ITS4'
+                elseif vl_slot==4 then
+                    set vl_type='ITS5'
+                elseif vl_slot==5 then
+                    set vl_type=zzEQ_StartWeapon(vl_hero)
+                elseif vl_slot==6 then
+                    set vl_type='ITS7'
+                elseif vl_slot==7 then
+                    set vl_type='ITS8'
+                elseif vl_slot==8 then
+                    set vl_type='ITS9'
+                else
+                    set vl_type='ITSA'
+                endif
+                set vl_it=CreateItem(vl_type,GetUnitX(vl_hero),GetUnitY(vl_hero))
+                if vl_it!=null then
+                    call zzEQ_SetTier(vl_it,0)
+                    call zzVL_TaiPhu(vl_it)
+                    set zzVL_equipItem[vl_pid*10+vl_slot]=vl_it
+                    call SetItemVisible(vl_it,false)
+                else
+                    call zzVL_Log("starter item creation failed p"+I2S(vl_pid)+" slot"+I2S(vl_slot))
+                endif
+                set vl_slot=vl_slot+1
+            endloop
+            set zzEQ_starterGiven[vl_pid]=true
+            call zzVL_AffixSum(vl_pid)
+            call ExecuteFunc("zzVL_HeroTick")
+            call zzVL_Log("starter gear equipped p"+I2S(vl_pid)+" (10 slots, +0)")
+            set zzEQ_starterHero[vl_pid]=null
+        endif
+        set vl_pid=vl_pid+1
+    endloop
+    set vl_hero=null
+    set vl_it=null
 endfunction
 
 // ==========================================
@@ -158,6 +223,7 @@ endfunction
 // Trả về dữ liệu kiểu: string
 function zzVL_ItemTip takes item vl_item returns string
     local string vl_string
+    local string vl_ext
     if vl_item==null then
         return "Ô trống"
     endif
@@ -165,11 +231,49 @@ function zzVL_ItemTip takes item vl_item returns string
     if GetItemCharges(vl_item)>0 then
         set vl_string=vl_string+" (x"+I2S(GetItemCharges(vl_item))+")"
     endif
-    set vl_string=vl_string+"|n"+BlzGetItemDescription(vl_item)
+    set vl_ext=BlzGetItemExtendedTooltip(vl_item)
+    if vl_ext==null or vl_ext=="" then
+        set vl_ext=BlzGetItemDescription(vl_item)
+    endif
+    if vl_ext!=null and vl_ext!="" then
+        set vl_string=vl_string+"|n"+vl_ext
+    endif
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)>=10 and LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)<50 then
         set vl_string=vl_string+"|n|cffffcc00Tài phú: "+I2S(zzVL_GearScore(vl_item))+"|r"
     endif
     return vl_string
+endfunction
+
+// Tooltip tự vẽ để hover ô tùy biến luôn hiển thị đủ mô tả, affix, khảm và cường hóa.
+function zzVL_ItemHoverOn takes nothing returns nothing
+    local framehandle vl_frame=BlzGetTriggerFrame()
+    local player vl_player=GetTriggerPlayer()
+    local integer vl_kind=LoadInteger(zzVL_ht,GetHandleId(vl_frame),8)
+    local integer vl_index=LoadInteger(zzVL_ht,GetHandleId(vl_frame),9)
+    local integer vl_pid=GetPlayerId(vl_player)
+    local item vl_item=null
+    if vl_kind==1 and vl_index>=0 and vl_index<30 then
+        set vl_item=zzVL_bag[vl_pid*30+vl_index]
+    elseif vl_kind==2 and vl_index>=0 and vl_index<10 then
+        set vl_item=zzVL_equipItem[vl_pid*10+vl_index]
+    elseif vl_kind==3 and vl_index>=0 and vl_index<10 then
+        if Er[vl_pid+1]!=null then
+            set vl_item=UnitItemInSlot(Er[vl_pid+1],vl_index)
+        endif
+    endif
+    if GetLocalPlayer()==vl_player and vl_item!=null then
+        call BlzFrameSetText(zzVL_fItemHoverTxt,zzVL_ItemTip(vl_item))
+        call BlzFrameSetVisible(zzVL_fItemHover,true)
+    endif
+    set vl_item=null
+    set vl_player=null
+    set vl_frame=null
+endfunction
+
+function zzVL_ItemHoverOff takes nothing returns nothing
+    if GetLocalPlayer()==GetTriggerPlayer() then
+        call BlzFrameSetVisible(zzVL_fItemHover,false)
+    endif
 endfunction
 
 // ==========================================
@@ -220,8 +324,7 @@ function zzVL_Refresh takes integer vl_playerId returns nothing
     endloop
     set vl_i=0
     loop
-        exitwhen vl_i>5
-        call zzVL_SetSlot(vl_playerId,30+vl_i,zzVL_equipItem[vl_playerId*10+vl_i])
+        exitwhen vl_i>9
         if vl_tk!=null then
             call zzVL_SetSlot(vl_playerId,36+vl_i,UnitItemInSlot(vl_tk,vl_i))
         else
@@ -577,31 +680,31 @@ function zzVL_KhamInit takes nothing returns nothing
     call SaveInteger(zzVL_ht,'I06P',45,8)
     call SaveInteger(zzVL_ht,'I06U',44,10)
     call SaveInteger(zzVL_ht,'I06U',45,8)
-    
+
     // New Gems (IDs: I101 to I10C)
     call SaveInteger(zzVL_ht,'I101',44,11)
     call SaveInteger(zzVL_ht,'I101',45,15)
     call SaveInteger(zzVL_ht,'I102',44,12)
-    call SaveInteger(zzVL_ht,'I102',45,15) 
+    call SaveInteger(zzVL_ht,'I102',45,15)
     call SaveInteger(zzVL_ht,'I103',44,13)
     call SaveInteger(zzVL_ht,'I103',45,15)
     call SaveInteger(zzVL_ht,'I104',44,14)
     call SaveInteger(zzVL_ht,'I104',45,15)
     call SaveInteger(zzVL_ht,'I105',44,15)
     call SaveInteger(zzVL_ht,'I105',45,15)
-    
+
     call SaveInteger(zzVL_ht,'I106',44,16)
     call SaveInteger(zzVL_ht,'I106',45,10)
     call SaveInteger(zzVL_ht,'I107',44,17)
     call SaveInteger(zzVL_ht,'I107',45,50)
     call SaveInteger(zzVL_ht,'I108',44,18)
     call SaveInteger(zzVL_ht,'I108',45,50)
-    
+
     call SaveInteger(zzVL_ht,'I109',44,19)
     call SaveInteger(zzVL_ht,'I109',45,200)
     call SaveInteger(zzVL_ht,'I10A',44,20)
     call SaveInteger(zzVL_ht,'I10A',45,200)
-    
+
     call SaveInteger(zzVL_ht,'I10B',44,21)
     call SaveInteger(zzVL_ht,'I10B',45,40)
     call SaveInteger(zzVL_ht,'I10C',44,22)
@@ -657,6 +760,10 @@ function zzVL_Kham takes integer vl_playerId,item vl_g returns nothing
     endif
     set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(vl_m),44)
     set vl_v=LoadInteger(zzVL_ht,GetItemTypeId(vl_m),45)
+    if zzGM_Type(GetItemTypeId(vl_m))>0 then
+        set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(vl_m),112)
+        set vl_v=zzGM_Stat(zzGM_Type(GetItemTypeId(vl_m)),zzGM_Tier(GetItemTypeId(vl_m)))
+    endif
     call SaveInteger(zzVL_ht,vl_id,43,LoadInteger(zzVL_ht,vl_id,43)+1)
     call SaveInteger(zzVL_ht,vl_id,30+vl_k,LoadInteger(zzVL_ht,vl_id,30+vl_k)+vl_v)
     set vl_string="|n|cff80c0ff[Khảm] "+GetItemName(vl_m)+": "+zzVL_KhamText(vl_k,vl_v)+"|r"
@@ -697,24 +804,37 @@ endfunction
 function zzVL_TtUse takes integer vl_playerId,item vl_g returns nothing
     local item vl_t=zzVL_tSel[vl_playerId]
     local integer vl_i=0
+    local integer vl_n
+    local boolean vl_ok
     set zzVL_tSel[vl_playerId]=null
     if vl_t==null or GetItemTypeId(vl_t)!='I00W' then
         set vl_t=null
         return
     endif
-    if zzVL_CuongDo(Jx[vl_playerId+1],vl_g) then
-        if GetItemCharges(vl_t)>1 then
-            call SetItemCharges(vl_t,GetItemCharges(vl_t)-1)
-        else
-            loop
-                exitwhen vl_i>29
-                if zzVL_bag[vl_playerId*30+vl_i]==vl_t then
-                    set zzVL_bag[vl_playerId*30+vl_i]=null
-                endif
-                set vl_i=vl_i+1
-            endloop
-            call RemoveItem(vl_t)
+    if vl_g==null or (not zzEQ_IsKv(GetItemTypeId(vl_g)) and zzVL_EqSlot(vl_g)<0) then
+        call zzVL_Msg(vl_playerId,"Hãy dùng Huyền Tinh lên một món trang bị hợp lệ.")
+        set vl_t=null
+        return
+    endif
+    set vl_n=IMaxBJ(1,GetItemCharges(vl_t))
+    call zzGL_Give(vl_playerId,vl_n)
+    loop
+        exitwhen vl_i>=30
+        if zzVL_bag[vl_playerId*30+vl_i]==vl_t then
+            set zzVL_bag[vl_playerId*30+vl_i]=null
         endif
+        set vl_i=vl_i+1
+    endloop
+    call RemoveItem(vl_t)
+    set vl_t=null
+    if zzEQ_IsKv(GetItemTypeId(vl_g)) then
+        set vl_ok=zzEQ_TryEnhance(vl_playerId,vl_g)
+    else
+        set vl_ok=zzEQ_TrySlotEnhance(vl_playerId,zzVL_EqSlot(vl_g),vl_g)
+    endif
+    if vl_ok then
+        call zzVL_AffixSum(vl_playerId)
+        call ExecuteFunc("zzVL_HeroTick")
     endif
     set vl_t=null
 endfunction
@@ -914,7 +1034,7 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
                 call zzVL_TtUse(vl_playerId,vl_item)
             elseif GetItemTypeId(vl_item)=='I00W' and not zzVL_sendTK[vl_playerId] then
                 set zzVL_tSel[vl_playerId]=vl_item
-                call zzVL_Msg(vl_playerId,"Đã chọn |cffffff00Thủy tinh|r. Bấm vào mũ, áo, vũ khí hoặc giày để cường hóa ô đó.")
+                call zzVL_Msg(vl_playerId,"Đã chọn |cffffff00Huyền tinh|r. Bấm vào trang bị (mũ, áo, yêu đái, hộ uyển, hài, vũ khí, hạng liên, giới chỉ, ngọc bội, hộ thân phù) để cường hóa.")
             elseif zzVL_sendTK[vl_playerId] then
                 if vl_tk!=null and UnitInventoryCount(vl_tk)<6 then
                     set zzVL_bag[vl_playerId*30+vl_code]=null
@@ -926,8 +1046,12 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
                 endif
             else
                 set vl_w=zzVL_EqSlot(vl_item)
+                if vl_w>=0 and vl_w<=9 and not zzEQ_CheckWear(vl_hero,vl_item) then
+                    set vl_w=-2
+                endif
                 if vl_w>=0 and vl_w<=9 then
                     set vl_old=zzVL_equipItem[vl_playerId*10+vl_w]
+                    call zzEQ_InheritSlot(vl_playerId,vl_w,vl_item,vl_old)
                     set zzVL_bag[vl_playerId*30+vl_code]=null
                     if vl_old!=null then
                         set zzVL_bag[vl_playerId*30+vl_code]=vl_old
@@ -939,6 +1063,8 @@ function zzVL_BagClick takes integer vl_playerId,integer vl_code returns nothing
                     call SetItemVisible(vl_item,false)
                     call zzVL_AffixSum(vl_playerId)
                     call ExecuteFunc("zzVL_HeroTick")
+                elseif vl_w==-2 then
+                    set vl_old=null
                 else
                     if GetItemCharges(vl_item)>1 and (UnitItemInSlot(vl_hero,5)==null or GetItemTypeId(UnitItemInSlot(vl_hero,5))==GetItemTypeId(vl_item)) then
                         if UnitItemInSlot(vl_hero,5)!=null then
@@ -1045,11 +1171,12 @@ function zzVL_OnFrameClick takes nothing returns nothing
     local framehandle vl_f=BlzGetTriggerFrame()
     local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
     local integer vl_code=LoadInteger(zzVL_ht,GetHandleId(vl_f),7)-1
-    if GetLocalPlayer()==GetTriggerPlayer() then
-        call BlzFrameSetEnable(vl_f,false)
-        call BlzFrameSetEnable(vl_f,true)
-    endif
-    if vl_code>=0 and zzVL_IsBagUser(vl_playerId) then
+    if vl_code>=100 and vl_code<110 then
+        // the small + beside an equipment slot of the character panel (zzVL_PlusDo, defined after zzVL_HeroShow)
+        set zzVL_plusP=vl_playerId
+        set zzVL_plusS=vl_code-100
+        call ExecuteFunc("zzVL_PlusDo")
+    elseif vl_code>=0 and zzVL_IsBagUser(vl_playerId) then
         call zzVL_BagClick(vl_playerId,vl_code)
     endif
     set vl_f=null
@@ -1232,7 +1359,7 @@ endfunction
 //   - vl_y (real)
 // Không trả về giá trị (thực thi hành động).
 function zzVL_MakeSlot takes integer vl_code,real vl_x,real vl_y returns nothing
-    local framehandle vl_b=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fMain,"ScoreScreenTabButtonTemplate",0)
+    local framehandle vl_b=BlzCreateFrameByType("BUTTON","",zzVL_fMain,"",0)
     local framehandle vl_i=BlzCreateFrameByType("BACKDROP","",vl_b,"",0)
     local framehandle vl_bg=BlzCreateFrame("EscMenuBackdrop",vl_b,0,0)
     local framehandle vl_t=BlzCreateFrameByType("TEXT","",vl_bg,"",0)
@@ -1244,9 +1371,19 @@ function zzVL_MakeSlot takes integer vl_code,real vl_x,real vl_y returns nothing
     call BlzFrameSetAbsPoint(vl_t,FRAMEPOINT_TOPRIGHT,.455,.55)
     call BlzFrameSetPoint(vl_bg,FRAMEPOINT_TOPLEFT,vl_t,FRAMEPOINT_TOPLEFT,-.012,.012)
     call BlzFrameSetPoint(vl_bg,FRAMEPOINT_BOTTOMRIGHT,vl_t,FRAMEPOINT_BOTTOMRIGHT,.012,-.012)
-    call BlzFrameSetTooltip(vl_b,vl_bg)
+    call BlzFrameSetVisible(vl_bg,false)
+    // Item details are rendered by the shared hover frame; keep native tooltip from overlaying adjacent controls.
     call SaveInteger(zzVL_ht,GetHandleId(vl_b),7,vl_code+1)
+    if vl_code<30 then
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),8,1)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),9,vl_code)
+    elseif vl_code>=36 then
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),8,3)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),9,vl_code-36)
+    endif
     call BlzTriggerRegisterFrameEvent(zzVL_tClick,vl_b,FRAMEEVENT_CONTROL_CLICK)
+    call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOn,vl_b,FRAMEEVENT_MOUSE_ENTER)
+    call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOff,vl_b,FRAMEEVENT_MOUSE_LEAVE)
     set zzVL_fIco[vl_code]=vl_i
     set zzVL_fTip[vl_code]=vl_t
     set zzVL_fCnt[vl_code]=BlzCreateFrameByType("TEXT","",vl_b,"",0)
@@ -1364,16 +1501,26 @@ function zzVL_HeroText takes integer vl_playerId returns string
         endif
         set vl_i=vl_i+1
     endloop
-    set vl_string="|cffffcc00"+GetHeroProperName(vl_hero)+"|r  -  "+GetUnitName(vl_hero)+"|nCấp |cff00ff00"+I2S(GetHeroLevel(vl_hero))+"|r   Hệ "+zzVL_hn[zzVL_he[vl_playerId]]+"   Quân hàm "+zzVL_rn[zzVL_rank[vl_playerId]]
-    set vl_string=vl_string+"|n|n|cffffcc00Sinh lực|r "+I2S(R2I(GetWidgetLife(vl_hero)))+" / "+I2S(BlzGetUnitMaxHP(vl_hero))+"|n|cff6aa0ffNội lực|r "+I2S(R2I(GetUnitState(vl_hero,UNIT_STATE_MANA)))+" / "+I2S(BlzGetUnitMaxMana(vl_hero))
-    set vl_string=vl_string+"|n|cffffcc00Công kích|r "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0))+" - "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0)*BlzGetUnitDiceSides(vl_hero,0))+"   |cffffcc00Phòng thủ|r "+I2S(R2I(BlzGetUnitArmor(vl_hero)))
-    set vl_string=vl_string+"|n|cffff8080Sức mạnh|r "+I2S(GetHeroStr(vl_hero,true))+"   |cff80ff80Thân pháp|r "+I2S(GetHeroAgi(vl_hero,true))+"   |cff80c0ffNội công|r "+I2S(GetHeroInt(vl_hero,true))
-    set vl_string=vl_string+"|n|n|cffffcc00Thuộc tính trang bị|r|nHút sinh lực "+I2S(zzVL_af[vl_playerId*16+1])+"%   Hút nội lực "+I2S(zzVL_af[vl_playerId*16+2])+"%|nBạo kích "+I2S(zzVL_af[vl_playerId*16+3])+"%   Tốc đánh +"+I2S(zzVL_af[vl_playerId*16+4])+"%   Tốc độ xuất chiêu +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 16))+"%|nSát thương +"+I2S(zzVL_af[vl_playerId*16+5])+"%   Giảm sát thương "+I2S(zzVL_af[vl_playerId*16+6])+"%"
-    set vl_string=vl_string+"|nSTVL nội công +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 17))+"   STVL ngoại công +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 18))+"   Kỹ năng +"+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 22))+" cấp"
-    set vl_string=vl_string+"|nKháng: Vật "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 11))+"% Độc "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 12))+"% Thủy "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 13))+"% Hỏa "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 14))+"% Lôi "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 15))+"%"
-    set vl_string=vl_string+"|nĐiểm đánh trúng: "+I2S(LoadInteger(zzVL_ht, 1000+vl_playerId, 19))+"   Né tránh: "+I2S(R2I(GetHeroAgi(vl_hero,true)/2.0) + LoadInteger(zzVL_ht, 1000+vl_playerId, 20))+"   Tốc chạy +"+I2S(zzVL_af[vl_playerId*16+13])
-    set vl_string=vl_string+"|n|n|cffffcc00Trang bị (10 ô):|r Cường hóa theo ô (xem chi tiết rê chuột vào từng ô đồ)"
+    set vl_string="|cffffcc00"+GetHeroProperName(vl_hero)+"|r - "+GetUnitName(vl_hero)+"|nCấp "+I2S(GetHeroLevel(vl_hero))+"  |  "+zzVL_hn[zzVL_he[vl_playerId]]+"  |  "+zzVL_rn[zzVL_rank[vl_playerId]]
+    set vl_string=vl_string+"|n|n|cffffcc00SINH LỰC|r  "+I2S(R2I(GetWidgetLife(vl_hero)))+" / "+I2S(BlzGetUnitMaxHP(vl_hero))+"|n|cff6aa0ffNỘI LỰC|r  "+I2S(R2I(GetUnitState(vl_hero,UNIT_STATE_MANA)))+" / "+I2S(BlzGetUnitMaxMana(vl_hero))
+    set vl_string=vl_string+"|n|cffffcc00CÔNG KÍCH|r  "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0))+" - "+I2S(BlzGetUnitBaseDamage(vl_hero,0)+BlzGetUnitDiceNumber(vl_hero,0)*BlzGetUnitDiceSides(vl_hero,0))+"|n|cffffcc00PHÒNG THỦ|r  "+I2S(R2I(BlzGetUnitArmor(vl_hero)))
+    set vl_string=vl_string+"|n|n|cffff8080SỨC MẠNH|r  "+I2S(GetHeroStr(vl_hero,true))+"|n|cff80ff80THÂN PHÁP|r  "+I2S(GetHeroAgi(vl_hero,true))+"|n|cff80c0ffNỘI CÔNG|r  "+I2S(GetHeroInt(vl_hero,true))
+    set vl_string=vl_string+"|n|n|cffffcc00THUỘC TÍNH CHIẾN ĐẤU|r"
+    set vl_string=vl_string+"|nHút sinh lực: "+I2S(zzVL_af[vl_playerId*16+1])+"%   Hút nội lực: "+I2S(zzVL_af[vl_playerId*16+2])+"%"
+    set vl_string=vl_string+"|nBạo kích: "+I2S(zzVL_af[vl_playerId*16+3])+"%"
+    set vl_string=vl_string+"|nTốc đánh: +"+I2S(zzVL_af[vl_playerId*16+4])+"%   Sát thương: +"+I2S(zzVL_af[vl_playerId*16+5])+"%"
+    set vl_string=vl_string+"|nGiảm sát thương nhận: "+I2S(zzVL_af[vl_playerId*16+6])+"%"
+    set vl_string=vl_string+"|nTốc xuất chiêu: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,16))+"%"
+    set vl_string=vl_string+"|nSát thương nội công: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,17))
+    set vl_string=vl_string+"|nSát thương ngoại công: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,18))
+    set vl_string=vl_string+"|nCấp kỹ năng: +"+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,22))+"   Đánh trúng: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,19))
+    set vl_string=vl_string+"|nNé tránh: "+I2S(R2I(GetHeroAgi(vl_hero,true)/2.)+LoadInteger(zzVL_ht,1000+vl_playerId,20))+"   Tốc chạy: +"+I2S(zzVL_af[vl_playerId*16+13])
+    set vl_string=vl_string+"|nKháng vật lý: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,11))+"%"
+    set vl_string=vl_string+"|nKháng độc: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,12))+"%   Kháng thủy: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,13))+"%"
+    set vl_string=vl_string+"|nKháng hỏa: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,14))+"%   Kháng lôi: "+I2S(LoadInteger(zzVL_ht,1000+vl_playerId,15))+"%"
+    set vl_string=vl_string+"|n|n|cffffcc00TRANG BỊ (10 Ô)|r  Cấp cường hóa hiển thị trên từng ô"
     set vl_string=vl_string+"|n|cffffcc00Tài phú|r "+I2S(vl_tp)+"|n|cffffcc00Hạ|r "+I2S(zzVL_kills[vl_playerId])+"   |cffffcc00Chết|r "+I2S(zzVL_deaths[vl_playerId])
+    set vl_string=vl_string+"|n|n|cffffcc00HUYỀN TINH|r  "+I2S(zzGL_Count(vl_playerId))+" viên"
     set vl_hero=null
     return vl_string
 endfunction
@@ -1416,63 +1563,63 @@ function zzVL_EquipSlotStat takes integer vl_slot,integer vl_ch returns string
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*2)+" mọi chỉ số, +"+I2S(vl_ch*100)+" Sinh lực"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==1 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Phòng thủ, Kháng vật lý\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r Giảm "+I2S(vl_ch)+"% sát thương nhận, +"+I2S(vl_ch*2)+"% Kháng vật lý"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==2 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Sinh lực, Kháng Độc, Kháng Thủy\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*150)+" Sinh lực, +"+I2S(vl_ch*2)+"% Kháng độc/thủy"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==3 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Tốc đánh, Kháng Hỏa, Kháng Lôi\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*3)+"% Tốc đánh, +"+I2S(vl_ch*2)+"% Kháng hỏa/lôi"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==4 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Tốc độ di chuyển, Né tránh\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*3)+" Tốc chạy, +"+I2S(vl_ch*15)+" Né tránh"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==5 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Công kích, Sát thương %, Ngũ hành vũ khí\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*3)+"% Sát thương, +"+I2S(vl_ch*20)+" STVL ngoại công"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==6 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Bạo kích, STVL nội công, Tốc độ xuất chiêu\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch)+"% Bạo kích, +"+I2S(vl_ch*20)+" STVL nội công, +"+I2S(vl_ch*2)+"% Tốc độ xuất chiêu"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==7 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Điểm đánh trúng, Hút sinh lực\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch*15)+" Điểm đánh trúng, +"+I2S(vl_ch)+"% Hút sinh lực, +"+I2S(vl_ch)+"% Sát thương"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==8 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Hút nội lực, Kháng toàn bộ ngũ hành\n"
         if vl_ch>0 then
             set s=s+"|cff00ff00Cường hóa +"+I2S(vl_ch)+":|r +"+I2S(vl_ch)+"% Hút nội lực, +"+I2S(vl_ch)+"% Kháng tất cả 5 hệ"
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     elseif vl_slot==9 then
         set s="|cffffcc00Thuộc tính cơ bản:|r Sinh lực, Kỹ năng môn phái\n"
@@ -1482,7 +1629,7 @@ function zzVL_EquipSlotStat takes integer vl_slot,integer vl_ch returns string
                 set s=s+", Tất cả kỹ năng +1 cấp"
             endif
         else
-            set s=s+"|cff9a9a9aChưa cường hóa (dùng Thủy Tinh để tăng cấp)|r"
+            set s=s+"|cff9a9a9aChưa cường hóa (dùng Huyền Tinh để tăng cấp)|r"
         endif
     endif
     return s
@@ -1508,10 +1655,11 @@ function zzVL_HeroShow takes integer vl_playerId,boolean vl_on returns nothing
         if vl_hero!=null and vl_on then
             loop
                 set vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),200+vl_i)
-                exitwhen vl_ab==0 or vl_j>5
+                exitwhen vl_ab==0 or vl_i>=14 or vl_j>5
                 if LoadInteger(zzVL_ht,vl_ab,240)==0 and GetUnitAbilityLevel(vl_hero,vl_ab)>0 then
                     call BlzFrameSetTexture(zzVL_fPassIco[vl_j],BlzGetAbilityIcon(vl_ab),0,true)
                     call BlzFrameSetText(zzVL_fPassTTxt[vl_j],"|cffffcc00"+GetObjectName(vl_ab)+"|r|n"+BlzGetAbilityExtendedTooltip(vl_ab,GetUnitAbilityLevel(vl_hero,vl_ab)-1))
+                    call SaveInteger(zzVL_ht,GetHandleId(zzVL_fPassBtn[vl_j]),8,vl_ab)
                     call BlzFrameSetVisible(zzVL_fPassBtn[vl_j],true)
                     set vl_j=vl_j+1
                 endif
@@ -1526,9 +1674,11 @@ function zzVL_HeroShow takes integer vl_playerId,boolean vl_on returns nothing
         set vl_j=0
         loop
             exitwhen vl_j>9
-            set vl_ch=zzVL_cuong[vl_playerId*10+vl_j]
+            set vl_ch=zzEQ_SlotLv(vl_playerId,vl_j)
             if vl_ch>0 then
                 call BlzFrameSetText(zzVL_fEqTxt[vl_j],"|cffffcc00+"+I2S(vl_ch)+"|r")
+            elseif zzVL_equipItem[vl_playerId*10+vl_j]!=null and zzEQ_IsKv(GetItemTypeId(zzVL_equipItem[vl_playerId*10+vl_j])) then
+                call BlzFrameSetText(zzVL_fEqTxt[vl_j],"|cffffcc00+0|r")
             else
                 call BlzFrameSetText(zzVL_fEqTxt[vl_j],"")
             endif
@@ -1617,51 +1767,150 @@ endfunction
 // Chức năng dự kiến: Xử lý giao diện Hành Trang và UI.
 // Không yêu cầu tham số đầu vào.
 // Không trả về giá trị (thực thi hành động).
+// hover over a passive icon of the character panel: one shared tooltip box above the icons shows the skill text
+function zzVL_PassTipOn takes nothing returns nothing
+    local integer vl_ab=LoadInteger(zzVL_ht,GetHandleId(BlzGetTriggerFrame()),8)
+    local player vl_pl=GetTriggerPlayer()
+    local unit vl_hero=Jx[GetPlayerId(vl_pl)+1]
+    if vl_ab!=0 and vl_hero!=null and GetLocalPlayer()==vl_pl then
+        call BlzFrameSetText(zzVL_fPassTipTxt,"|cffffcc00"+GetObjectName(vl_ab)+"|r|n"+BlzGetAbilityExtendedTooltip(vl_ab,IMaxBJ(1,GetUnitAbilityLevel(vl_hero,vl_ab))-1))
+        call BlzFrameSetVisible(zzVL_fPassTip,true)
+    endif
+    set vl_pl=null
+    set vl_hero=null
+endfunction
+function zzVL_PassTipOff takes nothing returns nothing
+    if GetLocalPlayer()==GetTriggerPlayer() then
+        call BlzFrameSetVisible(zzVL_fPassTip,false)
+    endif
+endfunction
+// ==========================================
+// Cường hóa bằng nút +, trả giá bằng GlassPoint. Tinh thể I00W cũ được đổi sang điểm trước khi nâng.
+function zzVL_PlusCount takes integer vl_playerId returns integer
+    return zzGL_Get(vl_playerId)
+endfunction
+
+function zzVL_PlusConvertLegacy takes integer vl_playerId returns nothing
+    local integer vl_i=0
+    local integer vl_n
+    local item vl_item
+    local unit vl_hero=Jx[vl_playerId+1]
+    local unit vl_tk=Er[vl_playerId+1]
+    loop
+        exitwhen vl_i>=30
+        set vl_item=zzVL_bag[vl_playerId*30+vl_i]
+        if vl_item!=null and GetItemTypeId(vl_item)=='I00W' then
+            set vl_n=IMaxBJ(1,GetItemCharges(vl_item))
+            call zzGL_Give(vl_playerId,vl_n)
+            set zzVL_bag[vl_playerId*30+vl_i]=null
+            call RemoveItem(vl_item)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>=6 or vl_hero==null
+        set vl_item=UnitItemInSlot(vl_hero,vl_i)
+        if vl_item!=null and GetItemTypeId(vl_item)=='I00W' then
+            set vl_n=IMaxBJ(1,GetItemCharges(vl_item))
+            call zzGL_Give(vl_playerId,vl_n)
+            call RemoveItem(vl_item)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>=6 or vl_tk==null
+        set vl_item=UnitItemInSlot(vl_tk,vl_i)
+        if vl_item!=null and GetItemTypeId(vl_item)=='I00W' then
+            set vl_n=IMaxBJ(1,GetItemCharges(vl_item))
+            call zzGL_Give(vl_playerId,vl_n)
+            call RemoveItem(vl_item)
+        endif
+        set vl_i=vl_i+1
+    endloop
+    set vl_item=null
+    set vl_hero=null
+    set vl_tk=null
+    set zzVL_tSel[vl_playerId]=null
+endfunction
+
+function zzVL_PlusDo takes nothing returns nothing
+    local integer vl_p=zzVL_plusP
+    local integer vl_s=zzVL_plusS
+    local item vl_it=zzVL_equipItem[vl_p*10+vl_s]
+    local boolean vl_ok
+    if not zzVL_IsBagUser(vl_p) then
+        return
+    endif
+    if vl_it==null then
+        call zzVL_Msg(vl_p,"Ô này chưa có trang bị để cường hóa.")
+        return
+    endif
+    // Do not consume any crystals unless there is a valid equipped target.
+    call zzVL_PlusConvertLegacy(vl_p)
+    if zzVL_bagOpen[vl_p] then
+        call zzVL_Refresh(vl_p)
+    endif
+    if zzEQ_IsKv(GetItemTypeId(vl_it)) then
+        set vl_ok=zzEQ_TryEnhance(vl_p,vl_it)
+    else
+        set vl_ok=zzEQ_TrySlotEnhance(vl_p,vl_s,vl_it)
+    endif
+    if vl_ok then
+        call zzVL_AffixSum(vl_p)
+        call ExecuteFunc("zzVL_HeroTick")
+        call zzVL_HeroShow(vl_p,true)
+    endif
+    set vl_it=null
+endfunction
+
 function zzVL_BagUI takes nothing returns nothing
     local framehandle vl_ui=BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0)
     local integer vl_i=0
     local real vl_x0=.495
+    local trigger vl_t
+    local framehandle vl_b
+    local framehandle vl_x
     call BlzLoadTOCFile("war3mapImported\\vltk.toc")
     set zzVL_tClick=CreateTrigger()
     call TriggerAddAction(zzVL_tClick,function zzVL_OnFrameClick)
+    set zzVL_tItemHoverOn=CreateTrigger()
+    call TriggerAddAction(zzVL_tItemHoverOn,function zzVL_ItemHoverOn)
+    set zzVL_tItemHoverOff=CreateTrigger()
+    call TriggerAddAction(zzVL_tItemHoverOff,function zzVL_ItemHoverOff)
     set zzVL_fMain=BlzCreateFrame("EscMenuBackdrop",vl_ui,0,0)
     call BlzFrameSetAbsPoint(zzVL_fMain,FRAMEPOINT_TOPLEFT,.475,.565)
-    call BlzFrameSetAbsPoint(zzVL_fMain,FRAMEPOINT_BOTTOMRIGHT,.785,.135)
-    call zzVL_Panel(zzVL_fMain,.478,.562,.782,.138,"war3mapImported\\vl_ui_panel.blp",245)
+    call BlzFrameSetAbsPoint(zzVL_fMain,FRAMEPOINT_BOTTOMRIGHT,.785,.185)
+    call zzVL_Panel(zzVL_fMain,.478,.562,.782,.188,"war3mapImported\\vl_ui_panel.blp",245)
     call zzVL_MakeText(zzVL_fMain,.495,.548,.27,"|cffffcc00HÀNH TRANG|r  (phím B)")
-    call zzVL_MakeText(zzVL_fMain,.495,.528,.27,"Trang bị - bấm để tháo ra")
-    loop
-        exitwhen vl_i>5
-        call zzVL_MakeSlot(30+vl_i,vl_x0+vl_i*.045,.512)
-        set vl_i=vl_i+1
-    endloop
-    call zzVL_MakeText(zzVL_fMain,.495,.47,.27,"Hành trang - bấm để mặc / dùng")
+    call zzVL_MakeText(zzVL_fMain,.495,.520,.27,"Hành trang - bấm để mặc / dùng")
     set vl_i=0
     loop
         exitwhen vl_i>29
-        call zzVL_MakeSlot(vl_i,vl_x0+ModuloInteger(vl_i,6)*.045,.455-(vl_i/6)*.038)
+        call zzVL_MakeSlot(vl_i,vl_x0+ModuloInteger(vl_i,6)*.045,.505-(vl_i/6)*.038)
         set vl_i=vl_i+1
     endloop
-    call zzVL_MakeText(zzVL_fMain,.495,.262,.27,"Thủ Khố (chế đồ) - bấm để lấy về")
+    call zzVL_MakeText(zzVL_fMain,.495,.312,.27,"Thủ Khố (chế đồ) - bấm để lấy về")
     set vl_i=0
     loop
         exitwhen vl_i>5
-        call zzVL_MakeSlot(36+vl_i,vl_x0+vl_i*.045,.246)
+        call zzVL_MakeSlot(36+vl_i,vl_x0+vl_i*.045,.296)
         set vl_i=vl_i+1
     endloop
-    set zzVL_fMode=zzVL_MakeButton(42,zzVL_fMain,.495,.205,.075,"Gửi đồ: TẮT")
-    set zzVL_fSell=zzVL_MakeButton(46,zzVL_fMain,.571,.205,.045,"Bán")
-    set zzVL_fSplit=zzVL_MakeButton(47,zzVL_fMain,.617,.205,.045,"Tách")
-    set zzVL_fKham=zzVL_MakeButton(48,zzVL_fMain,.663,.205,.05,"Khảm")
+    set zzVL_fMode=zzVL_MakeButton(42,zzVL_fMain,.495,.255,.075,"Gửi đồ: TẮT")
+    set zzVL_fSell=zzVL_MakeButton(46,zzVL_fMain,.571,.255,.045,"Bán")
+    set zzVL_fSplit=zzVL_MakeButton(47,zzVL_fMain,.617,.255,.045,"Tách")
+    set zzVL_fKham=zzVL_MakeButton(48,zzVL_fMain,.663,.255,.05,"Khảm")
     set zzVL_fHl[0]=zzVL_MakeHl(zzVL_fMode)
     set zzVL_fHl[1]=zzVL_MakeHl(zzVL_fSell)
     set zzVL_fHl[2]=zzVL_MakeHl(zzVL_fSplit)
     set zzVL_fHl[3]=zzVL_MakeHl(zzVL_fKham)
-    call zzVL_MakeButton(45,zzVL_fMain,.714,.205,.032,"|cff00ffffChế|r")
-    call zzVL_MakeButton(43,zzVL_fMain,.747,.205,.03,"X")
-    set zzVL_fAuto=zzVL_MakeButton(49,zzVL_fMain,.495,.18,.11,"Tự bán: TẮT")
+    call zzVL_MakeButton(45,zzVL_fMain,.714,.255,.032,"|cff00ffffChế|r")
+    call zzVL_MakeButton(43,zzVL_fMain,.747,.255,.03,"X")
+    set zzVL_fAuto=zzVL_MakeButton(49,zzVL_fMain,.495,.23,.11,"Tự bán: TẮT")
     set zzVL_fHl[4]=zzVL_MakeHl(zzVL_fAuto)
-    set zzVL_fInfo=zzVL_MakeText(zzVL_fMain,.495,.155,.28,"")
+    set zzVL_fInfo=zzVL_MakeText(zzVL_fMain,.495,.205,.28,"")
     call BlzFrameSetVisible(zzVL_fMain,false)
     set zzVL_fScore=zzVL_MakeText(vl_ui,.685,.52,.10,"")
     call BlzFrameSetSize(zzVL_fScore,.10,.03)
@@ -1674,13 +1923,16 @@ function zzVL_BagUI takes nothing returns nothing
     call BlzFrameSetAbsPoint(zzVL_fHero,FRAMEPOINT_BOTTOMRIGHT,.365,.155)
     call zzVL_Panel(zzVL_fHero,.018,.532,.362,.158,"war3mapImported\\vl_ui_panel.blp",245)
     call zzVL_MakeText(zzVL_fHero,.085,.520,.20,"|cffffcc00NHÂN VẬT & TRANG BỊ|r  (phím C)")
-    set zzVL_fHeroTxt=zzVL_MakeText(zzVL_fHero,.063,.502,.252,"")
-    call BlzFrameSetSize(zzVL_fHeroTxt,.252,.285)
+    set zzVL_fHeroTxt=zzVL_MakeText(zzVL_fHero,.083,.502,.211,"")
+    call BlzFrameSetSize(zzVL_fHeroTxt,.211,.33)
+    call BlzFrameSetScale(zzVL_fHeroTxt,.88)
     set vl_i=0
     loop
         exitwhen vl_i>4
-        set zzVL_fEqBtn[vl_i]=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        set zzVL_fEqBtn[vl_i]=BlzCreateFrameByType("BUTTON","",zzVL_fHero,"",0)
         call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[vl_i]),7,30+vl_i+1)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[vl_i]),8,2)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[vl_i]),9,vl_i)
         call BlzFrameSetSize(zzVL_fEqBtn[vl_i],.032,.032)
         call BlzFrameSetAbsPoint(zzVL_fEqBtn[vl_i],FRAMEPOINT_TOPLEFT,.025,.482-vl_i*.048)
         set zzVL_fEqIco[vl_i]=BlzCreateFrameByType("BACKDROP","",zzVL_fEqBtn[vl_i],"",0)
@@ -1691,14 +1943,17 @@ function zzVL_BagUI takes nothing returns nothing
         call BlzFrameSetTextAlignment(zzVL_fEqTxt[vl_i],TEXT_JUSTIFY_BOTTOM,TEXT_JUSTIFY_RIGHT)
         set zzVL_fEqTT[vl_i]=BlzCreateFrame("BoxedText",zzVL_fEqBtn[vl_i],0,vl_i+20)
         set zzVL_fEqTTxt[vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+20)
-        call BlzFrameSetTooltip(zzVL_fEqBtn[vl_i],zzVL_fEqTT[vl_i])
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOn,zzVL_fEqBtn[vl_i],FRAMEEVENT_MOUSE_ENTER)
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOff,zzVL_fEqBtn[vl_i],FRAMEEVENT_MOUSE_LEAVE)
         set vl_i=vl_i+1
     endloop
     set vl_i=0
     loop
         exitwhen vl_i>4
-        set zzVL_fEqBtn[5+vl_i]=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        set zzVL_fEqBtn[5+vl_i]=BlzCreateFrameByType("BUTTON","",zzVL_fHero,"",0)
         call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[5+vl_i]),7,35+vl_i+1)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[5+vl_i]),8,2)
+        call SaveInteger(zzVL_ht,GetHandleId(zzVL_fEqBtn[5+vl_i]),9,5+vl_i)
         call BlzFrameSetSize(zzVL_fEqBtn[5+vl_i],.032,.032)
         call BlzFrameSetAbsPoint(zzVL_fEqBtn[5+vl_i],FRAMEPOINT_TOPLEFT,.322,.482-vl_i*.048)
         set zzVL_fEqIco[5+vl_i]=BlzCreateFrameByType("BACKDROP","",zzVL_fEqBtn[5+vl_i],"",0)
@@ -1709,7 +1964,8 @@ function zzVL_BagUI takes nothing returns nothing
         call BlzFrameSetTextAlignment(zzVL_fEqTxt[5+vl_i],TEXT_JUSTIFY_BOTTOM,TEXT_JUSTIFY_RIGHT)
         set zzVL_fEqTT[5+vl_i]=BlzCreateFrame("BoxedText",zzVL_fEqBtn[5+vl_i],0,vl_i+25)
         set zzVL_fEqTTxt[5+vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+25)
-        call BlzFrameSetTooltip(zzVL_fEqBtn[5+vl_i],zzVL_fEqTT[5+vl_i])
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOn,zzVL_fEqBtn[5+vl_i],FRAMEEVENT_MOUSE_ENTER)
+        call BlzTriggerRegisterFrameEvent(zzVL_tItemHoverOff,zzVL_fEqBtn[5+vl_i],FRAMEEVENT_MOUSE_LEAVE)
         set vl_i=vl_i+1
     endloop
     set vl_i=0
@@ -1722,8 +1978,60 @@ function zzVL_BagUI takes nothing returns nothing
         call BlzFrameSetAllPoints(zzVL_fPassIco[vl_i],zzVL_fPassBtn[vl_i])
         set zzVL_fPassTT[vl_i]=BlzCreateFrame("BoxedText",zzVL_fPassBtn[vl_i],0,vl_i+10)
         set zzVL_fPassTTxt[vl_i]=BlzGetFrameByName("BoxedTextValue",vl_i+10)
-        call BlzFrameSetTooltip(zzVL_fPassBtn[vl_i],zzVL_fPassTT[vl_i])
         call BlzFrameSetVisible(zzVL_fPassBtn[vl_i],false)
+        set vl_i=vl_i+1
+    endloop
+    // the hover tooltip is a shared box shown by the mouse enter / leave events of the icons (BlzFrameSetTooltip showed nothing here)
+    set zzVL_fPassTip=BlzCreateFrame("EscMenuBackdrop",zzVL_fHero,0,61)
+    call BlzFrameSetAbsPoint(zzVL_fPassTip,FRAMEPOINT_BOTTOMLEFT,.06,.21)
+    call BlzFrameSetSize(zzVL_fPassTip,.34,.15)
+    set zzVL_fPassTipTxt=BlzCreateFrameByType("TEXT","",zzVL_fPassTip,"",0)
+    call BlzFrameSetPoint(zzVL_fPassTipTxt,FRAMEPOINT_TOPLEFT,zzVL_fPassTip,FRAMEPOINT_TOPLEFT,.012,-.012)
+    call BlzFrameSetSize(zzVL_fPassTipTxt,.316,.126)
+    call BlzFrameSetVisible(zzVL_fPassTip,false)
+    set zzVL_fItemHover=BlzCreateFrame("EscMenuBackdrop",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),0,62)
+    call BlzFrameSetAbsPoint(zzVL_fItemHover,FRAMEPOINT_TOPLEFT,.39,.57)
+    call BlzFrameSetSize(zzVL_fItemHover,.34,.235)
+    set zzVL_fItemHoverTxt=BlzCreateFrameByType("TEXT","",zzVL_fItemHover,"",0)
+    call BlzFrameSetPoint(zzVL_fItemHoverTxt,FRAMEPOINT_TOPLEFT,zzVL_fItemHover,FRAMEPOINT_TOPLEFT,.012,-.012)
+    call BlzFrameSetSize(zzVL_fItemHoverTxt,.316,.211)
+    call BlzFrameSetTextAlignment(zzVL_fItemHoverTxt,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_LEFT)
+    call BlzFrameSetScale(zzVL_fItemHoverTxt,.82)
+    call BlzFrameSetVisible(zzVL_fItemHover,false)
+    call BlzFrameSetEnable(zzVL_fItemHover,false)
+    call BlzFrameSetEnable(zzVL_fItemHoverTxt,false)
+    // the + beside each equipment slot (left column: right of the slot, right column: left of the slot): enhance +1.
+    // Big enough to hit (.028 square) and raised above the panel so nothing covers it.
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        set vl_b=BlzCreateFrameByType("GLUEBUTTON","",zzVL_fHero,"ScoreScreenTabButtonTemplate",0)
+        call SaveInteger(zzVL_ht,GetHandleId(vl_b),7,100+vl_i+1)
+        call BlzFrameSetSize(vl_b,.028,.028)
+        if vl_i<5 then
+            call BlzFrameSetAbsPoint(vl_b,FRAMEPOINT_TOPLEFT,.061,.484-vl_i*.048)
+        else
+            call BlzFrameSetAbsPoint(vl_b,FRAMEPOINT_TOPLEFT,.293,.484-(vl_i-5)*.048)
+        endif
+        call BlzFrameSetLevel(vl_b,8)
+        set vl_x=BlzCreateFrameByType("TEXT","",vl_b,"",0)
+        call BlzFrameSetAllPoints(vl_x,vl_b)
+        call BlzFrameSetTextAlignment(vl_x,TEXT_JUSTIFY_MIDDLE,TEXT_JUSTIFY_CENTER)
+        call BlzFrameSetScale(vl_x,1.8)
+        call BlzFrameSetEnable(vl_x,false)
+        call BlzFrameSetText(vl_x,"|cffffcc00+|r")
+        call BlzTriggerRegisterFrameEvent(zzVL_tClick,vl_b,FRAMEEVENT_CONTROL_CLICK)
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>5
+        set vl_t=CreateTrigger()
+        call BlzTriggerRegisterFrameEvent(vl_t,zzVL_fPassBtn[vl_i],FRAMEEVENT_MOUSE_ENTER)
+        call TriggerAddAction(vl_t,function zzVL_PassTipOn)
+        set vl_t=CreateTrigger()
+        call BlzTriggerRegisterFrameEvent(vl_t,zzVL_fPassBtn[vl_i],FRAMEEVENT_MOUSE_LEAVE)
+        call TriggerAddAction(vl_t,function zzVL_PassTipOff)
         set vl_i=vl_i+1
     endloop
     call BlzFrameSetVisible(zzVL_fHero,false)
@@ -1884,15 +2192,26 @@ function zzVL_OnGmCheat takes nothing returns nothing
             set zzVL_cuong[pid*10 + lvl] = 10
             set lvl = lvl + 1
         endloop
+        call zzEQ_GmFull(pid)
         call zzVL_AffixSum(pid)
         if zzVL_heroOpen[pid] then
             call zzVL_HeroShow(pid, true)
         endif
         call zzVL_Msg(pid, "|cff00ff00[GM]|r Đã cường hóa tối đa +10 cho toàn bộ 10 ô trang bị!")
+    elseif msg == "-fullht" then
+        call SaveInteger(zzVL_ht,6200+pid,2,1000000000)
+        if zzVL_heroOpen[pid] then
+            call zzVL_HeroShow(pid,true)
+        endif
+        call zzVL_Msg(pid,"|cff00ff00[GM]|r Đã đặt Huyền Tinh thành 1.000.000.000 điểm để kiểm thử.")
     elseif len >= 7 and SubString(msg, 0, 7) == "-cuong " then
         set lvl = S2I(SubString(msg, 7, len))
         if lvl >= 1 and lvl <= 10 then
-            call zzVL_CuongSlot(hero, lvl - 1)
+            if zzEQ_EnhanceSlot(pid, lvl - 1) then
+                call zzVL_AffixSum(pid)
+            else
+                call zzVL_CuongSlot(hero, lvl - 1)
+            endif
             if zzVL_heroOpen[pid] then
                 call zzVL_HeroShow(pid, true)
             endif
@@ -1917,12 +2236,12 @@ function zzVL_Quest takes nothing returns nothing
     call QuestSetTitle(vl_q,"Hành trang và nhiệm vụ")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNPackBeast.blp")
     call QuestSetRequired(vl_q,false)
-    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: bấm phím B (hoặc nút Hành Trang, gõ -hd). Túi tướng là 6 ô trang bị: mũ, áo, vũ khí, giày, phi phong, ô dùng nhanh (thuốc, Thủy tinh). Đồ khác nằm trong hành trang 30 ô, bấm để mặc. Chế đồ: bật Gửi Thủ Khố rồi bấm nguyên liệu.|n|cffffcc00Nhiệm vụ|r: đưa tướng tới gần Sứ Giả Võ Lâm (cạnh căn cứ) rồi bấm chọn ông ấy. Xong được Thủy tinh, ngân lượng, công trạng; cứ 5 nhiệm vụ thêm 2 Thủy tinh. Gõ -nv để xem.|n|cffffcc00Đánh quái|r: cả phe cùng nhận vàng, đồng đội ở xa cũng nhận kinh nghiệm, không cần đánh phát cuối.")
+    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: bấm phím B (hoặc nút Hành Trang, gõ -hd). Túi tướng là 6 ô trang bị: mũ, áo, vũ khí, giày, phi phong, ô dùng nhanh (thuốc, Huyền tinh). Đồ khác nằm trong hành trang 30 ô, bấm để mặc. Chế đồ: bật Gửi Thủ Khố rồi bấm nguyên liệu.|n|cffffcc00Nhiệm vụ|r: đưa tướng tới gần Sứ Giả Võ Lâm (cạnh căn cứ) rồi bấm chọn ông ấy. Xong được Huyền tinh, ngân lượng, công trạng; cứ 5 nhiệm vụ thêm 2 Huyền tinh. Gõ -nv để xem.|n|cffffcc00Đánh quái|r: cả phe cùng nhận vàng, đồng đội ở xa cũng nhận kinh nghiệm, không cần đánh phát cuối.")
     set vl_q=CreateQuest()
     call QuestSetTitle(vl_q,"Phi phong và cao thủ (1.31)")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNCloak.blp")
     call QuestSetRequired(vl_q,false)
-    call QuestSetDescription(vl_q,"|cffffcc00Phi phong|r: mỗi quân hàm tự động nâng cấp chỉ số phi phong ẩn (tăng sinh lực, giáp, thuộc tính) và nhận danh hiệu trên đầu: Hiệu Úy - Siêu Phàm, Thống Lĩnh - Xuất Trần, Phó Tướng - Kinh Thế, Đại Tướng - Ỷ Thiên, Nguyên Soái - |cffff6000Chí Tôn|r. Phi phong tự gắn vào nhân vật, không chiếm ô hành trang.|n|cffffcc00Tuyệt đại cao thủ|r: cứ 7 phút xuất hiện một lần ở khu quái (có chấm trên bản đồ nhỏ). Hạ được: 2 Thủy tinh, 1000 ngân lượng (đồng đội 300), 25 công trạng.|n|cffffcc00Võ Lâm Minh Chủ|r: cứ 18 phút xuất hiện một lần (nếu Minh Chủ trước đã bị hạ). Phe hạ được +10 uy danh, mỗi người 1000 ngân lượng.|n|cffffcc00Hạ tướng|r: mỗi lần +300 ngân lượng. |cffffcc00Nhất đao đoạt mạng|r: hạ tướng đầu tiên của trận thêm 500 ngân lượng, 10 công trạng.")
+    call QuestSetDescription(vl_q,"|cffffcc00Phi phong|r: mỗi quân hàm tự động nâng cấp chỉ số phi phong ẩn (tăng sinh lực, giáp, thuộc tính) và nhận danh hiệu trên đầu: Hiệu Úy - Siêu Phàm, Thống Lĩnh - Xuất Trần, Phó Tướng - Kinh Thế, Đại Tướng - Ỷ Thiên, Nguyên Soái - |cffff6000Chí Tôn|r. Phi phong tự gắn vào nhân vật, không chiếm ô hành trang.|n|cffffcc00Tuyệt đại cao thủ|r: cứ 7 phút xuất hiện một lần ở khu quái (có chấm trên bản đồ nhỏ). Hạ được: 2 Huyền tinh, 1000 ngân lượng (đồng đội 300), 25 công trạng.|n|cffffcc00Võ Lâm Minh Chủ|r: cứ 18 phút xuất hiện một lần (nếu Minh Chủ trước đã bị hạ). Phe hạ được +10 uy danh, mỗi người 1000 ngân lượng.|n|cffffcc00Hạ tướng|r: mỗi lần +300 ngân lượng. |cffffcc00Nhất đao đoạt mạng|r: hạ tướng đầu tiên của trận thêm 500 ngân lượng, 10 công trạng.")
     set vl_q=CreateQuest()
     call QuestSetTitle(vl_q,"Trấn phái, rơi đồ, hành trang")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNSpell_ThuanDuongVoCuc.blp")
@@ -1932,7 +2251,7 @@ function zzVL_Quest takes nothing returns nothing
     call QuestSetTitle(vl_q,"Cường hóa, khảm, hành trang")
     call QuestSetIconPath(vl_q,"ReplaceableTextures\\CommandButtons\\BTNInventory.blp")
     call QuestSetRequired(vl_q,false)
-    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: nguyên liệu cùng loại tự cộng dồn. Bật Tách rồi bấm để chia đôi, bật Bán rồi bấm để bán ngay. |cffffcc00Cường hóa|r: dùng Thủy tinh lên mũ/áo/vũ khí/giày để tăng cấp cường hóa của ô đó (tối đa +10), thay món mới vẫn giữ. Bật Khảm, bấm nguyên liệu rồi bấm trang bị: mỗi trang bị 2 lỗ, mỗi loại nguyên liệu một thuộc tính (Bảo Thạch hút máu, bạo kích, tốc đánh..., Kim Cương sát thương, Nữ Oa sinh lực...).")
+    call QuestSetDescription(vl_q,"|cffffcc00Hành trang|r: nguyên liệu cùng loại tự cộng dồn. Bật Tách rồi bấm để chia đôi, bật Bán rồi bấm để bán ngay. |cffffcc00Cường hóa|r: nhặt Huyền Tinh, mở Nhân Vật bằng C rồi bấm nút + cạnh ô đồ. Tối đa +10; thất bại không tụt cấp và bảo hiểm tính riêng từng món. Bật Khảm, bấm nguyên liệu rồi bấm trang bị: mỗi trang bị 2 lỗ.")
     set vl_q=null
 endfunction
 // ---- tien khoi dau: moi nguoi choi 1000 vang
@@ -1992,6 +2311,9 @@ function zzVL_Init takes nothing returns nothing
     call ExecuteFunc("zzKS_Init")
     call ExecuteFunc("zzUI_Setup")
     call zzVL_KhamInit()
+    call ExecuteFunc("zzGS_Init")
+    call ExecuteFunc("zzSH_Init")
+    call ExecuteFunc("zzTL_Init")
     set zzVL_hn[0]="Chưa có"
     set zzVL_hn[1]="|cffffd700Kim|r"
     set zzVL_hn[2]="|cff40c040Mộc|r"
@@ -2063,9 +2385,18 @@ function zzVL_Init takes nothing returns nothing
         call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-knb",false)
         call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-cuong",false)
         call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-fullcuong",true)
+        call TriggerRegisterPlayerChatEvent(vl_t,Player(vl_i),"-fullht",true)
         set vl_i=vl_i+1
     endloop
     call TriggerAddAction(vl_t,function zzVL_OnGmCheat)
+    set vl_t=CreateTrigger()
+    set vl_i=0
+    loop
+        exitwhen vl_i>9
+        call BlzTriggerRegisterPlayerKeyEvent(vl_t,Player(vl_i),OSKEY_M,0,true)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzVL_XpKey)
     set vl_t=CreateTrigger()
     set vl_i=0
     loop
