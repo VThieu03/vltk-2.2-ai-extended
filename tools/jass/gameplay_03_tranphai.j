@@ -295,7 +295,6 @@ function zzVL_OnTpCast takes nothing returns nothing
     local unit vl_t=GetSpellTargetUnit()
     local group vl_g
     local timer vl_tm
-    call zzVL_Log("skill "+GetObjectName(GetSpellAbilityId())+" - "+GetUnitName(GetTriggerUnit()))
     if vl_playerId>9 then
         set vl_hero=null
         set vl_t=null

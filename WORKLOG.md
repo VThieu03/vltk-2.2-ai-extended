@@ -40,6 +40,11 @@
 
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN (ACTIVE TASKS)
 
+- [x] **Yêu cầu User (08/10/2026):** *"xem hiệu năng của toàn bộ dự án"* rồi *"sửa đi"*. Báo cáo: `/mnt/project-files/vltk/hieu_nang.md`. Đã sửa 2 điểm (nhánh `claude/review-refactor-3tabff`):
+  - Log: `zzVL_Log` chỉ ghi vào mảng; file `VLTK\log.txt` chỉ được ghi trong `zzVL_LogFlush` (2 giây/lần, chỉ khi có dòng mới). Bỏ log `"tick"` mỗi giây (`gameplay_04_combat.j`) và log mỗi lần tung chiêu (`gameplay_03_tranphai.j`) vì mỗi lần ghi file là một lần đứng hình và tạo chuỗi mới không giải phóng. Mốc thời gian vẫn còn nhờ log mỗi phút (`gameplay_06_events.j`).
+  - Độc / thiêu của vũ khí ngũ hành (`zzVL_WeaponHit`): mỗi mục tiêu chỉ 1 timer (key 88 `zzUS_WEAPON_POISON_END`), trước đây mỗi đòn đánh tạo 1 timer mới.
+  - Kiểm tra: pjass (bản build Linux từ lep/pjass) pass trên `build/war3map.j` đã vá cùng thay đổi (40547 dòng). **Cần chạy pipeline đầy đủ trên Windows** rồi test trong game.
+
 - [x] **Yêu cầu User (08/10/2026):** Đã commit toàn bộ thay đổi tracked (map/JASS, cấu hình, UI, tài liệu, log build) và push nhánh `kvct-doi-chieu-2` lên remote User xác nhận `https://github.com/VThieu03/vltk-2.2-ai-extended.git`; push thành công từ `6e7fcf9` đến `8899ff9`.
 
 - [x] **Steering User (08/10/2026):** Chốt phím B mở hành trang, I mở bảng nhân vật, Tab xóa thông báo, C dùng Khinh Công. Key event và nhãn nút/hướng dẫn trong game đã đồng bộ; pipeline đầy đủ `pjass ok (40541 lines)`, map 102,940,731 bytes đã đồng bộ, SHA-256 build/Public Test khớp `FEBBE01830D326BA4DECD2FDA0F1385C2A2430D92D41F2DAE5B0A44184258FE6`.

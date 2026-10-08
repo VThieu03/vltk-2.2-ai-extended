@@ -557,6 +557,9 @@ endfunction
 constant function zzUS_MOC_POISON_CD takes nothing returns integer
     return 87 // hết hồi độc của hệ Mộc (tách khỏi 77)
 endfunction
+constant function zzUS_WEAPON_POISON_END takes nothing returns integer
+    return 88 // hết độc / thiêu của vũ khí ngũ hành (1 timer mỗi mục tiêu)
+endfunction
 constant function zzUS_DASH_IMMUNE_END takes nothing returns integer
     return 90 // hết miễn sát thương khinh công
 endfunction
@@ -664,7 +667,8 @@ function zzVL_LogFile takes nothing returns nothing
 endfunction
 
 // Thêm một dòng thông báo vào mảng nhật ký hệ thống kèm theo thời gian hiện tại.
-// Hàm này gọi LogFile nếu hệ thống đang không bận ghi file.
+// Chỉ ghi vào mảng; file được ghi trong zzVL_LogFlush (2 giây/lần, chỉ khi có dòng mới),
+// vì mỗi lần ghi file là một lần đứng hình.
 // ==========================================
 // Hàm: zzVL_Log
 // Chức năng dự kiến: Hiển thị thông báo hoặc ghi nhật ký.
@@ -674,13 +678,6 @@ endfunction
 function zzVL_Log takes string vl_string returns nothing
     set zzVL_logS[ModuloInteger(zzVL_logN,80)]=zzVL_Clock()+" "+vl_string
     set zzVL_logN=zzVL_logN+1
-    // ghi file nhat ky toi da 1 lan / 3 giay (moi lan ghi la mot lan dung hinh)
-    if not zzVL_logBusy and TimerGetElapsed(zzVL_clock)>=zzVL_logT then
-        set zzVL_logT=TimerGetElapsed(zzVL_clock)+3.
-        set zzVL_logBusy=true
-        call zzVL_LogFile()
-        set zzVL_logBusy=false
-    endif
 endfunction
 
 // Cập nhật giao diện đồng hồ thời gian và bảng tỉ số mạng Tống/Kim ở góc phải màn hình.
@@ -695,6 +692,12 @@ function zzVL_LogFlush takes nothing returns nothing
         call zzVL_Log("nhieu sat thuong: "+I2S(zzVL_dmgN)+" lan / 2 giay")
     endif
     set zzVL_dmgN=0
+    if zzVL_logW!=zzVL_logN and not zzVL_logBusy then
+        set zzVL_logW=zzVL_logN
+        set zzVL_logBusy=true
+        call zzVL_LogFile()
+        set zzVL_logBusy=false
+    endif
     if zzVL_fClock!=null then
         call BlzFrameSetText(zzVL_fClock,"|cffffcc00Thời gian|r "+zzVL_Clock())
         call BlzFrameSetText(zzVL_fScore,"|cffff4040Tống "+I2S(zzVL_teamK[0])+"|r - |cff4080ff"+I2S(zzVL_teamK[1])+" Kim|r|n|cffffcc00Hạ|r "+I2S(zzVL_kills[GetPlayerId(GetLocalPlayer())])+"   |cffffcc00Chết|r "+I2S(zzVL_deaths[GetPlayerId(GetLocalPlayer())]))

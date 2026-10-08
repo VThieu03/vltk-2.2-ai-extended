@@ -161,6 +161,7 @@ integer zzKS_misC=0
 timer zzKS_misT=null
 group zzKS_fg=null
 real zzVL_logT=0.
+integer zzVL_logW=0
 integer zzKS_fab=0
 real zzKS_fx=0.
 real zzKS_fy=0.
