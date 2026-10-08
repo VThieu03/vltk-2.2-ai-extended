@@ -2,6 +2,7 @@
 # 2 imported files are encrypted with a position-dependent key), script checked with pjass.
 #   python build.py [--out X.w3x]
 import os, struct, subprocess, sys, zlib
+
 sys.path.insert(0, os.path.dirname(__file__))
 from mpqwrite import build
 from mpq import MPQ, hs
@@ -14,17 +15,26 @@ SRC = os.path.join(ROOT, "src", "map")
 
 def pjass(path):
     d = os.path.join(ROOT, "work", "pjass")
-    r = subprocess.run([os.path.join(d, "pjass.exe"), "common.j", "Blizzard.j", path], cwd=d,
-                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    r = subprocess.run(
+        [os.path.join(d, "pjass.exe"), "common.j", "Blizzard.j", path],
+        cwd=d,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
     out = (r.stdout + r.stderr).splitlines()
-    errs = [l for l in out
-            if l.startswith(path) and "is uninitialized" not in l and "failed with" not in l]   # same warnings as the original
+    errs = [
+        l for l in out if l.startswith(path) and "is uninitialized" not in l and "failed with" not in l
+    ]  # same warnings as the original
     if errs:
         print("\n".join(errs[:20]))
         sys.exit("pjass: %d error(s)" % len(errs))
     # pjass must have read the whole file (a "//" comment in a CR-only file used to swallow the rest of it)
     want = open(path, "rb").read().count(b"\n") + 1
-    seen = [l for l in out if l.startswith("Parse successful") and l.replace("\\", "/").endswith(path.replace("\\", "/"))]
+    seen = [
+        l for l in out if l.startswith("Parse successful") and l.replace("\\", "/").endswith(path.replace("\\", "/"))
+    ]
     got = int(seen[0].split()[2]) if seen else -1
     if got < want - 1:
         sys.exit("pjass read %d of %d lines" % (got, want))
@@ -40,34 +50,59 @@ def block_index(m, name):
     raise KeyError(name)
 
 
+class MapBuilder:
+    """Đóng gói src/map thành file .w3x: gom file, chuẩn hóa script (CRLF) rồi pjass, ghi MPQ theo bố cục base.w3x, kiểm tra lại."""
+
+    def __init__(self, out, src=SRC, base=BASE):
+        self.out, self.src, self.base = out, src, base
+        self.files = {}
+        self.script = os.path.join(ROOT, "build", "war3map.j")
+
+    def collect(self):
+        for root, _, fs in os.walk(self.src):  # includes war3mapImported\kv (icons from icons.py)
+            for f in fs:
+                full = os.path.join(root, f)
+                self.files[os.path.relpath(full, self.src).replace("/", "\\")] = open(full, "rb").read()
+
+    def prepare_script(self):
+        # The original script ends its lines with a bare CR. Both pjass and the 1.31 game read a "//" comment up
+        # to LF, so one comment swallowed the rest of the script (config included: empty lobby). Ship CRLF.
+        os.makedirs(os.path.dirname(self.script), exist_ok=True)
+        key = "Scripts\\war3map.j"
+        if key not in self.files:
+            print("KeyError! Available keys:", [k for k in self.files if "war3map" in k])
+            raise KeyError(key)
+        s = self.files[key].replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        self.files[key] = s.replace(b"\n", b"\r\n")
+        open(self.script, "wb").write(s)
+
+    def check(self):
+        pjass(self.script)
+
+    def pack(self):
+        build(self.base, OFF, self.files, self.out, keep_layout=True)
+
+    def verify(self):
+        v = MPQ(self.out, OFF)
+        att = v.read("(attributes)")
+        crcs = struct.unpack_from("<%dI" % len(v.blocks), att, 8)
+        for name, data in self.files.items():
+            assert v.read(name) == data, "verify failed: " + name
+            assert crcs[block_index(v, name)] == zlib.crc32(data) & 0xFFFFFFFF, "(attributes) CRC: " + name
+
+    def run(self):
+        self.collect()
+        self.prepare_script()
+        self.check()
+        self.pack()
+        self.verify()
+        print("ok", self.out, os.path.getsize(self.out), "bytes,", len(self.files), "files from src")
+
+
 def main():
     args = sys.argv[1:]
     out = args[args.index("--out") + 1] if "--out" in args else os.path.join(ROOT, "build", "Tong Kim Beta.w3x")
-    files = {}
-    for root, _, fs in os.walk(SRC):                 # includes war3mapImported\kv (icons from icons.py)
-        for f in fs:
-            full = os.path.join(root, f)
-            files[os.path.relpath(full, SRC).replace("/", "\\")] = open(full, "rb").read()
-    js = os.path.join(ROOT, "build", "war3map.j")
-    os.makedirs(os.path.dirname(js), exist_ok=True)
-    # The original script ends its lines with a bare CR. Both pjass and the 1.31 game read a "//" comment up
-    # to LF, so one comment swallowed the rest of the script (config included: empty lobby). Ship CRLF.
-    try:
-        s = files["Scripts\\war3map.j"].replace(b"\r\n", b"\n").replace(b"\r", b"\n")
-        files["Scripts\\war3map.j"] = s.replace(b"\n", b"\r\n")
-        open(js, "wb").write(s)
-    except KeyError as e:
-        print("KeyError! Available keys:", [k for k in files.keys() if 'war3map' in k])
-        raise e
-    pjass(js)
-    build(BASE, OFF, files, out, keep_layout=True)
-    v = MPQ(out, OFF)
-    att = v.read("(attributes)")
-    crcs = struct.unpack_from("<%dI" % len(v.blocks), att, 8)
-    for name, data in files.items():
-        assert v.read(name) == data, "verify failed: " + name
-        assert crcs[block_index(v, name)] == zlib.crc32(data) & 0xFFFFFFFF, "(attributes) CRC: " + name
-    print("ok", out, os.path.getsize(out), "bytes,", len(files), "files from src")
+    MapBuilder(out).run()
 
 
 if __name__ == "__main__":

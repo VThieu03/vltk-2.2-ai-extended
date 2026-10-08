@@ -11,25 +11,35 @@ class W3E:
         p = 13
         n = struct.unpack_from("<i", data, p)[0]
         p += 4
-        self.ground = [data[p + 4 * i:p + 4 * i + 4] for i in range(n)]
+        self.ground = [data[p + 4 * i : p + 4 * i + 4] for i in range(n)]
         p += 4 * n
         n = struct.unpack_from("<i", data, p)[0]
         p += 4
-        self.cliffs = [data[p + 4 * i:p + 4 * i + 4] for i in range(n)]
+        self.cliffs = [data[p + 4 * i : p + 4 * i + 4] for i in range(n)]
         p += 4 * n
         self.mx, self.my = struct.unpack_from("<ii", data, p)
         p += 8
         self.ox, self.oy = struct.unpack_from("<ff", data, p)
         p += 8
-        self.pts = [bytearray(data[p + 7 * i:p + 7 * i + 7]) for i in range(self.mx * self.my)]
+        self.pts = [bytearray(data[p + 7 * i : p + 7 * i + 7]) for i in range(self.mx * self.my)]
         assert p + 7 * self.mx * self.my == len(data)
 
     def pt(self, x, y):
         return self.pts[y * self.mx + x]
 
     def write(self):
-        out = [self.magic, struct.pack("<i", self.ver), self.tileset, struct.pack("<i", self.custom),
-               struct.pack("<i", len(self.ground))] + self.ground + [struct.pack("<i", len(self.cliffs))] + self.cliffs
+        out = (
+            [
+                self.magic,
+                struct.pack("<i", self.ver),
+                self.tileset,
+                struct.pack("<i", self.custom),
+                struct.pack("<i", len(self.ground)),
+            ]
+            + self.ground
+            + [struct.pack("<i", len(self.cliffs))]
+            + self.cliffs
+        )
         out += [struct.pack("<ii", self.mx, self.my), struct.pack("<ff", self.ox, self.oy)]
         out += [bytes(t) for t in self.pts]
         return b"".join(out)
@@ -76,18 +86,18 @@ def read_doo(data):
     items = []
     for _ in range(n):
         s = p
-        did, var = data[p:p + 4], struct.unpack_from("<i", data, p + 4)[0]
+        did, var = data[p : p + 4], struct.unpack_from("<i", data, p + 4)[0]
         x, y, z, ang, sx, sy, sz = struct.unpack_from("<7f", data, p + 8)
-        p += 8 + 28 + 2                              # flags, life
-        p += 4                                       # item table pointer
+        p += 8 + 28 + 2  # flags, life
+        p += 4  # item table pointer
         nsets = struct.unpack_from("<i", data, p)[0]
         p += 4
         for _ in range(nsets):
             k = struct.unpack_from("<i", data, p)[0]
             p += 4 + 8 * k
-        p += 4                                       # editor id
+        p += 4  # editor id
         items.append({"id": did, "x": x, "y": y, "raw": bytearray(data[s:p])})
-    rest = data[p:]                                   # special doodads section
+    rest = data[p:]  # special doodads section
     return (magic, ver, sub), items, rest
 
 
@@ -97,7 +107,7 @@ def write_doo(head, items, rest):
     for i, it in enumerate(items):
         raw = bytearray(it["raw"])
         struct.pack_into("<ff", raw, 8, it["x"], it["y"])
-        struct.pack_into("<i", raw, len(raw) - 4, i)      # editor id: unique
+        struct.pack_into("<i", raw, len(raw) - 4, i)  # editor id: unique
         out.append(bytes(raw))
     out.append(rest)
     return b"".join(out)

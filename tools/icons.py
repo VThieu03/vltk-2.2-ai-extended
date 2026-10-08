@@ -5,6 +5,7 @@
 #   cloaks, Thuy tinh, gems, Bi Pho, potions...: the KVCT item of the same kind
 # Run after describe.py (it changes only iico).
 import io, os, re, struct, sys
+
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 from PIL import Image
@@ -17,18 +18,53 @@ KVCT = r"D:\kvct-dev\work\base.w3x"
 DST = "war3mapImported\\kv\\"
 BS = chr(92)
 
-WEAPON_TYPES = [("kiem", "kiem"), ("song dao", "dao"), ("phien", "tutien"), ("ba tieu", "tutien"),
-                ("mau", "thuong"), ("thuong", "thuong"), ("san", "con"), ("soc", "truongdao"), ("phu", "chuy"),
-                ("hoan", "phitieu"), ("duyen", "phidao"), ("phach phong", "daidao"), ("than dao", "daidao"),
-                ("loan dao", "dao"), ("dao", "dao")]
+WEAPON_TYPES = [
+    ("kiem", "kiem"),
+    ("song dao", "dao"),
+    ("phien", "tutien"),
+    ("ba tieu", "tutien"),
+    ("mau", "thuong"),
+    ("thuong", "thuong"),
+    ("san", "con"),
+    ("soc", "truongdao"),
+    ("phu", "chuy"),
+    ("hoan", "phitieu"),
+    ("duyen", "phidao"),
+    ("phach phong", "daidao"),
+    ("than dao", "daidao"),
+    ("loan dao", "dao"),
+    ("dao", "dao"),
+]
 VK_LEVEL = {1: 2, 2: 6, 3: 10, 4: 14, 5: 18}
 MISC = {  # item id -> KVCT vatpham id
-    "I00W": 61,                                      # Thuy tinh
-    "I06J": 60, "I06K": 212, "I06L": 231, "I06M": 230, "I06P": 66, "I06Q": 67, "I06U": 68, "I06W": 62,
-    "I06S": 274, "I017": 232, "I00P": 370, "I00R": 6, "I00S": 46,
-    "I00J": 356, "lmbr": 356,                        # Kim Nguyen Bao
-    "phea": 385, "pghe": 386, "pman": 387, "pgma": 388, "I00M": 389, "pres": 390,
-    "I01C": 404, "I06G": 159, "manh": 159, "tdex": 174, "tint": 174, "tstr": 174,
+    "I00W": 61,  # Thuy tinh
+    "I06J": 60,
+    "I06K": 212,
+    "I06L": 231,
+    "I06M": 230,
+    "I06P": 66,
+    "I06Q": 67,
+    "I06U": 68,
+    "I06W": 62,
+    "I06S": 274,
+    "I017": 232,
+    "I00P": 370,
+    "I00R": 6,
+    "I00S": 46,
+    "I00J": 356,
+    "lmbr": 356,  # Kim Nguyen Bao
+    "phea": 385,
+    "pghe": 386,
+    "pman": 387,
+    "pgma": 388,
+    "I00M": 389,
+    "pres": 390,
+    "I01C": 404,
+    "I06G": 159,
+    "manh": 159,
+    "tdex": 174,
+    "tint": 174,
+    "tstr": 174,
 }
 CLOAK_ICONS = ["Icon_PP1_2", "Icon_PP1_4", "Icon_PP1_7", "Icon_PP1_11", "Icon_PP2_15"]
 
@@ -59,8 +95,14 @@ def blp1_palette(im, side=64):
         pos += len(d)
     offs += [0] * (16 - len(offs))
     sizes += [0] * (16 - len(sizes))
-    return (b"BLP1" + struct.pack("<6I", 1, 8, side, side, 4, 1) + struct.pack("<16I", *offs)
-            + struct.pack("<16I", *sizes) + palette + b"".join(mips))
+    return (
+        b"BLP1"
+        + struct.pack("<6I", 1, 8, side, side, 4, 1)
+        + struct.pack("<16I", *offs)
+        + struct.pack("<16I", *sizes)
+        + palette
+        + b"".join(mips)
+    )
 
 
 def weapon_type(name):
@@ -85,15 +127,16 @@ def main():
     d = open(KVCT, "rb").read(1 << 20)
     kv = MPQ(KVCT, d.find(b"MPQ\x1a"))
     p = os.path.join(SRC, "war3map.w3t")
-    ver, tabs = objdata.parse(open(p, "rb").read(), ".w3t")
+    of_tabs = objdata.ObjectFile.load(p)
+    ver, tabs = of_tabs.ver, of_tabs.tables
     names = {}
     for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
             iid = (o if ti == 0 else n).decode("latin1")
             nm = next((m[4].decode("utf-8") for m in sets[0] if m[0] == b"unam"), "")
             names[iid] = (nm, sets[0])
-    want = {}                                        # item id -> KVCT file name (without folder)
-    tiers = {}                                       # gear id -> icon of tier 1..5 (cuong hoa look)
+    want = {}  # item id -> KVCT file name (without folder)
+    tiers = {}  # gear id -> icon of tier 1..5 (cuong hoa look)
     fam_index = {}
     for iid, slot, tier, name in items():
         if iid in gameplay.NOT_GEAR:
@@ -149,7 +192,11 @@ def main():
                 open(os.path.join(out_dir, f), "wb").write(data)
                 copied.add(f)
             rows.append('call SaveStr(zzVL_ht,%s,%d,"%s")' % ("'" + iid + "'", 46 + t, (DST + f).replace(BS, BS + BS)))
-    js = os.path.join(SRC, "Scripts", "war3map.j") if os.path.exists(os.path.join(SRC, "Scripts", "war3map.j")) else os.path.join(SRC, "war3map.j")
+    js = (
+        os.path.join(SRC, "Scripts", "war3map.j")
+        if os.path.exists(os.path.join(SRC, "Scripts", "war3map.j"))
+        else os.path.join(SRC, "war3map.j")
+    )
     raw = open(js, "rb").read().decode("utf-8")
     nl = chr(13) + chr(10) if chr(13) + chr(10) in raw else chr(10)
     head = "function zzVL_Items takes nothing returns nothing"
@@ -164,12 +211,12 @@ def main():
     for f in sorted(copied):
         im = Image.open(os.path.join(out_dir, f)).convert("RGBA")
         a = im.getchannel("A")
-        g = im.convert("L").point(lambda v: int(v * .55)).convert("RGBA")
+        g = im.convert("L").point(lambda v: int(v * 0.55)).convert("RGBA")
         g.putalpha(a)
         data = blp1_palette(g)
         open(os.path.join(dis, "DIS" + f), "wb").write(data)
     print("disabled icons:", len(copied))
-    open(p, "wb").write(objdata.write(ver, tabs, ".w3t"))
+    of_tabs.save()
     print("icons copied:", len(copied), "items with a new icon:", set_n)
 
 

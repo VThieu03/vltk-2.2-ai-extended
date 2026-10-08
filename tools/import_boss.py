@@ -3,18 +3,26 @@
 # are other skills in VLTK and most of them work through Thien Kiem triggers.
 # Run after convert_text.py (it rewrites war3map.w3u); safe to rerun.
 import os, shutil, sys
+
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 
 TK = r"D:\thienkiem-dev\src"
 SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 BOSSES = [b"o001", b"h01F", b"e003", b"n018"]
-NEW = b"n0TK"                                         # Diep Thanh: copy of o001, unused id in VLTK
-MODELS = {"HeroButVo.mdx": ["HeroButVo.blp"],
-          "HeroVoDang.mdx": ["yijian_0%d.blp" % i for i in range(1, 8)],
-          "HeroNgaMy.mdx": ["HeroNgaMy_Body.blp"]}
-ICONS = ["BTNHero_QuyenThieu.blp", "BTNHero_ChuongCai.blp", "BTNHero_ButMinh.blp", "BTNHero_KiemVo.blp",
-         "BTNHero_NgaMy.blp"]
+NEW = b"n0TK"  # Diep Thanh: copy of o001, unused id in VLTK
+MODELS = {
+    "HeroButVo.mdx": ["HeroButVo.blp"],
+    "HeroVoDang.mdx": ["yijian_0%d.blp" % i for i in range(1, 8)],
+    "HeroNgaMy.mdx": ["HeroNgaMy_Body.blp"],
+}
+ICONS = [
+    "BTNHero_QuyenThieu.blp",
+    "BTNHero_ChuongCai.blp",
+    "BTNHero_ButMinh.blp",
+    "BTNHero_KiemVo.blp",
+    "BTNHero_NgaMy.blp",
+]
 DROP = {b"uabi", b"udaa", b"uhab"}
 
 
@@ -27,9 +35,10 @@ def setf(mods, key, typ, val):
 
 
 def main():
-    _, tk = objdata.parse(open(os.path.join(TK, "war3map.w3u"), "rb").read(), ".w3u")
+    tk = objdata.ObjectFile.load(os.path.join(TK, "war3map.w3u")).tables
     p = os.path.join(SRC, "war3map.w3u")
-    ver, vl = objdata.parse(open(p, "rb").read(), ".w3u")
+    of_vl = objdata.ObjectFile.load(p)
+    ver, vl = of_vl.ver, of_vl.tables
     vl[1][:] = [e for e in vl[1] if e[1] not in BOSSES + [NEW]]
     for o, n, sets in tk[1]:
         if n in BOSSES:
@@ -42,7 +51,7 @@ def main():
                 setf(d, b"uico", 3, b"ReplaceableTextures\\CommandButtons\\BTNHero_NgaMy.blp")
                 vl[1].append((o, NEW, [d]))
             print("boss", n.decode(), "abilities removed")
-    open(p, "wb").write(objdata.write(ver, vl, ".w3u"))
+    of_vl.save()
     os.makedirs(os.path.join(SRC, "Hero"), exist_ok=True)
     for mdl, texs in MODELS.items():
         shutil.copy(os.path.join(TK, "Hero", mdl), os.path.join(SRC, "Hero", mdl))

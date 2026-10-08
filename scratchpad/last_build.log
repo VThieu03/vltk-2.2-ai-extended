@@ -1,0 +1,167 @@
+=== Running convert_text.py ===
+converted strings: {'script': 104, 'skin': 155, 'war3map.w3u': 3, 'war3map.w3t': 863, 'war3map.w3a': 35, 'war3map.w3h': 3}
+TCVN3 codes without a mapping: {'à': 1}
+script       "§Êu tr­êng më sau"
+             -> "Đấu trường mở sau"
+script       "Thêi gian cßn"
+             -> "Thời gian còn"
+script       " buéc ph¶i chän "
+             -> " buộc phải chọn "
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000C­u Ma TrÝ|r ®· vµo ®Êu t
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Cưu Ma Trí|r đã vào đấu t
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000HÇu V­¬ng|r ®· vµo ®Êu tr
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Hầu Vương|r đã vào đấu tr
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000Tri Thï Tinh|r ®· vµo ®Êu
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Tri Thù Tinh|r đã vào đấu
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000Cæ B¸ch|r ®· vµo ®Êu tr­ê
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Cổ Bách|r đã vào đấu trườ
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000Lam Y Y|r ®· vµo ®Êu tr­ê
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Lam Y Y|r đã vào đấu trườ
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000DiÖu Nh­|r ®· vµo ®Êu tr­
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Diệu Như|r đã vào đấu trư
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000C¸i NhiÕp|r ®· vµo ®Êu tr
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Cái Nhiếp|r đã vào đấu tr
+script       "|c0000ff00Chó ý|r: trïm |c00ff8000KiÕm Th¸nh|r ®· vµo ®Êu t
+             -> "|c0000ff00Chú ý|r: trùm |c00ff8000Kiếm Thánh|r đã vào đấu t
+script       "|c00ffcc00B¹n ®ang ch¬i chÕ ®é ®¬n|r"
+             -> "|c00ffcc00Bạn đang chơi chế độ đơn|r"
+=== Running fix_script.py ===
+fixed: ['dh', 'th']
+drop rates: ['gG', 'kG', 'Rh']
+start coin removed
+starter KVCT gear hook added
+item cleanup skips hidden items: ['St', 'mM', 'MM']
+hero kill message: players 0..9 only
+hero revive time by level: 2 waits
+=== Running expand.py ===
+model not in Thien Kiem: Abilities\Weapons\SteamMissile\SteamMissile.mdx
+  Bãi Cấp 1 - Cổng phía trên (cấp 1): entry (9632, -2848), 4 camps
+  Bãi Cấp 20 - Cổng phía trên (cấp 20): entry (10688, -2368), 4 camps
+  Bãi Cấp 40 - Cổng phía trên (cấp 40): entry (11904, -2368), 4 camps
+  Bãi Cấp 1 - Cổng phía dưới (cấp 1): entry (9632, 4320), 4 camps
+  Bãi Cấp 20 - Cổng phía dưới (cấp 20): entry (10688, 4800), 4 camps
+  Bãi Cấp 40 - Cổng phía dưới (cấp 40): entry (11904, 4800), 4 camps
+  Xa Phu - Bãi Cấp 60 phía Bắc (cấp 60): entry (20224, -2208), 4 camps / Xa Phu
+  Xa Phu - Bãi Cấp 60 phía Nam (cấp 60): entry (20224, 4960), 4 camps / Xa Phu
+  Xa Phu - Bãi Cấp 80 (cấp 80): entry (25600, -2208), 4 camps / Xa Phu
+  Xa Phu - Bãi Cấp 100 (cấp 100): entry (25600, 4960), 4 camps / Xa Phu
+map 96x128 -> 264x128 tiles, textures 13, doodads +3272 (custom types 21), files copied 38
+  Cổng Phía Trên: 36 x 38 tiles at world (8576, -4864)
+  Cổng Phía Dưới: 36 x 38 tiles at world (8576, 2304)
+  Xa Phu - Bãi Cấp 60 phía Bắc: 36 x 38 tiles at world (19328, -4864)
+  Xa Phu - Bãi Cấp 60 phía Nam: 36 x 38 tiles at world (19328, 2304)
+  Xa Phu - Bãi Cấp 80: 36 x 38 tiles at world (24704, -4864)
+  Xa Phu - Bãi Cấp 100: 36 x 38 tiles at world (24704, 2304)
+  Đấu Trường: 18 x 49 tiles at world (14080, -1536)
+=== Running kvcreep.py ===
+kvcreep: imported 12 KVCT models and defined 12 farm unit types
+  level 1 Q001 Creep_manhho.mdx
+  level 1 Q011 Creep_bachho.mdx
+  level 20 Q021 Creep_cuoptieu.mdx
+  level 20 Q031 Creep_bokhoai.mdx
+  level 40 Q041 Creep_dinhankiemkhach.mdx
+  level 40 Q051 Creep_thanhthanhkiemkhach.mdx
+  level 60 Q061 Creep_mongcokybinh.mdx
+  level 60 Q071 Creep_kybinhkimquoc.mdx
+  level 80 Q081 Creep_hoangnguyendaokhach.mdx
+  level 80 Q091 Creep_bachphutruong.mdx
+  level 100 Q0A1 Creep_culinhchienthan.mdx
+  level 100 Q0B1 Creep_uminhdocsu.mdx
+=== Running skills.py ===
+heroes: 33 auto-cast skills: 0 AI ultimates: 0 name fixes: 0
+  E000 
+  E001 
+  E002 
+  E003 
+  E005 
+  E006 
+  H002 
+  H009 
+  H00A 
+  H00L 
+  H00U 
+  H00V 
+  H00Z 
+  H014 
+  H01E 
+  H01F 
+  H01L 
+  H01M 
+  H01P 
+  H01S 
+  H01U 
+  H020 
+  H021 
+  H022 
+  H023 
+  H024 
+  H025 
+  H026 
+  H027 
+  H028 
+  H029 
+  H02A 
+  H02B
+=== Running tranphai.py ===
+tran phai skills: 11
+=== Running import_boss.py ===
+boss o001 abilities removed
+boss n018 abilities removed
+boss h01F abilities removed
+boss e003 abilities removed
+icon missing: BTNHero_NgaMy.blp
+=== Running tanlang.py ===
+tanlang: unit n0TL (Tan Thuy Hoang), 9 model/texture files
+=== Running lvl200.py ===
+level 200: 103 stat gains, 80 hero skills
+=== Running kskill.py ===
+TEXTURES: MGK_effect1.mdx: Textures\star.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star1.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star2.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star2_32.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star3.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star32.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star4.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star5tga.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\star6.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star8.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star8b.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star8c.blp -> Textures\Flame4.blp
+TEXTURES: MGK_effect1.mdx: Textures\Star9.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoaln.mdx: Textures\star2_32.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoacast.mdx: Textures\star2.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoaeffect.mdx: Textures\Yellow_Star_Dim.blp -> Textures\Flame4.blp
+TEXTURES: MGK_thanhhoaeffect.mdx: Textures\star5tga.blp -> Textures\Flame4.blp
+kskill: 429 skills on 33 heroes, 484 effect models (1788 files)
+=== Running kskill_list.py ===
+33 phái, 429 kỹ năng -> docs\kvct_skill_table.md
+=== Running gameplay.py ===
+item table rows: 10043
+bi pho: 5 vu khi, 11 trang bi
+cloaks: 5
+=== Running describe.py ===
+belv name: 'Động Sát Y' st: (2, 1)
+MD5 written: 11a2dc83f7aa6d7a426078305bc29621 to D:\vltk-2.2-ai-extended\src\map\war3map.w3t
+described items: 286 | materials with recipes: 14
+=== Running kvequip.py ===
+kvequip: 258 vật phẩm trong w3t, 232 icon (32 bản disabled), 1098 hàng bảng
+=== Running icons.py ===
+cuong hoa icon rows: 1115
+disabled icons: 104
+icons copied: 104 items with a new icon: 271
+=== Running kvgem.py ===
+kvgem: 54 gem items, 54 icons, 378 hashtable rows; replaced 0 previous records
+=== Running vfx.py ===
+vfx: 15 models (44 files), 52 ability fields, 7 buff fields, 46 script effects
+=== Running ui.py ===
+ui: 7 textures, 2 buttons, 13 skin keys
+=== Running scale.py ===
+map x1.00: 264x128 -> 264x128 tiles, 4810 doodads
+=== Running build.py ===
+pjass ok (39195 lines)
+ok D:\vltk-2.2-ai-extended\build\Tong Kim Beta.w3x 102931143 bytes, 3233 files from src
+
+>>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<
+
+=== Syncing map to target directories ===
+Synced -> C:\Users\nguye\OneDrive\Documents\Warcraft III Public Test\Maps\Vo Lam Truyen Ky v2.2 AI 1.31.w3x (102,931,143 bytes)

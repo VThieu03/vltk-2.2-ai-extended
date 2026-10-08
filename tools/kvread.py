@@ -3,6 +3,7 @@
 # effect models, sounds, areas, movement, missiles, lightning, dummy units, timers, numbers.
 # Writes docs\kvct_skills.md.  python kvread.py
 import os, re, sys, collections
+
 sys.path.insert(0, os.path.dirname(__file__))
 from kskill_data import CLASS, load
 
@@ -13,12 +14,12 @@ src = open(KJ, encoding="utf-8", errors="ignore").read().replace("\r\n", "\n")
 L = src.split("\n")
 g0, g1 = L.index("globals"), L.index("endglobals")
 consts = {}
-for l in L[g0 + 1:g1]:
+for l in L[g0 + 1 : g1]:
     m = re.match(r"\s*(?:constant\s+)?integer\s+(\w+)=(?:\$([0-9A-Fa-f]{8})|(\d{9,10}))\s*$", l)
     if m:
         consts[m.group(1)] = int(m.group(2), 16) if m.group(2) else int(m.group(3))
 funcs, cur = {}, None
-for l in L[g1 + 1:]:
+for l in L[g1 + 1 :]:
     m = re.match(r"(?:constant\s+)?function (\w+)", l)
     if m:
         cur = m.group(1)
@@ -28,9 +29,11 @@ for l in L[g1 + 1:]:
         if l.strip() == "endfunction":
             cur = None
 body = {f: "\n".join(b) for f, b in funcs.items()}
-calls = {f: set(w for w in re.findall(r"\b([A-Za-z_]\w*)\s*\(", re.sub(r'"[^"]*"', '""', b)) if w in funcs)
-         | set(re.findall(r"function (\w+)", b[b.index("\n"):] if "\n" in b else "")) & set(funcs)
-         for f, b in body.items()}
+calls = {
+    f: set(w for w in re.findall(r"\b([A-Za-z_]\w*)\s*\(", re.sub(r'"[^"]*"', '""', b)) if w in funcs)
+    | set(re.findall(r"function (\w+)", b[b.index("\n") :] if "\n" in b else "")) & set(funcs)
+    for f, b in body.items()
+}
 
 
 def raw(i):
@@ -67,8 +70,13 @@ def main():
             per[(cl, s["kv"])] = (s, hs, reach(hs, 4))
     count = collections.Counter(f for _, _, r in per.values() for f in r)
     core = {f for f, c in count.items() if c > 6}
-    out = ["# Kỹ năng KVCT - đọc từ script (tự động)", "",
-           "Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ phần lõi dùng chung %d hàm) và những gì chúng làm." % len(core), ""]
+    out = [
+        "# Kỹ năng KVCT - đọc từ script (tự động)",
+        "",
+        "Mỗi skill: hàm xử lý khi tung chiêu, các hàm riêng của nó (bỏ phần lõi dùng chung %d hàm) và những gì chúng làm."
+        % len(core),
+        "",
+    ]
     for hero, cl in CLASS.items():
         out += ["## %s (%s)" % (cl, hero), ""]
         for s in data.get(cl, [])[:14]:
@@ -96,12 +104,23 @@ def main():
                 feat.append("diễn hoạt riêng")
             radii = sorted(set(int(x) for x in re.findall(r"GroupEnumUnitsInRange\([^,]+,[^,]+,[^,]+,(\d+)", text)))
             loops = len(re.findall(r"TimerStart|fS5\(", text))
-            k_name = {0: "bị động", 1: "đánh mục tiêu", 2: "quét phía trước", 3: "xung kích",
-                      4: "nổ quanh thân", 5: "phóng / đạn bay", 6: "buff bản thân",
-                      7: "buff phe ta", 8: "miễn khống chế", 9: "hộ thuẫn",
-                      11: "liên hoàn xung kích", 12: "đại bão nổ"}.get(s["kind"], "kỹ năng đặc biệt")
-            out.append("- **%s** (%s, %s)%s" % (s["name"], s["kv"], k_name,
-                                               " - phím %s" % s["key"] if s["key"] else ""))
+            k_name = {
+                0: "bị động",
+                1: "đánh mục tiêu",
+                2: "quét phía trước",
+                3: "xung kích",
+                4: "nổ quanh thân",
+                5: "phóng / đạn bay",
+                6: "buff bản thân",
+                7: "buff phe ta",
+                8: "miễn khống chế",
+                9: "hộ thuẫn",
+                11: "liên hoàn xung kích",
+                12: "đại bão nổ",
+            }.get(s["kind"], "kỹ năng đặc biệt")
+            out.append(
+                "- **%s** (%s, %s)%s" % (s["name"], s["kv"], k_name, " - phím %s" % s["key"] if s["key"] else "")
+            )
             out.append("  - Mô tả: " + s["tip"].split("\n")[0])
             if hs:
                 out.append("  - Code: %d hàm riêng, %d dòng; %s" % (len(own), text.count("\n"), ", ".join(feat) or "-"))

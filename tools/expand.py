@@ -7,6 +7,7 @@
 #   - build\zones.txt: world rect of each pasted area, read by gameplay.py (Xa Phu, creep camps)
 # Reads the original files (work\orig); run after fix_script.py.
 import io, os, re, struct, sys
+
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata, terrain
 from PIL import Image
@@ -15,18 +16,32 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ORIG = os.path.join(ROOT, "work", "orig")
 SRC = os.path.join(ROOT, "src", "map")
 TK = r"D:\thienkiem-dev\src"
-E = 72                                                   # new tile columns (east)
+E = 168  # new tile columns (east), enough for six separate level bands
 # Thien Kiem areas: rough world rects (x0, x1, y0, y1), destination tile (x, y) of the bottom-left corner
 ZONES = [
-    ("Rừng Trúc Lâm", (-9472, -4608, -9472, -4608), (99, 10)),
-    ("Thiên Kiếm Thành", (2048, 6656, -9472, -4608), (99, 66)),
-    ("Đấu Trường", (8352, 10720, -96, 6496), (142, 36)),        # Thien Kiem ARENA (rooms + field)
+    ("Cổng Phía Trên", (-9472, -4608, -9472, -4608), (99, 10)),
+    ("Cổng Phía Dưới", (-9472, -4608, -9472, -4608), (99, 66)),
+    ("Xa Phu - Bãi Cấp 60 phía Bắc", (2048, 6656, -9472, -4608), (183, 10)),
+    ("Xa Phu - Bãi Cấp 60 phía Nam", (2048, 6656, -9472, -4608), (183, 66)),
+    ("Xa Phu - Bãi Cấp 80", (2048, 6656, -9472, -4608), (225, 10)),
+    ("Xa Phu - Bãi Cấp 100", (2048, 6656, -9472, -4608), (225, 66)),
+    ("Đấu Trường", (8352, 10720, -96, 6496), (142, 36)),  # Thien Kiem ARENA (rooms + field)
 ]
 ARENA = "Đấu Trường"
-MAXW = 40                                                 # tiles available per zone
-TEX_MAP = {b"Agrs": b"Zgrs", b"Agrd": b"Zgrs", b"Adrt": b"Zdrt", b"Adrg": b"Zdrg", b"Arck": b"Zbks",
-           b"Alvd": b"Zvin", b"Qcbp": b"Ztil", b"Qdrr": b"Zdrt", b"Xgsb": b"Zgrs", b"Ygsb": b"Zgrs",
-           b"Xblm": b"Yblm"}
+MAXW = 40  # tiles available per zone
+TEX_MAP = {
+    b"Agrs": b"Zgrs",
+    b"Agrd": b"Zgrs",
+    b"Adrt": b"Zdrt",
+    b"Adrg": b"Zdrg",
+    b"Arck": b"Zbks",
+    b"Alvd": b"Zvin",
+    b"Qcbp": b"Ztil",
+    b"Qdrr": b"Zdrt",
+    b"Xgsb": b"Zgrs",
+    b"Ygsb": b"Zgrs",
+    b"Xblm": b"Yblm",
+}
 
 
 def rd(path):
@@ -63,14 +78,14 @@ def main():
     # 1. widen: each row gets E copies of its last (boundary) corner
     pts = []
     for y in range(omy):
-        row = vw.pts[y * omx:(y + 1) * omx]
+        row = vw.pts[y * omx : (y + 1) * omx]
         pts += row + [bytearray(row[-1]) for _ in range(E)]
     vw.pts, vw.mx = pts, omx + E
     ow, nw = vp.w, vp.w + 4 * E
     for g in (vp, vs):
         cells = bytearray()
         for y in range(4 * (omy - 1)):
-            row = g.cells[y * ow:(y + 1) * ow]
+            row = g.cells[y * ow : (y + 1) * ow]
             cells += row + bytes([row[-1]]) * (4 * E)
         g.cells = cells
     vp.w = nw
@@ -96,7 +111,7 @@ def main():
         for y in range(h + 1):
             for x in range(w + 1):
                 t = bytearray(tw.pt(tx0 + x, ty0 + y))
-                if x in (0, w) or y in (0, h):            # keep the zone closed: boundary corners on the rim
+                if x in (0, w) or y in (0, h):  # keep the zone closed: boundary corners on the rim
                     t = bytearray(vw.pt(dx + x, dy + y))
                 else:
                     ti = terrain.W3E.texture(t)
@@ -112,14 +127,15 @@ def main():
                 dst = (dy * 4 + cy) * vp.w + dx * 4 + cx
                 vp.cells[dst] = tp.cells[src]
                 vs.cells[dst] = ts.cells[src]
-        sx, sy = tw.ox + tx0 * 128, tw.oy + ty0 * 128          # world origin of the area in Thien Kiem
-        nx, ny = vw.ox + dx * 128, vw.oy + dy * 128            # and here
+        sx, sy = tw.ox + tx0 * 128, tw.oy + ty0 * 128  # world origin of the area in Thien Kiem
+        nx, ny = vw.ox + dx * 128, vw.oy + dy * 128  # and here
         zones_out.append((zname, sx, sy, nx, ny, w * 128, h * 128))
     # 2. doodads
     head, vitems, rest = terrain.read_doo(rd(os.path.join(ORIG, "war3map.doo")))
     _, titems, _ = terrain.read_doo(rd(os.path.join(TK, "war3map.doo")))
-    ver, tdd = objdata.parse(rd(os.path.join(TK, "war3map.w3d")), ".w3d")
-    vver, vdd = objdata.parse(rd(os.path.join(SRC, "war3map.w3d")), ".w3d")  # converted by convert_text.py
+    tdd = objdata.ObjectFile.load(os.path.join(TK, "war3map.w3d")).tables
+    w3d = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3d"))  # converted by convert_text.py
+    vdd = w3d.tables
     tk_custom = {n: (o, s) for o, n, s in tdd[1]}
     used_ids = {n for o, n, s in vdd[1]}
     rename, assets = {}, set()
@@ -157,7 +173,7 @@ def main():
         if i >= 0:
             n = struct.unpack_from("<i", data, i + 4)[0] // 268
             for j in range(n):
-                tex_path = data[i + 8 + 268 * j + 4:i + 8 + 268 * j + 264].split(b"\0")[0].decode("latin1")
+                tex_path = data[i + 8 + 268 * j + 4 : i + 8 + 268 * j + 264].split(b"\0")[0].decode("latin1")
                 if tex_path and os.path.exists(os.path.join(TK, tex_path)):
                     files[tex_path] = rd(os.path.join(TK, tex_path))
         for f, d in files.items():
@@ -186,13 +202,19 @@ def main():
     if m:
         old_val = m.group(1)
         new_val = "%d." % (int(float(old_val)) + E * 128)
-        s = s.replace(line, line.replace(old_val + "-GetCameraMargin(CAMERA_MARGIN_RIGHT)",
-                                         new_val + "-GetCameraMargin(CAMERA_MARGIN_RIGHT)"))
+        s = s.replace(
+            line,
+            line.replace(
+                old_val + "-GetCameraMargin(CAMERA_MARGIN_RIGHT)", new_val + "-GetCameraMargin(CAMERA_MARGIN_RIGHT)"
+            ),
+        )
     open(js, "wb").write(s.encode("utf-8"))
+
     # 6. minimap icons + image (the 256 px minimap shows the whole map, longest side fitted, centred)
     def fit(mx, my):
         sc = 256.0 / max(mx - 1, my - 1)
         return sc, (256 - (mx - 1) * sc) / 2, (256 - (my - 1) * sc) / 2
+
     so, ox0, oy0 = fit(omx, omy)
     sn, ox1, oy1 = fit(vw.mx, vw.my)
     mm = bytearray(rd(os.path.join(ORIG, "war3map.mmp")))
@@ -220,15 +242,17 @@ def main():
                 px[xx, yy] = col
     sys.path.insert(0, os.path.dirname(__file__))
     from icons import blp1_palette
+
     open(os.path.join(SRC, "war3mapMap.blp"), "wb").write(blp1_palette(img, 256))
     # write everything
     open(os.path.join(SRC, "war3map.w3e"), "wb").write(vw.write())
     open(os.path.join(SRC, "war3map.wpm"), "wb").write(vp.write())
     open(os.path.join(SRC, "war3map.shd"), "wb").write(vs.write())
     open(os.path.join(SRC, "war3map.doo"), "wb").write(terrain.write_doo(head, vitems, rest))
-    open(os.path.join(SRC, "war3map.w3d"), "wb").write(objdata.write(vver, vdd, ".w3d"))
+    w3d.save()
     open(os.path.join(SRC, "war3map.w3i"), "wb").write(bytes(i3))
     open(os.path.join(SRC, "war3map.mmp"), "wb").write(bytes(mm))
+
     # points for gameplay.py: entry (Xa Phu arrival, west side) and creep camps (open ground, 700 apart)
     def open_ground(x, y, r):
         cx, cy = int((x - vw.ox) / 32), int((y - vw.oy) / 32)
@@ -238,26 +262,62 @@ def main():
                     return False
         return True
 
-    with open(os.path.join(ROOT, "build", "zones.txt"), "w", encoding="utf-8") as f:
-        for zname, sx, sy, nx, ny, w, h in zones_out:
-            if zname == ARENA:                          # not a farm zone: offset for gameplay.py
-                open(os.path.join(ROOT, "build", "arena.txt"), "w").write("%d %d %d %d" % (sx, sy, nx, ny))
-                continue
-            nx, ny = int(nx), int(ny)
-            cand = [(x, y) for y in range(ny + 256, ny + h - 256, 160) for x in range(nx + 256, nx + w - 256, 160)
-                    if open_ground(x, y, 4)]
-            mid = ny + h / 2
-            entry = min(cand, key=lambda c: (c[0] - nx) + abs(c[1] - mid))
+    def write_farm_zone(f, zname, nx, ny, w, h, level, tele):
+        nx, ny, w, h = int(nx), int(ny), int(w), int(h)
+        cand = [
+            (x, y)
+            for y in range(ny + 256, ny + h - 256, 160)
+            for x in range(nx + 256, nx + w - 256, 160)
+            if open_ground(x, y, 4)
+        ]
+        if len(cand) < 5:
+            raise RuntimeError("Bãi farm không đủ điểm đi được: %s (%d điểm)" % (zname, len(cand)))
+        mid = ny + h / 2
+        entry = min(cand, key=lambda c: (c[0] - nx) + abs(c[1] - mid))
+        camps = []
+        for min_gap in (700, 500, 350):
             camps = []
             for c in sorted(cand, key=lambda c: (c[0] * 7 + c[1] * 13) % 997):
-                if all((c[0] - d[0]) ** 2 + (c[1] - d[1]) ** 2 >= 700 ** 2 for d in camps + [entry]):
+                if all((c[0] - d[0]) ** 2 + (c[1] - d[1]) ** 2 >= min_gap**2 for d in camps + [entry]):
                     camps.append(c)
-            camps = camps[:8]
-            f.write("%s\t%d\t%d\t%d\t%d\t%d\t%d\t%s\n" % (zname, nx, ny, nx + w, ny + h, entry[0], entry[1],
-                                                         " ".join("%d:%d" % c for c in camps)))
-            print("  %s: entry %s, %d camps" % (zname, entry, len(camps)))
-    print("map %dx%d -> %dx%d tiles, textures %d, doodads +%d (custom types %d), files copied %d"
-          % (omx - 1, omy - 1, vw.mx - 1, vw.my - 1, len(vw.ground), len(vitems) - len(terrain.read_doo(rd(os.path.join(ORIG, "war3map.doo")))[1]), len(rename), len(copied)))
+            if len(camps) >= 4:
+                break
+        camps = camps[:4]
+        f.write(
+            "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%s\t%d\t%d\n"
+            % (zname, nx, ny, nx + w, ny + h, entry[0], entry[1], " ".join("%d:%d" % c for c in camps), level, tele)
+        )
+        print("  %s (cấp %d): entry %s, %d camps%s" % (zname, level, entry, len(camps), " / Xa Phu" if tele else ""))
+
+    with open(os.path.join(ROOT, "build", "zones.txt"), "w", encoding="utf-8") as f:
+        for zname, sx, sy, nx, ny, w, h in zones_out:
+            if zname == ARENA:  # not a farm zone: offset for gameplay.py
+                open(os.path.join(ROOT, "build", "arena.txt"), "w").write("%d %d %d %d" % (sx, sy, nx, ny))
+                continue
+            if zname.startswith("Cổng "):
+                # Split each of the two gate-side fields into three adjacent level bands.
+                # These six bands remain walk-in farms; only the distant fields get Xa Phu NPCs.
+                direction = "phía trên" if "Trên" in zname else "phía dưới"
+                for i, level in enumerate((1, 20, 40)):
+                    x0 = int(nx) + int(w) * i // 3
+                    x1 = int(nx) + int(w) * (i + 1) // 3
+                    write_farm_zone(f, "Bãi Cấp %d - Cổng %s" % (level, direction), x0, ny, x1 - x0, h, level, 0)
+                continue
+            level = 60 if "Cấp 60" in zname else (80 if "Cấp 80" in zname else 100)
+            write_farm_zone(f, zname, nx, ny, w, h, level, 1)
+    print(
+        "map %dx%d -> %dx%d tiles, textures %d, doodads +%d (custom types %d), files copied %d"
+        % (
+            omx - 1,
+            omy - 1,
+            vw.mx - 1,
+            vw.my - 1,
+            len(vw.ground),
+            len(vitems) - len(terrain.read_doo(rd(os.path.join(ORIG, "war3map.doo")))[1]),
+            len(rename),
+            len(copied),
+        )
+    )
     for z in zones_out:
         print("  %s: %d x %d tiles at world (%d, %d)" % (z[0], z[5] // 128, z[6] // 128, z[3], z[4]))
 

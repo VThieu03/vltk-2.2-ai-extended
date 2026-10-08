@@ -13,7 +13,7 @@ def pack_file(data, sector):
         return b"", F_EXISTS
     chunks = []
     for i in range(0, len(data), sector):
-        raw = data[i:i + sector]
+        raw = data[i : i + sector]
         c = b"\x02" + zlib.compress(raw, 9)
         chunks.append(c if len(c) < len(raw) else raw)
     offs = [4 * (len(chunks) + 1)]
@@ -33,7 +33,7 @@ def build(src_path, header_off, files, out_path, remove=(), keep_layout=False):
     # every probe run (and every lookup) as it was, and leave k times the free slots for new files.
     used = sum(1 for h in hashes if h[4] not in (HASH_EMPTY, HASH_DELETED))
     k = 1
-    while used * k + len(files) > len(hashes) * k * .75:
+    while used * k + len(files) > len(hashes) * k * 0.75:
         k *= 2
     if k > 1:
         hashes = [list(h) for _ in range(k) for h in hashes]
@@ -56,7 +56,7 @@ def build(src_path, header_off, files, out_path, remove=(), keep_layout=False):
             raise RuntimeError("hash table full")
         return free, None
 
-    changed = {}   # block index -> new uncompressed data
+    changed = {}  # block index -> new uncompressed data
     removed = set()
     for name in remove:
         i, bi = slot(name)
@@ -84,9 +84,9 @@ def build(src_path, header_off, files, out_path, remove=(), keep_layout=False):
         ver, aflags = struct.unpack_from("<II", att)
         n_old, n = len(m.blocks), len(blocks)
         parts, p = [], 8
-        for bit, size in ((1, 4), (2, 8), (4, 16)):   # CRC32, FILETIME, MD5 arrays
+        for bit, size in ((1, 4), (2, 8), (4, 16)):  # CRC32, FILETIME, MD5 arrays
             if aflags & bit:
-                parts.append(bytearray(att[p:p + n_old * size]) + bytearray(size * (n - n_old)))
+                parts.append(bytearray(att[p : p + n_old * size]) + bytearray(size * (n - n_old)))
                 p += n_old * size
             else:
                 parts.append(None)
@@ -94,11 +94,11 @@ def build(src_path, header_off, files, out_path, remove=(), keep_layout=False):
             if parts[0] is not None:
                 struct.pack_into("<I", parts[0], 4 * bi, zlib.crc32(data) & 0xFFFFFFFF)
             if parts[2] is not None:
-                parts[2][16 * bi:16 * bi + 16] = hashlib.md5(data).digest()
+                parts[2][16 * bi : 16 * bi + 16] = hashlib.md5(data).digest()
         for bi in removed:
             for part, size in zip(parts, (4, 8, 16)):
                 if part is not None:
-                    part[size * bi:size * bi + size] = bytes(size)
+                    part[size * bi : size * bi + size] = bytes(size)
         att = struct.pack("<II", ver, aflags) + b"".join(x for x in parts if x is not None)
         packed, flags = pack_file(att, m.sector)
         blocks[abi][1:] = [len(packed), len(att), flags]
@@ -107,8 +107,8 @@ def build(src_path, header_off, files, out_path, remove=(), keep_layout=False):
     src = open(src_path, "rb")
     out = open(out_path, "wb")
     src.seek(0)
-    out.write(src.read(header_off))           # HM3W header (map name, flags, ...)
-    out.write(b"\0" * 32)                      # MPQ header, filled in at the end
+    out.write(src.read(header_off))  # HM3W header (map name, flags, ...)
+    out.write(b"\0" * 32)  # MPQ header, filled in at the end
     pos = 32
     if keep_layout:
         end = max(ob[0] + ob[1] for ob in m.blocks if ob[3] & F_EXISTS)
@@ -144,7 +144,6 @@ def build(src_path, header_off, files, out_path, remove=(), keep_layout=False):
     out.write(encrypt(braw, hs("(block table)", 3)))
     pos += len(braw)
     out.seek(header_off)
-    out.write(struct.pack("<4sIIHHIIII", b"MPQ\x1a", 32, pos, 0, m.shift,
-                          hto, bto, len(hashes), len(blocks)))
+    out.write(struct.pack("<4sIIHHIIII", b"MPQ\x1a", 32, pos, 0, m.shift, hto, bto, len(hashes), len(blocks)))
     out.close()
     src.close()

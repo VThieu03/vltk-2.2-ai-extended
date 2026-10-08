@@ -17,7 +17,7 @@ def parse(data, ext):
 
     def raw(n):
         nonlocal p
-        v = data[p:p + n]
+        v = data[p : p + n]
         p += n
         return v
 
@@ -71,3 +71,57 @@ def write(ver, tables, ext):
                     out.append(val + b"\0" if typ == 3 else val)
                     out.append(end)
     return b"".join(out)
+
+
+class ObjectFile:
+    """Một file sửa đổi đối tượng (w3u w3t w3a ...) theo hướng đối tượng, bọc parse / write ở trên:
+        f = ObjectFile.load(path)          # đọc
+        for o in f.custom: ...             # bảng đối tượng tự tạo (o = [id gốc, id mới, [mods]])
+        f.field(o, b"unam")                # giá trị một trường (bytes) ở cấp 0, None nếu không có
+        f.save()                           # ghi lại đúng chỗ đã đọc
+    Các hàm parse / write cũ vẫn giữ để code cũ chạy như trước."""
+
+    def __init__(self, ver, tables, ext, path=None):
+        self.ver, self.tables, self.ext, self.path = ver, tables, ext, path
+
+    @classmethod
+    def load(cls, path):
+        import os
+
+        ext = os.path.splitext(path)[1].lower()
+        ver, tables = parse(open(path, "rb").read(), ext)
+        return cls(ver, tables, ext, path)
+
+    @property
+    def original(self):
+        return self.tables[0]
+
+    @property
+    def custom(self):
+        return self.tables[1]
+
+    @staticmethod
+    def obj_id(o):
+        """id của đối tượng: id mới nếu là đối tượng tự tạo, không thì id gốc (str)"""
+        new = o[1].rstrip(b"\0")
+        return (new or o[0]).decode("latin-1")
+
+    def find(self, oid):
+        """đối tượng có id oid (str), tìm ở cả hai bảng; None nếu không có"""
+        for o in self.original + self.custom:
+            if self.obj_id(o) == oid:
+                return o
+        return None
+
+    def field(self, o, mid, level=0):
+        for m in o[2][0]:
+            if m[0] == mid and (self.ext not in EXT or m[1] in (level, None) or (level == 0 and m[1] in (0, 1))):
+                v = m[4]
+                return v.rstrip(b"\0") if m[3] == 3 else v
+        return None
+
+    def to_bytes(self):
+        return write(self.ver, self.tables, self.ext)
+
+    def save(self, path=None):
+        open(path or self.path, "wb").write(self.to_bytes())

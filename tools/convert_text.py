@@ -1,6 +1,7 @@
 # Convert every TCVN3 string of the map to Unicode (tcvn3.py decides per string).
 # Reads the untouched originals from work\orig (copied there on first run), writes src\map.
 import os, re, shutil, sys
+
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata, tcvn3
 
@@ -32,7 +33,10 @@ LIT = re.compile(r'"(?:[^"\\\r\n]|\\.)*"')
 text(r"Scripts\war3map.j", lambda t: LIT.sub(lambda m: conv(m.group(0), "script"), t))
 # wts: each STRING body (do not overwrite if src/map/war3map.wts already exists)
 if not os.path.exists(os.path.join(SRC, "war3map.wts")):
-    text("war3map.wts", lambda t: re.sub(r"(\{)(.*?)(\})", lambda m: m.group(1) + conv(m.group(2), "wts") + m.group(3), t, flags=re.S))
+    text(
+        "war3map.wts",
+        lambda t: re.sub(r"(\{)(.*?)(\})", lambda m: m.group(1) + conv(m.group(2), "wts") + m.group(3), t, flags=re.S),
+    )
 # skin / misc: values after "="
 for f in ("war3mapSkin.txt", "war3mapMisc.txt"):
     text(f, lambda t: re.sub(r"(?m)^([^=\r\n]*=)(.*)$", lambda m: m.group(1) + conv(m.group(2), "skin"), t))
@@ -41,19 +45,22 @@ for f in ("war3mapSkin.txt", "war3mapMisc.txt"):
 p = os.path.join(SRC, "war3mapSkin.txt")
 t = open(p, "rb").read().decode("utf-8")
 t = re.sub(r"(?mi)^\w*Font=Font\\VNVOGU\.TTF[^\S\n]*\n?", "", t)
+# chữ sai trong map gốc (Ê thay cho Ấ): "CÊp" = Cấp, "RÊt" = Rất ... (thêm cặp (sai, đúng) vào đây)
+for bad, good in (("CÊp", "Cấp"), ("RÊt", "Rất")):
+    t = t.replace(bad, good)
 open(p, "wb").write(t.encode("utf-8"))
 # object data string values
 for f in ("war3map.w3u", "war3map.w3t", "war3map.w3b", "war3map.w3d", "war3map.w3a", "war3map.w3h", "war3map.w3q"):
     ext = os.path.splitext(f)[1]
-    d = open(os.path.join(ORIG, f), "rb").read()
-    ver, tables = objdata.parse(d, ext)
+    of_ = objdata.ObjectFile.load(os.path.join(ORIG, f))
+    tables = of_.tables
     for tab in tables:
         for obj in tab:
             for mods in obj[2]:
                 for m in mods:
                     if m[3] == 3:
                         m[4] = conv(m[4].decode("utf-8"), f).encode("utf-8")
-    open(os.path.join(SRC, f), "wb").write(objdata.write(ver, tables, ext))
+    of_.save(os.path.join(SRC, f))  # đọc bản gốc, ghi vào src
 
 print("converted strings:", stats)
 print("TCVN3 codes without a mapping:", tcvn3.unknown)

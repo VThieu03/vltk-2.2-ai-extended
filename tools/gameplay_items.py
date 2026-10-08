@@ -1,13 +1,13 @@
 # Classify the map's equipment for the set bonus: slot (1 hat, 2 armor, 3 weapon, 4 boots) and tier
 # (1 base, 2..4 = +1..+3, 5 = golden / named artifact), from the converted names in src\map\war3map.w3t.
 import os, re, sys, unicodedata
+
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 
 SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 SLOTS = [  # checked in this order ("Phá Quân Hài" is boots, not a hat)
     (4, {"hai", "ngoa", "ly"}),
-    
     (2, {"sam", "y", "bao", "giap", "thuong", "trang"}),
     (3, {"kiem", "dao", "mau", "san", "soc", "phien", "hoan", "phu", "phach", "duyen", "tieu", "khi"}),
     (1, {"mao", "quan", "can", "khoi", "mu"}),
@@ -23,7 +23,8 @@ def plain(s):
 
 
 def items():
-    ver, tabs = objdata.parse(open(os.path.join(SRC, "war3map.w3t"), "rb").read(), ".w3t")
+    of_ = objdata.ObjectFile.load(os.path.join(SRC, "war3map.w3t"))
+    ver, tabs = of_.ver, of_.tables
     out = []
     for ti, tab in enumerate(tabs):
         for old, new, sets in tab:
@@ -33,6 +34,10 @@ def items():
             tip = d.get(b"utub", b"").decode("utf-8")
             iid = (old if ti == 0 else new).decode("latin1")
             if not name or cls in ("Charged", "Miscellaneous", "PowerUp", "Campaign"):
+                continue
+            if iid.startswith("IJ"):  # 10-slot jewels (gameplay.py JEWELS): own table
+                continue
+            if iid.startswith("IT"):  # KVCT equipment (ITV ITS ITW ITHB, tools/kvequip.py): own table, not part of the old drop tiers
                 continue
             words = set(re.findall(r"[a-z]+", plain(name)))
             slot = next((s for s, keys in SLOTS if words & keys), 0)
@@ -49,5 +54,3 @@ def items():
 if __name__ == "__main__":
     for iid, slot, tier, name in items():
         print(iid, SLOT_NAME[slot], tier, name)
-
-

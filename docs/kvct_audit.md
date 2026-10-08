@@ -15,6 +15,19 @@
 | **Trigger On-Damage phản đòn thời gian thực** | **Chuyển thành Hệ thống Chỉ Số RPG (`zzVL_af`)** | Thay vì tạo trigger theo dõi nhận đòn riêng cho 400 chiêu, các kỹ năng này được chuyển thành buff trực tiếp vào bảng 22 chỉ số: Kháng ngũ hành, Giảm sát thương %, Bạo kích, Hút máu, Hồi mana (`fx 4096`), Tích tầng sát thương (`fx 8192`). |
 | **Bất tử tuyệt đối / Vô địch** | **Điều chỉnh thành Hộ Thuẫn (`kind 9`) / Miễn Khống (`kind 8`)** | Giữ cân bằng game trong chế độ Đấu trường / Liên Đấu / Lôi Đài tránh tình trạng tướng bất tử kéo dài làm vỡ trận. |
 
+## 2b. CẬP NHẬT ĐƠN VỊ ĐO (06/10/2026, chưa test trong game)
+
+Các bảng bên dưới có thể còn ghi số cũ ở cột "Map làm gì"; số liệu dưới đây đã ghi đè:
+- Phát động thêm sát thương theo KVCT (khóa 180/177/179/178): 13 chiêu (các dòng có ghi "số liệu phát động theo KVCT").
+- Độ rộng đạn theo KVCT (khóa 167): 48 chiêu đạn bay.
+- Độc đúng số nhịp KVCT (khóa 166): 14 chiêu.
+- Cộng tầng tham số hóa: Liên Hoàn Đoạt Mệnh Thương (bậc + 5 tầng, 8 giây, +3%), Mê Tung Huyễn Ảnh (khi bị đánh, 16 tầng, 5 giây), Càn Khôn Chùy (khi bị đánh, bậc + 5 tầng, 6 giây, +6%).
+- Bị động "khi bị đánh" chỉ phát khi vừa trúng đòn: Kinh Lôi Phá Thiên, Hộ Thể Hàn Băng, Thúc Phọc Chú, Kim Cang Bất Hoại, Thiên Vương Bản Sinh (xác suất 25 + 5 × bậc %), Huyết Đỉnh Công (mới: dưới 95% → 10 giây miễn khống chế, giãn cách 25 giây).
+- Ngự Tuyết Ẩn: buff (2,8 + 0,1 × bậc) giây. Hỏa Liên Phần Hoa: hút vào giữa (chỉ chiêu này). Thời Thừa Lục Long: hết sau 6 đòn / chiêu.
+- Kim Cang Bất Hoại: giãn cách 3 giây ở bậc 1 tăng dần tới 6 giây ở bậc 10 (cấp 200): 3 + 0,33 × (bậc − 1).
+- Suy yếu mới (`zzKS_Weak`): kẻ địch gây ít sát thương hơn (tối đa 20%) và đánh chậm 20%. Mê Hồn Trận: khi bị đánh, kẻ địch trong 400 bị suy yếu 20% trong 6 giây, giãn cách 20 giây. Hồn Phách Phi Dương: kẻ địch phía trước trong 1000 (±20°) bị suy yếu 20% trong 10 giây (KVCT 30%, map giới hạn 20%).
+- Suy yếu do bị động gắn Q/W/E kéo dài theo KVCT: Vạn Cổ Thực Tâm 30, Nghịch Chuyển Tâm Kinh 10, Bi Ma Huyết Quang 30, Luyện Ngục Hủ Cổ 12, Bi Tô Thanh Phong 30 giây.
+
 ## 3. CHI TIẾT ĐỐI SOÁT 33 MÔN PHÁI
 
 > Đang đối chiếu lại từng phái với code gốc KVCT (thứ tự theo `CLASS` trong `tools/kskill_data.py`). Phái có ghi "đã đối chiếu code KVCT" là đã kiểm tra từng chiêu; các phái còn lại vẫn là bảng tự sinh cũ (đoán theo mô tả, cột "Ghi chú" chưa đáng tin).
@@ -164,7 +177,7 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 | Đạt Ma Võ Kinh | - | Bị động: vật công nội, sát thương chí mạng, tốc đánh | Bị động: sát thương % + tốc đánh | Gần giống |
 | Hỗn Nguyên Nhất Khí | - | Bị động: hóa giải % sát thương nhận (tối đa 36% sinh lực), tỉ lệ bỏ qua trạng thái | Bị động: giảm sát thương nhận + kháng thời gian trạng thái | Gần giống |
 | Đại Lực Kim Cang Chưởng | E (autocast) | 3 đạo chưởng cách 1/6 giây, bay 900 (rộng 150), tối đa 7; 40% thọ thương 1 giây | 3 đạo cách 0,17 giây, 900, tối đa 7; thọ thương 40% 1 giây | Giống |
-| Vô Tướng Thần Công | - | Bị động: sinh lực; E 40% phát động Như Lai Chưởng (sát thương ×(1,27 + 0,03 × bậc)) | Bị động: sinh lực; E 30% thêm 25% sát thương | Gần giống (tỉ lệ / mức tăng chung của map) |
+| Vô Tướng Thần Công | - | Bị động: sinh lực; E 40% phát động Như Lai Chưởng (sát thương ×(1,27 + 0,03 × bậc)) | Bị động: sinh lực; E 40% thêm (27 + 3 × bậc)% sát thương | Gần giống (tỉ lệ / mức tăng chung của map) | (số liệu phát động theo KVCT, chưa test)
 | Thiên Thủ Như Lai Ấn | T | 60 giây: vật công +(4,55 + 0,65 × bậc)%, sát thương lên hệ Mộc, miễn thọ thương / chậm / bất động; hồi 180 giây | 60 giây miễn khống chế + sát thương +(5 + bậc)%; hồi 180 giây | Gần giống (không có sát thương lên hệ Mộc) |
 
 Trước khi sửa: Q/W là đánh 1 mục tiêu / quét nón, Sư Tử Hống là nổ 3 lần choáng 2 giây (KVCT: 1 lần, thọ thương + định thân 3 giây), La Hán Kim Thân 15 giây, Thiên Thủ Như Lai Ấn 20 giây; Bồ Đề Tâm Pháp là buff phòng thủ; thiếu 3 chiêu dùng chung.
@@ -183,12 +196,12 @@ Nguồn: `readable.j` (bảng `set Kuz[oY]="TND"`; Q/W/E: `JDX`/`JD5`, `J0M`/`J0
 | Thôi Sơn Điền Hải | R | Hàng rào lửa (nhiều cột, số cột theo bậc mật tịch) tại điểm (≤ 600), đốt mỗi 0,5 giây trong 9 giây, tối đa 7; 35% bỏng 1 giây; hồi 3 giây | Trận tại điểm (≤ 600) 18 nhịp × 0,5 giây, bán kính 250, tối đa 7; bỏng 35% 1 giây | Gần giống (vùng tròn thay cho hàng rào) |
 | Nhiếp Hồn Loạn Tâm | F | Bùa chú tại điểm, bán kính 300 (tối đa 7): (36 + 4 × bậc)% tê liệt 4 giây, tốc chạy −25% trong 20 giây; hồi 30 giây | Bùa chú tại điểm 300, tối đa 7: choáng (36 + 4 × bậc)% 4 giây + làm chậm 20 giây | Gần giống (tê liệt = choáng; chậm 40% thay vì 25%) |
 | Xí Không Ma Diệm | - | Bị động: phát huy lực tấn công, tỉ lệ bỏng, kháng thọ thương | Bị động: sát thương % | Gần giống |
-| Thiên Ngoại Lưu Tinh | W (autocast) | Cầu lửa rơi xuống mục tiêu (220) rồi mặt đất cháy (240), tối đa 7; 35% bỏng 2 giây | Trận lửa tại mục tiêu 3 nhịp cách 0,4 giây, 230, tối đa 7; bỏng 35% 2 giây | Giống |
+| Thiên Ngoại Lưu Tinh | W (cast tay) | Cầu lửa rơi xuống mục tiêu (220) rồi mặt đất cháy (240), tối đa 7; 35% bỏng 2 giây | Trận lửa tại mục tiêu 3 nhịp cách 0,4 giây, 230, tối đa 7; bỏng 35% 2 giây | Giống |
 | Thúc Phọc Chú | - | Bị động: kháng phản đòn, hỏa công; sinh lực < 95% khi bị đánh: miễn thọ thương / định thân / choáng + tốc chạy 10 giây, giãn cách 20 giây | Bị động: sát thương %; sinh lực < 95%: 10 giây miễn khống chế, giãn cách 20 giây | Gần giống (không có tốc chạy) |
 | Nghịch Chuyển Tâm Kinh | - | W/E trúng địch: địch nhận thêm sát thương ngũ hành 10 giây | Q/W/E trúng địch: địch nhận thêm 15% sát thương 4 giây | Gần giống |
 | Ma Đao Thôn Thần | T | Bật / tắt; mỗi 5 giây tự phóng 5 ma đao (0, ±22°, ±44°) bay 600 về phía trước; hút 5% sát thương thành sinh lực | Bật / tắt (kiểu mới 21): mỗi 5 giây phóng 5 đạn xòe 22° về kẻ địch gần nhất trong 600; hút 5% | Giống |
 | Tật Hỏa Liêu Nguyên | E (autocast) | Hỏa Diệm Đao tại mục tiêu: 2 đòn cách 0,4 giây bán kính 250, tối đa 7, 40% bỏng 2 giây; sau đó đốt mỗi giây 4 giây | Trận tại mục tiêu 2 nhịp cách 0,4 giây, 250, tối đa 7; bỏng 40% 2 giây; độc / đốt 5 nhịp | Giống |
-| Ma Diệm Thất Sát | - | Bị động: hỏa công, chí mạng; E tăng sát thương (17 + 3 × bậc)% | Bị động: chí mạng; E 30% thêm 25% sát thương | Gần giống |
+| Ma Diệm Thất Sát | - | Bị động: hỏa công, chí mạng; E tăng sát thương (17 + 3 × bậc)% | Bị động: chí mạng; E thêm (17 + 3 × bậc)% sát thương | Gần giống | (số liệu phát động theo KVCT, chưa test)
 | Huyền Minh Hấp Tinh | - | E: 18% phá (2,1 + 0,1 × bậc)% sinh lực hiện tại của thủ lĩnh, 21% phá (13 + bậc)% sinh lực hiện tại quái thường; không tác dụng lên người chơi | E: 21% phá 15% sinh lực hiện tại của mục tiêu không phải tướng | Gần giống (không phân biệt thủ lĩnh) |
 
 Trước khi sửa: Q/W/E là quét nón / nổ quanh thân (KVCT là lửa tại chỗ mục tiêu), "bỏng" là độc mỗi giây; Thôi Sơn Điền Hải là lướt (KVCT là hàng rào lửa); Ma Đao Thôn Thần là 1 lần phóng 5 hit (KVCT là bật / tắt tự phóng); Nhiếp Hồn Loạn Tâm là đánh 1 mục tiêu.
@@ -207,11 +220,11 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 | Thời Thừa Lục Long | R | 12 giây (hết sau 6 đòn): lực tấn công kỹ năng +60% (bậc 1), kéo dài bỏng; hồi 25 giây | Buff 12 giây: sát thương +(55 + 5 × bậc)% | Gần giống (không mất sau 6 đòn; không kéo dài bỏng) |
 | Túy Điệp Cuồng Vũ | - | Vòng sáng: kháng tất cả, kháng thời gian thọ thương | Bị động: giảm sát thương nhận + kháng thời gian trạng thái | Gần giống |
 | Tiềm Long Tại Uyên | - | Bị động: phát huy lực tấn công, tỉ lệ bỏng, kháng thọ thương | Bị động: sát thương % | Gần giống |
-| Phi Long Tại Thiên | W (autocast) | 4 đòn liên tiếp lên mục tiêu (cách ~0,04 giây), tối đa 7; 35% bỏng 2 giây; 35% hỏa công +60% | 4 đòn đánh lan 150 tại mục tiêu, tối đa 7; bỏng 35% 2 giây; 30% thêm 25% sát thương | Gần giống |
+| Phi Long Tại Thiên | W (autocast) | 4 đòn liên tiếp lên mục tiêu (cách ~0,04 giây), tối đa 7; 35% bỏng 2 giây; 35% hỏa công +60% | 4 đòn đánh lan 150 tại mục tiêu, tối đa 7; bỏng 35% 2 giây; 35% thêm 60% sát thương | Gần giống | (số liệu phát động theo KVCT, chưa test)
 | Trảo Long Công | - | Bị động: hỏa công; sinh lực < 50%: sát thương kỹ năng ×(1,1 + 0,02 × bậc) | Bị động: sát thương % | Khác một phần (chưa làm điều kiện máu < 50%) |
 | Thần Long Bài Vĩ | - | Tỉ lệ (20 + bậc)% tự phát Trảo Long Công; mở rộng phạm vi Phi Long Tại Thiên | Không có hiệu quả | Khác (chưa làm) |
 | Bá Vương Tá Giáp | - | Mỗi lần Q/W/E: 4 giây tốc đánh +15, phát huy lực tấn công +(10 + 2 × bậc)%, miễn trạng thái; giãn cách 10 giây | Mỗi đòn đánh: 4 giây tốc đánh +15%, sát thương +(10 + 2 × bậc)%, miễn khống chế; giãn cách 10 giây | Giống |
-| Long Du Thiên Địa | E (autocast) | Du Long bay theo đường thẳng, trúng địch thì ra thức 2 (Long Đài Đầu), tối đa 7; 40% bỏng 3 giây; 35% hỏa công +60%; tự kích hoạt Thời Thừa Lục Long (Giáng Long Chưởng) | 2 đợt đạn bay 600 cách 0,3 giây, tối đa 7; bỏng 40% 3 giây; 30% thêm 25% sát thương | Gần giống (không tự kích hoạt Thời Thừa Lục Long) |
+| Long Du Thiên Địa | E (autocast) | Du Long bay theo đường thẳng, trúng địch thì ra thức 2 (Long Đài Đầu), tối đa 7; 40% bỏng 3 giây; 35% hỏa công +60%; tự kích hoạt Thời Thừa Lục Long (Giáng Long Chưởng) | 2 đợt đạn bay 600 cách 0,3 giây, tối đa 7; bỏng 40% 3 giây; 35% thêm 60% sát thương | Gần giống (không tự kích hoạt Thời Thừa Lục Long) | (số liệu phát động theo KVCT, chưa test)
 | Giáng Long Chưởng | - | Bị động: hỏa công; E tăng tỉ lệ Lục Long Đồng Du, 100% tự thi triển Thời Thừa Lục Long (giãn cách 15 giây) | Bị động: sát thương % | Khác một phần (chưa làm phần tự thi triển) |
 | Triệt Y Thập Bát Điệt | D | 20 giây: sát thương lên hệ Kim +(20 + bậc)%, bỏ qua hỏa phòng +(9 + bậc)%, kháng tất cả +(80 + 20 × bậc); hồi 90 giây | Buff 20 giây: sát thương +(9 + bậc)% + giảm sát thương nhận | Gần giống |
 
@@ -228,14 +241,14 @@ Lưu ý: trong KVCT chỉ Q của Côn Lôn Kiếm là đánh kèm đòn đánh;
 | Cuồng Lôi Chấn Địa | Q (autocast) | Sét đánh tại mục tiêu, bán kính 120, tối đa 3; 30% choáng 1 giây | Đánh lan 120 tại mục tiêu, tối đa 3; choáng 30% 1 giây | Giống |
 | Côn Lôn Kiếm Pháp | - | Bị động: lôi công, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống |
 | Thanh Phong Phù | F | Tướng phe ta trong 1000 (đồng đội 60%) 300 giây: tốc chạy +(5 + bậc), kháng thời gian chậm +(18 + 2 × bậc)% | Buff phe ta 300 giây: tốc chạy +(5 + bậc), kháng thời gian trạng thái +(18 + 2 × bậc)% | Giống |
-| Thiên Tế Tấn Lôi | W (autocast) | Chiêu bấm (hồi 2,5 giây): trận sét tại điểm, 8 tia, bán kính 420, tối đa 7; 35% choáng 1 giây | Tự động khi đánh (hồi 2,5 giây): 8 tia cách 0,2 giây tại mục tiêu, 420, tối đa 7; choáng 35% 1 giây | Gần giống (tự động thay vì bấm) |
+| Thiên Tế Tấn Lôi | W (cast tay) | Chiêu bấm (hồi 2,5 giây): trận sét tại điểm, 8 tia, bán kính 420, tối đa 7; 35% choáng 1 giây | Chiêu bấm (hồi 2,5 giây): 8 tia cách 0,2 giây tại mục tiêu, 420, tối đa 7; choáng 35% 1 giây | Giống (cast tay như KVCT) |
 | Đạo Cốt Tiên Phong | T | Phe ta trong 1000 (đồng đội 60%) 300 giây: kháng vật / băng / hỏa / lôi +(45 + 15 × bậc), sát thương ngũ hành nhận −(10 + 2 × bậc)% | Buff phe ta 300 giây: giảm (10 + 2 × bậc)% sát thương nhận | Giống (map không có kháng từng hệ cho chiêu) |
 | Ngũ Lôi Chánh Pháp | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương % | Gần giống |
-| Lôi Động Cửu Thiên | E (autocast) | Chiêu bấm (hồi 9 giây): 9 tia sét lớn cách 0,3 giây vào kẻ địch ngẫu nhiên trong 1000; 80% choáng 1 giây | Tự động khi đánh (hồi 9 giây): 9 nhịp cách 0,3 giây, mỗi nhịp đánh 1 kẻ địch ngẫu nhiên trong 1000; choáng 80% 1 giây | Gần giống (tự động thay vì bấm) |
+| Lôi Động Cửu Thiên | E (cast tay) | Chiêu bấm (hồi 9 giây): 9 tia sét lớn cách 0,3 giây vào kẻ địch ngẫu nhiên trong 1000; 80% choáng 1 giây | Chiêu bấm (hồi 9 giây): 9 nhịp cách 0,3 giây, mỗi nhịp đánh 1 kẻ địch ngẫu nhiên trong 1000; choáng 80% 1 giây | Giống (cast tay như KVCT) |
 | Lôi Đình Quyết | - | Vòng sáng: kẻ địch xung quanh nhận thêm (14 + 2 × bậc)% sát thương từ chiêu Côn Lôn, tốc chạy −15% | Bị động: sát thương % | Gần giống (không làm chậm) |
 | Huyền Thiên Vô Cực | - | Hóa giải % sát thương nhận, kháng phản đòn; bị đánh +1 tầng chí mạng (tối đa 5) | Bị động: giảm sát thương nhận + chí mạng | Gần giống (không cộng tầng) |
 | Ngự Phong Thuật | D | Lốc xoáy bay thẳng 960 (rộng 220), không sát thương: 90% choáng 3 giây, giảm kháng lôi / kháng chí mạng 8 giây; hồi 20 giây | Đạn bay 960 không sát thương: choáng 90% 3 giây + nhận thêm 15% sát thương 8 giây | Gần giống |
-| Thiên Lôi Chấn Nhạc | R | Bão sét tại điểm, 9 nhịp cách 0,12 giây, bán kính 400, tối đa 10; 40% choáng 1 giây; Hỗn Nguyên Càn Khôn: 20% Bạo Lôi tăng sát thương | Trận tại điểm 9 nhịp cách 0,12 giây, 400, tối đa 10; choáng 40% 1 giây; 30% thêm 25% sát thương | Giống |
+| Thiên Lôi Chấn Nhạc | R | Bão sét tại điểm, 9 nhịp cách 0,12 giây, bán kính 400, tối đa 10; 40% choáng 1 giây; Hỗn Nguyên Càn Khôn: 20% Bạo Lôi tăng sát thương | Trận tại điểm 9 nhịp cách 0,12 giây, 400, tối đa 10; choáng 40% 1 giây; 20% thêm 25% sát thương | Giống | (số liệu phát động theo KVCT, chưa test)
 | Hỗn Nguyên Càn Khôn | - | Bị động: lôi công, chí mạng, sát thương chí mạng; Bạo Lôi cho R | Bị động: chí mạng (Bạo Lôi gắn sẵn vào R) | Gần giống |
 | Hóa Tủy Vô Ý | - | Sát thương lên hệ Thủy; giảm hồi chiêu E và R; tăng tấn công khi chí mạng | Bị động: chí mạng | Khác một phần (chưa giảm hồi chiêu) |
 
@@ -255,11 +268,11 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 | A La Hán Thần Công | - | Vòng sáng: phản đòn cận chiến / tầm xa; La Hán Trận phản đòn theo sinh khí | Bị động: phản đòn (2% × bậc sát thương nhận) | Gần giống |
 | Bồ Đề Tâm Pháp | D | (như Thiếu Lâm Quyền) 300 giây kháng thời gian trạng thái +(17 + 3 × bậc)% | Như Thiếu Lâm Quyền | Giống |
 | Như Lai Thiên Diệp | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
-| Thiên Trúc Tuyệt Đao | W (autocast) | 2 đao khí theo đường thẳng cách 0,31 giây, tối đa 7; 35% thọ thương 1 giây; 30% lực tấn công +30% | 2 đợt cách 0,31 giây, 700, tối đa 7; thọ thương 35% 1 giây; 30% thêm 25% sát thương | Giống |
+| Thiên Trúc Tuyệt Đao | W (autocast) | 2 đao khí theo đường thẳng cách 0,31 giây, tối đa 7; 35% thọ thương 1 giây; 30% lực tấn công +30% | 2 đợt cách 0,31 giây, 700, tối đa 7; thọ thương 35% 1 giây; 30% thêm 30% sát thương | Giống | (số liệu phát động theo KVCT, chưa test)
 | Hàng Long Bất Vũ | F | 20 giây: triệt tiêu 99% sát thương nhận, miễn trạng thái, chí mạng, sát thương chí mạng; bị đánh 30 lần thì hết; hồi 60 giây | 20 giây miễn sát thương + miễn khống chế + chí mạng; hết sau 30 lần bị đánh; hồi 60 giây | Giống |
 | Đạt Ma Bế Tức | - | Kháng tỉ lệ trạng thái; khi bị đánh 50%: hóa giải + miễn trạng thái 3 giây (giãn cách) | Bị động: kháng thời gian trạng thái; khi mất máu 50%: 3 giây miễn khống chế, giãn cách 15 giây | Gần giống (không hóa giải trạng thái đang dính) |
 | Đại Thừa Như Lai Chú | R | Tại điểm chọn: kẻ địch trong 350 (tối đa 7) bị kéo 140 về điểm, 40% định thân 2 giây, chịu thêm sát thương phản đòn 15 giây; không sát thương; hồi 30 giây | Trận 1 nhịp tại điểm: 350, tối đa 7, kéo về tâm, định thân 40% 2 giây, nhận thêm 15% sát thương 15 giây; không sát thương | Gần giống |
-| Quy Thiền Đao Pháp | E (autocast) | 3 đao khí cách 1/6 giây, tối đa 7; 40% thọ thương 1 giây; 30% lực tấn công +30% | 3 đợt cách 0,17 giây, 700, tối đa 7; thọ thương 40% 1 giây; 30% thêm 25% sát thương | Giống |
+| Quy Thiền Đao Pháp | E (autocast) | 3 đao khí cách 1/6 giây, tối đa 7; 40% thọ thương 1 giây; 30% lực tấn công +30% | 3 đợt cách 0,17 giây, 700, tối đa 7; thọ thương 40% 1 giây; 30% thêm 30% sát thương | Giống | (số liệu phát động theo KVCT, chưa test)
 | Thiền Nguyên Công | - | Sức mạnh, thân pháp, sinh khí; E 40%: thức thứ ba phóng 6 đạo đao phong | Bị động: sát thương %; E 40% thêm 3 đợt | Gần giống |
 | Trảm Ma Đao Pháp | - | Sát thương lên hệ Mộc, chí mạng, tấn công khi chí mạng, tỉ lệ hóa giải trạng thái | Bị động: chí mạng + kháng thời gian trạng thái | Gần giống |
 
@@ -284,7 +297,7 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 | Liên Hoàn Đoạt Mệnh Thương | - | Mỗi lần đánh trúng +1 tầng (phát huy lực tấn công +3%), 8 giây, tối đa (bậc + 5) tầng | Mỗi đòn đánh +1 tầng (sát thương +4%, chí mạng +2%), 6 giây, tối đa 5 tầng | Gần giống (số tầng tối đa cố định 5) |
 | Hoành Hành Vô Kỵ | T | (8 + bậc) giây hóa giải + miễn thọ thương / định thân / chậm / choáng / đẩy / kéo; hồi 40 giây | (8 + bậc) giây miễn khống chế; hồi 40 giây | Giống |
 | Bá Vương Trạm Kim | E (autocast) | 4 nhát cách 0,125 giây, đánh lan 270, tối đa 7; 40% thọ thương 1 giây | 4 nhát cách 0,13 giây, đánh lan 270 tại mục tiêu, tối đa 7; thọ thương 40% 1 giây | Giống |
-| Huyết Chiến Bát Phương | - | Sinh lực tối đa; E 75% phóng thêm một mũi thương bay 900 (rộng 150, tối đa 7) | Bị động: sinh lực; E 30% thêm 25% sát thương | Khác một phần (không có mũi thương bay) |
+| Huyết Chiến Bát Phương | - | Sinh lực tối đa; E 75% phóng thêm một mũi thương bay 900 (rộng 150, tối đa 7) | Bị động: sinh lực; E 75% thêm 1 đòn đủ sát thương | Khác một phần (không có mũi thương bay) | (số liệu phát động theo KVCT, chưa test)
 | Thiên Mã Hành Không | - | Như Thiên Vương Đao | Như Thiên Vương Đao | Gần giống |
 
 Trước khi sửa: Q là quét nón 2 hit, Truy Tinh Trục Nguyệt (W) bị gán nhầm là chiêu lướt, Hoành Hành Vô Kỵ 15 giây cố định; thiếu Thiên Mã Hành Không.
@@ -356,7 +369,7 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 | Kim Đỉnh Miên Chưởng | - | Khi tấn công: chí mạng + hóa giải và miễn trạng thái 3 giây, giãn cách 15 giây | Khi đánh: buff chí mạng + miễn khống chế 3 giây, giãn cách 15 giây | Giống |
 | Vạn Tướng Thần Công | D | 300 giây: kháng tỉ lệ thọ thương / định thân / chậm / bỏng, phát huy lực tấn công | Buff 300 giây: kháng thời gian trạng thái + sát thương % | Gần giống |
 | Nguyệt Hoa Khuynh Tả | E (autocast) | 3 đạo chưởng khí cách 1/6 giây đuổi mục tiêu (800, rộng 150), mỗi đạo trúng 2 lần (đi và về), tối đa 7; 40% làm chậm 2 giây | 6 đợt đạn bay 800 cách 0,17 giây, tối đa 7; chậm 40% 2 giây | Gần giống |
-| Vạn Phật Quy Tông | - | Sát thương chí mạng, cường hóa / nhược hóa ngũ hành; E tăng sát thương ngẫu nhiên (18 + 2 × bậc)% – (36 + 4 × bậc)% | Bị động: chí mạng; E 30% thêm 25% sát thương | Gần giống |
+| Vạn Phật Quy Tông | - | Sát thương chí mạng, cường hóa / nhược hóa ngũ hành; E tăng sát thương ngẫu nhiên (18 + 2 × bậc)% – (36 + 4 × bậc)% | Bị động: chí mạng; E thêm (27 + 3 × bậc)% sát thương (trung bình khoảng KVCT) | Gần giống | (số liệu phát động theo KVCT, chưa test)
 | Kim Đỉnh Phật Quang | - | Sát thương lên hệ Hỏa, sinh lực tối đa; Kim Đỉnh Miên Chưởng mạnh hơn, giãn cách −3 giây | Bị động: sinh lực | Gần giống |
 
 Trước khi sửa: Q là đạn bay, E là nổ quanh thân 6 hit, Vạn Tướng Thần Công là buff giảm sát thương, Phật Quang Chiến Khí 30 giây (KVCT 300 giây).
@@ -375,7 +388,7 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 | Ma Âm Phệ Phách | D | Kẻ địch trong 500 (tối đa 7): (45 + 5 × bậc)% bỏng 4 giây, (36 + 4 × bậc)% hỗn loạn 5 giây, tốc đánh −25% 8 giây; không sát thương | Nổ quanh thân 500 không sát thương, tối đa 7: bỏng + choáng (hỗn loạn) theo đúng tỉ lệ / thời gian | Gần giống (hỗn loạn = choáng; không giảm tốc đánh) |
 | Bi Tô Thanh Phong | - | Đánh trúng: giảm kháng vật / né tránh / chính xác của kẻ địch 30 giây | Q/W/E trúng: kẻ địch nhận thêm 15% sát thương 4 giây | Gần giống |
 | Thiên Ma Giải Thể | - | Bị động: phát huy lực tấn công | Bị động: sát thương % | Gần giống |
-| Vân Long Kích | W (autocast) | Đâm thẳng 200 (rộng 120), tối đa 7; 35% thọ thương 1 giây + 35% bỏng 1,5 giây; hút 15% | Đạn bay 200, tối đa 7; như KVCT | Giống |
+| Vân Long Kích | W (cast tay) | Đâm thẳng 200 (rộng 120), tối đa 7; 35% thọ thương 1 giây + 35% bỏng 1,5 giây; hút 15% | Đạn bay 200, tối đa 7; như KVCT | Giống |
 | Phi Hồng Vô Tích | F | Xung kích 920, đánh kẻ địch trên đường đi (240), 100% bỏng 2 giây; miễn sát thương / trạng thái khi xung kích; hồi 24 giây | Lướt 920, đánh quanh điểm cuối (200); bỏng 100% 2 giây; miễn khống chế 1 giây | Gần giống (đánh ở điểm cuối, không dọc đường) |
 | Cửu Khúc Hợp Thương | - | D cho 5 giây, F cho 3 giây miễn sát thương + miễn trạng thái + chí mạng tối đa | Không có hiệu quả | Khác (chưa làm) |
 | Vân Long Tam Hiện | - | Vật công, né đòn ngoại công, tốc đánh; F dùng liên tiếp 2 lần | Bị động: tốc đánh | Khác một phần (F chưa dùng 2 lần) |
@@ -433,281 +446,359 @@ Khác biệt chung: sát thương theo công thức của map; chỉ số bị �
 
 Trước khi sửa: Q/W là quét nón, E là nổ quanh thân, Nhất Khí Tam Thanh bị làm thành chiêu lướt (KVCT là buff 300 giây); thiếu Thanh Phong Phù.
 
-### Thiếu Lâm Bổng (TLB)
+### Thiếu Lâm Bổng (TLB) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Phổ Độ Côn Pháp | Q | đánh mục tiêu | OVR Đặc thù | thọ thương 30% | Đạt chuẩn |
-| Thiếu Lâm Côn Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bất Động Minh Vương | D | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Thất Tinh La Sát Côn | W | nổ quanh thân | OVR Đặc thù | thọ thương 35% | Đạt chuẩn |
-| Túy Tiên Bát Côn | R | nổ quanh thân | OVR Đặc thù | - | Đạt chuẩn |
-| Kim Cang Bất Hoại | - | bị động (cộng chỉ số) | Khuôn chuẩn | đẩy lùi, kéo đối thủ, miễn nhiễm sát thương | Đạt chuẩn |
-| Như Ý Thúc Cốt Công | F | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Vi Đà Hiến Chử | E | nổ quanh thân | OVR Đặc thù | thọ thương 40%, 2 đòn | Đạt chuẩn |
-| Ma Kha Vô Lượng | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu, giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Tẩy Tủy Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | phản đòn | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TLB"`; Q `eHN`/`eHt`, W `JEQ`/`JEH`, E `J9P`/`J9w` + `J97`/`J9v`, R `JsO`/`JsB`, D `ed8`, F `eZY`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (trước 10; thêm **Dịch Cân Kinh, A La Hán Thần Công, Như Lai Thiên Diệp** dùng chung với Thiếu Lâm Quyền / Đao). Trước đây Q là quét nón 2 đòn, W nổ 3 đợt, R nổ 4 đợt, E nổ 2 đợt, Bất Động Minh Vương / Như Ý là buff chung chung 300 giây.
 
-### Đoàn Thị Khí (DTK)
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map; Bất Động Minh Vương và Như Ý Thúc Cốt Công trong KVCT là chiêu bật / tắt, map làm thành buff 300 / 180 giây.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Kim Ngọc Mãn Đường | Q | đánh mục tiêu | OVR Đặc thù | làm chậm 35% | Đạt chuẩn |
-| Đoàn Thị Tâm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bắc Minh Thần Công | - | đánh mục tiêu | Khuôn chuẩn | kéo đối thủ, độc / bỏng mỗi giây | Đạt chuẩn |
-| Lục Kiếm Tề Phát | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu, phát động khi máu dưới 40% | Đạt chuẩn |
-| Khô Vinh Thiền Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | phát động khi máu dưới 40% | Đạt chuẩn |
-| Đoàn Gia Khí Kiếm | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Lục Mạch Thần Kiếm | W | đạn bay xuyên | OVR Đặc thù | choáng 25%, độc / bỏng mỗi giây, 6 đòn | Đạt chuẩn |
-| Kinh Thiên Nhất Kiếm | R | quét phía trước | OVR Đặc thù | làm chậm 35%, 18 đòn | Đạt chuẩn |
-| Bách Hồng Thực Nhật | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Luyện Khí Hoàn Thần | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Khí Thôn Vạn Lý | E | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 2 đòn | Đạt chuẩn |
-| Thiên Long Thần Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ám Hương Sơ Ảnh | - | bị động (cộng chỉ số) | Khuôn chuẩn | sát thương quanh mỗi giây, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Phổ Độ Côn Pháp | Q (autocast) | Sau 0,1 giây đánh 1 lần quanh chỗ mục tiêu đứng (bán kính 180, tối đa 7); 30% thọ thương 1 giây | Đánh lan 180 tại mục tiêu, tối đa 7, 30% thọ thương 1 giây (đòn đánh liền, không trễ 0,1 giây) | Giống |
+| Thiếu Lâm Côn Pháp | - | Bị động: chính xác, vật công %, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống (không có chính xác / vật công %) |
+| Dịch Cân Kinh | - | Bị động: sinh lực tối đa % | Bị động: sinh lực tối đa | Giống |
+| A La Hán Thần Công | - | Hào quang phản đòn cận chiến / tầm xa | Bị động: phản đòn | Gần giống (không tách cận chiến / tầm xa) |
+| Bất Động Minh Vương | D | Bật / tắt 300 giây: né tránh, chịu sát thương chí mạng −%, sát thương nhận vào −% | Buff 300 giây: giảm sát thương nhận | Gần giống (không bật / tắt, không có né tránh) |
+| Như Lai Thiên Diệp | - | Bị động: phát huy lực tấn công, tỉ lệ thọ thương, kháng định thân | Bị động: sát thương % | Gần giống |
+| Thất Tinh La Sát Côn | W (autocast) | Sau 1/6 giây quét 1 lần quanh thân (bán kính 300, tối đa 7); 35% thọ thương 1 giây | Nổ quanh thân 300, tối đa 7, 35% thọ thương 1 giây | Giống |
+| Túy Tiên Bát Côn | R | 8 giây, mỗi 0,5 giây: hút tối đa 4 kẻ địch trong 800 về sát bản thân và tự tung Thất Tinh La Sát Côn (35% thọ thương); khi tung chiêu gắn thêm một trạng thái riêng (chưa rõ tác dụng) | 16 nhịp cách 0,5 giây quanh thân: hút tối đa 4 địch trong 800 và đánh | Gần giống (đánh các kẻ vừa hút thay vì quét 300 tối đa 7; chưa có trạng thái riêng khi tung) |
+| Kim Cang Bất Hoại | - | Bị đánh khi sinh lực dưới 95%: 3 giây miễn sát thương, định thân, chậm, choáng, đẩy / kéo; giãn cách theo cấp, tối thiểu 10 giây | Cùng điều kiện 95%: 3 giây miễn sát thương và khống chế; giãn cách 15 giây | Gần giống (giãn cách cố định) |
+| Như Ý Thúc Cốt Công | F | Bật / tắt 180 giây: sinh khí +, hóa giải % sát thương (tối đa 36% sinh lực) | Buff 180 giây: sinh khí, hóa giải sát thương, kháng trạng thái | Gần giống (không bật / tắt, không trần 36%) |
+| Vi Đà Hiến Chử | E (autocast) | 2 lượt quét quanh thân cách 0,2 giây (bán kính 300, tối đa 7); 40% thọ thương 1 giây | 2 đợt nổ quanh thân cách 0,2 giây, tối đa 7, 40% thọ thương 1 giây | Giống |
+| Ma Kha Vô Lượng | - | Bỏ qua né tránh; E 50% (+10%/cấp) thêm 1 nhát đâm 7 mục tiêu trên đường thẳng (7 bước × 0,2 giây, bán kính 120), 5% sát thương thành sinh lực | E (50 + 10 × bậc)% thêm 1 đòn đủ sát thương (engine chung `fx 65536`) | Khác (không có nhát đâm đường thẳng 7 mục tiêu, không hút 5% sinh lực, không bỏ qua né tránh; cần mã mới để làm đúng) | (số liệu phát động theo KVCT, chưa test)
+| Tẩy Tủy Kinh | - | Bị động: sát thương hệ Mộc, sinh khí, sức mạnh, phản đòn sát thương kỹ năng, chí mạng | Bị động: chí mạng + phản đòn | Gần giống (không có sát thương Mộc / sinh khí / sức mạnh) |
 
-### Thiên Vương Chùy (TVC)
+### Đoàn Thị Khí (DTK) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Hành Vân Quyết | Q | đánh mục tiêu | Khuôn chuẩn | thọ thương 35% | Đạt chuẩn |
-| Thiên Vương Chùy Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Vương Bản Sinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | miễn nhiễm sát thương, phát động khi máu dưới 40%, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Kim Chung Tráo | F | buff phe ta | OVR Đặc thù | - | Đạt chuẩn |
-| Bất Diệt Sát Ý | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi máu | Đạt chuẩn |
-| Thừa Long Quyết | W | đánh mục tiêu | OVR Đặc thù | thọ thương 40%, 2 đòn | Đạt chuẩn |
-| Trảm Long Quyết | D | xung kích | OVR Đặc thù | thọ thương 100%, kéo đối thủ | Đạt chuẩn |
-| Càn Khôn Chùy | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Hóa Kinh Quyết | - | đánh mục tiêu | Khuôn chuẩn | - | Đạt chuẩn |
-| Tung Hoành Tứ Hải | E | quét phía trước | Khuôn chuẩn | thọ thương 45%, 3 đòn | Đạt chuẩn |
-| Đảo Hư Thiên | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Mã Hành Không | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="DTK"`; Q `eSW`/`eSy`/`eST`, W `eNp`/`eNG`/`eNm`/`eNc`/`eNh`, R `erk`/`erD`/`era`, E `Jko`/`Jk4`/`JkJ`/`JkD`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q là quét nón 2 đòn, W 6 đạn thẳng không giãn cách, R quét nón 18 đòn, E 2 đạn.
 
-### Đường Môn Phi Đao (DMPD)
+Thêm vào engine (`kskill.j`, chỉ cộng thêm): khóa 183 "chiêu này tung kèm Q / W / E của tướng" (tung cùng lúc, khi trúng đòn có xác suất, hoặc khi sinh lực thấp; hàm `zzKS_Slot`, `zzKS_Near`). Dùng cho Khí Thôn Vạn Lý (kèm Lục Mạch Thần Kiếm), Lục Kiếm Tề Phát, Ám Hương Sơ Ảnh.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Tiểu Lý Phi Đao | Q | đạn bay xuyên | OVR Đặc thù | định thân 30%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Đường Môn Ám Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Mãn Thiên Hoa Vũ | R | nổ quanh thân | OVR Đặc thù | định thân 50%, độc / bỏng mỗi giây, sát thương quanh mỗi giây, 3 đòn | Đạt chuẩn |
-| Nhiếp Hồn Nguyệt Ảnh | W | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Hàm Sa Xạ Ảnh | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thực Cốt Huyết Nhẫn | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ảnh Tung Trận | D | miễn khống chế | OVR Đặc thù | đẩy lùi, kéo đối thủ, giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Vô Ảnh Xuyên | E | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 4 đòn | Đạt chuẩn |
-| Tâm Phách | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Bách Phát Bách Trúng | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map; đạn kiếm khí bay thẳng theo hướng lúc tung.
 
-### Cái Bang Bổng (CBB)
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Kim Ngọc Mãn Đường | Q (autocast) | 3 kiếm khí song song bay 900 (rộng 120, 4 đạn từ cấp 4, 5 đạn từ cấp 7), mỗi đạn tối đa 7; 30% chậm 2 giây | Quạt 3 đạn bay 900 (góc 7°), tối đa 7 mỗi đạn, thêm đạn ở cấp 3 và 5; 30% chậm 2 giây | Gần giống (đạn tỏa quạt, không song song; mốc thêm đạn sớm hơn) |
+| Đoàn Thị Tâm Pháp | - | Bị động: băng công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Bắc Minh Thần Công | - | Hào quang: hóa giải % sát thương (tối đa 36% sinh lực), kháng tỉ lệ tê liệt / hỗn loạn / đẩy kéo / thọ thương / định thân / bỏng | Bị động bản thân: hóa giải sát thương + kháng trạng thái | Gần giống (không phải hào quang, không tách từng kháng) |
+| Lục Kiếm Tề Phát | - | Bị đánh khi sinh lực dưới 50%: 6 kiếm khí truy kích kẻ đang đánh, sát thương thành sinh lực; giãn cách 30 giây | Sinh lực dưới 50%: tung Lục Mạch Thần Kiếm vào kẻ địch gần nhất, giãn cách 30 giây | Gần giống (kẻ gần nhất thay vì kẻ đánh mình; không hút sinh lực) |
+| Khô Vinh Thiền Công | - | Tốc đánh, băng công %; dưới 35% sinh lực bị đánh: 5 giây, mỗi 0,5 giây hồi % sinh lực; giãn cách 60 giây | Tốc đánh, sát thương %; dưới 35%: hồi 20% sinh lực một lần, giãn cách 60 giây | Gần giống (hồi một lần, tỉ lệ ước lượng) |
+| Đoàn Gia Khí Kiếm | - | Bị động: phát huy lực tấn công (cơ bản + kỹ năng), tỉ lệ làm chậm, kháng bỏng | Bị động: sát thương % | Gần giống (không có tỉ lệ chậm / kháng bỏng) |
+| Lục Mạch Thần Kiếm | W (autocast) | 6 kiếm khí, mỗi 0,21 giây một đạn, tự dẫn vào mục tiêu; tối đa 7 mỗi đạn; 35% chậm 2 giây; mỗi kiếm một hiệu quả: +40% công cơ bản, +40% ngũ hành, 11% bỏng 3 giây, 11% choáng 1 giây, 11% thọ thương 2 giây | 6 đạn cách 0,21 giây bay thẳng 800, tối đa 7, 35% chậm 2 giây | Gần giống (không tự dẫn, không có 5 hiệu quả riêng của từng kiếm) |
+| Kinh Thiên Nhất Kiếm | R | 18 kiếm khí cách 0,1 giây (lệch ngẫu nhiên ±20°), bay 1200 (rộng 150), tối đa 5 mỗi đạn; đẩy lùi 120 và chậm 2 giây (code: 100%, mô tả ghi 80% / 50%) | 18 đạn cách 0,1 giây bay thẳng 1200, tối đa 5, chậm 100% 2 giây, đẩy lùi | Gần giống (không lệch ngẫu nhiên; mức đẩy lùi theo engine chung) |
+| Bách Hồng Thực Nhật | - | Bị động: tốc đánh, tốc chạy, sinh lực tối đa %, chí mạng | Bị động: tốc đánh, tốc chạy, sinh lực, chí mạng | Giống |
+| Luyện Khí Hoàn Thần | - | Mỗi 10 giây tạo khí cầu, chạm vào nhận chí mạng + sát thương chí mạng, cộng dồn 4 tầng, 60 giây | Bị động: chí mạng cố định | Khác (không có khí cầu / cộng dồn; cần mã mới) |
+| Khí Thôn Vạn Lý | E (autocast) | 2 lưỡi kiếm cách 1/6 giây bay 1000 (rộng 100), tối đa 7 mỗi lưỡi, 40% chậm 2 giây; đồng thời tung Lục Mạch Thần Kiếm | 2 đạn cách 0,17 giây bay 1000, tối đa 7, 40% chậm 2 giây; tung kèm Lục Mạch Thần Kiếm (khóa 183) | Giống |
+| Thiên Long Thần Công | - | Né tránh, kháng thời gian trạng thái ngũ hành; E thêm 1 thức đánh ngẫu nhiên 2 mục tiêu quanh thân (sát thương theo %) | Bị động: kháng trạng thái | Khác (không có né tránh, không có thức đánh ngẫu nhiên kèm E) |
+| Ám Hương Sơ Ảnh | - | Mỗi giây +1 tầng (tối đa 21), mỗi 6 tầng khi tấn công tung 1 lần Lục Mạch Thần Kiếm; sát thương hệ Hỏa % | Khi đánh, mỗi 6 giây tung Lục Mạch Thần Kiếm (khóa 183) | Gần giống (không tích lũy nhiều lần, không có sát thương Hỏa %) |
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Bổng Đả Ác Cẩu | Q | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Cái Bang Bổng Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tiêu Dao Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | phản đòn, giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Ác Cẩu Lan Lộ | R | nổ quanh thân | OVR Đặc thù | độc / bỏng mỗi giây, 12 đòn | Đạt chuẩn |
-| Bôn Lưu Đáo Hải | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thiên Hạ Vô Cẩu | W | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Đả Cẩu Bổng Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Minh Sát Thu Hào | D | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Tung Hạc Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | đẩy lùi | Đạt chuẩn |
-| Bổng Quỷnh Lược Địa | E | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 6 đòn | Đạt chuẩn |
-| Đả Cẩu Trận Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | 15 đòn | Đạt chuẩn |
-| Hỗn Thiên Khí Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
+### Thiên Vương Chùy (TVC) — đã đối chiếu code KVCT (06/10/2026)
 
-### Nga My Kiếm (NMK)
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TVC"`; Q `eA8`, W `J3D`/`J3a`, E `JeC`/`Jex` + `Jek`, R `eOv`/`eO2`, D `eLJ`/`eL3`, F `eSh`, bị động `JdY`, `JKW`..`JKR`, `elz`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu (trước 12; thêm **Đoạn Hồn Thích (R)** dùng chung với Thiên Vương Đao). Trước đây Q là đánh đơn 3 đòn, W đánh đơn 3 đòn, E quét nón, D lướt 4 đòn, F buff 30 giây.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Thôi Song Vọng Nguyệt | Q | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 2 đòn | Đạt chuẩn |
-| Từ Hàng Phổ Độ | R | buff phe ta | OVR Đặc thù | hồi máu, sát thương quanh mỗi giây | Đạt chuẩn |
-| Thiên Phật Thiên Diệp | D | buff phe ta | OVR Đặc thù | - | Đạt chuẩn |
-| Mộng Điệp | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi máu, hồi nội lực | Đạt chuẩn |
-| Phật Tâm Từ Hựu | - | bị động (cộng chỉ số) | Khuôn chuẩn | miễn nhiễm sát thương | Đạt chuẩn |
-| Ba La Tâm Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Kiếm Ảnh Phật Quang | W | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 3 đòn | Đạt chuẩn |
-| Thanh Âm Phạn Xướng | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thanh Tâm Tịnh Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Liên Hoa Tâm Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Băng Sương Điện Phóng | E | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 5 đòn | Đạt chuẩn |
-| Độ Nguyên Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu | Đạt chuẩn |
-| Bế Nguyệt Phất Trần | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map.
 
-### Minh Giáo Chùy (MGC)
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Hành Vân Quyết | Q (autocast) | 1 đòn quanh chỗ mục tiêu đứng (bán kính 150, tối đa 7); 35% thọ thương 1 giây | Đánh lan 150 tại mục tiêu, tối đa 7, 35% thọ thương 1 giây | Giống |
+| Thiên Vương Chùy Pháp | - | Bị động: chính xác, vật công %, chí mạng | Bị động: sát thương %, chí mạng | Giống |
+| Đoạn Hồn Thích | R | Lướt ≤700, không gây sát thương; quanh điểm đến (200, tối đa 7): định thân (30+6/cấp)% 3 giây, thọ thương (30+5/cấp)% 2 giây; 2 giây miễn trạng thái | Như Thiên Vương Đao | Giống |
+| Thiên Vương Bản Sinh | - | Sinh lực tối đa %; bị đánh khi sinh lực ≤40% (xác suất 25+5/cấp %): 10 giây miễn sát thương và trạng thái, giãn cách 45 giây (Bất Khuất giảm giãn cách) | Sinh lực tối đa; sinh lực dưới 40%: 10 giây miễn sát thương và khống chế, giãn cách 45 giây, xác suất 35% cố định | Gần giống (không phải điều kiện "bị đánh", không có Bất Khuất, xác suất cố định) |
+| Kim Chung Tráo | F | Mọi tướng phe ta trong 1000 (đồng đội 60%): kháng 4 hệ +(45+15/cấp), giảm thời gian thọ thương; 300 giây | Buff phe ta 300 giây: kháng + kháng trạng thái | Giống |
+| Bất Diệt Sát Ý | - | Bị động: phát huy lực tấn công, hồi phục sinh lực, kháng định thân | Bị động: sát thương %, kháng trạng thái | Gần giống (không có hồi phục sinh lực) |
+| Thừa Long Quyết | W (autocast) | 2 đòn cách 0,24 giây tại điểm cách thân 100 phía trước (bán kính 220, tối đa 7); 40% thọ thương 1 giây | 2 đợt nổ quanh thân 220 cách 0,24 giây, tối đa 7, 40% thọ thương 1 giây | Giống (tâm lệch 100 về phía trước, map lấy tại thân) |
+| Trảm Long Quyết | D | Lướt ≤800; chạm đất bán kính 300: 100% thọ thương 2 giây, kéo 150 về tâm; rồi 4 đợt cách 0,5 giây (300, tối đa 7, thọ thương 1 giây) | Lướt ≤800, quanh điểm đến: 100% thọ thương 2 giây, kéo | Khác một phần (thiếu 4 đợt duy trì 0,5 giây; cần mã mới cho vùng sau lướt) |
+| Càn Khôn Chùy | - | Mỗi lần bị đánh +1 tầng (tối đa cấp+5, 6 giây): +6% phát huy cơ bản / kỹ năng, −4% thời gian trạng thái | Cộng dồn tầng khi mình trúng đòn (+sát thương, chí mạng; tối đa 5 tầng, 6 giây) | Khác (map cộng dồn khi đánh, KVCT khi bị đánh) |
+| Hóa Kinh Quyết | - | Vòng sáng: giảm sát thương nhận %; Tạ Kinh Quyết: kẻ địch gần (200) giảm 30% sát thương gây ra (không thấy code, có thể do aura object data) | Bị động: giảm sát thương nhận | Gần giống (không có giảm sát thương của kẻ địch gần) |
+| Tung Hoành Tứ Hải | E (autocast) | 3 đợt cách 1/6 giây tại điểm cách thân 120 phía trước (bán kính 220, không giới hạn mục tiêu); 45% thọ thương 1 giây | 3 đợt nổ quanh thân 220 cách 0,17 giây, không giới hạn, 45% thọ thương 1 giây | Giống (tâm lệch 120 về phía trước, map lấy tại thân) |
+| Đảo Hư Thiên | - | Sinh lực tối đa %; E 75% (một lần): giậm chân gây sát thương quanh thân 250 ở cả 3 đợt của E | Sinh lực tối đa; E 75% thêm 3 đợt nổ quanh thân | Gần giống (đợt thêm dùng bán kính 220 của E, không phải 250) |
+| Thiên Mã Hành Không | - | Bị động: sinh khí, chí mạng tối thiểu / tối đa, sát thương hệ Mộc | Bị động: chí mạng | Gần giống (không có sinh khí / hệ Mộc) |
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Khai Thiên Thức | Q | đánh mục tiêu | Khuôn chuẩn | thọ thương 30%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Minh Giáo Chùy Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Khốn Hổ Vân Tiếu | R | xung kích | OVR Đặc thù | định thân 50%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Kim Qua Thiết Mã | T | buff phe ta | OVR Đặc thù | - | Đạt chuẩn |
-| Phách Địa Thế | D | đạn bay xuyên | OVR Đặc thù | định thân 80%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Ngự Mã Thuật | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Long Thôn Thức | W | đánh mục tiêu | OVR Đặc thù | thọ thương 35%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Hồn Phách Phi Dương | F | nổ quanh thân | OVR Đặc thù | - | Đạt chuẩn |
-| Cửu Hi Hỗn Dương | - | bị động (cộng chỉ số) | Khuôn chuẩn | đẩy lùi, kéo đối thủ, hồi máu, sát thương quanh mỗi giây, phát động khi máu dưới 40% | Đạt chuẩn |
-| Liệt Diệm Thao Thiên | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Khu Hổ Thức | E | quét phía trước | Khuôn chuẩn | thọ thương 40%, độc / bỏng mỗi giây, 2 đòn | Đạt chuẩn |
-| Trấn Ngục Phá Thiên Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi máu, 3 đòn | Đạt chuẩn |
-| Không Tuyệt Tâm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
+### Đường Môn Phi Đao (DMPD) — đã đối chiếu code KVCT (06/10/2026)
 
-### Minh Giáo Kiếm (MGK)
+Nguồn: `readable.j` (bảng `set Kuz[oY]="DMPD"`; Q `Jsy`/`JsT`, W `JxA`/`JxM`, E `JFp`/`JFm`/`JFc`, R `e1W`/`e1z`, F `e1U`/`e1O`, D `eLG`, bị động `Jd8`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Mê Ảnh Tung, Tôi Độc Thuật, Đường Môn Ám Khí dùng chung với Đường Môn Tụ Tiễn (đã đối chiếu ở đó). Trước đây Q là 2 đạn thẳng, W 3 đạn thẳng, E là chiêu lướt.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Thánh Hỏa Phần Tâm | Q | đánh mục tiêu | Khuôn chuẩn | định thân 30%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Minh Giáo Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Di Khí Phiêu Tung | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Vạn Vật Câu Phần | W | đánh mục tiêu | OVR Đặc thù | định thân 50%, độc / bỏng mỗi giây, 2 đòn | Đạt chuẩn |
-| Càn Khôn Đại Na Di | D | miễn khống chế | OVR Đặc thù | hút máu | Đạt chuẩn |
-| Ly Hỏa Đại Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Thánh Hỏa Liêu Nguyên | E | nổ quanh thân | OVR Đặc thù | định thân 35%, độc / bỏng mỗi giây | Đạt chuẩn |
-| Thánh Hỏa Lệnh Pháp | F | đánh mục tiêu | OVR Đặc thù | - | Đạt chuẩn |
-| Nhân Huân Tử Khí | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hoang Hỏa Ngọc Phần | - | bị động (cộng chỉ số) | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Kiếm Đãng Bát Hoang | R | đánh mục tiêu | OVR Đặc thù | định thân 40%, độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Thánh Hỏa Thần Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Mục Dã Ưng Dương | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map; trạng thái của mọi chiêu đánh là định thân 1 giây, kèm độc sát 2 nhịp (map dùng độc theo engine chung).
 
-### Đoàn Thị Chỉ (DTC)
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Tiểu Lý Phi Đao | Q (autocast) | Phi đao bay 900 (rộng 100) xuyên tối đa 7 mục tiêu; 30% định thân 1 giây; độc 2 nhịp | Đạn bay 900, tối đa 7; định thân 30% 1 giây; độc | Giống |
+| Đường Môn Ám Khí | - | Bị động: chính xác, độc công %, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống (không có chính xác / độc công %) |
+| Mê Ảnh Tung | F | Lướt 300 + 40/cấp, giãn cách 10 giây; kèm Xuất Kỳ Bất Ý 5 giây (+12% + 3%/cấp phát huy lực tấn công, không làm mới khi còn) | Lướt 300 + 40/cấp; buff 5 giây | Giống |
+| Tôi Độc Thuật | - | Hào quang: vật công, độc công %, sát thương chí mạng | Bị động bản thân: sát thương % + chí mạng | Gần giống (không phải hào quang) |
+| Mãn Thiên Hoa Vũ | R | Tại điểm (tối đa 740 từ thân): 3 đợt cách 1 giây, bán kính 300, tối đa 7; 50% định thân 1 giây; độc 2 nhịp; đánh dấu Câu Hồn 10 giây nếu có Thực Cốt Huyết Nhẫn | Trận tại điểm ≤740: 3 nhịp cách 1 giây, 300, tối đa 7, 50% định thân 1 giây, độc | Giống (thiếu đánh dấu Câu Hồn) |
+| Tâm Nhãn | - | Bị động: phát huy lực tấn công, tỉ lệ định thân, kháng choáng | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Nhiếp Hồn Nguyệt Ảnh | W (autocast) | Đánh tại chỗ mục tiêu đứng: 3 đợt cách 0,32 giây, bán kính 280, tối đa 7; 35% định thân 1 giây; độc chỉ ở đợt cuối (mô tả ghi "phóng đao tầm xa", code là vùng) | 3 đợt tại mục tiêu cách 0,32 giây, 280, tối đa 7, 35% định thân, độc ở mọi đợt | Giống (độc ở mọi đợt thay vì chỉ đợt cuối) |
+| Hàm Sa Xạ Ảnh | - | Bị động: tốc đánh, chí mạng, độc sát % | Bị động: tốc đánh + chí mạng | Gần giống (không có độc sát %) |
+| Thực Cốt Huyết Nhẫn | - | Mãn Thiên Hoa Vũ trúng: Câu Hồn 10 giây, Q / W / E gây thêm (13% + 2%/cấp) sát thương lên kẻ đó | Không có hiệu quả | Khác (chưa có đánh dấu Câu Hồn; cần mã mới) |
+| Ảnh Tung Trận | D | 16 giây: miễn định thân, chậm, đẩy / kéo (và hai loại khác) ngay từ lúc bấm; né tránh nội / ngoại +(27+3/cấp)% khi đứng trong 500 quanh tâm; Mê Ảnh Tung còn giãn cách 0,2 giây; Xuất Kỳ Bất Ý giữ suốt trận | Miễn khống chế 16 giây + giảm sát thương nhận | Gần giống (né tránh thay bằng giảm sát thương; không có tâm trận, không có giãn cách 0,2 giây) |
+| Vô Ảnh Xuyên | E (autocast) | Phi đao bay 1000, nổ ở địch đầu tiên (180, tối đa 7), rồi 3 lần nổ nữa cách 0,1 giây (tổng 4); 40% định thân 1 giây; độc chỉ ở lần đầu | 4 lần nổ cách 0,1 giây tại mục tiêu (180, tối đa 7), 40% định thân 1 giây, độc | Gần giống (nổ tại mục tiêu, không có phi đao bay; độc ở mọi lần) |
+| Tâm Phách | - | Né tránh nội / ngoại công; E: 75% (một lần) đổi độc thành 6 nhịp (Độc Thích Cốt) | Bị động: né tránh | Gần giống (không có Độc Thích Cốt) |
+| Bách Phát Bách Trúng | - | Bị động: sát thương hệ Thổ, sinh khí, thân pháp, tốc đánh | Bị động: tốc đánh + né / thân pháp | Gần giống (không có hệ Thổ / sinh khí) |
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Thần Chỉ Điểm Huyệt | Q | đánh mục tiêu | OVR Đặc thù | thọ thương 30%, 2 đòn | Đạt chuẩn |
-| Đoàn Thị Chỉ Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Nhất Dương Chỉ | R | đánh mục tiêu | OVR Đặc thù | định thân 80%, giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Lăng Ba Vi Bộ | F | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Từ Bi Quyết | - | bị động (cộng chỉ số) | Khuôn chuẩn | phát động khi máu dưới 40% | Đạt chuẩn |
-| Kim Ngọc Chỉ Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Cản Dương Thần Chỉ | W | đánh mục tiêu | OVR Đặc thù | thọ thương 35%, 3 đòn | Đạt chuẩn |
-| Huyền Băng Cửu Kiếp | D | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 9 đòn | Đạt chuẩn |
-| Diệu Đề Chỉ | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thí Nguyên Quyết | - | bị động (cộng chỉ số) | Khuôn chuẩn | đẩy lùi, kéo đối thủ | Đạt chuẩn |
-| Thiên Long Thần Chỉ | E | đánh mục tiêu | OVR Đặc thù | thọ thương 40%, 3 đòn | Đạt chuẩn |
-| Càn Thiên Chỉ Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
-| Bách Bộ Xuyên Dương | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+### Cái Bang Bổng (CBB) — đã đối chiếu code KVCT (06/10/2026)
 
-### Cổ Mộ Châm (CMC)
+Nguồn: `readable.j` (bảng `set Kuz[oY]="CBB"`; Q `Ja8`/`JaR`/`JaW`, W `J0Y`/`J0W`/`J0y`, E `JaU`/`JaO`/`Jal`, R `J4w`..`J42`, D `e1i`, Đả Cẩu Trận `Jad`/`JaL`, Tung Hạc Công `Jef`/`Je0`/`Jfi`, Hoại Thương `J0z`, bị động `Jd8`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Túy Điệp Cuồng Vũ dùng chung với Cái Bang Chưởng. Trước đây Q 2 đạn, W 3 đạn thẳng, E nổ 6 đợt quanh thân, R nổ quanh thân 12 đợt, D là buff sát thương.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Biệt Tự | Q | đánh mục tiêu | OVR Đặc thù | choáng 30%, 2 đòn | Đạt chuẩn |
-| Mộ Châm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Kinh Hồng Chiếu Ảnh | R | xung kích | OVR Đặc thù | choáng 50%, 6 đòn | Đạt chuẩn |
-| Súc Thế Đãi Phát | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ngọc Phong Châm | D | đạn bay xuyên | OVR Đặc thù | choáng 40%, cộng dồn tầng (Cực hạn 5 tầng), 7 đòn | Đạt chuẩn |
-| Lưu Vân Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ly Hận | W | đánh mục tiêu | OVR Đặc thù | choáng 35%, 3 đòn | Đạt chuẩn |
-| Hoàng Tuyền Lảo Đảo | F | đánh mục tiêu | OVR Đặc thù | choáng 30%, 20 đòn | Đạt chuẩn |
-| Hành Vân Đới Vũ | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Vụ Tập Vân Hợp | T | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Bi Sầu | E | đánh mục tiêu | OVR Đặc thù | choáng 40%, 3 đòn | Đạt chuẩn |
-| Phong Lưu Vân Tán | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Mê Thần Dẫn | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Trạng thái: bỏng (ena) và thọ thương (en9) suy từ thời gian khớp mô tả.
 
-### Cổ Mộ Kiếm (CMK)
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Bổng Đả Ác Cẩu | Q (autocast) | Gậy bay 800, nổ ở địch đầu tiên: bán kính 100, không giới hạn mục tiêu; 30% bỏng 1,5 giây và 30% thọ thương 1 giây. Số gậy theo cấp (1 / 2 / 3), nhưng trong code khóa số gậy có vẻ không bao giờ được ghi nên thực tế 1 gậy | Nổ tại mục tiêu 100, không giới hạn, 30% bỏng 1,5 giây + 30% thọ thương 1 giây (1 gậy) | Giống (không có đường bay 800) |
+| Cái Bang Bổng Pháp | - | Bị động: chính xác, hỏa công, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Gần giống (không có chính xác) |
+| Tiêu Dao Công | - | Bị động: né tránh, kháng phản đòn, tốc chạy, bỏ qua né tránh | Bị động: tốc chạy | Khác một phần (chưa có né tránh / bỏ qua né tránh) |
+| Ác Cẩu Lan Lộ | R | 12 gậy tỏa đều mỗi 30°, bay 600 (rộng 100) xuyên mọi địch (mỗi địch 1 lần mỗi gậy); 50% bỏng 3 giây và 50% thọ thương 1 giây | 12 đạn tỏa đều, bay 600, xuyên; 50% bỏng 3 giây + 50% thọ thương 1 giây | Giống |
+| Túy Điệp Cuồng Vũ | - | Hào quang: kháng tất cả, kháng thời gian thọ thương | Bị động bản thân: giảm sát thương + kháng trạng thái | Gần giống (không phải hào quang) |
+| Bôn Lưu Đáo Hải | - | Bị động: phát huy lực tấn công, tăng tỉ lệ bỏng, kháng tỉ lệ thọ thương | Bị động: sát thương %, kháng trạng thái | Gần giống (không có tăng tỉ lệ bỏng) |
+| Thiên Hạ Vô Cẩu | W (autocast) | 3 gậy bay song song, đuổi mục tiêu, tầm ~1000 (rộng 100), tối đa 7 mỗi gậy; gậy giữa 35% bỏng 1,5 giây, hai gậy bên 35% thọ thương 1 giây, sát thương đến trễ 0,4 / 0,6 giây | Quạt 3 đạn bay 1000, tối đa 7, 35% bỏng 1,5 giây + 35% thọ thương 1 giây trên mọi gậy | Gần giống (không tự đuổi, không tách trạng thái từng gậy, không trễ sát thương) |
+| Đả Cẩu Bổng Pháp | - | Vật công, thời gian thọ thương; Hoại Thương: 35% nhân sát thương (1,12 + 0,08/cấp) mọi đòn của phái | Sát thương %; 35% thêm (12 + 8 × bậc)% sát thương | Gần giống (xác suất và mức nhân theo engine chung) | (số liệu phát động theo KVCT, chưa test)
+| Minh Sát Thu Hào | D | 300 giây: né tránh nội / ngoại công +(10 + 2/cấp)%; dùng lại chỉ làm mới | Buff 300 giây: giảm sát thương nhận (10 + 2/cấp)% | Khác một phần (engine không có chỉ số né tránh; dùng giảm sát thương thay) |
+| Tung Hạc Công | - | Bị đánh khi sinh lực ≤95%: đẩy địch trong 400 ra 300; 15 giây miễn trạng thái, +né tránh; giãn cách 45 giây; hóa giải % sát thương | Sinh lực dưới 95%: 15 giây miễn khống chế, giãn cách 45 giây; giảm sát thương nhận | Gần giống (không đẩy lùi, không phải điều kiện "bị đánh", né tránh thay bằng giảm sát thương) |
+| Bổng Quỷnh Lược Địa | E (autocast) | 3 gậy cách 1/6 giây, đuổi mục tiêu, tầm 1200 (rộng 110), tối đa 7; mỗi địch bị trúng tối đa 2 lần mỗi gậy; mỗi lần 40% bỏng 2 giây hoặc thọ thương 1 giây (một trong hai); gậy đầu có 75% tạo Đả Cẩu Trận | 3 đạn cách 0,17 giây bay 1200, tối đa 7; 40% bỏng 2 giây ở đợt 1, 40% thọ thương 1 giây ở đợt sau | Gần giống (không đuổi, mỗi địch 1 lần mỗi đạn, không có Đả Cẩu Trận) |
+| Đả Cẩu Trận Pháp | - | Giảm sát thương nhận, chính xác; Đả Cẩu Trận: tại chỗ địch bị trúng, 3 giây mỗi 0,2 giây đánh 1 lần (bán kính 300, tối đa 7) | Bị động: giảm sát thương nhận | Khác (chưa có vùng Đả Cẩu Trận; cần mã mới) |
+| Hỗn Thiên Khí Công | - | Bị động: sát thương hệ Kim, kháng tất cả, bỏ qua phòng thủ | Bị động: giảm sát thương nhận | Gần giống (không có hệ Kim / bỏ qua phòng thủ) |
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Thu Nhạn Bàng Hoàng | Q | đánh mục tiêu | OVR Đặc thù | choáng 30% | Đạt chuẩn |
-| Kiếm Mộ Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hồng Tụ Triền | R | đánh mục tiêu | OVR Đặc thù | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Tịnh Ảnh Trầm Bích | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu | Đạt chuẩn |
-| Mộ Vân Ngưng Bích | - | bị động (cộng chỉ số) | Khuôn chuẩn | phát động khi máu dưới 40% | Đạt chuẩn |
-| Ngọc Nữ Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Cô Nguyệt Bồi Hồi | W | đánh mục tiêu | OVR Đặc thù | choáng 35% | Đạt chuẩn |
-| Chung Nam Vãn Chiếu | D | đánh mục tiêu | OVR Đặc thù | choáng 50%, cộng dồn tầng (Cực hạn 5 tầng), 3 đòn | Đạt chuẩn |
-| Hàn Sơn Độc Lập | - | bị động (cộng chỉ số) | Khuôn chuẩn | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Phi Thiên Vũ | F | đánh mục tiêu | OVR Đặc thù | - | Đạt chuẩn |
-| Cô Thân Chi Ảnh | E | đánh mục tiêu | OVR Đặc thù | choáng 40% | Đạt chuẩn |
-| Ngọc Nữ Tâm Kinh | - | bị động (cộng chỉ số) | Khuôn chuẩn | 3 đòn | Đạt chuẩn |
-| Bạch Vân Hồi Vọng | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+### Nga My Kiếm (NMK) — đã đối chiếu code KVCT (06/10/2026)
 
-### Hoa Sơn Khí (HSQ)
+Nguồn: `readable.j` (bảng `set Kuz[oY]="NMK"`; Q `J30`/`JKi`/`JKQ`, W `eqw`/`eqv`/`eqV`, E `ed9`/`ede`/`edf`, R `Jfq`/`Jf6`, D `J0r`/`J0S`, Phật Tâm Từ Hựu `Jet`/`Jer`/`Jeq`, bị động `Jd8`, mật tịch `JlJ`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q 2 đạn, W 3 đạn, E 5 đạn đều có số đợt đúng nhưng không có tầm / giãn cách / số mục tiêu / chậm; R và D là buff 20 giây; các bị động đều là chỉ số đoán theo mô tả.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Thanh Vân Tống Sảng | Q | đánh mục tiêu | Khuôn chuẩn | choáng 30%, 2 đòn | Đạt chuẩn |
-| Hoa Sơn Khí Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Long Nhiễu Thân | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Chân Khí Hộ Thể | R | hộ thuẫn | OVR Đặc thù | cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Hải Nạp Bách Xuyên | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Khí Chấn Sơn Hà | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Ma Vân Kiếm Khí | W | nổ quanh thân | Khuôn chuẩn | choáng 25%, 3 đòn | Đạt chuẩn |
-| Khí Quán Trường Hồng | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tử Hà Chân Khí | D | buff bản thân | OVR Đặc thù | đẩy lùi, kéo đối thủ, sát thương quanh mỗi giây, hồi nội lực | Đạt chuẩn |
-| Huyền Nhãn Yên Vân | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Phách Thạch Phá Ngọc | E | đạn bay xuyên | Khuôn chuẩn | choáng 25%, 3 đòn | Đạt chuẩn |
-| Thần Quang Toàn Nhiễu | - | bị động (cộng chỉ số) | Khuôn chuẩn | 6 đòn | Đạt chuẩn |
-| Tử Khí Đông Lai | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi nội lực | Đạt chuẩn |
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map; trạng thái của Q / W / E là làm chậm.
 
-### Hoa Sơn Kiếm (HSK)
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Thôi Song Vọng Nguyệt | Q (autocast) | 2 đạn cách 0,2 giây bay 600 (rộng 100) xuyên, tối đa 7 mỗi đạn; 30% chậm 2 giây | 2 đạn cách 0,2 giây bay 600, xuyên, tối đa 7; 30% chậm 2 giây | Giống |
+| Từ Hàng Phổ Độ | R | Vùng cố định tại chỗ bán kính 500: mỗi đồng minh (tướng) nhận 4 lần hồi, mỗi giây một lần, (6 + 1/cấp)% sinh lực tối đa của người tung; 4 giây, giãn cách 8 giây | Buff phe ta: hồi một lần (10 + 2/cấp)% sinh lực tối đa của người nhận | Gần giống (hồi một lần thay vì 4 lần; bán kính 1000 của engine; hồi theo sinh lực người nhận) |
+| Thiên Phật Thiên Diệp | D | Mọi tướng phe ta trong 1000 (đồng đội 60%), 1200 giây: hiệu quả của Mộng Điệp, Phật Tâm, Ba La, Thanh Âm, Thanh Tâm (mỗi cái không vượt cấp D) | Buff phe ta 1200 giây: giảm sát thương nhận + sinh lực tối đa | Gần giống (gộp thành 2 chỉ số, không tách từng hiệu quả) |
+| Mộng Điệp | - | Qua D: hồi phục sinh lực / nội lực %; bản thân: băng công % | Bị động: sát thương % | Gần giống (không có hồi phục) |
+| Phật Tâm Từ Hựu | - | Qua D: sinh lực / nội lực tối đa %; bị đánh thường khi sinh lực ≤40%: hồi 100% sinh lực, miễn trạng thái 3,8 + 0,2/cấp giây, giãn cách 45 giây | Sinh lực tối đa; sinh lực dưới 40%: hồi 100%, 4 giây miễn khống chế, giãn cách 45 giây | Gần giống (không phải điều kiện "bị đánh thường"; chưa có miễn sát thương nếu code có) |
+| Ba La Tâm Kinh | - | Qua D: kháng tất cả; bản thân: phát huy lực tấn công, tỉ lệ chậm | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Kiếm Ảnh Phật Quang | W (autocast) | 3 đạn cách 0,15 giây bay 900 (rộng 165) xuyên, tối đa 7 mỗi đạn; 35% chậm 2 giây | 3 đạn cách 0,15 giây bay 900, xuyên, tối đa 7; 35% chậm 2 giây | Giống |
+| Thanh Âm Phạn Xướng | - | Qua D: kháng thời gian trạng thái | Bị động: kháng trạng thái | Gần giống |
+| Thanh Tâm Tịnh Khí | - | Qua D: chịu sát thương chí mạng −%; bản thân: kháng chí mạng | Bị động: giảm sát thương nhận | Gần giống |
+| Liên Hoa Tâm Kinh | - | Bị động: tốc đánh, băng công %, phát huy lực tấn công | Bị động: tốc đánh + sát thương % | Giống |
+| Băng Sương Điện Phóng | E (autocast) | 5 kiếm tỏa hình sao (0, ±72, ±144°), kiếm đổi hướng một lần về phía mục tiêu rồi bay thẳng, tổng ~1080 (rộng 150), tối đa 7 mỗi kiếm; 40% chậm 2 giây | Quạt 5 đạn (góc 10°) bay 1080, xuyên, tối đa 7; 40% chậm 2 giây | Gần giống (không tỏa hình sao rồi quay lại, đạn xếp quạt hẹp) |
+| Độ Nguyên Công | - | Nội công, sinh khí; E: +(10 + 2/cấp)% sát thương và hút 5% sinh lực | Sinh lực tối đa; E hút 5% sinh lực | Gần giống (chưa có +% sát thương của E) |
+| Bế Nguyệt Phất Trần | - | Bị động: sát thương hệ Hỏa, vật công nội, tốc đánh, chí mạng | Bị động: tốc đánh + chí mạng | Gần giống (không có hệ Hỏa / vật công nội) |
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Bạch Hồng Quán Nhật | Q | đánh mục tiêu | Khuôn chuẩn | choáng 30%, 2 đòn | Đạt chuẩn |
-| Kiếm Tông Tổng Quyết | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thiên Thân Đảo Huyền | E | nổ quanh thân | OVR Đặc thù | choáng 40%, 10 đòn | Đạt chuẩn |
-| Kim Nhạn Hoành Không | R | buff bản thân | OVR Đặc thù | làm chậm 35%, sát thương quanh mỗi giây, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Hi Di Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Thương Tùng Nghênh Khách | W | đánh mục tiêu | OVR Đặc thù | choáng 35%, 3 đòn | Đạt chuẩn |
-| Thái Nhạc Tam Thanh | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Đoạt Mệnh Liên Hoàn Tam Tiên Kiếm | D | buff bản thân | OVR Đặc thù | - | Đạt chuẩn |
-| Phá Kiếm Thức | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu, 3 đòn | Đạt chuẩn |
-| Cửu Kiếm Hợp Nhất | - | bị động (cộng chỉ số) | Khuôn chuẩn | 9 đòn | Đạt chuẩn |
-| Nhất Kiếm Phá Vạn Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | hút máu | Đạt chuẩn |
-| Độc Cô Cửu Kiếm | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
+Mật tịch của KVCT chưa làm: khi chịu sát thương chí tử hủy sát thương và hồi 50% sinh lực (giãn cách 300 giây), mỗi 5 giây hồi 8% sinh lực + nội lực.
 
-### Tiêu Dao Chưởng (TDC)
+### Minh Giáo Chùy (MGC) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Dương Ca Thiên Quân | Q | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 2 đòn | Đạt chuẩn |
-| Tiêu Dao Chưởng Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hàn Tụ Huyệt | R | đánh mục tiêu | OVR Đặc thù | định thân 90%, sát thương quanh mỗi giây, 4 đòn | Đạt chuẩn |
-| Sưu Hồn Đại Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | kéo đối thủ, hút máu, phát động khi máu dưới 40% | Đạt chuẩn |
-| Diệm Nguyên Luân Hồi | - | bị động (cộng chỉ số) | Khuôn chuẩn | đẩy lùi, kéo đối thủ, phản đòn | Đạt chuẩn |
-| Phục Nhật Xuất Vân | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Bạch Nhật Sâm Thần | W | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Sinh Tử Phù | D | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, cộng dồn tầng (Cực hạn 5 tầng), 45 đòn | Đạt chuẩn |
-| Hỗn Nhật Khí Quyết | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi máu, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Thiên Tàm Cửu Biến | F | nổ quanh thân | OVR Đặc thù | hút máu | Đạt chuẩn |
-| Bài Sơn Đảo Hải | E | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Thái Hư Thần Công | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tung Bộ Quan Hỏa | T | buff bản thân | OVR Đặc thù | giảm kháng (nhận thêm 15%) | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="MGC"`; Q `e6L`/`e6n`, W `etU`/`etO`, E `eqc`/`eqh`, R `e6Q`/`e6H`/`e6Z`, T `eS6`, D `eZM`/`eZ5`, F `egj`/`egU`, bị động `Jd8`, `Jp0`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu; trong code không có chiêu nào dùng chung hàm với Minh Giáo Kiếm hay Thiên Vương Chùy. Trước đây Q 1 đòn, W đánh đơn 3 đòn, R lướt chung, T buff 30 giây, D 3 đòn, F nổ quanh thân.
 
-### Tiêu Dao Kiếm (TDK)
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map; độc sát 2 nhịp dùng độc của engine chung.
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Trảm Vân Kiếm | Q | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây | Đạt chuẩn |
-| Tiêu Dao Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Đan Phượng Dẫn | R | nổ quanh thân | OVR Đặc thù | định thân 50%, độc / bỏng mỗi giây, sát thương quanh mỗi giây | Đạt chuẩn |
-| Chân Hỏa Hộ Thể | - | bị động (cộng chỉ số) | Khuôn chuẩn | phản đòn | Đạt chuẩn |
-| Sơ Hoa Dẫn | F | buff phe ta | OVR Đặc thù | phản đòn, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Đoản Ca Hành | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Tê Chiếu Phồn Thương | W | đánh mục tiêu | OVR Đặc thù | độc / bỏng mỗi giây, 3 đòn | Đạt chuẩn |
-| Kiếm Chủng Dẫn | D | đánh mục tiêu | OVR Đặc thù | 25 đòn | Đạt chuẩn |
-| Bính Nhược Quan Hỏa | - | bị động (cộng chỉ số) | Khuôn chuẩn | sát thương quanh mỗi giây, cộng dồn tầng (Cực hạn 5 tầng) | Đạt chuẩn |
-| Ngang Nhật Đồ | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Bách Điểu Triều Phượng | E | đạn bay xuyên | OVR Đặc thù | độc / bỏng mỗi giây, 4 đòn | Đạt chuẩn |
-| Phần Phách Tru Tâm | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Hỏa Hải Vô Nhai | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Khai Thiên Thức | Q (autocast) | Nổ bán kính 150 tại chỗ mục tiêu, không giới hạn mục tiêu; 30% thọ thương 1 giây; độc 2 nhịp | Nổ 150 tại mục tiêu, 30% thọ thương 1 giây, độc | Giống |
+| Minh Giáo Chùy Pháp | - | Bị động: chính xác, độc công %, chí mạng | Bị động: sát thương %, chí mạng | Gần giống |
+| Khốn Hổ Vân Tiếu | R | Lướt ≤700 (đánh 150 dọc đường, không khống chế); điểm cuối bán kính 200, tối đa 7: 50% định thân 2 giây + độc 4 nhịp, không sát thương trực tiếp | Lướt ≤700, đánh quanh điểm cuối: 50% định thân 2 giây + độc | Gần giống (không có đòn dọc đường; có sát thương ở điểm cuối) |
+| Kim Qua Thiết Mã | T | Mọi tướng phe ta trong 1000 (đồng đội 60%): chí mạng +(16+8/cấp), sát thương chí mạng; 300 giây | Buff phe ta 300 giây: chí mạng | Gần giống (không có sát thương chí mạng riêng) |
+| Phách Địa Thế | D | Đạn bay 960 (rộng 150) xuyên tối đa 7; 80% định thân 2 giây; mỗi mục tiêu sau +25% sát thương; độc 4 nhịp; tiêu hết tầng Địa Liệt thành các đợt sát thương phụ | Đạn bay 960, xuyên, tối đa 7; 80% định thân 2 giây; độc | Gần giống (không +25% theo thứ tự, không đợt phụ Địa Liệt) |
+| Ngự Mã Thuật | - | Bị động: phát huy lực tấn công, kháng tất cả (code cộng vĩnh viễn, không kiểm điều kiện cưỡi ngựa) | Bị động: sát thương %, giảm sát thương | Giống |
+| Long Thôn Thức | W (autocast) | Sau 0,3 giây nổ tại điểm cách thân 100 phía trước, bán kính 240, không giới hạn; 35% thọ thương 1 giây; độc 2 nhịp | Nổ quanh thân 240, không giới hạn, 35% thọ thương 1 giây, độc (không trễ 0,3 giây) | Giống (tâm lệch 100 về phía trước, map lấy tại thân) |
+| Hồn Phách Phi Dương | F | 5 đạn song song bay 1000, không sát thương, gắn suy yếu 10 giây (kẻ địch gây −30% sát thương); bản thân +(12+3/cấp)% phát huy lực tấn công 6 giây | Chỉ buff bản thân 6 giây | Khác một phần (thiếu suy yếu −30% lên kẻ địch; cần mã mới) |
+| Cửu Hi Hỗn Dương | - | Bị đánh thường khi sinh lực ≤50%: miễn trạng thái, hồi (15+5/cấp)% mỗi giây trong (2+cấp) giây; giãn cách 30 giây | Sinh lực dưới 50%: hồi 40% một lần, 3 giây miễn khống chế, giãn cách 30 giây | Gần giống (hồi một lần, không phải điều kiện "bị đánh thường") |
+| Liệt Diệm Thao Thiên | - | Sinh lực tối đa %; né tránh hoàn toàn (8+cấp+cự li/22)% mọi sát thương trừ độc; mỗi 2 giây +1 tầng Địa Liệt (tối đa 7) | Sinh lực tối đa | Khác (chưa có né tránh theo cự li, chưa có tầng Địa Liệt) |
+| Khu Hổ Thức | E (autocast) | 2 lượt quét cách 0,25 giây tại điểm cách thân 150 (280, tối đa 7); 40% thọ thương 1 giây; độc chỉ ở lượt 2 | 2 đợt nổ quanh thân 280 cách 0,25 giây, tối đa 7, 40% thọ thương 1 giây, độc | Giống (tâm lệch 150 về phía trước) |
+| Trấn Ngục Phá Thiên Kinh | - | Giảm sát thương ngũ hành; E 40% tung thêm 3 đạn tỏa ±15° (tầm ~850, xuyên) và hồi 20% sinh lực | Bị động: giảm sát thương nhận | Khác (chưa có 3 đạn kèm E và hồi sinh lực) |
+| Không Tuyệt Tâm Pháp | - | Bị động: sát thương hệ Thổ, vật công ngoại, bỏ qua né tránh, hóa giải trạng thái | Bị động: sát thương %, kháng trạng thái | Gần giống |
 
-### Thúy Yên Kiếm (TYK)
+### Minh Giáo Kiếm (MGK) — đã đối chiếu code KVCT (06/10/2026)
 
-| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |
-|---|---|---|---|---|---|
-| Phong Quyển Tàn Tuyết | Q | đạn bay xuyên | OVR Đặc thù | làm chậm 35% | Đạt chuẩn |
-| Thúy Yên Kiếm Pháp | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tuyết Ảnh | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Vũ Đả Lê Hoa | R | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 16 đòn | Đạt chuẩn |
-| Hộ Thể Hàn Băng | - | bị động (cộng chỉ số) | Khuôn chuẩn | phát động khi máu dưới 40% | Đạt chuẩn |
-| Băng Cốt Tuyết Tâm | - | bị động (cộng chỉ số) | Khuôn chuẩn | độc / bỏng mỗi giây | Đạt chuẩn |
-| Băng Tâm Tiên Tử | W | đánh mục tiêu | OVR Đặc thù | làm chậm 35%, 2 đòn | Đạt chuẩn |
-| Phi Tự Phiêu Hoa | D | đánh mục tiêu | OVR Đặc thù | làm chậm 35%, 26 đòn | Đạt chuẩn |
-| Phù Vân Tán Tuyết | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Băng Tâm Ngọc Lăng | F | buff bản thân | OVR Đặc thù | hồi máu | Đạt chuẩn |
-| Thủy Ánh Mạn Tú | E | đạn bay xuyên | OVR Đặc thù | làm chậm 35%, 3 đòn | Đạt chuẩn |
-| Thập Diện Mai Phục | - | bị động (cộng chỉ số) | Khuôn chuẩn | - | Đạt chuẩn |
-| Tuyết Ánh Hồng Trần | - | bị động (cộng chỉ số) | Khuôn chuẩn | hồi máu, hồi nội lực | Đạt chuẩn |
+Nguồn: `readable.j` (bảng `set Kuz[oY]="MGK"`; Q `JEv`/`JEV`/`JE2`, W `JFk`/`JFD`/`JFa`/`JF4`/`JFJ`, E `JCv`/`JCp`/`JCG`, R `Jkz`/`Jkw`/`Jk7`, D `ely`, F `JEh`/`JEF`, Hoang Hỏa `JEG`, bị động `Jd8`, `JlJ`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu; không chiêu nào dùng chung với Minh Giáo Chùy. Trước đây Q là đạn thẳng, W / E là nổ quanh thân, R là nổ 8 đợt, F là nổ 2 đợt (sai chiêu), Hoang Hỏa Ngọc Phần là nổ 4 đợt.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map; độc sát dùng độc của engine chung (KVCT: số nhịp độc tăng theo chiêu bị động, Thánh Hỏa Thần Công +1 nhịp).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Thánh Hỏa Phần Tâm | Q (autocast) | Vùng lửa đứng yên tại chỗ mục tiêu: 4 nhịp cách 1 giây, bán kính 150, tối đa 7, mỗi địch chỉ trúng 1 lần; 30% định thân 0,5 giây; độc 3 nhịp (mô tả "thiêu đốt mục tiêu đi qua") | Vùng tại mục tiêu: 4 nhịp cách 1 giây, 150, tối đa 7, 30% định thân 0,5 giây, độc | Giống (map đánh lại cùng địch mỗi nhịp, KVCT chỉ một lần) |
+| Minh Giáo Kiếm Pháp | - | Bị động: độc công %, chí mạng, tốc đánh | Bị động: chí mạng + tốc đánh | Gần giống (không có độc công %) |
+| Di Khí Phiêu Tung | - | Bị động: tốc chạy, tỉ lệ né tránh nội công | Bị động: tốc chạy | Khác một phần (chưa có né tránh nội công) |
+| Vạn Vật Câu Phần | W | Tại điểm (tối đa 740): 2 đợt cách 0,2 giây (200, tối đa 7, chỉ sát thương), rồi 6 ngọn lửa bay 600 (rộng 200, tối đa 7, mỗi địch 1 lần): 50% định thân 2 giây + độc 4 nhịp; giãn cách 5 − 0,1/cấp Nhân Huân Tử Khí | Vùng tại điểm ≤740: 2 đợt cách 0,2 giây, 200, tối đa 7, 50% định thân 2 giây + độc | Gần giống (không có 6 ngọn lửa bay ra; trạng thái ở cả 2 đợt) |
+| Càn Khôn Đại Na Di | D | 15 giây: chuyển (8+2/cấp)% sát thương gây ra thành sinh lực, miễn choáng / định thân; mật tịch hồi 25% sinh lực + nội lực mỗi giây | 15 giây: hút sinh lực (8+2/cấp)% + miễn khống chế | Giống (chưa có mật tịch hồi 25%) |
+| Ly Hỏa Đại Pháp | - | Bị động: phát huy lực tấn công cơ bản / kỹ năng, tỉ lệ định thân, kháng choáng | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Thánh Hỏa Liêu Nguyên | E (autocast) | Tại điểm (tối đa 740): lửa rơi 10 tick × 0,1 giây, đánh ở tick 6-10 bán kính 400, tối đa 10, mỗi địch 1 lần; 35% định thân 1 giây; độc 5 nhịp | Vùng tại điểm ≤740: 1 nhịp sau 0,6 giây, 400, tối đa 10, 35% định thân 1 giây, độc | Giống |
+| Thánh Hỏa Lệnh Pháp | F | (7 + 0,5/cấp) giây: giãn cách Vạn Vật Câu Phần / Thánh Hỏa Liêu Nguyên / Kiếm Đãng Bát Hoang còn 0,3 giây; hết hạn trả lại | Chỉ hiệu ứng buff, không có tác dụng | Khác (chưa hạ giãn cách W / E / R; cần mã mới) |
+| Nhân Huân Tử Khí | - | Độc công; giãn cách Vạn Vật Câu Phần −0,1 giây/cấp, Thánh Hỏa Liêu Nguyên −0,16 giây/cấp | Bị động: sát thương % | Khác một phần (chưa giảm giãn cách) |
+| Hoang Hỏa Ngọc Phần | - | Mỗi nhịp độc có (8+cấp)% nhân sát thương nhịp đó ×(1,27+0,03/cấp) | (8 + bậc)% thêm (27 + 3 × bậc)% sát thương | Gần giống (không riêng nhịp độc, xác suất và mức nhân theo engine chung) | (số liệu phát động theo KVCT, chưa test)
+| Kiếm Đãng Bát Hoang | R | Tại điểm (tối đa 740): 3 đợt cách 0,2 giây, bán kính 500, tối đa 10, không loại trùng; 40% định thân 1 giây; độc ở đòn cuối; giãn cách 10 − 0,3/cấp | Vùng tại điểm ≤740: 3 nhịp cách 0,2 giây, 500, tối đa 10, 40% định thân, độc | Giống |
+| Thánh Hỏa Thần Công | - | Độc sát gây ra %; giãn cách R −0,3 giây/cấp; +1 nhịp độc của W / E / R | Bị động: sát thương % | Khác một phần (chưa giảm giãn cách R, chưa +1 nhịp độc) |
+| Mục Dã Ưng Dương | - | Bị động: sát thương hệ Thổ, nội công, thời gian độc sát +% | Bị động: sát thương % | Gần giống |
+
+### Đoàn Thị Chỉ (DTC) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="DTC"`; Q `JCC`/`JCx`, W `JaN`/`Jat`, E `JCN`/`JCt`, R `enA`/`enM`/`enX`, F `erl`/`erd`, D `egb`/`egN`/`egt`/`egS`, bị động `Jd8`, `JKH`/`JK1`, `JCq`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q là đánh đơn 2 đòn, R 2 đạn, F lướt, D 9 đạn thẳng, W / E đánh đơn 3 đòn.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Trạng thái: thọ thương (en9), làm chậm (en4), định thân (enJ).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Thần Chỉ Điểm Huyệt | Q (autocast) | 2 đợt cách 0,2 giây tại chỗ mục tiêu (100, tối đa 7); mỗi đợt 30% thọ thương 0,5 giây và 30% chậm 1 giây | 2 đợt tại mục tiêu cách 0,2 giây, 100, tối đa 7; đợt 1 thọ thương 30%, đợt 2 chậm 30% | Giống (map chia hai trạng thái theo đợt, KVCT áp cả hai mỗi đợt) |
+| Đoàn Thị Chỉ Pháp | - | Bị động: chính xác, băng công %, chí mạng | Bị động: sát thương %, chí mạng | Gần giống |
+| Nhất Dương Chỉ | R | 1 đạn bay 900 (rộng 150) xuyên, tổng tối đa 7; 80% định thân 3 giây; luôn bỏ qua né tránh | Đạn bay 900, tối đa 7, 80% định thân 3 giây | Giống (chưa có bỏ qua né tránh) |
+| Lăng Ba Vi Bộ | F | 15 giây: tốc chạy +(45+5/cấp), né tránh nội / ngoại +(50+5/cấp)%, miễn thọ thương / chậm | Buff 15 giây: tốc chạy + kháng trạng thái | Gần giống (không có né tránh) |
+| Từ Bi Quyết | - | Bị đánh khi sinh lực ≤50%: tự tung Lăng Ba Vi Bộ (theo cấp Từ Bi) 15 giây, giãn cách 60 giây | Không có hiệu quả | Khác (chưa tự tung F; cần mã mới vì khóa 183 chỉ gọi Q / W / E) |
+| Kim Ngọc Chỉ Pháp | - | Bị động: phát huy lực tấn công, tỉ lệ chậm, kháng bỏng | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Cản Dương Thần Chỉ | W (autocast) | 3 đợt cách 1/6 giây quanh chỗ người dùng (250, tối đa 7); mỗi đợt 35% thọ thương 0,5 giây và 35% chậm 1 giây | 3 đợt quanh thân 250 cách 0,17 giây, tối đa 7; thọ thương ở đợt 1, chậm ở đợt sau | Giống |
+| Huyền Băng Cửu Kiếp | D | Chọn điểm ≤800, 9 kim băng cách 0,25 giây đuổi mục tiêu, mỗi kim nổ 180 (không giới hạn), 80% chậm 3 giây; mật tịch nảy thêm kim | 9 đợt nổ 180 tại mục tiêu cách 0,25 giây, 80% chậm 3 giây | Gần giống (không có kim bay đuổi / nảy thêm; cần mục tiêu đơn vị) |
+| Diệu Đề Chỉ | - | Khi tung R: 30 giây chính xác, chí mạng, phát huy lực tấn công cơ bản / kỹ năng | Bị động: chí mạng | Khác (chưa có buff khi tung R) |
+| Thí Nguyên Quyết | - | Khi tự tung Q / W / E: 30 giây miễn định thân / tê liệt / hỗn loạn / đẩy kéo, hóa giải trạng thái; giãn cách 30 giây | Khi đánh: 30 giây miễn khống chế, giãn cách 30 giây; sát thương %, giảm sát thương | Gần giống (kích khi đánh thay vì khi tung chiêu; không hóa giải sẵn) |
+| Thiên Long Thần Chỉ | E (autocast) | 3 đợt cách 1/6 giây tại chỗ mục tiêu (150, tối đa 7); mỗi đợt 40% thọ thương 0,5 giây và 40% chậm 1 giây | 3 đợt tại mục tiêu cách 0,17 giây, 150, tối đa 7; thọ thương đợt 1, chậm đợt sau | Giống |
+| Càn Thiên Chỉ Pháp | - | E 30% (+20% mật tịch): 10 giây hóa giải + bỏ qua né tránh; E ×(1,18+0,02/cấp) | Giảm sát thương; E thêm (18 + 2 × bậc)% sát thương | Gần giống | (số liệu phát động theo KVCT, chưa test)
+| Bách Bộ Xuyên Dương | - | R đổi định thân thành điểm huyệt 100% 3 giây; E ×(1,32+0,04/cấp) lên kẻ bị điểm huyệt; sát thương hệ Hỏa | Bị động: sát thương % | Khác (chưa có điểm huyệt) |
+
+### Cổ Mộ Châm (CMC) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="CMC"`; Q `Jav`/`Ja2`/`Jap`, W `Jxa`/`JxJ`, E `Jay`/`Jaz`, R `JkB`/`Jkl`/`Jku`, D `Jxu`/`JxY`/`JxR`, F `Joc`/`Joh`, T `JJo`, Súc Thế `eiV`/`eip`/`eim`, Hành Vân `eic`, Lưu Quang `eQe`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu; Q / W / E / R / D / F / T riêng của Cổ Mộ Châm, trong khi A0ML / A0MM / A0MN... thuộc Cổ Mộ Kiếm. Trước đây Q / W / E là chiêu mặc định theo mô tả, R lướt, D quạt nón, F nổ 20 đợt không giãn cách, T buff 20 giây.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Trong KVCT "choáng" là `enD`; mỗi lượt châm chỉ có châm giữa gây sát thương (châm bên chỉ là hiệu ứng).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Biệt Tự | Q (autocast) | 2 châm cách 0,2 giây bay ~250 (rộng ~90), tối đa 7 mỗi châm; 30% choáng 1 giây | 2 đạn cách 0,2 giây bay 250, tối đa 7; 30% choáng 1 giây | Giống |
+| Mộ Châm Pháp | - | Bị động: lôi công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Kinh Hồng Chiếu Ảnh | R | Lướt ≤720; lúc xuất phát quanh chỗ đứng (350, tối đa 10): 80% định thân 2 giây; buff Phi Hồng Đạp Tuyết 10 giây (né, miễn chậm); cuối đường 6 lượt mưa châm (không choáng) | Lướt ≤720, quanh điểm đến: 80% định thân 2 giây | Gần giống (định thân ở điểm đến thay vì điểm đầu; thiếu buff 10 giây và 6 lượt mưa châm) |
+| Súc Thế Đãi Phát | - | Mỗi 5 giây buff 5 giây: sát thương 3 chiêu kế +(17+3/cấp)%, giảm sát thương nhận | Mỗi 5 giây khi đánh: buff 5 giây sát thương % + giảm sát thương | Gần giống (không giới hạn 3 chiêu, không kiểm "khi không tấn công") |
+| Ngọc Phong Châm | D | Cần ≥2 tầng Thôn Tư (+2 mỗi 6 giây, tối đa 6); 7 châm cách 0,08 giây hình quạt ±24° bay 600 (rộng 120), tối đa 7 mỗi châm; 40% choáng 1 giây | Quạt 7 đạn bay 600, tối đa 7; 40% choáng 1 giây | Gần giống (không có tầng Thôn Tư; quạt đều thay vì lệch ngẫu nhiên) |
+| Lưu Vân Pháp | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Ly Hận | W (autocast) | 3 đợt cách 0,2 giây, mỗi đợt bay 384 (rộng 100), tối đa 7; 35% choáng 1 giây | 3 đợt cách 0,2 giây bay 384, tối đa 7; 35% choáng 1 giây | Giống |
+| Hoàng Tuyền Lảo Đảo | F | 5 giây, mỗi 0,25 giây đánh quanh chỗ bấm (360, tối đa 7), 20 lần; 30% choáng 1 giây | 20 đợt cách 0,25 giây quanh thân 360, tối đa 7; 30% choáng 1 giây | Giống (mật tịch tự tung khi ≤30% sinh lực chưa làm) |
+| Hành Vân Đới Vũ | - | Lôi công %; khi dùng hết tầng Thôn Tư: 8 giây né tránh + miễn khống chế, giãn cách 30 giây | Bị động: sát thương % | Khác một phần (không có tầng Thôn Tư nên chưa có buff né tránh) |
+| Vụ Tập Vân Hợp | T | Bật / tắt: Q / W / E / D chỉ trúng 1 mục tiêu; chí mạng +(175+25/cấp), sát thương chí mạng | Buff 300 giây: chí mạng | Gần giống (không giới hạn 1 mục tiêu, không bật / tắt) |
+| Bi Sầu | E (autocast) | 3 đợt cách 0,2 giây bay 400 (rộng 100), tối đa 7; 40% choáng 1 giây; kèm Lưu Quang Tứ Xạ nếu có Phong Lưu Vân Tán | 3 đợt cách 0,2 giây bay 400, tối đa 7; 40% choáng 1 giây | Giống (thiếu Lưu Quang Tứ Xạ) |
+| Phong Lưu Vân Tán | - | Lôi công %, chí mạng tối đa; E tung Lưu Quang Tứ Xạ lên 5 mục tiêu ngẫu nhiên (giãn cách 2 giây) | Bị động: sát thương %, chí mạng | Khác (chưa có Lưu Quang Tứ Xạ; cần mã mới) |
+| Mê Thần Dẫn | - | Bị động: sát thương hệ Thủy, tốc đánh, né tránh; kẻ địch quanh thân giảm 20% lực tấn công | Bị động: tốc đánh + né / thân pháp | Gần giống (không có giảm lực tấn công địch quanh thân) |
+
+### Cổ Mộ Kiếm (CMK) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="CMK"`; Q `JhM`/`JhX`/`Jhj`, W `JFb`/`JF1`/`JFN`, E `Jhe`/`Jhf`/`Jh3`/`JhK`, R `egy`/`egz`/`egw`, D `JD4`/`JDJ`/`JD9`, F `eH8`/`eHY`, bị động `JDx`, `J3X`, `ebf`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q là đạn thẳng 2 đòn, W quét nón 2 đòn, E đạn 3 đòn, R nổ quanh thân choáng 3 đợt, D quét nón, F lướt.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. "Choáng" là `enD`. "2 lần" của Q / W / E là kiếm khí bay đi rồi quay lại (cùng một địch có thể trúng cả hai lượt).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Thu Nhạn Bàng Hoàng | Q (autocast) | Kiếm khí bay ~832 (rộng 100) xuyên mọi địch rồi quay lại; 30% choáng 1 giây | 2 lượt cách 0,81 giây bay 832, xuyên, không giới hạn; 30% choáng 1 giây | Giống (lượt về bay từ chỗ người dùng thay vì quay lại) |
+| Kiếm Mộ Pháp | - | Bị động: chính xác, lôi công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Hồng Tụ Triền | R | Vùng bán kính 250 tại điểm ≤800, tick giây 2 / 4 / 6 / 8 (tối đa 7): (36+4/cấp)% choáng 1,5 giây; cast cho 3 tầng Tuyệt | Vùng tại điểm ≤800: 4 nhịp cách 2 giây, 250, tối đa 7, (36+4/cấp)% choáng 1,5 giây | Giống (thiếu tầng Tuyệt) |
+| Tịnh Ảnh Trầm Bích | - | Mỗi 60 giây: đổi nội lực thành sinh lực tối đa (0,44+0,04/cấp) và hồi đầy sinh lực | Bị động: sinh lực tối đa | Khác một phần (chưa có chu kỳ 60 giây / hồi đầy) |
+| Mộ Vân Ngưng Bích | - | Bị đánh thường khi sinh lực ≤50%: hộ thuẫn (0,6+0,2/cấp)× nội lực tối đa 5 giây, giãn cách 10 giây | Sinh lực dưới 50%: hồi 30% một lần, giãn cách 10 giây | Gần giống (hồi máu thay hộ thuẫn) |
+| Ngọc Nữ Kiếm Pháp | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Cô Nguyệt Bồi Hồi | W (autocast) | Như Q: bay ~832 (rộng 180) đi và về; 35% choáng 1 giây | 2 lượt bay 832; 35% choáng 1 giây | Giống |
+| Chung Nam Vãn Chiếu | D | Tốn 2 tầng Tuyệt; kiếm khí bay ~952 (rộng 120), tối đa 7, mỗi địch 3 đòn, 50% choáng 1 giây, ép chí mạng / chính xác | 3 đợt cách 0,17 giây bay 952, tối đa 7; 50% choáng 1 giây | Gần giống (không tốn tầng Tuyệt, không ép chí mạng) |
+| Hàn Sơn Độc Lập | - | Mỗi Q / W / E +1 tầng Cấm (chí mạng, khuếch đại sát thương); đủ 5 tầng tự tung D | Cộng dồn tầng khi đánh trúng (tối đa 5) | Khác (không tự tung D, tầng tính theo đòn trúng) |
+| Phi Thiên Vũ | F | 12 giây: hóa giải (25+5/cấp)% sát thương (≤36% sinh lực mỗi đòn), miễn 5 trạng thái, giữ tầng Tuyệt / Cấm | Buff 12 giây: miễn khống chế + giảm sát thương | Gần giống (không giữ tầng, không trần 36%) |
+| Cô Thân Chi Ảnh | E (autocast) | Kiếm khí bay 900 (rộng 200) đi và về; 40% choáng 1 giây; mỗi địch trúng lượt đi làm lượt về mạnh thêm | 2 lượt bay 900; 40% choáng 1 giây | Gần giống (lượt về không mạnh thêm) |
+| Ngọc Nữ Tâm Kinh | - | Chí mạng, kháng chí mạng; E 65%: Phá Mộng Hành, mọi địch quanh địch đầu tiên (300) nhận 3 đòn cách 0,2 giây | Chí mạng, giảm sát thương; E 65% thêm 3 đợt | Gần giống (3 đợt thêm chạy theo chính E, không quanh địch đầu tiên) |
+| Bạch Vân Hồi Vọng | - | Sát thương hệ Thủy, sát thương khi chí mạng, miễn chậm; E: lượt về mạnh thêm (0,16+0,02/cấp) mỗi địch trúng, tối đa ×2,2 | Bị động: chí mạng + kháng trạng thái | Khác một phần (chưa có lượt về mạnh thêm) |
+
+### Hoa Sơn Khí (HSQ) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="HSQ"`; Q `JEM`/`JEX`, W `e1L`/`e1n`/`e1u`, E `eZN`/`eZt`/`eZr`, R `elj`/`el5`/`elU`, D `JfU`/`JfO`, Hải Nạp `eAw`/`eA7`/`eAv`, Khí Quán `eq3`, Thần Quang `eZq`/`eZ6`, Tử Khí `elO`/`elB`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q là đánh đơn 2 đòn, R là hộ thuẫn 20 giây, D buff sát thương, W / E mặc định theo mô tả.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Nội lực là yếu tố chính của phái (Khí Quán, Hải Nạp, Tử Hà) nhưng map không có cơ chế sức mạnh theo % nội lực.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Thanh Vân Tống Sảng | Q (autocast) | 2 đợt cách 0,2 giây tại chỗ mục tiêu (150, tối đa 7); 30% choáng 1 giây | 2 đợt tại mục tiêu cách 0,2 giây, 150, tối đa 7; 30% choáng 1 giây | Giống |
+| Hoa Sơn Khí Công | - | Bị động: lôi công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Long Nhiễu Thân | - | Bị động: tốc chạy, kháng thời gian chậm, kháng băng công | Bị động: tốc chạy + kháng trạng thái | Gần giống |
+| Chân Khí Hộ Thể | R | 5 giây: giảm sát thương (35+5/cấp)%, kháng trạng thái (25+5/cấp)%; hết hạn: 100% choáng 3 giây mọi địch quanh thân 500 | Buff 5 giây: giảm sát thương (35+5/cấp)% | Gần giống (thiếu choáng khi hết hạn, thiếu kháng trạng thái, không trần 36% sinh lực) |
+| Hải Nạp Bách Xuyên | - | Mỗi 3 giây nếu nội lực >70%: gỡ trạng thái xấu, +kháng 8 chỉ số 3 giây; lôi công % | Bị động: sát thương %, kháng trạng thái | Khác một phần (không có điều kiện nội lực, không gỡ trạng thái) |
+| Khí Chấn Sơn Hà | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Ma Vân Kiếm Khí | W (autocast) | Tại chỗ mục tiêu: đợt chính sau ~0,64 giây (300, tối đa 7, 35% choáng 1 giây), rồi 3 đợt Ma Vân Khí Công cách 0,5 giây (300, tối đa 7, không choáng) | 4 đợt tại mục tiêu cách 0,5 giây, 300, tối đa 7; choáng 35% ở đợt đầu | Giống (đợt đầu đánh ngay, không trễ 0,64 giây) |
+| Khí Quán Trường Hồng | - | Sát thương kỹ năng +10% mỗi 10% nội lực (tối đa +15%+2%/cấp), tốn 10% nội lực hiện tại mỗi lần | Bị động: sát thương % cố định | Khác (không tính theo nội lực) |
+| Tử Hà Chân Khí | D | 20 giây: lôi công +(80+20/cấp)%, mỗi giây hồi (18+2/cấp)% nội lực tối đa, miễn 4 trạng thái | 20 giây: sát thương % + hồi nội lực một lần + miễn khống chế | Gần giống (hồi nội lực một lần; mức tăng sát thương theo thang map) |
+| Huyền Nhãn Yên Vân | - | Hải Nạp nhận thêm: hóa giải (8+2/cấp)% sát thương khi nội lực đầy (≤36% sinh lực) | Bị động: giảm sát thương nhận | Gần giống (không phụ thuộc nội lực) |
+| Phách Thạch Phá Ngọc | E (autocast) | Một đợt tại chỗ mục tiêu sau 0,2 giây (240, tối đa 7, 40% choáng 1 giây); mỗi địch trúng thêm 3 đòn đơn mục tiêu cách 0,2 giây (Tử Khí Đông Lai) | 4 đợt tại mục tiêu cách 0,2 giây, 240, tối đa 7; 40% choáng 1 giây | Gần giống (3 đòn thêm là vùng chứ không đơn mục tiêu) |
+| Thần Quang Toàn Nhiễu | - | Kháng thời gian trạng thái; E tung Long Huyền Kiếm Khí: 6 đợt cách 0,5 giây tại chỗ mục tiêu (300, tối đa 7) | Bị động: kháng trạng thái | Khác (chưa có Long Huyền Kiếm Khí; cần mã mới) |
+| Tử Khí Đông Lai | - | Khi Chân Khí Hộ Thể kết thúc: 6,5 giây hồi 100% nội lực mỗi 0,5 giây, khuếch đại sát thương (33+3/cấp)%; lôi công % | Bị động: sát thương %, hồi nội lực định kỳ | Khác một phần (không gắn với kết thúc R) |
+
+### Hoa Sơn Kiếm (HSK) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="HSK"`; Q `J46`/`J4g`, W `Js2`/`JsG`/`Jsp`, E `JKF`/`JKC`/`JKk`, R `eSU`/`eSO`, D `eOy`/`eOP`, Phá Kiếm Thức `eH0`/`eHE`, Cửu Kiếm `e_F`/`e_C`/`e_x`, bị động `Jd8`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu; Long Nhiễu Thân dùng chung với Hoa Sơn Khí. Trong KVCT chỉ Q và W là autocast (E là chiêu bấm), map vẫn để Q / W / E đều autocast theo yêu cầu. Trước đây Q quét nón, E nổ quanh thân 10 đợt, R / D là buff, W quét nón, Phá Kiếm Thức / Cửu Kiếm chỉ là chỉ số.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Phá Kiếm Thức và Cửu Kiếm trong KVCT phát khi Q / W tung (giãn cách 5 và 4 giây); map làm thành tự phát 10% mỗi đòn đánh.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Bạch Hồng Quán Nhật | Q (autocast) | 2 đợt cách 0,24 giây tại chỗ mục tiêu (150, tối đa 7); 30% choáng 0,5 giây | 2 đợt tại mục tiêu cách 0,24 giây, 150, tối đa 7; 30% choáng 0,5 giây | Giống |
+| Kiếm Tông Tổng Quyết | - | Bị động: chính xác, lôi công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Long Nhiễu Thân | - | Như Hoa Sơn Khí | Như Hoa Sơn Khí | Gần giống |
+| Thiên Thân Đảo Huyền | E (chiêu bấm trong KVCT) | Rơi tại điểm chuột (≤600): 10 đợt cách 0,3 giây (15 nếu mật tịch), bán kính 300, tối đa 7; 40% choáng 0,5 giây | Vùng tại điểm ≤600: 10 nhịp cách 0,3 giây, 300, tối đa 7, 40% choáng 0,5 giây | Giống (autocast thay vì bấm theo yêu cầu) |
+| Kim Nhạn Hoành Không | R | 20 giây: tốc đánh +(8+cấp), né tránh +(170+30/cấp), miễn hỗn loạn / chậm; mỗi giây mỗi địch quanh 800 cho thân 1 tầng Kiếm Vũ (+cấp% phát huy lực tấn công, +5 tốc đánh, tối đa 16 tầng; code không làm chậm địch dù mô tả ghi 15%) | Buff 20 giây: tốc đánh + kháng trạng thái | Gần giống (không có né tránh, không có tầng Kiếm Vũ) |
+| Hi Di Kiếm Pháp | - | Bị động: phát huy lực tấn công, tỉ lệ choáng, kháng chậm | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Thương Tùng Nghênh Khách | W (autocast) | 3 kiếm khí song song cách 1/6 giây bay 600 (rộng 110) xuyên, tối đa 7 mỗi kiếm; 35% choáng 0,5 giây | 3 đạn cách 0,17 giây bay 600, xuyên, tối đa 7; 35% choáng 0,5 giây | Giống |
+| Thái Nhạc Tam Thanh | - | Bị động: né tránh nội công, hóa giải trạng thái, giảm sát thương ngũ hành | Bị động: giảm sát thương + kháng trạng thái | Gần giống (không có né tránh) |
+| Đoạt Mệnh Liên Hoàn Tam Tiên Kiếm | D | Bật / tắt: mỗi 6 giây (lần đầu sau 6 giây) +(13+2/cấp)% sát thương 3 giây | Buff 300 giây: sát thương % thấp hơn, liên tục | Gần giống (không theo nhịp 6 giây, không bật / tắt) |
+| Phá Kiếm Thức | - | Khi Q / W tung (giãn cách 5 giây): 3 đòn cách 0,5 giây quanh thân (350, tối đa 7), hút 5% sinh lực, 1 giây né tránh | Tự phát 10% mỗi đòn đánh: 3 đòn quanh thân 350, tối đa 7, hút 5% sinh lực | Gần giống (kích theo xác suất, không có né tránh 1 giây) |
+| Cửu Kiếm Hợp Nhất | - | Khi Q / W tung (giãn cách 4 giây): 9 kiếm mỗi 40° bay 400 rồi đuổi mục tiêu (rộng 100, tối đa 7); 50% choáng 1 giây | Tự phát 10% mỗi đòn đánh: 9 đạn tỏa quạt 40°, bay 800, tối đa 7; 50% choáng 1 giây | Gần giống (không đuổi mục tiêu; kích theo xác suất) |
+| Nhất Kiếm Phá Vạn Pháp | - | Chí mạng, sát thương chí mạng; Cửu Kiếm ×(1,16+0,04/cấp) và hút 5% | Bị động: chí mạng | Khác một phần (chưa tăng sát thương / hút máu của Cửu Kiếm) |
+| Độc Cô Cửu Kiếm | - | Sát thương hệ Thủy, tốc đánh; 50%: thanh kiếm đầu tiên của Cửu Kiếm khi kết thúc nổ 150 gây (2+0,1/cấp)% sinh lực hiện tại | Bị động: tốc đánh | Khác (chưa có đòn chí tử %) |
+
+### Tiêu Dao Chưởng (TDC) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TDC"`; Q `JD6`/`JDg`, W `J4S`/`J4q`, E `J4Q`/`J41`/`J4N`, R `eAU`/`eAl`/`eAd`, D `eiK`/`eQi`/`eQQ`/`eQZ`, F `J0Q`/`J0Z`, T `Jfb`/`Jf1`, bị động `eid`, `eBA`, `egu`, `Jd8`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q quét nón 2 đòn, R 4 đòn một mục tiêu, W / E đánh đơn, D nổ 12 đợt quanh thân, F nổ 6 đợt, T lướt chung.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Trạng thái của cả phái là bỏng (ena) 2 giây, riêng R là định thân.
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Dương Ca Thiên Quân | Q (autocast) | 2 đợt cách 0,2 giây tại chỗ mục tiêu (150, tối đa 7); 30% bỏng 2 giây | 2 đợt tại mục tiêu cách 0,2 giây, 150, tối đa 7; 30% bỏng 2 giây | Giống |
+| Tiêu Dao Chưởng Pháp | - | Bị động: hỏa công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Hàn Tụ Huyệt | R | Chọn ngẫu nhiên 1 địch trong 1200, đạn đuổi tới; chạm: vùng 300 (tối đa 7) 90% định thân 3 giây, 1 đòn rồi 3 đòn cách 1 giây (4 đòn) | 4 đòn cách 1 giây lên 1 địch ngẫu nhiên trong 1200, 90% định thân 3 giây | Gần giống (không có đạn đuổi, không có vùng 300; mỗi đòn chọn lại địch ngẫu nhiên) |
+| Sưu Hồn Đại Pháp | - | Né tránh; bị đánh khi sinh lực ≤50%: vùng 400 hỗn loạn (50+4/cấp)%, 1 + 6 đòn cách 0,5 giây, hút 100% sát thương; giãn cách 30 giây | Bị động: tốc chạy / né | Khác (chưa có đòn khi sinh lực thấp) |
+| Diệm Nguyên Luân Hồi | - | Kháng phản đòn, hỏa công %; mỗi 10 giây buff 8 giây: giảm sát thương (35+5/cấp)%, miễn 3 loại trạng thái; mất sau 3 lần bị nhắm đánh (mô tả ghi 2) | Mỗi 10 giây khi đánh: buff 8 giây giảm sát thương (35+5/cấp)% | Gần giống (không mất sau số lần bị đánh, không miễn trạng thái) |
+| Phục Nhật Xuất Vân | - | Bị động: phát huy lực tấn công, tỉ lệ bỏng, kháng thọ thương | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Bạch Nhật Sâm Thần | W (autocast) | 3 đợt (mô tả ghi 2) cách 0,2 giây tại chỗ mục tiêu (250, tối đa 7); 35% bỏng 2 giây | 3 đợt tại mục tiêu cách 0,2 giây, 250, tối đa 7; 35% bỏng 2 giây | Giống |
+| Sinh Tử Phù | D | Tại điểm ≤800: 15 đợt cách 0,2 giây, mỗi đợt 3 bùa bay ra 800 (rộng 100) lệch 120°, tối đa 7 mỗi bùa; 50% bỏng 2 giây; mỗi trúng +1 tầng (+3%+1%/cấp phát huy, 6 giây, tối đa 15) | Vùng tại điểm ≤800: 15 nhịp cách 0,2 giây, bán kính 450, tối đa 7, 50% bỏng 2 giây | Gần giống (vùng tròn thay vì bùa bay ra; chưa có cộng dồn tầng) |
+| Hỗn Nhật Khí Quyết | - | Giảm sát thương ngũ hành, kháng trạng thái; mỗi lần Q / W / E +1 tầng Bát Hoang Lục Hợp (10 giây, tối đa 10): hồi phục, kháng thời gian trạng thái | Bị động: giảm sát thương + kháng trạng thái | Khác một phần (chưa có tầng Bát Hoang Lục Hợp) |
+| Thiên Tàm Cửu Biến | F | 15 giây: tốc chạy +30; mỗi 0,5 giây 3 địch đầu tiên trong 1500 mỗi con 1 đạn đuổi, nổ 150 (tối đa 4), hút 15% sinh lực | 15 giây, mỗi 0,5 giây đánh tối đa 3 địch trong 800 quanh thân, hút 15% sinh lực | Gần giống (không có đạn đuổi, không có tốc chạy +30) |
+| Bài Sơn Đảo Hải | E (autocast) | 3 chưởng đuổi mục tiêu bay ~1000 (rộng 160), tối đa 7 mỗi chưởng; 40% bỏng 2 giây | Quạt 3 đạn bay 1000, tối đa 7; 40% bỏng 2 giây | Gần giống (đạn không tự đuổi) |
+| Thái Hư Thần Công | - | Hỏa công %; E: 75% Bài Vân Chưởng quanh mục tiêu (200, tối đa 7) khi chưởng đầu tới nơi | Bị động: sát thương %; E 75% thêm một đợt nổ | Gần giống (đợt nổ thêm quanh người dùng, không phải quanh mục tiêu) |
+| Tung Bộ Quan Hỏa | T | Nhảy ≤700 (miễn sát thương / trạng thái khi nhảy); đáp: 4 giây chí mạng +(265+35/cấp), sát thương chí mạng +20%, chí mạng tối đa +25 | Lướt ≤700 không sát thương; đáp: 4 giây chí mạng | Gần giống (không miễn trạng thái khi nhảy, không có sát thương chí mạng riêng) |
+
+### Tiêu Dao Kiếm (TDK) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TDK"`; Q `JsY`/`JsR`/`JsW`, W `JCk`/`JCD`/`JCa`, E `J4A`/`J4X`/`J4j`, R `e_Q`/`e_Z`/`e_1`, D `eqW`/`eqy`/`eqT`, F `eik`/`ei9`, bị động `ell`/`elL`, `Jd8`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu. Trước đây Q 2 đạn, R nổ quanh thân 4 đợt, W quét nón 3 đòn, D nổ quanh thân 12 đợt, E 4 đạn, F buff 25 giây.
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Trạng thái của Q / W / E: bỏng (ena) và thọ thương (en9).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Trảm Vân Kiếm | Q (autocast) | 1 kiếm khí (2 song song ở cấp 3, 3 ở cấp 6; code đọc khóa số đạn có vẻ không được ghi nên thực tế 1) bay 600 (rộng 110) xuyên mọi địch; 30% bỏng 2 giây + 30% thọ thương 0,5 giây | Quạt 2 đạn (thêm đạn ở cấp 3 / 5) bay 600, xuyên; 30% bỏng 2 giây + 30% thọ thương 0,5 giây | Giống (nhiều đạn hơn code thực tế) |
+| Tiêu Dao Kiếm Pháp | - | Bị động: chính xác, hỏa công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Đan Phượng Dẫn | R | Vùng tại điểm ≤640, mỗi giây trong 10 giây: bán kính 350, tối đa 7, 50% định thân 1,5 giây + 50% bỏng 2,5 giây; mật tịch gắn buff ×1,2 sát thương lên địch | Vùng tại điểm ≤640: 10 nhịp cách 1 giây, 350, tối đa 7; nhịp đầu 50% định thân 1,5 giây, các nhịp sau 50% bỏng 2,5 giây | Gần giống (hai trạng thái chia theo nhịp thay vì cùng lúc; thiếu hồi sinh lực nếu có Bính Nhược Quan Hỏa) |
+| Chân Hỏa Hộ Thể | - | Sinh lực tối đa, né tránh, kháng phản đòn; bị đánh thường khi sinh lực ≤50%: địch quanh 400 hỗn loạn 3 giây, 5 giây miễn trạng thái; giãn cách 31 − cấp giây | Sinh lực tối đa, tốc chạy; sinh lực dưới 50%: 5 giây miễn khống chế, giãn cách 30 giây | Gần giống (không hỗn loạn địch quanh) |
+| Sơ Hoa Dẫn | F | Mọi tướng phe ta trong 1000, 30 giây: kháng phản đòn +(15+2/cấp)%, kháng thời gian trạng thái +(20+2/cấp)%; mỗi Q / W / E cộng tầng Hoa Khai Mạch (chí mạng, phát huy, tối đa 16 tầng 10 giây) | Buff phe ta 30 giây: kháng trạng thái + giảm sát thương | Gần giống (không có tầng Hoa Khai Mạch) |
+| Đoản Ca Hành | - | Bị động: phát huy lực tấn công, tỉ lệ bỏng, kháng thọ thương | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Tê Chiếu Phồn Thương | W (autocast) | 3 đạn cách 0,2 giây (đạn 2 / 3 lệch ngẫu nhiên ±12°) bay 600 (rộng 120), tối đa 7 mỗi đạn; 35% thọ thương 0,5 giây + 35% bỏng 2 giây | 3 đạn cách 0,2 giây bay 600, tối đa 7; đạn 1 thọ thương 35%, đạn sau bỏng 35% | Giống (không lệch ngẫu nhiên; trạng thái chia theo đạn) |
+| Kiếm Chủng Dẫn | D | Vùng tại điểm ≤640: mỗi 0,3 giây trong 7,5 giây (25 nhịp), bán kính 480, tối đa 7; 50% thọ thương 1 giây; Ngang Nhật Đồ cho Kiếm Tiếu | Vùng tại điểm ≤640: 25 nhịp cách 0,3 giây, 480, tối đa 7, 50% thọ thương 1 giây | Giống (thiếu Kiếm Tiếu) |
+| Bính Nhược Quan Hỏa | - | Đan Phượng Dẫn kèm hồi (8+2/cấp)% sinh lực mỗi giây 4 giây; Hoa Khai Mạch +sát thương chí mạng | Bị động: sinh lực tối đa | Khác (không có hồi sinh lực khi dùng R) |
+| Ngang Nhật Đồ | - | Bị động: hỏa công %, tốc chạy, né tránh; Sơ Hoa Dẫn thêm tốc đánh + chí mạng tối đa; D cho Kiếm Tiếu | Bị động: sát thương %, tốc chạy / né | Gần giống (không có hiệu quả riêng lên F / D) |
+| Bách Điểu Triều Phượng | E (autocast) | 4 đạn song song lệch ngang cách 0,15 giây bay 800 (rộng 120), tối đa 7 mỗi đạn; 40% thọ thương 0,5 giây + 40% bỏng 2 giây | 4 đạn cách 0,15 giây bay 800, tối đa 7; đạn 1 bỏng 40%, đạn sau thọ thương 40% | Giống (không lệch ngang) |
+| Phần Phách Tru Tâm | - | Chí mạng; E đánh trúng: tới 3 Kiếm Ngâm (75%, mỗi cái 4 giây, đánh mỗi 0,4 giây bán kính 250) | Chí mạng; E 75% thêm 3 đợt | Gần giống (đợt thêm của E thay vì kiếm đứng yên 4 giây) |
+| Hỏa Hải Vô Nhai | - | Sát thương hệ Kim; khi đánh (giãn cách 60 giây): 30 giây, mỗi mục tiêu E trúng nhận thêm hỏa sát trễ 1 giây | Bị động: sát thương % | Khác (chưa có hỏa sát kèm E) |
+
+### Thúy Yên Kiếm (TYK) — đã đối chiếu code KVCT (06/10/2026)
+
+Nguồn: `readable.j` (bảng `set Kuz[oY]="TYK"`; Q `eQJ`/`eQ9`, W `edc`/`edh`/`edF`/`eds`, E `Jsw`/`Js7`/`Jsv`, R `edt`/`edr`/`edS`/`edq`, D `eHS`/`eHA`/`eHj`, F `edD`/`eda`/`edk`, bị động `Jd8`, `f5n`, `JdN`), `AbilityData.slk`. Bảng kỹ năng theo KVCT: 13 chiêu; Tuyết Ảnh và Hộ Thể Hàn Băng dùng chung với Thúy Yên Đao. Trước đây các số "hits" và loại chiêu chỉ là ước lượng (Q 2 đạn, W quét nón, E 3 đạn, R 8 đạn, D nổ 10 đợt, F buff 20 giây).
+
+Khác biệt chung: sát thương theo công thức của map; chỉ số bị động / buff theo thang của map. Trong KVCT mọi đòn của phái nhân thêm 1 + ngẫu nhiên (0 … 0,24 + 0,02/cấp Phù Vân Tán Tuyết) vào băng công (map không có).
+
+| Chiêu | Phím | Cơ chế trong KVCT (code) | Map làm gì | Trạng thái |
+|---|---|---|---|---|
+| Phong Quyển Tàn Tuyết | Q (autocast) | 1 kiếm khí bay 750 (rộng 100) xuyên tối đa 7; 30% chậm 2 giây | Đạn bay 750, xuyên, tối đa 7; 30% chậm 2 giây | Giống |
+| Thúy Yên Kiếm Pháp | - | Bị động: băng công %, chí mạng, tốc đánh | Bị động: sát thương %, chí mạng, tốc đánh | Giống |
+| Tuyết Ảnh | - | Như Thúy Yên Đao | Như Thúy Yên Đao | Giống |
+| Vũ Đả Lê Hoa | R | Đợt 1: 8 mảnh bay ra 500 (tối đa 4 mỗi mảnh; code hướng cố định theo bản đồ, xác suất chậm đợt 1 = 0% do lỗi); đợt 2 sau 0,6 giây: 8 mảnh bay vào từ vòng 640, 80% chậm 4 giây; 4 giây hóa giải / miễn trạng thái | 2 đợt cách 0,6 giây, mỗi đợt quạt 8 đạn bay 500, tối đa 4; 80% chậm 4 giây (cả hai đợt); 4 giây miễn khống chế | Gần giống (đợt 2 bay ra thay vì bay vào; đợt 1 cũng chậm; hướng theo người dùng) |
+| Hộ Thể Hàn Băng | - | Như Thúy Yên Đao: sinh lực tối đa, dưới 40% đóng băng địch | Như Thúy Yên Đao | Giống |
+| Băng Cốt Tuyết Tâm | - | Bị động: phát huy lực tấn công, tỉ lệ chậm | Bị động: sát thương %, kháng trạng thái | Gần giống |
+| Băng Tâm Tiên Tử | W (autocast) | 1 kiếm khí bay ~912 (rộng 100) xuyên tối đa 7; mỗi địch trúng nhận đòn thứ 2 sau 0,3 giây; 35% chậm 2 giây | 2 đợt cách 0,3 giây bay 912, xuyên, tối đa 7; 35% chậm 2 giây | Giống |
+| Phi Tự Phiêu Hoa | D | Tại điểm ≤740: 26 nhịp cách 0,3 giây, bán kính 300, tối đa 7; băng công ngẫu nhiên; 50% chậm 3 giây + 50% định thân 1 giây | Vùng tại điểm ≤740: 26 nhịp cách 0,3 giây, 300, tối đa 7; nhịp đầu 50% chậm 3 giây, nhịp sau 50% định thân 1 giây | Giống (hai trạng thái chia theo nhịp thay vì cùng lúc) |
+| Phù Vân Tán Tuyết | - | Vật công nội, né tránh, phát huy lực tấn công; nhân ngẫu nhiên 0 – 24% băng công mọi đòn | Bị động: sát thương %, tốc chạy / né | Khác một phần (không có hệ số ngẫu nhiên) |
+| Băng Tâm Ngọc Lăng | F | Bật / tắt không giới hạn: băng công +(160+20/cấp)%, hồi phục sinh lực; mỗi kẻ địch bắt đầu đánh bị phản (1000+200/cấp) băng công, không giãn cách | Buff 300 giây: sát thương % | Khác (chưa có phản đòn; không bật / tắt) |
+| Thủy Ánh Mạn Tú | E (autocast) | 1 kiếm khí bay ~1100 (rộng 220), tối đa 7; 40% chậm 2 giây; mỗi địch trúng nhận thêm 3 đòn cách 0,25 giây (Phong Tuyết Băng Thiên) | 4 đợt cách 0,25 giây bay 1100, tối đa 7; 40% chậm 2 giây | Gần giống (3 đòn thêm là đạn chứ không đánh lên chính địch trúng) |
+| Thập Diện Mai Phục | - | Kháng tỉ lệ trạng thái; E (50%, giãn cách 9 giây): tạo vùng Phi Tự Phiêu Hoa tại mục tiêu | Bị động: kháng trạng thái | Khác (chưa có vùng Phi Tự Phiêu Hoa kèm E) |
+| Tuyết Ánh Hồng Trần | - | Sát thương hệ Hỏa, hồi phục; Q / W / E / R trúng: 40% chậm 100% 3 giây + 3 đòn băng sát mỗi giây | Bị động: sát thương %, sinh lực | Khác (chưa có băng sát) |
+

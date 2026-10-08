@@ -1,21 +1,51 @@
 # Audit of the KVCT skills in this map: KVCT description vs what the engine (kskill.j) does for it.
 # Writes docs\kvct_audit.md.  python kaudit.py
 import os, sys, collections
+
 sys.path.insert(0, os.path.dirname(__file__))
 from kskill_data import CLASS, HERO, load
 from kskill import OVR
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "docs", "kvct_audit.md")
-KIND = {0: "bị động (cộng chỉ số)", 1: "đánh mục tiêu", 2: "quét phía trước", 3: "xung kích", 4: "nổ quanh thân",
-        5: "đạn bay xuyên", 6: "buff bản thân", 7: "buff phe ta", 8: "miễn khống chế", 9: "hộ thuẫn",
-        11: "liên hoàn kích", 12: "bão sấm sét"}
-FX = {1: "đẩy lùi", 2: "kéo đối thủ", 4: "hút máu", 8: "độc / bỏng mỗi giây", 16: "hồi máu", 32: "sát thương quanh mỗi giây",
-      64: "miễn nhiễm sát thương", 128: "phản đòn", 512: "giảm kháng (nhận thêm 15%)", 1024: "phát động khi máu dưới 40%",
-      4096: "hồi nội lực", 8192: "cộng dồn tầng (Cực hạn 5 tầng)"}
+KIND = {
+    0: "bị động (cộng chỉ số)",
+    1: "đánh mục tiêu",
+    2: "quét phía trước",
+    3: "xung kích",
+    4: "nổ quanh thân",
+    5: "đạn bay xuyên",
+    6: "buff bản thân",
+    7: "buff phe ta",
+    8: "miễn khống chế",
+    9: "hộ thuẫn",
+    11: "liên hoàn kích",
+    12: "bão sấm sét",
+}
+FX = {
+    1: "đẩy lùi",
+    2: "kéo đối thủ",
+    4: "hút máu",
+    8: "độc / bỏng mỗi giây",
+    16: "hồi máu",
+    32: "sát thương quanh mỗi giây",
+    64: "miễn nhiễm sát thương",
+    128: "phản đòn",
+    512: "giảm kháng (nhận thêm 15%)",
+    1024: "phát động khi máu dưới 40%",
+    4096: "hồi nội lực",
+    8192: "cộng dồn tầng (Cực hạn 5 tầng)",
+}
 STATUS = {1: "thọ thương", 2: "định thân", 3: "choáng", 4: "làm chậm"}
-TODO = {"triệu hồi": "triệu hồi", "phân thân": "phân thân", "ảo ảnh": "ảo ảnh", "tàng hình": "tàng hình",
-        "dịch chuyển": "dịch chuyển", "bất tử": "bất tử", "khiêu khích": "khiêu khích"}
+TODO = {
+    "triệu hồi": "triệu hồi",
+    "phân thân": "phân thân",
+    "ảo ảnh": "ảo ảnh",
+    "tàng hình": "tàng hình",
+    "dịch chuyển": "dịch chuyển",
+    "bất tử": "bất tử",
+    "khiêu khích": "khiêu khích",
+}
 
 
 def main():
@@ -26,8 +56,10 @@ def main():
         "## 1. TỔNG QUAN HỆ THỐNG",
         "- **Tổng số môn phái**: 33 môn phái (21 phái VLTK gốc + 12 phái mới từ KVCT).",
         "- **Tổng số kỹ năng**: 400 kỹ năng học theo cấp độ (1 - 200).",
-        "- **Kỹ năng đã có cấu hình OVR đặc thù**: %d kỹ năng (bao gồm 100%% các chiêu thức chủ động có code riêng trong KVCT)." % len(OVR),
-        "- **Kỹ năng nội tại / tâm pháp / mật tịch RPG**: %d kỹ năng (73 chiêu nhập môn, 52 tâm pháp, 42 mật tịch, 56 cửu âm/cửu dương, 7 hào quang aura, 4 thân pháp)." % (400 - len(OVR)),
+        "- **Kỹ năng đã có cấu hình OVR đặc thù**: %d kỹ năng (bao gồm 100%% các chiêu thức chủ động có code riêng trong KVCT)."
+        % len(OVR),
+        "- **Kỹ năng nội tại / tâm pháp / mật tịch RPG**: %d kỹ năng (73 chiêu nhập môn, 52 tâm pháp, 42 mật tịch, 56 cửu âm/cửu dương, 7 hào quang aura, 4 thân pháp)."
+        % (400 - len(OVR)),
         "",
         "## 2. BẢNG SO SÁNH CÁC CƠ CHẾ KHÁC BIỆT & GIẢI PHÁP TƯƠNG ĐƯƠNG",
         "",
@@ -39,7 +71,7 @@ def main():
         "| **Bất tử tuyệt đối / Vô địch** | **Điều chỉnh thành Hộ Thuẫn (`kind 9`) / Miễn Khống (`kind 8`)** | Giữ cân bằng game trong chế độ Đấu trường / Liên Đấu / Lôi Đài tránh tình trạng tướng bất tử kéo dài làm vỡ trận. |",
         "",
         "## 3. CHI TIẾT ĐỐI SOÁT 33 MÔN PHÁI",
-        ""
+        "",
     ]
 
     total, gaps = 0, collections.Counter()
@@ -48,7 +80,7 @@ def main():
             "### %s (%s)" % (HERO[hero][1], cl),
             "",
             "| Chiêu | Phím | Khuôn Engine | Cấu hình OVR | Hiệu ứng đã làm | Ghi chú cơ chế |",
-            "|---|---|---|---|---|---|"
+            "|---|---|---|---|---|---|",
         ]
         for s in data.get(cl, [])[:14]:
             total += 1
@@ -57,15 +89,24 @@ def main():
             done += [v for k, v in FX.items() if s["fx"] & k]
             if s["hits"] > 1:
                 done.append("%d đòn" % s["hits"])
-            
+
             ovr_txt = "OVR Đặc thù" if s["kv"] in OVR else "Khuôn chuẩn"
-            miss = sorted({v for w, v in TODO.items() if w in t and (w != "triệu hồi" or ("sét" not in t and "lôi" not in t))})
+            miss = sorted(
+                {v for w, v in TODO.items() if w in t and (w != "triệu hồi" or ("sét" not in t and "lôi" not in t))}
+            )
             gaps.update(miss)
             note = ", ".join(miss) if miss else "Đạt chuẩn"
-            out.append("| %s | %s | %s | %s | %s | %s |" % (
-                s["name"], s["key"] or "-", KIND.get(s["kind"], "Khuôn " + str(s["kind"])),
-                ovr_txt, ", ".join(done) or "-", note
-            ))
+            out.append(
+                "| %s | %s | %s | %s | %s | %s |"
+                % (
+                    s["name"],
+                    s["key"] or "-",
+                    KIND.get(s["kind"], "Khuôn " + str(s["kind"])),
+                    ovr_txt,
+                    ", ".join(done) or "-",
+                    note,
+                )
+            )
         out.append("")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -76,4 +117,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -1,4 +1,5 @@
 import re
+
 p1 = r'src\map\war3mapMisc.txt'
 t = open(p1, 'r', encoding='utf-8').read()
 t = re.sub(r'StrHitPointBonus=.*', 'StrHitPointBonus=250.0', t)

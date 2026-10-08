@@ -19,6 +19,40 @@ function zzVL_MainStat takes unit vl_hero returns real
 endfunction
 
 // ==========================================
+// Hàm: zzVL_Phe
+// Hệ của tướng (config.py mục 15, khóa 99 trên loại tướng): 1 ngoại công, 2 nội công; 1 nếu không phải tướng có phái (quái tính là ngoại).
+function zzVL_Phe takes unit vl_u returns integer
+    if zzHT_He(vl_u)==2 then
+        return 2
+    endif
+    return 1
+endfunction
+
+// ==========================================
+// Hàm: zzVL_PheAtk
+// Sức mạnh đòn kỹ năng theo hệ: % sát thương vũ khí + hệ số × Sức mạnh / Thân pháp / Nội công (khóa 0/450..457, ×100).
+// Trả về -1 nếu tướng chưa có hệ (khi đó dùng cách cũ: vũ khí + chỉ số chính).
+function zzVL_PheAtk takes unit vl_h,real vl_weapon returns real
+    local integer vl_k
+    if zzHT_He(vl_h)==0 or not IsUnitType(vl_h,UNIT_TYPE_HERO) then
+        return -1.
+    endif
+    set vl_k=450+4*(zzVL_Phe(vl_h)-1)
+    return vl_weapon*LoadInteger(zzVL_ht,0,vl_k)/100.+(GetHeroStr(vl_h,true)*LoadInteger(zzVL_ht,0,vl_k+1)+GetHeroAgi(vl_h,true)*LoadInteger(zzVL_ht,0,vl_k+2)+GetHeroInt(vl_h,true)*LoadInteger(zzVL_ht,0,vl_k+3))/100.
+endfunction
+
+// ==========================================
+// Hàm: zzVL_PheDodge
+// Né tránh (phần nghìn trước khi trừ đánh trúng) của tướng vl_t trước đòn hệ vl_phe:
+// ngoại = Thân pháp/2 + dòng né tránh + khóa 25 (buff né ngoại); nội = Nội công × khóa 0/458 /100 + dòng né tránh + khóa 26 (buff né nội).
+function zzVL_PheDodge takes unit vl_t,integer vl_pt,integer vl_phe returns integer
+    if vl_phe==2 then
+        return R2I(GetHeroInt(vl_t,true)*LoadInteger(zzVL_ht,0,458)/100.)+zzPS_Get(vl_pt,zzPS_NE_TRANH())+zzPS_Get(vl_pt,zzPS_NE_NOI_BUFF())
+    endif
+    return R2I(GetHeroAgi(vl_t,true)/2.0)+zzPS_Get(vl_pt,zzPS_NE_TRANH())+zzPS_Get(vl_pt,zzPS_NE_NGOAI_BUFF())
+endfunction
+
+// ==========================================
 // Hàm: zzVL_TpFoe
 // Chức năng dự kiến: Kỹ năng Trấn Phái.
 // Tham số:
@@ -54,16 +88,8 @@ function zzVL_TpTick takes integer vl_playerId,unit vl_hero returns nothing
     local integer vl_ab=LoadInteger(zzVL_ht,GetUnitTypeId(vl_hero),50)
     local integer vl_lv=GetHeroLevel(vl_hero)
     local integer vl_w
-    local integer vl_i=1
     if not zzVL_gotStart[vl_playerId] then
         set zzVL_gotStart[vl_playerId]=true
-        loop
-            exitwhen vl_i>4
-            if zzVL_start[vl_i]!=0 then
-                call UnitAddItem(vl_hero,CreateItem(zzVL_start[vl_i],GetUnitX(vl_hero),GetUnitY(vl_hero)))
-            endif
-            set vl_i=vl_i+1
-        endloop
         set zzVL_potion=CreateItem('phea',GetUnitX(vl_hero),GetUnitY(vl_hero))
         call SetItemCharges(zzVL_potion,10)
         call UnitAddItem(vl_hero,zzVL_potion)
@@ -117,8 +143,8 @@ function zzVL_TpDef takes unit vl_src,unit vl_tgt,integer vl_pt,real vl_d return
     if vl_now<zzVL_tpEnd[vl_pt*12+3] then
         set vl_lv=GetUnitAbilityLevel(vl_tgt,'A0T3')
         set vl_d=vl_d*(.85-.05*vl_lv)
-        if not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=null and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and vl_now-LoadReal(zzVL_ht,GetHandleId(vl_tgt),70)>=.3 then
-            call SaveReal(zzVL_ht,GetHandleId(vl_tgt),70,vl_now)
+        if not zzVL_inTp and zzVL_dmgDepth<=1 and vl_src!=null and vl_src!=vl_tgt and GetWidgetLife(vl_src)>.405 and vl_now-zzUS_Real(GetHandleId(vl_tgt),zzUS_TP_REFLECT_LAST())>=.3 then
+            call zzUS_SetReal(GetHandleId(vl_tgt),zzUS_TP_REFLECT_LAST(),vl_now)
             call zzVL_TpHit(vl_tgt,vl_src,vl_d*.1*vl_lv)
         endif
     endif
@@ -166,13 +192,45 @@ function zzVL_TpPoison takes nothing returns nothing
         endif
     endif
     call SaveInteger(zzVL_ht,vl_id,3,vl_n)
-    if vl_n>=5 or vl_unit==null or GetWidgetLife(vl_unit)<.405 then
+    // slot 5: number of ticks (KVCT doc sat N lan, kskill.j key 166); 5 when not given
+    if (vl_n>=5 and LoadInteger(zzVL_ht,vl_id,5)==0) or (LoadInteger(zzVL_ht,vl_id,5)>0 and vl_n>=LoadInteger(zzVL_ht,vl_id,5)) or vl_unit==null or GetWidgetLife(vl_unit)<.405 then
         call FlushChildHashtable(zzVL_ht,vl_id)
         call DestroyTimer(vl_t)
     endif
     set vl_t=null
     set vl_hero=null
     set vl_unit=null
+endfunction
+
+// ==========================================
+// Hàm: zzVL_CuongSlot
+// Cường hóa trực tiếp theo ô trang bị (0..9)
+function zzVL_CuongSlot takes unit vl_hero,integer vl_slot returns boolean
+    local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_hero))
+    local string array vl_n
+    if vl_playerId>9 or vl_hero!=Jx[vl_playerId+1] or vl_slot<0 or vl_slot>9 then
+        return false
+    endif
+    if zzVL_cuong[vl_playerId*10+vl_slot]>=10 then
+        call zzVL_Msg(vl_playerId,"Ô này đã cường hóa tối đa +10.")
+        return false
+    endif
+    set zzVL_cuong[vl_playerId*10+vl_slot]=zzVL_cuong[vl_playerId*10+vl_slot]+1
+    set vl_n[0]="Nón (+mọi chỉ số, sinh lực)"
+    set vl_n[1]="Áo (giảm sát thương, kháng vật lý)"
+    set vl_n[2]="Yêu Đái (sinh lực, kháng độc/thủy)"
+    set vl_n[3]="Hộ Uyển (tốc đánh, kháng hỏa/lôi)"
+    set vl_n[4]="Hài (tốc chạy, né tránh)"
+    set vl_n[5]="Vũ Khí (sát thương %, STVL ngoại công)"
+    set vl_n[6]="Hạng Liên (bạo kích, STVL nội công, xuất chiêu)"
+    set vl_n[7]="Giới Chỉ (đánh trúng, hút máu, sát thương %)"
+    set vl_n[8]="Ngọc Bội (hút mana, kháng 5 hệ)"
+    set vl_n[9]="Hộ Thân Phù (sinh lực, giảm ST, +1 cấp kỹ năng khi +10)"
+    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",vl_hero,"origin"))
+    call zzVL_Text(vl_hero,"|cffffcc00Cường hóa +"+I2S(zzVL_cuong[vl_playerId*10+vl_slot])+"|r")
+    call zzVL_Msg(vl_playerId,"|cffffcc00Cường hóa|r "+vl_n[vl_slot]+": |cffffcc00+"+I2S(zzVL_cuong[vl_playerId*10+vl_slot])+"|r")
+    call zzVL_AffixSum(vl_playerId)
+    return true
 endfunction
 
 // ==========================================
@@ -185,29 +243,23 @@ endfunction
 function zzVL_CuongDo takes unit vl_hero,item vl_item returns boolean
     local integer vl_playerId=GetPlayerId(GetOwningPlayer(vl_hero))
     local integer vl_k
-    local string array vl_n
+    local integer vl_slot=0
     if vl_playerId>9 or vl_item==null or vl_hero!=Jx[vl_playerId+1] then
         return false
     endif
     set vl_k=LoadInteger(zzVL_ht,GetItemTypeId(vl_item),0)/10-1
-    if vl_k<0 or vl_k>3 then
-        call zzVL_Msg(vl_playerId,"Thủy tinh chỉ dùng lên mũ, áo, vũ khí, giày.")
-        return false
+    if vl_k==0 then
+        set vl_slot=0
+    elseif vl_k==1 then
+        set vl_slot=1
+    elseif vl_k==2 then
+        set vl_slot=5
+    elseif vl_k==3 then
+        set vl_slot=4
+    else
+        set vl_slot=0
     endif
-    if zzVL_cuong[vl_playerId*4+vl_k]>=10 then
-        call zzVL_Msg(vl_playerId,"Ô này đã cường hóa tối đa +10.")
-        return false
-    endif
-    set zzVL_cuong[vl_playerId*4+vl_k]=zzVL_cuong[vl_playerId*4+vl_k]+1
-    set vl_n[0]="Mũ (mọi chỉ số theo bậc mũ)"
-    set vl_n[1]="Áo (giáp theo bậc áo, -2% sát thương nhận)"
-    set vl_n[2]="Vũ khí (+4% sát thương, sát thương gốc theo bậc vũ khí)"
-    set vl_n[3]="Giày (sinh lực theo bậc giày, +3 tốc chạy)"
-    call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Items\\AIem\\AIemTarget.mdl",vl_hero,"origin"))
-    call zzVL_Text(vl_hero,"|cffffcc00Cường hóa +"+I2S(zzVL_cuong[vl_playerId*4+vl_k])+"|r")
-    call zzVL_Msg(vl_playerId,"|cffffcc00Cường hóa|r "+vl_n[vl_k]+": |cffffcc00+"+I2S(zzVL_cuong[vl_playerId*4+vl_k])+"|r. Cấp cường hóa đi theo người, thay món mới vẫn giữ.")
-    call zzVL_AffixSum(vl_playerId)
-    return true
+    return zzVL_CuongSlot(vl_hero,vl_slot)
 endfunction
 
 // ==========================================
@@ -219,7 +271,7 @@ endfunction
 // Không trả về giá trị (thực thi hành động).
 function zzVL_CuongHoa takes unit vl_hero,item vl_item returns nothing
     if not zzVL_CuongDo(vl_hero,vl_item) and vl_hero!=null then
-        call UnitAddItem(vl_hero,CreateItem('I00W',GetUnitX(vl_hero),GetUnitY(vl_hero)))
+        call zzGL_Give(GetPlayerId(GetOwningPlayer(vl_hero)),1)
     endif
 endfunction
 

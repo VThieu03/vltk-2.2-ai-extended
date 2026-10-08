@@ -55,15 +55,9 @@ endfunction
 //   - vl_n (integer)
 // Không trả về giá trị (thực thi hành động).
 function zzVL_QGiveTT takes unit vl_hero,integer vl_n returns nothing
-    local integer vl_i=0
-    local item vl_item
-    loop
-        exitwhen vl_i>=vl_n
-        set vl_item=CreateItem('I00W',GetUnitX(vl_hero),GetUnitY(vl_hero))
-        call UnitAddItem(vl_hero,vl_item)
-        set vl_i=vl_i+1
-    endloop
-    set vl_item=null
+    if vl_hero!=null then
+        call zzGL_Give(GetPlayerId(GetOwningPlayer(vl_hero)),vl_n)
+    endif
 endfunction
 
 // ==========================================
@@ -94,10 +88,10 @@ function zzVL_QProgress takes integer vl_playerId,integer vl_t returns nothing
     call AdjustPlayerStateBJ(vl_g,Player(vl_playerId),PLAYER_STATE_RESOURCE_GOLD)
     call zzVL_QGiveTT(vl_hero,1)
     call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Levelup\\LevelupCaster.mdl",vl_hero,"origin"))
-    call zzVL_Msg(vl_playerId,"|cff00ff00Hoàn thành nhiệm vụ "+zzVL_QName(vl_t)+"!|r Nhận 1 Thủy tinh, "+I2S(vl_g)+" ngân lượng, 8 công trạng. Quay lại Sứ Giả Võ Lâm để nhận nhiệm vụ mới.")
+    call zzVL_Msg(vl_playerId,"|cff00ff00Hoàn thành nhiệm vụ "+zzVL_QName(vl_t)+"!|r Nhận 1 Huyền tinh, "+I2S(vl_g)+" ngân lượng, 8 công trạng. Quay lại Sứ Giả Võ Lâm để nhận nhiệm vụ mới.")
     if ModuloInteger(zzVL_qDone[vl_playerId],5)==0 then
         call zzVL_QGiveTT(vl_hero,2)
-        call zzVL_All(zzVL_Name(vl_playerId)+" đã hoàn thành "+I2S(zzVL_qDone[vl_playerId])+" nhiệm vụ của Sứ Giả Võ Lâm, nhận thêm 2 Thủy tinh.")
+        call zzVL_All(zzVL_Name(vl_playerId)+" đã hoàn thành "+I2S(zzVL_qDone[vl_playerId])+" nhiệm vụ của Sứ Giả Võ Lâm, nhận thêm 2 Huyền tinh.")
     endif
     call zzVL_AddCT(vl_playerId,8)
     set vl_hero=null

@@ -65,10 +65,12 @@ def variants(n):
         d, f = os.path.split(x)
         # disabled icon variants
         if "commandbuttons" in x.lower() or f.lower().startswith(("btn", "pas", "atc")):
-            out |= {"ReplaceableTextures\\CommandButtonsDisabled\\DIS" + f,
-                    "ReplaceableTextures\\CommandButtonsDisabled\\DISBTN" + f[3:] if f.lower().startswith("btn") else f,
-                    "ReplaceableTextures\\PassiveButtons\\" + f,
-                    "ReplaceableTextures\\CommandButtons\\" + f}
+            out |= {
+                "ReplaceableTextures\\CommandButtonsDisabled\\DIS" + f,
+                "ReplaceableTextures\\CommandButtonsDisabled\\DISBTN" + f[3:] if f.lower().startswith("btn") else f,
+                "ReplaceableTextures\\PassiveButtons\\" + f,
+                "ReplaceableTextures\\CommandButtons\\" + f,
+            }
     return out
 
 
@@ -77,10 +79,10 @@ def mdx_textures(data):
         return []
     i, res = 4, []
     while i + 8 <= len(data):
-        tag, size = data[i:i + 4], struct.unpack_from("<I", data, i + 4)[0]
+        tag, size = data[i : i + 4], struct.unpack_from("<I", data, i + 4)[0]
         if tag == b"TEXS":
             for k in range(i + 8, i + 8 + size, 268):
-                fn = data[k + 4:k + 264].split(b"\0")[0]
+                fn = data[k + 4 : k + 264].split(b"\0")[0]
                 if fn:
                     res.append(fn)
         i += 8 + size
@@ -154,6 +156,7 @@ def main():
     print("named %d / %d files" % (len(names), live))
     unk = [bi for bi in blobs if bi not in names]
     from collections import Counter
+
     print("unnamed by magic:", Counter(blobs[bi][:4] for bi in unk).most_common(10))
 
 

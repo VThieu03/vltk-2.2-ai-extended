@@ -5,21 +5,45 @@
 # The minimap image and icons need no change (the whole map keeps its proportions).
 # Run after icons.py, before build.py.
 import os, re, struct, sys
+
 sys.path.insert(0, os.path.dirname(__file__))
 import terrain
 
-S = 1.5
+# The added farm zones already fit the 264x128 expanded terrain. Keep the
+# original world scale; expanding again pushed the map to 396x192 without a gameplay need.
+S = 1.0
 SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 # call name -> indexes of the arguments that are world x / y
 CALLS = {
-    "Rect": (0, 1, 2, 3), "SetRect": (1, 2, 3, 4), "Location": (0, 1), "MoveRectTo": (1, 2),
-    "CreateUnit": (2, 3), "BlzCreateUnitWithSkin": (2, 3), "CreateItem": (1, 2), "CreateDestructable": (1, 2),
-    "CreateDestructableZ": (1, 2), "SetUnitPosition": (1, 2), "SetUnitX": (1,), "SetUnitY": (1,),
-    "IssuePointOrder": (2, 3), "IssuePointOrderById": (2, 3), "PanCameraToTimedForPlayer": (1, 2),
-    "PanCameraToTimed": (0, 1), "SetCameraPosition": (0, 1), "SetCameraQuickPosition": (0, 1),
-    "DefineStartLocation": (1, 2), "PingMinimap": (0, 1), "PingMinimapEx": (0, 1), "AddSpecialEffect": (1, 2),
-    "GroupEnumUnitsInRange": (1, 2), "CreateFogModifierRadius": (2, 3), "SetCameraBounds": tuple(range(8)),
-    "CreateTrackable": (1, 2), "CameraSetupSetDestPosition": (1, 2), "CreateUnitAtLocSaveLast": (), "ReviveHero": (1, 2),
+    "Rect": (0, 1, 2, 3),
+    "SetRect": (1, 2, 3, 4),
+    "Location": (0, 1),
+    "MoveRectTo": (1, 2),
+    "CreateUnit": (2, 3),
+    "BlzCreateUnitWithSkin": (2, 3),
+    "CreateItem": (1, 2),
+    "CreateDestructable": (1, 2),
+    "CreateDestructableZ": (1, 2),
+    "SetUnitPosition": (1, 2),
+    "SetUnitX": (1,),
+    "SetUnitY": (1,),
+    "IssuePointOrder": (2, 3),
+    "IssuePointOrderById": (2, 3),
+    "PanCameraToTimedForPlayer": (1, 2),
+    "PanCameraToTimed": (0, 1),
+    "SetCameraPosition": (0, 1),
+    "SetCameraQuickPosition": (0, 1),
+    "DefineStartLocation": (1, 2),
+    "PingMinimap": (0, 1),
+    "PingMinimapEx": (0, 1),
+    "AddSpecialEffect": (1, 2),
+    "GroupEnumUnitsInRange": (1, 2),
+    "CreateFogModifierRadius": (2, 3),
+    "SetCameraBounds": tuple(range(8)),
+    "CreateTrackable": (1, 2),
+    "CameraSetupSetDestPosition": (1, 2),
+    "CreateUnitAtLocSaveLast": (),
+    "ReviveHero": (1, 2),
 }
 NUM = re.compile(r"^(-?\d+\.?\d*|-?\.\d+)(?=$|[+\-])")
 
@@ -55,7 +79,7 @@ def scale_num(a):
     if not m:
         return a
     v = float(m.group(1)) * S
-    return ("%d." % round(v)) + a[m.end():]
+    return ("%d." % round(v)) + a[m.end() :]
 
 
 def script(s):
@@ -66,9 +90,12 @@ def script(s):
             continue
         idx = CALLS[m.group(1)]
         args, end = split_args(s, m.end() - 1)
-        if m.group(1) == "Rect" and all(float(NUM.match(s[x:y]).group(1)) == 0 if NUM.match(s[x:y]) and NUM.match(s[x:y]).end() == y - x else False for x, y in args[:2]):
-            idx = ()                                      # Rect(0,0,w,h): a size, moved later with MoveRectTo
-        out.append(s[p:m.end()])
+        if m.group(1) == "Rect" and all(
+            float(NUM.match(s[x:y]).group(1)) == 0 if NUM.match(s[x:y]) and NUM.match(s[x:y]).end() == y - x else False
+            for x, y in args[:2]
+        ):
+            idx = ()  # Rect(0,0,w,h): a size, moved later with MoveRectTo
+        out.append(s[p : m.end()])
         parts = []
         for n, (a, b) in enumerate(args):
             t = s[a:b]
@@ -78,7 +105,11 @@ def script(s):
     out.append(s[p:])
     s = "".join(out)
     # gameplay.py: creep camps and zone entries
-    s = re.sub(r"(set (?:zzVL_(?:cX|cY|zEx|zEy|homeX|homeY)\[\d+\]|vl_x|vl_y)=)(-?\d[\d.]*)(?=\s|$)", lambda m: m.group(1) + scale_num(m.group(2)), s)
+    s = re.sub(
+        r"(set (?:zzVL_(?:cX|cY|zEx|zEy|homeX|homeY)\[\d+\]|vl_x|vl_y)=)(-?\d[\d.]*)(?=\s|$)",
+        lambda m: m.group(1) + scale_num(m.group(2)),
+        s,
+    )
     return s
 
 
@@ -86,9 +117,9 @@ def resample_w3e(w):
     nx, ny = round((w.mx - 1) * S) + 1, round((w.my - 1) * S) + 1
     pts = []
     for y in range(ny):
-        oy = min(w.my - 1, int(y / S + .5))
+        oy = min(w.my - 1, int(y / S + 0.5))
         for x in range(nx):
-            pts.append(bytearray(w.pt(min(w.mx - 1, int(x / S + .5)), oy)))
+            pts.append(bytearray(w.pt(min(w.mx - 1, int(x / S + 0.5)), oy)))
     w.mx, w.my, w.pts = nx, ny, pts
     w.ox, w.oy = w.ox * S, w.oy * S
 

@@ -6,26 +6,75 @@ import re
 KV_STRINGS = r"D:\kvct-dev\src\map\Units\CampaignAbilityStrings.txt"
 # VLTK hero -> KVCT class
 CLASS = {
-    "E000": "NDD", "H002": "TVD", "E001": "VDK", "E002": "TYD", "E003": "DMPT", "H00Z": "TLQ", "H014": "TND",
-    "H00A": "CBC", "H009": "CLK", "H01E": "TLD", "H01F": "TVT", "H01L": "NDC", "H01M": "DMTT", "E005": "NMC",
-    "H01P": "TNK", "H01S": "VDQ", "H01U": "CLD", "H00L": "TLB", "H00U": "DTK", "H00V": "TVC", "E006": "DMPD", "H020": "CBB", "H021": "NMK", "H022": "MGC", "H023": "MGK", "H024": "DTC", "H025": "CMC", "H026": "CMK", "H027": "HSQ", "H028": "HSK", "H029": "TDC", "H02A": "TDK", "H02B": "TYK"
+    "E000": "NDD",
+    "H002": "TVD",
+    "E001": "VDK",
+    "E002": "TYD",
+    "E003": "DMPT",
+    "H00Z": "TLQ",
+    "H014": "TND",
+    "H00A": "CBC",
+    "H009": "CLK",
+    "H01E": "TLD",
+    "H01F": "TVT",
+    "H01L": "NDC",
+    "H01M": "DMTT",
+    "E005": "NMC",
+    "H01P": "TNK",
+    "H01S": "VDQ",
+    "H01U": "CLD",
+    "H00L": "TLB",
+    "H00U": "DTK",
+    "H00V": "TVC",
+    "E006": "DMPD",
+    "H020": "CBB",
+    "H021": "NMK",
+    "H022": "MGC",
+    "H023": "MGK",
+    "H024": "DTC",
+    "H025": "CMC",
+    "H026": "CMK",
+    "H027": "HSQ",
+    "H028": "HSK",
+    "H029": "TDC",
+    "H02A": "TDK",
+    "H02B": "TYK",
 }
 # VLTK hero -> (KVCT hero model, KVCT class name)
 HERO = {
-    "E000": ("Hero_ngudocdao", "Ngũ Độc Đao"), "H002": ("Hero_thienvuongdao2", "Thiên Vương Đao"),
-    "E001": ("Hero_vodangkiem", "Võ Đang Kiếm"), "E002": ("Hero_thuyyendao", "Thúy Yên Đao"),
-    "E003": ("Hero_duongmonphitieu", "Đường Môn Phi Tiêu"), "H00Z": ("Hero_thieulamquyen", "Thiếu Lâm Quyền"),
-    "H014": ("Hero_thiennhandao", "Thiên Nhẫn Đao"), "H00A": ("Hero_caibangchuong", "Cái Bang Chưởng"),
-    "H009": ("Hero_conlonkiem", "Côn Lôn Kiếm"), "H01E": ("Hero_thieulamdao", "Thiếu Lâm Đao"),
-    "H01F": ("Hero_thienvuongthuong", "Thiên Vương Thương"), "H01L": ("Hero_ngudocchuong", "Ngũ Độc Chưởng"),
-    "H01M": ("Hero_duongmontutien", "Đường Môn Tụ Tiễn"), "E005": ("Hero_ngamychuong", "Nga My Chưởng"),
-    "H01P": ("Hero_thiennhankich", "Thiên Nhẫn Kích"), "H01S": ("Hero_vodangkhi", "Võ Đang Khí"),
-    "H01U": ("Hero_conlondao", "Côn Lôn Đao"), "H00L": ("Hero_thieulambong", "Thiếu Lâm Bổng"),
-    "H00U": ("Hero_doanthikhi", "Đoàn Thị Khí"), "H00V": ("Hero_thienvuongchuy", "Thiên Vương Chùy"),
+    "E000": ("Hero_ngudocdao", "Ngũ Độc Đao"),
+    "H002": ("Hero_thienvuongdao2", "Thiên Vương Đao"),
+    "E001": ("Hero_vodangkiem", "Võ Đang Kiếm"),
+    "E002": ("Hero_thuyyendao", "Thúy Yên Đao"),
+    "E003": ("Hero_duongmonphitieu", "Đường Môn Phi Tiêu"),
+    "H00Z": ("Hero_thieulamquyen", "Thiếu Lâm Quyền"),
+    "H014": ("Hero_thiennhandao", "Thiên Nhẫn Đao"),
+    "H00A": ("Hero_caibangchuong", "Cái Bang Chưởng"),
+    "H009": ("Hero_conlonkiem", "Côn Lôn Kiếm"),
+    "H01E": ("Hero_thieulamdao", "Thiếu Lâm Đao"),
+    "H01F": ("Hero_thienvuongthuong", "Thiên Vương Thương"),
+    "H01L": ("Hero_ngudocchuong", "Ngũ Độc Chưởng"),
+    "H01M": ("Hero_duongmontutien", "Đường Môn Tụ Tiễn"),
+    "E005": ("Hero_ngamychuong", "Nga My Chưởng"),
+    "H01P": ("Hero_thiennhankich", "Thiên Nhẫn Kích"),
+    "H01S": ("Hero_vodangkhi", "Võ Đang Khí"),
+    "H01U": ("Hero_conlondao", "Côn Lôn Đao"),
+    "H00L": ("Hero_thieulambong", "Thiếu Lâm Bổng"),
+    "H00U": ("Hero_doanthikhi", "Đoàn Thị Khí"),
+    "H00V": ("Hero_thienvuongchuy", "Thiên Vương Chùy"),
     "E006": ("Hero_duongmonphidao", "Đường Môn Phi Đao"),
-    "H020": ("Hero_caibangbong", "Cái Bang Bổng"), "H021": ("Hero_ngamykiem2", "Nga My Kiếm"),
-    "H022": ("Hero_minhgiaochuy", "Minh Giáo Chùy"), "H023": ("Hero_minhgiaokiem", "Minh Giáo Kiếm"),
-    "H024": ("Hero_doanthichi", "Đoàn Thị Chỉ"), "H025": ("Hero_comocham", "Cổ Mộ Châm"), "H026": ("Hero_comokiem", "Cổ Mộ Kiếm"), "H027": ("Hero_hoasonkhi", "Hoa Sơn Khí"), "H028": ("Hero_hoasonkiem", "Hoa Sơn Kiếm"), "H029": ("Hero_tieudaochuong", "Tiêu Dao Chưởng"), "H02A": ("Hero_tieudaokiem", "Tiêu Dao Kiếm"), "H02B": ("Hero_thuyyenkiem", "Thúy Yên Kiếm")
+    "H020": ("Hero_caibangbong", "Cái Bang Bổng"),
+    "H021": ("Hero_ngamykiem2", "Nga My Kiếm"),
+    "H022": ("Hero_minhgiaochuy", "Minh Giáo Chùy"),
+    "H023": ("Hero_minhgiaokiem", "Minh Giáo Kiếm"),
+    "H024": ("Hero_doanthichi", "Đoàn Thị Chỉ"),
+    "H025": ("Hero_comocham", "Cổ Mộ Châm"),
+    "H026": ("Hero_comokiem", "Cổ Mộ Kiếm"),
+    "H027": ("Hero_hoasonkhi", "Hoa Sơn Khí"),
+    "H028": ("Hero_hoasonkiem", "Hoa Sơn Kiếm"),
+    "H029": ("Hero_tieudaochuong", "Tiêu Dao Chưởng"),
+    "H02A": ("Hero_tieudaokiem", "Tiêu Dao Kiếm"),
+    "H02B": ("Hero_thuyyenkiem", "Thúy Yên Kiếm"),
 }
 # templates: 1 strike (target unit), 2 cone (point, in front), 3 dash (point), 4 nova (around self),
 # 5 lance (point, long line), 6 self buff, 7 party buff, 8 cleanse (immune to control), 0 passive
@@ -96,14 +145,58 @@ def numbers(tip):
         st, chance, sdur = 3, 25, 1
     elif st == 0 and re.search(r"(gây|khiến)[^.]{0,20}(chậm|đóng băng|băng phong)|làm chậm", t):
         st, chance, sdur = 4, 35, 2
-    return {"fx": fx, "hits": int(hits.group(1)) if hits else 1, "cd": int(cd.group(1)) if cd else 0,
-            "dur": int(dur.group(1)) if dur else 0, "status": st, "chance": chance, "sdur": sdur}
+    return {
+        "fx": fx,
+        "hits": int(hits.group(1)) if hits else 1,
+        "cd": int(cd.group(1)) if cd else 0,
+        "dur": int(dur.group(1)) if dur else 0,
+        "status": st,
+        "chance": chance,
+        "sdur": sdur,
+    }
 
 
+# Q W E keys of a class that are skills to press (not autocast): Con Lon Kiem Q autocasts on attacks, W E are cast by hand;
+# Thien Nhan Dao / Kich W is cast by hand (user's request, 06/10/2026)
+MANUAL_QWE = {"CLK": ("W", "E"), "TND": ("W",), "TNK": ("W",)}
 KV_SCRIPT = r"D:\kvct-dev\work\readable.j"
 # classes checked against KVCT's code (kskill.py OVR is complete for them): their skill list is KVCT's own class
 # table (slots 1..14, shared skills included), not the skills named after the class
-KV_ORDER = {"NDD", "TVD", "VDK", "TYD", "DMPT", "TLQ", "TND", "CBC", "CLK", "TLD", "TVT", "NDC", "DMTT", "NMC", "TNK", "VDQ", "CLD"}
+KV_ORDER = {
+    "NDD",
+    "TVD",
+    "VDK",
+    "TYD",
+    "DMPT",
+    "TLQ",
+    "TND",
+    "CBC",
+    "CLK",
+    "TLD",
+    "TVT",
+    "NDC",
+    "DMTT",
+    "NMC",
+    "TNK",
+    "VDQ",
+    "CLD",
+    "TLB",
+    "DTK",
+    "TVC",
+    "DMPD",
+    "CBB",
+    "NMK",
+    "MGC",
+    "MGK",
+    "DTC",
+    "CMC",
+    "CMK",
+    "HSQ",
+    "HSK",
+    "TDC",
+    "TDK",
+    "TYK",
+}
 
 
 def kv_table():
@@ -132,10 +225,21 @@ def load():
         tip = plain(f.get("Researchubertip", ""))
         name = plain(f.get("Researchtip", ""))
         hk = re.search(r"\((\w)\)\s*$", name)
-        out.setdefault(m.group(1), []).append({
-            "kv": a.group(1), "n": int(m.group(2)), "name": re.sub(r"\s*\(\w\)\s*$", "", name).strip(),
-            "key": hk.group(1) if hk else "", "order": f.get("Order", "").strip(), "anim": f.get("Animnames", "spell").strip() or "spell", "icon": f.get("Art", "").split(",")[0], "tip": tip, "raw": f.get("Researchubertip", "").strip().strip('"'),
-            "kind": kind_of(tip), **numbers(tip)})
+        out.setdefault(m.group(1), []).append(
+            {
+                "kv": a.group(1),
+                "n": int(m.group(2)),
+                "name": re.sub(r"\s*\(\w\)\s*$", "", name).strip(),
+                "key": hk.group(1) if hk else "",
+                "order": f.get("Order", "").strip(),
+                "anim": f.get("Animnames", "spell").strip() or "spell",
+                "icon": f.get("Art", "").split(",")[0],
+                "tip": tip,
+                "raw": f.get("Researchubertip", "").strip().strip('"'),
+                "kind": kind_of(tip),
+                **numbers(tip),
+            }
+        )
     for v in out.values():
         v.sort(key=lambda s: s["n"])
     if KV_ORDER:
@@ -149,6 +253,7 @@ def load():
 if __name__ == "__main__":
     data = load()
     import collections
+
     c = collections.Counter()
     for h, cl in CLASS.items():
         sk = data.get(cl, [])
