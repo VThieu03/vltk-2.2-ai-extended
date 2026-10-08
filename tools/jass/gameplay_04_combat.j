@@ -15,7 +15,6 @@ function zzVL_Tick takes nothing returns nothing
     local unit vl_hero
     local item vl_item
     local real vl_xg
-    call zzVL_Log("tick "+I2S(GetPlayerState(Player(0),PLAYER_STATE_RESOURCE_GOLD)))
     loop
         exitwhen vl_playerId>9
         set vl_hero=Jx[vl_playerId+1]
@@ -125,6 +124,11 @@ endfunction
 function zzVL_WeaponHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boolean vl_atk returns nothing
     local timer vl_tm
     if (zzVL_wel[vl_ps]==2 or zzVL_wel[vl_ps]==5) and vl_atk and GetWidgetLife(vl_t)>.405 then
+        // không cộng dồn: mỗi mục tiêu chỉ 1 timer độc của vũ khí (trước đây mỗi đòn đánh 1 timer)
+        if TimerGetElapsed(zzVL_clock)<zzUS_Real(GetHandleId(vl_t),zzUS_WEAPON_POISON_END()) then
+            return
+        endif
+        call zzUS_SetReal(GetHandleId(vl_t),zzUS_WEAPON_POISON_END(),TimerGetElapsed(zzVL_clock)+5.)
         set vl_tm=CreateTimer()
         if zzVL_wel[vl_ps]==5 then
             call SaveInteger(zzVL_ht,GetHandleId(vl_tm),4,1)
