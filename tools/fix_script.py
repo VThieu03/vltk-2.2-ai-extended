@@ -114,3 +114,15 @@ for k in range(i, j):
 assert n == 2, n
 open(P, "wb").write(nl.join(lines).encode("utf-8"))
 print("hero revive time by level: %d waits" % n)
+
+# Keep the author's score bookkeeping for rewards, but let the per-team
+# zzVL_teamK counters be the only source for victory and hide the old board.
+s = open(P, "rb").read().decode("utf-8")
+for old in ("return(ro[$B]>=Do)", "return(ro[$C]>=Do)"):
+    assert s.count(old) == 1, old
+    s = s.replace(old, "return false")
+old = "call MultiboardDisplay(bj_lastCreatedMultiboard,true)"
+assert s.count(old) == 1, old
+s = s.replace(old, "call MultiboardDisplay(bj_lastCreatedMultiboard,false)")
+open(P, "wb").write(s.encode("utf-8"))
+print("legacy victory disabled; legacy multiboard hidden")

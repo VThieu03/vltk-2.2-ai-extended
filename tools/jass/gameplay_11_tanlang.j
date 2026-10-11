@@ -85,7 +85,7 @@ function zzTL_Cast takes nothing returns nothing
     if LoadInteger(zzVL_ht,'n0TL',3)==0 and GetWidgetLife(vl_b)<GetUnitState(vl_b,UNIT_STATE_MAX_LIFE)*.5 then
         call SaveInteger(zzVL_ht,'n0TL',3,1)
         call BlzSetUnitBaseDamage(vl_b,R2I(I2R(BlzGetUnitBaseDamage(vl_b,0))*1.3),0)
-        call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\BienThan_tanthuyhoang.mdx",vl_b,"origin"))
+        call DestroyEffect(AddSpecialEffectTarget("VLTK_data\\war3mapImported\\BienThan_tanthuyhoang.mdx",vl_b,"origin"))
         call zzVL_All("|cffffcc07Tần Thủy Hoàng|r nổi giận, hóa thân Chân Long! Sát thương tăng 30%.")
         call TimerStart(vl_t,3.5,true,function zzTL_Cast)
     endif
@@ -267,9 +267,11 @@ function zzTL_OnDeath takes nothing returns nothing
     call SaveInteger(zzVL_ht,'n0TL',2,R2I(TimerGetElapsed(zzVL_clock)/60.)+zzTL_Interval())
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",vl_x,vl_y))
     call PingMinimapEx(vl_x,vl_y,5.,255,200,0,true)
+    // Tần Lăng Hòa Thị Bích: nguyên liệu mua vũ khí Tần Lăng (gameplay_10_shop.j)
+    call CreateItem('ITHB',vl_x,vl_y)
     if vl_pk>=0 and vl_pk<=9 then
         call zzDR_DropKind(4,vl_x,vl_y,Jx[vl_pk+1])
-        call zzVL_All(zzVL_Name(vl_pk)+" đã hạ |cffffcc07Tần Thủy Hoàng|r! Bảo thạch và Huyền Tinh đã rơi.")
+        call zzVL_All(zzVL_Name(vl_pk)+" đã hạ |cffffcc07Tần Thủy Hoàng|r! |cffffcc00Tần Lăng Hòa Thị Bích|r và trang bị đã rơi.")
         loop
             exitwhen vl_i>9
             if IsPlayerAlly(Player(vl_i),Player(vl_pk)) then

@@ -227,6 +227,54 @@ function zzDR_RollAffixMin takes item vl_it,integer vl_min returns nothing
     endloop
 endfunction
 
+// Vầng sáng dưới trang bị rơi, màu theo phẩm chất (trắng thường, xanh tốt, tím tuyệt, vàng huyền thoại) để nhìn từ xa
+// biết là đồ rơi và đồ xịn. Mỗi 0.5 giây kiểm tra: món đã được nhặt / mất / ẩn thì xóa vầng sáng.
+function zzDR_GlowTick takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local item vl_it=LoadItemHandle(zzVL_ht,vl_id,0)
+    // đồ nằm đất quá DROP_EXPIRE_SECONDS không ai nhặt thì tự xóa
+    call SaveReal(zzVL_ht,vl_id,2,LoadReal(zzVL_ht,vl_id,2)+.5)
+    if vl_it!=null and GetItemTypeId(vl_it)!=0 and not IsItemOwned(vl_it) and LoadReal(zzVL_ht,vl_id,2)>=zzCF_DROP_EXPIRE_SECONDS() then
+        call FlushChildHashtable(zzVL_ht,GetHandleId(vl_it))
+        call RemoveSavedBoolean(zzVL_ht,GetHandleId(vl_it),900)
+        call RemoveItem(vl_it)
+        set vl_it=null
+    endif
+    if vl_it==null or GetItemTypeId(vl_it)==0 or IsItemOwned(vl_it) or not IsItemVisible(vl_it) or GetWidgetLife(vl_it)<=0. then
+        if vl_it!=null then
+            call RemoveSavedBoolean(zzVL_ht,GetHandleId(vl_it),900)
+        endif
+        call DestroyEffect(LoadEffectHandle(zzVL_ht,vl_id,1))
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_it=null
+endfunction
+
+function zzDR_Glow takes item vl_it returns nothing
+    local integer vl_q=zzIT_Get(GetHandleId(vl_it),zzIT_PHAM_CHAT())
+    local effect vl_e=AddSpecialEffect(zzCF_DROP_GLOW_MODEL(),GetItemX(vl_it),GetItemY(vl_it))
+    local timer vl_t=CreateTimer()
+    call SaveBoolean(zzVL_ht,GetHandleId(vl_it),900,true)
+    call BlzSetSpecialEffectScale(vl_e,zzCF_DROP_GLOW_SCALE())
+    if vl_q==4 then
+        call BlzSetSpecialEffectColor(vl_e,255,200,0)
+    elseif vl_q==3 then
+        call BlzSetSpecialEffectColor(vl_e,190,70,255)
+    elseif vl_q==2 then
+        call BlzSetSpecialEffectColor(vl_e,60,140,255)
+    else
+        call BlzSetSpecialEffectColor(vl_e,255,255,255)
+    endif
+    call SaveItemHandle(zzVL_ht,GetHandleId(vl_t),0,vl_it)
+    call SaveEffectHandle(zzVL_ht,GetHandleId(vl_t),1,vl_e)
+    call TimerStart(vl_t,.5,true,function zzDR_GlowTick)
+    set vl_e=null
+    set vl_t=null
+endfunction
+
 // Tạo một phôi KVCT +0, lăn chỉ số/phẩm chất ngay khi rơi để màu đã đúng trên mặt đất.
 function zzDR_MakeOne takes integer vl_kind,real vl_x,real vl_y,unit vl_hero returns nothing
     local integer vl_code=zzDR_PickCode(vl_hero)
@@ -234,14 +282,17 @@ function zzDR_MakeOne takes integer vl_kind,real vl_x,real vl_y,unit vl_hero ret
     if vl_it==null then
         return
     endif
+    // handle id của món đã xóa được game dùng lại: xóa dữ liệu cũ (số lỗ khảm 3000, đá, cờ 29 đã roll...) để đồ mới sạch, lỗ khảm = 0
+    call FlushChildHashtable(zzVL_ht,GetHandleId(vl_it))
     // Giữ model/icon của chính món KVCT nhưng thu gọn vật thể trên mặt đất.
-    call BlzSetItemRealField(vl_it,ITEM_RF_SCALING_VALUE,.35)
+    call BlzSetItemRealField(vl_it,ITEM_RF_SCALING_VALUE,zzCF_DROP_ITEM_SCALE())
     // khóa 73: đồ rơi từ quái, cho phép tự mặc / tự bán (giống hệ cũ).
     call zzIT_Set(GetHandleId(vl_it),zzIT_MOI_ROI(),1)
     call zzVL_RollAffix(vl_it)
     call zzVL_TaiPhu(vl_it)
     call zzIT_Set(GetHandleId(vl_it),zzIT_PHAM_CHAT(),zzDR_Quality(vl_it))
     call zzEQ_SetTier(vl_it,0)
+    call zzDR_Glow(vl_it)
     set vl_it=null
 endfunction
 

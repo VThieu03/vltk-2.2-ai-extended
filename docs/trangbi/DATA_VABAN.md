@@ -9,7 +9,7 @@ Chỗ sửa: sau dòng `files = sorted([...])` thêm
              "gameplay_10_shop.j", "gameplay_11_tanlang.j"]
     files = [f for f in order if f in files] + [f for f in files if f not in order]
 
-## 2. Bước pipeline mới (scratchpad/run_pipeline.py)
+## 2. Bước pipeline mới (tools/pipeline.py)
 Chèn "kvequip.py" SAU "describe.py" và TRƯỚC "icons.py" (cần war3map.j đã có zzVL_Items; ghi thẳng hàm zzEQ_Items vào war3map.j).
 
 ## 3. Vũ khí khởi đầu đúng phái (tools/jass/gameplay_03_tranphai.j, zzVL_TpTick) - khuyến nghị

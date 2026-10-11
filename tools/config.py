@@ -2,7 +2,7 @@
 # TỆP CẤU HÌNH THÔNG SỐ (CONFIG) - VÕ LÂM TRUYỀN KỲ v2.2 AI EXTENDED
 # ==============================================================================
 # Hướng dẫn: Bạn có thể thay đổi các giá trị số ở dưới đây, sau đó lưu file lại
-# và chạy lệnh `python scratchpad/run_pipeline_noui.py` để áp dụng vào map.
+# và chạy lệnh `python tools/pipeline.py --no-ui` để áp dụng vào map.
 # ==============================================================================
 
 # ---------------------------------------------------------
@@ -12,7 +12,7 @@
 # Bản gốc level max là 40, bản này là 200. Để game cân bằng, chỉ số tăng mỗi cấp bị chia cho 5.
 # Nếu bạn muốn nhân vật lên cấp được cộng nhiều điểm thuộc tính (Str, Agi, Int) hơn, hãy giảm số này.
 # Ví dụ: HERO_STAT_DIVIDER = 2 (nhân vật sẽ cực kỳ mạnh khi max cấp).
-HERO_STAT_DIVIDER = 5
+HERO_STAT_DIVIDER = 2
 
 # ---------------------------------------------------------
 # 2. THỜI GIAN VÀ SỰ KIỆN (EVENTS & BOSSES)
@@ -24,10 +24,10 @@ BOSS_FIRST_SPAWN_MINUTE = 7
 MC_FIRST_SPAWN_MINUTE = 18
 
 # Điều kiện thắng mạng (chế độ -win): Số mạng cần hạ gục để kết thúc trận đấu.
-WIN_KILLS_REQUIRED = 150
+WIN_KILLS_REQUIRED = 200
 
 # Hệ số Scale kích cỡ (phóng to) của Boss Tuyệt Đại Cao Thủ và Võ Lâm Minh Chủ
-BOSS_SCALE_FACTOR = 5.0
+BOSS_SCALE_FACTOR = 2.5
 
 # ---------------------------------------------------------
 # 3. HỆ THỐNG RỚT ĐỒ (DROP SYSTEM)
@@ -46,7 +46,7 @@ BOSS_DROP_MAX_TIER = 5
 # Giá trị mặc định = tầm hiện tại của tướng gốc (nhóm đánh xa: Phi Tiêu, Tụ Tiễn, Phi Đao, Cổ Mộ Châm, Đoàn Thị Chỉ
 # nâng lên; các phái dùng khung Huyết Pháp Sư gốc đang có sẵn 600).
 HERO_ATTACK_RANGE = {
-    "NDD": 500, "TVD": 100, "VDK": 100, "TYD": 200, "TLQ": 100, "CBC": 500, "TLD": 500, "TVT": 100,
+    "NDD": 500, "TVD": 100, "VDK": 100, "TYD": 100, "TLQ": 100, "CBC": 500, "TLD": 500, "TVT": 100,
     "TNK": 100, "TLB": 100, "TVC": 100, "CBB": 500, "NMK": 500, "MGC": 100, "MGK": 500, "CMK": 100,
     "HSK": 100, "TDC": 500, "TDK": 100, "TYK": 500,
     "DMPT": 500, "DMTT": 500, "DMPD": 500, "NMC": 500, "CMC": 500, "DTC": 100, "HSQ": 500,
@@ -75,14 +75,14 @@ SKILL_VFX_SCALE_PERCENT = 100
 STATUS_VFX = {
     2: ("Effect_dinhthan.mdx", 0),     # định thân: BoundBuff.blp (dây trói)
     4: ("Effect_dongbang.mdx", 0),     # làm chậm: Ice3b.blp, AZ_Crack28.blp (băng)
-    5: ("Effect_fire2.mdx", 1.8),      # bỏng: Lords0000-0007.blp, LavaLump2.blp (lửa)
+    5: ("Effect_fire2.mdx", 1),      # bỏng: Lords0000-0007.blp, LavaLump2.blp (lửa)
 }
 
 # ---------------------------------------------------------
 # 7. ĐẠN BAY CỦA ĐÒN ĐÁNH THƯỜNG (ATTACK PROJECTILE)
 # ---------------------------------------------------------
 # Tốc độ đạn mặc định cho mọi phái (900 = nhìn rõ đạn bay, 1500 = gần như tức thì):
-ATTACK_PROJECTILE_SPEED = 900
+ATTACK_PROJECTILE_SPEED = 700
 # Hiệu ứng bay từ tướng tới mục tiêu mỗi đòn đánh thường: ("tên model.mdx",) dùng tốc độ mặc định ở trên; muốn phái nào bay nhanh / chậm
 # riêng thì ghi thêm số sau tên model: ("tên model.mdx", 1200) và số đó được áp dụng cho phái ấy. ("",) = không có đạn (đánh trúng ngay). Model là file trong war3mapImported (model KVCT của phái,
 # xem danh mục trong tools/kvfx/hand/<PHÁI>.py). Nên chọn model kiểu "đạn" (có chuyển động, có đoạn Death), không dùng model buff / aura.
@@ -167,9 +167,9 @@ GLASS_VALUE_NORMAL = 1
 GLASS_VALUE_ELITE = 3
 GLASS_VALUE_LEADER = 5
 GLASS_VALUE_BOSS_MIN = 6
-GLASS_VALUE_BOSS_MAX = 7
-GLASS_VALUE_SPECIAL_BOSS_MIN = 8
-GLASS_VALUE_SPECIAL_BOSS_MAX = 10
+GLASS_VALUE_BOSS_MAX = 10
+GLASS_VALUE_SPECIAL_BOSS_MIN = 10
+GLASS_VALUE_SPECIAL_BOSS_MAX = 15
 # +1..+10; no downgrade. Failure consumes points and adds item-specific pity.
 GLASS_ENHANCE_COST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 GLASS_SUCCESS_RATE = [100] * 10
@@ -181,8 +181,8 @@ GLASS_PITY_REQUIRED = [0, 0, 1, 1, 2, 2, 3, 4, 5, 6]
 # Loại quái: 0 = quái thường, 1 = Tinh Anh, 2 = Thủ Lĩnh, 3 = Boss (Hoàng Kim, Tần Thủy Hoàng...).
 # Mỗi lần giết: GD_CHANCE_PCT[loại] % rơi GD_COUNT[loại] viên; mỗi viên loại (1..6) và bậc ngẫu nhiên trong GD_TIERS[loại].
 GD_ENABLED = 1
-GD_TIERS = {0: (1, 3), 1: (4, 6), 2: (4, 6), 3: (7, 9)}   # (bậc thấp nhất, bậc cao nhất)
-GD_CHANCE_PCT = {0: 12, 1: 60, 2: 80, 3: 100}               # tỉ lệ rơi % mỗi lần giết
+GD_TIERS = {0: (1, 3), 1: (4, 6), 2: (6, 7), 3: (7, 9)}   # (bậc thấp nhất, bậc cao nhất)
+GD_CHANCE_PCT = {0: 24, 1: 60, 2: 80, 3: 100}               # tỉ lệ rơi % mỗi lần giết
 GD_COUNT = {0: 1, 1: 1, 2: 1, 3: 2}                        # số viên mỗi lần rơi
 
 # ---------------------------------------------------------
@@ -267,14 +267,39 @@ CLASS_PHE = {
     "TDC": "noi",    # Tiêu Dao Chưởng
     "TDK": "ngoai",  # Tiêu Dao Kiếm
 }
-# Sức mạnh đòn kỹ năng = % sát thương vũ khí + hệ số × Sức mạnh / Thân pháp / Nội công (số thập phân được).
-#                 (% vũ khí, Sức mạnh, Thân pháp, Nội công)
+# Sức mạnh đòn kỹ năng = % sát thương vũ khí + hệ số × Sức mạnh / Thân pháp / Nội công + hệ số × Nội lực tối đa
+# (tất cả cộng thẳng vào sát thương kỹ năng; số thập phân được).
+#                 (% vũ khí, Sức mạnh, Thân pháp, Nội công, % Nội lực tối đa)
+# Phái "noi" dùng Nội lực tối đa (Nội lực = nội lực tối đa, cộng bởi dòng trang bị "Nội lực +X" / nội công / cấp) làm
+# nguồn sức mạnh kỹ năng, giống phái "ngoai" dùng Sức mạnh: 20% Nội lực tối đa cộng thẳng vào mỗi đòn kỹ năng. Phái
+# "ngoai" không có nội lực để đánh (0%). Kỹ năng không tốn nội lực (map không trừ mana khi tung chiêu), nên trước đây
+# "Nội lực" trên trang bị không có tác dụng gì với phái nội công; giờ nó trực tiếp cộng sát thương kỹ năng.
 PHE_SKILL_SCALE = {
-    "ngoai": (100, 1.0, 0.5, 0.5),
-    "noi":   (100,  1.0, 0.5, 0.5),
+    "ngoai": (100, 1.0, 0.5, 0.5, 0.0),
+    "noi":   (100, 1.0, 0.5, 0.5, 20.0),
 }
 # Né tránh nội công gốc = Nội công × hệ số này (né tránh ngoại công gốc vẫn = Thân pháp / 2), cộng dòng "né tránh" trang bị.
 PHE_DODGE_NOI_PER_INT = 0.5
+
+# Lên cấp cộng chỉ số gì theo hệ (lvl200.py ghi đè ustp/uagp/uinp "mỗi cấp" của tác giả gốc, thay vì chia theo
+# HERO_STAT_DIVIDER như trước): ngoại công lên Sức mạnh + Thân pháp, nội công lên Nội công.
+#                (Sức mạnh/cấp, Thân pháp/cấp, Nội công/cấp)
+PHE_LEVEL_GROWTH = {
+    "ngoai": (0.4, 0.4, 0.2),
+    "noi":   (0.4, 0.2, 0.4),
+}
+# Sinh lực nội công cộng thêm mỗi cấp (WC3 không có "sinh lực mỗi cấp" riêng, sinh lực gốc chỉ tăng theo Sức mạnh;
+# ngoại công đã có sinh lực tăng gián tiếp qua Sức mạnh ở trên, ~0.3 x 25 máu/Sức mạnh ~ 7.5 máu/cấp, nên đặt mốc này
+# tương đương để không chênh lệch máu gốc giữa hai hệ). gameplay_08_ui.j zzVL_HeroTick cộng qua ability 'AIl1'
+# (Item Life Bonus) gắn thẳng vào tướng nội công, không qua Sức mạnh nên không ăn vào sát thương kỹ năng (PHE_SKILL_SCALE).
+PHE_HP_PER_LEVEL_NOI = 8.0
+
+# Trần tốc đánh (đòn/giây) theo hệ, dù cộng dồn tốc đánh % tới đâu cũng không vượt (10/10/2026, User: hiện tại tốc
+# đánh làm chiêu ra quá nhanh; "1.0" = 1 giây 1 đòn). Phái nào thuộc hệ nào xem config.py mục 15 CLASS_PHE.
+PHE_ATTACK_SPEED_CAP = {
+    "ngoai": 2.0,
+    "noi": 2.0,
+}
 #Sửa xong thì chạy python tools/pipeline.py.
 
 # ---------------------------------------------------------
@@ -298,6 +323,7 @@ EQUIP_UI = {
 # ---------------------------------------------------------
 # Đổi số ở đây rồi build lại, không cần sửa JASS. Ghi số thập phân có dấu chấm (1.0, không ghi 1) cho thông số dạng real.
 GAME = {
+    "TANLANG_WEAPON_GOLD": TANLANG_WEAPON_GOLD,
     # --- Sát thương kỹ năng KVCT (tools/kskill.j zzKS_Hit):
     #     sức mạnh đòn × (GOC + MOI_BAC × bậc) × (1 + NHIEU_DON × (số đòn - 1)) / số đòn + CONG_MOI_BAC × bậc
     "SKILL_DMG_GOC": 0.9,
@@ -309,7 +335,19 @@ GAME = {
     "KHINH_CONG_DISTANCE": 420.0,   # quãng lướt theo hướng tướng đang quay
     "KHINH_CONG_TIME": 0.375,       # thời gian lướt (giây)
     "KHINH_CONG_IMMUNE": 0.45,      # miễn sát thương trong lúc lướt và 0.075 giây đệm
-    "KHINH_CONG_COOLDOWN": 4.0,    # hồi chiêu khinh công
+    "KHINH_CONG_COOLDOWN": 5.0,    # hồi chiêu khinh công
+    "DROP_GLOW_MODEL": r"UI\\Feedback\\SelectionCircle\\SelectionCircle.mdl",   # vòng tròn mỏng nằm phẳng dưới đồ rơi (không che món), tô màu theo phẩm chất (\\ vì chuỗi ghi thẳng vào JASS)
+    "DROP_GLOW_SCALE": 0.75,
+    "DROP_ITEM_SCALE": 1.0,
+    "DROP_EXPIRE_SECONDS": 60.0,   # mọi đồ nằm trên đất không ai nhặt sau 1 phút tự xóa
+    "KILL_XP_BASE": 90,              # kinh nghiệm thưởng thêm mỗi quái (bãi mới và map chính)
+    "KILL_XP_PER_CAMP_LEVEL": 30,    # cộng theo cấp quái map chính / mốc cấp bãi mới
+    "SKILL_STAT_PER_POINT": 10,       # học đủ 130 bậc võ công rồi: mỗi cấp tướng sau đó +3 thuộc tính chính
+    "KILL_XP_ELITE_MUL": 3,          # Tinh Anh x3
+    "KILL_XP_LEADER_MUL": 8,         # Thủ Lĩnh x8
+    "XP_HANDICAP": 2.0,              # hệ số kinh nghiệm cố định (trước đây tự đổi 0.25-15 theo nhịp thời gian, đã bỏ)
+    "CATCHUP_MINUTES": 5.0,         # mỗi bấy nhiêu phút: kéo tướng tụt cấp lên trung bình cấp 5 tướng thấp nhất
+    "CATCHUP_GOLD": 10000,            # tướng không cần kéo cấp thì nhận vàng          # cỡ hình túi đồ rơi trên đất
     "CAP_KY_NANG_PCT": 10.0,        # mỗi "cấp kỹ năng +1" trên trang bị: +% sát thương kỹ năng
     # --- Kháng, né, đánh trúng (gameplay_04_combat.j)
     "KHANG_TOI_DA": 80,             # kháng ngũ hành tối đa %
@@ -320,7 +358,7 @@ GAME = {
     "BI_THUONG_NHAN": 1.15,         # bị thương (fx 512): nhân sát thương nhận
     "BONG_NHAN": 1.5,               # bỏng: nhân sát thương nhận
     "SUY_YEU_TOI_DA": 20,           # suy yếu: giảm sát thương gây ra tối đa %
-    "NGU_HANH_VU_KHI_NHAN": 1.08,   # vũ khí có ngũ hành: nhân sát thương
+    "NGU_HANH_VU_KHI_NHAN": 1.2,   # vũ khí có ngũ hành: nhân sát thương
     # --- Bộ ngũ hành (hệ của tướng, theo cấp bộ)
     "KIM_SAT_THUONG_MOI_CAP": 0.05, # Kim: +sát thương mỗi cấp bộ
     "KIM_CHOANG_PCT_MOI_CAP": 2,    # Kim: tỉ lệ choáng % mỗi cấp
@@ -335,28 +373,28 @@ GAME = {
     "THO_PHAN_CHAN_MOI_CAP": 0.02,  # Thổ: trả lại sát thương mỗi cấp
     "THO_PHAN_CHAN_HOI": 0.3,       # Thổ: giãn cách phản chấn (giây)
     "QUAN_HAM_SAT_THUONG": 0.0125,  # mỗi bậc QUAN ẤN (8 bậc): +sát thương (8 bậc x 1.25% = 10%)
-    "CLOAK_DEF_PER_TIER": 4,        # phi phong: mỗi bậc cộng phòng thủ
-    "CLOAK_STAT_PER_TIER": 1,       # phi phong: mỗi bậc cộng Sức mạnh / Thân pháp / Nội công
-    "CLOAK_HP_PER_TIER": 200,       # phi phong: mỗi bậc cộng sinh lực
+    "CLOAK_DEF_PER_TIER": 10,        # phi phong: mỗi bậc cộng phòng thủ
+    "CLOAK_STAT_PER_TIER": 10,       # phi phong: mỗi bậc cộng Sức mạnh / Thân pháp / Nội công
+    "CLOAK_HP_PER_TIER": 2000,       # phi phong: mỗi bậc cộng sinh lực
     # --- Khung mô tả vật phẩm khi rê chuột (hành trang / nhân vật): rộng, cao mỗi dòng chữ, số ký tự mỗi dòng (để tính cao khung)
     "TIP_WIDTH": 0.30,
     "TIP_LINE_H": 0.0082,
     "TIP_CHARS": 56,
     # --- Thời gian HỒI SINH của tướng theo cấp tướng lúc chết (giây): cấp <= LV1 hồi T1, <= LV2 hồi T2, <= LV3 hồi T3, còn lại T4
-    "REVIVE_LV1": 50,
-    "REVIVE_LV2": 100,
-    "REVIVE_LV3": 150,
-    "REVIVE_T1": 5.0,
-    "REVIVE_T2": 7.0,
-    "REVIVE_T3": 8.0,
-    "REVIVE_T4": 10.0,
+    "REVIVE_LV1": 1,
+    "REVIVE_LV2": 50,
+    "REVIVE_LV3": 100,
+    "REVIVE_T1": 10.0,
+    "REVIVE_T2": 12.0,
+    "REVIVE_T3": 14.0,
+    "REVIVE_T4": 16.0,
     # --- Hành trang (phím B): số ô (tối đa 99), số cột, góc trên-trái và bề rộng khung (tọa độ màn hình 0..0.8 x 0..0.6).
     #     Ô được chia đều trong khung; chiều cao khung tự tính theo số hàng. Khung gốc rộng 0.31; hiện dùng 85% = 0.2635.
     "BAG_SLOTS": 60,
     "BAG_COLS": 10,
-    "BAG_X": 0.475,
+    "BAG_X": 0.4223,      # túi đồ to thêm 20%: giữ nguyên mép phải (0.7385)
     "BAG_Y": 0.565,
-    "BAG_W": 0.2635,
+    "BAG_W": 0.3162,      # 0.2635 x 1.2
     # --- Bộ ngũ hành (đủ 10 ô trang bị): cấp bộ = món thấp nhất; món KVCT +0 = cấp 1, từ bậc dưới đây lên cấp 2..5
     "BO_CAP2_TU_BAC": 1,
     "BO_CAP3_TU_BAC": 4,
@@ -375,30 +413,40 @@ GAME = {
 #   - Quan ấn: chức quan hiện trước tên tướng, mỗi bậc cộng sát thương (QUAN_HAM_SAT_THUONG trong GAME).
 # Mỗi dòng: (mã màu RRGGBB, tên, [tên phi phong đầy đủ của KVCT], công trạng cần). Muốn lên bậc nhanh / chậm hơn: sửa số cuối.
 PHI_PHONG = [
-    ("7fff00", "Siêu Phàm",  "Phi Phong Siêu Phàm Hi Ký",          30),
-    ("0078d7", "Xuất Trần",  "Phi Phong Xuất Trần Kinh Hồng",      80),
-    ("9370db", "Lăng Tuyệt", "Phi Phong Lăng Tuyệt Vụ Ảnh",       150),
-    ("9370db", "Kinh Thế",   "Phi Phong Kinh Thế Độc Vũ",         250),
-    ("ffa500", "Ngự Không",  "Phi Phong Ngự Không Phùng Hư",      400),
-    ("ffa500", "Hỗn Thiên",  "Phi Phong Hỗn Thiên Trấn Nguyên",   600),
-    ("ffa500", "Sồ Phượng",  "Phi Phong Sồ Phượng Linh Vũ",       850),
-    ("ffa500", "Tiềm Long",  "Phi Phong Tiềm Long Ngâm Uyên",    1150),
-    ("ffff00", "Chí Tôn",    "Phi Phong Chí Tôn Truyền Thuyết",  1500),
-    ("ffff00", "Vô Song",    "Phi Phong Vô Song Vương Giả",      1950),
-    ("ffff00", "Đại Thánh",  "Phi Phong Huyền Tinh Đại Thánh",   2500),
-    ("ffff00", "Siêu Thần",  "Siêu Thần Nhật Tuyệt Nhẫn",        3200),
-    ("ffff00", "Trấn Thiên", "Phi Phong Trấn Thiên Vương",       4000),
-    ("ffff00", "Phong Vân",  "Phi Phong Phong Vân Vương Giả",    5000),
-    ("ffff00", "Thần Thoại", "Phi Phong Thần Thoại Vương Giả",   6200),
+    ("7fff00", "Siêu Phàm",  "Phi Phong Siêu Phàm Hi Ký",          60),
+    ("0078d7", "Xuất Trần",  "Phi Phong Xuất Trần Kinh Hồng",      160),
+    ("9370db", "Lăng Tuyệt", "Phi Phong Lăng Tuyệt Vụ Ảnh",       300),
+    ("9370db", "Kinh Thế",   "Phi Phong Kinh Thế Độc Vũ",         500),
+    ("ffa500", "Ngự Không",  "Phi Phong Ngự Không Phùng Hư",      800),
+    ("ffa500", "Hỗn Thiên",  "Phi Phong Hỗn Thiên Trấn Nguyên",   1200),
+    ("ffa500", "Sồ Phượng",  "Phi Phong Sồ Phượng Linh Vũ",       1900),
+    ("ffa500", "Tiềm Long",  "Phi Phong Tiềm Long Ngâm Uyên",    2300),
+    ("ffff00", "Chí Tôn",    "Phi Phong Chí Tôn Truyền Thuyết",  3000),
+    ("ffff00", "Vô Song",    "Phi Phong Vô Song Vương Giả",      4000),
+    ("ffff00", "Đại Thánh",  "Phi Phong Huyền Tinh Đại Thánh",   5000),
+    ("ffff00", "Siêu Thần",  "Siêu Thần Nhật Tuyệt Nhẫn",        6400),
+    ("ffff00", "Trấn Thiên", "Phi Phong Trấn Thiên Vương",       8000),
+    ("ffff00", "Phong Vân",  "Phi Phong Phong Vân Vương Giả",    100000),
+    ("ffff00", "Thần Thoại", "Phi Phong Thần Thoại Vương Giả",   120000),
 ]
 # Quan ấn (KVCT: Trí Sự ... Hoàng Đế): (mã màu, tên, công trạng cần)
 QUAN_AN = [
-    ("0078d7", "Trí Sự",     40),
-    ("9370db", "Tư Mã",     120),
-    ("ffa500", "Thái Thú",  250),
-    ("ffa500", "Thiếu Khanh", 450),
-    ("ffa500", "Thượng Khanh", 750),
-    ("ffa500", "Quốc Công", 1200),
-    ("ffff00", "Thừa Tướng", 2000),
-    ("ffff00", "Hoàng Đế",  3500),
+    ("0078d7", "Trí Sự",     80),
+    ("9370db", "Tư Mã",     240),
+    ("ffa500", "Thái Thú",  500),
+    ("ffa500", "Thiếu Khanh", 900),
+    ("ffa500", "Thượng Khanh", 1500),
+    ("ffa500", "Quốc Công", 2400),
+    ("ffff00", "Thừa Tướng", 4000),
+    ("ffff00", "Hoàng Đế",  7000),
 ]
+
+# Hồi chiêu TỐI THIỂU (giây) cho chiêu chủ động theo phím (kskill.py): KVCT gốc lâu hơn thì giữ KVCT.
+# Áp cho mọi phái, KHÔNG áp chiêu tự tung theo đòn đánh (đã theo tốc đánh); tooltip ghi rõ "Hồi chiêu: X giây".
+SKILL_MIN_COOLDOWN = {"Q": 3., "W": 5., "E": 7., "R": 12., "D": 10., "F": 10., "T": 20.}
+
+# Cạnh dài tối đa (px) của texture hiệu ứng KVCT3_Data (tools/texshrink.py): bản 32-bit hết bộ nhớ giữa trận nếu để 512/1024.
+TEX_MAX_SIDE = 256
+
+# Hình trang bị KVCT nằm trên đất (kvequip.py ifil): túi quà của game thay cho rương vàng.
+DROP_ITEM_MODEL = r"Objects\InventoryItems\BundleofGifts\bundleofgifts.mdl"

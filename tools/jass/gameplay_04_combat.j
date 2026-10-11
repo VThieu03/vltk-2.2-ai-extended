@@ -1,5 +1,66 @@
 // ---- set bonus, element fix-up, Thuy regeneration: every second
 
+// Bù cấp theo mốc (config.py CATCHUP_*): mỗi CATCHUP_MINUTES phút lấy cấp trung bình của 5 tướng người chơi THẤP NHẤT;
+// tướng thấp hơn mức đó được kéo lên đúng mức đó, tướng bằng / cao hơn không được cấp mà được CATCHUP_GOLD vàng.
+function zzVL_CatchUp takes nothing returns nothing
+    local integer vl_p=0
+    local integer vl_n=0
+    local integer vl_i
+    local integer vl_j
+    local integer vl_x
+    local integer vl_sum=0
+    local integer vl_avg
+    local integer array vl_lv
+    loop
+        exitwhen vl_p>9
+        if Jx[vl_p+1]!=null and IsUnitType(Jx[vl_p+1],UNIT_TYPE_HERO) and GetPlayerSlotState(Player(vl_p))==PLAYER_SLOT_STATE_PLAYING then
+            set vl_lv[vl_n]=GetHeroLevel(Jx[vl_p+1])
+            set vl_n=vl_n+1
+        endif
+        set vl_p=vl_p+1
+    endloop
+    if vl_n==0 then
+        return
+    endif
+    // sắp xếp tăng dần (tối đa 10 phần tử)
+    set vl_i=0
+    loop
+        exitwhen vl_i>=vl_n
+        set vl_j=vl_i+1
+        loop
+            exitwhen vl_j>=vl_n
+            if vl_lv[vl_j]<vl_lv[vl_i] then
+                set vl_x=vl_lv[vl_i]
+                set vl_lv[vl_i]=vl_lv[vl_j]
+                set vl_lv[vl_j]=vl_x
+            endif
+            set vl_j=vl_j+1
+        endloop
+        set vl_i=vl_i+1
+    endloop
+    set vl_i=0
+    loop
+        exitwhen vl_i>=IMinBJ(5,vl_n)
+        set vl_sum=vl_sum+vl_lv[vl_i]
+        set vl_i=vl_i+1
+    endloop
+    set vl_avg=vl_sum/IMinBJ(5,vl_n)
+    set vl_p=0
+    loop
+        exitwhen vl_p>9
+        if Jx[vl_p+1]!=null and IsUnitType(Jx[vl_p+1],UNIT_TYPE_HERO) and GetPlayerSlotState(Player(vl_p))==PLAYER_SLOT_STATE_PLAYING then
+            if GetHeroLevel(Jx[vl_p+1])<vl_avg then
+                call SetHeroLevel(Jx[vl_p+1],vl_avg,true)
+                call zzVL_Msg(vl_p,"|cff9ad0ffBù cấp:|r tướng được nâng lên cấp "+I2S(vl_avg)+" (trung bình 5 tướng thấp nhất).")
+            else
+                call SetPlayerState(Player(vl_p),PLAYER_STATE_RESOURCE_GOLD,GetPlayerState(Player(vl_p),PLAYER_STATE_RESOURCE_GOLD)+zzCF_CATCHUP_GOLD())
+                call zzVL_Msg(vl_p,"|cffffcc00Bù cấp:|r tướng đã vượt mức "+I2S(vl_avg)+", nhận "+I2S(zzCF_CATCHUP_GOLD())+" vàng.")
+            endif
+        endif
+        set vl_p=vl_p+1
+    endloop
+endfunction
+
 // ==========================================
 // Hàm: zzVL_Tick
 // Chức năng dự kiến: Xử lý logic hệ thống.
@@ -19,12 +80,8 @@ function zzVL_Tick takes nothing returns nothing
         exitwhen vl_playerId>9
         set vl_hero=Jx[vl_playerId+1]
         if vl_hero!=null then
-            // cap 200 sau khoang 20 phut: kinh nghiem nhanh hon khi tuong cham hon nhip, cham lai khi vuot nhip
-            set vl_xg=200.*TimerGetElapsed(zzVL_clock)/1200.-I2R(GetHeroLevel(vl_hero))
-            call SetPlayerHandicapXP(Player(vl_playerId),RMinBJ(15.,RMaxBJ(.25,1.+.25*vl_xg)))
-            if vl_xg>3. and GetHeroLevel(vl_hero)<200 and GetWidgetLife(vl_hero)>.405 then
-                call AddHeroXP(vl_hero,R2I(15.*I2R(GetHeroLevel(vl_hero))*(vl_xg-3.)),true)
-            endif
+            // kinh nghiệm chỉ từ farm quái (không còn tự tăng theo thời gian); bù cấp mỗi CATCHUP_MINUTES phút ở zzVL_CatchUp
+            call SetPlayerHandicapXP(Player(vl_playerId),zzCF_XP_HANDICAP())
             if GetPlayerController(Player(vl_playerId))==MAP_CONTROL_COMPUTER then
                 call SetPlayerState(Player(vl_playerId),PLAYER_STATE_RESOURCE_GOLD,GetPlayerState(Player(vl_playerId),PLAYER_STATE_RESOURCE_GOLD)+4)
             endif
@@ -102,7 +159,8 @@ function zzVL_SlowEnd takes nothing returns nothing
     local timer vl_tm=GetExpiredTimer()
     local unit vl_unit=LoadUnitHandle(zzVL_ht,GetHandleId(vl_tm),0)
     if vl_unit!=null then
-        call SetUnitMoveSpeed(vl_unit,zzUS_Real(GetHandleId(vl_unit),zzUS_SLOW_SPEED()))
+        // trả lại đúng phần tốc chạy đã trừ (không ghi đè tốc chạy cũ: tốc từ trang bị đổi giữa lúc chậm vẫn giữ đúng)
+        call SetUnitMoveSpeed(vl_unit,GetUnitMoveSpeed(vl_unit)+zzUS_Real(GetHandleId(vl_unit),zzUS_SLOW_SPEED()))
         call zzUS_SetInt(GetHandleId(vl_unit),zzUS_SLOWED(),0)
     endif
     call FlushChildHashtable(zzVL_ht,GetHandleId(vl_tm))
@@ -147,7 +205,7 @@ function zzVL_WeaponHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boo
         set vl_tm=null
     elseif zzVL_wel[vl_ps]==4 and vl_atk and GetWidgetLife(vl_t)>.405 and zzUS_Int(GetHandleId(vl_t),zzUS_SLOWED())==0 then
         call zzUS_SetInt(GetHandleId(vl_t),zzUS_SLOWED(),1)
-        call zzUS_SetReal(GetHandleId(vl_t),zzUS_SLOW_SPEED(),GetUnitMoveSpeed(vl_t))
+        call zzUS_SetReal(GetHandleId(vl_t),zzUS_SLOW_SPEED(),GetUnitMoveSpeed(vl_t)*.3)
         call SetUnitMoveSpeed(vl_t,GetUnitMoveSpeed(vl_t)*.7)
         call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\FrostDamage\\FrostDamage.mdl",vl_t,"chest"))
         set vl_tm=CreateTimer()
@@ -202,7 +260,7 @@ function zzVL_SetHit takes integer vl_ps,unit vl_hero,unit vl_t,real vl_d,boolea
         // Thủy - Băng sát: chậm 5%/cấp trong 2 giây, không cộng dồn với chậm khác
         if zzUS_Int(vl_id,zzUS_SLOWED())==0 and not zzVL_Steady(vl_t) then
             call zzUS_SetInt(vl_id,zzUS_SLOWED(),1)
-            call zzUS_SetReal(vl_id,zzUS_SLOW_SPEED(),GetUnitMoveSpeed(vl_t))
+            call zzUS_SetReal(vl_id,zzUS_SLOW_SPEED(),GetUnitMoveSpeed(vl_t)*zzCF_THUY_CHAM_MOI_CAP()*vl_lv)
             call SetUnitMoveSpeed(vl_t,GetUnitMoveSpeed(vl_t)*(1.-zzCF_THUY_CHAM_MOI_CAP()*vl_lv))
             call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\FrostDamage\\FrostDamage.mdl",vl_t,"chest"))
             set vl_tm=CreateTimer()
@@ -266,16 +324,6 @@ function zzVL_OnDamageBody takes nothing returns nothing
             set vl_fire=true
         endif
         set vl_m=vl_m+zzCF_QUAN_HAM_SAT_THUONG()*zzVL_rank[vl_ps]
-        if vl_src==Jx[vl_ps+1] and GetUnitAbilityLevel(vl_src,'A0T2')>0 then
-            set vl_m=vl_m+.06*GetUnitAbilityLevel(vl_src,'A0T2')
-            if GetRandomInt(1,100)<=3*GetUnitAbilityLevel(vl_src,'A0T2') then
-                set vl_m=vl_m+1.
-                set vl_crit=true
-            endif
-        endif
-        if vl_src==Jx[vl_ps+1] then
-            set vl_m=vl_m+.04*GetUnitAbilityLevel(vl_src,'A0TA')
-        endif
         if zzVL_af[vl_ps*16+3]>0 and GetRandomInt(1,100)<=zzVL_af[vl_ps*16+3] then
             set vl_m=vl_m+1.
             set vl_crit=true
@@ -299,6 +347,24 @@ function zzVL_OnDamageBody takes nothing returns nothing
         endif
         if BlzGetEventDamageType()!=DAMAGE_TYPE_NORMAL then
             set vl_d=vl_d * (1.0 + zzPS_Get(vl_ps,zzPS_CAP_KY_NANG()) * zzCF_CAP_KY_NANG_PCT() / 100.0)
+        endif
+    endif
+
+    // Công ngũ hành (10/10/2026, đối trọng kháng ngũ hành 11..15 ở trên): chỉ lên sát thương KỸ NĂNG, lấy từ chiêu bị
+    // động KVCT (kskill.j zzKS_Tick, khóa 27..30 trên zzPS). Mỗi hệ độc lập: dmg x (1+công/100) x (1-kháng địch/100).
+    // Phái thường chỉ có công đúng 1 hệ (theo chủ đề chiêu), không cần biết chiêu nào đang đánh thuộc hệ gì.
+    if vl_ps<10 and vl_src==Jx[vl_ps+1] and BlzGetEventDamageType()!=DAMAGE_TYPE_NORMAL then
+        if zzPS_Get(vl_ps,zzPS_CONG_DOC())>0 then
+            set vl_d=vl_d*(1.+zzPS_Get(vl_ps,zzPS_CONG_DOC())/100.)*(1.-IMinBJ(zzCF_KHANG_TOI_DA(),zzPS_Get(vl_pt,zzPS_KHANG_DOC()))/100.)
+        endif
+        if zzPS_Get(vl_ps,zzPS_CONG_THUY())>0 then
+            set vl_d=vl_d*(1.+zzPS_Get(vl_ps,zzPS_CONG_THUY())/100.)*(1.-IMinBJ(zzCF_KHANG_TOI_DA(),zzPS_Get(vl_pt,zzPS_KHANG_THUY()))/100.)
+        endif
+        if zzPS_Get(vl_ps,zzPS_CONG_HOA())>0 then
+            set vl_d=vl_d*(1.+zzPS_Get(vl_ps,zzPS_CONG_HOA())/100.)*(1.-IMinBJ(zzCF_KHANG_TOI_DA(),zzPS_Get(vl_pt,zzPS_KHANG_HOA()))/100.)
+        endif
+        if zzPS_Get(vl_ps,zzPS_CONG_LOI())>0 then
+            set vl_d=vl_d*(1.+zzPS_Get(vl_ps,zzPS_CONG_LOI())/100.)*(1.-IMinBJ(zzCF_KHANG_TOI_DA(),zzPS_Get(vl_pt,zzPS_KHANG_LOI()))/100.)
         endif
     endif
 

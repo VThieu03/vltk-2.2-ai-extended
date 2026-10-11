@@ -52,7 +52,6 @@ function zzUI_Tick takes nothing returns nothing
         call BlzFrameSetText(zzUI_cls,"|cffffcc00"+GetUnitName(vl_h)+"|r")
         call BlzFrameSetText(zzUI_lv,"|cffFFCC00Cấp: "+I2S(GetHeroLevel(vl_h))+"|r")
         call BlzFrameSetTexture(zzUI_icon,BlzGetAbilityIcon(GetUnitTypeId(vl_h)),0,true)
-        call BlzFrameSetText(zzUI_info,"|cffffcc00"+GetHeroProperName(vl_h)+"|r - "+GetUnitName(vl_h)+"|n|cff00ff00Sinh lực: "+I2S(R2I(GetWidgetLife(vl_h)))+" ("+I2S(vl_hp)+"%)|r|n|cffff8040Ngoại công: "+I2S(BlzGetUnitBaseDamage(vl_h,0))+"|r|n|cff8080ffNội công: "+I2S(GetHeroInt(vl_h,true))+"|r|n|cffffcc00Phòng thủ: "+I2S(R2I(BlzGetUnitArmor(vl_h)))+"|r")
         loop
             exitwhen vl_i>5
             if UnitItemInSlot(vl_h,vl_i)!=null and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),0)>=10 and LoadInteger(zzVL_ht,GetItemTypeId(UnitItemInSlot(vl_h,vl_i)),0)<50 then
@@ -60,10 +59,7 @@ function zzUI_Tick takes nothing returns nothing
             endif
             set vl_i=vl_i+1
         endloop
-        call BlzFrameSetText(zzUI_power,"|cffffcc00"+I2S(vl_tp)+"|r")
     endif
-    call BlzFrameSetText(zzUI_gold,"|cffffffff"+I2S(GetPlayerState(GetLocalPlayer(),PLAYER_STATE_RESOURCE_GOLD))+"|r")
-    call BlzFrameSetText(zzUI_knb,"|cffffff00"+I2S(GetPlayerState(GetLocalPlayer(),PLAYER_STATE_RESOURCE_LUMBER))+"|r")
     if vl_hp!=zzUI_lastHp then
         call BlzFrameSetVisible(zzUI_hp[zzUI_lastHp],false)
         call BlzFrameSetVisible(zzUI_hp[vl_hp],vl_h!=null)
@@ -138,10 +134,10 @@ function zzUI_Init takes nothing returns nothing
     // hp / mp bars: one picture per percent, as VLKT
     loop
         exitwhen vl_i>100
-        set zzUI_hp[vl_i]=zzUI_Tex("war3mapImported\\HPBar"+I2S(vl_i)+".blp",6)
+        set zzUI_hp[vl_i]=zzUI_Tex("VLTK_data\\war3mapImported\\HPBar"+I2S(vl_i)+".blp",6)
         call zzUI_At(zzUI_hp[vl_i],.101,.012,.25583,.05799)
         call BlzFrameSetVisible(zzUI_hp[vl_i],false)
-        set zzUI_mp[vl_i]=zzUI_Tex("war3mapImported\\MPBar"+I2S(vl_i)+".blp",6)
+        set zzUI_mp[vl_i]=zzUI_Tex("VLTK_data\\war3mapImported\\MPBar"+I2S(vl_i)+".blp",6)
         call zzUI_At(zzUI_mp[vl_i],.101,.012,.25583,.04261)
         call BlzFrameSetVisible(zzUI_mp[vl_i],false)
         set vl_i=vl_i+1
@@ -160,7 +156,7 @@ function zzUI_Init takes nothing returns nothing
         set vl_i=vl_i+1
     endloop
     // hero portrait (icon), name, class, level, hp / mp numbers
-    set vl_f=zzUI_Tex("war3mapImported\\UIButton_trong.blp",6)
+    set vl_f=zzUI_Tex("VLTK_data\\war3mapImported\\UIButton_trong.blp",6)
     call zzUI_At(vl_f,.06,.06,.17,.02)
     set zzUI_icon=BlzCreateFrameByType("BACKDROP","",BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0),"",0)
     call BlzFrameSetAbsPoint(zzUI_icon,FRAMEPOINT_BOTTOMLEFT,.179,.029)
@@ -170,14 +166,7 @@ function zzUI_Init takes nothing returns nothing
     set zzUI_lv=zzUI_Text(" ",.14697,.03827,.23137,.0115,1.3,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_MIDDLE)
     set zzUI_hpT=zzUI_Text(" ",.262,.0685,.34464,.0585,1.1,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
     set zzUI_mpT=zzUI_Text(" ",.262,.053,.34464,.043,1.1,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
-    // top: gold / KNB panels, Luc Chien badge (tai phu), hero text
-    call zzUI_At(zzUI_Tex("VLKT_Data\\FrameUI_infopanel1.blp",6),.07444,.0223,.4871,.57993)
-    set zzUI_gold=zzUI_Text(" ",.51377,.59937,.55821,.5827,1.25,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
-    call zzUI_At(zzUI_Tex("VLKT_Data\\FrameUI_infopanel2.blp",6),.07444,.0223,.57644,.57993)
-    set zzUI_knb=zzUI_Text(" ",.6031,.59937,.64755,.5827,1.25,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_LEFT)
-    call zzUI_At(zzUI_Tex("war3mapImported\\lucchien.blp",5),.13167,.04111,.31401,.56097)
-    set zzUI_power=zzUI_Text(" ",.36985,.59358,.43985,.57016,2.0,TEXT_JUSTIFY_CENTER,TEXT_JUSTIFY_MIDDLE)
-    set zzUI_info=zzUI_Text(" ",-.085,.59,.12,.49,1.25,TEXT_JUSTIFY_TOP,TEXT_JUSTIFY_LEFT)
+    // The top custom HUD is disabled; game state and the bottom combat UI remain active.
     call zzVL_Log("giao dien: o lenh 0 hien="+zzUI_B2S(BlzFrameIsVisible(BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,0)))+" cha hien="+zzUI_B2S(BlzFrameIsVisible(BlzFrameGetParent(BlzGetOriginFrame(ORIGIN_FRAME_COMMAND_BUTTON,0))))+" TestTexture="+zzUI_B2S(BlzGetFrameByName("TestTextureValue",0)!=null))
     call TimerStart(CreateTimer(),.1,true,function zzUI_Tick)
     call TimerStart(CreateTimer(),1.,true,function zzUI_Hide)

@@ -15,7 +15,7 @@ import gameplay
 
 SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 KVCT = r"D:\kvct-dev\work\base.w3x"
-DST = "war3mapImported\\kv\\"
+DST = "VLTK_data\\war3mapImported\\kv\\"
 BS = chr(92)
 
 WEAPON_TYPES = [
@@ -154,7 +154,7 @@ def main():
         want[iid] = "vatpham_%d.blp" % v
     for i, ic in enumerate(CLOAK_ICONS):
         want["I0Z%d" % (i + 2)] = ic + ".blp"
-    out_dir = os.path.join(SRC, "war3mapImported", "kv")
+    out_dir = os.path.join(SRC, "VLTK_data", "war3mapImported", "kv")
     os.makedirs(out_dir, exist_ok=True)
     for f in os.listdir(out_dir):
         os.remove(os.path.join(out_dir, f))

@@ -25,6 +25,9 @@
 // k: 1 hút sinh lực, 2 hút nội lực, 3 bạo kích, 4 tốc đánh, 5 sát thương, 6 giảm sát thương nhận, 7 sinh lực, 8 sức mạnh, 9 thân pháp,
 //    10 nội công, 11..15 kháng vật lý/độc/thủy/hỏa/lôi, 16 tốc độ xuất chiêu, 17 STVL nội công, 18 STVL ngoại công, 19 điểm đánh trúng,
 //    20 né tránh, 21 tốc chạy, 22 +kỹ năng.
+// Sức mạnh/Thân pháp/Nội công (8/9/10) trước chỉ rơi ở MỘT ô (7, Hạng Liên, chen với bạo kích) trong khi Sinh lực (7)
+// rơi ở 2 ô (1,2) -> Nội công hiếm hẳn so với Sinh lực trên trang bị (User báo 10/10/2026, cấp 130 phái Võ Đang).
+// Đã tách mỗi chỉ số thêm 1 ô riêng (3 Yêu Đái, 4 Hộ Uyển, 9 Ngọc Bội) để ngang tỉ lệ rơi với Sinh lực.
 function zzEQ_AffixSlots takes integer vl_k returns string
     if vl_k==1 then
         return "6"
@@ -41,11 +44,11 @@ function zzEQ_AffixSlots takes integer vl_k returns string
     elseif vl_k==7 then
         return "12"
     elseif vl_k==8 then
-        return "7"
+        return "37"
     elseif vl_k==9 then
-        return "7"
+        return "47"
     elseif vl_k==10 then
-        return "7"
+        return "97"
     elseif vl_k>=11 and vl_k<=15 then
         return "123459A"
     elseif vl_k==16 then
@@ -226,24 +229,24 @@ endfunction
 
 // ==========================================
 // Hàm: zzEQ_Tier
-// Bậc cường hóa 0..10 của vật phẩm đang cầm; vũ khí Tần Lăng luôn là 11.
+// Bậc cường hóa hiệu lực 0..10; Tần Lăng dùng hình cấp 11 nhưng chỉ số vẫn tính ở +10.
 function zzEQ_Tier takes item vl_it returns integer
     if vl_it==null then
         return 0
     endif
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==2 then
-        return 11
+        return 10
     endif
     return zzIT_Get(GetHandleId(vl_it),zzIT_BAC())
 endfunction
 
-// Hệ số chỉ số (%) theo bậc t: 100 + 30*t (+10 = 400%), Tần Lăng (bậc 11) = 500%. Trùng công thức kvequip_data.pct.
+// Hệ số chỉ số (%) theo bậc t: 100 + 30*t; tối đa +10 = 400%, kể cả vũ khí Tần Lăng.
 function zzEQ_Pct takes integer vl_t returns integer
-    if vl_t>=11 then
-        return 500
-    endif
     if vl_t<=0 then
         return 100
+    endif
+    if vl_t>10 then
+        set vl_t=10
     endif
     return 100+30*vl_t
 endfunction
@@ -366,12 +369,13 @@ endfunction
 // ==========================================
 // Hàm: zzEQ_SetTier
 // Đặt bậc cường hóa: đổi icon (BlzSetItemIconPath, icon trùng sinh t của KVCT), tên (tên KVCT của bậc), tiêu đề + chỉ số ở đầu mô tả.
-// Chỉ số thật được cộng trong zzEQ_AddStats (nền * zzEQ_Pct(bậc) / 100). Vũ khí Tần Lăng luôn bậc 11; trang bị khác tối đa 10.
+// Tần Lăng giữ hình cấp 11 nhưng bậc cường hóa và chỉ số hiệu lực tối đa là +10.
 // Không làm gì với trang bị cũ của map (không có khóa 93).
 function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
     local integer vl_type
     local integer vl_id
     local integer vl_len
+    local integer vl_visualTier
     local string vl_nm
     local string vl_star=""
     local string vl_prev
@@ -387,8 +391,10 @@ function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
         return
     endif
     set vl_id=GetHandleId(vl_it)
+    set vl_visualTier=vl_t
     if LoadInteger(zzVL_ht,vl_type,93)==2 then
-        set vl_t=11
+        set vl_t=10
+        set vl_visualTier=11
     elseif vl_t>10 then
         set vl_t=10
     endif
@@ -397,7 +403,7 @@ function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
     endif
     call zzIT_Set(vl_id,zzIT_BAC(),vl_t)
     call zzIT_Set(vl_id,zzIT_BAC_DA_GAN(),1)
-    set vl_nm=LoadStr(zzVL_ht,vl_type,120+vl_t)
+    set vl_nm=LoadStr(zzVL_ht,vl_type,120+vl_visualTier)
     if vl_nm!=null and vl_nm!="" then
         call BlzSetItemIconPath(vl_it,vl_nm)
     endif
@@ -406,9 +412,9 @@ function zzEQ_SetTier takes item vl_it,integer vl_t returns nothing
     if vl_len>=14 and SubString(vl_nm,vl_len-14,vl_len)==" |cff00ff00*|r" then
         set vl_star=" |cff00ff00*|r"
     endif
-    set vl_nm=LoadStr(zzVL_ht,vl_type,100+vl_t)
+    set vl_nm=LoadStr(zzVL_ht,vl_type,100+vl_visualTier)
     if vl_nm!=null and vl_nm!="" then
-        if vl_t>0 and vl_t<11 then
+        if vl_t>0 then
             set vl_nm=vl_nm+" +"+I2S(vl_t)
         endif
         if vl_quality==1 then
@@ -517,7 +523,7 @@ function zzEQ_Enhance takes integer vl_pid,item vl_it returns boolean
         return false
     endif
     if LoadInteger(zzVL_ht,GetItemTypeId(vl_it),93)==2 then
-        call zzVL_Msg(vl_pid,"|cffff8000Vũ khí Tần Lăng|r đã ở cực phẩm (trùng sinh 11), không cường hóa thêm được.")
+        call zzVL_Msg(vl_pid,"|cffff8000Vũ khí Tần Lăng|r đã đạt tối đa +10, không cường hóa thêm được.")
         return false
     endif
     set vl_t=zzEQ_Tier(vl_it)
@@ -685,6 +691,101 @@ function zzEQ_InheritSlot takes integer vl_pid,integer vl_slot,item vl_new,item 
     endif
 endfunction
 
+// Bản clone chứa mesh vũ khí gốc và lớp sáng ôm đúng bề mặt. Hệ của món đang mặc
+// chọn màu model; dùng cùng kích thước với vũ khí gốc để đầu sáng không vượt khỏi lưỡi.
+// Lightning KGTR/KTAT chạy trong MDX. Khóa 612 được sinh từ ATCH thật của từng tướng;
+// không dùng AddLightning/MoveLightning hay lưu vị trí cũ để vẽ sét khi di chuyển.
+function zzEQ_UpdateWeaponGlow takes integer vl_pid returns nothing
+    local unit vl_hero=Jx[vl_pid+1]
+    local item vl_weapon=zzVL_equipItem[vl_pid*10+5]
+    local integer vl_uid
+    local integer vl_iid=0
+    local integer vl_element=0
+    local integer vl_tier=0
+    local integer vl_weaponType
+    local integer vl_oldItem
+    local integer vl_oldElement
+    local integer vl_oldTier
+    local integer vl_type
+    local string vl_model
+    local string vl_point
+    local real vl_scale
+    local effect vl_fx
+    if vl_hero==null then
+        set vl_weapon=null
+        return
+    endif
+    set vl_uid=GetHandleId(vl_hero)
+    set vl_type=GetUnitTypeId(vl_hero)
+    if vl_weapon!=null and zzEQ_Slot(GetItemTypeId(vl_weapon))==6 and GetWidgetLife(vl_hero)>.405 then
+        set vl_iid=GetHandleId(vl_weapon)
+        set vl_element=LoadInteger(zzVL_ht,GetItemTypeId(vl_weapon),66)
+        set vl_tier=zzEQ_Tier(vl_weapon)
+    elseif GetWidgetLife(vl_hero)>.405 then
+        // Every sect keeps its default weapon before custom gear is equipped.
+        set vl_weaponType=LoadInteger(zzVL_ht,vl_type,96)-1
+        if vl_weaponType>=0 and vl_weaponType<=10 then
+            set vl_iid=-vl_type
+            if vl_weaponType<10 then
+                set vl_element=LoadInteger(zzVL_ht,'ITV0'+vl_weaponType,66)
+            else
+                set vl_element=LoadInteger(zzVL_ht,'ITVA',66)
+            endif
+        endif
+    endif
+    set vl_oldItem=LoadInteger(zzVL_ht,vl_uid,590)
+    set vl_oldElement=LoadInteger(zzVL_ht,vl_uid,591)
+    set vl_oldTier=LoadInteger(zzVL_ht,vl_uid,592)
+    if vl_iid!=vl_oldItem or vl_element!=vl_oldElement or vl_tier!=vl_oldTier then
+        set vl_fx=LoadEffectHandle(zzVL_ht,vl_uid,593)
+        if vl_fx!=null then
+            call DestroyEffect(vl_fx)
+            call RemoveSavedHandle(zzVL_ht,vl_uid,593)
+        endif
+        set vl_fx=LoadEffectHandle(zzVL_ht,vl_uid,599)
+        if vl_fx!=null then
+            call DestroyEffect(vl_fx)
+            call RemoveSavedHandle(zzVL_ht,vl_uid,599)
+        endif
+        if LoadStr(zzVL_ht,vl_type,601)!=null then
+            // Forearm sockets share the embedded blade matrices; no skin change or duplicate weapon mesh.
+            if vl_iid!=0 and vl_element>=1 and vl_element<=5 then
+                set vl_fx=AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_type,600+vl_element),vl_hero,"sprite,first")
+                call BlzPlaySpecialEffect(vl_fx,ANIM_TYPE_STAND)
+                call SaveEffectHandle(zzVL_ht,vl_uid,593,vl_fx)
+                set vl_fx=AddSpecialEffectTarget(LoadStr(zzVL_ht,vl_type,605+vl_element),vl_hero,"sprite,second")
+                call BlzPlaySpecialEffect(vl_fx,ANIM_TYPE_STAND)
+                call SaveEffectHandle(zzVL_ht,vl_uid,599,vl_fx)
+            endif
+        elseif vl_iid!=0 then
+            set vl_model=null
+            if vl_element>=1 and vl_element<=5 then
+                set vl_model=LoadStr(zzVL_ht,vl_type,593+vl_element)
+            endif
+            if vl_model==null or vl_model=="" then
+                set vl_model=LoadStr(zzVL_ht,vl_type,270)
+            endif
+            set vl_point=LoadStr(zzVL_ht,vl_type,612)
+            if vl_model!=null and vl_model!="" and vl_point!=null and vl_point!="" then
+                set vl_fx=AddSpecialEffectTarget(vl_model,vl_hero,vl_point)
+                call BlzPlaySpecialEffect(vl_fx,ANIM_TYPE_STAND)
+                set vl_scale=BlzGetUnitRealField(vl_hero,UNIT_RF_SCALING_VALUE)
+                if vl_scale>1.05 then
+                    call BlzSetSpecialEffectScale(vl_fx,1./vl_scale)
+                endif
+                call SaveEffectHandle(zzVL_ht,vl_uid,593,vl_fx)
+                set vl_fx=null
+            endif
+        endif
+        call SaveInteger(zzVL_ht,vl_uid,590,vl_iid)
+        call SaveInteger(zzVL_ht,vl_uid,591,vl_element)
+        call SaveInteger(zzVL_ht,vl_uid,592,vl_tier)
+    endif
+    set vl_fx=null
+    set vl_weapon=null
+    set vl_hero=null
+endfunction
+
 // Cấp cường hóa là của Ô (zzVL_cuong), không phải của món: món KVCT đang mặc luôn mang đúng cấp của ô, bất kể mặc bằng cách nào
 // (bấm trong hành trang, tự mặc, hoán đổi...). Gọi trong zzVL_AffixSum (mỗi giây).
 function zzEQ_SyncSlots takes integer vl_pid returns nothing
@@ -707,6 +808,7 @@ function zzEQ_SyncSlots takes integer vl_pid returns nothing
         set vl_i=vl_i+1
     endloop
     set vl_it=null
+    call zzEQ_UpdateWeaponGlow(vl_pid)
 endfunction
 
 // Cộng một chỉ số (mã chỉ số ở đầu file) vào bảng chỉ số của người chơi (zzVL_af, khóa 1000+pid): cùng chỗ với zzVL_AffixSum

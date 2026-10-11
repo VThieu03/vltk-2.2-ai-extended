@@ -6,6 +6,8 @@ import os, struct, subprocess, sys, zlib
 sys.path.insert(0, os.path.dirname(__file__))
 from mpqwrite import build
 from mpq import MPQ, hs
+import asset_layout
+import jass_compat
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 BASE = os.path.join(ROOT, "work", "base.w3x")
@@ -15,6 +17,10 @@ SRC = os.path.join(ROOT, "src", "map")
 
 def pjass(path):
     d = os.path.join(ROOT, "work", "pjass")
+    try:
+        jass_compat.check(path, os.path.join(d, "common.j"))
+    except ValueError as error:
+        sys.exit(str(error))
     r = subprocess.run(
         [os.path.join(d, "pjass.exe"), "common.j", "Blizzard.j", path],
         cwd=d,
@@ -59,10 +65,41 @@ class MapBuilder:
         self.script = os.path.join(ROOT, "build", "war3map.j")
 
     def collect(self):
-        for root, _, fs in os.walk(self.src):  # includes war3mapImported\kv (icons from icons.py)
+        category_names = asset_layout.CATEGORIES
+        data_root = os.path.join(self.src, "VLTK_data")
+        for root, dirs, fs in os.walk(self.src):  # includes war3mapImported\kv (icons from icons.py)
+            if os.path.normcase(root) == os.path.normcase(data_root):
+                dirs[:] = [d for d in dirs if d not in category_names]
             for f in fs:
                 full = os.path.join(root, f)
-                self.files[os.path.relpath(full, self.src).replace("/", "\\")] = open(full, "rb").read()
+                relative = os.path.relpath(full, self.src).replace("/", "\\")
+                if relative.lower().startswith("vltk_data\\"):
+                    relative = asset_layout.archive_path(relative[len("VLTK_data\\"):])
+                self.files[relative] = open(full, "rb").read()
+        # Direct builds can package the categorized source tree without activating pipeline staging.
+        has_staged_assets = False
+        for root, dirs, files in os.walk(data_root):
+            if os.path.normcase(root) == os.path.normcase(data_root):
+                dirs[:] = [d for d in dirs if d not in category_names]
+            if files:
+                has_staged_assets = True
+                break
+        if not has_staged_assets:
+            for group in category_names:
+                base = os.path.join(data_root, group)
+                if not os.path.isdir(base):
+                    continue
+                for root, _, fs in os.walk(base):
+                    for f in fs:
+                        full = os.path.join(root, f)
+                        tail = os.path.relpath(full, base).replace("/", "\\")
+                        self.files.setdefault(asset_layout.archive_path(tail), open(full, "rb").read())
+        for name, data in self.files.items():
+            extension = os.path.splitext(name)[1].lower()
+            if extension == ".mdx":
+                self.files[name] = asset_layout.rewrite_mdx_textures(data)
+            elif extension not in {".blp", ".tga", ".mp3"}:
+                self.files[name] = asset_layout.rewrite_references(data)
 
     def prepare_script(self):
         # The original script ends its lines with a bare CR. Both pjass and the 1.31 game read a "//" comment up
@@ -79,6 +116,16 @@ class MapBuilder:
     def check(self):
         pjass(self.script)
 
+    def prepare_listfile(self):
+        names = set(self.files)
+        base = MPQ(self.base, OFF)
+        recovered = os.path.join(ROOT, "work", "listfile.txt")
+        if os.path.isfile(recovered):
+            with open(recovered, encoding="utf-8", errors="ignore") as source:
+                names.update(name for line in source if (name := line.strip()) and base.find(name))
+        names.add("(listfile)")
+        self.files["(listfile)"] = ("\r\n".join(sorted(names, key=str.casefold)) + "\r\n").encode("utf-8")
+
     def pack(self):
         build(self.base, OFF, self.files, self.out, keep_layout=True)
 
@@ -94,6 +141,7 @@ class MapBuilder:
         self.collect()
         self.prepare_script()
         self.check()
+        self.prepare_listfile()
         self.pack()
         self.verify()
         print("ok", self.out, os.path.getsize(self.out), "bytes,", len(self.files), "files from src")

@@ -16,7 +16,7 @@ work\base.w3x  ──(tách file)──►  src\map\  ──(13 bước Python)�
 
 ## 2. Pipeline build (chạy theo thứ tự)
 
-Chạy tất cả: `python tools\pipeline.py` (lệnh cũ `python scratchpad\run_pipeline.py` vẫn dùng được; `--no-ui` bỏ bước ui; luôn build từ đầu vì các bước sửa `src` tại chỗ). Dừng ngay khi một bước lỗi, cuối cùng chạy pjass và chép 1 bản map vào `Warcraft III Public Test\Maps\`. Code: lớp `Pipeline` / `BuildStep` / `MapSync` trong `tools/pipeline.py`; dữ liệu phái dùng chung là lớp `Phai` trong `tools/model.py`.
+Chạy tất cả: `python tools\pipeline.py` (`--no-ui` bỏ bước ui; luôn build từ đầu vì các bước sửa `src` tại chỗ). Dừng ngay khi một bước lỗi, cuối cùng chạy pjass và chép 1 bản map vào `Warcraft III Public Test\Maps\`. Code: lớp `Pipeline` / `BuildStep` / `MapSync` trong `tools/pipeline.py`; dữ liệu phái dùng chung là lớp `Phai` trong `tools/model.py`.
 
 | # | File | Làm gì |
 |---|---|---|
@@ -177,7 +177,7 @@ Mỗi chiêu có thể có tới 5 lớp hiệu ứng: `main` (khóa 250, hiệu
 
 1. Tìm ID chiêu trong `docs\kvct_skills.md` (ví dụ `A0FK`).
 2. Sửa dòng `OVR` của nó trong `tools\kskill.py`. Nếu cần hành vi mới: thêm một khóa mới (ghi trong `ex = {…}` của `kskill.py`) và đoạn JASS đọc khóa đó trong `kskill.j`.
-3. Chạy `python scratchpad\run_pipeline.py`, đợi `pjass ok`.
+3. Chạy `python tools\pipeline.py`, đợi `pjass ok`.
 4. Cập nhật dòng chiêu đó trong `docs\kvct_audit.md` và ghi vào `WORKLOG.md`.
 
 ## 6. Quy tắc giữ code đẹp

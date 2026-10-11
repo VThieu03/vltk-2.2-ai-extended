@@ -46,7 +46,7 @@ p = os.path.join(SRC, "war3mapSkin.txt")
 t = open(p, "rb").read().decode("utf-8")
 t = re.sub(r"(?mi)^\w*Font=Font\\VNVOGU\.TTF[^\S\n]*\n?", "", t)
 # chữ sai trong map gốc (Ê thay cho Ấ): "CÊp" = Cấp, "RÊt" = Rất ... (thêm cặp (sai, đúng) vào đây)
-for bad, good in (("CÊp", "Cấp"), ("RÊt", "Rất")):
+for bad, good in (("CÊp", "Cấp"), ("RÊt", "Rất"),("hột","hụt")):
     t = t.replace(bad, good)
 open(p, "wb").write(t.encode("utf-8"))
 # object data string values

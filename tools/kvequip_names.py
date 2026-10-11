@@ -24,3 +24,4 @@ WEAPON_NAMES = [
     ['Ác Thù Đại Đao', 'Phong Đinh Đại Đao', 'Thất Kính Đại Đao', 'Băng Kinh Đại Đao', 'Lục Cổ Địa Đao', 'Thiên Tả Đại Đao', 'Chiến Cuồng Đại Đao', 'Nhạc Yến Đại Đao', 'Hàn Nguyệt Đại Đao', 'Hồ Bạch Đại Đao', 'Tật Phong Đại Đao', 'Huyền Băng Đại Đao', 'Liệt Diệm Đại Đao', 'Đan Phượng Đại Đao'],
     ['Phi Tiêu', 'Liễu Diệp Tiêu', 'Lượng Ngân Tiêu', 'Kim Tiền Tiêu', 'Tuyệt Tình Tiêu', 'Hồ Điệp Tiêu', 'Tán Hoa Tiêu', 'Đoạt Hồn Tiêu', 'Hoa Vũ Mãn Thiên', 'Bá Vương Tiêu', 'Nhiếp Ảnh', 'Tật Phong', 'Trích Tinh', 'Thất Sát Tiêu'],
 ]
+QUALITY_NAMES = ["Bình Thường", "Tốt", "Tuyệt Hảo", "Huyền Thoại"]

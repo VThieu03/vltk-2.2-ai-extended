@@ -132,7 +132,7 @@ function zzVL_GearScore takes item vl_item returns integer
         set vl_string=vl_string+zzIT_Line(GetHandleId(vl_item),vl_k)
         set vl_k=vl_k+1
     endloop
-    return vl_string+40*LoadInteger(zzVL_ht,GetHandleId(vl_item),43)+100*zzEQ_Tier(vl_item)
+    return vl_string+40*zzIT_Get(GetHandleId(vl_item),zzIT_SO_LO_KHAM())+100*zzEQ_Tier(vl_item)
 endfunction
 
 // ==========================================
@@ -202,7 +202,7 @@ function zzVL_AutoGear takes unit vl_hero,item vl_n returns nothing
     set vl_old=zzVL_equipItem[vl_pid*10+vl_slot]
     if not zzEQ_CanUse(vl_hero,vl_n) then
         // vũ khí sai loại của phái: không mặc được, tự bán (trừ khi đã khảm)
-        if LoadInteger(zzVL_ht,GetHandleId(vl_n),43)==0 then
+        if zzIT_Get(GetHandleId(vl_n),zzIT_SO_LO_KHAM())<=0 then
             call zzVL_AutoSellItem(vl_pid,vl_hero,vl_n)
         endif
     elseif vl_old==null or zzVL_GearScore(vl_n)>zzVL_GearScore(vl_old) then
@@ -216,15 +216,22 @@ function zzVL_AutoGear takes unit vl_hero,item vl_n returns nothing
         call zzVL_Msg(vl_pid,"|cff00ff00Đã mặc "+GetItemName(vl_n)+"|r")
         if vl_old!=null then
             set zzVL_equipItem[vl_pid*10+vl_slot]=vl_n
-            if LoadInteger(zzVL_ht,GetHandleId(vl_old),43)==0 then
+            if zzIT_Get(GetHandleId(vl_old),zzIT_SO_LO_KHAM())<=0 then
                 call zzVL_AutoSellItem(vl_pid,vl_hero,vl_old)
             else
-                call SetItemVisible(vl_old,true)
-                call SetItemPosition(vl_old,GetUnitX(vl_hero),GetUnitY(vl_hero))
+                // món cũ chưa bao giờ bị UnitRemoveItem (lúc mặc chỉ ẩn đi, vẫn nằm trong túi gốc của tướng) -> dù
+                // SetItemVisible(true) nó vẫn coi là "đang được sở hữu", nhặt lại không được, cứ nằm mãi dưới chân
+                // (10/10/2026, User báo). Phải thả khỏi tướng trước thì mới thành vật phẩm tự do, nhặt lại được.
+                if UnitHasItem(vl_hero,vl_old) then
+                    call UnitRemoveItem(vl_hero,vl_old)
+                endif
+                // Cất vào túi 60 ô nếu còn chỗ; nếu đầy, wrapper mới thả lệch khỏi chân tướng và gắn hạn 60 giây.
+                call SaveItemHandle(zzVL_ht,8800+vl_pid,0,vl_old)
+                call ExecuteFunc("zzVL_StoreAutoGear")
             endif
         endif
         call ExecuteFunc("zzVL_HeroTick")
-    elseif LoadInteger(zzVL_ht,GetHandleId(vl_n),43)==0 then
+    elseif zzIT_Get(GetHandleId(vl_n),zzIT_SO_LO_KHAM())<=0 then
         call zzVL_AutoSellItem(vl_pid,vl_hero,vl_n)
     endif
     set vl_old=null
@@ -513,6 +520,15 @@ function zzVL_AffixSum takes integer vl_playerId returns nothing
     if zzVL_af[vl_playerId*16+4]!=zzVL_asNow[vl_playerId] and zzVL_bcd[vl_playerId]>0. then
         set zzVL_asNow[vl_playerId]=zzVL_af[vl_playerId*16+4]
         set vl_base=zzVL_bcd[vl_playerId]/(1.+zzVL_af[vl_playerId*16+4]/100.)
+        // trần tốc đánh (đòn/giây) theo hệ, dù cộng tốc đánh % tới đâu cũng không vượt (khóa 0/462 ngoại, 0/463 nội
+        // x100, config.py PHE_ATTACK_SPEED_CAP) - User 10/10/2026: tốc đánh cao làm chiêu autocast ra quá nhanh.
+        // zzVL_Phe (gameplay_03_tranphai.j) nằm SAU module này khi ghép -> gọi thẳng zzHT_He (gameplay_01_core.j,
+        // module đầu) tương đương, tránh lỗi "Undeclared function" (10/10/2026).
+        if zzHT_He(vl_hero)==2 then
+            set vl_base=RMaxBJ(vl_base,100./I2R(LoadInteger(zzVL_ht,0,463)))
+        else
+            set vl_base=RMaxBJ(vl_base,100./I2R(LoadInteger(zzVL_ht,0,462)))
+        endif
         call BlzSetUnitAttackCooldown(vl_hero,vl_base,0)
     endif
 
@@ -704,18 +720,24 @@ function zzVL_CampDeath takes unit vl_d returns nothing
         call SaveInteger(zzVL_ht,vl_specialKey,0,0)
     endif
 
+    // Kinh nghiệm theo cấp bãi và loại quái, không tính theo cấp hiện tại của tướng.
+    if vl_k!=null and GetPlayerId(GetOwningPlayer(vl_k))<10 and Jx[GetPlayerId(GetOwningPlayer(vl_k))+1]!=null and GetHeroLevel(Jx[GetPlayerId(GetOwningPlayer(vl_k))+1])<200 then
+        set vl_pk=GetPlayerId(GetOwningPlayer(vl_k))
+        set vl_n=zzCF_KILL_XP_BASE()+zzCF_KILL_XP_PER_CAMP_LEVEL()*zzVL_cLevel[vl_c]
+        if vl_elite==1 then
+            set vl_n=vl_n*zzCF_KILL_XP_ELITE_MUL()+300
+        elseif vl_elite==2 then
+            set vl_n=vl_n*zzCF_KILL_XP_LEADER_MUL()+1500
+        endif
+        call AddHeroXP(Jx[vl_pk+1],vl_n,true)
+        call zzVL_Text(Jx[vl_pk+1],"|cff9ad0ff+"+I2S(vl_n)+" kinh nghiệm|r")
+    endif
     if vl_k!=null and GetPlayerId(GetOwningPlayer(vl_k))<10 then
         set vl_pk=GetPlayerId(GetOwningPlayer(vl_k))
         if vl_elite == 1 then
             call AdjustPlayerStateBJ(200, Player(vl_pk), PLAYER_STATE_RESOURCE_GOLD)
-            if Jx[vl_pk+1]!=null then
-                call AddHeroXP(Jx[vl_pk+1], 300, true)
-            endif
         elseif vl_elite == 2 then
             call AdjustPlayerStateBJ(1000, Player(vl_pk), PLAYER_STATE_RESOURCE_GOLD)
-            if Jx[vl_pk+1]!=null then
-                call AddHeroXP(Jx[vl_pk+1], 1500, true)
-            endif
             call zzVL_Msg(vl_pk, "|cffffcc00Đã tiêu diệt Thủ Lĩnh! Nhận thưởng lớn.|r")
         endif
     endif
@@ -1063,3 +1085,4 @@ function zzVL_FarmInit takes nothing returns nothing
     set vl_r=null
     set vl_unit=null
 endfunction
+

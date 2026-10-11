@@ -1,19 +1,52 @@
 # DTK: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
+
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
-    'Kim Ngọc Mãn Đường': {'main': 'DTK_kimngocmanduong.mdx'},   # [Q]
-    'Đoàn Thị Tâm Pháp': {'main': 'DTK_khithontarget.mdx'},   # [bị động]
-    'Bắc Minh Thần Công': {'main': 'MDX\\BacMinhThanCong.mdx', 'aura': 'DTK_bacminhaura.mdx'},   # [bị động]
-    'Lục Kiếm Tề Phát': {'main': 'DTK_luckiemtarget.mdx'},   # [bị động]
-    'Khô Vinh Thiền Công': {'main': 'DTK_luckiemtarget.mdx'},   # [bị động]
-    'Đoàn Gia Khí Kiếm': {'main': 'DTK_lucmachtarget42.mdx'},   # [bị động]
-    'Lục Mạch Thần Kiếm': {'main': 'DTK_lucmachcaster.mdx', 'cast': 'DTK_lucmachcaster.mdx', 'target': 'DTK_lucmachtarget42.mdx'},   # [W]
-    'Kinh Thiên Nhất Kiếm': {'main': 'DTK_kimngocmanduong.mdx'},   # [R]
-    'Bách Hồng Thực Nhật': {'main': 'DTK_lucmachthankiem3.mdx'},   # [bị động]
-    'Luyện Khí Hoàn Thần': {'main': 'DTK_luyenkhibuff.mdx', 'area': ['DTK_luyenkhihh.mdx', 'DTK_luyenkhi.mdx']},   # [bị động]
-    'Khí Thôn Vạn Lý': {'main': 'DTK_lucmachcaster.mdx', 'target': 'DTK_khithonvanly.mdx', 'target_ground': True},   # [E]
-    'Thiên Long Thần Công': {'main': 'DTK_lucmachthankiem6.mdx'},   # [bị động]
-    'Ám Hương Sơ Ảnh': {'main': 'DTK_luyenkhi.mdx'},   # [bị động]
+    "Kim Ngọc Mãn Đường": {   # [Q]
+        "main": "DTK_kimngocmanduong.mdx", "scale": 0.3,
+        "target": "Abilities\\Spells\\Undead\\FrostArmor\\FrostArmorDamage.mdl",
+    },
+    "Đoàn Thị Tâm Pháp": {   # [bị động]
+        "main": "DTK_khithontarget.mdx",
+    },
+    "Bắc Minh Thần Công": {   # [bị động]
+        "main": "MDX\\BacMinhThanCong.mdx",
+        "aura": "DTK_bacminhaura.mdx",
+    },
+    "Lục Kiếm Tề Phát": {   # [bị động]
+        "main": "DTK_luckiemtarget.mdx","scale": 0.3,
+    },
+    "Khô Vinh Thiền Công": {   # [bị động]
+        "main": "DTK_luckiemtarget.mdx",
+    },
+    "Đoàn Gia Khí Kiếm": {   # [bị động]
+        "main": "DTK_lucmachtarget42.mdx",
+    },
+    "Lục Mạch Thần Kiếm": {   # [W]
+        "main": "DTK_lucmachcaster.mdx","scale": 0.3,
+        "cast": "DTK_lucmachcaster.mdx","scale": 0.3,
+        "target": "DTK_lucmachtarget42.mdx","scale": 0.3,
+    },
+    "Kinh Thiên Nhất Kiếm": {   # [R]
+        "main": "DTK_kimngocmanduong.mdx","scale": 0.3,
+    },
+    "Bách Hồng Thực Nhật": {   # [bị động]
+        "main": "DTK_lucmachthankiem3.mdx",
+    },
+    "Luyện Khí Hoàn Thần": {   # [bị động]
+        "main": "DTK_luyenkhibuff.mdx",
+        "area": ["DTK_luyenkhihh.mdx", "DTK_luyenkhi.mdx"],
+    },
+    "Khí Thôn Vạn Lý": {   # [E]
+        "main": "DTK_khithonvanly.mdx","scale": 0.3,
+        "target": {"file": "DTK_khithoneffect.mdx", "ground": True},
+    },
+    "Thiên Long Thần Công": {   # [bị động]
+        "main": "DTK_lucmachthankiem6.mdx",
+    },
+    "Ám Hương Sơ Ảnh": {   # [bị động]
+        "main": "DTK_luyenkhi.mdx",
+    },
 }
 
 # Đổi texture của model (xem danh mục bên dưới).
@@ -25,13 +58,14 @@ TEXTURES = {
 #   - đổi model:   thêm vào VFX mục của chiêu, ví dụ  "Tên chiêu": {"main": "X.mdx", "cast": "Y.mdx", "target": "Z.mdx", "area": ["W.mdx"], "scale": 1.5}
 #   - đổi texture: thêm vào TEXTURES, ví dụ  "model.mdx": {"texture_cu.blp": "Textures\\Flame4.blp"}
 #     (áp cho model đó ở MỌI chiêu và MỌI phái dùng nó; texture mới là texture của game hoặc nằm trong KVCT)
-# Sửa xong chạy lại pipeline (scratchpad/run_pipeline.py) để áp dụng.
+# Sửa xong chạy lại pipeline (tools/pipeline.py) để áp dụng.
 #
 # 1. Kim Ngọc Mãn Đường [Q]   (kind 5, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_kimngocmanduong.mdx   [riêng phái, phái khác cũng dùng: DTC]
-#         texture: KVCT3_Data\Dawn_slash_Shoot.blp
-#         texture: KVCT3_Data\Dawn_lightning1.blp
-#         texture: KVCT3_Data\Dawn_lightning2.blp
+#         texture: VLTK_data\KVCT3_Data\Dawn_slash_Shoot.blp
+#         texture: VLTK_data\KVCT3_Data\Dawn_lightning1.blp
+#         texture: VLTK_data\KVCT3_Data\Dawn_lightning2.blp
+#    trên địch bị trúng: Abilities\Spells\Undead\FrostArmor\FrostArmorDamage.mdl   [model gốc Warcraft III]
 #
 # 2. Đoàn Thị Tâm Pháp [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_khithontarget.mdx   [riêng phái]
@@ -52,51 +86,51 @@ TEXTURES = {
 #
 # 4. Lục Kiếm Tề Phát [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_luckiemtarget.mdx   [riêng phái]
-#         texture: KVCT3_Data\tx019-1.blp
-#         texture: KVCT3_Data\tx019-2.blp
-#         texture: KVCT3_Data\tx019-3.blp
+#         texture: VLTK_data\KVCT3_Data\tx019-1.blp
+#         texture: VLTK_data\KVCT3_Data\tx019-2.blp
+#         texture: VLTK_data\KVCT3_Data\tx019-3.blp
 #
 # 5. Khô Vinh Thiền Công [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_luckiemtarget.mdx   [riêng phái]
-#         texture: KVCT3_Data\tx019-1.blp
-#         texture: KVCT3_Data\tx019-2.blp
-#         texture: KVCT3_Data\tx019-3.blp
+#         texture: VLTK_data\KVCT3_Data\tx019-1.blp
+#         texture: VLTK_data\KVCT3_Data\tx019-2.blp
+#         texture: VLTK_data\KVCT3_Data\tx019-3.blp
 #
 # 6. Đoàn Gia Khí Kiếm [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_lucmachtarget42.mdx   [riêng phái]
 #         texture: Textures\Frost3.blp
 #         texture: Textures\Star7b.blp
-#         texture: KVCT3_Data\tx061.blp
+#         texture: VLTK_data\KVCT3_Data\tx061.blp
 #
 # 7. Lục Mạch Thần Kiếm [W]   (kind 5, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_lucmachcaster.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_BallisticQ1.blp
-#         texture: KVCT3_Data\AZ_Tornado11b.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_BallisticQ1.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Tornado11b.blp
 #         texture: Textures\Flare.blp
 #         texture: Textures\sun.blp
-#         texture: KVCT3_Data\AZ_Shockwave14.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave14.blp
 #         texture: Textures\Tornado2b.blp
 #    lúc tung (trên tướng): DTK_lucmachcaster.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_BallisticQ1.blp
-#         texture: KVCT3_Data\AZ_Tornado11b.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_BallisticQ1.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Tornado11b.blp
 #         texture: Textures\Flare.blp
 #         texture: Textures\sun.blp
-#         texture: KVCT3_Data\AZ_Shockwave14.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave14.blp
 #         texture: Textures\Tornado2b.blp
 #    trên địch bị trúng: DTK_lucmachtarget42.mdx   [riêng phái]
 #         texture: Textures\Frost3.blp
 #         texture: Textures\Star7b.blp
-#         texture: KVCT3_Data\tx061.blp
+#         texture: VLTK_data\KVCT3_Data\tx061.blp
 #
 # 8. Kinh Thiên Nhất Kiếm [R]   (kind 5, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_kimngocmanduong.mdx   [riêng phái, phái khác cũng dùng: DTC]
-#         texture: KVCT3_Data\Dawn_slash_Shoot.blp
-#         texture: KVCT3_Data\Dawn_lightning1.blp
-#         texture: KVCT3_Data\Dawn_lightning2.blp
+#         texture: VLTK_data\KVCT3_Data\Dawn_slash_Shoot.blp
+#         texture: VLTK_data\KVCT3_Data\Dawn_lightning1.blp
+#         texture: VLTK_data\KVCT3_Data\Dawn_lightning2.blp
 #
 # 9. Bách Hồng Thực Nhật [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_lucmachthankiem3.mdx   [riêng phái]
-#         texture: KVCT3_Data\tx09_3.blp
+#         texture: VLTK_data\KVCT3_Data\tx09_3.blp
 #
 # 10. Luyện Khí Hoàn Thần [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_luyenkhibuff.mdx   [riêng phái]
@@ -105,12 +139,12 @@ TEXTURES = {
 #         texture: Textures\CrystalSheild.blp
 #         texture: Textures\star4.blp
 #    lớp thêm tại điểm 1: DTK_luyenkhihh.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Flare6.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Flare6.blp
 #         texture: Textures\Flare.blp
 #         texture: Textures\Tornado2b.blp
-#         texture: KVCT3_Data\AZ_Shockwave12.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave12.blp
 #         texture: Textures\lensflare1Ax.blp
-#         texture: KVCT3_Data\Disruptor_Aghanim1_purple.blp
+#         texture: VLTK_data\KVCT3_Data\Disruptor_Aghanim1_purple.blp
 #    lớp thêm tại điểm 2: DTK_luyenkhi.mdx   [riêng phái]
 #         texture: Textures\Yellow_Star_Dim.blp
 #         texture: Textures\Yellow_Glow2.blp
@@ -123,28 +157,27 @@ TEXTURES = {
 #         texture: Textures\Blue_Star2.blp
 #
 # 11. Khí Thôn Vạn Lý [E]   (kind 5, bảng tay)
-#    chính (đạn bay / vùng / hiệu ứng): DTK_lucmachcaster.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_BallisticQ1.blp
-#         texture: KVCT3_Data\AZ_Tornado11b.blp
-#         texture: Textures\Flare.blp
-#         texture: Textures\sun.blp
-#         texture: KVCT3_Data\AZ_Shockwave14.blp
-#         texture: Textures\Tornado2b.blp
-#    trên địch bị trúng: DTK_khithonvanly.mdx   [riêng phái]
-#         texture: KVCT3_Data\flareshot01_bw.blp
-#         texture: KVCT3_Data\dust3.blp
-#         texture: KVCT3_Data\RoyalGlow.blp
+#    chính (đạn bay / vùng / hiệu ứng): DTK_khithonvanly.mdx   [riêng phái]
+#         texture: VLTK_data\KVCT3_Data\flareshot01_bw.blp
+#         texture: VLTK_data\KVCT3_Data\dust3.blp
+#         texture: VLTK_data\KVCT3_Data\RoyalGlow.blp
 #         texture: Textures\Purple_Star.blp
-#         texture: KVCT3_Data\flaresimple01_bw.blp
-#         texture: KVCT3_Data\flaresimple02_bw.blp
+#         texture: VLTK_data\KVCT3_Data\flaresimple01_bw.blp
+#         texture: VLTK_data\KVCT3_Data\flaresimple02_bw.blp
 #         texture: Textures\Dust5ABlack.blp
-#         texture: KVCT3_Data\smoke_bw.blp
+#         texture: VLTK_data\KVCT3_Data\smoke_bw.blp
 #         texture: Textures\GenericGlow2_64.blp
-#         texture: KVCT3_Data\flash01_bw.blp
+#         texture: VLTK_data\KVCT3_Data\flash01_bw.blp
+#    trên địch bị trúng: DTK_khithoneffect.mdx   [riêng phái]
+#         texture: Textures\Flare.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light1o.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_GlowBlue2.blp
+#         texture: Textures\Smoke.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light2j.blp
 #
 # 12. Thiên Long Thần Công [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_lucmachthankiem6.mdx   [riêng phái]
-#         texture: KVCT3_Data\tx09_6.blp
+#         texture: VLTK_data\KVCT3_Data\tx09_6.blp
 #
 # 13. Ám Hương Sơ Ảnh [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): DTK_luyenkhi.mdx   [riêng phái]

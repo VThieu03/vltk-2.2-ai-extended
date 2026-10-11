@@ -8,6 +8,7 @@ import os
 import shutil
 import subprocess
 import sys
+import asset_layout
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(TOOLS)
@@ -76,11 +77,14 @@ class Pipeline:
         BuildStep("kskill.py"),
         BuildStep("kskill_list.py"),
         BuildStep("gameplay.py"),
+        BuildStep("kvunit_models.py"),
         BuildStep("describe.py"),
         BuildStep("kvequip.py"),
         BuildStep("icons.py"),
+        BuildStep("qbframe.py"),
         BuildStep("kvgem.py"),
         BuildStep("vfx.py"),
+        BuildStep("texshrink.py"),
         BuildStep("ui.py", "ui"),
         BuildStep("scale.py"),
         BuildStep("build.py"),
@@ -95,12 +99,17 @@ class Pipeline:
         self.steps = [s for s in self.STEPS if s.tag not in skip_tags]
 
     def run(self):
-        for step in self.steps:
-            if not step.run():
-                return False
-        print("\n>>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<")
-        MapSync(self.OUT_MAP, self.SYNC_TARGETS).run()
-        return True
+        staged = asset_layout.activate()
+        try:
+            for step in self.steps:
+                if not step.run():
+                    return False
+            print("\n>>> ALL PIPELINE STEPS PASSED SUCCESSFULLY! <<<")
+            MapSync(self.OUT_MAP, self.SYNC_TARGETS).run()
+            return True
+        finally:
+            if staged:
+                asset_layout.collapse()
 
 
 def main(argv):

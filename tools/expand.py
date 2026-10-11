@@ -9,7 +9,7 @@
 import io, os, re, struct, sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-import objdata, terrain
+import objdata, terrain, farm_config
 from PIL import Image
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -262,7 +262,15 @@ def main():
                     return False
         return True
 
+    farm_index = 0
+
     def write_farm_zone(f, zname, nx, ny, w, h, level, tele):
+        nonlocal farm_index
+        cfg = farm_config.FARM_ZONES[farm_index]
+        farm_index += 1
+        if cfg["level_min"] != level:
+            raise ValueError("Sai thu tu bai farm %d: %s" % (farm_index, cfg["name"]))
+        zname, tele = cfg["name"], int(cfg["teleport"])
         nx, ny, w, h = int(nx), int(ny), int(w), int(h)
         cand = [
             (x, y)
@@ -273,7 +281,9 @@ def main():
         if len(cand) < 5:
             raise RuntimeError("Bãi farm không đủ điểm đi được: %s (%d điểm)" % (zname, len(cand)))
         mid = ny + h / 2
-        entry = min(cand, key=lambda c: (c[0] - nx) + abs(c[1] - mid))
+        entry = cfg["entry"]
+        if not (nx <= entry[0] < nx + w and ny <= entry[1] < ny + h and open_ground(*entry, 4)):
+            raise ValueError("Diem Xa Phu khong di duoc: %s %s" % (zname, entry))
         camps = []
         for min_gap in (700, 500, 350):
             camps = []
@@ -282,7 +292,9 @@ def main():
                     camps.append(c)
             if len(camps) >= 4:
                 break
-        camps = camps[:4]
+        camps = cfg["camps"]
+        if len(camps) != 4 or any(not (nx <= x < nx + w and ny <= y < ny + h and open_ground(x, y, 4)) for x, y in camps):
+            raise ValueError("Bai farm can 4 diem quai tren dat di duoc: %s" % zname)
         f.write(
             "%s\t%d\t%d\t%d\t%d\t%d\t%d\t%s\t%d\t%d\n"
             % (zname, nx, ny, nx + w, ny + h, entry[0], entry[1], " ".join("%d:%d" % c for c in camps), level, tele)
@@ -305,6 +317,8 @@ def main():
                 continue
             level = 60 if "Cấp 60" in zname else (80 if "Cấp 80" in zname else 100)
             write_farm_zone(f, zname, nx, ny, w, h, level, 1)
+    if farm_index != len(farm_config.FARM_ZONES):
+        raise ValueError("So bai farm trong config khong khop dia hinh")
     print(
         "map %dx%d -> %dx%d tiles, textures %d, doodads +%d (custom types %d), files copied %d"
         % (

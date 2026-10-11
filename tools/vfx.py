@@ -12,7 +12,8 @@ VLKT = r"D:\kvct-dev\work\base.w3x"
 VLKT_OFF = 107008
 KVCT_DATA = r"D:\KVCT31_Data"  # holds KVCT3_Data\ (the KVCT models' textures)
 SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
-I = "war3mapImported\\"
+I = "VLTK_data\\war3mapImported\\"
+SRC_I = "war3mapImported\\"
 # stock model (lowercase, no extension) -> KVCT model of the same kind
 SWAP = {
     r"abilities\spells\other\stampede\stampedemissiledeath": "Effect_Slam",
@@ -67,21 +68,56 @@ def textures(data):
     return out
 
 
+def map_texture_path(path):
+    normalized = path.replace("/", "\\")
+    lower = normalized.lower()
+    if lower.startswith(("kvct3_data\\", "war3mapimported\\")):
+        return "VLTK_data\\" + normalized
+    if "\\" not in normalized and (
+        os.path.isfile(os.path.join(SRC, normalized))
+        or os.path.isfile(os.path.join(SRC, "VLTK_data", "Loose", normalized))
+    ):
+        return "VLTK_data\\Loose\\" + normalized
+    return normalized
+
+
+def rewrite_model_textures(data):
+    data = bytearray(data)
+    i = data.find(b"TEXS")
+    if i < 0:
+        return data
+    for j in range(struct.unpack_from("<i", data, i + 4)[0] // 268):
+        o = i + 8 + 268 * j + 4
+        raw = bytes(data[o : o + 260]).split(bytes(1))[0]
+        if not raw:
+            continue
+        old = raw.decode("latin1")
+        new = map_texture_path(old)
+        if new != old:
+            if len(new.encode("latin1")) >= 260:
+                raise ValueError("texture path is too long: " + new)
+            data[o : o + 260] = new.encode("latin1").ljust(260, bytes(1))
+    return data
+
+
 def copy_models(m):
     done, n = {}, 0
     for model in sorted(set(SWAP.values())):
         name = I + model + ".mdx"
-        data = read(m, name)
+        source_name = SRC_I + model + ".mdx"
+        data = read(m, source_name)
         if data is None:
-            sys.exit("not in VLKT: " + name)
-        files = {name: data}
-        for t in textures(data):
+            sys.exit("not in VLKT: " + source_name)
+        model_textures = textures(data)
+        files = {name: rewrite_model_textures(data)}
+        for t in model_textures:
             d = read(m, t)
             ext = os.path.join(KVCT_DATA, *t.split("\\"))
             if d is None and os.path.exists(ext):  # KVCT's outside texture pack: put it in the map
                 d = open(ext, "rb").read()
             if d is not None:  # stock textures are in the game files
-                files[t] = d
+                path = map_texture_path(t)
+                files[path] = d
         for f, d in files.items():
             p = os.path.join(SRC, *f.split("\\"))
             os.makedirs(os.path.dirname(p), exist_ok=True)

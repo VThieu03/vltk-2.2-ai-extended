@@ -5,7 +5,7 @@
 import os, sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from kvequip_names import ARMOR_NAMES, WEAPON_NAMES
+from kvequip_names import ARMOR_NAMES, WEAPON_NAMES, QUALITY_NAMES
 
 # ---------------------------------------------------------------------------------------------------------------
 # 1. Mười ô (thứ tự KVCT, bảng KU2): mã vật phẩm, tên, "loại" cũ của map (khóa 0 = loại*10+bậc; loại 1 mũ, 2 áo, 3 vũ khí,
@@ -93,13 +93,13 @@ def class_names(w):
 
 
 # ---------------------------------------------------------------------------------------------------------------
-# 3. Bậc cường hóa t = 0..10 (và 11 = vũ khí Tần Lăng): icon theo "cấp kf" của KVCT.
+# 3. Bậc cường hóa hiệu lực t = 0..10; Tần Lăng giữ hình ảnh riêng theo cấp kf 20.
 #    KVCT: kf 1..7 = đồ cấp 1..200, kf 8.. = trùng sinh 1.. (bảng K5b: kf 8..11 = ts 1..4, 12/13 = ts 5, 14 = ts 6,
 #    15/16 = ts 7, 17 = ts 8, 18 = ts 9, 19 = ts 10, 20 = ts 11). Đồ phòng cụ / trang sức của KVCT chỉ có icon tới kf 16.
 #    Bậc 0 (chưa cường hóa) dùng icon kf 7 (đồ cấp 200, ngay trước trùng sinh 1).
 # ---------------------------------------------------------------------------------------------------------------
 # Bộ icon + tên của KVCT theo "cấp kf": kf1 xám (mặc định), kf2 xanh lá, kf3 xanh dương, kf4 tím, kf5-10 cam, kf11+ vàng. Cường hóa +0 ... +10
-# đi dần từ kf1 (xám) lên bộ trùng sinh 6 (kf 14 vũ khí / kf 13 giáp và trang sức, bộ vốn dùng ở +6) làm bậc +10; bậc 11 = Tần Lăng (kf20).
+# đi dần từ kf1 (xám) lên bộ trùng sinh 6 (kf 14 vũ khí / kf 13 giáp và trang sức) làm bậc +10; Tần Lăng dùng ảnh riêng kf20.
 # Tên trang bị đổi theo kf của bậc (tên KVCT). Muốn đổi bộ nào ở bậc nào chỉ cần sửa hai danh sách này (chỉ số = bậc 0..11).
 KF_WEAPON = [1, 2, 3, 4, 5, 7, 9, 11, 12, 13, 14, 20]  # xám, xanh lá, xanh dương, tím, cam, cam, cam, vàng x4, Tần Lăng
 KF_ARMOR = [1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 13, 13]  # xám, xanh lá, xanh dương, tím, cam x4, vàng x3 (+10 = bộ ts6 cũ)
@@ -173,7 +173,7 @@ def tier_color(slot, tier):
 #    1 hút sinh lực %, 2 hút nội lực %, 3 bạo kích %, 4 tốc đánh %, 5 sát thương %, 6 giảm sát thương nhận %,
 #    7 sinh lực, 8 sức mạnh, 9 thân pháp, 10 nội công, 11..15 kháng vật lý / độc / thủy / hỏa / lôi %, 16 tốc độ xuất chiêu %,
 #    17 STVL nội công, 18 STVL ngoại công, 19 điểm đánh trúng, 20 né tránh, 21 tốc chạy, 23 sát thương gốc, 24 giáp.
-#    Chỉ số theo bậc t = nền * hệ số %, hệ số = 100 + 30 * t (t <= 10, tức 400% ở +10), Tần Lăng (t = 11) = 500%.
+#    Chỉ số theo bậc t = nền * hệ số %, hệ số = 100 + 30 * t; mọi vũ khí, kể cả Tần Lăng, tối đa 400% ở +10.
 # ---------------------------------------------------------------------------------------------------------------
 BASE = {
     1: [(8, 10), (9, 10), (10, 10)],
@@ -217,7 +217,7 @@ MAX_STATS = 6
 
 def pct(t):
     """hệ số chỉ số (%) theo bậc: bản sao của zzEQ_Pct trong JASS"""
-    return 500 if t >= TANLANG_TIER else 100 + 30 * max(t, 0)
+    return 100 + 30 * min(MAX_TIER, max(t, 0))
 
 
 def stat_line(slot, p=100):
@@ -237,8 +237,8 @@ def weapon_element(w):
 # vật phẩm cơ bản: loại * 10 + bậc dùng cho khóa 0 (bậc 3 = "bộ trang bị" cấp 3, Tần Lăng bậc 5)
 KEY0_TIER = 3
 KEY0_TIER_TANLANG = 5
-SELL_GOLD = 400  # giá bán (khóa 41) của ITV / ITS
-GOLD_COST = 2000  # igol của ITV / ITS (không bán trong tiệm, chỉ để có giá)
+SELL_GOLD = 4000  # giá bán (khóa 41) của ITV / ITS
+GOLD_COST = 20000  # igol của ITV / ITS (không bán trong tiệm, chỉ để có giá)
 
 # Tần Lăng Hòa Thị Bích (vật phẩm nguyên liệu, boss Tần Thủy Hoàng rơi): vatpham_41 = "Hòa Thị Bích" của KVCT
 HOATHIBICH_ICON = "vatpham_41.blp"

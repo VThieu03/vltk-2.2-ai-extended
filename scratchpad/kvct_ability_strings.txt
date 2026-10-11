@@ -194,7 +194,7 @@ Researchubertip=Gives additional armor to nearby friendly units. |n|n|cffffcc00L
 TargetArt=x.mdl
 Targetattach=origin
 Tip=Devotion Aura - [|cffffcc00Level 1|r]
-Ubertip=Gives 1 additional armor to nearby friendly units.
+Ubertip=Gives 1 additional armor to nearby fFriendly units.
 
 [A00Q]
 Art=war3mapImported\PASnguhanh2.blp

@@ -1,5 +1,5 @@
 # Viet mo ta model + texture cua tung chieu, moi phai 1 file: tools/kvfx/doc/<PHAI>.md  (de tu sua sau nay)
-# Nguon su that = nhung gi map dang dung: build/kskill_table.j (model moi chieu) + file .mdx trong src/map/war3mapImported (texture).
+# Nguon su that = nhung gi map dang dung: build/kskill_table.j (model moi chieu) + model trong src/map/VLTK_data/Models.
 # Chay sau pipeline: python tools/kvfx_doc.py
 import collections
 import os
@@ -16,7 +16,7 @@ from kskill_data import CLASS, load
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-IMP = os.path.join(ROOT, "src", "map", "war3mapImported")
+IMP = os.path.join(ROOT, "src", "map", "VLTK_data", "Models", "war3mapImported")
 OUT = os.path.join(HERE, "kvfx", "doc")
 ROLE = {
     250: "chính (đạn bay / vùng / hiệu ứng)",
@@ -34,6 +34,8 @@ CLASS_OF_PREFIX = {c: c for c in set(CLASS.values())}
 
 
 def textures_of(model):
+    if model.lower().startswith(("abilities\\", "doodads\\", "environment\\", "objects\\", "units\\")):
+        return []
     path = os.path.join(IMP, *model.split("\\"))
     if not os.path.exists(path):
         return None
@@ -43,10 +45,13 @@ def textures_of(model):
 def main():
     table = open(os.path.join(ROOT, "build", "kskill_table.j"), encoding="utf-8").read()
     per = collections.defaultdict(dict)  # skill id -> {key: model}
-    for m in re.finditer(r"call SaveStr\(zzVL_ht,'(\w{4})',(\d+),\"war3mapImported\\([^\"]+)\"\)", table):
+    for m in re.finditer(r"call SaveStr\(zzVL_ht,'(\w{4})',(\d+),\"([^\"]+)\"\)", table):
         k = int(m.group(2))
         if k in ROLE:
-            per[m.group(1)][k] = m.group(3).replace("\\\\", "\\").lstrip("\\")
+            model = m.group(3).replace("\\\\", "\\")
+            if model.lower().startswith(("vltk_data\\war3mapimported\\", "vltk_data\\models\\war3mapimported\\")):
+                model = model.split("\\", 2)[-1]
+            per[m.group(1)][k] = model
     stat = collections.defaultdict(dict)  # skill id -> {242 status, 243 chance %, 244 tenths of a second}
     for m in re.finditer(r"call SaveInteger\(zzVL_ht,'(\w{4})',(242|243|244),(\d+)\)", table):
         stat[m.group(1)][int(m.group(2))] = int(m.group(3))
@@ -71,7 +76,7 @@ def main():
             "",
             "Tự sinh bởi `python tools/kvfx_doc.py` (đừng sửa tay file này). Muốn đổi model: sửa `tools/kvfx/hand/%s.py`" % cl,
             "(các khóa `main`, `cast`, `target`, `area`, `aura`, `scale`), chạy lại pipeline rồi chạy lại `kvfx_doc.py`.",
-            "Muốn đổi hình của một model: mở file `.mdx` trong `src/map/war3mapImported` bằng Retera Model Studio và sửa",
+            "Muốn đổi hình của một model: mở file `.mdx` trong `src/map/VLTK_data/Models` bằng Retera Model Studio và sửa",
             "texture (`.blp`) liệt kê ở dưới. **Riêng phái** = model mang tiền tố `%s_`; **dùng chung** = model của phái khác," % cl,
             "hoặc model chung của game (`Effect_*`, `MDX/*` của Thiên Kiếm...), sửa sẽ ảnh hưởng cả các phái khác.",
             "",
@@ -107,9 +112,10 @@ def main():
                 base = os.path.basename(mdl.replace("\\", "/"))
                 own = base.upper().startswith(cl + "_")
                 shared = sorted(c for c in users[mdl] if c != cl)
-                kind_txt = "riêng phái" if own and not shared else ("riêng phái, phái khác cũng dùng: " + ", ".join(shared)) if own else ("dùng chung" + (" (model Thiên Kiếm)" if mdl.upper().startswith("MDX\\") else "") + (" (cùng dùng: " + ", ".join(shared) + ")" if shared else ""))
+                stock = mdl.lower().startswith(("abilities\\", "doodads\\", "environment\\", "objects\\", "units\\"))
+                kind_txt = "model gốc Warcraft III" if stock else "riêng phái" if own and not shared else ("riêng phái, phái khác cũng dùng: " + ", ".join(shared)) if own else ("dùng chung" + (" (model Thiên Kiếm)" if mdl.upper().startswith("MDX\\") else "") + (" (cùng dùng: " + ", ".join(shared) + ")" if shared else ""))
                 tex = textures_of(mdl)
-                tex_txt = "không thấy file model" if tex is None else (", ".join("`%s`" % t for t in tex) or "(không có texture ngoài)")
+                tex_txt = "model gốc Warcraft III" if stock else "không thấy file model" if tex is None else (", ".join("`%s`" % t for t in tex) or "(không có texture ngoài)")
                 extra = []
                 if k in (281, 280) and flags[sid].get(288 if k == 281 else 289):
                     extra.append("đặt dưới đất (model sàn)")

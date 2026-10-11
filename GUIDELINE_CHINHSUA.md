@@ -20,7 +20,7 @@ Trong file này, bạn có thể dễ dàng sửa đổi các thông số cơ b�
 2. Đổi các con số bạn muốn và Lưu (Save) lại.
 3. Chạy lệnh pipeline để tự động build lại map: 
    ```bash
-   python scratchpad/run_pipeline_noui.py
+   python tools/pipeline.py --no-ui
    ```
 
 ---
@@ -47,6 +47,6 @@ Nếu bạn muốn thay đổi các thuộc tính phức tạp hơn chưa có tr
 ---
 
 ## TỔNG KẾT
-Mọi sự thay đổi (dù bạn làm ở file Python nào) đều yêu cầu chạy lại file `run_pipeline_noui.py` để công cụ dịch thông số vào mã nguồn JASS và tạo ra file map `.w3x` cuối cùng.
+Mọi sự thay đổi (dù bạn làm ở file Python nào) đều yêu cầu chạy lại `python tools/pipeline.py --no-ui` để công cụ dịch thông số vào mã nguồn JASS và tạo ra file map `.w3x` cuối cùng.
 
 Chúc bạn custom map vui vẻ!

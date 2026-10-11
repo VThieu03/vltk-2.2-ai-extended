@@ -13,8 +13,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC = os.path.join(ROOT, "src", "map")
 KVCT = r"D:\kvct-dev\work\base.w3x"
 BS = chr(92)
-ICON_DIR = os.path.join(SRC, "war3mapImported", "kv_gem")
-ICON_PREFIX = "war3mapImported" + BS + "kv_gem" + BS
+ICON_DIR = os.path.join(SRC, "VLTK_data", "war3mapImported", "kv_gem")
+ICON_PREFIX = "VLTK_data" + BS + "war3mapImported" + BS + "kv_gem" + BS
 
 def mod(mid, val, typ=0):
     if typ == 3:

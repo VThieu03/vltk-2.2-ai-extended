@@ -5,9 +5,11 @@ import os, re, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import objdata
 import config
+from model import Phai
 
 SRC = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")), "src", "map")
 K = config.HERO_STAT_DIVIDER
+PHAI_BY_HERO = {p.hero_id: p for p in Phai.all()}
 
 
 def load(ext):
@@ -26,11 +28,18 @@ def main():
     w3u = load(".w3u")
     tabs = w3u.tables
     nu = 0
-    for tab in tabs:
+    for ti, tab in enumerate(tabs):
         for o, n, sets in tab:
+            iid = (o if ti == 0 else n).decode("latin1")
+            phai = PHAI_BY_HERO.get(iid)
+            growth = config.PHE_LEVEL_GROWTH.get(phai.he) if phai else None
             for x in sets[0]:
                 if x[0] in (b"ustp", b"uagp", b"uinp"):
-                    x[4] = struct.pack("<f", struct.unpack("<f", x[4])[0] / K)
+                    if growth is not None:
+                        v = growth[(b"ustp", b"uagp", b"uinp").index(x[0])]
+                    else:  # không phải tướng có phái (ví dụ đơn vị phụ): giữ cách cũ, chia đều theo HERO_STAT_DIVIDER
+                        v = struct.unpack("<f", x[4])[0] / K
+                    x[4] = struct.pack("<f", v)
                     nu += 1
     w3u.save()
     w3a = load(".w3a")
@@ -55,7 +64,10 @@ def main():
     s = open(p, "rb").read().decode("utf-8")
     nl = "\r\n" if "\r\n" in s else "\n"
     for k, v in (("MaxHeroLevel", "200"), ("NeedHeroXP", "200"), ("NeedHeroXPFormulaA", "1"),
-                 ("NeedHeroXPFormulaB", "60"), ("NeedHeroXPFormulaC", "0")):
+                 ("NeedHeroXPFormulaB", "60"), ("NeedHeroXPFormulaC", "0"),
+                 # giết quái không cho XP gốc của game nữa: XP bãi quái do gameplay_02_farm.j cấp theo cấp bãi
+                 ("GrantNormalXP", "0"), ("GrantNormalXPFormulaA", "0"), ("GrantNormalXPFormulaB", "0"),
+                 ("GrantNormalXPFormulaC", "0")):
         if re.search(r"(?m)^%s=" % k, s):
             s = re.sub(r"(?m)^%s=[^\r\n]*" % k, "%s=%s" % (k, v), s)
         else:

@@ -2,7 +2,7 @@
 
 Tự sinh bởi `python tools/kvfx_doc.py` (đừng sửa tay file này). Muốn đổi model: sửa `tools/kvfx/hand/DTC.py`
 (các khóa `main`, `cast`, `target`, `area`, `aura`, `scale`), chạy lại pipeline rồi chạy lại `kvfx_doc.py`.
-Muốn đổi hình của một model: mở file `.mdx` trong `src/map/war3mapImported` bằng Retera Model Studio và sửa
+Muốn đổi hình của một model: mở file `.mdx` trong `src/map/VLTK_data/war3mapImported` bằng Retera Model Studio và sửa
 texture (`.blp`) liệt kê ở dưới. **Riêng phái** = model mang tiền tố `DTC_`; **dùng chung** = model của phái khác,
 hoặc model chung của game (`Effect_*`, `MDX/*` của Thiên Kiếm...), sửa sẽ ảnh hưởng cả các phái khác.
 
@@ -13,6 +13,8 @@ Trạng thái gây ra: **thọ thương (câm lặng)** 30% trong 0.5 giây
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
 | chính (đạn bay / vùng / hiệu ứng) | `MDX\ThanChi.mdx` | `Textures\WaterWake3.blp`, `Textures\WaterBlobs1.blp`, `Textures\Bubble.blp`, `Textures\White_64_Foam1.blp` | dùng chung (model Thiên Kiếm) |
+| lúc tung (trên tướng) | `Abilities\Spells\Undead\FrostArmor\FrostArmorDamage.mdl` | model gốc Warcraft III | model gốc Warcraft III |
+| trên địch bị trúng | `Abilities\Spells\Undead\FrostArmor\FrostArmorDamage.mdl` | model gốc Warcraft III | model gốc Warcraft III |
 
 ## 2. Đoàn Thị Chỉ Pháp [bị động]  (id X326, kind 0)
 Nguồn model: **bảng tay**
@@ -21,7 +23,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_canduongchi.mdx` | `KVCT3_Data\AZ_GlowYellowb.blp`, `KVCT3_Data\AZ_Flare1R1b.blp`, `KVCT3_Data\MG_Lightning1_fxb.blp`, `KVCT3_Data\lightning4x4.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_canduongchi.mdx` | `VLTK_data\KVCT3_Data\AZ_GlowYellowb.blp`, `VLTK_data\KVCT3_Data\AZ_Flare1R1b.blp`, `VLTK_data\KVCT3_Data\MG_Lightning1_fxb.blp`, `VLTK_data\KVCT3_Data\lightning4x4.blp` | riêng phái |
 
 ## 3. Nhất Dương Chỉ [R]  (id X327, kind 5)
 Nguồn model: **bảng tay**
@@ -29,14 +31,15 @@ Trạng thái gây ra: **định thân** 80% trong 3.0 giây → model trạng t
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTK_kimngocmanduong.mdx` | `KVCT3_Data\Dawn_slash_Shoot.blp`, `KVCT3_Data\Dawn_lightning1.blp`, `KVCT3_Data\Dawn_lightning2.blp` | dùng chung (cùng dùng: DTK) |
+| chính (đạn bay / vùng / hiệu ứng) | `DTK_kimngocmanduong.mdx` | `VLTK_data\KVCT3_Data\Dawn_slash_Shoot.blp`, `VLTK_data\KVCT3_Data\Dawn_lightning1.blp`, `VLTK_data\KVCT3_Data\Dawn_lightning2.blp` | dùng chung (cùng dùng: DTK) |
+| trên địch bị trúng | `Abilities\Weapons\SpiritOfVengeanceMissile\SpiritOfVengeanceMissile.mdl` | model gốc Warcraft III | model gốc Warcraft III |
 
 ## 4. Lăng Ba Vi Bộ [F]  (id X328, kind 6)
 Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_langbacast.mdx` | `Textures\Flare.blp`, `Textures\star4_32.blp`, `Textures\star5tga.blp`, `KVCT3_Data\tx163-1.blp`, `KVCT3_Data\tx163-2.blp`, `KVCT3_Data\tx163-3.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `Abilities\Spells\Other\Drain\ManaDrainCaster.mdl` | model gốc Warcraft III | model gốc Warcraft III |
 
 ## 5. Từ Bi Quyết [bị động]  (id X329, kind 0)
 Nguồn model: **bảng tay**
@@ -45,7 +48,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi1.mdx` | `KVCT3_Data\AFB_lltsfx.blp`, `KVCT3_Data\AFB_TT1.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi1.mdx` | `VLTK_data\KVCT3_Data\AFB_lltsfx.blp`, `VLTK_data\KVCT3_Data\AFB_TT1.blp` | riêng phái |
 
 ## 6. Kim Ngọc Chỉ Pháp [bị động]  (id X330, kind 0)
 Nguồn model: **bảng tay**
@@ -54,7 +57,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi2.mdx` | `KVCT3_Data\bd100.blp`, `Textures\Shockwave10.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi2.mdx` | `VLTK_data\KVCT3_Data\bd100.blp`, `Textures\Shockwave10.blp` | riêng phái |
 
 ## 7. Cản Dương Thần Chỉ [W]  (id X331, kind 4)
 Nguồn model: **bảng tay**
@@ -62,9 +65,10 @@ Trạng thái gây ra: **thọ thương (câm lặng)** 35% trong 0.5 giây
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_canduongeffect1.mdx` | `Textures\Flare.blp`, `KVCT3_Data\TX_daji.blp` | riêng phái |
-| lớp thêm tại điểm 1 | `DTC_Img.mdx` | `KVCT3_Data\Mr.War3_PJWH.blp` | riêng phái |
-| lớp thêm tại điểm 2 | `DTC_canduongchi.mdx` | `KVCT3_Data\AZ_GlowYellowb.blp`, `KVCT3_Data\AZ_Flare1R1b.blp`, `KVCT3_Data\MG_Lightning1_fxb.blp`, `KVCT3_Data\lightning4x4.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_Img.mdx` | `VLTK_data\KVCT3_Data\Mr.War3_PJWH.blp` | riêng phái |
+| lúc tung (trên tướng) | `DTC_canduongeffect1.mdx` | `Textures\Flare.blp`, `VLTK_data\KVCT3_Data\TX_daji.blp` | riêng phái |
+| trên địch bị trúng | `Abilities\Spells\Undead\FrostArmor\FrostArmorDamage.mdl` | model gốc Warcraft III | model gốc Warcraft III |
+| lớp thêm tại điểm 1 | `DTC_canduongchi.mdx` | `VLTK_data\KVCT3_Data\AZ_GlowYellowb.blp`, `VLTK_data\KVCT3_Data\AZ_Flare1R1b.blp`, `VLTK_data\KVCT3_Data\MG_Lightning1_fxb.blp`, `VLTK_data\KVCT3_Data\lightning4x4.blp` | riêng phái |
 
 ## 8. Huyền Băng Cửu Kiếp [D]  (id X332, kind 16)
 Nguồn model: **bảng tay**
@@ -72,7 +76,7 @@ Trạng thái gây ra: **làm chậm** 80% trong 3.0 giây → model trạng th�
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_Img.mdx` | `KVCT3_Data\Mr.War3_PJWH.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `Abilities\Spells\Undead\FreezingBreath\FreezingBreathMissile.mdl` | model gốc Warcraft III | model gốc Warcraft III |
 
 ## 9. Diệu Đề Chỉ [bị động]  (id X333, kind 0)
 Nguồn model: **bảng tay**
@@ -81,7 +85,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_dieudebuff.mdx` | `Textures\GenericGlow64.blp`, `Textures\star5tga.blp`, `KVCT3_Data\Precision.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_dieudebuff.mdx` | `Textures\GenericGlow64.blp`, `Textures\star5tga.blp`, `VLTK_data\KVCT3_Data\Precision.blp` | riêng phái |
 
 ## 10. Thí Nguyên Quyết [bị động]  (id X334, kind 0)
 Nguồn model: **bảng tay**
@@ -98,9 +102,10 @@ Trạng thái gây ra: **thọ thương (câm lặng)** 40% trong 0.5 giây
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi1.mdx` | `KVCT3_Data\AFB_lltsfx.blp`, `KVCT3_Data\AFB_TT1.blp` | riêng phái |
-| lớp thêm tại điểm 1 | `DTC_canduongeffect1.mdx` | `Textures\Flare.blp`, `KVCT3_Data\TX_daji.blp` | riêng phái |
-| lớp thêm tại điểm 2 | `DTC_Img.mdx` | `KVCT3_Data\Mr.War3_PJWH.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi1.mdx` | `VLTK_data\KVCT3_Data\AFB_lltsfx.blp`, `VLTK_data\KVCT3_Data\AFB_TT1.blp` | riêng phái |
+| lúc tung (trên tướng) | `DTC_canduongeffect1.mdx` | `Textures\Flare.blp`, `VLTK_data\KVCT3_Data\TX_daji.blp` | riêng phái |
+| lớp thêm tại điểm 1 | `DTC_Img.mdx` | `VLTK_data\KVCT3_Data\Mr.War3_PJWH.blp` | riêng phái |
+| lớp thêm tại điểm 2 | `DTC_tranphai22.mdx` | `VLTK_data\KVCT3_Data\bd100.blp`, `Textures\Shockwave10.blp` | riêng phái |
 
 ## 12. Càn Thiên Chỉ Pháp [bị động]  (id X336, kind 0)
 Nguồn model: **bảng tay**
@@ -109,8 +114,8 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi1.mdx` | `KVCT3_Data\AFB_lltsfx.blp`, `KVCT3_Data\AFB_TT1.blp` | riêng phái |
-| lớp thêm tại điểm 1 | `DTC_thienlongchi2.mdx` | `KVCT3_Data\bd100.blp`, `Textures\Shockwave10.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_thienlongchi1.mdx` | `VLTK_data\KVCT3_Data\AFB_lltsfx.blp`, `VLTK_data\KVCT3_Data\AFB_TT1.blp` | riêng phái |
+| lớp thêm tại điểm 1 | `DTC_thienlongchi2.mdx` | `VLTK_data\KVCT3_Data\bd100.blp`, `Textures\Shockwave10.blp` | riêng phái |
 
 ## 13. Bách Bộ Xuyên Dương [bị động]  (id X337, kind 0)
 Nguồn model: **bảng tay**
@@ -119,6 +124,6 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `DTC_bachbobuff.mdx` | `Textures\lensflare1A.blp`, `Textures\DemonRune2.blp`, `Textures\DemonRune3.blp`, `KVCT3_Data\massteleportcircle.blp`, `Textures\ribbonne1_blue.blp` | riêng phái |
-| lớp thêm tại điểm 1 | `DTC_canduongchi.mdx` | `KVCT3_Data\AZ_GlowYellowb.blp`, `KVCT3_Data\AZ_Flare1R1b.blp`, `KVCT3_Data\MG_Lightning1_fxb.blp`, `KVCT3_Data\lightning4x4.blp` | riêng phái |
-| lớp thêm tại điểm 2 | `DTC_canduongeffect1.mdx` | `Textures\Flare.blp`, `KVCT3_Data\TX_daji.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `DTC_bachbobuff.mdx` | `Textures\lensflare1A.blp`, `Textures\DemonRune2.blp`, `Textures\DemonRune3.blp`, `VLTK_data\KVCT3_Data\massteleportcircle.blp`, `Textures\ribbonne1_blue.blp` | riêng phái |
+| lớp thêm tại điểm 1 | `DTC_canduongchi.mdx` | `VLTK_data\KVCT3_Data\AZ_GlowYellowb.blp`, `VLTK_data\KVCT3_Data\AZ_Flare1R1b.blp`, `VLTK_data\KVCT3_Data\MG_Lightning1_fxb.blp`, `VLTK_data\KVCT3_Data\lightning4x4.blp` | riêng phái |
+| lớp thêm tại điểm 2 | `DTC_canduongeffect1.mdx` | `Textures\Flare.blp`, `VLTK_data\KVCT3_Data\TX_daji.blp` | riêng phái |

@@ -1,4 +1,8 @@
 [Misc]
+GrantNormalXPFormulaC=0
+GrantNormalXPFormulaB=0
+GrantNormalXPFormulaA=0
+GrantNormalXP=0
 NeedHeroXPFormulaC=0
 NeedHeroXPFormulaB=60
 NeedHeroXPFormulaA=1

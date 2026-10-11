@@ -22,6 +22,7 @@ function zzGD_Drop takes integer vl_kind,real vl_x,real vl_y,unit vl_hero return
         set vl_code=zzGM_Code(GetRandomInt(1,6),GetRandomInt(LoadInteger(zzVL_ht,0,370+vl_k),LoadInteger(zzVL_ht,0,380+vl_k)))
         if vl_code!=0 then
             set vl_it=CreateItem(vl_code,vl_x+GetRandomReal(-40.,40.),vl_y+GetRandomReal(-40.,40.))
+            call zzDR_TrackItem(vl_it)
             set vl_it=null
         endif
         set vl_n=vl_n-1

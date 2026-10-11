@@ -179,9 +179,6 @@ function zzVL_AiFight takes nothing returns nothing
                     set vl_ok=zzVL_TryCast(vl_hero,vl_t,20)
                 endif
                 if not vl_ok then
-                    set vl_ok=zzVL_TpAi(vl_hero,vl_t)
-                endif
-                if not vl_ok then
                     set vl_ok=zzVL_TryCast(vl_hero,vl_t,10)
                 endif
                 if not vl_ok and IsUnitType(vl_t,UNIT_TYPE_HERO) and (vl_t!=zzVL_aiTgt[vl_playerId] or vl_cur==0) then

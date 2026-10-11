@@ -1,7 +1,7 @@
 # Bước pipeline: hệ trang bị KVCT (nhóm DATA). Tác giả icon / tên trang bị KVCT: Silva.Fox.
 #   - war3map.w3t: tạo vật phẩm ITV0..ITVA (vũ khí gốc 11 loại), ITS1..ITS5 / ITS7..ITSA (nón, áo, lưng, tay, giày, liên, nhẫn,
-#     bội, hộ phù), ITW0..ITWA (Vũ khí Tần Lăng, trùng sinh 11, bán trong tiệm) và ITHB (Tần Lăng Hòa Thị Bích, nguyên liệu).
-#   - icon KVCT theo bậc cường hóa 0..10 (+ bậc 11 của vũ khí) chép vào src\map\war3mapImported\kvq\ (thư mục riêng, icons.py chỉ xóa
+#     bội, hộ phù), ITW0..ITWA (Vũ khí Tần Lăng, dùng ảnh riêng nhưng tính +10, bán trong tiệm) và ITHB (Tần Lăng Hòa Thị Bích, nguyên liệu).
+#   - icon KVCT theo bậc cường hóa 0..10 cùng ảnh riêng Tần Lăng chép vào src\map\war3mapImported\kvq\ (thư mục riêng, icons.py chỉ xóa
 #     war3mapImported\kv\) kèm bản "disabled" cho icon hiện trong tiệm (ReplaceableTextures\CommandButtonsDisabled\DIS<tên>).
 #   - bảng dữ liệu cho JASS (gameplay_09_equip.j): hàm zzEQ_Items ghi thẳng vào war3map.j, được gọi từ zzVL_Items (cách của icons.py).
 # Chạy SAU gameplay.py và describe.py (war3map.j đã có zzVL_Items), TRƯỚC icons.py. Chạy lại được (xóa bản ghi cũ trước khi tạo).
@@ -20,7 +20,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC = os.path.join(ROOT, "src", "map")
 KVCT = r"D:\kvct-dev\work\base.w3x"
 BS = chr(92)
-DST = "war3mapImported" + BS + "kvq" + BS
+DST = "VLTK_data" + BS + "war3mapImported" + BS + "kvq" + BS
 NL = "|n"
 
 ITEM_IDS = (
@@ -69,11 +69,14 @@ def static_text(iid, slot, w, tanlang):
     if slot == 6:
         t = G + "Loại:|r |cffffffffVũ Khí - %s|r" % D.WEAPONS[w][0]
         if tanlang:
-            t += NL + "|cffff8000Trùng sinh 11 - Vũ khí Tần Lăng|r"
+            t += NL + "|cffff8000Vũ khí Tần Lăng (+10)|r"
         t += NL + G + "Tiến cử:|r |cff00ff80" + (", ".join(D.class_names(w)) or "-") + "|r"
         e = D.weapon_element(w) - 1
-        t += NL + G + "Ngũ hành vũ khí:|r %s%s|r" % (gp.ELEMENT_COLOR[e], gp.ELEMENTS[e])
-        t += NL + G + "   " + gp.ELEMENT_TEXT[e] + "|r"
+        if tanlang:
+            t += NL + G + "Ngũ hành:|r kế thừa từ vũ khí +10 cùng loại"
+        else:
+            t += NL + G + "Ngũ hành vũ khí:|r %s%s|r" % (gp.ELEMENT_COLOR[e], gp.ELEMENTS[e])
+            t += NL + G + "   " + gp.ELEMENT_TEXT[e] + "|r"
     else:
         t = G + "Loại:|r |cffffffff%s|r" % D.SLOTS[slot][1]
         t += NL + G + "Dùng cho:|r |cff00ff80mọi môn phái|r"
@@ -84,6 +87,8 @@ def make_item(iid, slot, w, tanlang):
     t0 = D.TANLANG_TIER if tanlang else 0
     name = D.tier_color(slot, t0) + D.tier_name(slot, w, t0) + "|r"
     text = static_text(iid, slot, w, tanlang)
+    if tanlang:
+        text += NL + "|cffffcc00Giá đổi: %s vàng|r" % format(config.TANLANG_WEAPON_GOLD, ",")
     mods = [
         mod(b"unam", 3, name),
         mod(b"utip", 3, name),
@@ -91,13 +96,16 @@ def make_item(iid, slot, w, tanlang):
         mod(b"ides", 3, text),
         mod(b"iabi", 3, ""),
         mod(b"iico", 3, icon_path(slot, w, t0)),
-        mod(b"igol", 0, config.TANLANG_WEAPON_GOLD if tanlang else D.GOLD_COST),
+        # ITW is priced by gameplay_10_shop.j so Warcraft cannot silently block
+        # the purchase before the custom transaction can report missing gold.
+        mod(b"igol", 0, 0 if tanlang else D.GOLD_COST),
         mod(b"ilum", 0, 0),
         mod(b"idro", 0, 1),
         mod(b"ipaw", 0, 1),
         mod(b"isel", 0, 1),
         mod(b"ilev", 0, 10 if tanlang else 8),
         mod(b"icla", 3, "Permanent"),
+        mod(b"ifil", 3, config.DROP_ITEM_MODEL),   # hình món đồ nằm trên đất: túi thay cho rương
     ]
     if tanlang:  # hàng của cửa hàng (gameplay.py shops() đặt cùng số: isto 10, istr 30, isst 0)
         mods += [mod(b"isto", 0, 10), mod(b"istr", 0, 30), mod(b"isst", 0, 0)]
@@ -108,7 +116,7 @@ def make_hoathibich():
     name = "|cffff8000Tần Lăng Hòa Thị Bích|r"
     text = (
         "|cffff8000Nguyên liệu|r rơi từ boss |cffffcc00Tần Thủy Hoàng|r ở Tần Lăng." + NL
-        + "Cùng vàng và 1 vũ khí +10 cùng loại, đổi lấy |cffffcc00Vũ khí Tần Lăng|r (trùng sinh 11) ở tiệm tạp hóa." + NL
+        + "Cùng vàng và 1 vũ khí +10 cùng loại, đổi lấy |cffffcc00Vũ khí Tần Lăng (+10)|r ở tiệm tạp hóa." + NL
         + "|cff9a9a9aGiữ trong Hành Trang (B). Không bán được.|r"
     )
     mods = [
@@ -125,6 +133,7 @@ def make_hoathibich():
         mod(b"isel", 0, 1),
         mod(b"ilev", 0, 10),
         mod(b"icla", 3, "Miscellaneous"),
+        mod(b"ifil", 3, config.DROP_ITEM_MODEL),   # vứt ra / rơi từ boss phải thấy trên đất (trước đây thiếu)
     ]
     return [b"clfm", b"ITHB", [mods]]
 
@@ -174,7 +183,7 @@ def blp64(kv, name):
 def copy_icons():
     d = open(KVCT, "rb").read(1 << 20)
     kv = MPQ(KVCT, d.find(b"MPQ\x1a"))
-    out_dir = os.path.join(SRC, "war3mapImported", "kvq")
+    out_dir = os.path.join(SRC, "VLTK_data", "war3mapImported", "kvq")
     dis_dir = os.path.join(SRC, "ReplaceableTextures", "CommandButtonsDisabled")
     os.makedirs(out_dir, exist_ok=True)
     os.makedirs(dis_dir, exist_ok=True)
@@ -239,14 +248,19 @@ def rows():
         r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (390 + k_, config.GD_CHANCE_PCT[k_]))
         r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (365 + k_, config.GD_COUNT[k_]))
         
-    # hệ ngoại / nội công (config mục 15): khóa 99 trên loại tướng (1 ngoại, 2 nội); 450-457 hệ số kỹ năng ×100, 458 né nội ×100
+    # hệ ngoại / nội công (config mục 15): khóa 99 trên loại tướng (1 ngoại, 2 nội); 450-454 hệ số kỹ năng ngoại ×100
+    # (weapon%, Str, Agi, Int, %Nội lực tối đa), 455-459 hệ số kỹ năng nội ×100 cùng thứ tự, 460 né nội ×100
     from model import Phai
     for p_ in sorted(Phai.all(), key=lambda p: p.hero_id):
         r.append("call SaveInteger(zzVL_ht,'%s',99,%d)" % (p_.hero_id, p_.he_id))
     for i_, he_ in enumerate(("ngoai", "noi")):
         for j_, v_ in enumerate(config.PHE_SKILL_SCALE[he_]):
-            r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (450 + 4 * i_ + j_, round(v_ * (1 if j_ == 0 else 100))))
-    r.append("call SaveInteger(zzVL_ht,0,458,%d)" % round(config.PHE_DODGE_NOI_PER_INT * 100))
+            r.append("call SaveInteger(zzVL_ht,0,%d,%d)" % (450 + 5 * i_ + j_, round(v_ * (1 if j_ == 0 else 100))))
+    r.append("call SaveInteger(zzVL_ht,0,460,%d)" % round(config.PHE_DODGE_NOI_PER_INT * 100))
+    r.append("call SaveInteger(zzVL_ht,0,461,%d)" % round(config.PHE_HP_PER_LEVEL_NOI * 100))
+    # 462 ngoại / 463 nội: trần tốc đánh (đòn/giây x100, config.py PHE_ATTACK_SPEED_CAP)
+    r.append("call SaveInteger(zzVL_ht,0,462,%d)" % round(config.PHE_ATTACK_SPEED_CAP["ngoai"] * 100))
+    r.append("call SaveInteger(zzVL_ht,0,463,%d)" % round(config.PHE_ATTACK_SPEED_CAP["noi"] * 100))
     # phi phong 15 bậc + quan ấn 8 bậc (config mục 18): 0/599 số bậc phi phong, 600+i danh hiệu, 620+i tên đầy đủ, 640+i công trạng;
     # 0/659 số bậc quan ấn, 660+i tên, 680+i công trạng
     r.append("call SaveInteger(zzVL_ht,0,599,%d)" % len(config.PHI_PHONG))

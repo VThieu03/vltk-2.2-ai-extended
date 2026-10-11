@@ -2,7 +2,7 @@
 
 Tự sinh bởi `python tools/kvfx_doc.py` (đừng sửa tay file này). Muốn đổi model: sửa `tools/kvfx/hand/TVD.py`
 (các khóa `main`, `cast`, `target`, `area`, `aura`, `scale`), chạy lại pipeline rồi chạy lại `kvfx_doc.py`.
-Muốn đổi hình của một model: mở file `.mdx` trong `src/map/war3mapImported` bằng Retera Model Studio và sửa
+Muốn đổi hình của một model: mở file `.mdx` trong `src/map/VLTK_data/war3mapImported` bằng Retera Model Studio và sửa
 texture (`.blp`) liệt kê ở dưới. **Riêng phái** = model mang tiền tố `TVD_`; **dùng chung** = model của phái khác,
 hoặc model chung của game (`Effect_*`, `MDX/*` của Thiên Kiếm...), sửa sẽ ảnh hưởng cả các phái khác.
 
@@ -12,8 +12,8 @@ Trạng thái gây ra: **thọ thương (câm lặng)** 30% trong 1.0 giây
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_targeteffect1.mdx` | `KVCT3_Data\Hero_Jingke_Star7.blp`, `KVCT3_Data\TX_Star2000.blp`, `KVCT3_Data\TX_Star20.blp`, `KVCT3_Data\Hero_Jingke_glow2.blp`, `KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `KVCT3_Data\Hero_Jingke_N1s_light.blp`, `KVCT3_Data\TX_Star4.blp` | riêng phái |
-| trên địch bị trúng | `TVD_targeteffect1.mdx` | `KVCT3_Data\Hero_Jingke_Star7.blp`, `KVCT3_Data\TX_Star2000.blp`, `KVCT3_Data\TX_Star20.blp`, `KVCT3_Data\Hero_Jingke_glow2.blp`, `KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `KVCT3_Data\Hero_Jingke_N1s_light.blp`, `KVCT3_Data\TX_Star4.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_targeteffect1.mdx` | `VLTK_data\KVCT3_Data\Hero_Jingke_Star7.blp`, `VLTK_data\KVCT3_Data\TX_Star2000.blp`, `VLTK_data\KVCT3_Data\TX_Star20.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_glow2.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_light.blp`, `VLTK_data\KVCT3_Data\TX_Star4.blp` | riêng phái |
+| trên địch bị trúng | `TVD_targeteffect1.mdx` | `VLTK_data\KVCT3_Data\Hero_Jingke_Star7.blp`, `VLTK_data\KVCT3_Data\TX_Star2000.blp`, `VLTK_data\KVCT3_Data\TX_Star20.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_glow2.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_light.blp`, `VLTK_data\KVCT3_Data\TX_Star4.blp` | riêng phái |
 
 ## 2. Thiên Vương Đao Pháp [bị động]  (id X014, kind 0)
 Nguồn model: **bảng tay**
@@ -22,7 +22,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `KVCT3_Data\ZK-Knife light1.blp`, `KVCT3_Data\ZK-Knife light2.BLP`, `KVCT3_Data\ZK-Knife light5.blp`, `KVCT3_Data\ZK-Knife light3.blp`, `KVCT3_Data\ZK-Knife light6.blp`, `KVCT3_Data\ZK-Knife light7.blp`, `KVCT3_Data\ZK-Knife light4.blp`, `KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `VLTK_data\KVCT3_Data\ZK-Knife light1.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light2.BLP`, `VLTK_data\KVCT3_Data\ZK-Knife light5.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light3.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light6.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light7.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light4.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
 
 ## 3. Đoạn Hồn Thích [R]  (id X015, kind 3)
 Nguồn model: **bảng tay**
@@ -30,8 +30,8 @@ Trạng thái gây ra: **định thân** 30% trong 3.0 giây → model trạng t
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVT_doanhonthich.mdx` | `KVCT3_Data\HB02_weapon02.blp`, `KVCT3_Data\HB02_ATTACK.blp`, `Textures\RibbonNE1_White.blp` | dùng chung (cùng dùng: TVC, TVT) |
-| trên địch bị trúng | `TVD_targeteffect1.mdx` | `KVCT3_Data\Hero_Jingke_Star7.blp`, `KVCT3_Data\TX_Star2000.blp`, `KVCT3_Data\TX_Star20.blp`, `KVCT3_Data\Hero_Jingke_glow2.blp`, `KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `KVCT3_Data\Hero_Jingke_N1s_light.blp`, `KVCT3_Data\TX_Star4.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVT_doanhonthich.mdx` | `VLTK_data\KVCT3_Data\HB02_weapon02.blp`, `VLTK_data\KVCT3_Data\HB02_ATTACK.blp`, `Textures\RibbonNE1_White.blp` | dùng chung (cùng dùng: TVC, TVT) |
+| trên địch bị trúng | `TVD_targeteffect1.mdx` | `VLTK_data\KVCT3_Data\Hero_Jingke_Star7.blp`, `VLTK_data\KVCT3_Data\TX_Star2000.blp`, `VLTK_data\KVCT3_Data\TX_Star20.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_glow2.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_light.blp`, `VLTK_data\KVCT3_Data\TX_Star4.blp` | riêng phái |
 
 ## 4. Kinh Lôi Phá Thiên [bị động]  (id X016, kind 0)
 Nguồn model: **bảng tay**
@@ -40,7 +40,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `KVCT3_Data\ZK-Knife light1.blp`, `KVCT3_Data\ZK-Knife light2.BLP`, `KVCT3_Data\ZK-Knife light5.blp`, `KVCT3_Data\ZK-Knife light3.blp`, `KVCT3_Data\ZK-Knife light6.blp`, `KVCT3_Data\ZK-Knife light7.blp`, `KVCT3_Data\ZK-Knife light4.blp`, `KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `VLTK_data\KVCT3_Data\ZK-Knife light1.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light2.BLP`, `VLTK_data\KVCT3_Data\ZK-Knife light5.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light3.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light6.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light7.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light4.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
 
 ## 5. Thiên Vương Chiến Ý [D]  (id X017, kind 7)
 Nguồn model: **bảng tay**
@@ -48,7 +48,8 @@ Hiển thị: model chính **lặp (có Stand)**, game giữ nó trên tướng 
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `KVCT3_Data\ZK-Knife light1.blp`, `KVCT3_Data\ZK-Knife light2.BLP`, `KVCT3_Data\ZK-Knife light5.blp`, `KVCT3_Data\ZK-Knife light3.blp`, `KVCT3_Data\ZK-Knife light6.blp`, `KVCT3_Data\ZK-Knife light7.blp`, `KVCT3_Data\ZK-Knife light4.blp`, `KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `VLTK_data\KVCT3_Data\ZK-Knife light1.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light2.BLP`, `VLTK_data\KVCT3_Data\ZK-Knife light5.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light3.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light6.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light7.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light4.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| lúc tung (trên tướng) | `TVT_chienycast.mdx` | `Textures\Yellow_Glow_Dim2.blp`, `Textures\Yellow_Star_Dim.blp`, `Textures\firering4.blp`, `ReplaceableTextures\Selection\SpellAreaOfEffect_NE.blp`, `Textures\Clouds8x8Fade.blp`, `Textures\GenericGlow64.blp`, `Textures\GenericGlow2c.blp`, `Textures\star5tga.blp`, `Textures\star4.blp`, `Textures\star32.blp`, `VLTK_data\war3mapImported\CrossSword.blp` | dùng chung (cùng dùng: TVT) |
 
 ## 6. Thiên Canh Chiến Khí [bị động]  (id X018, kind 0)
 Nguồn model: **bảng tay**
@@ -57,7 +58,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `KVCT3_Data\ZK-Knife light1.blp`, `KVCT3_Data\ZK-Knife light2.BLP`, `KVCT3_Data\ZK-Knife light5.blp`, `KVCT3_Data\ZK-Knife light3.blp`, `KVCT3_Data\ZK-Knife light6.blp`, `KVCT3_Data\ZK-Knife light7.blp`, `KVCT3_Data\ZK-Knife light4.blp`, `KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `VLTK_data\KVCT3_Data\ZK-Knife light1.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light2.BLP`, `VLTK_data\KVCT3_Data\ZK-Knife light5.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light3.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light6.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light7.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light4.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
 
 ## 7. Phá Thiên Trảm [W]  (id X019, kind 16)
 Nguồn model: **bảng tay**
@@ -65,8 +66,8 @@ Trạng thái gây ra: **thọ thương (câm lặng)** 35% trong 1.0 giây
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `KVCT3_Data\ZK-Knife light1.blp`, `KVCT3_Data\ZK-Knife light2.BLP`, `KVCT3_Data\ZK-Knife light5.blp`, `KVCT3_Data\ZK-Knife light3.blp`, `KVCT3_Data\ZK-Knife light6.blp`, `KVCT3_Data\ZK-Knife light7.blp`, `KVCT3_Data\ZK-Knife light4.blp`, `KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
-| trên địch bị trúng | `TVD_targeteffect2.mdx` | `KVCT3_Data\[NFTS]2019826103036_0060[1].blp`, `Textures\Shockwave1White.blp`, `KVCT3_Data\[NFTS]2019826103036_0060[2].blp`, `KVCT3_Data\[NFTS]2019826103036_0060[3].blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phathientram.mdx` | `VLTK_data\KVCT3_Data\ZK-Knife light1.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light2.BLP`, `VLTK_data\KVCT3_Data\ZK-Knife light5.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light3.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light6.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light7.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light4.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| trên địch bị trúng | `TVD_targeteffect2.mdx` | `VLTK_data\KVCT3_Data\[NFTS]2019826103036_0060[1].blp`, `Textures\Shockwave1White.blp`, `VLTK_data\KVCT3_Data\[NFTS]2019826103036_0060[2].blp`, `VLTK_data\KVCT3_Data\[NFTS]2019826103036_0060[3].blp` | riêng phái |
 
 ## 8. Tĩnh Tâm Quyết [bị động]  (id X020, kind 0)
 Nguồn model: **bảng tay**
@@ -75,7 +76,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phitinhtramthichbuff.mdx` | `KVCT3_Data\[AKE]000011.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phitinhtramthichbuff.mdx` | `VLTK_data\KVCT3_Data\[AKE]000011.blp` | riêng phái |
 
 ## 9. Phi Tinh Trảm Thích [bị động]  (id X021, kind 0)
 Nguồn model: **bảng tay**
@@ -84,7 +85,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_phitinhtramthichbuff.mdx` | `KVCT3_Data\[AKE]000011.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_phitinhtramthichbuff.mdx` | `VLTK_data\KVCT3_Data\[AKE]000011.blp` | riêng phái |
 
 ## 10. Tung Hoành Bát Hoang [F]  (id X022, kind 8)
 Nguồn model: **bảng tay**
@@ -92,7 +93,7 @@ Hiển thị: model chính **lặp (có Stand)**, game giữ nó trên tướng 
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_tunghoanhbathoangbuff.mdx` | `KVCT3_Data\Hero_SkeletonKing_N6S_light.blp`, `KVCT3_Data\Hero_SkeletonKing_N6S_light3.blp`, `KVCT3_Data\Hero_SkeletonKing_N6S_glow1.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_tunghoanhbathoangbuff.mdx` | `VLTK_data\KVCT3_Data\Hero_SkeletonKing_N6S_light.blp`, `VLTK_data\KVCT3_Data\Hero_SkeletonKing_N6S_light3.blp`, `VLTK_data\KVCT3_Data\Hero_SkeletonKing_N6S_glow1.blp` | riêng phái |
 
 ## 11. Hào Hùng Trảm [E]  (id X023, kind 5)
 Nguồn model: **bảng tay**
@@ -100,9 +101,10 @@ Trạng thái gây ra: **thọ thương (câm lặng)** 40% trong 1.0 giây
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_tranphainewz2.mdx` | `KVCT3_Data\ur05_0.blp`, `KVCT3_Data\ur05_1.blp`, `KVCT3_Data\ur05_2.blp`, `KVCT3_Data\ur05_3.blp`, `KVCT3_Data\ur05_4.blp`, `KVCT3_Data\ur05_5.blp` | riêng phái |
-| lúc tung (trên tướng) | `TVD_tranphaicast.mdx` | `KVCT3_Data\ZK-Knife light1.blp`, `KVCT3_Data\ZK-Knife light2.BLP`, `KVCT3_Data\ZK-Knife light5.blp`, `KVCT3_Data\ZK-Knife light3.blp`, `KVCT3_Data\ZK-Knife light6.blp`, `KVCT3_Data\ZK-Knife light7.blp`, `KVCT3_Data\ZK-Knife light4.blp`, `KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
-| trên địch bị trúng | `TVD_targeteffect1.mdx` | `KVCT3_Data\Hero_Jingke_Star7.blp`, `KVCT3_Data\TX_Star2000.blp`, `KVCT3_Data\TX_Star20.blp`, `KVCT3_Data\Hero_Jingke_glow2.blp`, `KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `KVCT3_Data\Hero_Jingke_N1s_light.blp`, `KVCT3_Data\TX_Star4.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_tranphainewz2.mdx` | `VLTK_data\KVCT3_Data\ur05_0.blp`, `VLTK_data\KVCT3_Data\ur05_1.blp`, `VLTK_data\KVCT3_Data\ur05_2.blp`, `VLTK_data\KVCT3_Data\ur05_3.blp`, `VLTK_data\KVCT3_Data\ur05_4.blp`, `VLTK_data\KVCT3_Data\ur05_5.blp` | riêng phái |
+| lúc tung (trên tướng) | `TVD_tranphaicast.mdx` | `VLTK_data\KVCT3_Data\ZK-Knife light1.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light2.BLP`, `VLTK_data\KVCT3_Data\ZK-Knife light5.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light3.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light6.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light7.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light4.blp`, `VLTK_data\KVCT3_Data\ZK-Knife light8.blp` | riêng phái |
+| trên địch bị trúng | `TVD_targeteffect1.mdx` | `VLTK_data\KVCT3_Data\Hero_Jingke_Star7.blp`, `VLTK_data\KVCT3_Data\TX_Star2000.blp`, `VLTK_data\KVCT3_Data\TX_Star20.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_glow2.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_light.blp`, `VLTK_data\KVCT3_Data\TX_Star4.blp` | riêng phái |
+| trên địch bị trúng 2 | `TVD_targeteffect2.mdx` | `VLTK_data\KVCT3_Data\[NFTS]2019826103036_0060[1].blp`, `Textures\Shockwave1White.blp`, `VLTK_data\KVCT3_Data\[NFTS]2019826103036_0060[2].blp`, `VLTK_data\KVCT3_Data\[NFTS]2019826103036_0060[3].blp` | riêng phái |
 
 ## 12. Bát Phong Trảm [bị động]  (id X024, kind 0)
 Nguồn model: **bảng tay**
@@ -111,7 +113,7 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `TVD_targeteffect1.mdx` | `KVCT3_Data\Hero_Jingke_Star7.blp`, `KVCT3_Data\TX_Star2000.blp`, `KVCT3_Data\TX_Star20.blp`, `KVCT3_Data\Hero_Jingke_glow2.blp`, `KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `KVCT3_Data\Hero_Jingke_N1s_light.blp`, `KVCT3_Data\TX_Star4.blp` | riêng phái |
+| chính (đạn bay / vùng / hiệu ứng) | `TVD_targeteffect1.mdx` | `VLTK_data\KVCT3_Data\Hero_Jingke_Star7.blp`, `VLTK_data\KVCT3_Data\TX_Star2000.blp`, `VLTK_data\KVCT3_Data\TX_Star20.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_glow2.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star1.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star3.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_star4.blp`, `VLTK_data\KVCT3_Data\Hero_Jingke_N1s_light.blp`, `VLTK_data\KVCT3_Data\TX_Star4.blp` | riêng phái |
 
 ## 13. Thiên Mã Hành Không [bị động]  (id X025, kind 0)
 Nguồn model: **bảng tay**
@@ -120,4 +122,4 @@ Nguồn model: **bảng tay**
 
 | Vai trò | Model | Texture | Loại |
 |---|---|---|---|
-| chính (đạn bay / vùng / hiệu ứng) | `MDX\ThienMaHanhKhong.mdx` | `Textures\GenericGlow64.blp`, `HoaHiemViDi.blp` | dùng chung (model Thiên Kiếm) (cùng dùng: TVC, TVT) |
+| chính (đạn bay / vùng / hiệu ứng) | `MDX\ThienMaHanhKhong.mdx` | `Textures\GenericGlow64.blp`, `VLTK_data\Loose\HoaHiemViDi.blp` | dùng chung (model Thiên Kiếm) (cùng dùng: TVC, TVT) |

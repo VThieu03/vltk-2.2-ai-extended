@@ -43,6 +43,22 @@ endfunction
 constant function zzPS_TOC_CHAY takes nothing returns integer
     return 21 // tốc chạy
 endfunction
+// Công ngũ hành (10/10/2026): đối trọng tấn công của kháng ngũ hành (11..15) ở trên, cộng % sát thương theo hệ của
+// CHIÊU đang đánh (không phải đòn đánh thường), lấy từ chiêu bị động KVCT ghi "X công" dạng cộng thẳng mà trước đó
+// không có chỗ chứa (vd Côn Lôn Kiếm "lôi công +200"). Không có "công vật lý": hệ đó dùng chung sát thương % (stat 5).
+// Công thức (gameplay_04_combat.j): sát thương x (1 + công_hệ/100) x (1 - kháng_hệ_của_địch/100).
+constant function zzPS_CONG_DOC takes nothing returns integer
+    return 27 // công độc %
+endfunction
+constant function zzPS_CONG_THUY takes nothing returns integer
+    return 28 // công thủy %
+endfunction
+constant function zzPS_CONG_HOA takes nothing returns integer
+    return 29 // công hỏa %
+endfunction
+constant function zzPS_CONG_LOI takes nothing returns integer
+    return 30 // công lôi % (27..30 = 26 + hệ 2..5, bỏ hệ 1 vật lý vì dùng chung stat 5)
+endfunction
 constant function zzPS_CAP_KY_NANG takes nothing returns integer
     return 22 // cấp kỹ năng cộng thêm
 endfunction
@@ -87,13 +103,13 @@ constant function zzIT_BAO_HIEM takes nothing returns integer
     return 98 // số lần cường hóa thất bại liên tiếp (bảo hiểm)
 endfunction
 constant function zzIT_SO_LO_KHAM takes nothing returns integer
-    return 43 // số lỗ đã khảm
+    return 3000 // số lỗ đã khảm; tách khỏi dòng chỉ số 30+k
 endfunction
 constant function zzIT_LO_KHAM takes nothing returns integer
-    return 57 // 57 + i (i = 0, 1 ...): loại vật phẩm bảo thạch đã khảm vào lỗ i
+    return 3010 // 3010 + i: loại vật phẩm bảo thạch đã khảm vào lỗ i
 endfunction
 constant function zzIT_LO_KHAM_CHU takes nothing returns integer
-    return 67 // 67 + i: đoạn mô tả "[Khảm] ..." đã thêm cho lỗ i (để gỡ khi tách)
+    return 3020 // 3020 + i: đoạn mô tả "[Khảm] ..." đã thêm cho lỗ i (để gỡ khi tách)
 endfunction
 // Dựng lại mô tả trang bị KVCT (zzEQ_DescribeRun ở gameplay_08_ui.j); gọi được từ mọi module
 function zzEQ_Redesc takes item vl_it returns nothing
@@ -270,6 +286,17 @@ constant function zzSK_GAP takes nothing returns integer
 endfunction
 constant function zzSK_MAX_TARGETS takes nothing returns integer
     return 259 // số địch tối đa mỗi đòn
+endfunction
+// Chỉ số buff/bị động thứ 3 (10/10/2026): thêm vì công ngũ hành (User: không được thế chỗ chỉ số cũ như chí mạng /
+// tốc đánh, phải thêm riêng). Cùng cách dùng STAT1/STAT1_BASE/STAT1_PER ở trên.
+constant function zzSK_STAT3 takes nothing returns integer
+    return 260 // chỉ số 3
+endfunction
+constant function zzSK_STAT3_BASE takes nothing returns integer
+    return 261 // chỉ số 3: giá trị gốc
+endfunction
+constant function zzSK_STAT3_PER takes nothing returns integer
+    return 262 // chỉ số 3: thêm mỗi bậc
 endfunction
 constant function zzSK_CAST_MODEL takes nothing returns integer
     return 280 // model trên tướng lúc tung
@@ -519,7 +546,7 @@ constant function zzUS_SLOWED takes nothing returns integer
     return 68 // 1 = đang bị làm chậm
 endfunction
 constant function zzUS_SLOW_SPEED takes nothing returns integer
-    return 69 // tốc chạy gốc lưu lại khi bị làm chậm
+    return 69 // phần tốc chạy đã bị trừ khi làm chậm (trả lại khi hết)
 endfunction
 constant function zzUS_VULN_END takes nothing returns integer
     return 74 // hết bị thương: nhận thêm 15% sát thương (fx 512)
@@ -822,3 +849,58 @@ function zzVL_HasWeapon takes unit vl_hero returns boolean
     endloop
     return false
 endfunction
+// Shared cleanup tracker for every visible ground item. Kept in core so all item-drop modules can call it.
+function zzDR_ExpireTick takes nothing returns nothing
+    local timer vl_t=GetExpiredTimer()
+    local integer vl_id=GetHandleId(vl_t)
+    local item vl_it=LoadItemHandle(zzVL_ht,vl_id,0)
+    call SaveReal(zzVL_ht,vl_id,2,LoadReal(zzVL_ht,vl_id,2)+.5)
+    if vl_it!=null and GetItemTypeId(vl_it)!=0 and not IsItemOwned(vl_it) and LoadReal(zzVL_ht,vl_id,2)>=zzCF_DROP_EXPIRE_SECONDS() then
+        call RemoveSavedBoolean(zzVL_ht,GetHandleId(vl_it),900)
+        call RemoveItem(vl_it)
+        set vl_it=null
+    endif
+    if vl_it==null or GetItemTypeId(vl_it)==0 or IsItemOwned(vl_it) or not IsItemVisible(vl_it) then
+        if vl_it!=null then
+            call RemoveSavedBoolean(zzVL_ht,GetHandleId(vl_it),900)
+        endif
+        call FlushChildHashtable(zzVL_ht,vl_id)
+        call DestroyTimer(vl_t)
+    endif
+    set vl_t=null
+    set vl_it=null
+endfunction
+
+function zzDR_TrackItem takes item vl_it returns nothing
+    local timer vl_t
+    if vl_it==null or GetItemTypeId(vl_it)==0 or IsItemOwned(vl_it) or not IsItemVisible(vl_it) or LoadBoolean(zzVL_ht,GetHandleId(vl_it),900) then
+        return
+    endif
+    set vl_t=CreateTimer()
+    call SaveBoolean(zzVL_ht,GetHandleId(vl_it),900,true)
+    call SaveItemHandle(zzVL_ht,GetHandleId(vl_t),0,vl_it)
+    call TimerStart(vl_t,.5,true,function zzDR_ExpireTick)
+    set vl_t=null
+endfunction
+
+function zzDR_TrackEnumItem takes nothing returns nothing
+    call zzDR_TrackItem(GetEnumItem())
+endfunction
+
+function zzDR_OnUnitDrop takes nothing returns nothing
+    call zzDR_TrackItem(GetManipulatedItem())
+endfunction
+
+function zzDR_Init takes nothing returns nothing
+    local trigger vl_t=CreateTrigger()
+    local integer vl_i=0
+    call EnumItemsInRect(GetWorldBounds(),null,function zzDR_TrackEnumItem)
+    loop
+        exitwhen vl_i>bj_MAX_PLAYER_SLOTS-1
+        call TriggerRegisterPlayerUnitEvent(vl_t,Player(vl_i),EVENT_PLAYER_UNIT_DROP_ITEM,null)
+        set vl_i=vl_i+1
+    endloop
+    call TriggerAddAction(vl_t,function zzDR_OnUnitDrop)
+    set vl_t=null
+endfunction
+

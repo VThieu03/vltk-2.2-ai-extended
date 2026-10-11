@@ -1,19 +1,62 @@
 # MGC: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
-    'Khai Thiên Thức': {'main': 'MGC_khaithienthuc.mdx', 'cast': 'MGC_buffcast.mdx'},   # [Q]
-    'Minh Giáo Chùy Pháp': {'main': 'MGC_dongdat.mdx'},   # [bị động]
-    'Khốn Hổ Vân Tiếu': {'main': 'MGC_khonhovantieueffect.mdx', 'cast': 'MGC_buffcast.mdx', 'target': 'MGC_phachdiatarget.mdx', 'area': ['MGC_khaithienthuc.mdx'], 'target_ground': True},   # [R]
-    'Kim Qua Thiết Mã': {'main': 'MGC_kimquathietma.mdx'},   # [T]
-    'Phách Địa Thế': {'main': 'MGC_phachdia.mdx', 'cast': 'MGC_buffcast.mdx', 'target': 'MGC_phachdiatarget.mdx', 'area': ['MGC_dongdat.mdx']},   # [D]
-    'Ngự Mã Thuật': {'main': 'MGC_khuhothuc.mdx'},   # [bị động]
-    'Long Thôn Thức': {'main': 'MGC_longthontarget.mdx', 'cast': 'MGC_buffcast.mdx', 'target': 'MGC_longthontarget.mdx'},   # [W]
-    'Hồn Phách Phi Dương': {'main': 'MGC_honphach.mdx', 'target': 'MGC_xichtarget.mdx'},   # [F]
-    'Cửu Hi Hỗn Dương': {'main': 'MGC_cuuhihonduong.mdx'},   # [bị động]
-    'Liệt Diệm Thao Thiên': {'main': 'MGC_khaithienthuc.mdx'},   # [bị động]
-    'Khu Hổ Thức': {'main': 'MGC_khuhothuc.mdx', 'cast': 'MGC_buffcast.mdx', 'target': 'MGC_khuhothuctarget.mdx'},   # [E]
-    'Trấn Ngục Phá Thiên Kinh': {'main': 'MGC_khaithienthuc.mdx', 'area': ['MGC_kimquathietma.mdx']},   # [bị động]
-    'Không Tuyệt Tâm Pháp': {'main': 'MGC_cuuhihonduong.mdx'},   # [bị động]
+    "Khai Thiên Thức": {   # [Q]
+        "main": "MGC_khaithienthuc.mdx",
+        "cast": "MGC_buffcast.mdx",
+        "target": "MGC_khaithienthuc.mdx",
+        "area": ["MGC_khaithienthuc.mdx"],
+    },
+    "Minh Giáo Chùy Pháp": {   # [bị động]
+        "target": "Abilities\\Spells\\Human\\DispelMagic\\DispelMagicTarget.mdl",
+    },
+    "Khốn Hổ Vân Tiếu": {   # [R]
+        "main": "MGC_khonhovantieueffect.mdx",
+        "cast": "MGC_buffcast.mdx",
+        "target": "MGC_khaithienthuc.mdx",
+        "area": ["MGC_khonhovantieueffect.mdx", "MGC_phachdiatarget.mdx"],
+    },
+    "Kim Qua Thiết Mã": {   # [T]
+        "main": "MGC_kimquathietma.mdx",
+    },
+    "Phách Địa Thế": {   # [D]
+        "main": "MGC_phachdia.mdx",
+        "cast": "MGC_buffcast.mdx",
+        "target": "MGC_phachdiatarget.mdx",
+        "area": ["MGC_dongdat.mdx"],
+    },
+    "Ngự Mã Thuật": {   # [bị động]
+        "main": "MGC_khuhothuc.mdx",
+    },
+    "Long Thôn Thức": {   # [W]
+        "main": "Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilMissile.mdl",
+        "cast": "MGC_buffcast.mdx",
+        "target": "MGC_longthontarget.mdx",
+    },
+    "Hồn Phách Phi Dương": {   # [F]
+        "main": "MGC_honphach.mdx",
+        "target": "MGC_xichtarget.mdx",
+    },
+    "Cửu Hi Hỗn Dương": {   # [bị động]
+        "main": "MGC_cuuhihonduong.mdx",
+        # Effect\PulsingFire.mdx is referenced by object data but absent from the KVCT asset archive.
+        "aura": r"Abilities\Spells\NightElf\Immolation\ImmolationTarget.mdl",
+    },
+    "Liệt Diệm Thao Thiên": {   # [bị động]
+        "main": "MGC_khaithienthuc.mdx",
+    },
+    "Khu Hổ Thức": {   # [E]
+        "main": "MGC_khuhothuc.mdx",
+        "cast": "MGC_buffcast.mdx",
+        "target": "MGC_khuhothuctarget.mdx",
+    },
+    "Trấn Ngục Phá Thiên Kinh": {   # [bị động]
+        "main": "MGC_khaithienthuc.mdx",
+        "area": ["MGC_kimquathietma.mdx"],
+    },
+    "Không Tuyệt Tâm Pháp": {   # [bị động]
+        "main": "MGC_cuuhihonduong.mdx",
+    },
 }
 
 # Đổi texture của model (xem danh mục bên dưới).
@@ -25,7 +68,7 @@ TEXTURES = {
 #   - đổi model:   thêm vào VFX mục của chiêu, ví dụ  "Tên chiêu": {"main": "X.mdx", "cast": "Y.mdx", "target": "Z.mdx", "area": ["W.mdx"], "scale": 1.5}
 #   - đổi texture: thêm vào TEXTURES, ví dụ  "model.mdx": {"texture_cu.blp": "Textures\\Flame4.blp"}
 #     (áp cho model đó ở MỌI chiêu và MỌI phái dùng nó; texture mới là texture của game hoặc nằm trong KVCT)
-# Sửa xong chạy lại pipeline (scratchpad/run_pipeline.py) để áp dụng.
+# Sửa xong chạy lại pipeline (tools/pipeline.py) để áp dụng.
 #
 # 1. Khai Thiên Thức [Q]   (kind 16, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_khaithienthuc.mdx   [riêng phái]
@@ -56,48 +99,27 @@ TEXTURES = {
 #         texture: UI\MiniMap\ping4.blp
 #         texture: Textures\GenericGlow2_32.blp
 #         texture: Textures\Energy1.blp
-#
-# 2. Minh Giáo Chùy Pháp [bị động]   (kind 0, bảng tay)
-#    chính (đạn bay / vùng / hiệu ứng): MGC_dongdat.mdx   [riêng phái]
-#         texture: KVCT3_Data\carck_tp_dust.blp
-#         texture: KVCT3_Data\crack_tp.blp
-#         texture: KVCT3_Data\chongjibo2.blp
-#         texture: KVCT3_Data\flarer1white.blp
-#         texture: KVCT3_Data\Knife_light1M.blp
-#         texture: KVCT3_Data\Knife_light2F.blp
-#         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\flare4x4.blp
-#         texture: KVCT3_Data\chongjibo3.blp
-#         texture: KVCT3_Data\crack3.blp
-#         texture: Textures\rock64.blp
-#         texture: Textures\Rock01_04.blp
-#         texture: Textures\white.blp
-#         texture: KVCT3_Data\rock.blp
-#         texture: Textures\RibbonNE1_White.blp
-#
-# 3. Khốn Hổ Vân Tiếu [R]   (kind 3, bảng tay)
-#    chính (đạn bay / vùng / hiệu ứng): MGC_khonhovantieueffect.mdx   [riêng phái]
-#         texture: KVCT3_Data\zd107.blp
-#    lúc tung (trên tướng): MGC_buffcast.mdx   [riêng phái]
-#         texture: Textures\Shockwave10.blp
-#         texture: Textures\Clouds8x8Fire.blp
-#         texture: Textures\ShockwaveWater1.blp
-#         texture: UI\MiniMap\ping4.blp
-#         texture: Textures\GenericGlow2_32.blp
-#         texture: Textures\Energy1.blp
-#    trên địch bị trúng: MGC_phachdiatarget.mdx   [riêng phái]
-#         texture: KVCT3_Data\BlastFlash.blp
-#         texture: Textures\LavaLump.blp
+#    trên địch bị trúng: MGC_khaithienthuc.mdx   [riêng phái]
+#         texture: Textures\Dust5A.blp
+#         texture: Textures\Clouds8x8.blp
 #         texture: Textures\LavaLump2.blp
-#         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Fire.blp
-#         texture: Textures\star6.blp
-#         texture: Textures\star4_32.blp
+#         texture: Textures\ShockwaveWater1.blp
+#         texture: Textures\Demolisher.blp
+#         texture: Textures\Red_Glow3.blp
 #         texture: Textures\Shockwave1.blp
-#         texture: Textures\Shockwave10.blp
-#         texture: Textures\Shockwave4white.blp
-#         texture: KVCT3_Data\AZ_lightningBlack_2x2.blp
-#         texture: KVCT3_Data\AZ_glow1.blp
+#         texture: Textures\star.blp
+#         texture: Textures\star1.blp
+#         texture: Textures\star2.blp
+#         texture: Textures\star2_32.blp
+#         texture: Textures\star3.blp
+#         texture: Textures\star32.blp
+#         texture: Textures\star4.blp
+#         texture: Textures\star5tga.blp
+#         texture: Textures\star6.blp
+#         texture: Textures\Star8.blp
+#         texture: Textures\Star8b.blp
+#         texture: Textures\Star8c.blp
+#         texture: Textures\Star9.blp
 #    lớp thêm tại điểm 1: MGC_khaithienthuc.mdx   [riêng phái]
 #         texture: Textures\Dust5A.blp
 #         texture: Textures\Clouds8x8.blp
@@ -119,6 +141,72 @@ TEXTURES = {
 #         texture: Textures\Star8b.blp
 #         texture: Textures\Star8c.blp
 #         texture: Textures\Star9.blp
+#
+# 2. Minh Giáo Chùy Pháp [bị động]   (kind 0, bảng tay)
+#    chính (đạn bay / vùng / hiệu ứng): MGC_dongdat.mdx   [riêng phái]
+#         texture: VLTK_data\KVCT3_Data\carck_tp_dust.blp
+#         texture: VLTK_data\KVCT3_Data\crack_tp.blp
+#         texture: VLTK_data\KVCT3_Data\chongjibo2.blp
+#         texture: VLTK_data\KVCT3_Data\flarer1white.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light1M.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light2F.blp
+#         texture: Textures\Flare.blp
+#         texture: VLTK_data\KVCT3_Data\flare4x4.blp
+#         texture: VLTK_data\KVCT3_Data\chongjibo3.blp
+#         texture: VLTK_data\KVCT3_Data\crack3.blp
+#         texture: Textures\rock64.blp
+#         texture: Textures\Rock01_04.blp
+#         texture: Textures\white.blp
+#         texture: VLTK_data\KVCT3_Data\rock.blp
+#         texture: Textures\RibbonNE1_White.blp
+#    trên địch bị trúng: Abilities\Spells\Human\DispelMagic\DispelMagicTarget.mdl   [model gốc Warcraft III]
+#
+# 3. Khốn Hổ Vân Tiếu [R]   (kind 3, bảng tay)
+#    chính (đạn bay / vùng / hiệu ứng): MGC_khonhovantieueffect.mdx   [riêng phái]
+#         texture: VLTK_data\KVCT3_Data\zd107.blp
+#    lúc tung (trên tướng): MGC_buffcast.mdx   [riêng phái]
+#         texture: Textures\Shockwave10.blp
+#         texture: Textures\Clouds8x8Fire.blp
+#         texture: Textures\ShockwaveWater1.blp
+#         texture: UI\MiniMap\ping4.blp
+#         texture: Textures\GenericGlow2_32.blp
+#         texture: Textures\Energy1.blp
+#    trên địch bị trúng: MGC_khaithienthuc.mdx   [riêng phái]
+#         texture: Textures\Dust5A.blp
+#         texture: Textures\Clouds8x8.blp
+#         texture: Textures\LavaLump2.blp
+#         texture: Textures\ShockwaveWater1.blp
+#         texture: Textures\Demolisher.blp
+#         texture: Textures\Red_Glow3.blp
+#         texture: Textures\Shockwave1.blp
+#         texture: Textures\star.blp
+#         texture: Textures\star1.blp
+#         texture: Textures\star2.blp
+#         texture: Textures\star2_32.blp
+#         texture: Textures\star3.blp
+#         texture: Textures\star32.blp
+#         texture: Textures\star4.blp
+#         texture: Textures\star5tga.blp
+#         texture: Textures\star6.blp
+#         texture: Textures\Star8.blp
+#         texture: Textures\Star8b.blp
+#         texture: Textures\Star8c.blp
+#         texture: Textures\Star9.blp
+#    lớp thêm tại điểm 1: MGC_khonhovantieueffect.mdx   [riêng phái]
+#         texture: VLTK_data\KVCT3_Data\zd107.blp
+#    lớp thêm tại điểm 2: MGC_phachdiatarget.mdx   [riêng phái]
+#         texture: VLTK_data\KVCT3_Data\BlastFlash.blp
+#         texture: Textures\LavaLump.blp
+#         texture: Textures\LavaLump2.blp
+#         texture: Textures\Flare.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Fire.blp
+#         texture: Textures\star6.blp
+#         texture: Textures\star4_32.blp
+#         texture: Textures\Shockwave1.blp
+#         texture: Textures\Shockwave10.blp
+#         texture: Textures\Shockwave4white.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_lightningBlack_2x2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_glow1.blp
 #
 # 4. Kim Qua Thiết Mã [T]   (kind 7, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_kimquathietma.mdx   [riêng phái]
@@ -144,43 +232,41 @@ TEXTURES = {
 #         texture: Textures\GenericGlow2_32.blp
 #         texture: Textures\Energy1.blp
 #    trên địch bị trúng: MGC_phachdiatarget.mdx   [riêng phái]
-#         texture: KVCT3_Data\BlastFlash.blp
+#         texture: VLTK_data\KVCT3_Data\BlastFlash.blp
 #         texture: Textures\LavaLump.blp
 #         texture: Textures\LavaLump2.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Fire.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Fire.blp
 #         texture: Textures\star6.blp
 #         texture: Textures\star4_32.blp
 #         texture: Textures\Shockwave1.blp
 #         texture: Textures\Shockwave10.blp
 #         texture: Textures\Shockwave4white.blp
-#         texture: KVCT3_Data\AZ_lightningBlack_2x2.blp
-#         texture: KVCT3_Data\AZ_glow1.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_lightningBlack_2x2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_glow1.blp
 #    lớp thêm tại điểm 1: MGC_dongdat.mdx   [riêng phái]
-#         texture: KVCT3_Data\carck_tp_dust.blp
-#         texture: KVCT3_Data\crack_tp.blp
-#         texture: KVCT3_Data\chongjibo2.blp
-#         texture: KVCT3_Data\flarer1white.blp
-#         texture: KVCT3_Data\Knife_light1M.blp
-#         texture: KVCT3_Data\Knife_light2F.blp
+#         texture: VLTK_data\KVCT3_Data\carck_tp_dust.blp
+#         texture: VLTK_data\KVCT3_Data\crack_tp.blp
+#         texture: VLTK_data\KVCT3_Data\chongjibo2.blp
+#         texture: VLTK_data\KVCT3_Data\flarer1white.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light1M.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light2F.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\flare4x4.blp
-#         texture: KVCT3_Data\chongjibo3.blp
-#         texture: KVCT3_Data\crack3.blp
+#         texture: VLTK_data\KVCT3_Data\flare4x4.blp
+#         texture: VLTK_data\KVCT3_Data\chongjibo3.blp
+#         texture: VLTK_data\KVCT3_Data\crack3.blp
 #         texture: Textures\rock64.blp
 #         texture: Textures\Rock01_04.blp
 #         texture: Textures\white.blp
-#         texture: KVCT3_Data\rock.blp
+#         texture: VLTK_data\KVCT3_Data\rock.blp
 #         texture: Textures\RibbonNE1_White.blp
 #
 # 6. Ngự Mã Thuật [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_khuhothuc.mdx   [riêng phái]
-#         texture: KVCT3_Data\shuangchui11.blp
+#         texture: VLTK_data\KVCT3_Data\shuangchui11.blp
 #
 # 7. Long Thôn Thức [W]   (kind 4, bảng tay)
-#    chính (đạn bay / vùng / hiệu ứng): MGC_longthontarget.mdx   [riêng phái]
-#         texture: Textures\Shockwave1.blp
-#         texture: Textures\GenericGlow5.blp
+#    chính (đạn bay / vùng / hiệu ứng): Abilities\Spells\Undead\DeathCoil\DeathCoilMissile.mdl   [model gốc Warcraft III]
 #    lúc tung (trên tướng): MGC_buffcast.mdx   [riêng phái]
 #         texture: Textures\Shockwave10.blp
 #         texture: Textures\Clouds8x8Fire.blp
@@ -194,19 +280,20 @@ TEXTURES = {
 #
 # 8. Hồn Phách Phi Dương [F]   (kind 6, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_honphach.mdx   [riêng phái]
-#         texture: KVCT3_Data\Ghost.blp
-#         texture: KVCT3_Data\Mystic_Glow.blp
+#         texture: VLTK_data\KVCT3_Data\Ghost.blp
+#         texture: VLTK_data\KVCT3_Data\Mystic_Glow.blp
 #    trên địch bị trúng: MGC_xichtarget.mdx   [riêng phái]
 #         texture: UI\Glues\SinglePlayer\NightElfCampaign3D\Chains.blp
 #         texture: Textures\GenericGlowFaded.blp
 #
 # 9. Cửu Hi Hỗn Dương [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_cuuhihonduong.mdx   [riêng phái]
-#         texture: KVCT3_Data\circlegreen3.blp
-#         texture: KVCT3_Data\energyringgreen.blp
-#         texture: KVCT3_Data\flare.blp
-#         texture: KVCT3_Data\glow5.blp
-#         texture: KVCT3_Data\leaves2x2.blp
+#         texture: VLTK_data\KVCT3_Data\circlegreen3.blp
+#         texture: VLTK_data\KVCT3_Data\energyringgreen.blp
+#         texture: VLTK_data\KVCT3_Data\flare.blp
+#         texture: VLTK_data\KVCT3_Data\glow5.blp
+#         texture: VLTK_data\KVCT3_Data\leaves2x2.blp
+#    aura bị động (gắn tướng suốt): Abilities\Spells\NightElf\Immolation\ImmolationTarget.mdl   [model gốc Warcraft III]
 #
 # 10. Liệt Diệm Thao Thiên [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_khaithienthuc.mdx   [riêng phái]
@@ -233,7 +320,7 @@ TEXTURES = {
 #
 # 11. Khu Hổ Thức [E]   (kind 4, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_khuhothuc.mdx   [riêng phái]
-#         texture: KVCT3_Data\shuangchui11.blp
+#         texture: VLTK_data\KVCT3_Data\shuangchui11.blp
 #    lúc tung (trên tướng): MGC_buffcast.mdx   [riêng phái]
 #         texture: Textures\Shockwave10.blp
 #         texture: Textures\Clouds8x8Fire.blp
@@ -244,8 +331,8 @@ TEXTURES = {
 #    trên địch bị trúng: MGC_khuhothuctarget.mdx   [riêng phái]
 #         texture: Textures\Flare.blp
 #         texture: Textures\Leaf4x4.blp
-#         texture: KVCT3_Data\AZ_Shockwave15.blp
-#         texture: KVCT3_Data\EarthSpirit_wave5.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave15.blp
+#         texture: VLTK_data\KVCT3_Data\EarthSpirit_wave5.blp
 #
 # 12. Trấn Ngục Phá Thiên Kinh [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_khaithienthuc.mdx   [riêng phái]
@@ -275,9 +362,9 @@ TEXTURES = {
 #
 # 13. Không Tuyệt Tâm Pháp [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MGC_cuuhihonduong.mdx   [riêng phái]
-#         texture: KVCT3_Data\circlegreen3.blp
-#         texture: KVCT3_Data\energyringgreen.blp
-#         texture: KVCT3_Data\flare.blp
-#         texture: KVCT3_Data\glow5.blp
-#         texture: KVCT3_Data\leaves2x2.blp
+#         texture: VLTK_data\KVCT3_Data\circlegreen3.blp
+#         texture: VLTK_data\KVCT3_Data\energyringgreen.blp
+#         texture: VLTK_data\KVCT3_Data\flare.blp
+#         texture: VLTK_data\KVCT3_Data\glow5.blp
+#         texture: VLTK_data\KVCT3_Data\leaves2x2.blp
 # ===== HẾT DANH MỤC =====

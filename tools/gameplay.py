@@ -88,6 +88,10 @@ framehandle zzVL_fMode=null
 framehandle zzVL_fSell=null
 framehandle zzVL_fOpen=null
 framehandle array zzVL_fIco
+framehandle array zzVL_fQB
+framehandle array zzVL_fQE
+integer zzVL_rowP=0
+integer zzVL_rowI=0
 framehandle array zzVL_fTip
 trigger zzVL_tClick=null
 integer array zzVL_af
@@ -123,6 +127,10 @@ framehandle zzVL_fKham=null
 framehandle zzVL_fAuto=null
 sound zzVL_bgm=null
 integer array zzKS_af
+integer array zzKS_rk
+integer array zzKS_left
+integer array zzKS_statGiven
+integer array zzKS_mainK
 integer array zzKS_buf
 real array zzKS_bufEnd
 real array zzKS_imm
@@ -197,6 +205,9 @@ framehandle zzVL_fPassTip=null
 framehandle zzVL_fPassTipTxt=null
 framehandle zzVL_fItemHover=null
 framehandle zzVL_fItemHoverTxt=null
+framehandle zzVL_fItemHover2=null
+framehandle zzVL_fTipBg=null
+framehandle zzVL_fItemHover2Txt=null
 trigger zzVL_tItemHoverOn=null
 trigger zzVL_tItemHoverOff=null
 framehandle array zzVL_fPassTTxt
@@ -237,6 +248,17 @@ string array zzVL_logS
 integer zzVL_logN=0
 framehandle zzVL_fClock=null
 framehandle zzVL_fScore=null
+framehandle zzVL_fKcTxt=null
+boolean array zzVL_keyI
+boolean array zzVL_keyB
+boolean array zzVL_rClick
+integer array zzVL_rSlot
+real array zzVL_lastLeft
+real array zzVL_upT
+trigger zzVL_tSlotUp=null
+real array zzVL_mouseX
+real array zzVL_mouseY
+boolean array zzVL_mouseSet
 integer array zzVL_kills
 integer array zzVL_deaths
 integer array zzVL_teamK
@@ -299,6 +321,11 @@ DROP_FN = [
     "call RemoveItem(vl_it)",
     "return null",
     "endif",
+    # Huyền tinh / Thủy tinh (I00W) không rơi ra đất nữa: giờ là điểm, đánh quái / giết boss cộng thẳng (gameplay_13_glass.j zzGL_Drop)
+    "if vl_it!=null and GetItemTypeId(vl_it)=='I00W' then",
+    "call RemoveItem(vl_it)",
+    "return null",
+    "endif",
     "if vl_it==null or zzVL_ht==null or LoadInteger(zzVL_ht,GetItemTypeId(vl_it),0)/10<1 then",
     "return vl_it",
     "endif",
@@ -336,7 +363,6 @@ def table():
                 rows.append("call SaveInteger(zzVL_ht,'%s',92,%d)" % (iid, wt + 1))
     # auto-cast table written by skills.py
     rows += open(os.path.join(ROOT, "build", "skills_table.j"), encoding="utf-8").read().splitlines()
-    rows += open(os.path.join(ROOT, "build", "tranphai_table.j"), encoding="utf-8").read().splitlines()
     rows += open(os.path.join(ROOT, "build", "kskill_table.j"), encoding="utf-8").read().splitlines()
     rows += prices()
     # Vu khi Tan Lang (gameplay_10_shop.j): key 95 = gold price on ITW0..ITWA; on the shop unit type it marks the shop
@@ -347,8 +373,7 @@ def table():
     # trang bị cũ của map (bảng theo bậc, trang sức) đã bỏ: zzVL_gearN = 0 nên zzVL_DropGear không rơi gì
     # KVCT farm unit pairs keyed by level. Gate-side low-level camps are walk-in;
     # the level 60+ fields keep Xa Phu travel points.
-    unit_codes = {1: ("Q001", "Q011"), 20: ("Q021", "Q031"), 40: ("Q041", "Q051"),
-                  60: ("Q061", "Q071"), 80: ("Q081", "Q091"), 100: ("Q0A1", "Q0B1")}
+    unit_codes = kvcreep_data.unit_codes()
     c = 0
     zones = [l.rstrip(chr(10)).split(chr(9)) for l in open(os.path.join(os.path.dirname(SRC), "..", "build", "zones.txt"), encoding="utf-8")]
     for z, f in enumerate(zones, 1):
@@ -658,7 +683,7 @@ def shops():
             if n == config.GEM_SHOP_UNIT.encode():           # gem upgrade shop: no stock in the object data (gems added at run time)
                 nm, lst = "|cffffcc00Tiệm tạp hóa - Nâng bảo thạch|r", []
             if n == config.TANLANG_SHOP_UNIT.encode():       # Tan Lang weapons replace the old stock (added at run time)
-                nm, lst = "|cffffcc00Tiệm tạp hóa - Vũ khí Tần Lăng|r", []
+                nm, lst = "|cffffcc00Tiệm tạp hóa - Vũ khí Tần Lăng|r", list(TANLANG_IDS)   # bày sẵn 11 loại; mua sai phái thì hoàn vàng (zzSH_OnBuy)
                 sets[0][:] = [x for x in sets[0] if x[0] not in (b"usei", b"unam")]
             sets[0] += [mod(b"unam", 3, nm), mod(b"usei", 3, ",".join(lst[:12]))]
     legacy = legacy_gear_ids()                       # mọi cửa hàng: bỏ trang bị cũ khỏi danh sách bán
@@ -833,6 +858,9 @@ def script():
             lines.insert(i + 1, "call zzVL_ReviveArenaDead()")
     for i in range(g + 1 + len(DROP_FN), len(lines)):
         lines[i] = lines[i].replace("PlaceRandomItem(", "zzVL_Drop(")
+        # quái KVCT là đơn vị kiểu tướng (chủ Neutral = "Người chơi 25"): trigger "tướng chết" gốc chỉ tính tướng của người chơi
+        lines[i] = lines[i].replace("IsUnitType(GetDyingUnit(),UNIT_TYPE_HERO)",
+                                    "(IsUnitType(GetDyingUnit(),UNIT_TYPE_HERO) and GetPlayerId(GetOwningPlayer(GetDyingUnit()))<12)")
         # Thuy tinh: cuong hoa theo o (gameplay.j zzVL_CuongHoa) instead of the author's swap to the +1 item
         lines[i] = lines[i].replace("GetSpellAbilityId()=='A00N' and UnitHasItem", "GetSpellAbilityId()==0 and UnitHasItem")
     # arena: the author's arena rects moved onto the Thien Kiem arena grafted by expand.py (buildrena.txt)
@@ -953,7 +981,7 @@ def objects():
     misc()
     pick_cards()
     # frame templates for the Hanh Trang panel (EscMenuBackdrop, ScriptDialogButton, ...)
-    toc = os.path.join(SRC, "war3mapImported", "vltk.toc")
+    toc = os.path.join(SRC, "VLTK_data", "war3mapImported", "vltk.toc")
     os.makedirs(os.path.dirname(toc), exist_ok=True)
     lines = ["UI" + chr(92) + "FrameDef" + chr(92) + "UI" + chr(92) + "EscMenuTemplates.fdf",
              "UI" + chr(92) + "FrameDef" + chr(92) + "Glue" + chr(92) + "StandardTemplates.fdf", "", ""]

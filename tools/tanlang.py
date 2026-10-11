@@ -13,7 +13,7 @@ SRC = vfx.SRC
 NEW = b"n0TL"          # unit id of the boss (checked: not used by war3map.w3u / war3map.j before this step)
 TEMPLATE = b"n008"     # custom unit of the map (Vo Lam Minh Chu): its fields are copied, then overridden
 MODELS = ["Boss_tanthuyhoang.mdx", "BienThan_tanthuyhoang.mdx"]
-MODEL_PATH = "war3mapImported\\Boss_tanthuyhoang.mdx"
+MODEL_PATH = "VLTK_data\\war3mapImported\\Boss_tanthuyhoang.mdx"
 
 
 def s(v):
@@ -33,7 +33,7 @@ FIELDS = {
     b"unam": (3, s("|cffffcc07Tần Thủy Hoàng|r")),
     b"umdl": (3, s(MODEL_PATH)),
     b"uico": (3, s("ReplaceableTextures\\CommandButtons\\BTNArthas.blp")),
-    b"usca": (1, f(2.3)),          # KVCT modelScale
+    b"usca": (1, f(2.5)),          # KVCT modelScale 2.3, user: bằng boss khác 2.5
     b"umvs": (0, i(300)),          # KVCT spd
     b"ulev": (0, i(60)),
     b"uhpm": (0, i(100000)),       # the JASS sets the real HP
@@ -70,21 +70,22 @@ def main():
 
     # models and textures (read from KVCT's archive; its outside texture pack D:\KVCT31_Data, as vfx.py does)
     kv = vfx.vlkt()
-    imp = os.path.join(SRC, "war3mapImported")
+    imp = os.path.join(SRC, "VLTK_data", "war3mapImported")
     os.makedirs(imp, exist_ok=True)
     nf = 0
     for mdl in MODELS:
-        data = vfx.read(kv, vfx.I + mdl)
+        data = vfx.read(kv, vfx.SRC_I + mdl)
         if data is None:
-            sys.exit("tanlang: not in KVCT: " + vfx.I + mdl)
-        files = {vfx.I + mdl: data}
-        for t in vfx.textures(data):
+            sys.exit("tanlang: not in KVCT: " + vfx.SRC_I + mdl)
+        model_textures = vfx.textures(data)
+        files = {vfx.I + mdl: vfx.rewrite_model_textures(data)}
+        for t in model_textures:
             d = vfx.read(kv, t)
             ext = os.path.join(vfx.KVCT_DATA, *t.split("\\"))
             if d is None and os.path.exists(ext):
                 d = open(ext, "rb").read()
             if d is not None:       # stock textures (Textures\Flare.blp) are in the game files
-                files[t] = d
+                files[vfx.map_texture_path(t)] = d
         for name, d in files.items():
             q = os.path.join(SRC, *name.split("\\"))
             os.makedirs(os.path.dirname(q), exist_ok=True)

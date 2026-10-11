@@ -19,7 +19,7 @@ BS = chr(92)
 def parse_table():
     table = open(os.path.join(ROOT, "build", "kskill_table.j"), encoding="utf-8").read()
     models = collections.defaultdict(dict)  # skill id -> {key: model path}
-    pat = "call SaveStr\\(zzVL_ht,'(\\w{4})',(\\d+),\"war3mapImported" + BS * 4 + "([^\"]+)\"\\)"
+    pat = "call SaveStr\\(zzVL_ht,'(\\w{4})',(\\d+),\"VLTK_data" + BS * 4 + "war3mapImported" + BS * 4 + "([^\"]+)\"\\)"
     for m in re.finditer(pat, table):
         k = int(m.group(2))
         if k in (250, 280, 281, 282, 283, 284, 285, 286, 287):

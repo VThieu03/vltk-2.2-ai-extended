@@ -25,7 +25,7 @@ Các bảo thạch cũ của map (12 loại `I101`..`I10C` và các loại khả
 Hashtable `zzVL_ht` (loại vật phẩm bảo thạch): khóa 110 = loại, 111 = bậc.
 
 ## 3. Phân việc và ranh giới file
-Không nhóm nào chạy pipeline (`scratchpad/run_pipeline.py`): nó ghi vào `src/map` và sao map, chạy song song sẽ hỏng. Chỉ kiểm tra cú pháp Python bằng `ast`; JASS phải đúng pjass
+Không nhóm nào chạy pipeline (`tools/pipeline.py`): nó ghi vào `src/map` và sao map, chạy song song sẽ hỏng. Chỉ kiểm tra cú pháp Python bằng `ast`; JASS phải đúng pjass
 (local ở đầu hàm, không trùng tên biến toàn cục, chuỗi có `\\` kép, thụt lề 4 dấu cách). Cần sửa file ngoài quyền: ghi bản vá chính xác (file, vị trí, đoạn thay) vào
 `docs/baothach/<NHÓM>_VABAN.md`, điều phối viên áp dụng. Không commit git. Ghi một dòng tiến độ vào `WORKLOG.md` (đừng xóa dòng người khác).
 

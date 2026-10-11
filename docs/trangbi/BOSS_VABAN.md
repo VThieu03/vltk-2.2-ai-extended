@@ -19,7 +19,7 @@ sửa `gameplay.py` (hàm `script`, chỗ `mod.index("function zzVL_Init ...")`)
 Module 11 chỉ dùng hàm / biến của module 01-08 (đứng trước), không cần bản vá nào khác.
 
 ## 2. Pipeline
-File: `scratchpad/run_pipeline.py`, danh sách `pipeline`: thêm `"tanlang.py",` ngay sau `"import_boss.py",` (trước `"lvl200.py"`).
+File: `tools/pipeline.py`, danh sách `pipeline`: thêm `"tanlang.py",` ngay sau `"import_boss.py",` (trước `"lvl200.py"`).
 Lý do: nó ghi `war3map.w3u` (phải sau `convert_text.py`), chép 2 model và texture KVCT vào `src/map/war3mapImported` và `src/map/KVCT3_Data`.
 Cũng cập nhật dòng pipeline trong `AGENTS.md` / `WORKLOG.md` / `docs/KIEN_TRUC_CODE.md` nếu muốn.
 

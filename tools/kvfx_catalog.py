@@ -11,7 +11,7 @@ HELP = [
     '#   - đổi model:   thêm vào VFX mục của chiêu, ví dụ  "Tên chiêu": {"main": "X.mdx", "cast": "Y.mdx", "target": "Z.mdx", "area": ["W.mdx"], "scale": 1.5}',
     '#   - đổi texture: thêm vào TEXTURES, ví dụ  "model.mdx": {"texture_cu.blp": "Textures\\\\Flame4.blp"}',
     "#     (áp cho model đó ở MỌI chiêu và MỌI phái dùng nó; texture mới là texture của game hoặc nằm trong KVCT)",
-    "# Sửa xong chạy lại pipeline (scratchpad/run_pipeline.py) để áp dụng.",
+    "# Sửa xong chạy lại pipeline (tools/pipeline.py) để áp dụng.",
 ]
 
 

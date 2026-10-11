@@ -1,19 +1,59 @@
 # CLD: BẢNG SỬA TAY (lớp duy nhất, không còn bảng auto). Sửa file này rồi chạy lại pipeline.
 VFX = {
     # --- thêm tự động bởi kvfx_fill.py: model đang có hiệu lực của các chiêu còn lại (sửa tự do) ---
-    'Cuồng Phong Sậu Điện': {'main': 'CLD_cuongphong.mdx', 'cast': 'CLD_buffcast.MDX', 'target': 'CLD_effecttarget.mdx'},   # [Q]
-    'Côn Lôn Đao Pháp': {'main': 'CLD_canhphong2.mdx'},   # [bị động]
-    'Thanh Phong Phù': {'main': 'CLD_tamthanhbuff.mdx', 'target': 'CLD_hoiphongtarget2.mdx', 'area': ['CLD_canhphong.mdx', 'CLD_canhphong2.mdx']},   # [F]
-    'Tụ Nguyên Thuật': {'main': 'CLD_tunguyenthuatbuff.mdx'},   # [R]
-    'Nhất Khí Tam Thanh': {'main': 'NMC_phongsuongtoaianh.mdx'},   # [D]
-    'Thiên Thanh Địa Trọc': {'main': 'CLD_tamthanhbuff.mdx'},   # [bị động]
-    'Ngạo Tuyết Tiếu Phong': {'main': 'CLD_ngaotuyet.mdx', 'cast': 'CLD_ngaotuyetcast.mdx', 'target': 'CLD_ngaotuyettarget.mdx', 'area': ['CLD_hoiphongphatlieu.mdx'], 'cast_ground': True},   # [W]
-    'Hồi Phong Phất Liễu': {'main': 'CLD_hoiphongphatlieu.mdx', 'target': 'CLD_hoiphongtarget2.mdx', 'area': ['CLD_canhphong.mdx', 'CLD_canhphong2.mdx']},   # [bị động]
-    'Lưỡng Nghi Chân Khí': {'main': 'CLD_buffphanluongnghi.mdx', 'buff': 'CLD_luongnghibuff.mdx'},   # [bị động]
-    'Phản Lưỡng Nghi Đao Pháp': {'main': 'CLD_buffphanluongnghi.mdx', 'buff': 'CLD_luongnghibuff.mdx'},   # [bị động]
-    'Cửu Thiên Canh Phong': {'main': 'CLD_canhphong2.mdx', 'cast': 'CLD_ngaotuyetcast.mdx', 'target': 'CLD_hoiphongtarget2.mdx', 'area': ['CLD_canhphong.mdx', 'CLD_hoiphongphatlieu.mdx'], 'cast_ground': True},   # [E]
-    'Vô Nhân Vô Ngã': {'main': 'MDX\\VoNhanVoNga.mdx'},   # [bị động]
-    'Sương Ngạo Côn Lôn': {'main': 'CLD_buffphanluongnghi.mdx', 'buff': 'CLD_luongnghibuff.mdx'},   # [bị động]
+    "Cuồng Phong Sậu Điện": {   # [Q]
+        "main": "CLD_cuongphong.mdx",
+        "target": "CLD_effecttarget.mdx",
+    },
+    "Côn Lôn Đao Pháp": {   # [bị động]
+        "main": "CLD_canhphong2.mdx",
+    },
+    "Thanh Phong Phù": {   # [F]
+        "main": "CLD_tamthanhbuff.mdx",
+        "target": "CLD_hoiphongtarget2.mdx",
+        "area": ["CLD_canhphong.mdx", "CLD_canhphong2.mdx"],
+    },
+    "Tụ Nguyên Thuật": {   # [R]
+        "main": "CLD_tunguyenthuatbuff.mdx",
+    },
+    "Nhất Khí Tam Thanh": {   # [D]
+        "main": "NMC_phongsuongtoaianh.mdx",
+    },
+    "Thiên Thanh Địa Trọc": {   # [bị động]
+        "main": "CLD_tamthanhbuff.mdx",
+    },
+    "Ngạo Tuyết Tiếu Phong": {   # [W]
+        "main": "CLD_ngaotuyet.mdx",
+        "cast": {"file": "CLD_ngaotuyetcast.mdx", "ground": True},
+        "target": "CLD_ngaotuyettarget.mdx",
+        "area": ["CLD_hoiphongphatlieu.mdx", "CLD_hoiphongtarget2.mdx"],
+    },
+    "Hồi Phong Phất Liễu": {   # [bị động]
+        "main": "CLD_hoiphongphatlieu.mdx",
+        "target": "CLD_hoiphongtarget2.mdx",
+        "area": ["CLD_canhphong.mdx", "CLD_canhphong2.mdx"],
+    },
+    "Lưỡng Nghi Chân Khí": {   # [bị động]
+        "main": "CLD_buffphanluongnghi.mdx",
+        "buff": "CLD_luongnghibuff.mdx",
+    },
+    "Phản Lưỡng Nghi Đao Pháp": {   # [bị động]
+        "main": "CLD_buffphanluongnghi.mdx",
+        "buff": "CLD_luongnghibuff.mdx",
+    },
+    "Cửu Thiên Canh Phong": {   # [E]
+        "main": "CLD_canhphong2.mdx",
+        "cast": {"file": "CLD_ngaotuyetcast.mdx", "ground": True},
+        "target": "CLD_hoiphongtarget2.mdx",
+        "area": ["CLD_canhphong.mdx", "CLD_hoiphongphatlieu.mdx"],
+    },
+    "Vô Nhân Vô Ngã": {   # [bị động]
+        "main": "MDX\\VoNhanVoNga.mdx",
+    },
+    "Sương Ngạo Côn Lôn": {   # [bị động]
+        "main": "CLD_buffphanluongnghi.mdx",
+        "buff": "CLD_luongnghibuff.mdx",
+    },
 }
 
 # Đổi texture của model (xem danh mục bên dưới).
@@ -25,7 +65,7 @@ TEXTURES = {
 #   - đổi model:   thêm vào VFX mục của chiêu, ví dụ  "Tên chiêu": {"main": "X.mdx", "cast": "Y.mdx", "target": "Z.mdx", "area": ["W.mdx"], "scale": 1.5}
 #   - đổi texture: thêm vào TEXTURES, ví dụ  "model.mdx": {"texture_cu.blp": "Textures\\Flame4.blp"}
 #     (áp cho model đó ở MỌI chiêu và MỌI phái dùng nó; texture mới là texture của game hoặc nằm trong KVCT)
-# Sửa xong chạy lại pipeline (scratchpad/run_pipeline.py) để áp dụng.
+# Sửa xong chạy lại pipeline (tools/pipeline.py) để áp dụng.
 #
 # 1. Cuồng Phong Sậu Điện [Q]   (kind 5, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_cuongphong.mdx   [riêng phái]
@@ -47,21 +87,21 @@ TEXTURES = {
 #         texture: Textures\star2_32.blp
 #         texture: Textures\snowflake.blp
 #         texture: UI\Glues\SinglePlayer\NightElf_Exp\NightElfFemaleEyeGlow1.blp
-#         texture: KVCT3_Data\Flare.blp
-#         texture: KVCT3_Data\Bakua_b.blp
+#         texture: VLTK_data\KVCT3_Data\Flare.blp
+#         texture: VLTK_data\KVCT3_Data\Bakua_b.blp
 #         texture: Textures\star5tga.blp
 #         texture: Textures\lensflare1Ax.blp
 #         texture: Textures\lensflare1A.blp
 #
 # 2. Côn Lôn Đao Pháp [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_canhphong2.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Shockwave17.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave17.blp
 #         texture: Textures\Dust3.blp
-#         texture: KVCT3_Data\AZ_leaf_2x2.blp
-#         texture: KVCT3_Data\SmokeA2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_leaf_2x2.blp
+#         texture: VLTK_data\KVCT3_Data\SmokeA2.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Smoke9.blp
-#         texture: KVCT3_Data\AZ_Shockwave21.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke9.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave21.blp
 #         texture: Textures\rock64.blp
 #
 # 3. Thanh Phong Phù [F]   (kind 7, bảng tay)
@@ -71,19 +111,19 @@ TEXTURES = {
 #         texture: Textures\Green_Glow3.blp
 #         texture: Textures\Leaf4x4.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_LeafGreen.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_LeafGreen.blp
 #    trên địch bị trúng: CLD_hoiphongtarget2.mdx   [riêng phái]
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Knife_light1o.blp
-#         texture: KVCT3_Data\AZ_GlowBlue2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light1o.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_GlowBlue2.blp
 #         texture: Textures\Smoke.blp
-#         texture: KVCT3_Data\AZ_Knife_light2j.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light2j.blp
 #    lớp thêm tại điểm 1: CLD_canhphong.mdx   [riêng phái]
 #         texture: Abilities\Spells\Other\Tornado\ShadowWalk1.blp
-#         texture: KVCT3_Data\Knife_light1M.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light1M.blp
 #         texture: Textures\Dust3x.blp
-#         texture: KVCT3_Data\lightning1.blp
-#         texture: KVCT3_Data\ShadowWalk3p.blp
+#         texture: VLTK_data\KVCT3_Data\lightning1.blp
+#         texture: VLTK_data\KVCT3_Data\ShadowWalk3p.blp
 #         texture: Textures\ShockwaveWater1.blp
 #         texture: Textures\Dust6.blp
 #         texture: Textures\CloudSingle.blp
@@ -91,20 +131,20 @@ TEXTURES = {
 #         texture: ReplaceableTextures\Splats\ThunderClapUbersplat.blp
 #         texture: Textures\rock64.blp
 #    lớp thêm tại điểm 2: CLD_canhphong2.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Shockwave17.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave17.blp
 #         texture: Textures\Dust3.blp
-#         texture: KVCT3_Data\AZ_leaf_2x2.blp
-#         texture: KVCT3_Data\SmokeA2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_leaf_2x2.blp
+#         texture: VLTK_data\KVCT3_Data\SmokeA2.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Smoke9.blp
-#         texture: KVCT3_Data\AZ_Shockwave21.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke9.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave21.blp
 #         texture: Textures\rock64.blp
 #
 # 4. Tụ Nguyên Thuật [R]   (kind 6, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_tunguyenthuatbuff.mdx   [riêng phái]
 #         texture: Textures\GenericGlow64.blp
 #         texture: Textures\star5tga.blp
-#         texture: KVCT3_Data\Blind.blp
+#         texture: VLTK_data\KVCT3_Data\Blind.blp
 #
 # 5. Nhất Khí Tam Thanh [D]   (kind 6, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): NMC_phongsuongtoaianh.mdx   [dùng chung (cùng dùng: HSK, NMC)]
@@ -136,57 +176,63 @@ TEXTURES = {
 #         texture: Textures\Green_Glow3.blp
 #         texture: Textures\Leaf4x4.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_LeafGreen.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_LeafGreen.blp
 #
 # 7. Ngạo Tuyết Tiếu Phong [W]   (kind 5, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_ngaotuyet.mdx   [riêng phái]
-#         texture: KVCT3_Data\tx926_1.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_1.blp
 #         texture: Textures\Dust3.blp
-#         texture: KVCT3_Data\tx926_2.blp
-#         texture: KVCT3_Data\tx926_3.blp
-#         texture: KVCT3_Data\tx926_4.blp
-#         texture: KVCT3_Data\tx926_5.blp
-#         texture: KVCT3_Data\tx926_6.blp
-#         texture: KVCT3_Data\tx926_7.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_2.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_3.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_4.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_5.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_6.blp
+#         texture: VLTK_data\KVCT3_Data\tx926_7.blp
 #    lúc tung (trên tướng): CLD_ngaotuyetcast.mdx   [riêng phái]
-#         texture: KVCT3_Data\z-DaoG jhxcom_2001.blp
-#         texture: KVCT3_Data\z-DaoG jhxcom_2021.blp
-#         texture: KVCT3_Data\z-DaoG jhxcom_2000.blp
-#         texture: KVCT3_Data\z-DaoG jhxcom_2010.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2001.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2021.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2000.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2010.blp
 #    trên địch bị trúng: CLD_ngaotuyettarget.mdx   [riêng phái]
 #         texture: Textures\Flare.blp
 #         texture: Textures\Ghost1.blp
 #         texture: Textures\star4_32.blp
 #         texture: Textures\star6.blp
-#         texture: KVCT3_Data\AZ_Star3.blp
-#         texture: KVCT3_Data\AZ_Flare1Q.blp
-#         texture: KVCT3_Data\AZ_Smoke1E.blp
-#         texture: KVCT3_Data\star2x2.blp
-#         texture: KVCT3_Data\AZ_Smoke8x8a.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Star3.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Flare1Q.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke1E.blp
+#         texture: VLTK_data\KVCT3_Data\star2x2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke8x8a.blp
 #    lớp thêm tại điểm 1: CLD_hoiphongphatlieu.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Knife_light3.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light3.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Knife_light4.blp
-#         texture: KVCT3_Data\AZ_Smoke1ED.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light4.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke1ED.blp
+#    lớp thêm tại điểm 2: CLD_hoiphongtarget2.mdx   [riêng phái]
+#         texture: Textures\Flare.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light1o.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_GlowBlue2.blp
+#         texture: Textures\Smoke.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light2j.blp
 #
 # 8. Hồi Phong Phất Liễu [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_hoiphongphatlieu.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Knife_light3.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light3.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Knife_light4.blp
-#         texture: KVCT3_Data\AZ_Smoke1ED.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light4.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke1ED.blp
 #    trên địch bị trúng: CLD_hoiphongtarget2.mdx   [riêng phái]
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Knife_light1o.blp
-#         texture: KVCT3_Data\AZ_GlowBlue2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light1o.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_GlowBlue2.blp
 #         texture: Textures\Smoke.blp
-#         texture: KVCT3_Data\AZ_Knife_light2j.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light2j.blp
 #    lớp thêm tại điểm 1: CLD_canhphong.mdx   [riêng phái]
 #         texture: Abilities\Spells\Other\Tornado\ShadowWalk1.blp
-#         texture: KVCT3_Data\Knife_light1M.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light1M.blp
 #         texture: Textures\Dust3x.blp
-#         texture: KVCT3_Data\lightning1.blp
-#         texture: KVCT3_Data\ShadowWalk3p.blp
+#         texture: VLTK_data\KVCT3_Data\lightning1.blp
+#         texture: VLTK_data\KVCT3_Data\ShadowWalk3p.blp
 #         texture: Textures\ShockwaveWater1.blp
 #         texture: Textures\Dust6.blp
 #         texture: Textures\CloudSingle.blp
@@ -194,76 +240,76 @@ TEXTURES = {
 #         texture: ReplaceableTextures\Splats\ThunderClapUbersplat.blp
 #         texture: Textures\rock64.blp
 #    lớp thêm tại điểm 2: CLD_canhphong2.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Shockwave17.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave17.blp
 #         texture: Textures\Dust3.blp
-#         texture: KVCT3_Data\AZ_leaf_2x2.blp
-#         texture: KVCT3_Data\SmokeA2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_leaf_2x2.blp
+#         texture: VLTK_data\KVCT3_Data\SmokeA2.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Smoke9.blp
-#         texture: KVCT3_Data\AZ_Shockwave21.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke9.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave21.blp
 #         texture: Textures\rock64.blp
 #
 # 9. Lưỡng Nghi Chân Khí [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_buffphanluongnghi.mdx   [riêng phái]
-#         texture: KVCT3_Data\TX_Star2012.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N1_ef_13.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N1_ef_14.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow1.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow3.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow5.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_light2x2_1.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_star1.blp
+#         texture: VLTK_data\KVCT3_Data\TX_Star2012.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N1_ef_13.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N1_ef_14.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow1.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow3.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow5.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_light2x2_1.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_star1.blp
 #    buff (trên tướng): CLD_luongnghibuff.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Sputtering.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Sputtering.blp
 #         texture: Textures\Flare.blp
 #         texture: Textures\Dust3.blp
 #         texture: Textures\star4_32.blp
-#         texture: KVCT3_Data\AZ_Fire2_4x8.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Fire2_4x8.blp
 #
 # 10. Phản Lưỡng Nghi Đao Pháp [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_buffphanluongnghi.mdx   [riêng phái]
-#         texture: KVCT3_Data\TX_Star2012.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N1_ef_13.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N1_ef_14.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow1.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow3.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow5.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_light2x2_1.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_star1.blp
+#         texture: VLTK_data\KVCT3_Data\TX_Star2012.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N1_ef_13.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N1_ef_14.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow1.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow3.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow5.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_light2x2_1.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_star1.blp
 #    buff (trên tướng): CLD_luongnghibuff.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Sputtering.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Sputtering.blp
 #         texture: Textures\Flare.blp
 #         texture: Textures\Dust3.blp
 #         texture: Textures\star4_32.blp
-#         texture: KVCT3_Data\AZ_Fire2_4x8.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Fire2_4x8.blp
 #
 # 11. Cửu Thiên Canh Phong [E]   (kind 5, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_canhphong2.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Shockwave17.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave17.blp
 #         texture: Textures\Dust3.blp
-#         texture: KVCT3_Data\AZ_leaf_2x2.blp
-#         texture: KVCT3_Data\SmokeA2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_leaf_2x2.blp
+#         texture: VLTK_data\KVCT3_Data\SmokeA2.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Smoke9.blp
-#         texture: KVCT3_Data\AZ_Shockwave21.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke9.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Shockwave21.blp
 #         texture: Textures\rock64.blp
 #    lúc tung (trên tướng): CLD_ngaotuyetcast.mdx   [riêng phái]
-#         texture: KVCT3_Data\z-DaoG jhxcom_2001.blp
-#         texture: KVCT3_Data\z-DaoG jhxcom_2021.blp
-#         texture: KVCT3_Data\z-DaoG jhxcom_2000.blp
-#         texture: KVCT3_Data\z-DaoG jhxcom_2010.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2001.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2021.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2000.blp
+#         texture: VLTK_data\KVCT3_Data\z-DaoG jhxcom_2010.blp
 #    trên địch bị trúng: CLD_hoiphongtarget2.mdx   [riêng phái]
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Knife_light1o.blp
-#         texture: KVCT3_Data\AZ_GlowBlue2.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light1o.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_GlowBlue2.blp
 #         texture: Textures\Smoke.blp
-#         texture: KVCT3_Data\AZ_Knife_light2j.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light2j.blp
 #    lớp thêm tại điểm 1: CLD_canhphong.mdx   [riêng phái]
 #         texture: Abilities\Spells\Other\Tornado\ShadowWalk1.blp
-#         texture: KVCT3_Data\Knife_light1M.blp
+#         texture: VLTK_data\KVCT3_Data\Knife_light1M.blp
 #         texture: Textures\Dust3x.blp
-#         texture: KVCT3_Data\lightning1.blp
-#         texture: KVCT3_Data\ShadowWalk3p.blp
+#         texture: VLTK_data\KVCT3_Data\lightning1.blp
+#         texture: VLTK_data\KVCT3_Data\ShadowWalk3p.blp
 #         texture: Textures\ShockwaveWater1.blp
 #         texture: Textures\Dust6.blp
 #         texture: Textures\CloudSingle.blp
@@ -271,30 +317,30 @@ TEXTURES = {
 #         texture: ReplaceableTextures\Splats\ThunderClapUbersplat.blp
 #         texture: Textures\rock64.blp
 #    lớp thêm tại điểm 2: CLD_hoiphongphatlieu.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Knife_light3.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light3.blp
 #         texture: Textures\Flare.blp
-#         texture: KVCT3_Data\AZ_Knife_light4.blp
-#         texture: KVCT3_Data\AZ_Smoke1ED.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Knife_light4.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Smoke1ED.blp
 #
 # 12. Vô Nhân Vô Ngã [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): MDX\VoNhanVoNga.mdx   [dùng chung (model Thiên Kiếm)]
 #         texture: Textures\GenericGlow64.blp
-#         texture: Bakua_b.blp
+#         texture: VLTK_data\Loose\Bakua_b.blp
 #
 # 13. Sương Ngạo Côn Lôn [bị động]   (kind 0, bảng tay)
 #    chính (đạn bay / vùng / hiệu ứng): CLD_buffphanluongnghi.mdx   [riêng phái]
-#         texture: KVCT3_Data\TX_Star2012.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N1_ef_13.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N1_ef_14.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow1.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow3.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_glow5.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_light2x2_1.blp
-#         texture: KVCT3_Data\Hero_FarSeer_N2S_star1.blp
+#         texture: VLTK_data\KVCT3_Data\TX_Star2012.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N1_ef_13.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N1_ef_14.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow1.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow3.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_glow5.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_light2x2_1.blp
+#         texture: VLTK_data\KVCT3_Data\Hero_FarSeer_N2S_star1.blp
 #    buff (trên tướng): CLD_luongnghibuff.mdx   [riêng phái]
-#         texture: KVCT3_Data\AZ_Sputtering.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Sputtering.blp
 #         texture: Textures\Flare.blp
 #         texture: Textures\Dust3.blp
 #         texture: Textures\star4_32.blp
-#         texture: KVCT3_Data\AZ_Fire2_4x8.blp
+#         texture: VLTK_data\KVCT3_Data\AZ_Fire2_4x8.blp
 # ===== HẾT DANH MỤC =====

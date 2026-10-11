@@ -124,7 +124,7 @@ function zzVL_BossSpawn takes nothing returns nothing
     call SetWidgetLife(zzVL_boss,80000.+15000.*vl_min)
     call BlzSetUnitBaseDamage(zzVL_boss,600+80*vl_min,0)
     call BlzSetUnitArmor(zzVL_boss,50.+5.*vl_min)
-    call SetUnitScale(zzVL_boss,5.0,5.0,5.0)
+    call SetUnitScale(zzVL_boss,2.5,2.5,2.5)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_boss),GetUnitY(zzVL_boss)))
     call zzVL_All("|cffffcc00Chú ý|r: Tuyệt đại cao thủ |cffff8000"+zzVL_bn[vl_k]+"|r tái xuất giang hồ! Hạ được: |cffffcc002 Huyền tinh|r, 1000 ngân lượng, 25 công trạng.")
     call PingMinimapEx(GetUnitX(zzVL_boss),GetUnitY(zzVL_boss),5.,255,128,0,true)
@@ -216,7 +216,7 @@ function zzVL_SpawnMC takes nothing returns nothing
     call SetWidgetLife(zzVL_mc,2000000.)
     call BlzSetUnitBaseDamage(zzVL_mc,7000,0)
     call BlzSetUnitArmor(zzVL_mc,300.)
-    call SetUnitScale(zzVL_mc,5.0,5.0,5.0)
+    call SetUnitScale(zzVL_mc,2.5,2.5,2.5)
     call SetUnitVertexColor(zzVL_mc,255,60,60,255)
     call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",GetUnitX(zzVL_mc),GetUnitY(zzVL_mc)))
     call PingMinimapEx(GetUnitX(zzVL_mc),GetUnitY(zzVL_mc),8.,255,0,0,true)
@@ -276,8 +276,13 @@ endfunction
 // Không trả về giá trị (thực thi hành động).
 function zzVL_EventTick takes nothing returns nothing
     local integer vl_m=R2I(TimerGetElapsed(zzVL_clock)/60.)
+    local location vl_l
     if ModuloInteger(R2I(TimerGetElapsed(zzVL_clock)),60)==0 then
-        call zzVL_Log("-- phut "+I2S(vl_m)+", don vi: "+I2S(zzVL_CountUnits()))
+        // handle: id của một location mới - 0x100000 ~ số handle đang sống; tăng đều mỗi phút = rò rỉ (crash hết bộ nhớ 10/10/2026)
+        set vl_l=Location(0.,0.)
+        call zzVL_Log("-- phut "+I2S(vl_m)+", don vi: "+I2S(zzVL_CountUnits())+", handle: "+I2S(GetHandleId(vl_l)-0x100000))
+        call RemoveLocation(vl_l)
+        set vl_l=null
     endif
     if vl_m>=zzVL_nextBoss then
         set zzVL_nextBoss=zzVL_nextBoss+7
@@ -299,7 +304,11 @@ endfunction
 function zzVL_OnEventChat takes nothing returns nothing
     local integer vl_playerId=GetPlayerId(GetTriggerPlayer())
     local integer vl_m=R2I(TimerGetElapsed(zzVL_clock)/60.)
-    call DisplayTimedTextToPlayer(Player(vl_playerId),0,0,15.,"|cffffcc00Phút "+I2S(vl_m)+"|r - uy danh: Tống "+I2S(ro[$B])+" - Kim "+I2S(ro[$C])+" (mốc thắng "+I2S(Do)+")|nTuyệt đại cao thủ kế tiếp: phút "+I2S(zzVL_nextBoss)+"|nVõ Lâm Minh Chủ kế tiếp: phút "+I2S(zzVL_nextMc))
+    if vl_playerId<5 then
+        call DisplayTimedTextToPlayer(Player(vl_playerId),0,0,15.,"|cffffcc00Phút "+I2S(vl_m)+"|r - Phe ta: "+I2S(zzVL_teamK[0])+" / "+I2S(zzVL_winKills)+"; phe địch: "+I2S(zzVL_teamK[1])+" / "+I2S(zzVL_winKills)+"|nTuyệt đại cao thủ kế tiếp: phút "+I2S(zzVL_nextBoss)+"|nVõ Lâm Minh Chủ kế tiếp: phút "+I2S(zzVL_nextMc))
+    else
+        call DisplayTimedTextToPlayer(Player(vl_playerId),0,0,15.,"|cffffcc00Phút "+I2S(vl_m)+"|r - Phe ta: "+I2S(zzVL_teamK[1])+" / "+I2S(zzVL_winKills)+"; phe địch: "+I2S(zzVL_teamK[0])+" / "+I2S(zzVL_winKills)+"|nTuyệt đại cao thủ kế tiếp: phút "+I2S(zzVL_nextBoss)+"|nVõ Lâm Minh Chủ kế tiếp: phút "+I2S(zzVL_nextMc))
+    endif
 endfunction
 // ---- quai: ca phe cung huong, khong can danh phat cuoi. Nguoi ha van nhan tien thuong goc; dong doi
 // nhan vang ~ tien thuong (3+2*cap), dong doi o xa (ngoai 1200, game khong chia kinh nghiem) nhan 10+8*cap kinh nghiem
@@ -315,7 +324,7 @@ function zzVL_ShareCreep takes integer vl_pk,unit vl_d returns nothing
     local integer vl_i=0
     local integer vl_lv=GetUnitLevel(vl_d)
     local integer vl_g=3+2*vl_lv
-    local integer vl_x=10+8*vl_lv
+    local integer vl_x=(zzCF_KILL_XP_BASE()+zzCF_KILL_XP_PER_CAMP_LEVEL()*vl_lv)/2
     local unit vl_hero
     loop
         exitwhen vl_i>9
@@ -331,6 +340,16 @@ function zzVL_ShareCreep takes integer vl_pk,unit vl_d returns nothing
     set vl_hero=null
 endfunction
 
+function zzVL_MainCreepXP takes unit vl_d,integer vl_pk returns nothing
+    local integer vl_x
+    if LoadInteger(zzVL_ht,GetHandleId(vl_d),9)>0 or GetPlayerId(GetOwningPlayer(vl_d))<10 or IsUnitType(vl_d,UNIT_TYPE_HERO) or IsUnitType(vl_d,UNIT_TYPE_STRUCTURE) or Jx[vl_pk+1]==null or GetHeroLevel(Jx[vl_pk+1])>=200 then
+        return
+    endif
+    set vl_x=zzCF_KILL_XP_BASE()+zzCF_KILL_XP_PER_CAMP_LEVEL()*GetUnitLevel(vl_d)
+    call AddHeroXP(Jx[vl_pk+1],vl_x,true)
+    call zzVL_Text(Jx[vl_pk+1],"|cff9ad0ff+"+I2S(vl_x)+" kinh nghiệm|r")
+endfunction
+
 // ==========================================
 // Hàm: zzVL_CheckWin
 // Chức năng dự kiến: Xử lý logic hệ thống.
@@ -338,18 +357,18 @@ endfunction
 // Không trả về giá trị (thực thi hành động).
 function zzVL_CheckWin takes nothing returns nothing
     local integer vl_i=0
-    local player vl_wp=null
+    local integer vl_team=-1
     if zzVL_winKills>0 then
         if zzVL_teamK[0]>=zzVL_winKills then
-            set vl_wp=Player(0)
+            set vl_team=0
         elseif zzVL_teamK[1]>=zzVL_winKills then
-            set vl_wp=Player(5)
+            set vl_team=1
         endif
     endif
-    if vl_wp!=null then
+    if vl_team>=0 then
         loop
             exitwhen vl_i>9
-            if IsPlayerAlly(Player(vl_i),vl_wp) then
+            if (vl_i<5 and vl_team==0) or (vl_i>=5 and vl_team==1) then
                 call CustomVictoryBJ(Player(vl_i),true,true)
             else
                 call CustomDefeatBJ(Player(vl_i),"Thất bại!")
@@ -394,7 +413,7 @@ function zzVL_OnDeath takes nothing returns nothing
         set zzVL_deaths[GetPlayerId(GetOwningPlayer(vl_d))]=zzVL_deaths[GetPlayerId(GetOwningPlayer(vl_d))]+1
         if vl_k!=null and GetPlayerId(GetOwningPlayer(vl_k))<10 and IsUnitEnemy(vl_d,GetOwningPlayer(vl_k)) then
             set zzVL_kills[GetPlayerId(GetOwningPlayer(vl_k))]=zzVL_kills[GetPlayerId(GetOwningPlayer(vl_k))]+1
-            if IsPlayerAlly(GetOwningPlayer(vl_k),Player(0)) then
+            if GetPlayerId(GetOwningPlayer(vl_k))<5 then
                 set zzVL_teamK[0]=zzVL_teamK[0]+1
             else
                 set zzVL_teamK[1]=zzVL_teamK[1]+1
@@ -411,6 +430,7 @@ function zzVL_OnDeath takes nothing returns nothing
             call zzVL_AddCT(vl_pd,-3)
         elseif vl_pk<10 and Jx[vl_pk+1]!=null and IsUnitEnemy(vl_d,Player(vl_pk)) then
             if vl_pd>=10 and not IsUnitType(vl_d,UNIT_TYPE_HERO) and not IsUnitType(vl_d,UNIT_TYPE_STRUCTURE) then
+                call zzVL_MainCreepXP(vl_d,vl_pk)
                 call zzVL_ShareCreep(vl_pk,vl_d)
                 call zzVL_QProgress(vl_pk,1)
                 if GetUnitLevel(vl_d)>=10 then
