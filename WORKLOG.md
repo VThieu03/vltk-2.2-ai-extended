@@ -32,7 +32,7 @@
 ---
 
 ## 1. VỪA ĐƯỢC YÊU CẦU / ĐANG THỰC HIỆN
-- [ ] **Yêu cầu User (12/10/2026): đẩy thay đổi lên Git** — kiểm tra trạng thái nhánh/worktree, xử lý thay đổi chưa commit theo quy trình, sau đó push lên remote phù hợp và xác minh tracking.
+- [x] **Yêu cầu User (12/10/2026): đẩy thay đổi lên Git** — commit `7cfb977` (`feat: add weapon lightning effects and reorganize assets`) đã được push lên `origin/kvct-doi-chieu-2`; xác nhận User, loại `_build_isolated_20261011/` (5.541 file, khoảng 526 MB) khỏi commit và giữ lại cục bộ.
 - [x] **Yêu cầu User (12/10/2026): Lightning Weapon Aura Warcraft 1.31** — xác nhận pipeline hiện có thay model vũ khí bằng các clone giữ nguyên mesh/xương/animation, chọn qua attachment `weapon`; riêng lưỡi đao Thúy Yên Đao bám hai socket cẳng tay. `tools/weapon_glow.py` tạo hai dải sét bề mặt xanh điện + lõi trắng xanh, UV chạy liên tục chuôi→mũi; tia lửa xanh trắng model-space đi theo xương. Không có vòng quanh nhân vật; không đổi JASS gameplay, sát thương hay tốc đánh. Tái sinh 100 model vũ khí + 10 hiệu ứng lưỡi đao và 4 texture. 11 regression test, `py_compile`, native guard Warcraft III 1.31.1 và PJASS 41.628 dòng đều pass; map riêng được verify đầy đủ (110 model MDX800, 4 texture, 3.609 file). `build/Tong Kim Beta-blue-white-lightning.w3x` (87.790.856 byte; SHA-256 `7BB7EB18436B07961E232508F6BF6DE4B98F354FB22FF5D92FC456BC4A1158BE`). Chưa kiểm tra hoạt ảnh trực tiếp trong Warcraft.
 
 
@@ -387,7 +387,6 @@ eadable.j` → chiêu sở hữu hàm đó (tái dùng `tools/kvread.py`) → `t
 ---
 
 - [x] (SHOP, 11/10/2026) Vũ khí Tần Lăng: `zzSH_Init` đã được móc vào `zzVL_Init`; ITW chuyển qua giao dịch JASS để hiện thông báo điều kiện thiếu và chỉ trừ vàng khi thành công. Xem kết quả build/test ở mục yêu cầu 11/10/2026 phía trên.
-
 
 
 
